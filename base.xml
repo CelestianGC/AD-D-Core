@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<!-- 
+  Please see the license.html file included with this distribution for 
+  attribution and copyright information.
+-->
+
+<root version="3.0" release="7" logo="logo.png">
+	<announcement text="AD&amp;D 2e Core (based on 5E ruleset\rCopyright 2015 Smiteworks USA, LLC)" font="emotefont" icon="rulesetlogo_5E" />
+
+	<!-- Attributes -->
+	<description>
+		<text>Advanced Dungeons &amp; Dragons second edition ruleset</text>
+		<author>Mike W.</author>
+		<website>http://www.fantasygrounds.com</website>
+	</description>
+
+	<!-- Layers -->
+	<importruleset source="CoreRPG" />
+	<importruleset source="5E" />
+
+   	<!-- Strings -->
+	<includefile source="strings/strings_2e.xml" />
+
+	<!-- Campaign Records -->
+	<includefile source="campaign/record_char_main.xml" />
+	<includefile source="campaign/record_char_main.xml" />
+	<includefile source="campaign/template_char_2e.xml" />
+	<includefile source="campaign/record_char.xml" />
+	<script name="SaveScores" file="campaign/scripts/number_savescore.lua" />
+	<script name="AbilityScores" file="campaign/scripts/number_abilityscore.lua" />
+
+	<!-- High-level scripts -->
+   	<script name="ActorManager2" file="scripts/manager_actor2.lua" />
+	<script name="ActionSave" file="scripts/manager_action_save.lua" />
+	<script name="ActionCheck" file="scripts/manager_action_check.lua" />
+    
+</root>

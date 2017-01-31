@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<!-- 
+  Please see the license.html file included with this distribution for 
+  attribution and copyright information.
+-->
+
+<root>
+
+	<template name="number_savescore">
+		<basicnumber>
+			<default>18</default>
+			<script file="campaign/scripts/number_savescore.lua" />
+		</basicnumber>
+	</template>
+
+	<template name="number_charasavescore">
+		<number_savescore>
+			<anchored to="statstitle" width="80" height="30">
+				<top anchor="bottom" relation="relative" offset="18" />
+				<left anchor="center" offset="-40" />
+			</anchored>
+			<rollable />
+			<script>
+				function action(draginfo)
+                    local nTargetDC = 20;
+                    local rActor = ActorManager.getActor("pc", window.getDatabaseNode());
+                    local sActorType, nodeActor = ActorManager.getTypeAndNode(rActor);
+                    if sActorType == "pc" then
+                        nTargetDC = DB.getValue(nodeActor, "saves." .. self.target[1] .. ".score", 0);
+                    end
+					ActionSave.performRoll(draginfo, rActor, self.target[1],nTargetDC);
+					return true;
+				end
+				
+				function onDragStart(button, x, y, draginfo)
+					return action(draginfo);
+				end
+					
+				function onDoubleClick(x,y)
+					return action();
+				end
+			</script>
+            
+		</number_savescore>
+	</template>
+	<template name="number_labeled">
+		<numberfield>
+			<font>sheettext</font>
+			<lineoffset default="on">1</lineoffset>
+			<script>
+				labelwidget = nil;
+			
+				function onInit()
+					if labelres then
+						labelwidget = addTextWidget("sheetlabelinline", string.upper(Interface.getString(labelres[1])));
+					else
+						labelwidget = addTextWidget("sheetlabelinline", string.upper(label[1]));
+					end
+					if labelwidget then
+						local w,h = labelwidget.getSize();
+						labelwidget.setPosition("bottomleft", w/2, h/2-4);
+					end
+				end
+			</script>
+		</numberfield>
+	</template>
+
+	<template name="number_abilityscore">
+		<basicnumber>
+            <min>1</min>
+            <max>25</max>
+			<default>9</default>
+			<script file="campaign/scripts/number_abilityscore.lua" />
+		</basicnumber>
+	</template>
+
+	<template name="number_charabilityscore">
+		<number_abilityscore>
+			<anchored to="statstitle" width="40" height="30">
+				<top anchor="bottom" relation="relative" offset="18" />
+				<left anchor="center" offset="-20" />
+			</anchored>
+			<rollable />
+		</number_abilityscore>
+	</template>
+    
+	<template name="number_charabilityscore2">
+		<number>
+			<anchored to="strdetailframe" position="insidetopleft" width="40" height="30"/>
+			<rollable />
+            <min>1</min>
+            <max>25</max>
+			<default>9</default>
+			<script file="campaign/scripts/number_abilityscore.lua" />
+		</number>
+	</template>
+    
+   	<template name="label_ability_fields">
+		<label_fieldtop>
+			<anchored offset="-2,-6" />
+			<frame name="abilityfields" />
+		</label_fieldtop>
+	</template>
+
+</root>

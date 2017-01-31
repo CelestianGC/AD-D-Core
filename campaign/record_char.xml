@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<!-- 
+  Please see the license.html file included with this distribution for 
+  attribution and copyright information.
+-->
+
+<root>
+	<windowclass name="charsheet">
+		<frame>charsheet</frame>
+		<placement>
+			<size width="525" height="600" />
+		</placement>
+		<sizelimits>
+			<minimum width="450" height="570" />
+			<dynamic />
+		</sizelimits>
+		<softclose />
+		<nodelete />
+		<playercontrol />
+		<minimize>minimized_char</minimize>
+		<tooltip field="name" />
+		<script file="campaign/scripts/char.lua" />
+		<sheetdata>
+			<anchor_title_charsheet name="contentanchor" />
+			
+			<button_charactivate>
+				<anchored to="contentanchor" position="belowright" offset="0,5" width="23" height="22" />
+			</button_charactivate>
+		
+			<token_char name="token">
+				<anchored to="contentanchor" position="belowright" offset="25,6" width="45" height="45" />
+			</token_char>
+			<genericcontrol>
+				<anchored to="contentanchor" position="belowleft" offset="5,5" width="45" height="45" />
+				<icon>charlist_base</icon>
+				<disabled />
+			</genericcontrol>
+			<portrait_charlocal name="localportrait">
+				<anchored to="contentanchor" position="belowleft" offset="5,5" width="45" height="45" />
+				<invisible />
+			</portrait_charlocal>
+			<portrait_char name="portrait">
+				<anchored to="contentanchor" position="belowleft" offset="5,5" width="45" height="45" />
+			</portrait_char>
+			
+			<label_charframetop name="nametitle">
+				<anchored to="contentanchor" height="20">
+					<top anchor="bottom" offset="7" />
+					<left offset="65" />
+					<right offset="-260" />
+				</anchored>
+				<static textres="char_label_name" />
+			</label_charframetop>
+			<stringu name="name">
+				<anchored to="nametitle" position="insidetop" offset="0,25" height="20" />
+			</stringu>
+
+			<label_charframetop name="racetitle">
+				<anchored to="nametitle" position="righthigh" offset="35,0" height="20" width="130">
+				</anchored>
+				<icons>char_race</icons>
+				<static textres="char_label_race" />
+			</label_charframetop>
+			<linkfield name="racelink">
+				<anchored to="racetitle" position="belowright" offset="-10,5" width="20" height="20" />
+				<description field="race" />
+				<closetoggle />
+				<invisible />
+				<script>
+					function onInit()
+						onValueChanged();
+					end
+					function onValueChanged()
+						if isEmpty() then
+							setVisible(false);
+						else
+							setVisible(true);
+						end
+					end
+				</script>
+			</linkfield>
+			<stringu name="race">
+				<anchored to="racetitle" position="belowleft" offset="-5,5" height="20">
+					<right parent="racelink" anchor="left" offset="-5" />
+				</anchored>
+			</stringu>
+            
+			<sub_charsheet name="main">
+				<class>charsheet_main</class>
+			</sub_charsheet>
+			<sub_charsheet name="skills">
+				<class>charsheet_skills</class>
+			</sub_charsheet>
+			<sub_charsheet name="abilities">
+				<class>charsheet_abilities</class>
+			</sub_charsheet>
+			<sub_charsheet name="inventory">
+				<class>charsheet_inventory</class>
+			</sub_charsheet>
+			<sub_charsheet name="notes">
+				<class>charsheet_notes</class>
+			</sub_charsheet>
+			<sub_charsheet name="logs">
+				<class>charsheet_logs</class>
+			</sub_charsheet>
+			<sub_charsheet name="actions">
+				<class>charsheet_actions</class>
+			</sub_charsheet>
+
+			<tabs_charsheet>
+				<tab>
+					<icon>tab_main</icon>
+					<subwindow>main</subwindow>
+				</tab>
+				<tab>
+					<icon>tab_skills</icon>
+					<subwindow>skills</subwindow>
+				</tab>
+				<tab>
+					<icon>tab_abilities</icon>
+					<subwindow>abilities</subwindow>
+				</tab>
+				<tab>
+					<icon>tab_inventory</icon>
+					<subwindow>inventory</subwindow>
+				</tab>
+				<tab>
+					<icon>tab_notes</icon>
+					<subwindow>notes</subwindow>
+				</tab>
+				<tab>
+					<icon>tab_log</icon>
+					<subwindow>logs</subwindow>
+				</tab>
+				<tab>
+					<icon>tab_actions</icon>
+					<subwindow>actions</subwindow>
+				</tab>
+				<activate>1</activate>
+			</tabs_charsheet>
+
+			<close_charsheet />
+			<resize_charsheet />
+		</sheetdata>
+	</windowclass>
+</root>

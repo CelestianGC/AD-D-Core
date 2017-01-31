@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<!-- 
+  Please see the license.html file included with this distribution for 
+  attribution and copyright information.
+-->
+
+<root>
+	<!-- Common -->
+	<string name="save_paralyzation_poison_death">Poison/Death</string>
+	<string name="save_rod_staff_wand">Staff/Wand</string>
+	<string name="save_petrify_polymorph">Petrify/Poly</string>
+	<string name="save_breath">Breath</string>
+	<string name="save_spell">Spell</string>
+    
+	<string name="save_paralyzation_poison_death_full">Paralyzation, Poison, Death Magic</string>
+	<string name="save_rod_staff_wand_full">Rod, Staff, Wand</string>
+	<string name="save_petrify_polymorph_full">Petrify, Poly</string>
+	<string name="save_breath_full">Breath Weapon</string>
+	<string name="save_spell_full">Spell or Other</string>
+    
+	<string name="background">Kit</string>
+
+	<!-- Characters - Main -->
+   	<string name="char_label_background">KIT</string>
+	<string name="char_label_speed">MOVE</string>
+	
+    <string name="char_label_ability_percent">%</string>
+    <string name="char_tooltip_percentile">Percentile score of this ability.</string>
+    
+    <string name="char_label_strength_hitadj">HIT</string>
+    <string name="char_tooltip_strength_hitadj">To Hit adjustment</string>
+    <string name="char_label_strength_dmgadj">DMG</string>
+    <string name="char_tooltip_strength_dmgadj">Damage adjustment</string>
+    <string name="char_label_strength_weightallow">Weight</string>
+    <string name="char_tooltip_strength_weightallow">Weight allowance</string>
+    <string name="char_label_strength_maxpress">Press</string>
+    <string name="char_tooltip_strength_maxpress">Maximum weight press</string>
+    <string name="char_label_strength_opendoors">Doors</string>
+    <string name="char_tooltip_strength_opendoors">Open doors (open magically barred)</string>
+    <string name="char_label_strength_bendbars">BB</string>
+    <string name="char_tooltip_strength_bendbars">Bend bars or lift gates</string>
+
+    <string name="char_tooltip_strength">Strength of the character</string>
+    <string name="char_tooltip_constitution">Constitution of the character</string>
+    <string name="char_tooltip_dexterity">Dexterity of the character</string>
+    <string name="char_tooltip_wisdom">Wisdom of the character</string>
+    <string name="char_tooltip_intelligence">Intelligence of the character</string>
+    <string name="char_tooltip_charisma">Strength of the character.</string>
+    <string name="char_tooltip_charisma">Charisma of the character.</string>
+    <string name="char_tooltip_charisma">Charisma of the character</string>
+
+    
+   	<!-- Combat Tracker -->
+	<string name="ct_label_speed">Mv</string>
+
+   	<script name="SaveScore" file="campaign/scripts/number_savescore.lua" />
+	<!-- Character - Abilities -->
+    <string name="char_abilities_message_backgroundadd">Kit '%s' added to '%s'.</string>
+
+   	<!-- Pregens -->
+	<string name="pregen_label_background">Kit</string>
+    
+	<!-- Reference -->
+  	<string name="ref_type_background">Kit</string>
+ 	<string name="ref_type_backgroundfeature">Kit Feature</string>
+	<string name="ref_type_backgroundproficiency">Kit Proficiency</string>
+	<string name="ref_type_characteristic">Kit Characteristic</string>
+    
+    	<!-- Library - Master Index -->
+	<string name="library_recordtype_label_background">Kits</string>
+	<string name="library_recordtype_empty_background">&#171; New Kit &#187;</string>
+	<string name="library_recordtype_empty_backgroundfeature">&#171; New Kit Feature &#187;</string>
+
+
+
+</root>
