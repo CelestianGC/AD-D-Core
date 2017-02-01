@@ -87,11 +87,12 @@
     
 	<template name="number_charabilityscore2">
 		<number>
-			<anchored to="strdetailframe" position="insidetopleft" width="40" height="30"/>
+ 			<anchored to="strdetailframe" position="insidetopleft" width="40" height="30"/> 
 			<rollable />
             <min>1</min>
             <max>25</max>
 			<default>9</default>
+			<font>arial-bold-12</font>
 			<script file="campaign/scripts/number_abilityscore.lua" />
 		</number>
 	</template>

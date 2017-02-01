@@ -147,47 +147,51 @@
 
 <!-- Ability Scores -->
 			<label_charframetop name="statstitle">
-				<anchored height="20" width="60">
+				<anchored height="20" width="303">
 					<top offset="70" />
 					<left offset="15" />
 				</anchored>
 				<static textres="char_label_stats" />
 			</label_charframetop>
-<!-- STR -->
-			<number_charabilityscore name="strength" source="abilities.strength.score">
-				<anchored>
-					<top offset="12" />
+			
+			
+			<!-- AbilityScores image -->
+			<genericcontrol name="strdetailframe_top">
+			<backcolor>#ff99ff</backcolor>
+ 			<bounds>15,91,303,200</bounds>
+<!--  				<frame>
+					<name>character_sheet_abilityscores</name>
+				</frame> -->
+			</genericcontrol>
+			<frame_char name="strdetailframe">
+				<anchored to="strdetailframe_top" position="insidetopleft" offset="0,5" height="30" width="300">
 				</anchored>
+				<backcolor>#ff11ff</backcolor>
+			</frame_char>			
+
+			<!-- Saves image -->
+<!-- 			<genericcontrol name="savesdetailframe">
+			<anchored to="strdetailframe" position="right" height="332" width="279"/>
+				<frame>
+					<name>character_sheet_saves</name>
+				</frame> 
+			</genericcontrol>
+ -->			
+			
+			<number_charabilityscore2 name="strength" source="abilities.strength.score">
+				<anchored offset="0,0"/>
 				<target>strength</target>
 				<tooltip textres="char_tooltip_strength" />
-<!-- 				<description textres="char_tooltip_str" /> -->
-			</number_charabilityscore>
-			<label_abilityscore>
-				<anchored to="strength" />
-				<static textres="STR" />
-			</label_abilityscore>
-
-            <frame_char name="strdetailframe">
-				<anchored to="strength" position="right" offset="5,4" width="350"/>
-			</frame_char>
-
-			<number_charabilityscore2 name="strength2" source="abilities.strength.score">
-				<target>strength</target>
-				<tooltip textres="char_tooltip_strength" />
-<!-- 				<description textres="char_tooltip_str" /> -->
 			</number_charabilityscore2>
-			<label_abilityscore>
-				<anchored to="strength2" />
-				<static textres="STR" />
-			</label_abilityscore>
  
             <number name="strength_percent" source="abilities.strength.percent">
-<!--                 <backcolor>#ff99cc</backcolor> -->
+                <backcolor>#ff99cc</backcolor>
+				<font>arial-regular-6</font>
                 <min> 0 </min>
                 <max> 100 </max>
-				<anchored to="strength2" position="right" offset="0,-5" width="20" />
+				<anchored to="strdetailframe" position="insidetopleft" offset="32,5" width="15" height="10"/>
 				<labelres>char_label_ability_percent</labelres>
-				<tooltip text="Percentile score of this ability." />
+				<tooltip textres="char_tooltip_percentile" />
 				<script>
 					function onValueChanged()
                         local rActor = ActorManager.getActor("pc", window.getDatabaseNode());
@@ -197,92 +201,102 @@
 					end
 				</script>
 			</number>
-			<label_abilityscore name="label_strength_percent">
+<!-- 			<label_abilityscore name="label_strength_percent">
 				<anchored to="strength_percent" offset="0,0"/>
 				<static textres="char_label_ability_percent" />
 				<tooltip textres="char_tooltip_percentile" />
 			</label_abilityscore>
-            
+ -->            
 			<number name="strength_hitadj" source="abilities.strength.hitadj">
-				<anchored to="strength_percent" position="right" offset="0,0" width="30" />
+				<anchored to="strength_percent" width="30" height="30">
+					<top anchor="bottom" relation="relative" offset="-16" />
+					<left anchor="center" offset="30" />
+				</anchored>
 				<tooltip textres="char_tooltip_strength_hitadj" />
                  <displaysign />
                   <nokeyedit />
+				<font>arial-regular-7</font>
 				<labelres>char_label_strength_hitadj</labelres>
 			</number>
-			<label_abilityscore name="label_strength_hitadj">
+<!-- 			<label_abilityscore name="label_strength_hitadj">
 				<anchored to="strength_hitadj" offset="0,0"/>
 				<static textres="char_label_strength_hitadj" />
 				<tooltip textres="char_tooltip_strength_hitadj" />
-			</label_abilityscore>
+			</label_abilityscore> -->
             
 			<number name="strength_dmgadj" source="abilities.strength.dmgadj">
-				<anchored to="strength_hitadj" position="right" offset="5,0" width="35" />
+				<anchored to="strength_hitadj" position="right" offset="10,0" width="35" />
 				<tooltip textres="char_tooltip_strength_dmgadj" />
                  <displaysign />
                   <nokeyedit />
-				<labelres>char_label_strength_dmgadj</labelres>
+								<font>arial-regular-7</font>
+<labelres>char_label_strength_dmgadj</labelres>
 			</number>
-			<label_abilityscore name="label_strength_dmgadj">
+<!-- 			<label_abilityscore name="label_strength_dmgadj">
 				<anchored to="strength_dmgadj" offset="0,0"/>
 				<static textres="char_label_strength_dmgadj" />
 				<tooltip textres="char_tooltip_strength_dmgadj" />
 			</label_abilityscore>
-
+ -->
 			<number name="strength_weightallow" source="abilities.strength.weightallow">
-				<anchored to="strength_dmgadj" position="right" offset="5,0" width="55" />
+				<anchored to="strength_dmgadj" position="right" offset="3,0" width="40" />
 				<tooltip textres="char_tooltip_strength_weightallow" />
                  <nokeyedit />
+				<font>arial-regular-7</font>
 				<labelres>char_label_strength_weightallow</labelres>
 			</number>
-			<label_abilityscore name="label_strength_weightallow">
+<!-- 			<label_abilityscore name="label_strength_weightallow">
 				<anchored to="strength_weightallow" offset="0,0"/>
 				<static textres="char_label_strength_weightallow" />
 				<tooltip textres="char_tooltip_strength_weightallow" />
 			</label_abilityscore>
+ -->
 
-
-			<number name="strength_maxpress" source="abilities.strength.maxpress">
+<!-- 			<number name="strength_maxpress" source="abilities.strength.maxpress">
 				<anchored to="strength_weightallow" position="right" offset="5,0" width="40" />
 				<tooltip textres="char_tooltip_strength_maxpress" />
                  <nokeyedit />
 				<labelres>char_label_strength_maxpress</labelres>
-			</number>
-			<label_abilityscore name="label_strength_maxpress">
+			</number> -->
+<!-- 			<label_abilityscore name="label_strength_maxpress">
 				<anchored to="strength_maxpress" offset="0,0"/>
 				<static textres="char_label_strength_maxpress" />
 				<tooltip textres="char_tooltip_strength_maxpress" />
 			</label_abilityscore>
+ -->
 
-
-			<stringu name="strength_opendoors" source="abilities.strength.opendoors">
-				<anchored to="strength_maxpress" position="right" offset="5,0" width="40" />
+			<stringfield name="strength_opendoors" source="abilities.strength.opendoors">
+				<anchored to="strength_weightallow" position="right" offset="10,0" width="35" />
    				<center />
 				<tooltip textres="char_tooltip_strength_opendoors" />
                  <nokeyedit />
+				<font>arial-regular-7</font>
 				<labelres>char_label_strength_opendoors</labelres>
-			</stringu>
-			<label_abilityscore name="label_strength_opendoors">
+			</stringfield>
+<!-- 			<label_abilityscore name="label_strength_opendoors">
 				<anchored to="strength_opendoors" offset="0,0"/>
 				<static textres="char_label_strength_opendoors" />
 				<tooltip textres="char_tooltip_strength_opendoors" />
 			</label_abilityscore>
-
+ -->
 
 			<number name="strength_bendbars" source="abilities.strength.bendbars">
-				<anchored to="strength_opendoors" position="right" offset="5,0" width="25" />
+				<anchored to="strength_opendoors" position="right" offset="10,0" width="25" />
 				<tooltip textres="char_tooltip_strength_bendbars" />
                  <nokeyedit />
+				<font>arial-regular-7</font>
 				<labelres>char_label_strength_bendbars</labelres>
 			</number>
-			<label_abilityscore name="label_strength_bendbars">
+			
+
+<!-- 			<label_abilityscore name="label_strength_bendbars">
 				<anchored to="strength_bendbars" offset="0,0"/>
 				<static textres="char_label_strength_bendbars" />
 				<tooltip textres="char_tooltip_strength_bendbars" />
 			</label_abilityscore>
-
+ -->
             
-<!-- DEX -->
+<!-- 
 			<number_charabilityscore name="dexterity" source="abilities.dexterity.score">
 				<target>dexterity</target>
 			</number_charabilityscore>
@@ -338,7 +352,8 @@
 			<string_abilitymodtext name="charisma_modtext">
 				<anchored to="charisma" />
 			</string_abilitymodtext>
-<!-- END Ability Scores -->
+ -->
+ <!-- END Ability Scores -->
 
 			<subwindow name="sensescombat">
 				<anchored>
