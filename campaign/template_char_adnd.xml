@@ -66,33 +66,15 @@
 		</numberfield>
 	</template>
 
-	<template name="number_abilityscore">
-		<basicnumber>
-            <min>1</min>
-            <max>25</max>
-			<default>9</default>
-			<script file="campaign/scripts/number_abilityscore.lua" />
-		</basicnumber>
-	</template>
-
-	<template name="number_charabilityscore">
-		<number_abilityscore>
-			<anchored to="statstitle" width="40" height="30">
-				<top anchor="bottom" relation="relative" offset="18" />
-				<left anchor="center" offset="-20" />
-			</anchored>
-			<rollable />
-		</number_abilityscore>
-	</template>
-    
 	<template name="number_charabilityscore2">
 		<number>
- 			<anchored to="strdetailframe" position="insidetopleft" width="40" height="30"/> 
+ 			<anchored to="statstitle" position="insidetopleft" width="40" height="30"/> 
 			<rollable />
             <min>1</min>
             <max>25</max>
 			<default>9</default>
 			<font>arial-bold-12</font>
+			<frame name="abilityscore" />
 			<script file="campaign/scripts/number_abilityscore.lua" />
 		</number>
 	</template>
@@ -104,4 +86,47 @@
 		</label_fieldtop>
 	</template>
 
+	<template name="number_abilitypercent_score">
+		<numbercontrol>
+			<labelres>char_label_ability_percent</labelres>
+			<tooltip textres="char_tooltip_percentile" />
+            <min>0</min>
+            <max>100</max>
+			<anchored position="below" offset="-8,-5" />
+			<frame name="abilityscore" />
+			<font>sheetlabelmini_percent</font>
+			<!-- <center /> -->
+			<script>
+				function onValueChanged()
+					local rActor = ActorManager.getActor("pc", window.getDatabaseNode());
+					local sActorType, nodeActor = ActorManager.getTypeAndNode(rActor);
+					local nScore = DB.getValue(nodeActor, "abilities.strength.score", 0);
+					AbilityScores.updateStrength(nodeActor,nScore);
+				end
+			</script>
+		</numbercontrol>
+	</template>
+
+	<template name="number_abilitypercent_disabled">
+		<number>
+			<labelres>char_label_ability_percent</labelres>
+			<tooltip textres="char_tooltip_percentile" />
+			<anchored position="below" offset="-8,-5" />
+			<frame name="abilityscorepercent" />
+			<font>sheetlabelmini</font>
+			<center />
+            <min> 0 </min>
+            <max> 100 </max>
+			<script>
+				function onValueChanged()
+					local rActor = ActorManager.getActor("pc", window.getDatabaseNode());
+					local sActorType, nodeActor = ActorManager.getTypeAndNode(rActor);
+					local nScore = DB.getValue(nodeActor, "abilities.strength.score", 0);
+					AbilityScores.updateStrength(nodeActor,nScore);
+				end
+			</script>
+		</number>
+	</template>
+
+	
 </root>

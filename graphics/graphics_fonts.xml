@@ -6,6 +6,13 @@
 -->
 
 <root>
+
+	<font name="sheetlabelmini_percent">
+		<fgffile name="graphics/fonts/arial-regular-6.fgf" />
+		<color value="#000000" />
+	</font>
+
+	
 	<font name="arial-regular-6">
 		<fgffile name="graphics/fonts/arial-regular-6.fgf" />
 	</font>

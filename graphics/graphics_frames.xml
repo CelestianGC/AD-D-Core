@@ -27,5 +27,9 @@
 		<offset>18,18,17,17</offset>
 	</framedef>
 	
+	<framedef name="abilityscore">
+		<bitmap file="graphics/frames/abilityscore.png" />
+		<offset>7,7,7,7</offset>
+	</framedef>
 	
 </root>
