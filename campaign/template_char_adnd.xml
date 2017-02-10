@@ -68,13 +68,13 @@
 
 	<template name="number_charabilityscore2">
 		<number>
- 			<anchored to="statstitle" position="insidetopleft" width="40" height="30"/> 
+ 			<anchored to="statstitle" position="insidetopleft" width="45" height="45"/> 
 			<rollable />
             <min>1</min>
             <max>25</max>
 			<default>9</default>
 			<font>arial-bold-12</font>
-			<frame name="abilityscore" />
+			<frame name="abilityscore_box" />
 			<script file="campaign/scripts/number_abilityscore.lua" />
 		</number>
 	</template>
@@ -83,8 +83,10 @@
 		<label_fieldtop>
 			<anchored offset="-2,-6" />
 			<frame name="abilityfields" />
+<!-- 			<frame name="abilityscore" /> -->
 		</label_fieldtop>
 	</template>
+
 
 	<template name="number_abilitypercent_score">
 		<numbercontrol>

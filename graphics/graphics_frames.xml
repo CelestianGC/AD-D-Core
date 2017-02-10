@@ -27,9 +27,14 @@
 		<offset>18,18,17,17</offset>
 	</framedef>
 	
-	<framedef name="abilityscore">
-		<bitmap file="graphics/frames/abilityscore.png" />
+	<framedef name="abilityfields">
+		<bitmap file="graphics/frames/abilityscore_dark.png" />
 		<offset>7,7,7,7</offset>
+	</framedef>
+
+	<framedef name="abilityscore_box">
+		<bitmap file="graphics/frames/groupbox.png" />
+		<offset>9,9,9,9</offset>
 	</framedef>
 	
 </root>

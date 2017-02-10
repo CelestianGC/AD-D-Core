@@ -156,20 +156,169 @@
 			
 			<number_charabilityscore2 name="strength" source="abilities.strength.score">
 				<tooltip textres="char_tooltip_strength" />
-				<anchored>
-					<top offset="12" />
-				</anchored>
+				<anchored offset="-10,30"/>
 				<target>strength</target>
 			</number_charabilityscore2>
-<!-- 			<label_abilityscore>
+ 			<label_abilityscore>
 				<anchored to="strength" />
 				<static textres="STR" />
 			</label_abilityscore>
+
+			<frame_char name="strdetailframe">
+				<anchored to="strength" position="right" offset="0,0" height="40" width="280">
+				</anchored>
+				<frame name="abilityscore_box" />
+<!-- 				<backcolor>#ff11ff</backcolor> -->
+			</frame_char>			
+			<label_fieldtop>
+				<anchored to="strdetailframe" offset="0,-3" />
+				<static text="Some Text" />
+			</label_fieldtop>
+			
+            <number name="strength_percent" source="abilities.strength.percent">
+                <backcolor>#ff99cc</backcolor>
+				<font>regular8</font>
+                <min> 0 </min>
+                <max> 100 </max>
+				<anchored to="strdetailframe" position="insidetopleft" offset="5,6" width="30" height="30"/>
+				<labelres>char_label_ability_percent</labelres>
+				<tooltip textres="char_tooltip_percentile" />
+				<script>
+					function onValueChanged()
+                        local rActor = ActorManager.getActor("pc", window.getDatabaseNode());
+                        local sActorType, nodeActor = ActorManager.getTypeAndNode(rActor);
+                        local nScore = DB.getValue(nodeActor, "abilities.strength.score", 0);
+                        AbilityScores.updateStrength(nodeActor,nScore);
+					end
+				</script>
+			</number>
+ 			<label_ability_fields>
+				<anchored to="strength_percent" />
+				<static text="%" />
+			</label_ability_fields>
+
+<!-- 			<label_abilityscore name="label_strength_percent">
+				<anchored to="strength_percent" offset="0,0"/>
+				<static textres="char_label_ability_percent" />
+				<tooltip textres="char_tooltip_percentile" />
+			</label_abilityscore>
+ -->            
+			<number name="strength_hitadj" source="abilities.strength.hitadj">
+				<anchored to="strength_percent" position="right" offset="0,0" width="30" height="30"/>
+				<tooltip textres="char_tooltip_strength_hitadj" />
+                 <displaysign />
+                  <nokeyedit />
+				<font>regular8</font>
+				<labelres>char_label_strength_hitadj</labelres>
+			</number>
+ 			<label_ability_fields>
+				<anchored to="strength_hitadj" />
+				<static text="Hit" />
+			</label_ability_fields>
+			
+<!-- 			<label_abilityscore name="label_strength_hitadj">
+				<anchored to="strength_hitadj" offset="0,0"/>
+				<static textres="char_label_strength_hitadj" />
+				<tooltip textres="char_tooltip_strength_hitadj" />
+			</label_abilityscore> -->
+            
+			<number name="strength_dmgadj" source="abilities.strength.dmgadj">
+				<anchored to="strength_hitadj" position="right" offset="0,0" height="30" width="35" />
+				<tooltip textres="char_tooltip_strength_dmgadj" />
+                <displaysign />
+                <nokeyedit />
+				<font>regular8</font>
+				<labelres>char_label_strength_dmgadj</labelres>
+			</number>
+ 			<label_ability_fields>
+				<anchored to="strength_dmgadj" />
+				<static text="Dmg" />
+			</label_ability_fields>
+<!-- 			<label_abilityscore name="label_strength_dmgadj">
+				<anchored to="strength_dmgadj" offset="0,0"/>
+				<static textres="char_label_strength_dmgadj" />
+				<tooltip textres="char_tooltip_strength_dmgadj" />
+			</label_abilityscore>
  -->
-<!-- 			<number_abilitypercent_score name="strength_percent" source="abilities.strength.percent" >
-				<anchored to="strength"/>
-			</number_abilitypercent_score>
- -->			
+			<number name="strength_weightallow" source="abilities.strength.weightallow">
+				<anchored to="strength_dmgadj" position="right" offset="0,0" height="30" width="40" />
+				<tooltip textres="char_tooltip_strength_weightallow" />
+                <nokeyedit />
+				<font>regular8</font>
+				<labelres>char_label_strength_weightallow</labelres>
+			</number>
+ 			<label_ability_fields>
+				<anchored to="strength_weightallow" />
+				<static text="Allow" />
+			</label_ability_fields>
+<!-- 			<label_abilityscore name="label_strength_weightallow">
+				<anchored to="strength_weightallow" offset="0,0"/>
+				<static textres="char_label_strength_weightallow" />
+				<tooltip textres="char_tooltip_strength_weightallow" />
+			</label_abilityscore>
+ -->
+
+			<number name="strength_maxpress" source="abilities.strength.maxpress">
+				<anchored to="strength_weightallow" position="right" offset="0,0" height="30" width="40" />
+				<tooltip textres="char_tooltip_strength_maxpress" />
+                <nokeyedit />
+				<font>regular8</font>
+				<labelres>char_label_strength_maxpress</labelres>
+			</number>
+ 			<label_ability_fields>
+				<anchored to="strength_maxpress" />
+				<static text="Press" />
+			</label_ability_fields>
+<!-- 			<label_abilityscore name="label_strength_maxpress">
+				<anchored to="strength_maxpress" offset="0,0"/>
+				<static textres="char_label_strength_maxpress" />
+				<tooltip textres="char_tooltip_strength_maxpress" />
+			</label_abilityscore>
+ -->
+
+			<stringfield name="strength_opendoors" source="abilities.strength.opendoors">
+				<!-- <multilinespacing>20</multilinespacing> -->
+				<anchored to="strength_maxpress" position="right" offset="0,0" height="30" width="40" />
+   				<center />
+				<tooltip textres="char_tooltip_strength_opendoors" />
+                <readonly />
+				<font>regular8</font>
+				<labelres>char_label_strength_opendoors</labelres>
+			</stringfield>
+ 			<label_ability_fields>
+				<anchored to="strength_opendoors" />
+				<static text="Doors" />
+			</label_ability_fields>
+<!-- 			<label_abilityscore name="label_strength_opendoors">
+				<anchored to="strength_opendoors" offset="0,0"/>
+				<static textres="char_label_strength_opendoors" />
+				<tooltip textres="char_tooltip_strength_opendoors" />
+			</label_abilityscore>
+ -->
+
+			<number name="strength_bendbars" source="abilities.strength.bendbars">
+				<anchored to="strength_opendoors" position="right" offset="0,0" height="30" width="35" />
+				<tooltip textres="char_tooltip_strength_bendbars" />
+                 <nokeyedit />
+				<font>regular8</font>
+				<labelres>char_label_strength_bendbars</labelres>
+			</number>
+ 			<label_ability_fields>
+				<anchored to="strength_bendbars" />
+				<static text="Bars" />
+			</label_ability_fields>
+			
+
+<!-- 			<label_abilityscore name="label_strength_bendbars">
+				<anchored to="strength_bendbars" offset="0,0"/>
+				<static textres="char_label_strength_bendbars" />
+				<tooltip textres="char_tooltip_strength_bendbars" />
+			</label_abilityscore>
+ -->
+
+			
+			
+			
 <!-- END Ability Scores -->
 
 			<subwindow name="sensescombat">
