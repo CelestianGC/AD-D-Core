@@ -154,9 +154,11 @@
 				<static textres="char_label_stats" />
 			</label_charframetop>
 			
-			<number_charabilityscore2 name="strength" source="abilities.strength.score">
+			<!-- Ability STR -->
+			
+			<number_charabilityscore2 name="strength" source="abilities.strength.score" >
 				<tooltip textres="char_tooltip_strength" />
-				<anchored offset="-10,30"/>
+				<anchored offset="-10,30"  width="45" height="45"/>
 				<target>strength</target>
 			</number_charabilityscore2>
  			<label_abilityscore>
@@ -165,18 +167,14 @@
 			</label_abilityscore>
 
 			<frame_char name="strdetailframe">
-				<anchored to="strength" position="right" offset="0,0" height="40" width="280">
+				<anchored to="strength" position="right" offset="0,0" width="280">
 				</anchored>
 				<frame name="abilityscore_box" />
 <!-- 				<backcolor>#ff11ff</backcolor> -->
 			</frame_char>			
-			<label_fieldtop>
-				<anchored to="strdetailframe" offset="0,-3" />
-				<static text="Some Text" />
-			</label_fieldtop>
 			
             <number name="strength_percent" source="abilities.strength.percent">
-                <backcolor>#ff99cc</backcolor>
+                
 				<font>regular8</font>
                 <min> 0 </min>
                 <max> 100 </max>
@@ -194,134 +192,516 @@
 			</number>
  			<label_ability_fields>
 				<anchored to="strength_percent" />
-				<static text="%" />
+   				<tooltip textres="char_tooltip_percentile" />
+				<static textres="char_label_ability_percent" />
 			</label_ability_fields>
 
-<!-- 			<label_abilityscore name="label_strength_percent">
-				<anchored to="strength_percent" offset="0,0"/>
-				<static textres="char_label_ability_percent" />
-				<tooltip textres="char_tooltip_percentile" />
-			</label_abilityscore>
- -->            
-			<number name="strength_hitadj" source="abilities.strength.hitadj">
-				<anchored to="strength_percent" position="right" offset="0,0" width="30" height="30"/>
+			<number_abilityfield name="strength_hitadj" source="abilities.strength.hitadj">
+				<anchored to="strength_percent" />
 				<tooltip textres="char_tooltip_strength_hitadj" />
-                 <displaysign />
-                  <nokeyedit />
-				<font>regular8</font>
 				<labelres>char_label_strength_hitadj</labelres>
-			</number>
- 			<label_ability_fields>
+			</number_abilityfield>
+  			<label_ability_fields>
 				<anchored to="strength_hitadj" />
-				<static text="Hit" />
+   				<tooltip textres="char_tooltip_strength_hitadj" />
+				<static textres="char_label_strength_hitadj" />
 			</label_ability_fields>
 			
-<!-- 			<label_abilityscore name="label_strength_hitadj">
-				<anchored to="strength_hitadj" offset="0,0"/>
-				<static textres="char_label_strength_hitadj" />
-				<tooltip textres="char_tooltip_strength_hitadj" />
-			</label_abilityscore> -->
-            
-			<number name="strength_dmgadj" source="abilities.strength.dmgadj">
-				<anchored to="strength_hitadj" position="right" offset="0,0" height="30" width="35" />
+			<number_abilityfield name="strength_dmgadj" source="abilities.strength.dmgadj">
+				<anchored to="strength_hitadj" />
 				<tooltip textres="char_tooltip_strength_dmgadj" />
-                <displaysign />
-                <nokeyedit />
-				<font>regular8</font>
 				<labelres>char_label_strength_dmgadj</labelres>
-			</number>
+			</number_abilityfield>
  			<label_ability_fields>
 				<anchored to="strength_dmgadj" />
-				<static text="Dmg" />
-			</label_ability_fields>
-<!-- 			<label_abilityscore name="label_strength_dmgadj">
-				<anchored to="strength_dmgadj" offset="0,0"/>
+   				<tooltip textres="char_tooltip_strength_dmgadj" />
 				<static textres="char_label_strength_dmgadj" />
-				<tooltip textres="char_tooltip_strength_dmgadj" />
-			</label_abilityscore>
- -->
-			<number name="strength_weightallow" source="abilities.strength.weightallow">
-				<anchored to="strength_dmgadj" position="right" offset="0,0" height="30" width="40" />
+			</label_ability_fields>
+
+			<number_abilityfield name="strength_weightallow" source="abilities.strength.weightallow">
+				<anchored to="strength_dmgadj" />
 				<tooltip textres="char_tooltip_strength_weightallow" />
-                <nokeyedit />
-				<font>regular8</font>
 				<labelres>char_label_strength_weightallow</labelres>
-			</number>
+			</number_abilityfield>
  			<label_ability_fields>
 				<anchored to="strength_weightallow" />
-				<static text="Allow" />
-			</label_ability_fields>
-<!-- 			<label_abilityscore name="label_strength_weightallow">
-				<anchored to="strength_weightallow" offset="0,0"/>
+   				<tooltip textres="char_tooltip_strength_weightallow" />
 				<static textres="char_label_strength_weightallow" />
-				<tooltip textres="char_tooltip_strength_weightallow" />
-			</label_abilityscore>
- -->
+			</label_ability_fields>
 
-			<number name="strength_maxpress" source="abilities.strength.maxpress">
-				<anchored to="strength_weightallow" position="right" offset="0,0" height="30" width="40" />
+			<number_abilityfield name="strength_maxpress" source="abilities.strength.maxpress">
+				<anchored to="strength_weightallow"/>
 				<tooltip textres="char_tooltip_strength_maxpress" />
-                <nokeyedit />
-				<font>regular8</font>
 				<labelres>char_label_strength_maxpress</labelres>
-			</number>
+			</number_abilityfield>
  			<label_ability_fields>
 				<anchored to="strength_maxpress" />
-				<static text="Press" />
-			</label_ability_fields>
-<!-- 			<label_abilityscore name="label_strength_maxpress">
-				<anchored to="strength_maxpress" offset="0,0"/>
+   				<tooltip textres="char_tooltip_strength_maxpress" />
 				<static textres="char_label_strength_maxpress" />
-				<tooltip textres="char_tooltip_strength_maxpress" />
-			</label_abilityscore>
- -->
+			</label_ability_fields>
 
-			<stringfield name="strength_opendoors" source="abilities.strength.opendoors">
-				<!-- <multilinespacing>20</multilinespacing> -->
-				<anchored to="strength_maxpress" position="right" offset="0,0" height="30" width="40" />
-   				<center />
+			<string_abilityfield name="strength_opendoors" source="abilities.strength.opendoors">
+				<anchored to="strength_maxpress"/>
 				<tooltip textres="char_tooltip_strength_opendoors" />
-                <readonly />
-				<font>regular8</font>
 				<labelres>char_label_strength_opendoors</labelres>
-			</stringfield>
+			</string_abilityfield>
  			<label_ability_fields>
 				<anchored to="strength_opendoors" />
-				<static text="Doors" />
-			</label_ability_fields>
-<!-- 			<label_abilityscore name="label_strength_opendoors">
-				<anchored to="strength_opendoors" offset="0,0"/>
+   				<tooltip textres="char_tooltip_strength_opendoors" />
 				<static textres="char_label_strength_opendoors" />
-				<tooltip textres="char_tooltip_strength_opendoors" />
-			</label_abilityscore>
- -->
+			</label_ability_fields>
 
-			<number name="strength_bendbars" source="abilities.strength.bendbars">
-				<anchored to="strength_opendoors" position="right" offset="0,0" height="30" width="35" />
+			<number_abilityfield name="strength_bendbars" source="abilities.strength.bendbars">
+				<anchored to="strength_opendoors"/>
 				<tooltip textres="char_tooltip_strength_bendbars" />
-                 <nokeyedit />
-				<font>regular8</font>
 				<labelres>char_label_strength_bendbars</labelres>
-			</number>
+			</number_abilityfield>
  			<label_ability_fields>
 				<anchored to="strength_bendbars" />
-				<static text="Bars" />
+   				<tooltip textres="char_tooltip_strength_bendbars" />
+				<static textres="char_label_strength_bendbars" />
+			</label_ability_fields>
+
+ 			<!-- Ability DEX -->
+
+			<number_charabilityscore2 name="dexterity" source="abilities.dexterity.score">
+				<tooltip textres="char_tooltip_dexterity" />
+				<anchored to="strength" position="below" offset="0,5" height="45"/>
+				<target>dexterity</target>
+			</number_charabilityscore2>
+ 			<label_abilityscore>
+				<anchored to="dexterity" />
+				<static textres="DEX" />
+			</label_abilityscore>
+			
+			<frame_char name="dexdetailframe">
+				<anchored to="dexterity" position="right" offset="0,0" width="280">
+				</anchored>
+				<frame name="abilityscore_box" />
+<!-- 				<backcolor>#ff11ff</backcolor> -->
+			</frame_char>			
+
+            <number name="dexterity_percent" source="abilities.dexterity.percent">
+                
+				<font>regular8</font>
+                <min> 0 </min>
+                <max> 100 </max>
+				<anchored to="dexdetailframe" position="insidetopleft" offset="5,6" width="30" height="30"/>
+				<labelres>char_label_ability_percent</labelres>
+				<tooltip textres="char_tooltip_percentile" />
+				<script>
+					function onValueChanged()
+                        local rActor = ActorManager.getActor("pc", window.getDatabaseNode());
+                        local sActorType, nodeActor = ActorManager.getTypeAndNode(rActor);
+                        local nScore = DB.getValue(nodeActor, "abilities.dexterity.score", 0);
+                        AbilityScores.updateDexterity(nodeActor,nScore);
+					end
+				</script>
+			</number>
+ 			<label_ability_fields>
+				<anchored to="dexterity_percent" />
+   				<tooltip textres="char_tooltip_percentile" />
+				<static textres="char_label_ability_percent" />
+			</label_ability_fields>
+
+			<!-- Dex ability fields -->
+			<number_abilityfield name="dexterity_reactionadj" source="abilities.dexterity.reactionadj">
+				<anchored to="dexterity_percent" />
+				<tooltip textres="char_tooltip_dexterity_reactionadj" />
+				<labelres>char_label_dexterity_reactionadj</labelres>
+			</number_abilityfield>
+  			<label_ability_fields>
+				<anchored to="dexterity_reactionadj" />
+   				<tooltip textres="char_tooltip_dexterity_reactionadj" />
+				<static textres="char_label_dexterity_reactionadj" />
+			</label_ability_fields>
+
+			<number_abilityfield name="dexterity_missileadj" source="abilities.dexterity.missileadj">
+				<anchored to="dexterity_reactionadj" />
+				<tooltip textres="char_tooltip_dexterity_missileadj" />
+				<labelres>char_label_dexterity_missileadj</labelres>
+			</number_abilityfield>
+  			<label_ability_fields>
+				<anchored to="dexterity_missileadj" />
+   				<tooltip textres="char_tooltip_dexterity_missileadj" />
+				<static textres="char_label_dexterity_missileadj" />
 			</label_ability_fields>
 			
-
-<!-- 			<label_abilityscore name="label_strength_bendbars">
-				<anchored to="strength_bendbars" offset="0,0"/>
-				<static textres="char_label_strength_bendbars" />
-				<tooltip textres="char_tooltip_strength_bendbars" />
+			<number_abilityfield name="dexterity_defenseadj" source="abilities.dexterity.defenseadj">
+				<anchored to="dexterity_missileadj" />
+				<tooltip textres="char_tooltip_dexterity_defenseadj" />
+				<labelres>char_label_dexterity_defenseadj</labelres>
+			</number_abilityfield>
+  			<label_ability_fields>
+				<anchored to="dexterity_defenseadj" />
+   				<tooltip textres="char_tooltip_dexterity_defenseadj" />
+				<static textres="char_label_dexterity_defenseadj" />
+			</label_ability_fields>
+			
+			<!-- Ability Con -->
+			<number_charabilityscore2 name="constitution" source="abilities.constitution.score">
+				<tooltip textres="char_tooltip_constitution" />
+				<anchored to="dexterity" position="below" offset="0,5"  height="45"/>
+				<target>constitution</target>
+			</number_charabilityscore2>
+ 			<label_abilityscore>
+				<anchored to="constitution" />
+				<static textres="CON" />
 			</label_abilityscore>
- -->
+			
+			<frame_char name="condetailframe">
+				<anchored to="constitution" position="right" offset="0,0" width="280">
+				</anchored>
+				<frame name="abilityscore_box" />
+<!-- 				<backcolor>#ff11ff</backcolor> -->
+			</frame_char>			
+			
+            <number name="constitution_percent" source="abilities.constitution.percent">
+                
+				<font>regular8</font>
+                <min> 0 </min>
+                <max> 100 </max>
+				<anchored to="condetailframe" position="insidetopleft" offset="5,6" width="30" height="30"/>
+				<labelres>char_label_ability_percent</labelres>
+				<tooltip textres="char_tooltip_percentile" />
+				<script>
+					function onValueChanged()
+                        local rActor = ActorManager.getActor("pc", window.getDatabaseNode());
+                        local sActorType, nodeActor = ActorManager.getTypeAndNode(rActor);
+                        local nScore = DB.getValue(nodeActor, "abilities.constitution.score", 0);
+                        AbilityScores.updateConstitution(nodeActor,nScore);
+					end
+				</script>
+			</number>
+ 			<label_ability_fields>
+				<anchored to="constitution_percent" />
+   				<tooltip textres="char_tooltip_percentile" />
+				<static textres="char_label_ability_percent" />
+			</label_ability_fields>
+
+			<!-- CON ability fields -->
+			<number_abilityfield name="constitution_hitpointadj" source="abilities.constitution.hitpointadj">
+				<anchored to="constitution_percent" />
+				<tooltip textres="char_tooltip_constitution_hitpointadj" />
+				<labelres>char_label_constitution_hitpointadj</labelres>
+			</number_abilityfield>
+   			<label_ability_fields>
+				<anchored to="constitution_hitpointadj" />
+   				<tooltip textres="char_tooltip_constitution_hitpointadj" />
+				<static textres="char_label_constitution_hitpointadj" />
+			</label_ability_fields>
+			
+			<number_abilityfield name="constitution_systemshock" source="abilities.constitution.systemshock">
+				<anchored to="constitution_hitpointadj" />
+				<tooltip textres="char_tooltip_constitution_systemshock" />
+				<labelres>char_label_constitution_systemshock</labelres>
+			</number_abilityfield>
+   			<label_ability_fields>
+				<anchored to="constitution_systemshock" />
+   				<tooltip textres="char_tooltip_constitution_systemshock" />
+				<static textres="char_label_constitution_systemshock" />
+			</label_ability_fields>
+
+			<number_abilityfield name="constitution_resurrectionsurvival" source="abilities.constitution.resurrectionsurvival">
+				<anchored to="constitution_systemshock" />
+				<tooltip textres="char_tooltip_constitution_resurrectionsurvival" />
+				<labelres>char_label_constitution_resurrectionsurvival</labelres>
+			</number_abilityfield>
+   			<label_ability_fields>
+				<anchored to="constitution_resurrectionsurvival" />
+   				<tooltip textres="char_tooltip_constitution_resurrectionsurvival" />
+				<static textres="char_label_constitution_resurrectionsurvival" />
+			</label_ability_fields>
+
+			<number_abilityfield name="constitution_poisonadj" source="abilities.constitution.poisonadj">
+				<anchored to="constitution_systemshock" />
+				<tooltip textres="char_tooltip_constitution_poisonadj" />
+				<labelres>char_label_constitution_poisonadj</labelres>
+			</number_abilityfield>
+   			<label_ability_fields>
+				<anchored to="constitution_poisonadj" />
+   				<tooltip textres="char_tooltip_constitution_poisonadj" />
+				<static textres="char_label_constitution_poisonadj" />
+			</label_ability_fields>
+
+			<string_abilityfield name="constitution_regeneration" source="abilities.constitution.regeneration">
+				<anchored to="constitution_poisonadj" />
+				<tooltip textres="char_tooltip_constitution_regeneration" />
+				<labelres>char_label_constitution_regeneration</labelres>
+			</string_abilityfield>
+   			<label_ability_fields>
+				<anchored to="constitution_regeneration" />
+   				<tooltip textres="char_tooltip_constitution_regeneration" />
+				<static textres="char_label_constitution_regeneration" />
+			</label_ability_fields>
+			
+			<!-- Ability INT -->
+			<number_charabilityscore2 name="intelligence" source="abilities.intelligence.score">
+				<tooltip textres="char_tooltip_intelligence" />
+				<anchored to="constitution" position="below" offset="0,5" height="45"/>
+				<target>intelligence</target>
+			</number_charabilityscore2>
+ 			<label_abilityscore>
+				<anchored to="intelligence" />
+				<static textres="INT" />
+			</label_abilityscore>
+			
+			<frame_char name="intdetailframe">
+				<anchored to="intelligence" position="right" offset="0,0" width="280">
+				</anchored>
+				<frame name="abilityscore_box" />
+<!-- 				<backcolor>#ff11ff</backcolor> -->
+			</frame_char>			
+			
+            <number name="intelligence_percent" source="abilities.intelligence.percent">
+                
+				<font>regular8</font>
+                <min> 0 </min>
+                <max> 100 </max>
+				<anchored to="intdetailframe" position="insidetopleft" offset="5,6" width="30" height="30"/>
+				<labelres>char_label_ability_percent</labelres>
+				<tooltip textres="char_tooltip_percentile" />
+				<script>
+					function onValueChanged()
+                        local rActor = ActorManager.getActor("pc", window.getDatabaseNode());
+                        local sActorType, nodeActor = ActorManager.getTypeAndNode(rActor);
+                        local nScore = DB.getValue(nodeActor, "abilities.intelligence.score", 0);
+                        AbilityScores.updateIntelligence(nodeActor,nScore);
+					end
+				</script>
+			</number>
+ 			<label_ability_fields>
+				<anchored to="intelligence_percent" />
+   				<tooltip textres="char_tooltip_percentile" />
+				<static textres="char_label_ability_percent" />
+			</label_ability_fields>
+
+			<!-- INT ability fields -->
+			<number_abilityfield name="intelligence_languages" source="abilities.intelligence.languages">
+				<anchored to="intelligence_percent"/>
+				<tooltip textres="char_tooltip_intelligence_languages" />
+				<labelres>char_label_intelligence_languages</labelres>
+			</number_abilityfield>
+ 			<label_ability_fields>
+				<anchored to="intelligence_languages" />
+   				<tooltip textres="char_tooltip_intelligence_languages" />
+				<static textres="char_label_intelligence_languages" />
+			</label_ability_fields>
+
+			<number_abilityfield name="intelligence_spelllevel" source="abilities.intelligence.spelllevel">
+				<anchored to="intelligence_languages"/>
+				<tooltip textres="char_tooltip_intelligence_spelllevel" />
+				<labelres>char_label_intelligence_spelllevel</labelres>
+			</number_abilityfield>
+ 			<label_ability_fields>
+				<anchored to="intelligence_spelllevel" />
+   				<tooltip textres="char_tooltip_intelligence_spelllevel" />
+				<static textres="char_label_intelligence_spelllevel" />
+			</label_ability_fields>
+
+			<number_abilityfield name="intelligence_learn" source="abilities.intelligence.learn">
+				<anchored to="intelligence_spelllevel"/>
+				<tooltip textres="char_tooltip_intelligence_learn" />
+				<labelres>char_label_intelligence_learn</labelres>
+			</number_abilityfield>
+ 			<label_ability_fields>
+				<anchored to="intelligence_learn" />
+   				<tooltip textres="char_tooltip_intelligence_learn" />
+				<static textres="char_label_intelligence_learn" />
+			</label_ability_fields>
+
+			<number_abilityfield name="intelligence_maxlevel" source="abilities.intelligence.maxlevel">
+				<anchored to="intelligence_learn"/>
+				<tooltip textres="char_tooltip_intelligence_maxlevel" />
+				<labelres>char_label_intelligence_maxlevel</labelres>
+			</number_abilityfield>
+ 			<label_ability_fields>
+				<anchored to="intelligence_maxlevel" />
+   				<tooltip textres="char_tooltip_intelligence_maxlevel" />
+				<static textres="char_label_intelligence_maxlevel" />
+			</label_ability_fields>
+
+			<string_abilityfield name="intelligence_illusion" source="abilities.intelligence.illusion">
+				<anchored to="intelligence_maxlevel"/>
+				<tooltip textres="char_tooltip_intelligence_illusion" />
+				<labelres>char_label_intelligence_illusion</labelres>
+			</string_abilityfield>
+ 			<label_ability_fields>
+				<anchored to="intelligence_illusion" />
+   				<tooltip textres="char_tooltip_intelligence_illusion" />
+				<static textres="char_label_intelligence_illusion" />
+			</label_ability_fields>
+			
+			
+			<!-- Ability WIS -->
+			<number_charabilityscore2 name="wisdom" source="abilities.wisdom.score">
+				<tooltip textres="char_tooltip_wisdom" />
+				<anchored to="intelligence" position="below" offset="0,5" height="45"/>
+				<target>wisdom</target>
+			</number_charabilityscore2>
+ 			<label_abilityscore>
+				<anchored to="wisdom" />
+				<static textres="WIS" />
+			</label_abilityscore>
+			
+			<frame_char name="wisdetailframe">
+				<anchored to="wisdom" position="right" offset="0,0"width="280">
+				</anchored>
+				<frame name="abilityscore_box" />
+<!-- 				<backcolor>#ff11ff</backcolor> -->
+			</frame_char>			
+			
+            <number name="wisdom_percent" source="abilities.wisdom.percent">
+                
+				<font>regular8</font>
+                <min> 0 </min>
+                <max> 100 </max>
+				<anchored to="wisdetailframe" position="insidetopleft" offset="5,6" width="30" height="30"/>
+				<labelres>char_label_ability_percent</labelres>
+				<tooltip textres="char_tooltip_percentile" />
+				<script>
+					function onValueChanged()
+                        local rActor = ActorManager.getActor("pc", window.getDatabaseNode());
+                        local sActorType, nodeActor = ActorManager.getTypeAndNode(rActor);
+                        local nScore = DB.getValue(nodeActor, "abilities.wisdom.score", 0);
+                        AbilityScores.updateWisdom(nodeActor,nScore);
+					end
+				</script>
+			</number>
+ 			<label_ability_fields>
+				<anchored to="wisdom_percent" />
+   				<tooltip textres="char_tooltip_percentile" />
+				<static textres="char_label_ability_percent" />
+			</label_ability_fields>
+
+			<!-- WIS ability fields -->
+			<number_abilityfield name="wisdom_magicdefenseadj" source="abilities.wisdom.magicdefenseadj">
+				<anchored to="wisdom_percent"/>
+				<tooltip textres="char_tooltip_wisdom_magicdefenseadj" />
+				<labelres>char_label_wisdom_magicdefenseadj</labelres>
+			</number_abilityfield>
+ 			<label_ability_fields>
+				<anchored to="wisdom_magicdefenseadj" />
+   				<tooltip textres="char_tooltip_wisdom_magicdefenseadj" />
+				<static textres="char_label_wisdom_magicdefenseadj" />
+			</label_ability_fields>
+
+			<number_abilityfield name="wisdom_failure" source="abilities.wisdom.failure">
+				<anchored to="wisdom_magicdefenseadj"/>
+				<tooltip textres="char_tooltip_wisdom_failure" />
+				<labelres>char_label_wisdom_failure</labelres>
+			</number_abilityfield>
+ 			<label_ability_fields>
+				<anchored to="wisdom_failure" />
+   				<tooltip textres="char_tooltip_wisdom_failure" />
+				<static textres="char_label_wisdom_failure" />
+			</label_ability_fields>
+			
+			<string_abilityfield name="wisdom_immunity" source="abilities.wisdom.immunity">
+				<anchored to="wisdom_failure"/>
+				<tooltip textres="char_tooltip_wisdom_immunity" />
+				<labelres>char_label_wisdom_immunity</labelres>
+			</string_abilityfield>
+ 			<label_ability_fields>
+				<anchored to="wisdom_immunity" />
+   				<tooltip textres="char_tooltip_wisdom_immunity" />
+				<static textres="char_label_wisdom_immunity" />
+			</label_ability_fields>
+			
+			<string_abilityfield name="wisdom_spellbonus" source="abilities.wisdom.spellbonus">
+				<anchored to="wisdom_immunity"/>
+				<tooltip textres="char_tooltip_wisdom_spellbonus" />
+				<labelres>char_label_wisdom_spellbonus</labelres>
+			</string_abilityfield>
+ 			<label_ability_fields>
+				<anchored to="wisdom_spellbonus" />
+   				<tooltip textres="char_tooltip_wisdom_spellbonus" />
+				<static textres="char_label_wisdom_spellbonus" />
+			</label_ability_fields>
+
+			
+			<!-- Ability CHR -->
+			<number_charabilityscore2 name="charisma" source="abilities.charisma.score">
+				<tooltip textres="char_tooltip_charisma" />
+				<anchored to="wisdom" position="below" offset="0,5" height="45"/>
+				<target>charisma</target>
+			</number_charabilityscore2>
+ 			<label_abilityscore>
+				<anchored to="charisma" />
+				<static textres="CHR" />
+			</label_abilityscore>
+			
+			<frame_char name="chrdetailframe">
+				<anchored to="charisma" position="right" offset="0,0" width="280">
+				</anchored>
+				<frame name="abilityscore_box" />
+<!-- 				<backcolor>#ff11ff</backcolor> -->
+			</frame_char>			
+			
+            <number name="charisma_percent" source="abilities.charisma.percent">
+                
+				<font>regular8</font>
+                <min> 0 </min>
+                <max> 100 </max>
+				<anchored to="chrdetailframe" position="insidetopleft" offset="5,6" width="30" height="30"/>
+				<labelres>char_label_ability_percent</labelres>
+				<tooltip textres="char_tooltip_percentile" />
+				<script>
+					function onValueChanged()
+                        local rActor = ActorManager.getActor("pc", window.getDatabaseNode());
+                        local sActorType, nodeActor = ActorManager.getTypeAndNode(rActor);
+                        local nScore = DB.getValue(nodeActor, "abilities.charisma.score", 0);
+                        AbilityScores.updateCharisma(nodeActor,nScore);
+					end
+				</script>
+			</number>
+ 			<label_ability_fields>
+				<anchored to="charisma_percent" />
+   				<tooltip textres="char_tooltip_percentile" />
+				<static textres="char_label_ability_percent" />
+			</label_ability_fields>
+
+			<!-- CHR ability fields -->
+			<number_abilityfield name="charisma_maxhench" source="abilities.charisma.maxhench">
+				<anchored to="charisma_percent"/>
+				<tooltip textres="char_tooltip_charisma_maxhench" />
+				<labelres>char_label_charisma_maxhench</labelres>
+			</number_abilityfield>
+ 			<label_ability_fields>
+				<anchored to="charisma_maxhench" />
+   				<tooltip textres="char_tooltip_charisma_maxhench" />
+				<static textres="char_label_charisma_maxhench" />
+			</label_ability_fields>
+
+			<number_abilityfield name="charisma_loyalty" source="abilities.charisma.loyalty">
+				<anchored to="charisma_maxhench"/>
+				<tooltip textres="char_tooltip_charisma_loyalty" />
+				<labelres>char_label_charisma_loyalty</labelres>
+			</number_abilityfield>
+ 			<label_ability_fields>
+				<anchored to="charisma_loyalty" />
+   				<tooltip textres="char_tooltip_charisma_loyalty" />
+				<static textres="char_label_charisma_loyalty" />
+			</label_ability_fields>
+
+			<number_abilityfield name="charisma_reaction" source="abilities.charisma.reaction">
+				<anchored to="charisma_loyalty"/>
+				<tooltip textres="char_tooltip_charisma_reaction" />
+				<labelres>char_label_charisma_reaction</labelres>
+			</number_abilityfield>
+ 			<label_ability_fields>
+				<anchored to="charisma_reaction" />
+   				<tooltip textres="char_tooltip_charisma_reaction" />
+				<static textres="char_label_charisma_reaction" />
+			</label_ability_fields>
 
 			
 			
 			
-<!-- END Ability Scores -->
 
-			<subwindow name="sensescombat">
+			<!-- END Ability Scores -->
+
+<!-- 			<subwindow name="sensescombat">
 				<anchored>
 					<top offset="110" />
 					<left offset="90" />
@@ -336,10 +716,10 @@
 				<anchored to="sensescombat" offset="-5,-10" />
 				<target>sensescombat</target>
 			</scrollbar>
-            
+ -->            
 			<!-- AC/Move -->
-			<label_charframetop name="combattitle">
-				<anchored height="20">
+<!-- 			<label_charframetop name="combattitle" >
+  				<anchored height="20">
 					<top anchor="bottom" offset="-180" />
 					<left offset="35" />
 					<right offset="-240" />
@@ -399,10 +779,10 @@
 				<labelres>char_label_specialdef</labelres>
 				<multilinespacing>20</multilinespacing>
 			</string_labeled>
-				<!-- End AC/Move -->
+ -->				<!-- End AC/Move -->
             
         <!-- Health/Wounds -->
-			<label_charframetop name="healthtitle">
+<!-- 			<label_charframetop name="healthtitle">
 				<anchored height="20">
 					<top anchor="bottom" offset="-180" />
 					<left offset="400" />
@@ -487,14 +867,14 @@
 			<button_charhealthcalc name="button_healthcalc">
 				<anchored to="label_hd" position="lefthigh" offset="0,0" />
 			</button_charhealthcalc>
-
+ -->
             <!-- END Health/Wounds -->
 
             
 		</sheetdata>
 	</windowclass>
 
-	<windowclass name="charsheet_sensescombat">
+<!-- 	<windowclass name="charsheet_sensescombat">
 		<margins control="0,0,0,10" />
 		<sheetdata>
 			<anchor_column name="columnanchor" />
@@ -575,7 +955,7 @@
 			</numbercontrol>
 		</sheetdata>
 	</windowclass>	
-
+ -->
 	<windowclass name="charsheet_classes">
 		<frame>charsheethelper</frame>
 		<placement>

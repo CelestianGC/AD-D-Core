@@ -68,7 +68,7 @@
 
 	<template name="number_charabilityscore2">
 		<number>
- 			<anchored to="statstitle" position="insidetopleft" width="45" height="45"/> 
+ 			<anchored to="statstitle" position="insidetopleft"/> 
 			<rollable />
             <min>1</min>
             <max>25</max>
@@ -130,5 +130,26 @@
 		</number>
 	</template>
 
+	<template name="number_abilityfield">
+			<number>
+<!--                 <backcolor>#ff99cc</backcolor> -->
+				<anchored position="right" offset="0,0" width="40"/>
+                 <displaysign />
+                  <nokeyedit />
+				<font>regular8</font>
+			</number>
+	</template>
+	
+	<template name="string_abilityfield">
+			<stringfield>
+    <!--             <backcolor>#ff99cc</backcolor> -->
+				<!-- <multilinespacing>20</multilinespacing> -->
+				<anchored position="right" offset="0,0" width="40" />
+   				<center />
+                <readonly />
+				<font>regular8</font>
+			</stringfield>
+	</template>
+	
 	
 </root>

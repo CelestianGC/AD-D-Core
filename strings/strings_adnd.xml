@@ -27,20 +27,67 @@
 	
     <string name="char_label_ability_percent">%</string>
     <string name="char_tooltip_percentile">Percentile score of this ability.</string>
+   	<string name="CHR">CHR</string>
+
+	
+    <string name="char_label_intelligence_spelllevel">Level</string>
+    <string name="char_tooltip_intelligence_spelllevel">Spell Level lists the highest level of spells that can be cast.</string>
+    <string name="char_label_intelligence_learn">Learn</string>
+    <string name="char_tooltip_intelligence_learn">Chance to Learn Spell is the percentage probability to learn a spell</string>
+    <string name="char_label_intelligence_maxlevel">Max</string>
+    <string name="char_tooltip_intelligence_maxlevel">The maximum number of spells a wizard can know from any particular spell level</string>
+    <string name="char_label_intelligence_illusion">Ill.</string>
+    <string name="char_tooltip_intelligence_illusion">Illusions that can be seen through by someone with this intelligence.</string>
+    <string name="char_label_wisdom_magicdefenseadj">Def</string>
+    <string name="char_tooltip_wisdom_magicdefenseadj">Magical Defensive Save Adjustment versus certain spells</string>
     
+	<string name="char_label_wisdom_spellbonus">Bonus</string>
+    <string name="char_tolltip_wisdom_spellbonus">Bonus spells for high wisdom</string>
+	
+    <string name="char_label_wisdom_failure">Fail</string>
+    <string name="char_tooltip_wisdom_failure">Percent chance of spell failure</string>
+    <string name="char_label_wisdom_immunity">Imm.</string>
+    <string name="char_tooltip_wisdom_immunity">Immunity to certain spells for high wisdom</string>
+    <string name="char_tooltip_charisma_maxhench">Maximum number of henchmen</string>
+    <string name="char_label_charisma_maxhench">Max</string>
+    <string name="char_tooltip_charisma_loyalty">Loyalty adjustment for followers/henchmen</string>
+    <string name="char_label_charisma_loyalty">Loyal</string>
+    <string name="char_tooltip_charisma_reaction">Reaction Adjustment</string>
+    <string name="char_label_charisma_reaction">React</string>
     <string name="char_label_strength_hitadj">HIT</string>
     <string name="char_tooltip_strength_hitadj">To Hit adjustment</string>
     <string name="char_label_strength_dmgadj">DMG</string>
     <string name="char_tooltip_strength_dmgadj">Damage adjustment</string>
-    <string name="char_label_strength_weightallow">Weight</string>
-    <string name="char_tooltip_strength_weightallow">Weight allowance</string>
+    <string name="char_label_strength_weightallow">Allow</string>
+    <string name="char_tooltip_strength_weightallow">Maximum Weight allowance</string>
     <string name="char_label_strength_maxpress">Press</string>
     <string name="char_tooltip_strength_maxpress">Maximum weight press</string>
     <string name="char_label_strength_opendoors">Doors</string>
     <string name="char_tooltip_strength_opendoors">Open doors (open magically barred)</string>
-    <string name="char_label_strength_bendbars">BB</string>
+    <string name="char_label_strength_bendbars">Bars</string>
     <string name="char_tooltip_strength_bendbars">Bend bars or lift gates</string>
+	
+    <string name="char_tooltip_dexterity_reactionadj">Reaction Adjustment</string>
+    <string name="char_label_dexterity_reactionadj">React</string>
+    <string name="char_tooltip_dexterity_missileadj">Missile Attack Adjustment</string>
+    <string name="char_label_dexterity_missileadj">Missle</string>
+    <string name="char_tooltip_dexterity_defenseadj">Defensive Adjustment</string>
+    <string name="char_label_dexterity_defenseadj">Def</string>
+    <string name="char_tooltip_constitution_hitpointadj">Hit Point Adjustment</string>
+    <string name="char_label_constitution_hitpointadj">HP</string>
+    <string name="char_tooltip_constitution_systemshock">System Shock Percent</string>
+    <string name="char_label_constitution_systemshock">SS</string>
+    <string name="char_tooltip_constitution_resurrectionsurvival">Resurrection Survival Percent</string>
+    <string name="char_label_constitution_resurrectionsurvival">Rez</string>
+    <string name="char_tooltip_constitution_poisonadj">Poison Save Adjustment</string>
+    <string name="char_label_constitution_poisonadj">Poison</string>
+    <string name="char_tooltip_constitution_regeneration">Regeneration</string>
+    <string name="char_label_constitution_regeneration">Regen</string>
 
+    <string name="char_tooltip_intelligence_languages">Number of Additional Languages (Or proficiencies) you have.</string>
+    <string name="char_label_intelligence_languages">Lang</string>
+
+	
     <string name="char_tooltip_strength">Strength of the character</string>
     <string name="char_tooltip_constitution">Constitution of the character</string>
     <string name="char_tooltip_dexterity">Dexterity of the character</string>
