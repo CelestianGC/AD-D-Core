@@ -172,27 +172,28 @@ function getAbilityScore(rActor, sAbility)
 end
 
 function getAbilityBonus(rActor, sAbility)
-	if not sAbility then
-		return 0;
-	end
-	local sActorType, nodeActor = ActorManager.getTypeAndNode(rActor);
-	if not nodeActor then
-		return 0;
-	end
+	-- if not sAbility then
+		-- return 0;
+	-- end
+	-- local sActorType, nodeActor = ActorManager.getTypeAndNode(rActor);
+	-- if not nodeActor then
+		-- return 0;
+	-- end
 	
-	local nStatScore = getAbilityScore(rActor, sAbility);
-	if nStatScore < 0 then
-		return 0;
-	end
+	-- local nStatScore = getAbilityScore(rActor, sAbility);
+	-- if nStatScore < 0 then
+		-- return 0;
+	-- end
 	
-	local nStatVal = 0;
-	if StringManager.contains(DataCommon.abilities, sAbility) then
-		nStatVal = math.floor((nStatScore - 10) / 2);
-	else
-		nStatVal = nStatScore;
-	end
+	-- local nStatVal = 0;
+	-- if StringManager.contains(DataCommon.abilities, sAbility) then
+		-- nStatVal = math.floor((nStatScore - 10) / 2);
+	-- else
+		-- nStatVal = nStatScore;
+	-- end
 	
-	return nStatVal;
+	-- return nStatVal;
+	return 0;
 end
 
 function getSave(rActor, sSave)

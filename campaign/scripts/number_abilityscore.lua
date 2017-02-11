@@ -43,7 +43,11 @@ end
 
 function action(draginfo)
 	local rActor = ActorManager.getActor("", window.getDatabaseNode());
-	ActionCheck.performRoll(draginfo, rActor, self.target[1]);
+	
+	local sActorType, nodeActor = ActorManager.getTypeAndNode(rActor);
+    local nTargetDC = DB.getValue(nodeActor, "abilities.".. self.target[1] .. ".score", 0);
+
+	ActionCheck.performRoll(draginfo, rActor, self.target[1], nTargetDC);
 	return true;
 end
 

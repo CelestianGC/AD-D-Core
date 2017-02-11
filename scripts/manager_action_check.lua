@@ -181,12 +181,13 @@ function onRoll(rSource, rTarget, rRoll)
 	if rRoll.nTarget then
 		local nTotal = ActionsManager.total(rRoll);
 		local nTargetDC = tonumber(rRoll.nTarget) or 0;
+		local nDifference = math.abs((nTotal - nTargetDC));
 		
-		rMessage.text = rMessage.text .. " (vs. DC " .. nTargetDC .. ")";
-		if nTotal >= nTargetDC then
-			rMessage.text = rMessage.text .. " [SUCCESS]";
+		rMessage.text = rMessage.text .. " (vs. Target " .. nTargetDC .. ")";
+		if nTotal <= nTargetDC then
+			rMessage.text = rMessage.text .. " [SUCCESS by " .. nDifference .. "]";
 		else
-			rMessage.text = rMessage.text .. " [FAILURE]";
+			rMessage.text = rMessage.text .. " [FAILURE by " .. nDifference .. "]";
 		end
 	end
 	
