@@ -37,4 +37,14 @@
 		<offset>9,9,9,9</offset>
 	</framedef>
 	
+	<framedef name="shaded_box">
+		<bitmap file="graphics/frames/rowshade.png" />
+		<offset>9,9,9,9</offset>
+	</framedef>
+
+	<framedef name="bonus_box">
+		<bitmap file="graphics/frames/bonus.png" />
+		<offset>9,9,9,9</offset>
+	</framedef>
+
 </root>

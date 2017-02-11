@@ -166,16 +166,12 @@
 				<static textres="STR" />
 			</label_abilityscore>
 
-			<frame_char name="strdetailframe">
-				<anchored to="strength" position="right" offset="0,0" width="280">
-				</anchored>
-				<frame name="abilityscore_box" />
-<!-- 				<backcolor>#ff11ff</backcolor> -->
-			</frame_char>			
+			<ability_fields_container name="strdetailframe">
+				<anchored to="strength" />
+			</ability_fields_container>			
 			
-            <number name="strength_percent" source="abilities.strength.percent">
-                
-				<font>regular8</font>
+            <percentile_abilityfield name="strength_percent" source="abilities.strength.percent">
+   				<center />
                 <min> 0 </min>
                 <max> 100 </max>
 				<anchored to="strdetailframe" position="insidetopleft" offset="5,6" width="30" height="30"/>
@@ -189,7 +185,7 @@
                         AbilityScores.updateStrength(nodeActor,nScore);
 					end
 				</script>
-			</number>
+			</percentile_abilityfield>
  			<label_ability_fields>
 				<anchored to="strength_percent" />
    				<tooltip textres="char_tooltip_percentile" />
@@ -274,16 +270,12 @@
 				<static textres="DEX" />
 			</label_abilityscore>
 			
-			<frame_char name="dexdetailframe">
-				<anchored to="dexterity" position="right" offset="0,0" width="280">
-				</anchored>
-				<frame name="abilityscore_box" />
-<!-- 				<backcolor>#ff11ff</backcolor> -->
-			</frame_char>			
+			<ability_fields_container name="dexdetailframe">
+				<anchored to="dexterity" />
+			</ability_fields_container>			
 
-            <number name="dexterity_percent" source="abilities.dexterity.percent">
-                
-				<font>regular8</font>
+            <percentile_abilityfield name="dexterity_percent" source="abilities.dexterity.percent">
+   				<center />
                 <min> 0 </min>
                 <max> 100 </max>
 				<anchored to="dexdetailframe" position="insidetopleft" offset="5,6" width="30" height="30"/>
@@ -297,7 +289,7 @@
                         AbilityScores.updateDexterity(nodeActor,nScore);
 					end
 				</script>
-			</number>
+			</percentile_abilityfield>
  			<label_ability_fields>
 				<anchored to="dexterity_percent" />
    				<tooltip textres="char_tooltip_percentile" />
@@ -306,7 +298,7 @@
 
 			<!-- Dex ability fields -->
 			<number_abilityfield name="dexterity_reactionadj" source="abilities.dexterity.reactionadj">
-				<anchored to="dexterity_percent" />
+				<anchored to="dexterity_percent"  width="80"/>
 				<tooltip textres="char_tooltip_dexterity_reactionadj" />
 				<labelres>char_label_dexterity_reactionadj</labelres>
 			</number_abilityfield>
@@ -317,8 +309,8 @@
 			</label_ability_fields>
 
 			<number_abilityfield name="dexterity_missileadj" source="abilities.dexterity.missileadj">
-				<anchored to="dexterity_reactionadj" />
-				<tooltip textres="char_tooltip_dexterity_missileadj" />
+				<anchored to="dexterity_reactionadj" width="80" />
+				<tooltip textres="char_tooltip_dexterity_missileadj"  />
 				<labelres>char_label_dexterity_missileadj</labelres>
 			</number_abilityfield>
   			<label_ability_fields>
@@ -328,7 +320,7 @@
 			</label_ability_fields>
 			
 			<number_abilityfield name="dexterity_defenseadj" source="abilities.dexterity.defenseadj">
-				<anchored to="dexterity_missileadj" />
+				<anchored to="dexterity_missileadj" width="80" />
 				<tooltip textres="char_tooltip_dexterity_defenseadj" />
 				<labelres>char_label_dexterity_defenseadj</labelres>
 			</number_abilityfield>
@@ -349,16 +341,12 @@
 				<static textres="CON" />
 			</label_abilityscore>
 			
-			<frame_char name="condetailframe">
-				<anchored to="constitution" position="right" offset="0,0" width="280">
-				</anchored>
-				<frame name="abilityscore_box" />
-<!-- 				<backcolor>#ff11ff</backcolor> -->
-			</frame_char>			
+			<ability_fields_container name="condetailframe">
+				<anchored to="constitution" />
+			</ability_fields_container>			
 			
-            <number name="constitution_percent" source="abilities.constitution.percent">
-                
-				<font>regular8</font>
+            <percentile_abilityfield name="constitution_percent" source="abilities.constitution.percent">
+   				<center />
                 <min> 0 </min>
                 <max> 100 </max>
 				<anchored to="condetailframe" position="insidetopleft" offset="5,6" width="30" height="30"/>
@@ -372,7 +360,7 @@
                         AbilityScores.updateConstitution(nodeActor,nScore);
 					end
 				</script>
-			</number>
+			</percentile_abilityfield>
  			<label_ability_fields>
 				<anchored to="constitution_percent" />
    				<tooltip textres="char_tooltip_percentile" />
@@ -380,11 +368,11 @@
 			</label_ability_fields>
 
 			<!-- CON ability fields -->
-			<number_abilityfield name="constitution_hitpointadj" source="abilities.constitution.hitpointadj">
+			<string_abilityfield name="constitution_hitpointadj" source="abilities.constitution.hitpointadj">
 				<anchored to="constitution_percent" />
 				<tooltip textres="char_tooltip_constitution_hitpointadj" />
 				<labelres>char_label_constitution_hitpointadj</labelres>
-			</number_abilityfield>
+			</string_abilityfield>
    			<label_ability_fields>
 				<anchored to="constitution_hitpointadj" />
    				<tooltip textres="char_tooltip_constitution_hitpointadj" />
@@ -414,7 +402,7 @@
 			</label_ability_fields>
 
 			<number_abilityfield name="constitution_poisonadj" source="abilities.constitution.poisonadj">
-				<anchored to="constitution_systemshock" />
+				<anchored to="constitution_resurrectionsurvival" />
 				<tooltip textres="char_tooltip_constitution_poisonadj" />
 				<labelres>char_label_constitution_poisonadj</labelres>
 			</number_abilityfield>
@@ -425,7 +413,7 @@
 			</label_ability_fields>
 
 			<string_abilityfield name="constitution_regeneration" source="abilities.constitution.regeneration">
-				<anchored to="constitution_poisonadj" />
+				<anchored to="constitution_poisonadj" width="80"/>
 				<tooltip textres="char_tooltip_constitution_regeneration" />
 				<labelres>char_label_constitution_regeneration</labelres>
 			</string_abilityfield>
@@ -446,16 +434,12 @@
 				<static textres="INT" />
 			</label_abilityscore>
 			
-			<frame_char name="intdetailframe">
-				<anchored to="intelligence" position="right" offset="0,0" width="280">
-				</anchored>
-				<frame name="abilityscore_box" />
-<!-- 				<backcolor>#ff11ff</backcolor> -->
-			</frame_char>			
+			<ability_fields_container name="intdetailframe">
+				<anchored to="intelligence" />
+			</ability_fields_container>			
 			
-            <number name="intelligence_percent" source="abilities.intelligence.percent">
-                
-				<font>regular8</font>
+            <percentile_abilityfield name="intelligence_percent" source="abilities.intelligence.percent">
+   				<center />
                 <min> 0 </min>
                 <max> 100 </max>
 				<anchored to="intdetailframe" position="insidetopleft" offset="5,6" width="30" height="30"/>
@@ -469,7 +453,7 @@
                         AbilityScores.updateIntelligence(nodeActor,nScore);
 					end
 				</script>
-			</number>
+			</percentile_abilityfield>
  			<label_ability_fields>
 				<anchored to="intelligence_percent" />
    				<tooltip textres="char_tooltip_percentile" />
@@ -521,8 +505,9 @@
 				<static textres="char_label_intelligence_maxlevel" />
 			</label_ability_fields>
 
-			<string_abilityfield name="intelligence_illusion" source="abilities.intelligence.illusion">
-				<anchored to="intelligence_maxlevel"/>
+			<string_abilityfield name="intelligence_illusion" source="abilities.intelligence.illusion" >
+				<!-- <multilinespacing>20</multilinespacing> -->
+				<anchored to="intelligence_maxlevel" width="80"/>
 				<tooltip textres="char_tooltip_intelligence_illusion" />
 				<labelres>char_label_intelligence_illusion</labelres>
 			</string_abilityfield>
@@ -544,16 +529,12 @@
 				<static textres="WIS" />
 			</label_abilityscore>
 			
-			<frame_char name="wisdetailframe">
-				<anchored to="wisdom" position="right" offset="0,0"width="280">
-				</anchored>
-				<frame name="abilityscore_box" />
-<!-- 				<backcolor>#ff11ff</backcolor> -->
-			</frame_char>			
+			<ability_fields_container name="wisdetailframe">
+				<anchored to="wisdom" />
+			</ability_fields_container>			
 			
-            <number name="wisdom_percent" source="abilities.wisdom.percent">
-                
-				<font>regular8</font>
+            <percentile_abilityfield name="wisdom_percent" source="abilities.wisdom.percent">
+   				<center />
                 <min> 0 </min>
                 <max> 100 </max>
 				<anchored to="wisdetailframe" position="insidetopleft" offset="5,6" width="30" height="30"/>
@@ -567,7 +548,7 @@
                         AbilityScores.updateWisdom(nodeActor,nScore);
 					end
 				</script>
-			</number>
+			</percentile_abilityfield>
  			<label_ability_fields>
 				<anchored to="wisdom_percent" />
    				<tooltip textres="char_tooltip_percentile" />
@@ -598,7 +579,7 @@
 			</label_ability_fields>
 			
 			<string_abilityfield name="wisdom_immunity" source="abilities.wisdom.immunity">
-				<anchored to="wisdom_failure"/>
+				<anchored to="wisdom_failure" width="80"/>
 				<tooltip textres="char_tooltip_wisdom_immunity" />
 				<labelres>char_label_wisdom_immunity</labelres>
 			</string_abilityfield>
@@ -609,7 +590,8 @@
 			</label_ability_fields>
 			
 			<string_abilityfield name="wisdom_spellbonus" source="abilities.wisdom.spellbonus">
-				<anchored to="wisdom_immunity"/>
+				<!-- <multilinespacing>15</multilinespacing> -->
+				<anchored to="wisdom_immunity" width="80"/>
 				<tooltip textres="char_tooltip_wisdom_spellbonus" />
 				<labelres>char_label_wisdom_spellbonus</labelres>
 			</string_abilityfield>
@@ -631,16 +613,12 @@
 				<static textres="CHR" />
 			</label_abilityscore>
 			
-			<frame_char name="chrdetailframe">
-				<anchored to="charisma" position="right" offset="0,0" width="280">
-				</anchored>
-				<frame name="abilityscore_box" />
-<!-- 				<backcolor>#ff11ff</backcolor> -->
-			</frame_char>			
+			<ability_fields_container name="chrdetailframe">
+				<anchored to="charisma" />
+			</ability_fields_container>			
 			
-            <number name="charisma_percent" source="abilities.charisma.percent">
-                
-				<font>regular8</font>
+            <percentile_abilityfield name="charisma_percent" source="abilities.charisma.percent">
+   				<center />
                 <min> 0 </min>
                 <max> 100 </max>
 				<anchored to="chrdetailframe" position="insidetopleft" offset="5,6" width="30" height="30"/>
@@ -654,7 +632,7 @@
                         AbilityScores.updateCharisma(nodeActor,nScore);
 					end
 				</script>
-			</number>
+			</percentile_abilityfield>
  			<label_ability_fields>
 				<anchored to="charisma_percent" />
    				<tooltip textres="char_tooltip_percentile" />
@@ -663,7 +641,7 @@
 
 			<!-- CHR ability fields -->
 			<number_abilityfield name="charisma_maxhench" source="abilities.charisma.maxhench">
-				<anchored to="charisma_percent"/>
+				<anchored to="charisma_percent" width="80"/>
 				<tooltip textres="char_tooltip_charisma_maxhench" />
 				<labelres>char_label_charisma_maxhench</labelres>
 			</number_abilityfield>
@@ -674,7 +652,7 @@
 			</label_ability_fields>
 
 			<number_abilityfield name="charisma_loyalty" source="abilities.charisma.loyalty">
-				<anchored to="charisma_maxhench"/>
+				<anchored to="charisma_maxhench" width="80"/>
 				<tooltip textres="char_tooltip_charisma_loyalty" />
 				<labelres>char_label_charisma_loyalty</labelres>
 			</number_abilityfield>
@@ -685,7 +663,7 @@
 			</label_ability_fields>
 
 			<number_abilityfield name="charisma_reaction" source="abilities.charisma.reaction">
-				<anchored to="charisma_loyalty"/>
+				<anchored to="charisma_loyalty" width="80"/>
 				<tooltip textres="char_tooltip_charisma_reaction" />
 				<labelres>char_label_charisma_reaction</labelres>
 			</number_abilityfield>

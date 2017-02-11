@@ -123,21 +123,185 @@ function updateStrength(nodeActor,nChanged)
 end
 
 function updateDexterity(nodeActor,nChanged)
+    -- aDexterity[abilityScore]={reaction, missile, defensive}
     local aDexterity = {};
+    aDexterity[1]  =  {-6,-6,5};
+    aDexterity[2]  =  {-4,-4,5};
+    aDexterity[3]  =  {-3,-3,4};
+    aDexterity[4]  =  {-2,-2,3};
+    aDexterity[5]  =  {-1,-1,2};
+    aDexterity[6]  =  {0,0,1};
+    aDexterity[7]  =  {0,0,0};
+    aDexterity[8]  =  {0,0,0};
+    aDexterity[9]  =  {0,0,0};
+    aDexterity[10]  = {0,0,0};
+    aDexterity[11]  = {0,0,0};
+    aDexterity[12]  = {0,0,0};
+    aDexterity[13]  = {0,0,0};
+    aDexterity[14]  = {0,0,-1};
+    aDexterity[15]  = {0,0,-2};
+    aDexterity[16]  = {1,1,-3};
+    aDexterity[17]  = {2,2,-4};
+    aDexterity[18]  = {2,2,-4};
+    aDexterity[19]  = {3,3,-4};
+    aDexterity[20]  = {3,3,-4};
+    aDexterity[21]  = {4,4,-5};
+    aDexterity[22]  = {4,4,-5};
+    aDexterity[23]  = {4,4,-5};
+    aDexterity[24]  = {5,5,-6};
+    aDexterity[25]  = {5,5,-6};
+    
+    DB.setValue(nodeActor, "abilities.dexterity.reactionadj", "number", aDexterity[nChanged][1]);
+    DB.setValue(nodeActor, "abilities.dexterity.missileadj", "number", aDexterity[nChanged][2]);
+    DB.setValue(nodeActor, "abilities.dexterity.defenseadj", "number", aDexterity[nChanged][3]);
 end
 
 function updateWisdom(nodeActor,nChanged)
     local aWisdom = {};
+    -- aWisdom[abilityScore]={magic adj, spell bonuses, spell failure, spell imm. }
+    aWisdom[1]   =    {-6, "None", 80, "None"};
+    aWisdom[2]   =    {-4, "None", 60, "None"};
+    aWisdom[3]   =    {-3, "None", 50, "None"};
+    aWisdom[4]   =    {-2, "None", 45, "None"};
+    aWisdom[5]   =    {-1, "None", 40, "None"};
+    aWisdom[6]   =    {-1, "None", 35, "None"};
+    aWisdom[7]   =    {-1, "None", 30, "None"};
+    aWisdom[8]   =    { 0, "None", 25, "None"};
+    aWisdom[9]   =    { 0, "None", 20, "None"};
+    aWisdom[10]  =    { 0, "None", 15, "None"};
+    aWisdom[11]  =    { 0, "None", 10, "None"};
+    aWisdom[12]  =    { 0, "None", 5, "None"};
+    aWisdom[13]  =    { 0, "None", 0, "None"};
+    aWisdom[14]  =    { 0, "1", 0, "None"};
+    aWisdom[15]  =    { 1, "2x1", 0, "None"};
+    aWisdom[16]  =    { 2, "2x1,2", 0, "None"};
+    aWisdom[17]  =    { 3, "2x1,2x2", 0, "None"};
+    aWisdom[18]  =    { 4, "2x1,2x2,3", 0, "None"};
+    -- aWisdom[19]  =    { 4, "3x1,2x2,2x3,4", 0, "fear,charm,command, friend, hypno"};
+    -- aWisdom[20]  =    { 4, "3x1,3x2,2x3,2x4", 0, "forget,hold,enfeeble,scare"};
+    -- aWisdom[21]  =    { 4, "3x1,3x2,3x3,2x4,5", 0, "fear"};
+    -- aWisdom[22]  =    { 4, "3x1,3x2,3x3,3x4,2x5", 0, "charm, confusion, emotion, fumble, suggestion"};
+    -- aWisdom[23]  =    { 4, "4x1,3x2,3x3,3x4,2x5,6", 0, "chaos,feeblemind,hold,jar,quest"};
+    -- aWisdom[24]  =    { 4, "4x1,3x2,3x3,3x4,3x5,2x6", 0, "geas,suggestion,ruleship"};
+    -- aWisdom[25]  =    { 4, "4x1,3x2,3x3,3x4,3x5,3x6,7", 0, "antipathy,death,charm"};
+    
+    aWisdom[19]  =    { 4, "Various", 0, "Various"};
+    aWisdom[20]  =    { 4, "Various", 0, "Various"};
+    aWisdom[21]  =    { 4, "Various", 0, "Various"};
+    aWisdom[22]  =    { 4, "Various", 0, "Various"};
+    aWisdom[23]  =    { 4, "Various", 0, "Various"};
+    aWisdom[24]  =    { 4, "Various", 0, "Various"};
+    aWisdom[25]  =    { 4, "Various", 0, "Various"};
+
+    DB.setValue(nodeActor, "abilities.wisdom.magicdefenseadj", "number", aWisdom[nChanged][1]);
+    DB.setValue(nodeActor, "abilities.wisdom.spellbonus", "string", aWisdom[nChanged][2]);
+    DB.setValue(nodeActor, "abilities.wisdom.failure", "number", aWisdom[nChanged][3]);
+    DB.setValue(nodeActor, "abilities.wisdom.immunity", "string", aWisdom[nChanged][4]);
 end
 
 function updateConstitution(nodeActor,nChanged)
+    -- aConstitution[abilityScore]={hp, system shock, resurrection survivial, poison save, regeneration}
     local aConstitution = {};
+    aConstitution[1]  =   {"-3",25,30,-2,"None"};
+    aConstitution[2]  =   {"-2",30,35,-1,"None"};
+    aConstitution[3]  =   {"-2",35,40,0,"None"};
+    aConstitution[4]  =   {"-1",40,45,0,"None"};
+    aConstitution[5]  =   {"-1",45,50,0,"None"};
+    aConstitution[6]  =   {"-1",50,55,0,"None"};
+    aConstitution[7]  =   {"0",55,60,0,"None"};
+    aConstitution[8]  =   {"0",60,65,0,"None"};
+    aConstitution[9]  =   {"0",65,70,0,"None"};
+    aConstitution[10]  =  {"0",70,75,0,"None"};
+    aConstitution[11]  =  {"0",75,80,0,"None"};
+    aConstitution[12]  =  {"0",80,85,0,"None"};
+    aConstitution[13]  =  {"0",85,90,0,"None"};
+    aConstitution[14]  =  {"0",88,92,0,"None"};
+    aConstitution[15]  =  {"1",90,94,0,"None"};
+    aConstitution[16]  =  {"2",95,96,0,"None"};
+    aConstitution[17]  =  {"2/3",97,98,0,"None"};
+    aConstitution[18]  =  {"2/4",99,100,0,"None"};
+    aConstitution[19]  =  {"2/5",99,100,1,"None"};
+    aConstitution[20]  =  {"2/5",99,100,1,"1/6 turns"};
+    aConstitution[21]  =  {"2/6",99,100,2,"1/5 turns"};
+    aConstitution[22]  =  {"2/6",99,100,2,"1/4 turns"};
+    aConstitution[23]  =  {"2/6",99,100,3,"1/3 turns"};
+    aConstitution[24]  =  {"2/7",99,100,3,"1/2"};
+    aConstitution[25]  =  {"2/7",100,100,4,"1 turn"};
+    
+    DB.setValue(nodeActor, "abilities.constitution.hitpointadj", "string", aConstitution[nChanged][1]);
+    DB.setValue(nodeActor, "abilities.constitution.systemshock", "number", aConstitution[nChanged][2]);
+    DB.setValue(nodeActor, "abilities.constitution.resurrectionsurvival", "number", aConstitution[nChanged][3]);
+    DB.setValue(nodeActor, "abilities.constitution.poisonadj", "number", aConstitution[nChanged][4]);
+    DB.setValue(nodeActor, "abilities.constitution.regeneration", "string", aConstitution[nChanged][5]);
 end
 
 function updateCharisma(nodeActor,nChanged)
+    -- aCharisma[abilityScore]={reaction, missile, defensive}
     local aCharisma = {};
+    aCharisma[1]   =  {0, -8,-7};
+    aCharisma[2]   =  {1, -7,-6};
+    aCharisma[3]   =  {1, -6,-5};
+    aCharisma[4]   =  {1, -5,-4};
+    aCharisma[5]   =  {2, -4,-3};
+    aCharisma[6]   =  {2, -3,-2};
+    aCharisma[7]   =  {3, -2,-1};
+    aCharisma[8]   =  {3, -1,0};
+    aCharisma[9]   =  {4, 0, 0};
+    aCharisma[10]  =  {4, 0, 0};
+    aCharisma[11]  =  {4, 0, 0};
+    aCharisma[12]  =  {5, 0, 0};
+    aCharisma[13]  =  {5, 0, 1};
+    aCharisma[14]  =  {6, 1, 2};
+    aCharisma[15]  =  {7, 3, 3};
+    aCharisma[16]  =  {8, 4, 5};
+    aCharisma[17]  =  {10,6, 6};
+    aCharisma[18]  =  {15,8, 7};
+    aCharisma[19]  =  {20,10,8};
+    aCharisma[20]  =  {25,12,9};
+    aCharisma[21]  =  {30,14,10};
+    aCharisma[22]  =  {35,16,1};
+    aCharisma[23]  =  {40,18,12};
+    aCharisma[24]  =  {45,20,13};
+    aCharisma[25]  =  {50,20,14};
+    
+    DB.setValue(nodeActor, "abilities.charisma.maxhench", "number", aCharisma[nChanged][1]);
+    DB.setValue(nodeActor, "abilities.charisma.loyalty", "number", aCharisma[nChanged][2]);
+    DB.setValue(nodeActor, "abilities.charisma.reaction", "number", aCharisma[nChanged][3]);
+	
 end
 
 function updateIntelligence(nodeActor,nChanged)
+    -- aIntelligence[abilityScore]={# languages, spelllevel, learn spell, max spells, illusion immunity}
     local aIntelligence = {};
+    aIntelligence[1]  =    {0, 0,0,  0,"None"};
+    aIntelligence[2]  =    {0, 0,0,  0,"None"};
+    aIntelligence[3]  =    {0, 0,0,  0,"None"};
+    aIntelligence[4]  =    {0, 0,0,  0,"None"};
+    aIntelligence[5]  =    {0, 0,0,  0,"None"};
+    aIntelligence[6]  =    {0, 0,0,  0,"None"};
+    aIntelligence[7]  =    {0, 0,0,  0,"None"};
+    aIntelligence[8]  =    {0, 0,0,  0,"None"};
+    aIntelligence[9]  =    {2, 4,35, 0,"None"};
+    aIntelligence[10]  =   {2, 5,40, 0,"None"};
+    aIntelligence[11]  =   {2, 5,45, 0,"None"};
+    aIntelligence[12]  =   {3, 6,50, 0,"None"};
+    aIntelligence[13]  =   {3, 6,55, 0,"None"};
+    aIntelligence[14]  =   {4, 7,60, 0,"None"};
+    aIntelligence[15]  =   {4, 7,65, 0,"None"};
+    aIntelligence[16]  =   {5, 8,70, 0,"None"};
+    aIntelligence[17]  =   {6, 8,75, 0,"None"};
+    aIntelligence[18]  =   {7, 9,85, 0,"None"};
+    aIntelligence[19]  =   {8, 9,95, 0,"1st"};
+    aIntelligence[20]  =   {9, 9,96, 0,"1,2"};
+    aIntelligence[21]  =   {10,9,97, 0,"1,2,3"};
+    aIntelligence[22]  =   {11,9,98, 0,"1,2,3,4"};
+    aIntelligence[23]  =   {12,9,99, 0,"1,2,3,4,5"};
+    aIntelligence[24]  =   {15,9,100,0,"1,2,3,4,5,6"};
+    aIntelligence[25]  =   {20,9,100,0,"1,2,3,4,5,6,7"};
+    
+    DB.setValue(nodeActor, "abilities.intelligence.languages", "number", aIntelligence[nChanged][1]);
+    DB.setValue(nodeActor, "abilities.intelligence.spelllevel", "number", aIntelligence[nChanged][2]);
+    DB.setValue(nodeActor, "abilities.intelligence.learn", "number", aIntelligence[nChanged][3]);
+    DB.setValue(nodeActor, "abilities.intelligence.maxlevel", "number", aIntelligence[nChanged][4]);
+    DB.setValue(nodeActor, "abilities.intelligence.illusion", "string", aIntelligence[nChanged][5]);
 end

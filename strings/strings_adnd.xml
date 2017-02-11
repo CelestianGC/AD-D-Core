@@ -36,24 +36,24 @@
     <string name="char_tooltip_intelligence_learn">Chance to Learn Spell is the percentage probability to learn a spell</string>
     <string name="char_label_intelligence_maxlevel">Max</string>
     <string name="char_tooltip_intelligence_maxlevel">The maximum number of spells a wizard can know from any particular spell level</string>
-    <string name="char_label_intelligence_illusion">Ill.</string>
-    <string name="char_tooltip_intelligence_illusion">Illusions that can be seen through by someone with this intelligence.</string>
+    <string name="char_label_intelligence_illusion">Illusion Imm.</string>
+    <string name="char_tooltip_intelligence_illusion">Illusions of this level that can be seen through by someone with this intelligence.</string>
     <string name="char_label_wisdom_magicdefenseadj">Def</string>
     <string name="char_tooltip_wisdom_magicdefenseadj">Magical Defensive Save Adjustment versus certain spells</string>
     
-	<string name="char_label_wisdom_spellbonus">Bonus</string>
+	<string name="char_label_wisdom_spellbonus">Bonus Spells</string>
     <string name="char_tolltip_wisdom_spellbonus">Bonus spells for high wisdom</string>
 	
     <string name="char_label_wisdom_failure">Fail</string>
     <string name="char_tooltip_wisdom_failure">Percent chance of spell failure</string>
-    <string name="char_label_wisdom_immunity">Imm.</string>
+    <string name="char_label_wisdom_immunity">Immunities</string>
     <string name="char_tooltip_wisdom_immunity">Immunity to certain spells for high wisdom</string>
     <string name="char_tooltip_charisma_maxhench">Maximum number of henchmen</string>
-    <string name="char_label_charisma_maxhench">Max</string>
+    <string name="char_label_charisma_maxhench"># Henchmen</string>
     <string name="char_tooltip_charisma_loyalty">Loyalty adjustment for followers/henchmen</string>
-    <string name="char_label_charisma_loyalty">Loyal</string>
+    <string name="char_label_charisma_loyalty">Loyalty Adj</string>
     <string name="char_tooltip_charisma_reaction">Reaction Adjustment</string>
-    <string name="char_label_charisma_reaction">React</string>
+    <string name="char_label_charisma_reaction">Raction Adj</string>
     <string name="char_label_strength_hitadj">HIT</string>
     <string name="char_tooltip_strength_hitadj">To Hit adjustment</string>
     <string name="char_label_strength_dmgadj">DMG</string>
@@ -68,12 +68,12 @@
     <string name="char_tooltip_strength_bendbars">Bend bars or lift gates</string>
 	
     <string name="char_tooltip_dexterity_reactionadj">Reaction Adjustment</string>
-    <string name="char_label_dexterity_reactionadj">React</string>
+    <string name="char_label_dexterity_reactionadj">Reaction Adj</string>
     <string name="char_tooltip_dexterity_missileadj">Missile Attack Adjustment</string>
-    <string name="char_label_dexterity_missileadj">Missle</string>
+    <string name="char_label_dexterity_missileadj">Missle Adj</string>
     <string name="char_tooltip_dexterity_defenseadj">Defensive Adjustment</string>
-    <string name="char_label_dexterity_defenseadj">Def</string>
-    <string name="char_tooltip_constitution_hitpointadj">Hit Point Adjustment</string>
+    <string name="char_label_dexterity_defenseadj">Defense</string>
+    <string name="char_tooltip_constitution_hitpointadj">Hit Point Adjustment. Non-Fighter/Fighter</string>
     <string name="char_label_constitution_hitpointadj">HP</string>
     <string name="char_tooltip_constitution_systemshock">System Shock Percent</string>
     <string name="char_label_constitution_systemshock">SS</string>
@@ -82,7 +82,7 @@
     <string name="char_tooltip_constitution_poisonadj">Poison Save Adjustment</string>
     <string name="char_label_constitution_poisonadj">Poison</string>
     <string name="char_tooltip_constitution_regeneration">Regeneration</string>
-    <string name="char_label_constitution_regeneration">Regen</string>
+    <string name="char_label_constitution_regeneration">Regeneration</string>
 
     <string name="char_tooltip_intelligence_languages">Number of Additional Languages (Or proficiencies) you have.</string>
     <string name="char_label_intelligence_languages">Lang</string>
@@ -95,7 +95,6 @@
     <string name="char_tooltip_intelligence">Intelligence of the character</string>
     <string name="char_tooltip_charisma">Strength of the character.</string>
     <string name="char_tooltip_charisma">Charisma of the character.</string>
-    <string name="char_tooltip_charisma">Charisma of the character</string>
 
     
    	<!-- Combat Tracker -->
