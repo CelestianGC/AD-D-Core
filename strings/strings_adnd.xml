@@ -7,15 +7,18 @@
 
 <root>
 	<!-- Common -->
-	<string name="save_paralyzation_poison_death">Poison/Death</string>
-	<string name="save_rod_staff_wand">Staff/Wand</string>
-	<string name="save_petrify_polymorph">Petrify/Poly</string>
+	<string name="save_paralyzation_poison_death">Paralyze, Poison or Death</string>
+	<string name="save_rod_staff_wand">Rod, Staff or Wand</string>
+	<string name="save_petrify_polymorph">Petrify, Polymorph</string>
 	<string name="save_breath">Breath</string>
 	<string name="save_spell">Spell</string>
+	<string name="save_tooltip_mod">Saving throw modifier</string>
+
+	<string name="text_MOD">MOD</string>
     
-	<string name="save_paralyzation_poison_death_full">Paralyzation, Poison, Death Magic</string>
-	<string name="save_rod_staff_wand_full">Rod, Staff, Wand</string>
-	<string name="save_petrify_polymorph_full">Petrify, Poly</string>
+	<string name="save_paralyzation_poison_death_full">Paralyzation, Poison or Death</string>
+	<string name="save_rod_staff_wand_full">Rod, Staff or Wand</string>
+	<string name="save_petrify_polymorph_full">Petrify, Polymorph</string>
 	<string name="save_breath_full">Breath Weapon</string>
 	<string name="save_spell_full">Spell or Other</string>
     
@@ -42,8 +45,8 @@
     <string name="char_tooltip_wisdom_magicdefenseadj">Magical Defensive Save Adjustment versus certain spells</string>
     
 	<string name="char_label_wisdom_spellbonus">Bonus Spells</string>
-    <string name="char_tolltip_wisdom_spellbonus">Bonus spells for high wisdom</string>
-	
+    <string name="char_tooltip_wisdom_spellbonus">Bonus spells for high wisdom</string>
+
     <string name="char_label_wisdom_failure">Fail</string>
     <string name="char_tooltip_wisdom_failure">Percent chance of spell failure</string>
     <string name="char_label_wisdom_immunity">Immunities</string>

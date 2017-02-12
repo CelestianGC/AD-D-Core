@@ -36,8 +36,12 @@ function onValueChanged()
             elseif (sTarget == "intelligence") then
                 updateIntelligence(nodeActor,nChanged);
             end
+			
+			-- CharWeapon.onDataChanged();
+			-- CharWeapon.onLinkChanged();
+			-- CharWeapon.onAttackChanged();
+			-- CharWeapon.onDamageChanged();
         end -- was PC
-
     end
 end
 

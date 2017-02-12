@@ -14,12 +14,20 @@
 		</basicnumber>
 	</template>
 
+	<template name="label_savescore">
+		<stringfield name="label_save_type">
+			<anchored position="right" offset="5,0" width="45" />
+ 			<multilinespacing>10</multilinespacing>
+			<center />
+            <readonly />
+			<font>arial-regular-6</font>
+			<frame name="abilityfields" />
+		</stringfield>
+	</template>
+	
 	<template name="number_charasavescore">
 		<number_savescore>
-			<anchored to="statstitle" width="80" height="30">
-				<top anchor="bottom" relation="relative" offset="18" />
-				<left anchor="center" offset="-40" />
-			</anchored>
+			<anchored to="statstitle" position="below" height="30"/>
 			<rollable />
 			<script>
 				function action(draginfo)
@@ -44,6 +52,7 @@
             
 		</number_savescore>
 	</template>
+	
 	<template name="number_labeled">
 		<numberfield>
 			<font>sheettext</font>
@@ -79,11 +88,33 @@
 		</number>
 	</template>
     
+	<template name="number_modifier">
+		<number>
+            <displaysign />
+			<center />
+            <min>-25</min>
+            <max>25</max>
+			<default>0</default>
+			<hideonvalue>0</hideonvalue>
+			<font>arial-regular-7</font>
+			<frame name="abilityscore_box" /> 
+		</number>
+	</template>
+
    	<template name="label_ability_fields">
 		<label_fieldtop>
-			<anchored offset="-2,-6" />
+			<anchored offset="-2,-10" />
 			<frame name="abilityfields" />
 <!-- 			<frame name="abilityscore" /> -->
+		</label_fieldtop>
+	</template>
+
+   	<template name="label_mod_fields">
+		<label_fieldtop>
+			<anchored position="below" offset="-2,-10" />
+			<frame name="abilityfields" />
+<!-- 			<frame name="abilityscore" /> -->
+			<font>arial-regular-6</font>
 		</label_fieldtop>
 	</template>
 
@@ -170,4 +201,5 @@
 			</frame_char>			
 	</template>
 	
+
 </root>

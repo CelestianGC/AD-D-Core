@@ -89,35 +89,46 @@ function getWoundBarColor(sNodeType, node)
 	return sColor, nPercentWounded, sStatus;
 end
 
-function getAbilityEffectsBonus(rActor, sAbility)
-	if not rActor or not sAbility then
-		return 0, 0;
-	end
-	
-	local sAbilityEffect = DataCommon.ability_ltos[sAbility];
-	if not sAbilityEffect then
-		return 0, 0;
-	end
-	
-	local nAbilityMod, nAbilityEffects = EffectManager.getEffectsBonus(rActor, sAbilityEffect, true);
-	
-	local nAbilityScore = getAbilityScore(rActor, sAbility);
-	if nAbilityScore > 0 then
-		local nAffectedScore = math.max(nAbilityScore + nAbilityMod, 0);
+function getAbilityEffectsBonus(rActor, sAbility, sType)
+		local nBonus = 0;
+		local sEffect = "";
 		
-		local nCurrentBonus = math.floor((nAbilityScore - 10) / 2);
-		local nAffectedBonus = math.floor((nAffectedScore - 10) / 2);
+	
+	-- if not rActor or not sAbility then
+		-- return 0, 0;
+	-- end
+	
+	-- local sAbilityEffect = DataCommon.ability_ltos[sAbility];
+	-- if not sAbilityEffect then
+		-- return 0, 0;
+	-- end
+	
+	-- local nAbilityMod, nAbilityEffects = EffectManager.getEffectsBonus(rActor, sAbilityEffect, true);
+	
+	-- local nAbilityScore = getAbilityScore(rActor, sAbility);
+	-- if nAbilityScore > 0 then
+		-- local nAffectedScore = math.max(nAbilityScore + nAbilityMod, 0);
 		
-		nAbilityMod = nAffectedBonus - nCurrentBonus;
-	else
-		if nAbilityMod > 0 then
-			nAbilityMod = math.floor(nAbilityMod / 2);
-		else
-			nAbilityMod = math.ceil(nAbilityMod / 2);
-		end
-	end
+		-- local nCurrentBonus = math.floor((nAbilityScore - 10) / 2);
+		-- local nAffectedBonus = math.floor((nAffectedScore - 10) / 2);
+		
+		-- nAbilityMod = nAffectedBonus - nCurrentBonus;
+	-- else
+		-- if nAbilityMod > 0 then
+			-- nAbilityMod = math.floor(nAbilityMod / 2);
+		-- else
+			-- nAbilityMod = math.ceil(nAbilityMod / 2);
+		-- end
+	-- end
 
-	return nAbilityMod, nAbilityEffects;
+	-- return nAbilityMod, nAbilityEffects;
+	if (sType) then
+		nBonus = getAbilityBonus(rActor, sAbility, sType);
+		sEffect = sAbility .. sType;
+	end
+	
+	print ("in manager_ctor2.lua, getAbilityEffectsBonus");
+	return nBonus, 0;
 end
 
 function getClassLevel(nodeActor, sValue)
@@ -171,35 +182,68 @@ function getAbilityScore(rActor, sAbility)
 	return nStatScore;
 end
 
-function getAbilityBonus(rActor, sAbility)
-	-- if not sAbility then
-		-- return 0;
-	-- end
-	-- local sActorType, nodeActor = ActorManager.getTypeAndNode(rActor);
-	-- if not nodeActor then
-		-- return 0;
-	-- end
+-- sAbility "strength, dexterity, constitution/etc"
+-- sType "hitadj, damageadj, saveadj
+function getAbilityBonus(rActor, sAbility, sType)
+	local nAbilityAdj = 0;
 	
-	-- local nStatScore = getAbilityScore(rActor, sAbility);
-	-- if nStatScore < 0 then
-		-- return 0;
-	-- end
+    print ("manager_actor2.lua: getAbilityBonus");
+    print ("manager_actor2.lua: getAbilityBonus, sAbility :" .. sAbility);
+	if sType then
+		print ("manager_actor2.lua: getAbilityBonus, sType :" .. sType);
+	end
+
+	if not sAbility then
+		 return 0;
+	end
+	local sActorType, nodeActor = ActorManager.getTypeAndNode(rActor);
+	if not nodeActor then
+		return 0;
+	end
 	
-	-- local nStatVal = 0;
-	-- if StringManager.contains(DataCommon.abilities, sAbility) then
-		-- nStatVal = math.floor((nStatScore - 10) / 2);
-	-- else
-		-- nStatVal = nStatScore;
-	-- end
+	local nStatScore = getAbilityScore(rActor, sAbility);
+	if nStatScore < 0 then
+		return 0;
+	end
+
+	if sType then
+		if (sType == "hitadj") then
+			local nHitAdj = 0;
+			if (sAbility == "strength") then
+				nHitAdj = DB.getValue(nodeActor, "abilities.".. sAbility .. ".hitadj", 0);
+			elseif (sAbility == "dexterity") then
+				nHitAdj = DB.getValue(nodeActor, "abilities.".. sAbility .. ".missileadj", 0);
+			end
+			print ("manager_actor2.lua: getAbilityBonus, nHitAdj :" .. nHitAdj);
+			nAbilityAdj = nHitAdj;
+		end
+	end
 	
-	-- return nStatVal;
-	return 0;
+	return nAbilityAdj;
+end
+
+-- get the base attach bonus using THACO value
+function getBaseAttack(rActor)
+
+    print ("manager_actor2.lua: getBaseAttack");
+
+	local sActorType, nodeActor = ActorManager.getTypeAndNode(rActor);
+	if not nodeActor then
+		return 0;
+	end
+	
+	nTHACO = DB.getValue(nodeActor, "combat.thaco.score", 20);
+	nBaseAttack = 20 - nTHACO;
+
+    print ("manager_actor2.lua: getBaseAttack, nBaseAttack :" .. nBaseAttack);
+	
+	return nBaseAttack;
 end
 
 function getSave(rActor, sSave)
 	local bADV = false;
 	local bDIS = false;
-	-- local nValue = getAbilityBonus(rActor, sSave);
+	local nValue = getAbilityBonus(rActor, sSave, "saveadj");
     local nValue = 0;
 	local aAddText = {};
 	
@@ -237,7 +281,7 @@ end
 function getCheck(rActor, sCheck, sSkill)
 	local bADV = false;
 	local bDIS = false;
-	local nValue = getAbilityBonus(rActor, sCheck);
+	local nValue = getAbilityBonus(rActor, sCheck, "check");
 	local aAddText = {};
 
 	local sActorType, nodeActor = ActorManager.getTypeAndNode(rActor);
@@ -409,7 +453,7 @@ function getDefenseValue(rAttacker, rDefender, rRoll)
 	else
 		nDefense = DB.getValue(nodeDefender, "ac", 10);
 	end
-	nDefenseStatMod = getAbilityBonus(rDefender, sDefenseStat);
+	nDefenseStatMod = getAbilityBonus(rDefender, sDefenseStat, "defense");
 	
 	-- Effects
 	local nAttackEffectMod = 0;
