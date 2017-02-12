@@ -4,7 +4,7 @@
 --
 
 function onInit()
-	-- super.onInit();
+	super.onInit();
 	onValueChanged();
 end
 

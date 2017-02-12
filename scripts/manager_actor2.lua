@@ -216,6 +216,13 @@ function getAbilityBonus(rActor, sAbility, sType)
 			end
 			print ("manager_actor2.lua: getAbilityBonus, nHitAdj :" .. nHitAdj);
 			nAbilityAdj = nHitAdj;
+		elseif (sType == "damageadj") then
+			local nDamageAdj = 0;
+			if (sAbility == "strength") then
+				nDamageAdj = DB.getValue(nodeActor, "abilities.".. sAbility .. ".dmgadj", 0);
+			end
+			print ("manager_actor2.lua: getAbilityBonus, nDamageAdj :" .. nDamageAdj);
+			nAbilityAdj = nDamageAdj;
 		end
 	end
 	
@@ -452,6 +459,11 @@ function getDefenseValue(rAttacker, rDefender, rRoll)
 		end
 	else
 		nDefense = DB.getValue(nodeDefender, "ac", 10);
+		-- this is to convert decending AC (below AC 10 stuff) to ascending AC
+		-- 20 - (-5) = 25, 20 - 5 = 15 and so on
+		if (nDefense < 10) then
+			nDefense = (20 - nDefense);
+		end
 	end
 	nDefenseStatMod = getAbilityBonus(rDefender, sDefenseStat, "defense");
 	

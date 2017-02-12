@@ -7,8 +7,8 @@
 
 <root>
 	<windowclass name="char_weapon" merge="join">
-		<margins control="0,0,0,5" />
 		<script file="campaign/scripts/char_weapon.lua"/>
+		<margins control="0,0,0,5" />
 		<sheetdata>
 			<genericcontrol name="rightanchor">
 				<anchored width="0" height="0">
@@ -191,6 +191,7 @@
 			</state_charammocounter>
 		</sheetdata>
 	</windowclass>
+<!-- END char_weapon class -->
 
 	<windowclass name="char_weapon_editor">
 		<frame>charsheethelper</frame>

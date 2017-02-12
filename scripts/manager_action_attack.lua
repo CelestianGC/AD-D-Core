@@ -401,6 +401,7 @@ function onAttack(rSource, rTarget, rRoll)
 		rAction.sResult = "fumble";
 		table.insert(rAction.aMessages, "[AUTOMATIC MISS]");
 	elseif nDefenseVal then
+	    print ("in manager_action_attack, onAttack nDefenseVal=" .. nDefenseVal);
 		if rAction.nTotal >= nDefenseVal then
 			rAction.sResult = "hit";
 			table.insert(rAction.aMessages, "[HIT]");

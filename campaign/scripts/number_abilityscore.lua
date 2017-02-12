@@ -4,7 +4,7 @@
 --
 
 function onInit()
-	-- super.onInit();
+	super.onInit();
 	onValueChanged();
 end
 
@@ -37,10 +37,6 @@ function onValueChanged()
                 updateIntelligence(nodeActor,nChanged);
             end
 			
-			-- CharWeapon.onDataChanged();
-			-- CharWeapon.onLinkChanged();
-			-- CharWeapon.onAttackChanged();
-			-- CharWeapon.onDamageChanged();
         end -- was PC
     end
 end

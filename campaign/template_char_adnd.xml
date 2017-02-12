@@ -76,7 +76,7 @@
 	</template>
 
 	<template name="number_charabilityscore2">
-		<number>
+		<number merge="resetandadd">
  			<anchored to="statstitle" position="insidetopleft"/> 
 			<rollable />
             <min>1</min>
