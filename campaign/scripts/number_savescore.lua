@@ -4,7 +4,9 @@
 --
 
 function onInit()
-	super.onInit();
+	if (super) then
+		super.onInit();
+	end
 	onValueChanged();
 end
 

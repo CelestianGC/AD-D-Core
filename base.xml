@@ -33,9 +33,9 @@
 	<includefile source="campaign/record_char.xml" />
 	<includefile source="campaign/record_char_weapon.xml" />
 	
-	<script name="SaveScores" file="campaign/scripts/number_savescore.lua" />
+<!-- 	<script name="SaveScores" file="campaign/scripts/number_savescore.lua" />
 	<script name="AbilityScores" file="campaign/scripts/number_abilityscore.lua" />
-	<script name="CharWeapon" file="campaign/scripts/char_weapon.lua" />
+ -->
 
 	<!-- High-level scripts -->
    	<script name="ActorManager2" file="scripts/manager_actor2.lua" />
