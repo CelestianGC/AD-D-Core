@@ -614,96 +614,97 @@
                 <static textres="char_label_save" />
 			</label_charframetop>
 
-			<number_charasavescore name="saves_para_poison_death" source="saves.para_poison_death.score">
+			<number_charasavescore name="save_paralyzation_poison_death" source="saves.save_paralyzation_poison_death.score">
 				<anchored to="savestitle" position="insidetopleft" offset="0,30"  width="30"/> 
-				<target>para_poison_death</target>
+				<target>save_paralyzation_poison_death</target>
+				<modifierfield>saves.save_paralyzation_poison_death.modifier</modifierfield>
 			</number_charasavescore>
 			<label_savescore name="label_save_poison">
    				<tooltip textres="save_paralyzation_poison_death_full" />
-				<anchored to="saves_para_poison_death" />
+				<anchored to="save_paralyzation_poison_death" />
 				<static textres="save_paralyzation_poison_death" />
 			</label_savescore>
-			<number_modifier name="saves_para_poison_death_mod" source="saves.para_poison_death.modifier">
+			<number_modifier name="save_paralyzation_poison_death_mod" source="saves.save_paralyzation_poison_death.modifier">
    				<tooltip textres="save_tooltip_mod" />
 				<anchored to="label_save_poison" position="right" offset="0,0" width="30" />
 			</number_modifier>
 			<label_mod_fields>
-				<anchored to="saves_para_poison_death_mod" />
+				<anchored to="save_paralyzation_poison_death_mod" />
    				<tooltip textres="save_tooltip_mod" />
 				<static textres="text_MOD" />
 			</label_mod_fields>
 
-			<number_charasavescore name="saves_rod_staff_wand" source="saves.rod_staff_wand.score">
-				<anchored to="saves_para_poison_death" />
-				<target>rod_staff_wand</target>
+			<number_charasavescore name="save_rod_staff_wand" source="saves.save_rod_staff_wand.score">
+				<anchored to="save_paralyzation_poison_death" />
+				<target>save_rod_staff_wand</target>
 				<modifierfield>saves.rod_staff_wand.modifier</modifierfield>
 			</number_charasavescore>
 			<label_savescore name="label_save_wand">
    				<tooltip textres="save_rod_staff_wand_full" />
-				<anchored to="saves_rod_staff_wand" />
+				<anchored to="save_rod_staff_wand" />
 				<static textres="save_rod_staff_wand" />
 			</label_savescore>
-			<number_modifier name="saves_rod_staff_wand_mod" source="saves.rod_staff_wand.modifier">
+			<number_modifier name="save_rod_staff_wand_mod" source="saves.save_rod_staff_wand.modifier">
    				<tooltip textres="save_tooltip_mod" />
 				<anchored to="label_save_wand" position="right" offset="0,0" width="30" />
 			</number_modifier>
 			<label_mod_fields>
-				<anchored to="saves_rod_staff_wand_mod" />
+				<anchored to="save_rod_staff_wand_mod" />
    				<tooltip textres="save_tooltip_mod" />
 				<static textres="text_MOD" />
 			</label_mod_fields>
             
-			<number_charasavescore name="saves_petrify_polymorph" source="saves.petrify_polymorph.score">
-				<anchored to="saves_rod_staff_wand" />
-				<target>petrify_polymorph</target>
-				<modifierfield>saves.petrify_polymorph.modifier</modifierfield>
+			<number_charasavescore name="save_petrify_polymorph" source="saves.save_petrify_polymorph.score">
+				<anchored to="save_rod_staff_wand" />
+				<target>save_petrify_polymorph</target>
+				<modifierfield>saves.save_petrify_polymorph.modifier</modifierfield>
 			</number_charasavescore>
 			<label_savescore  name="label_save_poly">
    				<tooltip textres="save_petrify_polymorph_full" />
-				<anchored to="saves_petrify_polymorph" />
+				<anchored to="save_petrify_polymorph" />
 				<static textres="save_petrify_polymorph" />
 			</label_savescore>
-			<number_modifier name="saves_petrify_polymorph_mod" source="saves.petrify_polymorph.modifier">
+			<number_modifier name="save_petrify_polymorph_mod" source="saves.save_petrify_polymorph.modifier">
    				<tooltip textres="save_tooltip_mod" />
 				<anchored to="label_save_poly" position="right" offset="0,0" width="30" />
 			</number_modifier>
 			<label_mod_fields>
-				<anchored to="saves_petrify_polymorph_mod" />
+				<anchored to="save_petrify_polymorph_mod" />
    				<tooltip textres="save_tooltip_mod" />
 				<static textres="text_MOD" />
 			</label_mod_fields>
             
-			<number_charasavescore name="saves_breath" source="saves.breath.score">
-				<anchored to="saves_petrify_polymorph" />
-				<target>breath</target>
-				<modifierfield>saves.breath.modifier</modifierfield>
+			<number_charasavescore name="save_breath" source="saves.save_breath.score">
+				<anchored to="save_petrify_polymorph" />
+				<target>save_breath</target>
+				<modifierfield>saves.save_breath.modifier</modifierfield>
 			</number_charasavescore>
 			<label_savescore  name="label_save_breath">
    				<tooltip textres="save_breath_full" />
-				<anchored to="saves_breath" />
+				<anchored to="save_breath" />
 				<static textres="save_breath" />
 			</label_savescore>
-			<number_modifier name="saves_breath_mod" source="saves.breath.modifier">
+			<number_modifier name="save_breath_mod" source="saves.save_breath.modifier">
    				<tooltip textres="save_tooltip_mod" />
 				<anchored to="label_save_breath" position="right" offset="0,0" width="30" />
 			</number_modifier>
 			<label_mod_fields>
-				<anchored to="saves_breath_mod" />
+				<anchored to="save_breath_mod" />
    				<tooltip textres="save_tooltip_mod" />
 				<static textres="text_MOD" />
 			</label_mod_fields>
 
-   			<number_charasavescore name="saves_spell" source="saves.spell.score">
-				<anchored to="saves_breath" />
-				<target>spell</target>
-				<modifierfield>saves.spell.modifier</modifierfield>
+   			<number_charasavescore name="save_spell" source="saves.save_spell.score">
+				<anchored to="save_breath" />
+				<target>save_spell</target>
+				<modifierfield>saves.save_spell.modifier</modifierfield>
 			</number_charasavescore>
 			<label_savescore  name="label_save_spell">
    				<tooltip textres="save_spell_full" />
-				<anchored to="saves_spell" />
+				<anchored to="save_spell" />
 				<static textres="save_spell" />
 			</label_savescore>
-			<number_modifier name="save_spell_mod" source="saves.spell.modifier">
+			<number_modifier name="save_spell_mod" source="saves.save_spell.modifier">
    				<tooltip textres="save_tooltip_mod" />
 				<anchored to="label_save_spell" position="right" offset="0,0" width="30" />
 			</number_modifier>
@@ -716,7 +717,7 @@
 
 		<!--THACO -->
    			<number_charasavescore name="combat_thaco" source="combat.thaco.score">
-				<anchored to="saves_spell" />
+				<anchored to="save_spell" />
 				<target>spell</target>
 			</number_charasavescore>
 			<label_savescore  name="label_combat_thaco">

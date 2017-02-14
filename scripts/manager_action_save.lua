@@ -9,21 +9,18 @@ function onInit()
 end
 
 function performRoll(draginfo, rActor, sSave, nTargetDC, bSecretRoll, rSource, bRemoveOnMiss, sSaveDesc)
-	local aSave = {};
-        aSave["para_poison_death"]="Paralyzation, Poison or Death";
-        aSave["rod_staff_wand"]="Rod, Staff or Wand";
-        aSave["petrify_polymorph"]="Petrification or Polymorph";
-        aSave["breath"]="Breath Weapon";
-        aSave["spell"]="Spells";
-    
     local rRoll = {};
 	rRoll.sType = "save";
 	rRoll.aDice = { "d20" };
 	local nMod, bADV, bDIS, sAddText = ActorManager2.getSave(rActor, sSave);
 	rRoll.nMod = nMod;
 	
-    local sPrettySaveText = aSave[string.lower(sSave)];
+
+	-- sPrettySaveText = aSave[string.lower(sSave)];
+    local sPrettySaveText = DataCommon.saves_stol[sSave];
+
 	rRoll.sDesc = "[SAVE] vs. " .. StringManager.capitalize(sPrettySaveText);
+
 	if sAddText and sAddText ~= "" then
 		rRoll.sDesc = rRoll.sDesc .. " " .. sAddText;
 	end
@@ -33,7 +30,6 @@ function performRoll(draginfo, rActor, sSave, nTargetDC, bSecretRoll, rSource, b
 	if bDIS then
 		rRoll.sDesc = rRoll.sDesc .. " [DIS]";
 	end
-	
 	rRoll.bSecret = bSecretRoll;
 	
 	rRoll.nTarget = nTargetDC;

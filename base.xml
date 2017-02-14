@@ -36,8 +36,12 @@
 <!-- 	<script name="SaveScores" file="campaign/scripts/number_savescore.lua" />
 	<script name="AbilityScores" file="campaign/scripts/number_abilityscore.lua" />
  -->
+	<!-- Party sheet -->
+	<includefile source="ps/template_ps.xml" />
+	<includefile source="ps/ps_main.xml" />
 
 	<!-- High-level scripts -->
+	<script name="DataCommon" file="scripts/data_common.lua" />
    	<script name="ActorManager2" file="scripts/manager_actor2.lua" />
 	<script name="ActionsManager2" file="scripts/manager_actions2.lua" />
 	<script name="ActionSave" file="scripts/manager_action_save.lua" />

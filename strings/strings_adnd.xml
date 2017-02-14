@@ -12,7 +12,9 @@
 	<string name="save_petrify_polymorph">Petrify, Polymorph</string>
 	<string name="save_breath">Breath</string>
 	<string name="save_spell">Spell</string>
+	
 	<string name="save_tooltip_mod">Saving throw modifier</string>
+
 
 	<string name="text_MOD">MOD</string>
     
@@ -121,6 +123,9 @@
 	<string name="library_recordtype_empty_background">&#171; New Kit &#187;</string>
 	<string name="library_recordtype_empty_backgroundfeature">&#171; New Kit Feature &#187;</string>
 
+	<!-- Party Sheet -->
+	<string name="ps_default_groupsave">save_paralyzation_poison_death</string>
+	
 
 
 </root>
