@@ -231,24 +231,6 @@ function getAbilityBonus(rActor, sAbility, sType)
 	return nAbilityAdj;
 end
 
--- get the base attach bonus using THACO value
-function getBaseAttack(rActor)
-
-    print ("manager_actor2.lua: getBaseAttack");
-
-	local sActorType, nodeActor = ActorManager.getTypeAndNode(rActor);
-	if not nodeActor then
-		return 0;
-	end
-	
-	nTHACO = DB.getValue(nodeActor, "combat.thaco.score", 20);
-	nBaseAttack = 20 - nTHACO;
-
-    print ("manager_actor2.lua: getBaseAttack, nBaseAttack :" .. nBaseAttack);
-	
-	return nBaseAttack;
-end
-
 function getSave(rActor, sSave)
 	local bADV = false;
 	local bDIS = false;

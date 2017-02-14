@@ -20,6 +20,7 @@ function handleApplyAttack(msgOOB)
 	local rTarget = ActorManager.getActor(msgOOB.sTargetType, msgOOB.sTargetNode);
 	
 	local nTotal = tonumber(msgOOB.nTotal) or 0;
+	
 	applyAttack(rSource, rTarget, (tonumber(msgOOB.nSecret) == 1), msgOOB.sAttackType, msgOOB.sDesc, nTotal, msgOOB.sResults);
 end
 
@@ -135,12 +136,13 @@ function getRoll(rActor, rAction)
 		rRoll.sDesc = rRoll.sDesc .. " [DIS]";
 	end
 
+	
 	return rRoll;
 end
 
 function performRoll(draginfo, rActor, rAction)
 	local rRoll = getRoll(rActor, rAction);
-	
+
 	ActionsManager.performAction(draginfo, rActor, rRoll);
 end
 
@@ -273,7 +275,7 @@ function modAttack(rSource, rTarget, rRoll)
 		end
 
 		-- Get Base Attack modifier
-		local nBaseAttack = ActorManager2.getBaseAttack(rSource);
+		local nBaseAttack = ActionAttack.getBaseAttack(rSource);
 			nAddMod = nAddMod + nBaseAttack;
 		
 		-- Get ability modifiers
@@ -377,6 +379,11 @@ function onAttack(rSource, rTarget, rRoll)
 		local sFormat = "[" .. Interface.getString("effects_tag") .. " %+d]"
 		table.insert(rAction.aMessages, string.format(sFormat, nAtkEffectsBonus));
 	end
+
+	-- insert AC hit
+	local nACHit = (20 - rAction.nTotal);
+	rMessage.text = rMessage.text .. "[AC:" .. nACHit .. "]" .. table.concat(rAction.aMessages, " ");
+
 	if nDefEffectsBonus ~= 0 then
 		nDefenseVal = nDefenseVal + nDefEffectsBonus;
 		local sFormat = "[" .. Interface.getString("effects_def_tag") .. " %+d]"
@@ -402,6 +409,7 @@ function onAttack(rSource, rTarget, rRoll)
 		table.insert(rAction.aMessages, "[AUTOMATIC MISS]");
 	elseif nDefenseVal then
 	    print ("in manager_action_attack, onAttack nDefenseVal=" .. nDefenseVal);
+
 		if rAction.nTotal >= nDefenseVal then
 			rAction.sResult = "hit";
 			table.insert(rAction.aMessages, "[HIT]");
@@ -410,7 +418,7 @@ function onAttack(rSource, rTarget, rRoll)
 			table.insert(rAction.aMessages, "[MISS]");
 		end
 	end
-	
+
 	if not rTarget then
 		rMessage.text = rMessage.text .. " " .. table.concat(rAction.aMessages, " ");
 	end
@@ -528,3 +536,37 @@ function isCrit(rSource, rTarget)
 	
 	return false;
 end
+
+-- get the base attach bonus using THACO value
+function getBaseAttack(rActor)
+
+    print ("manager_action_attack.lua: getBaseAttack");
+
+	local nBaseAttack = 20 - getTHACO(rActor);
+	
+    print ("manager_action_attack.lua: getBaseAttack, nBaseAttack :" .. nBaseAttack);
+	
+	return nBaseAttack;
+end
+
+function getTHACO(rActor)
+    print ("manager_action_attack.lua: getTHACO");
+	local nTHACO = 20;
+	
+	local sActorType, nodeActor = ActorManager.getTypeAndNode(rActor);
+	if not nodeActor then
+		return 0;
+	end
+	
+	-- get pc thaco value
+	if sActorType == "pc" then
+		nTHACO = DB.getValue(nodeActor, "combat.thaco.score", 20);
+	else
+	-- npc thaco calcs
+		nTHACO = DB.getValue(nodeActor, "thaco", 20);
+	end
+
+    print ("manager_action_attack.lua: getTHACO :" .. nTHACO);
+	return nTHACO
+end
+

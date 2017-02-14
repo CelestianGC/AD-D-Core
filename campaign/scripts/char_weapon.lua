@@ -124,6 +124,7 @@ function onAttackAction(draginfo)
 	end
 	
 	ActionAttack.performRoll(draginfo, rActor, rAction);
+	
 	return true;
 end
 
