@@ -169,6 +169,9 @@ function modRoll(rSource, rTarget, rRoll)
 		end
 	end
 	rRoll.nMod = rRoll.nMod + nAddMod;
+	-- flip +/- so if you +a check it's a bonus (reduces the roll to make sure it's under the ability check)
+	-- and - adds to the roll to make it harder to roll under the ability score (AD&D thing)
+	rRoll.nMod = -(rRoll.nMod);
 	
 	ActionsManager2.encodeAdvantage(rRoll, bADV, bDIS);
 end

@@ -94,9 +94,9 @@ function getAbilityEffectsBonus(rActor, sAbility, sType)
 		local sEffect = "";
 		
 	
-	-- if not rActor or not sAbility then
-		-- return 0, 0;
-	-- end
+	if not rActor or not sAbility then
+	 return 0, 0;
+	end
 	
 	-- local sAbilityEffect = DataCommon.ability_ltos[sAbility];
 	-- if not sAbilityEffect then
@@ -188,7 +188,6 @@ function getAbilityBonus(rActor, sAbility, sType)
 	local nAbilityAdj = 0;
 	
     print ("manager_actor2.lua: getAbilityBonus");
-    print ("manager_actor2.lua: getAbilityBonus, sAbility :" .. sAbility);
 	if sType then
 		print ("manager_actor2.lua: getAbilityBonus, sType :" .. sType);
 	end
@@ -196,6 +195,9 @@ function getAbilityBonus(rActor, sAbility, sType)
 	if not sAbility then
 		 return 0;
 	end
+
+    print ("manager_actor2.lua: getAbilityBonus, sAbility :" .. sAbility);
+
 	local sActorType, nodeActor = ActorManager.getTypeAndNode(rActor);
 	if not nodeActor then
 		return 0;

@@ -39,8 +39,15 @@
 
 	<!-- High-level scripts -->
    	<script name="ActorManager2" file="scripts/manager_actor2.lua" />
+	<script name="ActionsManager2" file="scripts/manager_actions2.lua" />
 	<script name="ActionSave" file="scripts/manager_action_save.lua" />
 	<script name="ActionCheck" file="scripts/manager_action_check.lua" />
 	<script name="ActionAttack" file="scripts/manager_action_attack.lua" />
+
+	<!-- Combat tracker -->
+	<includefile source="ct/template_ct.xml" />
+
+	<!-- Desktop -->
+	<includefile source="desktop/desktop_classes.xml" />
     
 </root>
