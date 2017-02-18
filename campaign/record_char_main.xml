@@ -622,7 +622,7 @@
 			<label_savescore name="label_save_poison">
    				<tooltip textres="save_paralyzation_poison_death_full" />
 				<anchored to="save_paralyzation_poison_death" />
-				<static textres="save_paralyzation_poison_death" />
+				<static textres="save_paralyzation_poison_death_wrapped" />
 			</label_savescore>
 			<number_modifier name="save_paralyzation_poison_death_mod" source="saves.save_paralyzation_poison_death.modifier">
    				<tooltip textres="save_tooltip_mod" />
@@ -642,7 +642,7 @@
 			<label_savescore name="label_save_wand">
    				<tooltip textres="save_rod_staff_wand_full" />
 				<anchored to="save_rod_staff_wand" />
-				<static textres="save_rod_staff_wand" />
+				<static textres="save_rod_staff_wand_wrapped" />
 			</label_savescore>
 			<number_modifier name="save_rod_staff_wand_mod" source="saves.save_rod_staff_wand.modifier">
    				<tooltip textres="save_tooltip_mod" />
@@ -662,7 +662,7 @@
 			<label_savescore  name="label_save_poly">
    				<tooltip textres="save_petrify_polymorph_full" />
 				<anchored to="save_petrify_polymorph" />
-				<static textres="save_petrify_polymorph" />
+				<static textres="save_petrify_polymorph_wrapped" />
 			</label_savescore>
 			<number_modifier name="save_petrify_polymorph_mod" source="saves.save_petrify_polymorph.modifier">
    				<tooltip textres="save_tooltip_mod" />
@@ -682,7 +682,7 @@
 			<label_savescore  name="label_save_breath">
    				<tooltip textres="save_breath_full" />
 				<anchored to="save_breath" />
-				<static textres="save_breath" />
+				<static textres="save_breath_wrapped" />
 			</label_savescore>
 			<number_modifier name="save_breath_mod" source="saves.save_breath.modifier">
    				<tooltip textres="save_tooltip_mod" />
@@ -702,7 +702,7 @@
 			<label_savescore  name="label_save_spell">
    				<tooltip textres="save_spell_full" />
 				<anchored to="save_spell" />
-				<static textres="save_spell" />
+				<static textres="save_spell_wrapped" />
 			</label_savescore>
 			<number_modifier name="save_spell_mod" source="saves.save_spell.modifier">
    				<tooltip textres="save_tooltip_mod" />
