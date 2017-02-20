@@ -132,6 +132,23 @@
 	<!-- Party Sheet -->
 	<string name="ps_default_groupsave">save_paralyzation_poison_death</string>
 	
+	<!-- NPCs -->
+	<string name="npc_label_hitdice">Hit Dice</string>	
+	<string name="npc_label_thaco">THACO</string>	
 
+	<string name="npc_label_activity">Activity</string>	
+	<string name="npc_label_alignment">Alignment</string>	
+	<string name="npc_label_climate">Climate</string>	
+	<string name="npc_label_diet">Diet</string>	
+	<string name="npc_label_frequency">Frequency</string>	
+	<string name="npc_label_intelligence">Intelligence</string>	
+	<string name="npc_label_morale">Morale</string>	
+	<string name="npc_label_numberappearing"># Appearing</string>	
+	<string name="npc_label_numberattacks"># Attacks</string>	
+	<string name="npc_label_organization">Organization</string>	
 
+	<string name="npc_label_treasure">Treasure</string>	
+	<string name="npc_label_specialDefense">Special Defense</string>	
+	<string name="npc_label_specialAttacks">Special Attack</string>	
+	
 </root>

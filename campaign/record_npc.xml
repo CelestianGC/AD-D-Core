@@ -6,7 +6,7 @@
 -->
 
 <root>
-	<windowclass name="npc">
+	<windowclass name="npc" >
 		<frame>recordsheet</frame>
 		<placement>
 			<size width="460" height="550" />
@@ -125,13 +125,88 @@
 				<anchored to="hp" />
 			</string_column_npc_remainder>
 
+			<label_column name="hitdice_label">
+				<static textres="npc_label_hitdice" />
+			</label_column>
+			<string_column name="hitDice" />
+			<string_column_npc_remainder name="hdtext">
+				<anchored to="hitDice" />
+			</string_column_npc_remainder>
+			
 			<label_column name="speed_label">
 				<static textres="npc_label_speed" />
 			</label_column>
 			<string_column name="speed" />
 
-			<line_column />
+			<label_column name="thaco_label">
+				<static textres="npc_label_thaco" />
+			</label_column>
+			<number_column name="thaco" />
+
+			<label_column name="morale_label">
+				<static textres="npc_label_morale" />
+			</label_column>
+			<string_column name="morale" />
 			
+			<label_column name="numberattacks_label">
+				<static textres="npc_label_numberattacks" />
+			</label_column>
+			<string_column name="numberattacks" />
+
+			<label_column name="specialDefense_label">
+				<static textres="npc_label_specialDefense" />
+			</label_column>
+			<string_column name="specialDefense" />
+
+			<label_column name="specialAttacks_label">
+				<static textres="npc_label_specialAttacks" />
+			</label_column>
+			<string_column name="specialAttacks" />
+			<line_column />
+
+			<label_column name="organization_label">
+				<static textres="npc_label_organization" />
+			</label_column>
+			<string_column name="organization" />
+
+			<label_column name="diet_label">
+				<static textres="npc_label_diet" />
+			</label_column>
+			<string_column name="diet" />
+
+			<label_column name="activity_label">
+				<static textres="npc_label_activity" />
+			</label_column>
+			<string_column name="activity" />
+
+			<label_column name="climate_label">
+				<static textres="npc_label_climate" />
+			</label_column>
+			<string_column name="climate" />
+
+			
+			<label_column name="frequency_label">
+				<static textres="npc_label_frequency" />
+			</label_column>
+			<string_column name="frequency" />
+
+			<label_column name="intelligence_label">
+				<static textres="npc_label_intelligence" />
+			</label_column>
+			<string_column name="intelligence_text" />
+
+			<label_column name="numberappearing_label">
+				<static textres="npc_label_numberappearing" />
+			</label_column>
+			<string_column name="numberappearing" />
+
+			<label_column name="treasure_label">
+				<static textres="npc_label_treasure" />
+			</label_column>
+			<string_column name="treasure" />
+
+			
+			<line_column />
 			<number_npc_abilityscore name="strength" source="abilities.strength.score">
 				<anchored merge="replace" width="40" height="30">
 					<top parent="columnanchor" anchor="bottom" relation="relative" offset="12" />

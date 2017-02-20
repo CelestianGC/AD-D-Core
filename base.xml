@@ -27,7 +27,6 @@
 
 	<!-- Campaign Records -->
 	<includefile source="campaign/record_char_main.xml" />
-	<includefile source="campaign/record_char_main.xml" />
 	<includefile source="campaign/template_char_adnd.xml" />
 	<includefile source="campaign/record_char.xml" />
 	<includefile source="campaign/record_char_weapon.xml" />
