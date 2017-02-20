@@ -31,6 +31,7 @@
 	<includefile source="campaign/template_char_adnd.xml" />
 	<includefile source="campaign/record_char.xml" />
 	<includefile source="campaign/record_char_weapon.xml" />
+	<includefile source="campaign/record_npc.xml" />
 	
 <!-- 	<script name="SaveScores" file="campaign/scripts/number_savescore.lua" />
 	<script name="AbilityScores" file="campaign/scripts/number_abilityscore.lua" />

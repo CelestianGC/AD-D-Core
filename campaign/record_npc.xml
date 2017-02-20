@@ -1,0 +1,519 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<!-- 
+  Please see the license.html file included with this distribution for 
+  attribution and copyright information.
+-->
+
+<root>
+	<windowclass name="npc">
+		<frame>recordsheet</frame>
+		<placement>
+			<size width="460" height="550" />
+		</placement>
+		<sizelimits>
+			<minimum width="460" height="400" />
+			<dynamic />
+		</sizelimits>
+		<minimize>minimized_npc</minimize>
+		<tooltip field="name" />
+		<nodelete />
+		<script file="campaign/scripts/npc.lua" />
+		<sheetdata>
+			<sub_record_header name="header">
+				<class>npc_header</class>
+			</sub_record_header>
+
+			<frame_record_content_tabbed name="contentframe" />
+
+			<subwindow_record name="main_creature">
+				<class>npc_combat</class>
+			</subwindow_record>
+			<ft_record name="text">
+				<anchored to="contentframe" position="over" />
+				<invisible />
+			</ft_record>
+
+			<scrollbar_record>
+				<target>main_creature</target>
+			</scrollbar_record>
+			<scrollbar_record>
+				<target>text</target>
+			</scrollbar_record>
+
+			<tabs_recordsheet>
+				<tab>
+					<icon>tab_main</icon>
+					<subwindow>main_creature</subwindow>
+				</tab>
+				<tab>
+					<icon>tab_other</icon>
+					<subwindow>text</subwindow>
+				</tab>
+			</tabs_recordsheet>
+			
+			<resize_recordsheet />
+			<close_recordsheet />
+		</sheetdata>
+	</windowclass>
+
+	<windowclass name="npc_header" merge="join">
+		<margins control="0,0,0,2" />
+	</windowclass>
+	
+	<windowclass name="npc_combat">
+		<margins control="0,0,0,2" />
+		<script file="campaign/scripts/npc_main.lua" />
+		<sheetdata>
+			<anchor_column name="columnanchor" />
+			
+			<label_column name="size_label">
+				<static textres="npc_label_size" />
+			</label_column>
+			<string_columnh name="size">
+				<script>
+					function onValueChanged()
+						window.onSummaryChanged();
+					end
+				</script>
+			</string_columnh>
+			
+			<label_column name="type_label">
+				<static textres="npc_label_type" />
+			</label_column>
+			<string_columnh name="type">
+				<script>
+					function onValueChanged()
+						window.onSummaryChanged();
+					end
+				</script>
+			</string_columnh>
+			
+			<label_column name="alignment_label">
+				<static textres="npc_label_alignment" />
+			</label_column>
+			<string_columnh name="alignment">
+				<script>
+					function onValueChanged()
+						window.onSummaryChanged();
+					end
+				</script>
+			</string_columnh>
+			
+			<label_column name="summary_label">
+				<anchored>
+					<top relation="relative" />
+				</anchored>
+				<font>reference-b-large</font>
+			</label_column>
+			
+			<line_column />
+			
+			<label_column name="ac_label">
+				<static textres="armorclass" />
+			</label_column>
+			<number_column name="ac" />
+			<string_column_npc_remainder name="actext">
+				<anchored to="ac" />
+			</string_column_npc_remainder>
+
+			<label_column name="hp_label">
+				<static textres="hitpoints" />
+			</label_column>
+			<number_column name="hp" />
+			<string_column_npc_remainder name="hd">
+				<anchored to="hp" />
+			</string_column_npc_remainder>
+
+			<label_column name="speed_label">
+				<static textres="npc_label_speed" />
+			</label_column>
+			<string_column name="speed" />
+
+			<line_column />
+			
+			<number_npc_abilityscore name="strength" source="abilities.strength.score">
+				<anchored merge="replace" width="40" height="30">
+					<top parent="columnanchor" anchor="bottom" relation="relative" offset="12" />
+					<left anchor="center" offset="-202" />
+				</anchored>
+				<target>strength</target>
+			</number_npc_abilityscore>
+			<label_npc_abilityscore>
+				<anchored to="strength" />
+				<static textres="STR" />
+			</label_npc_abilityscore>
+			<hn name="strength_bonus" source="abilities.strength.bonus" />
+			<string_npc_abilitymodtext name="strength_modtext">
+				<anchored to="strength" />
+			</string_npc_abilitymodtext>
+			<button_npcabilitycheck>
+				<anchored to="strength" />
+				<target>strength</target>
+			</button_npcabilitycheck>
+			<button_npcabilitysave>
+				<anchored to="strength" />
+				<target>strength</target>
+			</button_npcabilitysave>
+			
+			<number_npc_abilityscore name="dexterity" source="abilities.dexterity.score">
+				<anchored merge="replace" to="strength" width="40" height="30">
+					<top />
+					<left anchor="right" relation="relative" offset="30" />
+				</anchored>
+				<target>dexterity</target>
+			</number_npc_abilityscore>
+			<label_npc_abilityscore>
+				<anchored to="dexterity" />
+				<static textres="DEX" />
+			</label_npc_abilityscore>
+			<hn name="dexterity_bonus" source="abilities.dexterity.bonus" />
+			<string_npc_abilitymodtext name="dexterity_modtext">
+				<anchored to="dexterity" />
+			</string_npc_abilitymodtext>
+			<button_npcabilitycheck>
+				<anchored to="dexterity" />
+				<target>dexterity</target>
+			</button_npcabilitycheck>
+			<button_npcabilitysave>
+				<anchored to="dexterity" />
+				<target>dexterity</target>
+			</button_npcabilitysave>
+
+			<number_npc_abilityscore name="constitution" source="abilities.constitution.score">
+				<anchored merge="replace" to="strength" width="40" height="30">
+					<top />
+					<left anchor="right" relation="relative" offset="30" />
+				</anchored>
+				<target>constitution</target>
+			</number_npc_abilityscore>
+			<label_npc_abilityscore>
+				<anchored to="constitution" />
+				<static textres="CON" />
+			</label_npc_abilityscore>
+			<hn name="constitution_bonus" source="abilities.constitution.bonus" />
+			<string_npc_abilitymodtext name="constitution_modtext">
+				<anchored to="constitution" />
+			</string_npc_abilitymodtext>
+			<button_npcabilitycheck>
+				<anchored to="constitution" />
+				<target>constitution</target>
+			</button_npcabilitycheck>
+			<button_npcabilitysave>
+				<anchored to="constitution" />
+				<target>constitution</target>
+			</button_npcabilitysave>
+
+			<number_npc_abilityscore name="intelligence" source="abilities.intelligence.score">
+				<anchored merge="replace" to="strength" width="40" height="30">
+					<top />
+					<left anchor="right" relation="relative" offset="30" />
+				</anchored>
+				<target>intelligence</target>
+			</number_npc_abilityscore>
+			<label_npc_abilityscore>
+				<anchored to="intelligence" />
+				<static textres="INT" />
+			</label_npc_abilityscore>
+			<hn name="intelligence_bonus" source="abilities.intelligence.bonus" />
+			<string_npc_abilitymodtext name="intelligence_modtext">
+				<anchored to="intelligence" />
+			</string_npc_abilitymodtext>
+			<button_npcabilitycheck>
+				<anchored to="intelligence" />
+				<target>intelligence</target>
+			</button_npcabilitycheck>
+			<button_npcabilitysave>
+				<anchored to="intelligence" />
+				<target>intelligence</target>
+			</button_npcabilitysave>
+
+			<number_npc_abilityscore name="wisdom" source="abilities.wisdom.score">
+				<anchored merge="replace" to="strength" width="40" height="30">
+					<top />
+					<left anchor="right" relation="relative" offset="30" />
+				</anchored>
+				<target>wisdom</target>
+			</number_npc_abilityscore>
+			<label_npc_abilityscore>
+				<anchored to="wisdom" />
+				<static textres="WIS" />
+			</label_npc_abilityscore>
+			<hn name="wisdom_bonus" source="abilities.wisdom.bonus" />
+			<string_npc_abilitymodtext name="wisdom_modtext">
+				<anchored to="wisdom" />
+			</string_npc_abilitymodtext>
+			<button_npcabilitycheck>
+				<anchored to="wisdom" />
+				<target>wisdom</target>
+			</button_npcabilitycheck>
+			<button_npcabilitysave>
+				<anchored to="wisdom" />
+				<target>wisdom</target>
+			</button_npcabilitysave>
+
+			<number_npc_abilityscore name="charisma" source="abilities.charisma.score">
+				<anchored merge="replace" to="strength" width="40" height="30">
+					<top />
+					<left anchor="right" relation="relative" offset="30" />
+				</anchored>
+				<target>charisma</target>
+			</number_npc_abilityscore>
+			<label_npc_abilityscore>
+				<anchored to="charisma" />
+				<static textres="CHA" />
+			</label_npc_abilityscore>
+			<hn name="charisma_bonus" source="abilities.charisma.bonus" />
+			<string_npc_abilitymodtext name="charisma_modtext">
+				<anchored to="charisma" />
+			</string_npc_abilitymodtext>
+			<button_npcabilitycheck>
+				<anchored to="charisma" />
+				<target>charisma</target>
+			</button_npcabilitycheck>
+			<button_npcabilitysave>
+				<anchored to="charisma" />
+				<target>charisma</target>
+			</button_npcabilitysave>
+			
+			<line_column>
+				<anchored>
+					<top parent="columnanchor" anchor="bottom" relation="relative" offset="12" />
+				</anchored>
+			</line_column>
+			
+			<label_column name="savingthrows_label">
+				<static textres="npc_label_savingthrows" />
+			</label_column>
+			<string_columnh name="savingthrows" />
+			
+			<label_column name="skills_label">
+				<static textres="npc_label_skills" />
+			</label_column>
+			<string_columnh name="skills" >
+				<script file="campaign/scripts/npc_skill.lua" />
+			</string_columnh>
+			
+			<label_column name="damagevulnerabilities_label">
+				<static textres="npc_label_damagevulnerabilities" />
+			</label_column>
+			<string_columnh_npc_specialdef name="damagevulnerabilities" />
+			
+			<label_column name="damageresistances_label">
+				<static textres="npc_label_damageresistances" />
+			</label_column>
+			<string_columnh_npc_specialdef name="damageresistances" />
+			
+			<label_column name="damageimmunities_label">
+				<static textres="npc_label_damageimmunities" />
+			</label_column>
+			<string_columnh_npc_specialdef name="damageimmunities" />
+			
+			<label_column name="conditionimmunities_label">
+				<static textres="npc_label_conditionimmunities" />
+			</label_column>
+			<string_columnh_npc_specialdef name="conditionimmunities" />
+						
+			<label_column name="senses_label">
+				<static textres="npc_label_senses" />
+			</label_column>
+			<string_columnh name="senses" />
+			
+			<label_column name="languages_label">
+				<static textres="npc_label_languages" />
+			</label_column>
+			<string_columnh name="languages" />
+			
+			<label_column name="challenge_label">
+				<static textres="npc_label_challenge" />
+			</label_column>
+			<string_columnh name="cr" >
+				<anchored width="20">
+					<right merge="delete" />
+				</anchored>
+			</string_columnh>
+			
+			<label_column_right name="xp_label">
+				<anchored to="cr" />
+				<static textres="xp" />
+			</label_column_right>
+			<number_column_right name="xp">
+				<anchored to="cr" />
+			</number_column_right>
+			
+			<header_column name="header_traits">
+				<static textres="npc_header_traits"/>
+			</header_column>
+			<button_iedit name="traits_iedit">
+				<anchored to="header_traits" position="righthigh" offset="-20,0" />
+				<target>traits</target>
+			</button_iedit>
+			<button_iadd name="traits_iadd">
+				<anchored to="traits_iedit" position="lefthigh" offset="5,0" />
+				<target>traits</target>
+			</button_iadd>
+			<list_npcactions name="traits">
+				<datasource>.traits</datasource>
+				<class>npc_power</class>
+			</list_npcactions>
+			
+			<header_column name="header_actions">
+				<static textres="npc_header_actions" />
+			</header_column>
+			<button_iedit name="actions_iedit">
+				<anchored to="header_actions" position="righthigh" offset="-20,0" />
+				<target>actions</target>
+			</button_iedit>
+			<button_iadd name="actions_iadd">
+				<anchored to="actions_iedit" position="lefthigh" offset="5,0" />
+				<target>actions</target>
+			</button_iadd>
+			<list_npcactions name="actions">
+				<datasource>.actions</datasource>
+				<class>npc_power</class>
+			</list_npcactions>
+
+			<header_column name="header_reactions">
+				<static textres="npc_header_reactions" />
+			</header_column>
+			<button_iedit name="reactions_iedit">
+				<anchored to="header_reactions" position="righthigh" offset="-20,0" />
+				<target>reactions</target>
+			</button_iedit>
+			<button_iadd name="reactions_iadd">
+				<anchored to="reactions_iedit" position="lefthigh" offset="5,0" />
+				<target>reactions</target>
+			</button_iadd>
+			<list_npcactions name="reactions">
+				<datasource>.reactions</datasource>
+				<class>npc_power</class>
+			</list_npcactions>
+
+			<header_column name="header_legendaryactions">
+				<static textres="npc_header_legendaryactions" />
+			</header_column>
+			<button_iedit name="legendaryactions_iedit">
+				<anchored to="header_legendaryactions" position="righthigh" offset="-20,0" />
+				<target>legendaryactions</target>
+			</button_iedit>
+			<button_iadd name="legendaryactions_iadd">
+				<anchored to="legendaryactions_iedit" position="lefthigh" offset="5,0" />
+				<target>legendaryactions</target>
+			</button_iadd>
+			<list_npcactions name="legendaryactions">
+				<datasource>.legendaryactions</datasource>
+				<class>npc_power</class>
+			</list_npcactions>
+
+			<header_column name="header_lairactions">
+				<static textres="npc_header_lairactions" />
+			</header_column>
+			<button_iedit name="lairactions_iedit">
+				<anchored to="header_lairactions" position="righthigh" offset="-20,0" />
+				<target>lairactions</target>
+			</button_iedit>
+			<button_iadd name="lairactions_iadd">
+				<anchored to="lairactions_iedit" position="lefthigh" offset="5,0" />
+				<target>lairactions</target>
+			</button_iadd>
+			<list_npcactions name="lairactions">
+				<datasource>.lairactions</datasource>
+				<class>npc_power</class>
+			</list_npcactions>
+
+			<header_column name="header_innatespells">
+				<static textres="npc_header_innatespells" />
+				<script>
+					function onDrop(x, y, draginfo)
+						if draginfo.isType("shortcut") then
+							local sClass = draginfo.getShortcutData();
+							local nodeSource = draginfo.getDatabaseNode();
+							
+							if sClass == "reference_spell" or sClass == "power" then
+								window.addSpellDrop(nodeSource, true);
+								return true;
+							end
+						end
+					end
+				</script>
+			</header_column>
+			<button_iedit name="innatespells_iedit">
+				<anchored to="header_innatespells" position="righthigh" offset="-20,0" />
+				<target>innatespells</target>
+			</button_iedit>
+			<button_iadd name="innatespells_iadd">
+				<anchored to="innatespells_iedit" position="lefthigh" offset="5,0" />
+				<target>innatespells</target>
+			</button_iadd>
+			<list_npcactions name="innatespells">
+				<datasource>.innatespells</datasource>
+				<class>npc_power</class>
+				<script>
+					function onDrop(x, y, draginfo)
+						if draginfo.isType("shortcut") then
+							local sClass = draginfo.getShortcutData();
+							local nodeSource = draginfo.getDatabaseNode();
+							
+							if sClass == "reference_spell" or sClass == "power" then
+								window.addSpellDrop(nodeSource, true);
+								return true;
+							end
+						end
+					end
+				</script>
+			</list_npcactions>
+
+			<header_column name="header_spells">
+				<static textres="npc_header_spells" />
+			</header_column>
+			<button_iedit name="spells_iedit">
+				<anchored to="header_spells" position="righthigh" offset="-20,0" />
+				<target>spells</target>
+			</button_iedit>
+			<button_iadd name="spells_iadd">
+				<anchored to="spells_iedit" position="lefthigh" offset="5,0" />
+				<target>spells</target>
+			</button_iadd>
+			<list_npcactions name="spells">
+				<datasource>.spells</datasource>
+				<class>npc_power</class>
+			</list_npcactions>
+		</sheetdata>
+	</windowclass>
+
+	<windowclass name="npc_power">
+		<margins control="0,0,0,2" />
+		<sheetdata>
+			<genericcontrol name="rightanchor">
+				<anchored height="0" width="0">
+					<top />
+					<right />
+				</anchored>
+			</genericcontrol>
+			<button_idelete name="idelete">
+				<anchored>
+					<top offset="2" />
+					<right parent="rightanchor" anchor="left" relation="relative" offset="-5" />
+				</anchored>
+			</button_idelete>
+
+			<stringfield name="name">
+				<anchored position="insidetopleft" offset="5,2">
+					<right parent="rightanchor" anchor="left" relation="relative" offset="-5" />
+				</anchored>
+				<frame name="rowshade" offset="5,2,5,2" />
+				<font>sheetlabel</font>
+				<multilinespacing>20</multilinespacing>
+				<empty textres="npc_empty_powername" />
+			</stringfield>
+			
+			<basicstring name="desc">
+				<anchored to="name" position="belowleft" offset="0,5">
+					<right parent="" offset="-5" />
+				</anchored>
+				<multilinespacing>20</multilinespacing>
+				<script file="campaign/scripts/string_powerdesc.lua" />
+			</basicstring>
+		</sheetdata>
+	</windowclass>
+</root>
