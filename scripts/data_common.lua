@@ -292,6 +292,9 @@ stackablebonustypes = {
 };
 
 function onInit()
+
+	nDefaultInitiativeDice = 10;
+	
 	-- Classes
 	class_nametovalue = {
 		[Interface.getString("class_value_barbarian")] = "barbarian",

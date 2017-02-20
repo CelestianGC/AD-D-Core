@@ -15,8 +15,7 @@
 		<website>http://www.fantasygrounds.com</website>
 	</description>
 
-	<!-- Layers -->
-	<importruleset source="CoreRPG" />
+	<!-- Layer -->
 	<importruleset source="5E" />
 
    	<!-- Strings -->
@@ -47,11 +46,14 @@
 	<script name="ActionSave" file="scripts/manager_action_save.lua" />
 	<script name="ActionCheck" file="scripts/manager_action_check.lua" />
 	<script name="ActionAttack" file="scripts/manager_action_attack.lua" />
+	<script name="CombatManager" file="scripts/manager_combat.lua" />
+	<script name="CombatManager2" file="scripts/manager_combat2.lua" />
 
 	<!-- Combat tracker -->
 	<includefile source="ct/template_ct.xml" />
 
 	<!-- Desktop -->
 	<includefile source="desktop/desktop_classes.xml" />
+
     
 </root>
