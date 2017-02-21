@@ -156,7 +156,7 @@ function updateDexterity(nodeActor,nChanged)
     aDexterity[25]  = {5,5,-6};
     
     DB.setValue(nodeActor, "abilities.dexterity.reactionadj", "number", aDexterity[nChanged][1]);
-    DB.setValue(nodeActor, "abilities.dexterity.missileadj", "number", aDexterity[nChanged][2]);
+    DB.setValue(nodeActor, "abilities.dexterity.hitadj", "number", aDexterity[nChanged][2]);
     DB.setValue(nodeActor, "abilities.dexterity.defenseadj", "number", aDexterity[nChanged][3]);
 end
 

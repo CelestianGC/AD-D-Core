@@ -24,14 +24,14 @@ function onClose()
 end
 
 function onHRISOptionChanged()
-	local sOptHRIS = OptionsManager.getOption("HRIS");
-	local nOptHRIS = math.min(math.max(tonumber(sOptHRIS) or 1, 1), 3);
+	-- local sOptHRIS = OptionsManager.getOption("HRIS");
+	-- local nOptHRIS = math.min(math.max(tonumber(sOptHRIS) or 1, 1), 3);
 	
-	if inspiration.getMaxValue() ~= nOptHRIS then
-		inspiration.setMaxValue(nOptHRIS);
-		inspiration.updateSlots();
-	end
-	inspiration.setAnchor("left", "inspirationtitle", "center", "absolute", -5 * nOptHRIS);
+	-- if inspiration.getMaxValue() ~= nOptHRIS then
+		-- inspiration.setMaxValue(nOptHRIS);
+		-- inspiration.updateSlots();
+	-- end
+	-- inspiration.setAnchor("left", "inspirationtitle", "center", "absolute", -5 * nOptHRIS);
 end
 
 function onMenuSelection(selection, subselection)

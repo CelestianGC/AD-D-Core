@@ -21,7 +21,7 @@
 			<center />
             <readonly />
 			<font>arial-regular-6</font>
-			<frame name="abilityfields" />
+			<!-- <frame name="abilityfields" /> -->
 		</stringfield>
 	</template>
 	
@@ -88,7 +88,7 @@
 		</number>
 	</template>
     
-	<template name="number_modifier">
+	<template name="number_modifier2">
 		<number>
             <displaysign />
 			<center />
@@ -200,6 +200,5 @@
 				<frame name="bonus_box" />
 			</frame_char>			
 	</template>
-	
 
 </root>

@@ -6,7 +6,7 @@
 -->
 
 <root>
-	<windowclass name="charsheet_main" >
+	<windowclass name="charsheet_main">
 		<script>
 			function onDrop(x, y, draginfo)
 				if draginfo.isType("shortcut") then
@@ -619,15 +619,15 @@
 				<target>save_paralyzation_poison_death</target>
 				<modifierfield>saves.save_paralyzation_poison_death.modifier</modifierfield>
 			</number_charasavescore>
-			<label_savescore name="save_poison_label">
+			<label_savescore name="label_save_poison">
    				<tooltip textres="save_paralyzation_poison_death_full" />
 				<anchored to="save_paralyzation_poison_death" />
 				<static textres="save_paralyzation_poison_death_wrapped" />
 			</label_savescore>
-			<number_modifier2 name="save_paralyzation_poison_death_mod" source="saves.save_paralyzation_poison_death.modifier">
+			<number_modifier name="save_paralyzation_poison_death_mod" source="saves.save_paralyzation_poison_death.modifier">
    				<tooltip textres="save_tooltip_mod" />
-				<anchored to="save_poison_label" position="right" offset="0,0" width="30" />
-			</number_modifier2>
+				<anchored to="label_save_poison" position="right" offset="0,0" width="30" />
+			</number_modifier>
 			<label_mod_fields>
 				<anchored to="save_paralyzation_poison_death_mod" />
    				<tooltip textres="save_tooltip_mod" />
@@ -639,15 +639,15 @@
 				<target>save_rod_staff_wand</target>
 				<modifierfield>saves.rod_staff_wand.modifier</modifierfield>
 			</number_charasavescore>
-			<label_savescore name="save_wand_label">
+			<label_savescore name="label_save_wand">
    				<tooltip textres="save_rod_staff_wand_full" />
 				<anchored to="save_rod_staff_wand" />
 				<static textres="save_rod_staff_wand_wrapped" />
 			</label_savescore>
-			<number_modifier2 name="save_rod_staff_wand_mod" source="saves.save_rod_staff_wand.modifier">
+			<number_modifier name="save_rod_staff_wand_mod" source="saves.save_rod_staff_wand.modifier">
    				<tooltip textres="save_tooltip_mod" />
-				<anchored to="save_wand_label" position="right" offset="0,0" width="30" />
-			</number_modifier2>
+				<anchored to="label_save_wand" position="right" offset="0,0" width="30" />
+			</number_modifier>
 			<label_mod_fields>
 				<anchored to="save_rod_staff_wand_mod" />
    				<tooltip textres="save_tooltip_mod" />
@@ -659,15 +659,15 @@
 				<target>save_petrify_polymorph</target>
 				<modifierfield>saves.save_petrify_polymorph.modifier</modifierfield>
 			</number_charasavescore>
-			<label_savescore  name="save_poly_label">
+			<label_savescore  name="label_save_poly">
    				<tooltip textres="save_petrify_polymorph_full" />
 				<anchored to="save_petrify_polymorph" />
 				<static textres="save_petrify_polymorph_wrapped" />
 			</label_savescore>
-			<number_modifier2 name="save_petrify_polymorph_mod" source="saves.save_petrify_polymorph.modifier">
+			<number_modifier name="save_petrify_polymorph_mod" source="saves.save_petrify_polymorph.modifier">
    				<tooltip textres="save_tooltip_mod" />
-				<anchored to="save_poly_label" position="right" offset="0,0" width="30" />
-			</number_modifier2>
+				<anchored to="label_save_poly" position="right" offset="0,0" width="30" />
+			</number_modifier>
 			<label_mod_fields>
 				<anchored to="save_petrify_polymorph_mod" />
    				<tooltip textres="save_tooltip_mod" />
@@ -684,10 +684,10 @@
 				<anchored to="save_breath" />
 				<static textres="save_breath_wrapped" />
 			</label_savescore>
-			<number_modifier2 name="save_breath_mod" source="saves.save_breath.modifier">
+			<number_modifier name="save_breath_mod" source="saves.save_breath.modifier">
    				<tooltip textres="save_tooltip_mod" />
 				<anchored to="save_breath_label" position="right" offset="0,0" width="30" />
-			</number_modifier2>
+			</number_modifier>
 			<label_mod_fields>
 				<anchored to="save_breath_mod" />
    				<tooltip textres="save_tooltip_mod" />
@@ -699,15 +699,15 @@
 				<target>save_spell</target>
 				<modifierfield>saves.save_spell.modifier</modifierfield>
 			</number_charasavescore>
-			<label_savescore  name="save_spell_label">
+			<label_savescore  name="label_save_spell">
    				<tooltip textres="save_spell_full" />
 				<anchored to="save_spell" />
 				<static textres="save_spell_wrapped" />
 			</label_savescore>
-			<number_modifier2 name="save_spell_mod" source="saves.save_spell.modifier">
+			<number_modifier name="save_spell_mod" source="saves.save_spell.modifier">
    				<tooltip textres="save_tooltip_mod" />
-				<anchored to="save_spell_label" position="right" offset="0,0" width="30" />
-			</number_modifier2>
+				<anchored to="label_save_spell" position="right" offset="0,0" width="30" />
+			</number_modifier>
 			<label_mod_fields>
 				<anchored to="save_spell_mod" />
    				<tooltip textres="save_tooltip_mod" />
@@ -715,11 +715,29 @@
 			</label_mod_fields>
 <!-- END SAVES -->
 
+
+<!-- 			<subwindow name="sensescombat">
+				<anchored>
+					<top offset="110" />
+					<left offset="90" />
+					<right offset="-95" />
+					<bottom offset="-130" />
+				</anchored>
+				<class>charsheet_sensescombat</class>
+				<activate />
+				<fastinit />
+			</subwindow>
+			<scrollbar>
+				<anchored to="sensescombat" offset="-5,-10" />
+				<target>sensescombat</target>
+			</scrollbar>
+ -->            
 			<!-- THACO/AC/Move -->
  			<label_charframetop name="combattitle" >
-  				<anchored height="20" width="250">
+  				<anchored height="20">
 					<top anchor="bottom" offset="-110" />
 					<left offset="15" />
+					<right offset="-180" />
 				</anchored>
 				<icons>char_init</icons>
 			</label_charframetop>
@@ -727,12 +745,9 @@
 			
 <!-- 			THACO -->
 			<basicnumber name="thaco" source="combat.thaco.score">
-				<min>-10</min>
-				<max>30</max>
-				<default>20</default>
 				<anchored to="combattitle" width="40" height="30">
 					<top anchor="bottom" offset="15" />
-					<left anchor="left" offset="20" />
+					<left anchor="center" offset="-105" />
 				</anchored>
 			</basicnumber>
 			<label_charfieldtop>
@@ -740,12 +755,9 @@
 				<static textres="thaco" />
 			</label_charfieldtop>
 			
-			<!-- 	Magnify button -->
-			<button_charcombatcalc name="button_combatcalc">
-				<anchored to="thaco" position="lefthigh" offset="15,5" />
-			</button_charcombatcalc>
 
-			<number_chartotalac name="ac2" source="defenses.ac.total">
+
+			<number_chartotalac name="ac" source="defenses.ac.total">
 				<readonly />
 				<anchored to="combattitle" width="30" height="40">
 					<top anchor="bottom" offset="10" />
@@ -754,10 +766,10 @@
 				<frame name="acicon" offset="2,0,2,4" />
 			</number_chartotalac>
 			<button_armorprof name="armorprof" source="defenses.ac.prof">
-				<anchored to="ac2" />
+				<anchored to="ac" />
 			</button_armorprof>
 			<label_charfieldtop>
-				<anchored to="ac2" offset="0,10" />
+				<anchored to="ac" offset="0,10" />
 				<static textres="ac" />
 			</label_charfieldtop>
 			
@@ -802,6 +814,14 @@
 				<multilinespacing>20</multilinespacing>
 			</string_labeled>
 
+			<!-- 	Magnify button -->
+			<button_charcombatcalc name="button_combatcalc">
+				<anchored to="thaco" position="lefthigh" offset="15,5" />
+			</button_charcombatcalc>
+
+
+ 			<!-- End AC/Move -->
+            
         <!-- Health/Wounds -->
  			<label_charframetop name="healthtitle">
 				<anchored to="combattitle" position="right" offset="25,0" width="180"/>
@@ -866,9 +886,115 @@
 				<static textres="hp" />
 			</label>
 			
+			<windowlist name="hd">
+				<anchored to="wounds" position="belowleft" offset="0,10" height="30">
+					<right parent="hp" />
+				</anchored>
+				<frame name="fieldlight" offset="7,5,7,5" />
+				<columns width="30" fillwidth="true" />
+				<datasource>.classes</datasource>
+				<class>charsheet_hd</class>
+				<sortby><field>name</field></sortby>
+			</windowlist>
+			<scrollbar>
+				<anchored to="hd" />
+				<target>hd</target>
+			</scrollbar>
+			<label name="label_hd">
+				<anchored to="hd" position="lefthigh" offset="15,5" />
+				<static textres="hd" />
+			</label>
+			<button_charhealthcalc name="button_healthcalc">
+				<anchored to="label_hd" position="lefthigh" offset="0,0" />
+			</button_charhealthcalc>
+            <!-- END Health/Wounds -->
+
+            
 		</sheetdata>
 	</windowclass>
 
+<!-- 	<windowclass name="charsheet_sensescombat">
+		<margins control="0,0,0,10" />
+		<sheetdata>
+			<anchor_column name="columnanchor" />
+                
+		</sheetdata>
+	</windowclass>
+
+	<windowclass name="charsheet_hd">
+		<script>
+			function onInit()
+				updateHD();
+			end
+			
+			function updateHD()
+				local aDice = hddie.getDice();
+				local nValue = (level.getValue() * #aDice) - hdused.getValue();
+				hdcurrent.setValue(nValue);
+
+				local bShow = (nValue > 0) and (not hddie.isEmpty());
+				hddie.setVisible(bShow);
+				hdcurrent.setVisible(bShow);
+			end
+			
+			function action(draginfo)
+				local nodeChar = getDatabaseNode().getChild("...")
+				local rActor = ActorManager.getActor("pc", nodeChar);
+
+				ActionRecovery.performRoll(draginfo, rActor, getDatabaseNode());
+			end
+			
+			function onDragStart(button, x, y, draginfo)
+				action(draginfo);
+				return true;
+			end
+			
+			function onDoubleClick(x, y)
+				action();
+				return true;
+			end
+		</script>
+		<sheetdata>
+			<hn name="level">
+				<script>
+					function onValueChanged()
+						window.updateHD();
+					end
+				</script>
+			</hn>
+			<hn name="hdused">
+				<script>
+					function onValueChanged()
+						window.updateHD();
+					end
+				</script>
+			</hn>
+
+			<diefield name="hddie">
+				<bounds>0,0,30,30</bounds>
+				<readonly />
+				<script>
+					function onValueChanged()
+						window.updateHD();
+					end
+					
+					function onDragStart(button, x, y, draginfo)
+						return window.onDragStart(button, x, y, draginfo);
+					end
+
+					function onDoubleClick(x, y)
+						return window.onDoubleClick(x, y);
+					end
+				</script>
+			</diefield>
+			<numbercontrol name="hdcurrent">
+				<bounds>0,0,30,30</bounds>
+				<color>FFFFFF</color>
+				<disabled />
+			</numbercontrol>
+		</sheetdata>
+	</windowclass>	
+ -->
 	<windowclass name="charsheet_classes">
 		<frame>charsheethelper</frame>
 		<placement>

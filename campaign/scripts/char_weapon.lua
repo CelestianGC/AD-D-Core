@@ -9,7 +9,8 @@ function onInit()
 -- DB.addHandler(DB.getPath(DB.getChild(node, "..."), "abilities.*.score"), "onUpdate", onDataChanged);
  DB.addHandler(DB.getPath(DB.getChild(node, "..."), "abilities.strength.hitadj"), "onUpdate", onDataChanged);
  DB.addHandler(DB.getPath(DB.getChild(node, "..."), "abilities.strength.damageadj"), "onUpdate", onDataChanged);
- DB.addHandler(DB.getPath(DB.getChild(node, "..."), "abilities.dexterity.missileadj"), "onUpdate", onDataChanged);
+ DB.addHandler(DB.getPath(DB.getChild(node, "..."), "abilities.dexterity.hitadj"), "onUpdate", onDataChanged);
+ DB.addHandler(DB.getPath(DB.getChild(node, "..."), "abilities.dexterity.defenseadj"), "onUpdate", onDataChanged);
  onDataChanged();
 end
 
@@ -19,7 +20,7 @@ function onClose()
 -- DB.removeHandler(DB.getPath(DB.getChild(node, "..."), "abilities.*.score"), "onUpdate", onDataChanged);
  DB.removeHandler(DB.getPath(DB.getChild(node, "..."), "abilities.strength.hitadj"), "onUpdate", onDataChanged);
  DB.removeHandler(DB.getPath(DB.getChild(node, "..."), "abilities.strength.damageadj"), "onUpdate", onDataChanged);
- DB.removeHandler(DB.getPath(DB.getChild(node, "..."), "abilities.dexterity.missileadj"), "onUpdate", onDataChanged);
+ DB.removeHandler(DB.getPath(DB.getChild(node, "..."), "abilities.dexterity.defenseadj"), "onUpdate", onDataChanged);
 end
 
 local m_sClass = "";

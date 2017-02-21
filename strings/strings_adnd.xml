@@ -7,15 +7,17 @@
 
 <root>
 	<!-- Common -->
+	<string name="thaco">THACO</string>
+	
 	<string name="save_paralyzation_poison_death">Paralyzation, Poison or Death</string>
 	<string name="save_rod_staff_wand">Rod, Staff or Wand</string>
 	<string name="save_petrify_polymorph">Petrify, Polymorph</string>
 	<string name="save_breath">Breath</string>
 	<string name="save_spell">Spell</string>
 
-	<string name="save_paralyzation_poison_death_wrapped">Paralyzation\rPoison\rDeath</string>
-	<string name="save_rod_staff_wand_wrapped">Rod\rStaff\rWand</string>
-	<string name="save_petrify_polymorph_wrapped">Petrification\rPolymorph</string>
+	<string name="save_paralyzation_poison_death_wrapped">Paralyzation\rPoison,Death</string>
+	<string name="save_rod_staff_wand_wrapped">\rRod, Staff\rWand</string>
+	<string name="save_petrify_polymorph_wrapped">\rPetrification\rPolymorph</string>
 	<string name="save_breath_wrapped">\rBreath</string>
 	<string name="save_spell_wrapped">\rSpell</string>
 	

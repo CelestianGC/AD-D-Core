@@ -183,7 +183,7 @@ function getAbilityScore(rActor, sAbility)
 end
 
 -- sAbility "strength, dexterity, constitution/etc"
--- sType "hitadj, damageadj, saveadj
+-- sType "hitadj, damageadj, saveadj, defenseadj
 function getAbilityBonus(rActor, sAbility, sType)
 	local nAbilityAdj = 0;
 	
@@ -202,20 +202,19 @@ function getAbilityBonus(rActor, sAbility, sType)
 	if not nodeActor then
 		return 0;
 	end
+
+    print ("manager_actor2.lua: getAbilityBonus 3");
 	
 	local nStatScore = getAbilityScore(rActor, sAbility);
 	if nStatScore < 0 then
 		return 0;
 	end
 
+    print ("manager_actor2.lua: getAbilityBonus 4");
+
 	if sType then
 		if (sType == "hitadj") then
-			local nHitAdj = 0;
-			if (sAbility == "strength") then
-				nHitAdj = DB.getValue(nodeActor, "abilities.".. sAbility .. ".hitadj", 0);
-			elseif (sAbility == "dexterity") then
-				nHitAdj = DB.getValue(nodeActor, "abilities.".. sAbility .. ".missileadj", 0);
-			end
+			local nHitAdj = DB.getValue(nodeActor, "abilities.".. sAbility .. ".hitadj", 0);
 			print ("manager_actor2.lua: getAbilityBonus, nHitAdj :" .. nHitAdj);
 			nAbilityAdj = nHitAdj;
 		elseif (sType == "damageadj") then
@@ -225,8 +224,14 @@ function getAbilityBonus(rActor, sAbility, sType)
 			end
 			print ("manager_actor2.lua: getAbilityBonus, nDamageAdj :" .. nDamageAdj);
 			nAbilityAdj = nDamageAdj;
+		elseif (sType == "defenseadj") then
+			local nDefAdj = DB.getValue(nodeActor, "abilities.".. sAbility .. ".defenseadj", 0);
+			print ("manager_actor2.lua: getAbilityBonus, defenseadj :" .. nDefAdj);
+			nAbilityAdj = nDefAdj;
 		end
 	end
+
+    print ("manager_actor2.lua: getAbilityBonus 5");
 	
 	return nAbilityAdj;
 end
@@ -437,7 +442,7 @@ function getDefenseValue(rAttacker, rDefender, rRoll)
 
 	if sDefenderType == "pc" then
 		nDefense = DB.getValue(nodeDefender, "defenses.ac.total", 10);
-		sDefenseStat = DB.getValue(nodeDefender, "ac.sources.ability", "");
+--		sDefenseStat = DB.getValue(nodeDefender, "ac.sources.ability", "");
 		if sDefenseStat == "" then
 			sDefenseStat = "dexterity";
 		end
