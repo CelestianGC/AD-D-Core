@@ -113,6 +113,7 @@
 				<static textres="armorclass" />
 			</label_column>
 			<number_column name="ac" />
+			
 			<string_column_npc_remainder name="actext">
 				<anchored to="ac" />
 			</string_column_npc_remainder>
@@ -128,8 +129,8 @@
 			<label_column name="hitdice_label">
 				<static textres="npc_label_hitdice" />
 			</label_column>
-			<string_column name="hitDice" />
-			<string_column_npc_remainder name="hdtext">
+			<string_column_left name="hitDice" />
+			<string_column_npc_remainder name="hdtext" >
 				<anchored to="hitDice" />
 			</string_column_npc_remainder>
 			
@@ -162,6 +163,11 @@
 				<static textres="npc_label_specialAttacks" />
 			</label_column>
 			<string_column name="specialAttacks" />
+
+			<label_column name="magicresistance_label">
+				<static textres="npc_label_magicresistance" />
+			</label_column>
+			<string_column name="magicresistance_label" />
 			<line_column />
 
 			<label_column name="organization_label">
