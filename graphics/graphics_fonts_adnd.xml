@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<!-- 
+  Please see the license.html file included with this distribution for 
+  attribution and copyright information.
+-->
+
+<root>
+
+	<font name="sheetlabelmini_percent">
+		<fgffile name="graphics/fonts/arial-regular-6.fgf" />
+		<color value="#000000" />
+	</font>
+
+	
+	<font name="arial-regular-6">
+		<fgffile name="graphics/fonts/arial-regular-6.fgf" />
+	</font>
+	<font name="arial-regular-7">
+		<fgffile name="graphics/fonts/arial-regular-7.fgf" />
+	</font>
+	<font name="arial-regular-8">
+		<fgffile name="graphics/fonts/arial-regular-8.fgf" />
+	</font>
+	<font name="arial-regular-9">
+		<fgffile name="graphics/fonts/arial-regular-9.fgf" />
+	</font>
+	<font name="arial-regular-10">
+		<fgffile name="graphics/fonts/arial-regular-10.fgf" />
+	</font>
+
+	<font name="arial-bold-12">
+		<fgffile name="graphics/fonts/arial-bold-12.fgf" />
+	</font>
+
+	<font name="regular8">
+		<fgffile name="graphics/fonts/regular-10.fgf" />
+	</font>
+	<font name="regular9">
+		<fgffile name="graphics/fonts/regular-10.fgf" />
+	</font>
+	<font name="regular10">
+		<fgffile name="graphics/fonts/regular-10.fgf" />
+	</font>
+	<font name="regular11">
+		<fgffile name="graphics/fonts/regular-10.fgf" />
+	</font>
+	<font name="bold8">
+		<fgffile name="graphics/fonts/bold-11.fgf" />
+	</font>
+	<font name="bold9">
+		<fgffile name="graphics/fonts/bold-11.fgf" />
+	</font>
+	<font name="bold10">
+		<fgffile name="graphics/fonts/bold-11.fgf" />
+	</font>
+
+	<font name="bold11">
+		<fgffile name="graphics/fonts/bold-11.fgf" />
+	</font>
+</root>

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<!-- 
+  Please see the license.html file included with this distribution for 
+  attribution and copyright information.
+-->
+
+<root>
+	<template name="sub_record_header_image">
+		<sub_record_header_image_step>
+			<bounds>21,23,-27,40</bounds>
+		</sub_record_header_image_step>
+	</template>
+	<template name="sub_record_toolbar_image">
+		<sub_record_toolbar_image_step>
+			<bounds>21,63,-27,36</bounds>
+		</sub_record_toolbar_image_step>
+	</template>
+	<template name="image_record">
+		<image_record_step>
+			<bounds>21,99,-27,-29</bounds>
+		</image_record_step>
+	</template>
+</root>

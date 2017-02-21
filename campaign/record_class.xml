@@ -1,0 +1,484 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<!-- 
+  Please see the license.html file included with this distribution for 
+  attribution and copyright information.
+-->
+
+<root>
+	<windowclass name="reference_class">
+		<frame>recordsheet</frame>
+		<placement>
+			<size width="350" height="400" />
+		</placement>
+		<sizelimits>
+			<minimum width="300" height="300" />
+			<dynamic />
+		</sizelimits>
+		<minimize>minimized_reference</minimize>
+		<tooltip field="name" />
+		<script>
+			function onLockChanged()
+				if header.subwindow then
+					header.subwindow.update();
+				end
+				if stats.subwindow then
+					stats.subwindow.update();
+				end
+				
+				local bReadOnly = WindowManager.getReadOnlyState(getDatabaseNode());
+				text.setReadOnly(bReadOnly);
+			end
+		</script>
+		<sheetdata>
+			<sub_record_header name="header">
+				<class>ref_class_header</class>
+			</sub_record_header>
+
+			<frame_record_content_tabbed name="contentframe" />
+
+			<ft_record name="text">
+				<anchored to="contentframe" position="over" />
+				<invisible />
+			</ft_record>
+			<subwindow_record name="stats">
+				<class>ref_class_stats</class>
+			</subwindow_record>
+
+			<scrollbar_record>
+				<target>text</target>
+			</scrollbar_record>
+			<scrollbar_record>
+				<target>stats</target>
+			</scrollbar_record>
+			
+			<tabs_recordsheet>
+				<tab>
+					<icon>tab_main</icon>
+					<subwindow>text</subwindow>
+				</tab>
+				<tab>
+					<icon>tab_other</icon>
+					<subwindow>stats</subwindow>
+				</tab>
+			</tabs_recordsheet>
+			
+			<resize_recordsheet />
+			<close_recordsheet />
+		</sheetdata>
+	</windowclass>
+	<windowclass name="ref_class_header">
+		<margins control="0,0,0,2" />
+		<script>
+			function onInit()
+				update();
+			end
+			function update()
+				local bReadOnly = WindowManager.getReadOnlyState(getDatabaseNode());
+				name.setReadOnly(bReadOnly);
+			end
+		</script>
+		<sheetdata>
+			<link_record_header>
+				<class>reference_class</class>
+			</link_record_header>
+
+			<anchor_record_header_right />
+			<icon_record_locked />
+			<button_record_locked />
+
+			<string_record_name name="name">
+				<empty textres="library_recordtype_empty_class" />
+			</string_record_name>
+			<label_reftype name="reftype">
+				<static textres="ref_type_class" />
+			</label_reftype>	
+		</sheetdata>
+	</windowclass>
+	<windowclass name="ref_class_stats">
+		<margins control="0,0,0,7" />
+		<script>
+			function onInit()
+				update();
+			end
+			function update()
+				local bReadOnly = WindowManager.getReadOnlyState(getDatabaseNode());
+				hitdice.update(bReadOnly);
+				proficiencies.update(bReadOnly);
+				multiclassproficiencies.update(bReadOnly);
+				features.update(bReadOnly);
+				specializations.update(bReadOnly);
+			end
+		</script>
+		<sheetdata>
+			<anchor_column name="columnanchor" />
+			
+			<label_column name="hitdice_label">
+				<static textres="class_label_hitdice" />
+			</label_column>
+			<string_columnh name="hitdice" source="hp.hitdice.text" />
+			
+			<header_column name="proficiencies_header">
+				<static textres="class_header_proficiencies"/>
+				<center />
+			</header_column>
+			<button_iedit name="proficiencies_iedit">
+				<anchored to="proficiencies_header" position="righthigh" offset="-20,0" />
+				<target>proficiencies</target>
+			</button_iedit>
+			<button_iadd name="proficiencies_iadd">
+				<anchored to="proficiencies_iedit" position="lefthigh" offset="5,0" />
+				<target>proficiencies</target>
+			</button_iadd>
+			<list_column name="proficiencies">
+				<datasource>.proficiencies</datasource>
+				<class>ref_class_proficiency</class>
+			</list_column>
+			
+			<header_column name="multiclassproficiencies_header">
+				<static textres="class_header_multiclassproficiencies"/>
+				<center />
+			</header_column>
+			<button_iedit name="multiclassproficiencies_iedit">
+				<anchored to="multiclassproficiencies_header" position="righthigh" offset="-20,0" />
+				<target>multiclassproficiencies</target>
+			</button_iedit>
+			<button_iadd name="multiclassproficiencies_iadd">
+				<anchored to="multiclassproficiencies_iedit" position="lefthigh" offset="5,0" />
+				<target>multiclassproficiencies</target>
+			</button_iadd>
+			<list_column name="multiclassproficiencies">
+				<datasource>.multiclassproficiencies</datasource>
+				<class>ref_class_proficiency</class>
+			</list_column>
+			
+			<header_column name="features_header">
+				<static textres="class_header_features"/>
+				<center />
+			</header_column>
+			<button_iedit name="features_iedit">
+				<anchored to="features_header" position="righthigh" offset="-20,0" />
+				<target>features</target>
+			</button_iedit>
+			<button_iadd name="features_iadd">
+				<anchored to="features_iedit" position="lefthigh" offset="5,0" />
+				<target>features</target>
+			</button_iadd>
+			<list_column name="features">
+				<datasource>.features</datasource>
+				<sortby><control>level</control><control>name</control></sortby>
+				<class>ref_class_feature</class>
+			</list_column>
+			
+			<header_column name="specializations_header">
+				<static textres="class_header_specializations"/>
+				<center />
+			</header_column>
+			<button_iedit name="specializations_iedit">
+				<anchored to="specializations_header" position="righthigh" offset="-20,0" />
+				<target>specializations</target>
+			</button_iedit>
+			<button_iadd name="specializations_iadd">
+				<anchored to="specializations_iedit" position="lefthigh" offset="5,0" />
+				<target>specializations</target>
+			</button_iadd>
+			<list_column name="specializations">
+				<datasource>.abilities</datasource>
+				<class>ref_class_specialization</class>
+			</list_column>
+		</sheetdata>
+	</windowclass>
+
+	<windowclass name="ref_class_proficiency">
+		<margins control="0,0,0,2" />
+		<sheetdata>
+			<anchor_listitem_column_right name="rightanchor" />
+			<link_listitem_column name="shortcut">
+				<class>reference_classproficiency</class>
+			</link_listitem_column>
+			<button_listitem_column_delete name="idelete" />
+
+			<string_listitem_column_name name="name">
+				<empty textres="library_recordtype_empty_classproficiency" />
+			</string_listitem_column_name>
+		</sheetdata>
+	</windowclass>
+	<windowclass name="ref_class_feature">
+		<margins control="0,0,0,2" />
+		<script>
+			function update(bReadOnly)
+				level.setReadOnly(bReadOnly);
+				name.setReadOnly(bReadOnly);
+			end
+		</script>
+		<sheetdata>
+			<anchor_listitem_column_right name="rightanchor" />
+			<link_listitem_column name="shortcut">
+				<class>reference_classfeature</class>
+			</link_listitem_column>
+			<button_listitem_column_delete name="idelete" />
+
+			<basicnumber name="level">
+				<anchored position="insidetopleft" offset="5,2" height="20" width="20" />
+			</basicnumber>
+			<string_listitem_column_name name="name">
+				<anchored offset="35,2" />
+				<empty textres="library_recordtype_empty_classfeature" />
+			</string_listitem_column_name>
+		</sheetdata>
+	</windowclass>
+	<windowclass name="ref_class_specialization">
+		<margins control="0,0,0,2" />
+		<sheetdata>
+			<anchor_listitem_column_right name="rightanchor" />
+			<link_listitem_column name="shortcut">
+				<class>reference_classability</class>
+			</link_listitem_column>
+			<button_listitem_column_delete name="idelete" />
+
+			<string_listitem_column_name name="name">
+				<empty textres="library_recordtype_empty_classspecialization" />
+			</string_listitem_column_name>
+		</sheetdata>
+	</windowclass>
+
+	<windowclass name="reference_classproficiency">
+		<frame>recordsheet</frame>
+		<placement>
+			<size width="350" height="200" />
+		</placement>
+		<sizelimits>
+			<minimum width="300" height="300" />
+			<dynamic />
+		</sizelimits>
+		<minimize>minimized_reference</minimize>
+		<tooltip field="name" />
+		<script>
+			function onLockChanged()
+				if header.subwindow then
+					header.subwindow.update();
+				end
+				
+				local bReadOnly = WindowManager.getReadOnlyState(getDatabaseNode());
+				text.setReadOnly(bReadOnly);
+			end
+		</script>
+		<sheetdata>
+			<sub_record_header name="header">
+				<class>ref_classproficiency_header</class>
+			</sub_record_header>
+
+			<frame_record_content name="contentframe" />
+			<stringfield name="text">
+				<anchored to="contentframe" position="over" />
+				<multilinespacing>20</multilinespacing>
+			</stringfield>
+			<scrollbar>
+				<anchored to="text" />
+				<target>text</target>
+			</scrollbar>
+			
+			<resize_recordsheet />
+			<close_recordsheet />
+		</sheetdata>
+	</windowclass>
+	<windowclass name="ref_classproficiency_header">
+		<margins control="0,0,0,2" />
+		<script>
+			function onInit()
+				update();
+			end
+			function update()
+				local bReadOnly = WindowManager.getReadOnlyState(getDatabaseNode());
+				name.setReadOnly(bReadOnly);
+			end
+		</script>
+		<sheetdata>
+			<link_record_header>
+				<class>reference_classproficiency</class>
+			</link_record_header>
+
+			<anchor_record_header_right />
+			<icon_record_locked />
+			<button_record_locked />
+
+			<string_record_name name="name">
+				<empty textres="library_recordtype_empty_classproficiency" />
+			</string_record_name>
+			<label_reftype name="reftype">
+				<static textres="ref_type_classproficiency" />
+			</label_reftype>	
+		</sheetdata>
+	</windowclass>
+
+	<windowclass name="reference_classfeature">
+		<frame>recordsheet</frame>
+		<placement>
+			<size width="350" height="200" />
+		</placement>
+		<sizelimits>
+			<minimum width="300" height="300" />
+			<dynamic />
+		</sizelimits>
+		<minimize>minimized_reference</minimize>
+		<tooltip field="name" />
+		<script>
+			function onLockChanged()
+				if header.subwindow then
+					header.subwindow.update();
+				end
+				if content.subwindow then
+					content.subwindow.update();
+				end
+			end
+		</script>
+		<sheetdata>
+			<sub_record_header name="header">
+				<class>ref_classfeature_header</class>
+			</sub_record_header>
+
+			<frame_record_content />
+			<sub_ref_content name="content">
+				<class>ref_classfeature_stats</class>
+			</sub_ref_content>
+			<scrollbar_ref_content />
+			
+			<resize_recordsheet />
+			<close_recordsheet />
+		</sheetdata>
+	</windowclass>
+	<windowclass name="ref_classfeature_header">
+		<margins control="0,0,0,2" />
+		<script>
+			function onInit()
+				update();
+			end
+			function update()
+				local bReadOnly = WindowManager.getReadOnlyState(getDatabaseNode());
+				name.setReadOnly(bReadOnly);
+			end
+		</script>
+		<sheetdata>
+			<link_record_header>
+				<class>reference_classfeature</class>
+			</link_record_header>
+
+			<anchor_record_header_right />
+			<icon_record_locked />
+			<button_record_locked />
+
+			<string_record_name name="name">
+				<empty textres="library_recordtype_empty_classfeature" />
+			</string_record_name>
+			<label_reftype name="reftype">
+				<static textres="ref_type_feature" />
+			</label_reftype>	
+		</sheetdata>
+	</windowclass>
+	<windowclass name="ref_classfeature_stats">
+		<margins control="0,0,0,7" />
+		<script>
+			function onInit()
+				update();
+			end
+			function update()
+				local bReadOnly = WindowManager.getReadOnlyState(getDatabaseNode());
+				level.update(bReadOnly);
+				specializationchoice.update(bReadOnly);
+				specialization.update(bReadOnly);
+				text.update(bReadOnly);
+			end
+		</script>
+		<sheetdata>
+			<anchor_column name="columnanchor" />
+			
+			<label_column name="level_label">
+				<static textres="classfeature_label_level" />
+			</label_column>
+			<number_columnh name="level" />
+			
+			<ft_columnh name="text" />
+			
+			<line_column />
+			
+			<label_column name="specializationchoice_label">
+				<static textres="classfeature_label_specializationchoice" />
+			</label_column>
+			<button_checkbox_columnh name="specializationchoice" />
+			
+			<label_column name="specialization_label">
+				<static textres="classfeature_label_specialization" />
+			</label_column>
+			<string_columnh name="specialization" />
+		</sheetdata>
+	</windowclass>
+
+	<windowclass name="reference_classability">
+		<frame>recordsheet</frame>
+		<placement>
+			<size width="350" height="200" />
+		</placement>
+		<sizelimits>
+			<minimum width="300" height="300" />
+			<dynamic />
+		</sizelimits>
+		<minimize>minimized_reference</minimize>
+		<tooltip field="name" />
+		<script>
+			function onLockChanged()
+				if header.subwindow then
+					header.subwindow.update();
+				end
+				
+				local bReadOnly = WindowManager.getReadOnlyState(getDatabaseNode());
+				text.setReadOnly(bReadOnly);
+			end
+		</script>
+		<sheetdata>
+			<sub_record_header name="header">
+				<class>ref_classability_header</class>
+			</sub_record_header>
+
+			<frame_record_content />
+			<ft_record name="text">
+				<anchored to="contentframe" position="over" />
+				<footer>footer_wide</footer>
+			</ft_record>
+			<scrollbar>
+				<anchored to="text" />
+				<target>text</target>
+			</scrollbar>
+			
+			<resize_recordsheet />
+			<close_recordsheet />
+		</sheetdata>
+	</windowclass>
+	<windowclass name="ref_classability_header">
+		<margins control="0,0,0,2" />
+		<script>
+			function onInit()
+				update();
+			end
+			function update()
+				local bReadOnly = WindowManager.getReadOnlyState(getDatabaseNode());
+				name.setReadOnly(bReadOnly);
+			end
+		</script>
+		<sheetdata>
+			<link_record_header>
+				<class>reference_classability</class>
+			</link_record_header>
+
+			<anchor_record_header_right />
+			<icon_record_locked />
+			<button_record_locked />
+
+			<string_record_name name="name">
+				<empty textres="library_recordtype_empty_classspecialization" />
+			</string_record_name>
+			<label_reftype name="reftype">
+				<static textres="ref_type_classability" />
+			</label_reftype>	
+		</sheetdata>
+	</windowclass>
+</root>

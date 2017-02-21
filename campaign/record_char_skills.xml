@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<!-- 
+  Please see the license.html file included with this distribution for 
+  attribution and copyright information.
+-->
+
+<root>
+	<windowclass name="charsheet_skills">
+		<sheetdata>
+			<button_iedit name="skills_iedit">
+				<anchored position="insidebottomright" offset="10,10" />
+				<tooltip textres="char_skills_tooltip_edit" />
+				<script>
+					function onValueChanged()
+						local bEditMode = (getValue() == 1);
+						
+						window.contents.subwindow.skills_iadd.setVisible(bEditMode);
+						window.contents.subwindow.skills.update();
+					end
+				</script>
+			</button_iedit>
+
+			<subwindow name="contents">
+				<anchored>
+					<top offset="0" />
+					<bottom offset="-35" />
+					<left offset="0" />
+					<right offset="-15" />
+				</anchored>
+				<class>charsheet_skills_contents</class>
+				<activate />
+				<fastinit />
+			</subwindow>
+			<scrollbar_charcontents />
+		</sheetdata>
+	</windowclass>
+
+ 	<windowclass name="charsheet_skills_contents">
+		<margins control="0,0,0,2" />
+		<script>
+			function onDrop(x, y, draginfo)
+				if draginfo.isType("shortcut") then
+					local sClass = draginfo.getShortcutData();
+					if sClass == "reference_skill" then
+						skills.addSkillReference(draginfo.getDatabaseNode());
+					end
+					return true;
+				end
+			end
+		</script>
+		<sheetdata>
+			<anchor_column name="columnanchor" />
+			
+			<label_charframetop name="skillstitle">
+				<anchored height="20">
+					<top parent="columnanchor" anchor="bottom" relation="relative" offset="15" />
+					<left offset="15" />
+					<right offset="-15" />
+				</anchored>
+				<icons>char_abilities_purple</icons>
+				<static textres="char_label_skills" />
+			</label_charframetop>
+
+			<genericcontrol name="rightanchor">
+				<anchored width="0" height="20">
+					<top parent="columnanchor" anchor="bottom" relation="relative" offset="4" />
+					<right offset="-15" />
+				</anchored>
+			</genericcontrol>
+			<genericcontrol name="shortcut_header">
+				<anchored to="rightanchor" width="20" height="20">
+					<top />
+					<right anchor="left" relation="relative" offset="-2" />
+				</anchored>
+				<disabled />
+			</genericcontrol>
+			<label name="total_label">
+				<anchored to="rightanchor" width="40">
+					<top />
+					<right anchor="left" relation="relative" offset="-3" />
+				</anchored>
+				<center />
+				<static textres="char_label_skilltotal" />
+			</label>
+			<label name="misc_label">
+				<anchored to="rightanchor" width="40">
+					<top />
+					<right anchor="left" relation="relative" offset="-12" />
+				</anchored>
+				<center />
+				<static textres="char_label_skillmisc" />
+			</label>
+			<label name="stat_label">
+				<anchored to="rightanchor" width="40">
+					<top />
+					<right anchor="left" relation="relative" offset="-3" />
+				</anchored>
+				<center />
+				<static textres="char_label_skillstat" />
+			</label>
+			<label name="name_label">
+				<anchored>
+					<top parent="rightanchor" />
+					<left offset="35" />
+					<right parent="rightanchor" anchor="left" relation="relative" offset="-2" />
+				</anchored>
+				<static textres="char_label_skillname" />
+				<center />
+			</label>
+
+			<button_iadd name="skills_iadd">
+				<anchored to="skillstitle" position="insidetopright" offset="0,0" />
+				<target>skills</target>
+			</button_iadd>
+			<windowlist name="skills">
+				<anchored>
+					<top parent="columnanchor" anchor="bottom" relation="relative" offset="0" />
+					<left offset="15" />
+					<right offset="-15" />
+				</anchored>
+				<noscroll />
+				<datasource>.skilllist</datasource>
+				<class>skill_item</class>
+				<sortby><control>name</control></sortby>
+				<script file="campaign/scripts/char_skilllist.lua" />
+			</windowlist>
+		</sheetdata>
+	</windowclass>
+	
+	<!-- List Items-->
+	<windowclass name="skill_item">
+		<margins control="0,0,0,2" />
+		<script file="campaign/scripts/char_skill.lua" />
+		<sheetdata>
+			<genericcontrol name="rightanchor">
+				<anchored position="insidetopright" offset="0,2" height="0" width="0" />
+			</genericcontrol>
+			<linkcontrol name="shortcut">
+				<anchored to="rightanchor" width="20" height="20">
+					<top />
+					<right anchor="left" relation="relative" offset="-2" />
+				</anchored>
+				<class>ref_ability</class>
+				<readonly />
+			</linkcontrol>
+			<button_idelete name="idelete">
+				<anchored to="rightanchor">
+					<top />
+					<right anchor="left" offset="-2" />
+				</anchored>
+			</button_idelete>
+			<number_charskilltotal name="total">
+				<anchored to="rightanchor">
+					<top />
+					<right anchor="left" relation="relative" offset="-7" />
+				</anchored>
+			</number_charskilltotal>
+			<number_charskill name="misc">
+				<anchored>
+					<top offset="2" />
+					<right parent="rightanchor" anchor="left" relation="relative" offset="-20" />
+				</anchored>
+				<tabtarget prev="stat" />
+			</number_charskill>
+			<cycler_ability name="stat">
+				<anchored to="rightanchor" width="30" height="20">
+					<top />
+					<right anchor="left" relation="relative" offset="-12" />
+				</anchored>
+				<tabtarget next="misc" prev="name" />
+			</cycler_ability>
+			<genericcontrol name="armorwidget">
+				<anchored to="rightanchor" width="8" height="9">
+					<top offset="5" />
+					<right anchor="left" relation="relative" offset="-5" />
+				</anchored>
+				<icon>char_armorcheck</icon>
+				<invisible />
+			</genericcontrol>
+			
+			<button_skillprof name="prof">
+				<anchored position="insidetopleft" offset="2,6" />
+				<tabtarget next="name" />
+			</button_skillprof>
+
+			<string_textlistitem name="name">
+				<anchored to="rightanchor">
+					<top />
+					<left parent="" offset="20" />
+					<right anchor="left" relation="relative" offset="-7" />
+				</anchored>
+				<multilinespacing>20</multilinespacing>
+				<tabtarget next="stat" prev="prof" />
+			</string_textlistitem>
+		</sheetdata>
+	</windowclass>
+</root>

@@ -1,0 +1,318 @@
+-- 
+-- Please see the license.html file included with this distribution for 
+-- attribution and copyright information.
+--
+
+local rsname = "5E";
+local rsmajorversion = 7;
+
+function onInit()
+	if User.isHost() or User.isLocal() then
+		updateCampaign();
+	end
+
+	DB.onAuxCharLoad = onCharImport;
+	DB.onImport = onImport;
+	Module.onModuleLoad = onModuleLoad;
+end
+
+function onCharImport(nodePC)
+	local _, _, aMajor, _ = DB.getImportRulesetVersion();
+	updateChar(nodePC, aMajor[rsname]);
+end
+
+function onImport(node)
+	local aPath = StringManager.split(node.getNodeName(), ".");
+	if #aPath == 2 and aPath[1] == "charsheet" then
+		local _, _, aMajor, _ = DB.getImportRulesetVersion();
+		updateChar(node, aMajor[rsname]);
+	end
+end
+
+function onModuleLoad(sModule)
+	local _, _, aMajor, _ = DB.getRulesetVersion(sModule);
+	updateModule(sModule, aMajor[rsname]);
+end
+
+function updateChar(nodePC, nVersion)
+	if not nVersion then
+		nVersion = 0;
+	end
+	
+	if nVersion < rsmajorversion then
+		if nVersion < 2 then
+			migrateChar2(nodePC);
+		end
+		if nVersion < 5 then
+			migrateChar5(nodePC);
+		end
+		if nVersion < 7 then
+			migrateChar7(nodePC);
+		end
+	end
+end
+
+function updateCampaign()
+	local _, _, aMajor, aMinor = DB.getRulesetVersion();
+	local major = aMajor[rsname];
+	if not major then
+		return;
+	end
+	
+	if major > 0 and major < rsmajorversion then
+		print("Migrating campaign database to latest data version.");
+		DB.backup();
+		
+		if major < 2 then
+			convertCharacters2();
+		end
+		if major < 4 then
+			convertPSEnc4();
+		end
+		if major < 5 then
+			convertCharacters5();
+		end
+		if major < 6 then
+			convertEncounters6();
+		end
+		if major < 7 then
+			convertCharacters7();
+		end
+	end
+end
+
+function updateModule(sModule, nVersion)
+	if not nVersion then
+		nVersion = 0;
+	end
+	
+	if nVersion < rsmajorversion then
+		local nodeRoot = DB.getRoot(sModule);
+		
+		if nVersion < 5 then
+			convertPregenCharacters5(nodeRoot);
+		end
+		if nVersion < 6 then
+			if sModule == "DD MM Monster Manual" then
+				Module.revert(sModule);
+			end
+		end
+		if nVersion < 7 then
+			convertPregenCharacters7(nodeRoot);
+		end
+	end
+end
+
+function migrateEncounter6(nodeRecord)
+	for _,nodeNPC in pairs(DB.getChildren(nodeRecord, "npclist")) do
+		local sClass, sRecord = DB.getValue(nodeNPC, "link", "", "");
+		local sBadNPCID = sRecord:match ("npc%.(.*)@DD MM Monster Manual");
+		if sBadNPCID then
+			DB.setValue(nodeNPC, "link", "windowreference", sClass, "reference.npcdata." .. sBadNPCID .. "@DD MM Monster Manual");
+		end
+	end
+end
+
+function convertEncounters6()
+	for _,nodeEnc in pairs(DB.getChildren("battle")) do
+		migrateEncounter6(nodeEnc);
+	end
+end
+
+function migrateChar5(nodeChar)
+	-- Feature list can either be set up by source and level or by link, depending usually on whether they are pregens
+	local aSpellCastFeatureBySource = {};
+	local aSpellCastFeatureByPath = {};
+	for _,nodeFeature in pairs(DB.getChildren(nodeChar, "featurelist")) do
+		local sFeature = DB.getValue(nodeFeature, "name", "");
+		if sFeature:lower():sub(1, 12) == "spellcasting" then
+			local sSource = DB.getValue(nodeFeature, "source", "");
+			if sSource ~= "" then
+				aSpellCastFeatureBySource[sSource] = DB.getValue(nodeFeature, "level", 1);
+			else
+				local sPath;
+				_, sPath = DB.getValue(nodeFeature, "link", "", "");
+				local sPathSansModule = StringManager.split(sPath, "@")[1];
+				if sPathSansModule then
+					local aSplit = StringManager.split(sPathSansModule, ".");
+					if #aSplit == 5 then
+						aSpellCastFeatureByPath[aSplit[1] .. "." .. aSplit[2] .. "." .. aSplit[3]] = tonumber(aSplit[5]:match("%d$")) or 1;
+					end
+				end
+			end
+		end
+	end
+	
+	-- If spellcasting feature added with source and level, then match the class name
+	for kClass, vSpellCastMult in pairs(aSpellCastFeatureBySource) do
+		for _,nodeClass in pairs(DB.getChildren(nodeChar, "classes")) do
+			local sName = DB.getValue(nodeClass, "name", "");
+			if kClass == sName then
+				DB.setValue(nodeClass, "casterlevelinvmult", "number", vSpellCastMult);
+			end
+		end
+	end
+
+	-- If spellcasting feature added without source and level, then use link to match
+	for kClassPath, vSpellCastMult in pairs(aSpellCastFeatureByPath) do
+		for _,nodeClass in pairs(DB.getChildren(nodeChar, "classes")) do
+			local sPath;
+			_, sPath = DB.getValue(nodeClass, "shortcut", "", "");
+			local sPathSansModule = StringManager.split(sPath, "@")[1];
+			if sPathSansModule == kClassPath then
+				DB.setValue(nodeClass, "casterlevelinvmult", "number", vSpellCastMult);
+			end
+		end
+	end
+end
+
+function migrateChar7(nodeChar)
+	-- Migrate warlock spell slots from standard spell slots
+	-- NOTE: Don't do anything if multiclass with both pact magic and spellcasting
+	local bPactMagicOnly = false;
+	for _,nodeClass in pairs(DB.getChildren(nodeChar, "classes")) do
+		local nCastLevelInvMult = DB.getValue(nodeClass, "casterlevelinvmult", 0);
+		if nCastLevelInvMult > 0 then
+			local nPactMagic = DB.getValue(nodeClass, "casterpactmagic", 0);
+			if nPactMagic == 1 then
+				bPactMagicOnly = true;
+			else
+				bPactMagicOnly = false;
+				break;
+			end
+		end
+	end
+	if bPactMagicOnly then
+		for i = 1, PowerManager.SPELL_LEVELS do
+			local nSlotsMax = DB.getValue(nodeChar, "powermeta.spellslots" .. i .. ".max", 0);
+			local nSlotsUsed = DB.getValue(nodeChar, "powermeta.spellslots" .. i .. ".used", 0);
+			DB.setValue(nodeChar, "powermeta.pactmagicslots" .. i .. ".max", "number", nSlotsMax);
+			DB.setValue(nodeChar, "powermeta.pactmagicslots" .. i .. ".used", "number", nSlotsUsed);
+			DB.setValue(nodeChar, "powermeta.spellslots" .. i .. ".max", "number", 0);
+			DB.setValue(nodeChar, "powermeta.spellslots" .. i .. ".used", "number", 0);
+		end
+	end
+end
+
+function convertPregenCharacters5(nodeRoot)
+	for _,nodeChar in pairs(DB.getChildren(nodeRoot, "pregencharsheet")) do
+		migrateChar5(nodeChar);
+	end
+end
+
+function convertPregenCharacters7(nodeRoot)
+	for _,nodeChar in pairs(DB.getChildren(nodeRoot, "pregencharsheet")) do
+		migrateChar7(nodeChar);
+	end
+end
+
+function convertCharacters5()
+	for _,nodeChar in pairs(DB.getChildren("charsheet")) do
+		migrateChar5(nodeChar);
+	end
+end
+
+function convertCharacters7()
+	for _,nodeChar in pairs(DB.getChildren("charsheet")) do
+		migrateChar7(nodeChar);
+	end
+end
+
+function convertPSEnc4()
+	for _,vEnc in pairs(DB.getChildren("partysheet.encounters")) do
+		DB.setValue(vEnc, "exp", "number", DB.getValue(vEnc, "xp", "number"));
+	end
+end
+
+function migrateChar2(nodeChar)
+	for _,nodeAbility in pairs(DB.getChildren(nodeChar, "abilitylist")) do
+		local nodeFeatureList = nodeChar.createChild("featurelist");
+		local nodeNewFeature = nodeFeatureList.createChild();
+		DB.copyNode(nodeAbility, nodeNewFeature);
+	end
+	DB.deleteChild(nodeChar, "abilitylist");
+	
+	for _,nodeWeapon in pairs(DB.getChildren(nodeChar, "weaponlist")) do
+		if not DB.getChild(nodeWeapon, "damagelist") then
+			local nodeDmgList = DB.createChild(nodeWeapon, "damagelist");
+			if nodeDmgList then
+				local nodeDmg = DB.createChild(nodeDmgList);
+				if nodeDmg then
+					DB.setValue(nodeDmg, "dice", "dice", DB.getValue(nodeWeapon, "damagedice", {}));
+					DB.setValue(nodeDmg, "stat", "string", DB.getValue(nodeWeapon, "damagestat", ""));
+					DB.setValue(nodeDmg, "bonus", "number", DB.getValue(nodeWeapon, "damagebonus", 0));
+					DB.setValue(nodeDmg, "type", "string", DB.getValue(nodeWeapon, "damagetype", ""));
+					
+					DB.deleteChild(nodeWeapon, "damagedice");
+					DB.deleteChild(nodeWeapon, "damagestat");
+					DB.deleteChild(nodeWeapon, "damagebonus");
+					DB.deleteChild(nodeWeapon, "damagetype");
+				end
+			end
+		end
+	end
+	
+	for _,nodePower in pairs(DB.getChildren(nodeChar, "powers")) do
+		for _,nodeAction in pairs(DB.getChildren(nodePower, "actions")) do
+			local sType = DB.getValue(nodeAction, "type", "");
+			if sType == "damage" then
+				if not DB.getChild(nodeAction, "damagelist") then
+					local nodeDmgList = DB.createChild(nodeAction, "damagelist");
+					if nodeDmgList then
+						local nodeDmg = DB.createChild(nodeDmgList);
+						if nodeDmg then
+							local sDmgType = DB.getValue(nodeAction, "dmgtype", "");
+							
+							DB.setValue(nodeDmg, "dice", "dice", DB.getValue(nodeAction, "dmgdice", {}));
+							DB.setValue(nodeDmg, "stat", "string", DB.getValue(nodeAction, "dmgstat", ""));
+							DB.setValue(nodeDmg, "bonus", "number", DB.getValue(nodeAction, "dmgmod", 0));
+							DB.setValue(nodeDmg, "type", "string", sDmgType);
+							
+							local sDmgStat2 = DB.getValue(nodeAction, "dmgstat2", "");
+							if sDmgStat2 ~= "" then
+								local nodeDmg2 = DB.createChild(nodeDmgList);
+								DB.setValue(nodeDmg2, "stat", "string", sDmgStat2);
+								DB.setValue(nodeDmg2, "type", "string", sDmgType);
+							end
+							
+							DB.deleteChild(nodeAction, "dmgdice");
+							DB.deleteChild(nodeAction, "dmgstat");
+							DB.deleteChild(nodeAction, "dmgstat2");
+							DB.deleteChild(nodeAction, "dmgmod");
+							DB.deleteChild(nodeAction, "dmgtype");
+						end
+					end
+				end
+			elseif sType == "heal" then
+				if not DB.getChild(nodeAction, "heallist") then
+					local nodeDmgList = DB.createChild(nodeAction, "heallist");
+					if nodeDmgList then
+						local nodeHeal = DB.createChild(nodeDmgList);
+						if nodeHeal then
+							DB.setValue(nodeHeal, "dice", "dice", DB.getValue(nodeAction, "hdice", {}));
+							DB.setValue(nodeHeal, "stat", "string", DB.getValue(nodeAction, "hstat", ""));
+							DB.setValue(nodeHeal, "bonus", "number", DB.getValue(nodeAction, "hmod", 0));
+							
+							local sStat2 = DB.getValue(nodeAction, "hstat2", "");
+							if sStat2 ~= "" then
+								local nodeHeal2 = DB.createChild(nodeDmgList);
+								DB.setValue(nodeHeal2, "stat", "string", sStat2);
+							end
+							
+							DB.deleteChild(nodeAction, "hdice");
+							DB.deleteChild(nodeAction, "hstat");
+							DB.deleteChild(nodeAction, "hstat2");
+							DB.deleteChild(nodeAction, "hmod");
+						end
+					end
+				end
+			end
+		end
+	end
+end
+
+function convertCharacters2()
+	for _,nodeChar in pairs(DB.getChildren("charsheet")) do
+		migrateChar2(nodeChar);
+	end
+end

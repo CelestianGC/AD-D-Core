@@ -1,0 +1,249 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<!-- 
+  Please see the license.html file included with this distribution for 
+  attribution and copyright information.
+-->
+
+<root>
+	<windowclass name="combattracker_client">
+		<frame>ctbox</frame>
+		<placement>
+			<size width="500" height="500" />
+		</placement>
+		<sizelimits>
+			<minimum width="450" height="450" />
+			<dynamic />
+		</sizelimits>
+		<softclose />
+		<nodelete />
+		<script>
+			function onInit()
+				OptionsManager.registerCallback("SHPC", updateHealthDisplay);
+				OptionsManager.registerCallback("SHNPC", updateHealthDisplay);
+				updateHealthDisplay();
+				OptionsManager.registerCallback("CTSI", updateShowOrder);
+				updateShowOrder();
+			end
+			
+			function onClose()
+				OptionsManager.unregisterCallback("SHPC", updateHealthDisplay);
+				OptionsManager.unregisterCallback("SHNPC", updateHealthDisplay);
+				OptionsManager.unregisterCallback("CTSI", updateShowOrder);
+			end
+			
+			function updateHealthDisplay()
+				local sOptSHPC = OptionsManager.getOption("SHPC");
+				local sOptSHNPC = OptionsManager.getOption("SHNPC");
+				local bShowDetail = (sOptSHPC == "detailed") or (sOptSHNPC == "detailed");
+				
+				label_hp.setVisible(bShowDetail);
+				label_temp.setVisible(bShowDetail);
+				label_wounds.setVisible(bShowDetail);
+
+				label_status.setVisible(not bShowDetail);
+
+				for _,w in pairs(list.getWindows()) do
+					w.updateHealthDisplay();
+				end
+			end
+			
+			function updateShowOrder()
+				local bShowInit = not OptionsManager.isOption("CTSI", "off");
+				label_init.setVisible(bShowInit);
+			end
+		</script>
+		<sheetdata>
+			<windowtitlebar name="title">
+				<resource>ct_window_title</resource>
+			</windowtitlebar>
+			<anchor_title_ctbox name="contentanchor" />
+
+			<anchor_ctbox_client_header />
+			<frame_ctbox_client_header />
+			<label_ct name="label_name">
+				<anchored to="headeranchor" position="insidetopleft" offset="33,3">
+					<right offset="-220" />
+				</anchored>
+				<static textres="ct_label_name" />
+				<center />
+			</label_ct>
+			<label_ct name="label_init">
+				<anchored to="headeranchor" position="insidetopright" offset="170,3" width="30" />
+				<static textres="init" />
+				<center />
+			</label_ct>
+			<label_ct name="label_hp">
+				<anchored to="headeranchor" position="insidetopright" offset="125,3" width="30" />
+				<static textres="hp" />
+				<tooltip textres="hitpoints" />
+				<center />
+			</label_ct>
+			<label_ct name="label_temp">
+				<anchored to="headeranchor" position="insidetopright" offset="85,3" width="30" />
+				<static textres="ct_label_hptemp" />
+				<tooltip textres="ct_tooltip_hptemp" />
+				<center />
+			</label_ct>
+			<label_ct name="label_wounds">
+				<anchored to="headeranchor" position="insidetopright" offset="45,3" width="30" />
+				<static textres="ct_label_wounds" />
+				<tooltip textres="ct_tooltip_wounds" />
+				<center />
+			</label_ct>
+			<label_ct name="label_status">
+				<anchored to="headeranchor" position="insidetopright" offset="45,3" width="110" />
+				<static textres="ct_label_status" />
+				<center />
+			</label_ct>
+				
+			<list_ctbox_client />
+			<scrollbar_list />
+			
+			<button_ct_endturn name="turn_complete" />
+			
+			<label_ct_client_rounds />
+			<number_ct_client_rounds />
+
+			<resize_ctbox />
+			<helper_ct />
+			<close_ctbox />
+		</sheetdata>
+	</windowclass>
+
+	<windowclass name="client_ct_entry">
+		<margins control="0,0,0,2" />
+		<frame>ctentrybox</frame>
+		<script file="ct/scripts/clientct_entry.lua" />
+		<sheetdata>
+			<hs name="tokenrefid" />
+			<hs name="tokenrefnode" />
+			<hn name="tokenvis" />
+			<hlink name="link" />
+			<hn name="init" />
+
+			<genericcontrol name="active_spacer_top">
+				<anchored position="insidetopleft" width="0" height="5" />
+				<invisible />
+			</genericcontrol>
+			
+			<button_ctentry_client_active name="active">
+				<anchored width="33" height="40">
+					<top parent="active_spacer_top" anchor="bottom" />
+					<left />
+				</anchored>
+			</button_ctentry_client_active>
+			<token_ctentry_client name="token">
+				<anchored width="25" height="25">
+					<top parent="active_spacer_top" anchor="bottom" offset="7" />
+					<left offset="33" />
+				</anchored>
+			</token_ctentry_client>
+			
+			<genericcontrol name="rightanchor">
+				<anchored width="0" height="0">
+					<top parent="active_spacer_top" anchor="bottom" offset="10" />
+					<right />
+				</anchored>
+				<invisible />
+			</genericcontrol>
+			<button_ctentry_friendfoe name="friendfoe">
+				<anchored to="rightanchor" width="35" height="32">
+					<top offset="-10" />
+					<right anchor="left" relation="relative" offset="-10" />
+				</anchored>
+				<readonly />
+			</button_ctentry_friendfoe>
+
+			<genericcontrol name="healthbase">
+				<anchored to="rightanchor" width="110" height="20">
+					<top />
+					<right anchor="left" relation="relative" offset="-10" />
+				</anchored>
+				<disabled />
+			</genericcontrol>
+			<simplestring name="status">
+				<anchored to="healthbase" position="over" />
+				<frame name="fieldlight" offset="7,5,7,5" />
+				<center />
+				<static />
+				<invisible />
+			</simplestring>
+			<number_ct_static name="wounds">
+				<anchored to="healthbase" width="30" height="20">
+					<top />
+					<right />
+				</anchored>
+				<min value="0" />
+				<script>
+					function onValueChanged()
+						window.onHealthChanged();
+					end
+				</script>
+			</number_ct_static>
+			<number_ct_static name="hptemp">
+				<anchored to="wounds" width="30" height="20">
+					<top />
+					<right anchor="left" offset="-10" />
+				</anchored>
+				<color>0000AA</color>
+				<script>
+					function onValueChanged()
+						window.onHealthChanged();
+					end
+				</script>
+			</number_ct_static>
+			<number_ct_static name="hptotal">
+				<anchored to="hptemp" width="30" height="20">
+					<top />
+					<right anchor="left" offset="-10" />
+				</anchored>
+				<min value="0" />
+				<script>
+					function onValueChanged()
+						window.onHealthChanged();
+					end
+				</script>
+			</number_ct_static>
+			<number_ct_static name="initresult">
+				<anchored to="rightanchor" width="30" height="20">
+					<top />
+					<right anchor="left" relation="relative" offset="-15" />
+				</anchored>
+				<script>
+					function onValueChanged()
+						window.windowlist.applySort();
+					end
+				</script>
+			</number_ct_static>
+
+			<stringu name="name">
+				<anchored height="20">
+					<top parent="active_spacer_top" anchor="bottom" offset="10" />
+					<left parent="token" anchor="right" offset="5" />
+					<right parent="rightanchor" anchor="left" relation="relative" offset="-10" />
+				</anchored>
+				<readonly />
+			</stringu>
+
+			<!-- Quick labels -->
+			<string_ctentry_targets name="target_summary" />
+			<string_ctentry_effects name="effect_summary" />
+
+			<genericcontrol name="spacer">
+				<anchored width="0" height="7">
+					<top parent="name" anchor="bottom" relation="relative" />
+					<left />
+				</anchored>
+			</genericcontrol>
+
+			<genericcontrol name="active_spacer_bottom">
+				<anchored width="0" height="5">
+					<top parent="name" anchor="bottom" relation="relative" />
+					<left />
+				</anchored>
+				<invisible />
+			</genericcontrol>
+		</sheetdata>
+	</windowclass>
+</root>

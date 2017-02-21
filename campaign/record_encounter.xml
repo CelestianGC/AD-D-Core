@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<!-- 
+  Please see the license.html file included with this distribution for 
+  attribution and copyright information.
+-->
+
+<root>
+	<windowclass name="battle">
+		<frame>recordsheet</frame>
+		<placement>
+			<size width="350" height="400" />
+		</placement>
+		<sizelimits>
+			<minimum width="300" height="300" />
+			<dynamic />
+		</sizelimits>
+		<minimize>minimized_combat</minimize>
+		<tooltip field="name" />
+		<nodelete />
+		<script file="campaign/scripts/encounter.lua" />
+		<sheetdata>
+			<sub_record_header name="header">
+				<class>battle_header</class>
+			</sub_record_header>
+
+			<frame_record_content name="contentframe" />
+
+			<label>
+				<anchored to="contentframe" position="insidetopleft" offset="-5,0" width="40" />
+				<static textres="battle_label_token" />
+				<center />
+			</label>
+			<label>
+				<anchored to="contentframe" position="insidetopleft" offset="35,0" width="25" />
+				<static>#</static>
+				<center />
+			</label>
+			<label>
+				<anchored to="contentframe" position="insidetopleft" offset="95,0">
+					<right offset="-50" />
+				</anchored>
+				<static textres="battle_label_name" />
+				<center />
+			</label>
+
+			<windowlist name="npcs">
+				<anchored to="contentframe">
+					<left offset="0" />
+					<top offset="22" />
+					<right offset="0" />
+					<bottom offset="-20" />
+				</anchored>
+				<child><backcolor>1A40301E</backcolor></child>
+				<child></child>
+				<datasource>.npclist</datasource>
+				<class>battle_npc</class>
+				<allowdelete />
+				<sortby><field>name</field></sortby>
+				<empty font="list-empty" gmtextres="battle_emptylist" />
+				<script file="campaign/scripts/encounter_npclist.lua" />
+			</windowlist>
+			<scrollbar>
+				<anchored to="npcs" />
+				<target>npcs</target>
+			</scrollbar>
+			<button_iedit name="npcs_iedit">
+				<anchored to="contentframe" position="belowright" offset="5,-10" />
+				<target>npcs</target>
+			</button_iedit>
+			
+			<buttoncontrol name="addct">
+				<anchored to="contentframe" position="belowleft" offset="10,-13" width="33" height="26" />
+				<icon normal="button_arrowdown" pressed="button_arrowdown_down" />
+				<tooltip textres="battle_tooltip_addct" />
+				<gmvisibleonly />
+				<script>
+					function onButtonPress()
+						if User.isHost() then
+							for _,vNPC in pairs(window.npcs.getWindows()) do
+								for _,vMapLink in pairs(vNPC.maplinks.getWindows()) do
+									vMapLink.deleteLink();
+								end
+							end
+							
+							CombatManager.addBattle(window.getDatabaseNode());
+						end
+					end
+				</script>
+			</buttoncontrol>
+			
+			<resize_recordsheet />
+			<close_recordsheet />
+		</sheetdata>
+	</windowclass>
+
+	<windowclass name="battle_header">
+		<margins control="0,0,0,2" />
+		<script>
+			function onInit()
+				update();
+				
+				local node = getDatabaseNode();
+				if DB.getValue(node, "generated", 0) == 1 then
+					button_refreshcr.onButtonPress();
+					DB.setValue(node, "generated", "number", 0);
+				end
+			end
+			function update()
+				local bReadOnly = WindowManager.getReadOnlyState(getDatabaseNode());
+				name.setReadOnly(bReadOnly);
+				cr.setReadOnly(bReadOnly);
+				exp.setReadOnly(bReadOnly);
+				button_refreshcr.setVisible(not bReadOnly);
+				button_refreshxp.setVisible(not bReadOnly);
+			end
+		</script>
+		<sheetdata>
+			<link_record_header>
+				<class>battle</class>
+			</link_record_header>
+			
+			<anchor_record_header_right name="rightanchor" />
+			<icon_record_locked />
+			<button_record_locked />
+
+			<string_record_name name="name">
+				<empty textres="library_recordtype_empty_battle" />
+			</string_record_name>
+
+			<label name="cr_label">
+				<anchored>
+					<top parent="name" anchor="bottom" offset="7" />
+					<left offset="15" />
+				</anchored>
+				<static textres="cr" />
+			</label>
+			<basicstring name="cr">
+				<anchored to="cr_label" position="righthigh" offset="10,0" width="20" height="20" />
+				<tabtarget next="exp" prev="name" />
+				<description textres="cr" />
+				<frame name="fielddark" offset="7,5,7,5" />
+				<center />
+			</basicstring>
+			<button_enc_refreshcr name="button_refreshcr" />
+			
+			<basicnumber name="exp">
+				<anchored width="70" height="20">
+					<top parent="name" anchor="bottom" offset="7" />
+					<right offset="-30" />
+				</anchored>
+				<tabtarget next="npcs" prev="cr" />
+				<description textres="xp" />
+			</basicnumber>
+			<label>
+				<anchored to="exp" position="lefthigh" offset="10,0" />
+				<static textres="xp" />
+			</label>
+			<button_enc_refreshxp name="button_refreshxp" />
+		</sheetdata>
+	</windowclass>
+</root>

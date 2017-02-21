@@ -6,7 +6,7 @@
 -->
 
 <root>
-	<windowclass name="char_weapon" merge="join">
+	<windowclass name="char_weapon">
 		<script file="campaign/scripts/char_weapon.lua"/>
 		<margins control="0,0,0,5" />
 		<sheetdata>

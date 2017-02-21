@@ -1,0 +1,261 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<!-- 
+  Please see the license.html file included with this distribution for 
+  attribution and copyright information.
+-->
+
+<root>
+	<template name="button_grouptype">
+		<button_iconcycler name="castertype">
+			<anchored width="20" height="20" />
+			<parameters>
+				<defaulticon>power_weapon</defaulticon>
+				<defaulttooltipres>power_tooltip_grouptypeability</defaulttooltipres>
+				<icons>power_casterprep</icons>
+				<tooltipsres>power_tooltip_grouptypeprep</tooltipsres>
+				<values>memorization</values>
+			</parameters>
+			<script>
+				function onValueChanged()
+					if window.onCasterTypeChanged then
+						window.onCasterTypeChanged();
+					end
+				end
+			</script>
+		</button_iconcycler>
+	</template>
+	
+	<template name="list_powers">
+		<windowlist>
+			<anchored>
+				<top parent="columnanchor" anchor="bottom" relation="relative" offset="5" />
+				<left />
+				<right />
+			</anchored>
+			<datasource>.powers</datasource>
+			<class>power_item</class>
+			<noscroll />
+			<footer>footer_wide</footer>
+			<script file="campaign/scripts/power_list.lua" />
+		</windowlist>
+	</template>
+
+	<template name="number_spellslots">
+		<basicnumber>
+			<anchored to="anchor_spellslots" width="20" height="20">
+				<top />
+				<left anchor="right" relation="relative" offset="10" />
+			</anchored>
+		</basicnumber>
+	</template>
+	<template name="number_pactmagicslots">
+		<basicnumber>
+			<anchored to="anchor_pactmagicslots" width="20" height="20">
+				<top />
+				<left anchor="right" relation="relative" offset="10" />
+			</anchored>
+		</basicnumber>
+	</template>
+	<template name="icon_usepower">
+		<buttoncontrol>
+			<anchored width="20" height="20" />
+			<icon normal="usepower" />
+			<script>
+				function onButtonPress()
+					window.parentcontrol.window.usePower(false);
+				end
+			</script>
+		</buttoncontrol>
+	</template>
+	<template name="string_power">
+		<simplestring>
+			<frame name="fieldlight" offset="7,5,7,5" />
+			<multilinespacing>20</multilinespacing>
+			<nodrag />
+			<script>
+				function onEnter()
+					if window.windowlist and window.windowlist.onEnter then
+						return window.windowlist.onEnter();
+					end
+				end
+			</script>
+		</simplestring>
+	</template>
+	<template name="counter_power">
+		<genericcontrol>
+			<stateicons>
+				<on>button_checkon</on>
+				<off>button_checkoff</off>
+			</stateicons>
+			<script file="campaign/scripts/power_counter.lua" />
+		</genericcontrol>
+	</template>
+	
+	<template name="button_poweraction_mini">
+		<button_roll>
+			<bounds>1,1,20,20</bounds>
+			<script>
+				function action(draginfo)
+					PowerManager.onPowerAction(draginfo, window.getDatabaseNode());
+				end
+				
+				function onButtonPress()
+					action();
+				end
+				
+				function onDragStart(button, x, y, draginfo)
+					action(draginfo);
+					return true;
+				end
+			</script>
+		</button_roll>
+	</template>
+
+	<template name="list_poweraction">
+		<windowlist>
+			<datasource>.actions</datasource>
+			<class>power_action</class>
+			<noscroll />
+			<sortby><control>order</control></sortby>
+			<script>
+				function reset()
+					for _,v in pairs(getWindows()) do
+						v.getDatabaseNode().delete();
+					end
+				end
+
+				function setOrder(node)
+					if DB.getValue(node, "order", 0) == 0 then
+						local aOrder = {};
+						for _,v in pairs(DB.getChildren(getDatabaseNode(), "")) do
+							aOrder[DB.getValue(v, "order", 0)] = true;
+						end
+						
+						local i = 1;
+						while aOrder[i] do
+							i = i + 1;
+						end
+						
+						DB.setValue(node, "order", "number", i);
+					end
+				end
+			</script>
+		</windowlist>
+	</template>
+	<template name="button_poweraction">
+		<button_roll>
+			<script>
+				function action(draginfo)
+					local sSubRoll = nil;
+					if subroll then
+						sSubRoll = subroll[1];
+					end
+					
+					PowerManager.onPowerAction(draginfo, window.getDatabaseNode(), sSubRoll);
+				end
+
+				function onButtonPress(x, y)
+					action();
+				end
+				
+				function onDragStart(button, x, y, draginfo)
+					action(draginfo);
+					return true;
+				end
+			</script>
+		</button_roll>
+	</template>
+	<template name="string_poweractionview">
+		<stringcontrol>
+			<frame name="fieldlight" offset="7,5,7,5" />
+			<multilinespacing>20</multilinespacing>
+			<font>sheettext</font>
+			<center />
+			<nodrag />
+			<readonly />
+			<cursor hover="hand" />
+			<script>
+				function action(draginfo)
+					local sSubRoll = nil;
+					if subroll then
+						sSubRoll = subroll[1];
+					end
+					
+					PowerManager.onPowerAction(draginfo, window.getDatabaseNode(), sSubRoll);
+				end
+
+				function onDoubleClick(x, y)
+					action();
+					return true;
+				end
+				
+				function onDragStart(button, x, y, draginfo)
+					action(draginfo);
+					return true;
+				end
+			</script>
+		</stringcontrol>
+	</template>
+	<template name="button_poweractioneditor">
+		<buttoncontrol>
+			<bounds>-22,2,20,20</bounds>
+			<state icon="details" pressed="details_down" />
+			<script>
+				function onButtonPress()
+					local w = Interface.openWindow(editor[1], window.getDatabaseNode());
+					w.main.subwindow.name.setValue(DB.getValue(window.getDatabaseNode(), "...name", ""));
+				end
+			</script>
+		</buttoncontrol>
+	</template>
+	<template name="cycler_power">
+		<button_stringcycler>
+			<anchored width="50" height="20" />
+			<parameters>
+				<defaultlabelres>dash</defaultlabelres>
+				<labelsres>base|str|dex|con|int|wis|cha|prof|lvl|class_short_barbarian|class_short_bard|class_short_cleric|class_short_druid|class_short_fighter|class_short_monk|class_short_paladin|class_short_ranger|class_short_rogue|class_short_sorcerer|class_short_warlock|class_short_wizard</labelsres>
+				<values>base|strength|dexterity|constitution|intelligence|wisdom|charisma|prf|level|barbarian|bard|cleric|druid|fighter|monk|paladin|ranger|rogue|sorcerer|warlock|wizard</values>
+			</parameters>
+		</button_stringcycler>
+	</template>
+	<template name="cycler_group_dc">
+		<button_stringcycler>
+			<parameters>
+				<defaultlabelres mergerule="replace">base</defaultlabelres>
+				<labelsres>str|dex|con|int|wis|cha|prof|lvl|class_short_barbarian|class_short_bard|class_short_cleric|class_short_druid|class_short_fighter|class_short_monk|class_short_paladin|class_short_ranger|class_short_rogue|class_short_sorcerer|class_short_warlock|class_short_wizard</labelsres>
+				<values>strength|dexterity|constitution|intelligence|wisdom|charisma|prf|level|barbarian|bard|cleric|druid|fighter|monk|paladin|ranger|rogue|sorcerer|warlock|wizard</values>
+			</parameters>
+		</button_stringcycler>
+	</template>
+	<template name="cycler_power_savetype">
+		<button_stringcycler>
+			<anchored width="50" height="20" />
+			<parameters>
+				<defaultlabelres>dash</defaultlabelres>
+				<labelsres>base|str|dex|con|int|wis|cha</labelsres>
+				<values>base|strength|dexterity|constitution|intelligence|wisdom|charisma</values>
+			</parameters>
+		</button_stringcycler>
+	</template>
+	<template name="cycler_power_onmissdamage">
+		<button_stringcycler>
+			<anchored width="100" height="20" />
+			<parameters>
+				<defaultlabelres>dash</defaultlabelres>
+				<labelsres>power_label_onmissdamage_half</labelsres>
+				<values>half</values>
+			</parameters>
+		</button_stringcycler>
+	</template>
+	<template name="cycler_power_useperiod">
+		<button_stringcycler>
+			<anchored width="40" height="20" />
+			<parameters>
+				<defaultlabelres>power_label_useperiod_daily</defaultlabelres>
+				<labelsres>power_label_useperiod_enc|power_label_useperiod_once</labelsres>
+				<values>enc|once</values>
+			</parameters>
+		</button_stringcycler>
+	</template>
+</root>

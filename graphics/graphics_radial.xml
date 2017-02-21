@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<!-- 
+  Please see the license.html file included with this distribution for 
+  attribution and copyright information.
+-->
+
+<root>
+	<!-- Spell actions -->
+	<icon name="radial_sword" file="graphics/radial/icon_sword.png" />
+	<icon name="radial_damage" file="graphics/radial/icon_damage.png" />
+	<icon name="radial_heal" file="graphics/radial/icon_plus.png" />
+	<icon name="radial_effect" file="graphics/radial/icon_effect.png" />
+	
+	<!-- Party Sheet -->
+	<icon name="all" file="graphics/radial/icon_all.png" />
+	<icon name="one" file="graphics/radial/icon_one.png" />
+</root>

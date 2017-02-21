@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<!-- 
+  Please see the license.html file included with this distribution for 
+  attribution and copyright information.
+-->
+
+<root>
+	<template name="button_forgeitem">
+		<button_text_large>
+			<anchored position="insidebottomright" offset="40,40" width="120" height="60" />
+			<state textres="forge_item_label_activateforge" />
+			<script>
+				function onClickRelease(button,x,y)
+					ForgeManagerItem.forgeMagicItem(window);
+					return true;
+				end
+			</script>
+		</button_text_large>
+	</template>
+	<template name="button_forgeitem_clear">
+		<button_text_large>
+			<anchored position="insidebottomleft" offset="35,40" width="80" height="60" />
+			<state textres="forge_item_label_clearforge" />
+			<script>
+				function onClickRelease(button,x,y)
+					ForgeManagerItem.reset(window);
+					return true;
+				end
+			</script>
+		</button_text_large>
+	</template>
+	
+	<template name="forge_statusicon">
+		<button_iconcycler name="itemtype">
+			<anchored to="statusframe" position="insidetopleft" offset="5,5" height="40" width="40" />
+			<parameters>
+				<icons>forge_ok|forge_error</icons>
+				<values>ok|error</values>
+				<tooltipsres>forge_ok|forge_error</tooltipsres>
+				<defaulticon>forge_blank</defaulticon>
+			</parameters>
+			<disabled />
+		</button_iconcycler>
+	</template>
+	
+	<template name="button_forgeitemtype">
+		<button_iconcycler name="itemtype">
+			<anchored height="20" width="20">
+				<top />
+				<left parent="link" anchor="right" offset="5" />
+			</anchored>
+			<parameters>
+				<icons>forge_item_armor|forge_item_mount|forge_item_tool|forge_item_vehicle|forge_item_weapon|forge_magicitem_armor|forge_magicitem_potion|forge_magicitem_ring|forge_magicitem_rod|forge_magicitem_scroll|forge_magicitem_staff|forge_magicitem_wand|forge_magicitem_weapon|forge_magicitem_wondrousitem|forge_magicspell</icons>
+				<values>armor|mount|tool|vehicle|weapon|marmor|mpotion|mring|mrod|mscroll|mstaff|mwand|mweapon|mwondrousitem|mspell</values>
+				<tooltipsres>forge_item_armor|forge_item_mount|forge_item_tool|forge_item_vehicle|forge_item_weapon|forge_magicitem_armor|forge_magicitem_potion|forge_magicitem_ring|forge_magicitem_rod|forge_magicitem_scroll|forge_magicitem_staff|forge_magicitem_wand|forge_magicitem_weapon|forge_magicitem_wondrousitem|forge_magicspell</tooltipsres>
+				<defaulticon>forge_item_advgear</defaulticon>
+				<defaulttooltipres>forge_item_advgear</defaulttooltipres>
+			</parameters>
+			<script>
+				function onInit()
+					super.onInit();
+					update();
+				end
+				
+				function update()
+					setStringValue(ForgeManagerItem.getDisplayType(window.getDatabaseNode()));
+					super.update();
+				end
+			</script>
+			<disabled />
+		</button_iconcycler>
+	</template>
+	
+	<template name="forge_string_list_name">
+		<string_list_link>
+			<bounds merge="delete" />
+			<anchored height="20">
+				<top />
+				<left offset="50" />
+				<right parent="rightanchor" anchor="left" relation="relative" offset="-5" />
+			</anchored>
+			<empty textres="library_recordtype_empty_item" />
+		</string_list_link>
+	</template>
+</root>

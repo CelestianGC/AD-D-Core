@@ -1,0 +1,403 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<!-- 
+  Please see the license.html file included with this distribution for 
+  attribution and copyright information.
+-->
+
+<root>
+	<!-- Weapon Description sheets (non-editable) -->
+	<windowclass name="reference_weapon">
+		<frame>recordsheet</frame>
+		<placement>
+			<size width="350" height="350" />
+		</placement>
+		<sizelimits>
+			<minimum width="300" height="300" />
+			<dynamic />
+		</sizelimits>
+		<minimize>minimized_reference</minimize>
+		<tooltip field="name" />
+		<nodelete />
+		<sheetdata>
+			<sub_ref_header name="header">
+				<class>ref_weapon_header</class>
+			</sub_ref_header>
+
+			<frame_ref_content />
+			<sub_ref_content name="content">
+				<class>ref_weapon_stats</class>
+			</sub_ref_content>
+			<scrollbar_ref_content />
+			
+			<resize_recordsheet />
+			<close_recordsheet />
+		</sheetdata>
+	</windowclass>
+	<windowclass name="ref_weapon_header">
+		<margins control="0,0,0,2" />
+		<sheetdata>
+			<link_record_header>
+				<class>reference_weapon</class>
+			</link_record_header>
+			<string_record_name_ref name="name" />
+			<label_item_reftype name="reftype" />
+		</sheetdata>
+	</windowclass>
+	<windowclass name="ref_weapon_stats">
+		<margins control="0,0,0,7" />
+		<sheetdata>
+			<anchor_column name="columnanchor" />
+			
+			<label_column name="cost_label">
+				<static textres="ref_label_listcost" />
+			</label_column>
+			<string_column_left name="cost">
+				<readonly />
+			</string_column_left>
+
+			<label_column name="weight_label">
+				<anchored to="cost_label" />
+				<static textres="item_label_weight" />
+			</label_column>
+			<stringc_column name="weightwithsuffix" />
+			<number_ref_weightwithsuffix name="weight" />
+			
+			<line_column />
+			
+			<label_column>
+				<static textres="item_label_damage" />
+			</label_column>
+			<string_column name="damage">
+				<readonly />
+			</string_column>
+			
+			<label_column name="properties_label">
+				<static textres="item_label_properties" />
+			</label_column>
+			<string_columnh name="properties">
+				<readonly />
+			</string_columnh>
+			
+			<line_column name="line_desc" />
+			
+			<ft_columnh name="description">
+				<separator>line_desc</separator>
+				<readonly />
+			</ft_columnh>
+		</sheetdata>
+	</windowclass>
+
+	<!-- Amor Description sheets (non-editable) -->
+	<windowclass name="reference_armor">
+		<frame>recordsheet</frame>
+		<placement>
+			<size width="350" height="350" />
+		</placement>
+		<sizelimits>
+			<minimum width="300" height="300" />
+			<dynamic />
+		</sizelimits>
+		<minimize>minimized_reference</minimize>
+		<tooltip field="name" />
+		<nodelete />
+		<sheetdata>
+			<sub_ref_header name="header">
+				<class>ref_armor_header</class>
+			</sub_ref_header>
+
+			<frame_ref_content />
+			<sub_ref_content name="content">
+				<class>ref_armor_stats</class>
+			</sub_ref_content>
+			<scrollbar_ref_content />
+			
+			<resize_recordsheet />
+			<close_recordsheet />
+		</sheetdata>
+	</windowclass>
+	<windowclass name="ref_armor_header">
+		<margins control="0,0,0,2" />
+		<sheetdata>
+			<link_record_header>
+				<class>reference_armor</class>
+			</link_record_header>
+			<string_record_name_ref name="name" />
+			<label_item_reftype name="reftype" />
+		</sheetdata>
+	</windowclass>
+	<windowclass name="ref_armor_stats">
+		<margins control="0,0,0,7" />
+		<sheetdata>
+			<anchor_column name="columnanchor" />
+			
+			<label_column name="cost_label">
+				<static textres="ref_label_listcost" />
+			</label_column>
+			<string_column_left name="cost">
+				<readonly />
+			</string_column_left>
+			
+			<label_column name="weight_label">
+				<anchored to="cost_label" />
+				<static textres="item_label_weight" />
+			</label_column>
+			<stringc_column name="weightwithsuffix" />
+			<number_ref_weightwithsuffix name="weight" />
+			
+			<line_column />
+			
+			<label_column name="bonus_label">
+				<static textres="item_label_bonus" />
+			</label_column>
+			<number_columnh name="bonus">
+				<displaysign />
+			</number_columnh>
+			
+			<label_column name="ac_label">
+				<static textres="item_label_ac" />
+			</label_column>
+			<number_columnh name="ac" />
+			
+			<label_column name="dexbonus_label">
+				<static textres="item_label_dexbonus" />
+			</label_column>
+			<string_columnh name="dexbonus">
+				<readonly />
+			</string_columnh>
+			
+			<label_column name="strength_label">
+				<static textres="item_label_strength" />
+			</label_column>
+			<string_columnh name="strength">
+				<readonly />
+			</string_columnh>
+			
+			<label_column name="stealth_label">
+				<static textres="item_label_stealth" />
+			</label_column>
+			<string_columnh name="stealth">
+				<gmeditonly />
+			</string_columnh>
+			
+			<label_column name="properties_label">
+				<static textres="item_label_properties" />
+			</label_column>
+			<string_columnh name="properties">
+				<readonly />
+			</string_columnh>
+			
+			<line_column name="line_desc" />
+			
+			<ft_columnh name="description">
+				<separator>line_desc</separator>
+				<readonly />
+			</ft_columnh>
+		</sheetdata>
+	</windowclass>
+
+	<!-- Equipment Description sheets (non-editable) -->
+	<windowclass name="reference_equipment">
+		<frame>recordsheet</frame>
+		<placement>
+			<size width="350" height="350" />
+		</placement>
+		<sizelimits>
+			<minimum width="300" height="300" />
+			<dynamic />
+		</sizelimits>
+		<minimize>minimized_reference</minimize>
+		<tooltip field="name" />
+		<nodelete />
+		<sheetdata>
+			<sub_ref_header name="header">
+				<class>ref_equipment_header</class>
+			</sub_ref_header>
+
+			<frame_ref_content />
+			<sub_ref_content name="content">
+				<class>ref_equipment_stats</class>
+			</sub_ref_content>
+			<scrollbar_ref_content />
+			
+			<resize_recordsheet />
+			<close_recordsheet />
+		</sheetdata>
+	</windowclass>
+	<windowclass name="ref_equipment_header">
+		<margins control="0,0,0,2" />
+		<sheetdata>
+			<link_record_header>
+				<class>reference_equipment</class>
+			</link_record_header>
+			<string_record_name_ref name="name" />
+			<label_item_reftype name="reftype" />
+		</sheetdata>
+	</windowclass>
+	<windowclass name="ref_equipment_stats">
+		<margins control="0,0,0,7" />
+		<sheetdata>
+			<anchor_column name="columnanchor" />
+
+			<label_column name="cost_label">
+				<static textres="ref_label_listcost" />
+			</label_column>
+			<string_column_left name="cost">
+				<readonly />
+			</string_column_left>
+			
+			<label_column name="weight_label">
+				<anchored to="cost_label" />
+				<static textres="item_label_weight" />
+			</label_column>
+			<stringc_column name="weightwithsuffix" />
+			<number_ref_weightwithsuffix name="weight" />
+			
+			<line_column name="line_desc" />
+
+			<ft_columnh name="description">
+				<separator>line_desc</separator>
+				<readonly />
+			</ft_columnh>
+		</sheetdata>
+	</windowclass>
+	
+	<!-- Mounts and Other Animals Description sheets (non-editable) -->
+	<windowclass name="reference_mountsandotheranimals">
+		<frame>recordsheet</frame>
+		<placement>
+			<size width="350" height="350" />
+		</placement>
+		<sizelimits>
+			<minimum width="300" height="300" />
+			<dynamic />
+		</sizelimits>
+		<minimize>minimized_reference</minimize>
+		<tooltip field="name" />
+		<nodelete />
+		<sheetdata>
+			<sub_ref_header name="header">
+				<class>ref_mountsandotheranimals_header</class>
+			</sub_ref_header>
+
+			<frame_ref_content />
+			<sub_ref_content name="content">
+				<class>ref_mountsandotheranimals_stats</class>
+			</sub_ref_content>
+			<scrollbar_ref_content />
+			
+			<resize_recordsheet />
+			<close_recordsheet />
+		</sheetdata>
+	</windowclass>
+	<windowclass name="ref_mountsandotheranimals_header">
+		<margins control="0,0,0,2" />
+		<sheetdata>
+			<link_record_header>
+				<class>reference_mountsandotheranimals</class>
+			</link_record_header>
+			<string_record_name_ref name="name" />
+			<label_item_reftype name="reftype" />
+		</sheetdata>
+	</windowclass>
+	<windowclass name="ref_mountsandotheranimals_stats">
+		<margins control="0,0,0,7" />
+		<sheetdata>
+			<anchor_column name="columnanchor" />
+
+			<label_column name="cost_label">
+				<static textres="ref_label_listcost" />
+			</label_column>
+			<string_column_left name="cost">
+				<readonly />
+			</string_column_left>
+			
+			<label_column name="speed_label">
+				<static textres="item_label_speed" />
+			</label_column>
+			<string_columnh name="speed">
+				<readonly />
+			</string_columnh>
+			
+			<label_column name="carryingcapacity_label">
+				<static textres="item_label_carryingcapacity" />
+			</label_column>
+			<string_columnh name="carryingcapacity">
+				<readonly />
+			</string_columnh>
+			
+			<line_column name="line_desc" />
+
+			<ft_columnh name="description">
+				<separator>line_desc</separator>
+				<readonly />
+			</ft_columnh>
+		</sheetdata>
+	</windowclass>
+	
+	<!-- Waterborne Vehicles Description sheets (non-editable) -->
+	<windowclass name="reference_waterbornevehicles">
+		<frame>recordsheet</frame>
+		<placement>
+			<size width="350" height="350" />
+		</placement>
+		<sizelimits>
+			<minimum width="300" height="300" />
+			<dynamic />
+		</sizelimits>
+		<minimize>minimized_reference</minimize>
+		<tooltip field="name" />
+		<nodelete />
+		<sheetdata>
+			<sub_ref_header name="header">
+				<class>ref_waterbornevehicles_header</class>
+			</sub_ref_header>
+
+			<frame_ref_content />
+			<sub_ref_content name="content">
+				<class>ref_waterbornevehicles_stats</class>
+			</sub_ref_content>
+			<scrollbar_ref_content />
+			
+			<resize_recordsheet />
+			<close_recordsheet />
+		</sheetdata>
+	</windowclass>
+	<windowclass name="ref_waterbornevehicles_header">
+		<margins control="0,0,0,2" />
+		<sheetdata>
+			<link_record_header>
+				<class>reference_waterbornevehicles</class>
+			</link_record_header>
+			<string_record_name_ref name="name" />
+			<label_item_reftype name="reftype" />
+		</sheetdata>
+	</windowclass>
+	<windowclass name="ref_waterbornevehicles_stats">
+		<margins control="0,0,0,7" />
+		<sheetdata>
+			<anchor_column name="columnanchor" />
+
+			<label_column name="cost_label">
+				<static textres="ref_label_listcost" />
+			</label_column>
+			<string_column_left name="cost">
+				<readonly />
+			</string_column_left>
+			
+			<label_column name="speed_label">
+				<static textres="item_label_speed" />
+			</label_column>
+			<string_columnh name="speed">
+				<readonly />
+			</string_columnh>
+			
+			<line_column name="line_desc" />
+
+			<ft_columnh name="description">
+				<separator>line_desc</separator>
+				<readonly />
+			</ft_columnh>
+		</sheetdata>
+	</windowclass>
+</root>

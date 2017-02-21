@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<!-- 
+  Please see the license.html file included with this distribution for 
+  attribution and copyright information.
+-->
+
+<root>
+	<windowclass name="quest_header">
+		<margins control="0,0,0,2" />
+		<script>
+			function onInit()
+				update();
+			end
+			function update()
+				local bReadOnly = WindowManager.getReadOnlyState(getDatabaseNode());
+				
+				name.setReadOnly(bReadOnly);
+				cr.setReadOnly(bReadOnly);
+				xp.setReadOnly(bReadOnly);
+			end
+		</script>
+		<sheetdata>
+			<link_record_header name="open">
+				<class>quest</class>
+			</link_record_header>
+
+			<anchor_record_header_right name="rightanchor" />
+			<icon_record_locked />
+			<button_record_locked />
+
+			<string_record_name name="name">
+				<empty textres="library_recordtype_empty_quest" />
+				<tabtarget next="cr" />
+			</string_record_name>
+
+			<label name="cr_label">
+				<anchored>
+					<top parent="name" anchor="bottom" offset="7" />
+					<left offset="15" />
+				</anchored>
+				<static textres="cr" />
+			</label>
+			<basicstring name="cr">
+				<anchored to="cr_label" position="righthigh" offset="10,0" width="20" height="20" />
+				<tabtarget next="exp" prev="name" />
+				<description textres="cr" />
+			</basicstring>
+			<basicnumber name="xp">
+				<anchored height="20" width="65">
+					<top parent="name" anchor="bottom" offset="7" />
+					<right offset="-5" />
+				</anchored>
+			</basicnumber>
+			<label>
+				<anchored to="xp" position="lefthigh" offset="10,0" />
+				<static textres="xp" />
+			</label>
+		</sheetdata>
+	</windowclass>
+</root>

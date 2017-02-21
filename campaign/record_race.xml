@@ -1,0 +1,452 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<!-- 
+  Please see the license.html file included with this distribution for 
+  attribution and copyright information.
+-->
+
+<root>
+	<windowclass name="reference_race">
+		<frame>recordsheet</frame>
+		<placement>
+			<size width="350" height="350" />
+		</placement>
+		<sizelimits>
+			<minimum width="300" height="300" />
+			<dynamic />
+		</sizelimits>
+		<minimize>minimized_reference</minimize>
+		<tooltip field="name" />
+		<script>
+			function onLockChanged()
+				if header.subwindow then
+					header.subwindow.update();
+				end
+				if stats.subwindow then
+					stats.subwindow.update();
+				end
+				
+				local bReadOnly = WindowManager.getReadOnlyState(getDatabaseNode());
+				text.setReadOnly(bReadOnly);
+			end
+		</script>
+		<sheetdata>
+			<sub_record_header name="header">
+				<class>ref_race_header</class>
+			</sub_record_header>
+
+			<frame_record_content_tabbed name="contentframe" />
+
+			<ft_record name="text">
+				<anchored to="contentframe" position="over" />
+				<invisible />
+			</ft_record>
+			<subwindow_record name="stats">
+				<class>ref_race_stats</class>
+			</subwindow_record>
+
+			<scrollbar_record>
+				<target>text</target>
+			</scrollbar_record>
+			<scrollbar_record>
+				<target>stats</target>
+			</scrollbar_record>
+			
+			<tabs_recordsheet>
+				<tab>
+					<icon>tab_main</icon>
+					<subwindow>text</subwindow>
+				</tab>
+				<tab>
+					<icon>tab_other</icon>
+					<subwindow>stats</subwindow>
+				</tab>
+			</tabs_recordsheet>
+			
+			<resize_recordsheet />
+			<close_recordsheet />
+		</sheetdata>
+	</windowclass>
+	<windowclass name="ref_race_header">
+		<margins control="0,0,0,2" />
+		<script>
+			function onInit()
+				update();
+			end
+			function update()
+				local bReadOnly = WindowManager.getReadOnlyState(getDatabaseNode());
+				name.setReadOnly(bReadOnly);
+			end
+		</script>
+		<sheetdata>
+			<link_record_header>
+				<class>reference_race</class>
+			</link_record_header>
+
+			<anchor_record_header_right />
+			<icon_record_locked />
+			<button_record_locked />
+
+			<string_record_name name="name">
+				<empty textres="library_recordtype_empty_race" />
+			</string_record_name>
+			<label_reftype name="reftype">
+				<static textres="ref_type_race" />
+			</label_reftype>	
+		</sheetdata>
+	</windowclass>
+	<windowclass name="ref_race_stats">
+		<margins control="0,0,0,7" />
+		<script>
+			function onInit()
+				update();
+			end
+			function update()
+				local bReadOnly = WindowManager.getReadOnlyState(getDatabaseNode());
+				subraces.update(bReadOnly);
+				traits.update(bReadOnly);
+			end
+		</script>
+		<sheetdata>
+			<anchor_column name="columnanchor" />
+			
+			<header_column name="subraces_header">
+				<static textres="race_header_subraces"/>
+				<center />
+			</header_column>
+			<button_iedit name="subraces_iedit">
+				<anchored to="subraces_header" position="righthigh" offset="-20,0" />
+				<target>subraces</target>
+			</button_iedit>
+			<button_iadd name="subraces_iadd">
+				<anchored to="subraces_iedit" position="lefthigh" offset="5,0" />
+				<target>subraces</target>
+			</button_iadd>
+			<list_column name="subraces">
+				<datasource>.subraces</datasource>
+				<class>ref_racial_subrace</class>
+			</list_column>
+			
+			<header_column name="traits_header">
+				<static textres="race_header_traits"/>
+				<center />
+			</header_column>
+			<button_iedit name="traits_iedit">
+				<anchored to="traits_header" position="righthigh" offset="-20,0" />
+				<target>traits</target>
+			</button_iedit>
+			<button_iadd name="traits_iadd">
+				<anchored to="traits_iedit" position="lefthigh" offset="5,0" />
+				<target>traits</target>
+			</button_iadd>
+			<list_column name="traits">
+				<datasource>.traits</datasource>
+				<class>ref_racial_trait</class>
+			</list_column>
+		</sheetdata>
+	</windowclass>
+
+	<windowclass name="ref_racial_subrace">
+		<margins control="0,0,0,2" />
+		<sheetdata>
+			<anchor_listitem_column_right name="rightanchor" />
+			<link_listitem_column name="shortcut">
+				<class>reference_subrace</class>
+			</link_listitem_column>
+			<button_listitem_column_delete name="idelete" />
+
+			<string_listitem_column_name name="name">
+				<empty textres="library_recordtype_empty_subrace" />
+			</string_listitem_column_name>
+		</sheetdata>
+	</windowclass>
+	<windowclass name="ref_racial_trait">
+		<margins control="0,0,0,2" />
+		<sheetdata>
+			<anchor_listitem_column_right name="rightanchor" />
+			<link_listitem_column name="shortcut">
+				<class>reference_racialtrait</class>
+			</link_listitem_column>
+			<button_listitem_column_delete name="idelete" />
+
+			<string_listitem_column_name name="name">
+				<empty textres="library_recordtype_empty_racialtrait" />
+			</string_listitem_column_name>
+		</sheetdata>
+	</windowclass>
+
+	<windowclass name="reference_racialtrait">
+		<frame>recordsheet</frame>
+		<placement>
+			<size width="350" height="350" />
+		</placement>
+		<sizelimits>
+			<minimum width="300" height="300" />
+			<dynamic />
+		</sizelimits>
+		<minimize>minimized_reference</minimize>
+		<tooltip field="name" />
+		<script>
+			function onLockChanged()
+				if header.subwindow then
+					header.subwindow.update();
+				end
+				
+				local bReadOnly = WindowManager.getReadOnlyState(getDatabaseNode());
+				text.setReadOnly(bReadOnly);
+			end
+		</script>
+		<sheetdata>
+			<sub_record_header name="header">
+				<class>ref_racialtrait_header</class>
+			</sub_record_header>
+
+			<frame_record_content />
+			<ft_record name="text">
+				<anchored to="contentframe" position="over" />
+				<footer>footer_wide</footer>
+			</ft_record>
+			<scrollbar>
+				<anchored to="text" />
+				<target>text</target>
+			</scrollbar>
+			
+			<resize_recordsheet />
+			<close_recordsheet />
+		</sheetdata>
+	</windowclass>
+	<windowclass name="ref_racialtrait_header">
+		<margins control="0,0,0,2" />
+		<script>
+			function onInit()
+				update();
+			end
+			function update()
+				local bReadOnly = WindowManager.getReadOnlyState(getDatabaseNode());
+				name.setReadOnly(bReadOnly);
+			end
+		</script>
+		<sheetdata>
+			<link_record_header>
+				<class>reference_racialtrait</class>
+			</link_record_header>
+
+			<anchor_record_header_right />
+			<icon_record_locked />
+			<button_record_locked />
+
+			<string_record_name name="name">
+				<empty textres="library_recordtype_empty_racialtrait" />
+			</string_record_name>
+			<label_reftype name="reftype">
+				<static textres="ref_type_racialtrait" />
+			</label_reftype>	
+		</sheetdata>
+	</windowclass>
+	
+	<windowclass name="reference_subrace">
+		<frame>recordsheet</frame>
+		<placement>
+			<size width="350" height="350" />
+		</placement>
+		<sizelimits>
+			<minimum width="300" height="300" />
+			<dynamic />
+		</sizelimits>
+		<minimize>minimized_reference</minimize>
+		<tooltip field="name" />
+		<script>
+			function onLockChanged()
+				if header.subwindow then
+					header.subwindow.update();
+				end
+				if stats.subwindow then
+					stats.subwindow.update();
+				end
+				
+				local bReadOnly = WindowManager.getReadOnlyState(getDatabaseNode());
+				text.setReadOnly(bReadOnly);
+			end
+		</script>
+		<sheetdata>
+			<sub_record_header name="header">
+				<class>ref_subrace_header</class>
+			</sub_record_header>
+
+			<frame_record_content_tabbed name="contentframe" />
+
+			<ft_record name="text">
+				<anchored to="contentframe" position="over" />
+				<invisible />
+			</ft_record>
+			<subwindow_record name="stats">
+				<class>ref_subrace_stats</class>
+			</subwindow_record>
+
+			<scrollbar_record>
+				<target>text</target>
+			</scrollbar_record>
+			<scrollbar_record>
+				<target>stats</target>
+			</scrollbar_record>
+			
+			<tabs_recordsheet>
+				<tab>
+					<icon>tab_main</icon>
+					<subwindow>text</subwindow>
+				</tab>
+				<tab>
+					<icon>tab_other</icon>
+					<subwindow>stats</subwindow>
+				</tab>
+			</tabs_recordsheet>
+			
+			<resize_recordsheet />
+			<close_recordsheet />
+		</sheetdata>
+	</windowclass>
+	<windowclass name="ref_subrace_header">
+		<margins control="0,0,0,2" />
+		<script>
+			function onInit()
+				update();
+			end
+			function update()
+				local bReadOnly = WindowManager.getReadOnlyState(getDatabaseNode());
+				name.setReadOnly(bReadOnly);
+			end
+		</script>
+		<sheetdata>
+			<link_record_header>
+				<class>reference_subrace</class>
+			</link_record_header>
+
+			<anchor_record_header_right />
+			<icon_record_locked />
+			<button_record_locked />
+
+			<string_record_name name="name">
+				<empty textres="library_recordtype_empty_subrace" />
+			</string_record_name>
+			<label_reftype name="reftype">
+				<static textres="ref_type_subrace" />
+			</label_reftype>	
+		</sheetdata>
+	</windowclass>
+	<windowclass name="ref_subrace_stats">
+		<margins control="0,0,0,7" />
+		<script>
+			function onInit()
+				update();
+			end
+			function update()
+				local bReadOnly = WindowManager.getReadOnlyState(getDatabaseNode());
+				traits.update(bReadOnly);
+			end
+		</script>
+		<sheetdata>
+			<anchor_column name="columnanchor" />
+			
+			<header_column name="traits_header">
+				<static textres="race_header_traits"/>
+				<center />
+			</header_column>
+			<button_iedit name="traits_iedit">
+				<anchored to="traits_header" position="righthigh" offset="-20,0" />
+				<target>traits</target>
+			</button_iedit>
+			<button_iadd name="traits_iadd">
+				<anchored to="traits_iedit" position="lefthigh" offset="5,0" />
+				<target>traits</target>
+			</button_iadd>
+			<list_column name="traits">
+				<datasource>.traits</datasource>
+				<class>ref_subracial_trait</class>
+			</list_column>
+		</sheetdata>
+	</windowclass>
+	
+	<windowclass name="ref_subracial_trait">
+		<margins control="0,0,0,2" />
+		<sheetdata>
+			<anchor_listitem_column_right name="rightanchor" />
+			<link_listitem_column name="shortcut">
+				<class>reference_subracialtrait</class>
+			</link_listitem_column>
+			<button_listitem_column_delete name="idelete" />
+
+			<string_listitem_column_name name="name">
+				<empty textres="library_recordtype_empty_subracialtrait" />
+			</string_listitem_column_name>
+		</sheetdata>
+	</windowclass>
+
+	<windowclass name="reference_subracialtrait">
+		<frame>recordsheet</frame>
+		<placement>
+			<size width="350" height="350" />
+		</placement>
+		<sizelimits>
+			<minimum width="300" height="300" />
+			<dynamic />
+		</sizelimits>
+		<minimize>minimized_reference</minimize>
+		<tooltip field="name" />
+		<script>
+			function onLockChanged()
+				if header.subwindow then
+					header.subwindow.update();
+				end
+				
+				local bReadOnly = WindowManager.getReadOnlyState(getDatabaseNode());
+				text.setReadOnly(bReadOnly);
+			end
+		</script>
+		<sheetdata>
+			<sub_record_header name="header">
+				<class>ref_subracialtrait_header</class>
+			</sub_record_header>
+
+			<frame_record_content />
+			<ft_record name="text">
+				<anchored to="contentframe" position="over" />
+				<footer>footer_wide</footer>
+			</ft_record>
+			<scrollbar>
+				<anchored to="text" />
+				<target>text</target>
+			</scrollbar>
+			
+			<resize_recordsheet />
+			<close_recordsheet />
+		</sheetdata>
+	</windowclass>
+	<windowclass name="ref_subracialtrait_header">
+		<margins control="0,0,0,2" />
+		<script>
+			function onInit()
+				update();
+			end
+			function update()
+				local bReadOnly = WindowManager.getReadOnlyState(getDatabaseNode());
+				name.setReadOnly(bReadOnly);
+			end
+		</script>
+		<sheetdata>
+			<link_record_header>
+				<class>reference_subracialtrait</class>
+			</link_record_header>
+
+			<anchor_record_header_right />
+			<icon_record_locked />
+			<button_record_locked />
+
+			<string_record_name name="name">
+				<empty textres="library_recordtype_empty_subracialtrait" />
+			</string_record_name>
+			<label_reftype name="reftype">
+				<static textres="ref_type_subracialtrait" />
+			</label_reftype>	
+		</sheetdata>
+	</windowclass>
+</root>

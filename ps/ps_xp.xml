@@ -1,0 +1,370 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<!-- 
+  Please see the license.html file included with this distribution for 
+  attribution and copyright information.
+-->
+
+<root>
+	<windowclass name="ps_xp">
+		<script>
+			function onDrop(x, y, draginfo)
+				if User.isHost() and draginfo.isType("shortcut") then
+					local sClass = draginfo.getShortcutData();
+					if sClass == "quest" then
+						PartyManager2.addQuest(draginfo.getDatabaseNode());
+					elseif sClass == "battle" then
+						PartyManager2.addEncounter(draginfo.getDatabaseNode());
+					end
+					return true;
+				end
+			end
+		</script>
+		<sheetdata>
+			<anchor_partysheet_xp_header />
+			
+			<label_ps>
+				<anchored to="headeranchor" position="insidetop" />
+				<static textres="ps_label_party" />
+				<center />
+			</label_ps>
+			
+			<list_psxp_party />
+			<scrollbar_list />
+		
+			<list_psxp_encounters />
+			<scrollbar>
+				<anchored to="encounters" />
+				<target>encounters</target>
+			</scrollbar>
+
+			<label_ps>
+				<anchored to="encounters" position="above" offset="0,20" />
+				<static textres="ps_label_encounters" />
+				<center />
+			</label_ps>
+			<genericcontrol name="rightanchor_enc">
+				<anchored to="encounters" position="aboveright" offset="25,25" height="0" width="0" />
+			</genericcontrol>
+			<label_ps>
+				<anchored to="rightanchor_enc" width="30" height="20">
+					<top />
+					<right anchor="left" relation="relative" offset="5" />
+				</anchored>
+				<static textres="ps_label_xpawarded" />
+				<tooltip textres="ps_tooltip_xpawarded" />
+				<center />
+			</label_ps>
+			<label_ps>
+				<anchored to="rightanchor_enc" width="50" height="20">
+					<top />
+					<right anchor="left" relation="relative" offset="0" />
+				</anchored>
+				<static textres="xp" />
+				<center />
+			</label_ps>
+			<label_ps>
+				<anchored to="rightanchor_enc" width="30" height="20">
+					<top />
+					<right anchor="left" relation="relative" offset="-5" />
+				</anchored>
+				<static textres="cr" />
+				<center />
+			</label_ps>
+			<label_ps>
+				<anchored to="rightanchor_enc" height="20">
+					<top />
+					<right anchor="left" relation="relative" offset="-10" />
+					<left parent="encounters" offset="5" />
+				</anchored>
+				<static textres="ps_label_xpname" />
+				<center />
+			</label_ps>
+			<button_text>
+				<anchored to="encounters" position="aboveleft" offset="10,15" width="60" height="20" />
+				<state textres="ps_label_award" />
+				<script>
+					function onButtonPress()
+						PartyManager2.awardEncountersToParty();
+					end
+				</script>
+			</button_text>
+			
+			<genericcontrol name="rightanchor_encfilter">
+				<anchored to="encounters" position="belowright" offset="0,15" height="0" width="0" />
+			</genericcontrol>
+			<button_iedit name="enc_iedit">
+				<anchored to="rightanchor_encfilter">
+					<top />
+					<right anchor="left" relation="relative" offset="-5" />
+				</anchored>
+				<target>encounters</target>
+			</button_iedit>
+			<filter name="encfilter">
+				<anchored to="encounters" position="belowleft" offset="25,15" height="20">
+					<right parent="rightanchor_encfilter" anchor="left" relation="relative" offset="-10" />
+				</anchored>
+			</filter>
+
+			<list_psxp_quests />
+			<scrollbar>
+				<anchored to="quests" />
+				<target>quests</target>
+			</scrollbar>
+
+			<label_ps>
+				<anchored to="quests" position="above" offset="0,20" />
+				<static textres="ps_label_quests" />
+				<center />
+			</label_ps>
+			<genericcontrol name="rightanchor_quest">
+				<anchored to="quests" position="aboveright" offset="25,25" height="0" width="0" />
+			</genericcontrol>
+			<label_ps>
+				<anchored to="rightanchor_quest" width="30" height="20">
+					<top />
+					<right anchor="left" relation="relative" offset="5" />
+				</anchored>
+				<static textres="ps_label_xpawarded" />
+				<tooltip textres="ps_tooltip_xpawarded" />
+				<center />
+			</label_ps>
+			<label_ps>
+				<anchored to="rightanchor_quest" width="50" height="20">
+					<top />
+					<right anchor="left" relation="relative" offset="0" />
+				</anchored>
+				<static textres="xp" />
+				<center />
+			</label_ps>
+			<label_ps>
+				<anchored to="rightanchor_quest" width="20" height="20">
+					<top />
+					<right anchor="left" relation="relative" offset="-10" />
+				</anchored>
+				<static textres="cr" />
+				<center />
+			</label_ps>
+			<label_ps>
+				<anchored to="rightanchor_quest" height="20">
+					<top />
+					<right anchor="left" relation="relative" offset="-10" />
+					<left parent="quests" offset="5" />
+				</anchored>
+				<static textres="ps_label_xpname" />
+				<center />
+			</label_ps>
+			<button_text>
+				<anchored to="quests" position="aboveleft" offset="10,15" width="60" height="20" />
+				<state textres="ps_label_award" />
+				<script>
+					function onButtonPress()
+						PartyManager2.awardQuestsToParty();
+					end
+				</script>
+			</button_text>
+			
+			<genericcontrol name="rightanchor_questfilter">
+				<anchored to="quests" position="belowright" offset="0,15" height="0" width="0" />
+			</genericcontrol>
+			<button_iedit name="quests_iedit">
+				<anchored to="rightanchor_questfilter">
+					<top />
+					<right anchor="left" relation="relative" offset="-5" />
+				</anchored>
+				<target>quests</target>
+			</button_iedit>
+			<button_iadd name="quests_iadd">
+				<anchored to="rightanchor_questfilter">
+					<top />
+					<right anchor="left" relation="relative" offset="-5" />
+				</anchored>
+				<target>quests</target>
+			</button_iadd>
+			
+			<filter name="questfilter">
+				<anchored to="quests" position="belowleft" offset="25,15" height="20">
+					<right parent="rightanchor_questfilter" anchor="left" relation="relative" offset="-10" />
+				</anchored>
+			</filter>
+		</sheetdata>
+	</windowclass>
+
+	<windowclass name="ps_xp_partyentry">
+		<margins control="0,0,0,10" />
+		<frame>partysheetentry</frame>
+		<sheetdata>
+			<hlink name="link">
+				<script>
+					function onValueChanged()
+						window.portrait.update();
+					end
+				</script>
+			</hlink>
+			
+			<portrait_base>
+				<bounds>10,10,40,40</bounds>
+			</portrait_base>
+			<portrait name="portrait">
+				<bounds>10,10,40,40</bounds>
+			</portrait>
+
+			<string_ps name="name">
+				<anchored position="insidetopleft" offset="55,10" width="110" height="20" />
+				<empty textres="library_recordtype_empty_charsheet" />
+			</string_ps>
+			<label>
+				<anchored position="insidetopleft" offset="170,10" width="20" />
+				<static textres="xp" />
+			</label>	
+			<number_ps name="exp">
+				<anchored position="insidetopleft" offset="195,10" width="65" height="20" />
+				<stateframe>
+					<drophilight name="fieldfocusplus" />
+				</stateframe>
+				<script>
+					function onDrop(x, y, draginfo)
+						if draginfo.isType("number") and User.isHost() then
+							PartyManager2.awardXPtoPC(draginfo.getNumberData(), window.link.getTargetDatabaseNode());
+							return true;
+						end
+					end
+				</script>				
+			</number_ps>
+			<label>
+				<anchored position="insidetopleft" offset="260,10" width="10" height="20" />
+				<static> / </static>
+				<center />
+			</label>	
+			<number_ps name="expneeded">
+				<anchored position="insidetopleft" offset="270,10" width="65" height="20" />
+			</number_ps>
+
+			<string_ps name="classlevel">
+				<anchored position="insidetopleft" offset="55,35" width="285" height="20" />
+				<empty textres="ps_empty_class" />
+			</string_ps>
+		</sheetdata>
+	</windowclass>
+	
+	<windowclass name="ps_xp_encounterentry">
+		<margins control="0,0,0,2" />
+		<script file="ps/scripts/ps_xp_encentry.lua" />
+		<sheetdata>
+			<genericcontrol name="rightanchor">
+				<anchored height="0" width="0">
+					<top />
+					<right />
+				</anchored>
+			</genericcontrol>
+			<linkcontrol name="shortcut">
+				<anchored to="rightanchor" width="20" height="20">
+					<top offset="3" />
+					<right anchor="left" relation="relative" offset="-5" />
+				</anchored>
+				<class>battle</class>
+				<description field="name" />
+				<readonly />
+			</linkcontrol>
+			<button_idelete name="idelete">
+				<anchored to="rightanchor">
+					<top offset="3" />
+					<right anchor="left" offset="-5" />
+				</anchored>
+				<tabtarget prev="xpawarded" />
+			</button_idelete>
+			<button_checkbox name="xpawarded">
+				<anchored width="20" height="20">
+					<top offset="2" />
+					<right parent="rightanchor" anchor="left" relation="relative" offset="0" />
+				</anchored>
+				<tabtarget next="idelete" prev="exp" />
+			</button_checkbox>
+			<basicnumber name="exp">
+				<anchored width="50" height="20">
+					<top offset="2" />
+					<right parent="rightanchor" anchor="left" relation="relative" offset="-5" />
+				</anchored>
+				<hideonvalue>0</hideonvalue>
+				<tabtarget next="xpawarded" prev="cr" />
+			</basicnumber>
+			<basicstring name="cr">
+				<anchored width="20" height="20">
+					<top offset="2" />
+					<right parent="rightanchor" anchor="left" relation="relative" offset="-10" />
+				</anchored>
+				<tabtarget next="xp" prev="name" />
+			</basicstring>
+			<basicstring name="name">
+				<anchored>
+					<top offset="2" />
+					<left offset="5" />
+					<right parent="rightanchor" anchor="left" relation="relative" offset="-10" />
+				</anchored>
+				<multilinespacing>20</multilinespacing>
+				<tabtarget next="cr" />
+			</basicstring>
+		</sheetdata>
+	</windowclass>
+	
+	<windowclass name="ps_xp_questentry">
+		<margins control="0,0,0,2" />
+		<script file="ps/scripts/ps_xp_questentry.lua" />
+		<sheetdata>
+			<genericcontrol name="rightanchor">
+				<anchored height="0" width="0">
+					<top />
+					<right />
+				</anchored>
+			</genericcontrol>
+			<linkcontrol name="shortcut">
+				<anchored to="rightanchor" width="20" height="20">
+					<top offset="3" />
+					<right anchor="left" relation="relative" offset="-5" />
+				</anchored>
+				<class>quest</class>
+				<description field="name" />
+				<readonly />
+			</linkcontrol>
+			<button_idelete name="idelete">
+				<anchored to="rightanchor">
+					<top offset="3" />
+					<right anchor="left" offset="-5" />
+				</anchored>
+				<tabtarget prev="xpawarded" />
+			</button_idelete>
+			<button_checkbox name="xpawarded">
+				<anchored width="20" height="20">
+					<top offset="2" />
+					<right parent="rightanchor" anchor="left" relation="relative" offset="0" />
+				</anchored>
+				<tabtarget next="idelete" prev="xp" />
+			</button_checkbox>
+			<basicnumber name="xp">
+				<anchored width="50" height="20">
+					<top offset="2" />
+					<right parent="rightanchor" anchor="left" relation="relative" offset="-5" />
+				</anchored>
+				<hideonvalue>0</hideonvalue>
+				<tabtarget next="xpawarded" prev="cr" />
+			</basicnumber>
+			<basicstring name="cr">
+				<anchored width="20" height="20">
+					<top offset="2" />
+					<right parent="rightanchor" anchor="left" relation="relative" offset="-10" />
+				</anchored>
+				<tabtarget next="xp" prev="name" />
+			</basicstring>
+
+			<basicstring name="name">
+				<anchored>
+					<top offset="2" />
+					<left offset="5" />
+					<right parent="rightanchor" anchor="left" relation="relative" offset="-10" />
+				</anchored>
+				<multilinespacing>20</multilinespacing>
+				<tabtarget next="cr" />
+			</basicstring>
+		</sheetdata>
+	</windowclass>
+</root>

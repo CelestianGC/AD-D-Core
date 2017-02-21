@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<!-- 
+  Please see the license.html file included with this distribution for 
+  attribution and copyright information.
+-->
+
+<root>
+	<windowclass name="item" >
+		<frame>recordsheet</frame>
+		<placement>
+			<size width="350" height="350" />
+		</placement>
+		<sizelimits>
+			<minimum width="300" height="300" />
+			<dynamic />
+		</sizelimits>
+		<minimize>minimized_item</minimize>
+		<nodelete />
+		<script file="campaign/scripts/item.lua" />
+		<sheetdata>
+			<sub_record_header name="header">
+				<class>item_header</class>
+			</sub_record_header>
+
+			<frame_record_content name="contentframe" />
+
+			<subwindow_record name="main">
+				<class>item_main</class>
+				<activate />
+			</subwindow_record>
+
+			<scrollbar_record>
+				<target>main</target>
+			</scrollbar_record>
+
+			<resize_recordsheet />
+			<close_recordsheet />
+		</sheetdata>
+	</windowclass>
+
+	<windowclass name="item_header" merge="join">
+		<margins control="0,0,0,2" />
+	</windowclass>
+
+	<windowclass name="item_main">
+		<margins control="0,0,0,2" />
+		<script file="campaign/scripts/item_main.lua" />
+		<sheetdata>
+			<anchor_column name="columnanchor" />
+			
+			<label_column name="nonid_name_label">
+				<static textres="item_label_unidentified" />
+			</label_column>
+			<string_columnh name="nonid_name" />
+			
+			<label_column name="nonidentified_label">
+				<static textres="item_label_unidentifiednotes" />
+			</label_column>
+			<string_columnh name="nonidentified" />
+			
+			<line_column name="divider" />
+			
+			<label_column name="type_label">
+				<static textres="item_label_type" />
+			</label_column>
+			<genericcontrol name="type_rightanchor">
+				<anchored>
+					<top parent="type_label" />
+					<right />
+				</anchored>
+			</genericcontrol>
+			<button_checkbox name="istemplate">
+				<anchored width="20" height="20">
+					<top parent="type_label" />
+					<right parent="type_rightanchor" anchor="left" relation="relative" />
+				</anchored>
+				<gmvisibleonly />
+			</button_checkbox>
+			<label name="template_label">
+				<anchored>
+					<top parent="type_label" />
+					<right parent="type_rightanchor" anchor="left" relation="relative" />
+				</anchored>
+				<static textres="item_label_template" />
+				<gmvisibleonly />
+			</label>
+			<string_columnh name="type">
+				<anchored>
+					<right parent="type_rightanchor" anchor="left" relation="relative" offset="-10" />
+				</anchored>
+				<nohide />
+				<gmeditonly />
+				<delaykeyupdate />
+				<script>
+					function onValueChanged()
+						window.update();
+					end
+				</script>
+			</string_columnh>
+
+			<label_column name="subtype_label">
+				<static textres="item_label_subtype" />
+			</label_column>
+			<string_columnh name="subtype">
+				<gmeditonly />
+				<delaykeyupdate />
+				<script>
+					function onValueChanged()
+						window.update();
+					end
+				</script>
+			</string_columnh>
+
+			<label_column name="rarity_label">
+				<static textres="item_label_rarity" />
+			</label_column>
+			<string_columnh name="rarity">
+				<gmeditonly />
+			</string_columnh>
+
+			<line_column name="divider2" />
+
+			<label_column name="cost_label">
+				<static textres="item_label_cost" />
+			</label_column>
+			<string_columnh name="cost">
+				<gmeditonly />
+			</string_columnh>
+
+			<label_column name="weight_label">
+				<static textres="item_label_weight" />
+			</label_column>
+			<number_columnh name="weight">
+				<gmeditonly />
+			</number_columnh>
+
+			<line_column name="divider3" />
+
+			<label_column name="bonus_label">
+				<static textres="item_label_bonus" />
+			</label_column>
+			<number_columnh name="bonus">
+				<gmeditonly />
+				<delaykeyupdate />
+				<displaysign />
+			</number_columnh>
+			
+			<label_column name="damage_label">
+				<static textres="item_label_damage" />
+			</label_column>
+			<string_columnh name="damage">
+				<gmeditonly />
+			</string_columnh>
+			
+			<label_column name="ac_label">
+				<static textres="item_label_ac" />
+			</label_column>
+			<number_columnh name="ac">
+				<gmeditonly />
+				<delaykeyupdate />
+			</number_columnh>
+			
+			<label_column name="dexbonus_label">
+				<static textres="item_label_dexbonus" />
+			</label_column>
+			<string_columnh name="dexbonus">
+				<gmeditonly />
+				<delaykeyupdate />
+			</string_columnh>
+			
+			<label_column name="strength_label">
+				<static textres="item_label_strength" />
+			</label_column>
+			<string_columnh name="strength">
+				<gmeditonly />
+			</string_columnh>
+			
+			<label_column name="stealth_label">
+				<static textres="item_label_stealth" />
+			</label_column>
+			<string_columnh name="stealth">
+				<gmeditonly />
+				<delaykeyupdate />
+			</string_columnh>
+			
+			<label_column name="properties_label">
+				<static textres="item_label_properties" />
+			</label_column>
+			<string_columnh name="properties">
+				<gmeditonly />
+			</string_columnh>
+			
+			<line_column name="divider4" />
+
+			<ft_columnh name="description">
+				<gmeditonly />
+			</ft_columnh>
+		</sheetdata>
+	</windowclass>
+</root>

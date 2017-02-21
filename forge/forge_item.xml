@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<!-- 
+  Please see the license.html file included with this distribution for 
+  attribution and copyright information.
+-->
+
+<root>
+	<windowclass name="forge_magicitem" >
+		<frame>partysheet</frame>
+		<placement>
+			<size width="600" height="350" />
+		</placement>
+		<sizelimits>
+			<minimum width="600" height="350" />
+			<dynamic />
+		</sizelimits>
+		<softclose />
+		<nodelete />
+		<sheetdata>
+			<windowtitlebar name="title">
+				<resource>forge_item_window_title</resource>
+			</windowtitlebar>
+			<anchor_title_partysheet name="contentanchor" />
+			
+			<windowlist name="items">
+				<anchored to="contentanchor" position="belowleft" offset="10,35">
+					<right parent="" anchor="center" offset="-15" />
+					<bottom parent="" anchor="bottom" offset="-120" />
+				</anchored>
+				<frame name="groupbox" offset="5,10,15,10" />
+				<child><backcolor>1A40301E</backcolor></child>
+				<child></child>
+				<datasource>.baseitems</datasource>
+				<class>forgebaseitem</class>
+				<allowcreate />
+				<allowdelete />
+				<empty font="list-empty" color="005E5D5D" gmtextres="forge_item_empty_items" />
+				<script file="forge/scripts/list_forge_items.lua" />
+			</windowlist>
+			<scrollbar>
+				<anchored to="items" />
+				<target>items</target>
+			</scrollbar>
+
+			<genericcontrol name="icon_item">
+				<anchored to="items" position="over" offset="0,0"/>
+				<icon>forge_transicon</icon>
+				<disabled />
+			</genericcontrol>
+			<label_ps name="label_item">
+				<anchored to="items" position="above" offset="0,12" />
+				<static textres="forge_item_label_items" />
+				<center />
+			</label_ps>
+			
+			<button_iedit name="items_iedit">
+				<anchored to="items" position="aboveright" offset="5,12" />
+				<target>items</target>
+			</button_iedit>
+			<button_iadd name="items_iadd">
+				<anchored to="items" position="aboveright" offset="30,12" />
+				<target>items</target>
+			</button_iadd>
+			
+			<windowlist name="templates">
+				<anchored to="contentanchor" position="belowright" offset="15,35">
+					<left parent="" anchor="center" offset="5"/>
+					<bottom parent="" anchor="bottom" offset="-120" />
+				</anchored>
+				<frame name="groupbox" offset="5,10,15,10" />
+				<child><backcolor>1A40301E</backcolor></child>
+				<child></child>
+				<datasource>.templates</datasource>
+				<class>forgeitemtemplate</class>
+				<allowcreate />
+				<allowdelete />
+				<empty font="list-empty" color="005E5D5D" gmtextres="forge_item_empty_templates" />
+				<script file="forge/scripts/list_forge_templates.lua" />
+			</windowlist>
+			<scrollbar>
+				<anchored to="templates" />
+				<target>templates</target>
+			</scrollbar>
+
+			<genericcontrol name="icon_template">
+				<anchored to="templates" position="over" offset="0,0"/>
+				<icon>forge_transicon</icon>
+				<disabled />
+			</genericcontrol>
+			<label_ps name="label_template">
+				<anchored to="templates" position="above" offset="0,12" />
+				<static textres="forge_item_label_templates" />
+				<center />
+			</label_ps>
+			
+			<button_iedit name="templates_iedit">
+				<anchored to="templates" position="aboveright" offset="5,12" />
+				<target>templates</target>
+			</button_iedit>
+			<button_iadd name="templates_iadd">
+				<anchored to="templates" position="aboveright" offset="30,12" />
+				<target>templates</target>
+			</button_iadd>
+
+			<button_forgeitem_clear name="forgeclear" />
+			<button_forgeitem name="forgeitem" />
+			
+			<genericcontrol name="statusframe">
+				<anchored height="50">
+					<bottom offset="-45" />
+					<left parent="forgeclear" anchor="right" offset="15" />
+					<right parent="forgeitem" anchor="left" offset="-25" />
+				</anchored>
+				<frame name="groupbox" offset="5,10,15,10" />
+			</genericcontrol>
+			<forge_statusicon name="statusicon" />
+			<stringcontrol name="status">
+				<anchored to="statusicon" position="righthigh" offset="10,10">
+					<right parent="forgeitem" anchor="left" offset="-30" />
+				</anchored>
+				<font>reference-bi</font>
+				<color>#005E5D5D</color>
+				<multilinespacing>20</multilinespacing>
+			</stringcontrol>
+			
+			<resize_partysheet />
+			<close_partysheet />
+		</sheetdata>		
+	</windowclass>
+	
+	<windowclass name="forgebaseitem">
+		<margins control="0,0,0,2" />
+		<sheetdata>
+			<link_list name="link">
+				<class>item</class>
+			</link_list>
+			<button_forgeitemtype name="itemtype"/>
+			
+			<genericcontrol name="rightanchor">
+				<anchored height="0" width="0">
+					<top />
+					<right />
+				</anchored>
+			</genericcontrol>
+			<button_idelete name="idelete">
+				<anchored>
+					<top />
+					<right parent="rightanchor" anchor="left" relation="relative" offset="-5" />
+				</anchored>
+			</button_idelete>
+			
+			<forge_string_list_name name="name" />
+		</sheetdata>
+	</windowclass>	
+	<windowclass name="forgeitemtemplate">
+		<margins control="0,0,0,2" />
+		<sheetdata>
+			<link_list name="link">
+				<class>item</class>
+			</link_list>
+			<button_forgeitemtype name="itemtype"/>
+			
+			<genericcontrol name="rightanchor">
+				<anchored height="0" width="0">
+					<top />
+					<right />
+				</anchored>
+			</genericcontrol>
+			<button_idelete name="idelete">
+				<anchored>
+					<top />
+					<right parent="rightanchor" anchor="left" relation="relative" offset="-5" />
+				</anchored>
+			</button_idelete>
+			
+			<forge_string_list_name name="name" />
+		</sheetdata>
+	</windowclass>
+</root>
