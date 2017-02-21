@@ -1134,27 +1134,13 @@
 				</anchored>
 				<static textres="char_label_initdetail" />
 			</label>
-			<simplenumber name="initdexbonus" source="abilities.dexterity.bonus">
-				<anchored to="label_initdetail" position="righthigh" offset="5,0" width="45" height="20" />
-				<frame name="fieldlight" offset="7,5,7,5" />
-				<hideonvalue>0</hideonvalue>
-			</simplenumber>
-			<label_fieldtop name="label_initdexbonus">
-				<anchored to="initdexbonus" />
-				<static textres="dex" />
-			</label_fieldtop>
-			<label name="label_initplus">
-				<anchored to="initdexbonus" position="righthigh" offset="5,0" width="10" />
-				<static>+</static>
-				<center />
-			</label>
 			<basicnumber name="initmiscbonus" source="initiative.misc">
-				<anchored to="label_initplus" position="right" offset="5,0" width="45" />
+				<anchored to="label_initdetail" position="right" offset="5,0" width="45" />
 				<hideonvalue>0</hideonvalue>
 			</basicnumber>
 			<label_fieldtop name="label_initmiscbonus">
 				<anchored to="initmiscbonus" />
-				<static textres="char_label_initmisc" />
+				<static textres="char_label_adj" />
 			</label_fieldtop>
 			
 			<!-- Speed Detail -->
@@ -1172,30 +1158,6 @@
 				<anchored to="speedbase" />
 				<static textres="char_label_speedbase" />
 			</label_fieldtop>
-			<label name="label_speedplus">
-				<anchored to="speedbase" position="righthigh" offset="5,0" width="10" />
-				<static>+</static>
-				<center />
-			</label>
-			<basicnumber name="speedarmor" source="speed.armor">
-				<anchored to="label_speedplus" position="righthigh" offset="5,0" width="45" height="20" />
-			</basicnumber>
-			<label_fieldtop name="label_speedarmor">
-				<anchored to="speedarmor" />
-				<static textres="char_label_speedarmor" />
-			</label_fieldtop>
-			<label name="label_speedplus2">
-				<anchored to="speedarmor" position="righthigh" offset="5,0" width="10" />
-				<static>+</static>
-				<center />
-			</label>
-			<basicnumber name="speedmisc" source="speed.misc">
-				<anchored to="label_speedplus2" position="righthigh" offset="5,0" width="45" height="20" />
-			</basicnumber>
-			<label_fieldtop name="label_speedmisc">
-				<anchored to="speedmisc" />
-				<static textres="char_label_speedmisc" />
-			</label_fieldtop>
 			
 			<!-- Armor Detail -->
 			<label name="label_armordetail">
@@ -1205,12 +1167,10 @@
 				</anchored>
 				<static textres="char_label_armordetail" />
 			</label>
-			<simplenumberc name="acbase">
-				<anchored to="label_armordetail" position="righthigh" offset="5,0" width="45" height="20" />
-				<frame name="fieldlight" offset="7,5,7,5" />
+			<basicnumber name="acbase" source="defenses.ac.base">
 				<default>10</default>
-				<readonly />
-			</simplenumberc>
+				<anchored to="label_armordetail" position="righthigh" offset="5,0" width="45" height="20" />
+			</basicnumber>
 			<label_fieldtop name="label_acbase">
 				<anchored to="acbase" />
 				<static textres="char_label_armorbase" />
@@ -1244,34 +1204,8 @@
 				<static>+</static>
 				<center />
 			</label>
-			<button_stringcycler name="acdexbonus">
-				<anchored to="label_armorplus3" position="righthigh" offset="5,0" width="45" height="20" />
-				<source><name>defenses.ac.dexbonus</name></source>
-				<parameters>
-					<defaultlabelres>char_label_armordexfull</defaultlabelres>
-					<labelsres>char_label_armordexmax2|char_label_armordexmax3|char_label_armordexnone</labelsres>
-					<values>max2|max3|no</values>
-				</parameters>
-			</button_stringcycler>
-			<label_fieldtop name="label_acdexbonus">
-				<anchored to="acdexbonus" />
-				<static textres="dex" />
-			</label_fieldtop>
-			<label name="label_armorplus4">
-				<anchored to="acdexbonus" position="righthigh" offset="5,0" width="10" />
-				<static>+</static>
-				<center />
-			</label>
-			<cycler_ability name="acstat2">
-				<anchored to="label_armorplus4" position="righthigh" offset="5,0" width="45" height="20" />
-				<source><name>defenses.ac.stat2</name></source>
-			</cycler_ability>
-			<label_fieldtop name="label_acstat2">
-				<anchored to="acstat2" />
-				<static textres="2nd" />
-			</label_fieldtop>
 			<label name="label_armorplus5">
-				<anchored to="acstat2" position="righthigh" offset="5,0" width="10" />
+				<anchored to="acshield" position="righthigh" offset="5,0" width="10" />
 				<static>+</static>
 				<center />
 			</label>
@@ -1282,23 +1216,6 @@
 				<anchored to="acmisc" />
 				<static textres="char_label_armormisc" />
 			</label_fieldtop>
-
-			<label name="label_acprof">
-				<anchored to="acarmor" position="belowleft" offset="0,5" />
-				<static textres="char_label_armorprof" />
-			</label>
-			<button_prof name="acprof" source="defenses.ac.prof">
-				<anchored to="label_acprof" position="righthigh" offset="10,0" width="20" height="20" />
-				<default>1</default>
-			</button_prof>
-
-			<label name="label_acdisstealth">
-				<anchored to="acdexbonus" position="belowleft" offset="0,5" />
-				<static textres="char_label_armordisstealth" />
-			</label>
-			<button_checkbox name="acdisstealth" source="defenses.ac.disstealth">
-				<anchored to="label_acdisstealth" position="righthigh" offset="10,4" width="12" height="12" />
-			</button_checkbox>
 
 			<close_charsheethelper />
 		</sheetdata>

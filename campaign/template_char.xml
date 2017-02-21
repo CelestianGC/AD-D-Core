@@ -362,6 +362,7 @@
 			<font>reference-b-large</font>
 			<modifiersize>mini</modifiersize>
 			<modifierfield>defenses.ac.temporary</modifierfield>
+			<source><name>defenses.ac.base</name><op>+</op></source>
 			<source><name>defenses.ac.armor</name><op>+</op></source>
 			<source><name>defenses.ac.shield</name><op>+</op></source>
 			<source><name>defenses.ac.misc</name><op>+</op></source>
@@ -383,7 +384,7 @@
 					local sActorType, nodeActor = ActorManager.getTypeAndNode(rActor);
 
 					local nDexBonus = ActorManager2.getAbilityBonus(rActor, "dexterity","defenseadj");
-					setValue(10 + calculateSources() + nDexBonus);
+					setValue(calculateSources() + nDexBonus);
 				end
 			</script>
 		</number_chartotal>

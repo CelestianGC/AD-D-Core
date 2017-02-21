@@ -35,7 +35,9 @@
 	<string name="background">Kit</string>
 
 	<!-- Characters - Main -->
-   	<string name="char_label_background">KIT</string>
+   	<string name="char_label_adjustment">Adjustment</string>
+   	<string name="char_label_adj">Adj.</string>
+	<string name="char_label_background">KIT</string>
 	<string name="char_label_speed">MOVE</string>
 	
     <string name="char_label_ability_percent">%</string>
