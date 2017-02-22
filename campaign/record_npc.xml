@@ -181,7 +181,7 @@
 			<string_columnh name="magicresistance" >
 				<anchored width="120">
 					<right merge="delete" />
-				</anchored>
+				</anchored> 
 			</string_columnh>
 			<label_npc name="morale_label">
 				<static textres="npc_label_morale" />
