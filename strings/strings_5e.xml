@@ -526,7 +526,7 @@
 
 	<!-- NPCs -->
 	<string name="npc_label_type">Type</string>
-	<string name="npc_label_speed">Speed</string>
+	<string name="npc_label_speed">Move</string>
 	<string name="npc_label_senses">Senses</string>
 	<string name="npc_label_abilities">Abilities</string>
 	<string name="npc_label_skills">Skills</string>

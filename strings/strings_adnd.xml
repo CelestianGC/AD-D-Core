@@ -151,6 +151,7 @@
 	<string name="npc_label_numberattacks"># Attacks</string>	
 	<string name="npc_label_organization">Organization</string>	
 	<string name="npc_label_magicresistance">Magic Resist</string>	
+	<string name="npc_label_damage">Damage</string>	
 
 	<string name="npc_label_treasure">Treasure</string>	
 	<string name="npc_label_specialDefense">Special Defense</string>	

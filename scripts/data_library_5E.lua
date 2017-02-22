@@ -82,8 +82,11 @@ aRecords = {
 		aDisplayIcon = { "button_people", "button_people_down" },
 		-- sRecordDisplayClass = "npc", 
 		aCustomFilters = {
-			["CR"] = { sField = "cr", sType = "number", fSort = sortNPCCRValues },
-			["Type"] = { sField = "type", fGetValue = getNPCTypeValue },
+			["Organization"] = { sField = "organization", sType = "string" },
+			["Activity"] = { sField = "activity", sType = "string" },
+			["Diet"] = { sField = "diet", sType = "string" },
+			["Frequency"] = { sField = "frequency", sType = "string", fSort = sortNPCCRValues },
+			["Climate"] = { sField = "climate", sType = "string" },
 		},
 	},
 	["item"] = { 
@@ -145,7 +148,9 @@ aRecords = {
 		aDisplayIcon = { "button_spells", "button_spells_down" },
 		sRecordDisplayClass = "power", 
 		aCustomFilters = {
-			["Source"] = { sField = "source", fGetValue = getSpellSourceValue },
+			["Sphere"] = { sField = "sphere", sType = "string" },
+			["School"] = { sField = "school", sType = "string" },
+			["Type"] = { sField = "type", sType = "string" },
 			["Level"] = { sField = "level", sType = "number" };
 		},
 	},

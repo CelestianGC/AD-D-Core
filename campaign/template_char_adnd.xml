@@ -200,5 +200,15 @@
 				<frame name="bonus_box" />
 			</frame_char>			
 	</template>
+	
+	<template name="label_npc">
+		<stringcontrol>
+			<anchored />
+			<font>sheetlabel</font>
+			<nodrag />
+			<readonly />
+		</stringcontrol>
+	</template>
+
 
 </root>

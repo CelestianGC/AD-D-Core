@@ -134,25 +134,36 @@
 				<anchored to="hitDice" />
 			</string_column_npc_remainder>
 			
-			<label_column name="speed_label">
-				<static textres="npc_label_speed" />
-			</label_column>
-			<string_column name="speed" />
-
 			<label_column name="thaco_label">
 				<static textres="npc_label_thaco" />
 			</label_column>
 			<number_column name="thaco" />
 
-			<label_column name="morale_label">
-				<static textres="npc_label_morale" />
-			</label_column>
-			<string_column name="morale" />
-			
+			<label_npc name="speed_label">
+				<anchored to="thaco" position="right" offset="10,0"/>
+				<static textres="npc_label_speed" />
+			</label_npc>
+			<string_column_npc_remainder name="speed">
+				<anchored to="speed_label" />
+			</string_column_npc_remainder>
+
 			<label_column name="numberattacks_label">
 				<static textres="npc_label_numberattacks" />
 			</label_column>
-			<string_column name="numberattacks" />
+			<string_columnh name="numberattacks" >
+				<anchored width="120">
+					<right merge="delete" />
+				</anchored>
+			</string_columnh>
+
+
+			<label_npc name="damage_label">
+				<anchored to="numberattacks" position="right" offset="10,0" />
+				<static textres="npc_label_damage" />
+			</label_npc>
+			<string_column_npc_remainder name="damage">
+				<anchored to="damage_label" />
+			</string_column_npc_remainder>
 
 			<label_column name="specialDefense_label">
 				<static textres="npc_label_specialDefense" />
@@ -167,7 +178,19 @@
 			<label_column name="magicresistance_label">
 				<static textres="npc_label_magicresistance" />
 			</label_column>
-			<string_column name="magicresistance_label" />
+			<string_columnh name="magicresistance" >
+				<anchored width="120">
+					<right merge="delete" />
+				</anchored>
+			</string_columnh>
+			<label_npc name="morale_label">
+				<static textres="npc_label_morale" />
+				<anchored to="magicresistance" position="right" offset="10,0" />
+			</label_npc>
+			<string_column_npc_remainder name="morale">
+							<anchored to="morale_label" />
+			</string_column_npc_remainder>
+
 			<line_column />
 
 			<label_column name="organization_label">
@@ -178,33 +201,47 @@
 			<label_column name="diet_label">
 				<static textres="npc_label_diet" />
 			</label_column>
-			<string_column name="diet" />
+			<string_columnh name="diet" >
+				<anchored width="120">
+					<right merge="delete" />
+				</anchored>
+			</string_columnh>
+
+			<label_npc name="frequency_label">
+				<static textres="npc_label_frequency" />
+				<anchored to="diet" position="right" offset="10,0" />
+			</label_npc>
+			<string_column_npc_remainder name="frequency">
+							<anchored to="frequency_label" />
+			</string_column_npc_remainder>
 
 			<label_column name="activity_label">
 				<static textres="npc_label_activity" />
 			</label_column>
-			<string_column name="activity" />
+			<string_columnh name="activity" >
+				<anchored width="120">
+					<right merge="delete" />
+				</anchored>
+			</string_columnh>
 
-			<label_column name="climate_label">
+			<label_npc name="climate_label">
 				<static textres="npc_label_climate" />
-			</label_column>
-			<string_column name="climate" />
+				<anchored to="activity" position="right" offset="10,0" />
+			</label_npc>
+			<string_column_npc_remainder name="climate">
+							<anchored to="climate_label" />
+			</string_column_npc_remainder>
 
 			
-			<label_column name="frequency_label">
-				<static textres="npc_label_frequency" />
+			<label_column name="numberappearing_label">
+				<static textres="npc_label_numberappearing" />
 			</label_column>
-			<string_column name="frequency" />
+			<string_column name="numberappearing" />
 
 			<label_column name="intelligence_label">
 				<static textres="npc_label_intelligence" />
 			</label_column>
 			<string_column name="intelligence_text" />
-
-			<label_column name="numberappearing_label">
-				<static textres="npc_label_numberappearing" />
-			</label_column>
-			<string_column name="numberappearing" />
 
 			<label_column name="treasure_label">
 				<static textres="npc_label_treasure" />
