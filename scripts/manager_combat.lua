@@ -10,7 +10,7 @@ local sActiveCT = nil;
 OOB_MSGTYPE_ENDTURN = "endturn";
 
 function onInit()
-print ("manager_combat.lua, onInit");
+	--Debug.console("manager_combat.lua, onInit");
 
 	OOBManager.registerOOBMsgHandler(OOB_MSGTYPE_ENDTURN, handleEndTurn);
 	
@@ -103,12 +103,10 @@ end
 
 local fCustomSort = nil;
 function setCustomSort(fSort)
-print ("manager_combat.lua, setCustomSort");
 	fCustomSort = fSort;
 end
 -- NOTE: Lua sort function expects the opposite boolean value compared to built-in FG sorting
 function onSortCompare(node1, node2)
-print ("manager_combat.lua, setCustomSort");
 	if fCustomSort then
 		return not fCustomSort(node1, node2);
 	end
@@ -301,13 +299,11 @@ end
 --
 
 function sortfuncSimple(node1, node2)
-print ("manager_combat.lua, sortfuncSimple");
 	return node1.getNodeName() < node2.getNodeName();
 end
 
 -- NOTE: Lua sort function expects the opposite boolean value compared to built-in FG sorting
 function sortfuncStandard(node1, node2)
-print ("manager_combat.lua, sortfuncStandard");
 	local bHost = User.isHost();
 	local sOptCTSI = OptionsManager.getOption("CTSI");
 	
@@ -350,8 +346,10 @@ print ("manager_combat.lua, sortfuncStandard");
 	return node1.getNodeName() < node2.getNodeName();
 end
 
-function sortfuncDnD(node1, node2)
-print ("manager_combat.lua, sortfuncDnD");
+-- Changing this to node2,node1 has initiative go in 
+-- low to high order, not high to low order -msw
+--function sortfuncDnD(node1, node2)
+function sortfuncDnD(node2, node1)
 	local bHost = User.isHost();
 	local sOptCTSI = OptionsManager.getOption("CTSI");
 	
@@ -401,7 +399,6 @@ print ("manager_combat.lua, sortfuncDnD");
 end
 
 function getSortedCombatantList()
-print ("manager_combat.lua, getSortedCombatantList");
 	local aEntries = {};
 	for _,vChild in pairs(DB.getChildren(CT_LIST)) do
 		table.insert(aEntries, vChild);
@@ -421,7 +418,6 @@ end
 --
 
 function handleEndTurn(msgOOB)
-print ("manager_combat.lua, handleEndTurn");
 	local rActor = ActorManager.getActorFromCT(getActiveCT());
 	local sActorType, nodeActor = ActorManager.getTypeAndNode(rActor);
 	if sActorType == "pc" then
@@ -432,7 +428,6 @@ print ("manager_combat.lua, handleEndTurn");
 end
 
 function notifyEndTurn()
-print ("manager_combat.lua, notifyEndTurn");
 	local msgOOB = {};
 	msgOOB.type = OOB_MSGTYPE_ENDTURN;
 	msgOOB.user = User.getUsername();
@@ -1021,7 +1016,6 @@ end
 --
 
 function resetInit()
-print ("manager_combat.lua, resetInit");
 
 	-- De-activate all entries
 	for _, vChild in pairs(DB.getChildren(CT_LIST)) do

@@ -39,7 +39,7 @@ end
 function getRoll(rActor, bSecretRoll)
 	local rRoll = {};
 	rRoll.sType = "init";
-	rRoll.aDice = { "d20" };
+	rRoll.aDice = { "d10" };
 	rRoll.nMod = 0;
 	
 	rRoll.sDesc = "[INIT]";

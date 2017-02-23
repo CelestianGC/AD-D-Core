@@ -4,7 +4,6 @@
 --
 
 function onInit()
-print ("manager_combat2.lua, onInit");
 	CombatManager.setCustomSort(CombatManager.sortfuncDnD);
 	CombatManager.setCustomDrop(onDrop);
 
