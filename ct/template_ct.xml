@@ -207,29 +207,15 @@
 	<template name="number_ct_ability">
 		<number_ct>
 			<anchored width="20" height="20" />
+			<rollable />
 			<default>10</default>
 			<script>
 				function action(draginfo)
-					local node = window.getDatabaseNode();
-					local rActor = ActorManager.getActorFromCT(node);
-					
-					if Input.isShiftPressed() then
-						local nTargetDC = 20;
-						local rActor = ActorManager.getActor("pc", window.getDatabaseNode());
-						local sActorType, nodeActor = ActorManager.getTypeAndNode(rActor);
-						if sActorType == "pc" then
-							nTargetDC = DB.getValue(nodeActor, "saves." .. self.target[1] .. ".score", 0);
-						else
-							nTargetDC = "200";
-						end
-						ActionSave.performRoll(draginfo, rActor, self.target[1], nTargetDC, CombatManager.isCTHidden(node));
-					else
-						local sActorType, nodeActor = ActorManager.getTypeAndNode(rActor);
-						local nTargetDC = DB.getValue(nodeActor, "abilities.".. self.target[1] .. ".score", 0);
-
-						ActionCheck.performRoll(draginfo, rActor, self.target[1], nTargetDC, CombatManager.isCTHidden(node));
-					end
-					
+                    local node = window.getDatabaseNode();
+                    local rActor = ActorManager.getActorFromCT(node);
+                    local sActorType, nodeActor = ActorManager.getTypeAndNode(rActor);
+                    local nTargetDC = DB.getValue(nodeActor, "abilities.".. self.target[1] .. ".score", 0);
+                    ActionCheck.performRoll(draginfo, rActor, self.target[1], nTargetDC, CombatManager.isCTHidden(node));
 					return true;
 				end
 				
@@ -313,4 +299,21 @@
 			</script>
 		</button_iadd>
 	</template>
+    
+	<template name="string_ct_field">
+		<stringfield>
+        <readonly />
+        <nodrop />
+        <script file="common/scripts/string_crosslink.lua" />
+		</stringfield>
+	</template>
+
+	<template name="number_ct_savescore">
+        <number_charasavescore>
+            <default>-1</default>
+			<font>arial-regular-8</font>
+        </number_charasavescore>
+	</template>
+
+    
 </root>

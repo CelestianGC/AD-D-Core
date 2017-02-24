@@ -395,7 +395,7 @@
 			<number_ct_ability name="strength" source="abilities.strength.score">
 				<anchored >
 					<top parent="name" anchor="bottom" relation="relative" offset="10" />
-					<left parent="attributesicon" anchor="right" offset="40" />
+					<left parent="attributesicon" anchor="right" offset="30" />
 				</anchored>
 				<target>strength</target>
 			</number_ct_ability>
@@ -404,7 +404,7 @@
 				<static textres="str" />
 			</label>
 			<number_ct_ability name="dexterity" source="abilities.dexterity.score">
-				<anchored to="strength" position="righthigh" offset="40,0" />
+				<anchored to="strength" position="righthigh" offset="35,0" />
 				<target>dexterity</target>
 			</number_ct_ability>
 			<label name="dexterity_label">
@@ -412,7 +412,7 @@
 				<static textres="dex" />
 			</label>
 			<number_ct_ability name="constitution" source="abilities.constitution.score">
-				<anchored to="dexterity" position="righthigh" offset="40,0" />
+				<anchored to="dexterity" position="righthigh" offset="35,0" />
 				<target>constitution</target>
 			</number_ct_ability>
 			<label name="constitution_label">
@@ -420,7 +420,7 @@
 				<static textres="con" />
 			</label>
 			<number_ct_ability name="intelligence" source="abilities.intelligence.score">
-				<anchored to="constitution" position="righthigh" offset="40,0" />
+				<anchored to="constitution" position="righthigh" offset="30,0" />
 				<target>intelligence</target>
 			</number_ct_ability>
 			<label name="intelligence_label">
@@ -428,7 +428,7 @@
 				<static textres="int" />
 			</label>
 			<number_ct_ability name="wisdom" source="abilities.wisdom.score">
-				<anchored to="intelligence" position="righthigh" offset="40,0" />
+				<anchored to="intelligence" position="righthigh" offset="35,0" />
 				<target>wisdom</target>
 			</number_ct_ability>
 			<label name="wisdom_label">
@@ -436,15 +436,82 @@
 				<static textres="wis" />
 			</label>
 			<number_ct_ability name="charisma" source="abilities.charisma.score">
-				<anchored to="wisdom" position="righthigh" offset="40,0" />
+				<anchored to="wisdom" position="righthigh" offset="35,0" />
 				<target>charisma</target>
 			</number_ct_ability>
 			<label name="charisma_label">
 				<anchored to="charisma" position="lefthigh" offset="7,0" />
 				<static textres="cha" />
 			</label>
+
+			<label name="attr_save_division_label">
+				<static text="|" />
+				<anchored to="charisma" position="righthigh" offset="10,0" />
+			</label>
 			
-			<genericcontrol name="spacer_attribute">
+            <!-- SAVES -->
+            <!-- poison save -->
+			<number_ct_savescore name="save_paralyzation_poison_death" source="saves.save_paralyzation_poison_death.score">
+				<anchored to="attr_save_division_label" position="righthigh" offset="30,0" height="20" width="20"/>
+				<tooltip textres="save_paralyzation_poison_death_full" />
+				<target>save_paralyzation_poison_death</target>
+				<modifierfield>saves.save_paralyzation_poison_death.modifier</modifierfield>
+			</number_ct_savescore>
+			<label name="save_paralyzation_poison_death_label">
+   				<tooltip textres="save_paralyzation_poison_death_full" />
+				<static text="Dth" />
+				<anchored to="save_paralyzation_poison_death" position="lefthigh" offset="7,0" />
+			</label>
+            <!-- rod/staff/wand save -->
+			<number_ct_savescore name="save_rod_staff_wand" source="saves.save_rod_staff_wand.score">
+				<anchored to="save_paralyzation_poison_death" position="righthigh" offset="40,0" height="20" width="20"/>
+				<tooltip textres="save_rod_staff_wand_full" />
+				<target>save_rod_staff_wand</target>
+				<modifierfield>saves.save_rod_staff_wand.modifier</modifierfield>
+			</number_ct_savescore>
+			<label name="save_rod_staff_wand_label">
+   				<tooltip textres="save_save_rod_staff_wand_full" />
+				<static text="Rod" />
+				<anchored to="save_rod_staff_wand" position="lefthigh" offset="7,0" />
+			</label>
+            <!-- poly/para save -->
+			<number_ct_savescore name="save_petrify_polymorph" source="saves.save_petrify_polymorph.score">
+				<anchored to="save_rod_staff_wand" position="righthigh" offset="40,0" height="20" width="20"/>
+				<tooltip textres="save_petrify_polymorph_full" />
+				<target>save_petrify_polymorph</target>
+				<modifierfield>saves.save_petrify_polymorph.modifier</modifierfield>
+			</number_ct_savescore>
+			<label name="save_petrify_polymorph_label">
+   				<tooltip textres="save_petrify_polymorph_full" />
+				<static text="Poly" />
+				<anchored to="save_petrify_polymorph" position="lefthigh" offset="7,0" />
+			</label>
+            <!-- breath save -->
+			<number_ct_savescore name="save_breath" source="saves.save_breath.score">
+				<anchored to="save_petrify_polymorph" position="righthigh" offset="40,0" height="20" width="20"/>
+				<tooltip textres="save_breath_full" />
+				<target>save_breath</target>
+				<modifierfield>saves.save_breath.modifier</modifierfield>
+			</number_ct_savescore>
+			<label name="save_breath_label">
+   				<tooltip textres="save_breath_full" />
+				<static text="Brth" />
+				<anchored to="save_breath" position="lefthigh" offset="7,0" />
+			</label>
+            <!-- spell save -->
+			<number_ct_savescore name="save_spell" source="saves.save_spell.score">
+				<anchored to="save_breath" position="righthigh" offset="40,0" height="20" width="20"/>
+				<tooltip textres="save_spell_full" />
+				<target>save_spell</target>
+				<modifierfield>saves.save_spell.modifier</modifierfield>
+			</number_ct_savescore>
+			<label name="save_spell_label">
+   				<tooltip textres="save_spell_full" />
+				<static text="Spell" />
+				<anchored to="save_spell" position="lefthigh" offset="7,0" />
+			</label>
+
+<!-- 			<genericcontrol name="spacer_attribute">
 				<anchored height="0">
 					<top parent="name" anchor="bottom" relation="relative" offset="2" />
 					<left parent="attributesicon" anchor="right" offset="55" />
@@ -453,7 +520,8 @@
 				<disabled />
 			</genericcontrol>
 			
-			<frame_ctsub name="frame_attributes">
+ -->			
+            <frame_ctsub name="frame_attributes">
 				<anchored>
 					<top parent="attributesicon" offset="-1"/>
 					<bottom parent="strength" offset="10" />
@@ -465,7 +533,7 @@
 				<icon>button_sword_down</icon>
 			</icon_ctsection>
 
-			<buttonfield name="reaction">
+<!-- 			<buttonfield name="reaction">
 				<anchored to="activeicon" position="righthigh" offset="55,8" width="12" height="20" />
 				<state icon="button_checkoff" tooltipres="ct_tooltip_reactionoff" />
 				<state icon="button_checkon" tooltipres="ct_tooltip_reactionon" />
@@ -474,7 +542,17 @@
 				<anchored to="reaction" position="lefthigh" offset="5,0"/>
 				<static textres="ct_label_reaction" />
 			</label>
-			<number_ct_init name="init">
+ -->            
+
+			<number_ct name="thaco">
+				<anchored to="activeicon" position="righthigh" offset="55,8" width="12" height="20" />
+			</number_ct>
+			<label name="thacolabel">
+				<anchored to="thaco" position="lefthigh" offset="10,0"/>
+				<static textres="thaco" />
+			</label>
+
+            <number_ct_init name="init">
 				<anchored to="activeicon" position="righthigh" offset="110,8" />
 			</number_ct_init>
 			<label name="initlabel">
@@ -528,14 +606,14 @@
 				<target>actions</target>
 			</button_ct_actions_emptyadd>
 
-			<list_ct_actions name="reactions">
+<!-- 			<list_ct_actions name="reactions">
 				<datasource>.reactions</datasource>
 			</list_ct_actions>
 			<label_ct_actions name="reactions_label">
 				<anchored to="reactions" />
 				<static textres="ct_label_reactions" />
 			</label_ct_actions>
-			
+ -->			
 			<list_ct_actions name="legendaryactions">
 				<datasource>.legendaryactions</datasource>
 			</list_ct_actions>
@@ -604,7 +682,7 @@
 			</label>
 
 			<number_ct name="reach">
-				<anchored to="space" position="righthigh" offset="60,0" />
+				<anchored to="space" position="righthigh" offset="55,0" />
 				<description textres="ct_tooltip_reach" />
 				<hideonvalue value="0" />
 				<default>5</default>
@@ -612,6 +690,31 @@
 			<label name="reachlabel">
 				<anchored to="reach" position="lefthigh" offset="10,0"/>
 				<static textres="ct_label_reach" />
+			</label>
+
+			<string_ct_field name="hitDice">
+				<anchored to="reach" position="righthigh" offset="30,2" />
+			</string_ct_field>
+			<label name="hitDicelabel">
+				<anchored to="hitDice" position="lefthigh" offset="5,-2"/>
+				<static textres="ct_label_hitdice" />
+			</label>
+<!-- 
+			<number_ct name="level">
+				<anchored to="hitDice" position="righthigh" offset="30,2" />
+			</number_ct>
+			<label name="levellabel">
+				<anchored to="level" position="lefthigh" offset="5,-2"/>
+                <tooltip textres="ct_label_savelevel_tooltip" />
+				<static textres="ct_label_savelevel" />
+			</label>
+ -->
+			<string_ct_field name="morale">
+				<anchored to="hitDice" position="righthigh" offset="50,1" />
+			</string_ct_field>
+			<label name="moralelabel">
+				<anchored to="morale" position="lefthigh" offset="5,-2"/>
+				<static textres="ct_label_morale" />
 			</label>
 
 			<frame_ctsub name="frame_spacing">

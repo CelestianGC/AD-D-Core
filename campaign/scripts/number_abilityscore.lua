@@ -17,9 +17,6 @@ function onValueChanged()
         local sTarget = string.lower(self.target[1]);
         local nChanged = getValue();
             
-        print ("number_abilityscore.lua: onValueChanged :" .. sTarget);
-        print ("number_abilityscore.lua: onValueChanged Value=" .. nChanged);
-
         local rActor = ActorManager.getActor("pc", window.getDatabaseNode());
         local sActorType, nodeActor = ActorManager.getTypeAndNode(rActor);
         if sActorType == "pc" and (nChanged >= 1) and (nChanged <= 25) then

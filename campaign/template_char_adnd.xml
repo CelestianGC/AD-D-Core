@@ -34,9 +34,7 @@
                     local nTargetDC = 20;
                     local rActor = ActorManager.getActor("pc", window.getDatabaseNode());
                     local sActorType, nodeActor = ActorManager.getTypeAndNode(rActor);
-                    if sActorType == "pc" then
-                        nTargetDC = DB.getValue(nodeActor, "saves." .. self.target[1] .. ".score", 0);
-                    end
+                    nTargetDC = DB.getValue(nodeActor, "saves." .. self.target[1] .. ".score", 0);
 					ActionSave.performRoll(draginfo, rActor, self.target[1],nTargetDC);
 					return true;
 				end
@@ -53,6 +51,9 @@
 		</number_savescore>
 	</template>
 	
+
+
+
 	<template name="number_labeled">
 		<numberfield>
 			<font>sheettext</font>

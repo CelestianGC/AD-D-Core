@@ -45,10 +45,17 @@ saves_stol = {
 	["save_rod_staff_wand"] = "Rod, Staff or Wand",
 	["save_petrify_polymorph"] = "Petrification or Polymorph",
 	["save_breath"] = "Breath Weapon",
-	["save_spell"] = "Spells",
+	["save_spell"] = "Spells"
 	
 };
 
+saves_index = {
+	["save_paralyzation_poison_death"] = 1,
+	["save_rod_staff_wand"] = 2,
+	["save_petrify_polymorph"] = 3,
+	["save_breath"] = 4,
+	["save_spell"] = 5
+};
 -- Basic class values (not display values)
 classes = {
 	"barbarian",

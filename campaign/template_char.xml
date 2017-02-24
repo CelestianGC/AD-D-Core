@@ -368,18 +368,15 @@
 			<source><name>defenses.ac.misc</name><op>+</op></source>
 			<script>
 				function onInit()
-					print ("template_char.xml, onInit");
 					super.onInit();
 					DB.addHandler(DB.getPath(window.getDatabaseNode(), "abilities"), "onChildUpdate", onSourceUpdate);
 				end
 				
 				function onClose()
-					print ("template_char.xml, onClose");
 					DB.removeHandler(DB.getPath(window.getDatabaseNode(), "abilities"), "onChildUpdate", onSourceUpdate);
 				end
 				
 				function onSourceUpdate()
-					Debug.console("template_char_adnd.xml", "onSourceUpdate");
 					local rActor = ActorManager.getActor("pc", window.getDatabaseNode());
 					local sActorType, nodeActor = ActorManager.getTypeAndNode(rActor);
 

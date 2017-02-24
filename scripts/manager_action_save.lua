@@ -8,6 +8,61 @@ function onInit()
 	ActionsManager.registerResultHandler("save", onSave);
 end
 
+function setNPCSave(nodeEntry, sSave, nodeNPC)
+    
+    --Debug.console("manager_action_save.lua", "setNPCSave", sSave);
+    
+    local aFighterSaves = {};
+        -- Death, Rod, Poly, Breath, Spell
+        aFighterSaves[0]  = {16,18,17,20,19};
+        aFighterSaves[1]  = {15,16,15,17,17};
+        aFighterSaves[2]  = {15,16,15,17,17};
+        aFighterSaves[3]  = {13,15,14,16,16};
+        aFighterSaves[4]  = {13,15,14,16,16};
+        aFighterSaves[5]  = {11,13,12,13,14};
+        aFighterSaves[6]  = {11,13,12,13,14};
+        aFighterSaves[7]  = {10,12,11,12,13};
+        aFighterSaves[8]  = {10,12,11,12,13};
+        aFighterSaves[9]  = {8,10,9,9,11};
+        aFighterSaves[10] = {8,10,9,9,11};
+        aFighterSaves[11] = {7,9,8,8,10};
+        aFighterSaves[12] = {7,9,8,8,10};
+        aFighterSaves[13] = {5,7,6,5,8};
+        aFighterSaves[14] = {5,7,6,5,8};
+        aFighterSaves[15] = {4,6,5,4,7};
+        aFighterSaves[16] = {4,6,5,4,7};
+        aFighterSaves[17] = {3,5,4,4,6};
+        
+    local nSaveIndex = DataCommon.saves_index[sSave];
+    
+    --Debug.console("manager_action_save.lua", "setNPCSave", "nSaveIndex", nSaveIndex);
+    
+    local nSaveScore = 20;
+    local nLevel = CombatManager2.getNPCLevelFromHitDice(nodeEntry, nodeNPC);
+
+    -- store it incase we wanna look at it later
+    DB.setValue(nodeEntry, "level", "number", nLevel);
+    
+    --Debug.console("manager_action_save.lua", "setNPCSave", "nLevel", nLevel);
+    
+    if (nLevel > 17) then
+        nSaveScore = aFighterSaves[17][nSaveIndex];
+    elseif (nLevel < 1) then
+        nSaveScore = aFighterSaves[0][nSaveIndex];
+    else
+        nSaveScore = aFighterSaves[nLevel][nSaveIndex];
+    end
+
+    --Debug.console("manager_action_save.lua", "setNPCSave", "nSaveScore", nSaveScore);
+    
+    DB.setValue(nodeEntry, "saves." .. sSave .. ".score", "number", nSaveScore);
+
+    --Debug.console("manager_action_save.lua", "setNPCSave", "setValue Done");
+
+    return nSaveScore;
+end
+
+
 function performRoll(draginfo, rActor, sSave, nTargetDC, bSecretRoll, rSource, bRemoveOnMiss, sSaveDesc)
     local rRoll = {};
 	rRoll.sType = "save";

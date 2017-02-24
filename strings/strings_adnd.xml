@@ -114,6 +114,11 @@
     
    	<!-- Combat Tracker -->
 	<string name="ct_label_speed">Mv</string>
+	<string name="ct_label_morale">Morale</string>
+	<string name="ct_label_hitdice">HD</string>
+	<string name="ct_label_savelevel">LVL</string>
+	<string name="ct_label_savelevel_tooltip">Level used to calculate saves.</string>
+
 
    	<script name="SaveScore" file="campaign/scripts/number_savescore.lua" />
 	<!-- Character - Abilities -->

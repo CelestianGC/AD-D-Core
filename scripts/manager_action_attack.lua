@@ -408,7 +408,7 @@ function onAttack(rSource, rTarget, rRoll)
 		rAction.sResult = "fumble";
 		table.insert(rAction.aMessages, "[AUTOMATIC MISS]");
 	elseif nDefenseVal then
-	    print ("in manager_action_attack, onAttack nDefenseVal=" .. nDefenseVal);
+	    --print ("in manager_action_attack, onAttack nDefenseVal=" .. nDefenseVal);
 
 		if rAction.nTotal >= nDefenseVal then
 			rAction.sResult = "hit";
@@ -540,17 +540,17 @@ end
 -- get the base attach bonus using THACO value
 function getBaseAttack(rActor)
 
-    print ("manager_action_attack.lua: getBaseAttack");
+    --print ("manager_action_attack.lua: getBaseAttack");
 
 	local nBaseAttack = 20 - getTHACO(rActor);
 	
-    print ("manager_action_attack.lua: getBaseAttack, nBaseAttack :" .. nBaseAttack);
+    --print ("manager_action_attack.lua: getBaseAttack, nBaseAttack :" .. nBaseAttack);
 	
 	return nBaseAttack;
 end
 
 function getTHACO(rActor)
-    print ("manager_action_attack.lua: getTHACO");
+    --print ("manager_action_attack.lua: getTHACO");
 	local nTHACO = 20;
 	
 	local sActorType, nodeActor = ActorManager.getTypeAndNode(rActor);
@@ -566,7 +566,7 @@ function getTHACO(rActor)
 		nTHACO = DB.getValue(nodeActor, "thaco", 20);
 	end
 
-    print ("manager_action_attack.lua: getTHACO :" .. nTHACO);
+    --print ("manager_action_attack.lua: getTHACO :" .. nTHACO);
 	return nTHACO
 end
 

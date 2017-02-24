@@ -161,7 +161,15 @@ function linkPCFields()
 		wisdom.setLink(nodeChar.createChild("abilities.wisdom.score", "number"), true);
 		charisma.setLink(nodeChar.createChild("abilities.charisma.score", "number"), true);
 
+		--save_paralyzation_poison_death.setLink(nodeChar.createChild("saves.".. save_paralyzation_poison_death .. ".score", "number"), true);
+		--save_rod_staff_wand.setLink(nodeChar.createChild("saves.".. save_rod_staff_wand .. ".score", "number"), true);
+		--save_petrify_polymorph.setLink(nodeChar.createChild("saves.".. save_petrify_polymorph .. ".score", "number"), true);
+		--save_breath.setLink(nodeChar.createChild("saves.".. save_breath .. ".score", "number"), true);
+		--save_spell.setLink(nodeChar.createChild("saves.".. save_spell .. ".score", "number"), true);
+
+
 		init.setLink(nodeChar.createChild("initiative.total", "number"), true);
+		thaco.setLink(nodeChar.createChild("combat.thaco.score", "number"), true);
 		ac.setLink(nodeChar.createChild("defenses.ac.total", "number"), true);
 		speed.setLink(nodeChar.createChild("speed.total", "number"), true);
 	end
@@ -206,8 +214,21 @@ function setAttributesVisible()
 	wisdom_label.setVisible(v);
 	charisma.setVisible(v);
 	charisma_label.setVisible(v);
-	
-	spacer_attribute.setVisible(v);
+
+	attr_save_division_label.setVisible(v);
+
+	save_paralyzation_poison_death.setVisible(v);
+	save_paralyzation_poison_death_label.setVisible(v);
+	save_rod_staff_wand.setVisible(v);
+	save_rod_staff_wand_label.setVisible(v);
+	save_petrify_polymorph.setVisible(v);
+	save_petrify_polymorph_label.setVisible(v);
+	save_breath.setVisible(v);
+	save_breath_label.setVisible(v);
+	save_spell.setVisible(v);
+	save_spell_label.setVisible(v);
+
+	--spacer_attribute.setVisible(v);
 	
 	frame_attributes.setVisible(v);
 end
@@ -226,8 +247,12 @@ function setActiveVisible()
 	
 	activeicon.setVisible(v);
 
-	reaction.setVisible(v);
-	reaction_label.setVisible(v);
+	-- reaction.setVisible(v);
+	-- reaction_label.setVisible(v);
+	
+    thaco.setVisible(v);
+	thacolabel.setVisible(v);
+    
 	init.setVisible(v);
 	initlabel.setVisible(v);
 	ac.setVisible(v);
@@ -255,13 +280,13 @@ function setActiveVisible()
 		actions_emptyadd.setVisible(false);
 	end
 	
-	if bNPC and reactions.getWindowCount() > 0 then
-		reactions.setVisible(v);
-		reactions_label.setVisible(v);
-	else
-		reactions.setVisible(false);
-		reactions_label.setVisible(false);
-	end
+	-- if bNPC and reactions.getWindowCount() > 0 then
+		-- reactions.setVisible(v);
+		-- reactions_label.setVisible(v);
+	-- else
+		-- reactions.setVisible(false);
+		-- reactions_label.setVisible(false);
+	-- end
 
 	if bNPC and legendaryactions.getWindowCount() > 0 then
 		legendaryactions.setVisible(v);
@@ -306,13 +331,26 @@ function setSpacingVisible(v)
 		v = true;
 	end
 
+    local bNPC = (sClass ~= "charsheet");
+    
 	spacingicon.setVisible(v);
 	
 	space.setVisible(v);
 	spacelabel.setVisible(v);
 	reach.setVisible(v);
 	reachlabel.setVisible(v);
+
+	hitDice.setVisible(v);
+	hitDicelabel.setVisible(v);
 	
+	if (bNPC) then
+--        level.setVisible(v);
+--        levellabel.setVisible(v);
+    end
+    
+	morale.setVisible(v);
+	moralelabel.setVisible(v);
+
 	frame_spacing.setVisible(v);
 end
 

@@ -151,9 +151,80 @@ function parseResistances(sResistances)
 	return aResults;
 end
 
+-- calculate npc level from HD and return it -msw
+-- move to manager_action_save.lua?
+function getNPCLevelFromHitDice(nodeEntry, nodeNPC) 
+    local bWoops = false;
+    local nLevel = 1;
+    local sHitDice = DB.getValue(nodeNPC, "hitDice", "1");
+    if (sHitDice) then
+        DB.setValue(nodeEntry,"hitDice","string", sHitDice);
+        -- Match #-#, #+# or just #
+        -- (\d+)([\-\+])?(\d+)?
+        -- Full match	0-4	`12+3`
+        -- Group 1.	0-2	`12`
+        -- Group 2.	2-3	`+`
+        -- Group 3.	3-4	`3`
+        local nAdjustment = 0;
+        local nHitDice = 0;
+        local match1, match2, match3 = sHitDice:match("(%d+)([%-+])(%d+)");
+        if (match1 and not match2) then -- single digit
+            nHitDice = tonumber(match1);
+        elseif (match1 and match2 and match3) then -- match x-x or x+x
+            nHitDice = tonumber(match1);
+            -- minus
+            if (match2 == "-") then
+                nAdjustment = tonumber(match2 .. match3);
+            else -- plus
+                nAdjustment = tonumber(match3);
+            end
+            if (nAdjustment ~= 0) then
+                local nFourCount = (nAdjustment/4);
+                if (nFourCount < 0) then
+                    nFourCount = math.ceil(nFourCount);
+                else
+                    nFourCount = math.floor(nFourCount);
+                end
+                nLevel = (nHitDice+nFourCount);
+            else -- adjust = 0
+                nLevel = nHitDice;
+            end -- nAdjustment
+        else -- didn't find X-X or X+x-x
+            match1 = sHitDice:match("(%d+)");
+            if (match1) then -- single digit
+                nHitDice = tonumber(match1);
+                nLevel = nHitDice;
+            else
+                -- pop up menu and ask them for a decent value? -msw
+                ChatManager.SystemMessage("Unable to find a working hitDice [" .. sHitDice .. "] for " .. DB.getValue(nodeNPC, "name", "") .." to calculate saves. It should be # or #+# or #-#."); 
+                bWoops = true;
+                nAdjustment = 0;
+                nHitDice = 0;
+            end
+        end
+    end -- hitDice
+    
+    return nLevel;
+end
+
+-- Set NPC Saves -msw
+-- move to manager_action_save.lua?
+function updateNPCSaves(nodeEntry, nodeNPC)
+    for i=1,5,1 do
+        local sSave = DataCommon.saves[i];
+        local nSave = DB.getValue(nodeNPC, "saves." .. sSave .. ".score", -1);
+        if (nSave <= 0) then
+            ActionSave.setNPCSave(nodeEntry, sSave, nodeNPC)
+        end
+    end
+end
+
 function addNPC(sClass, nodeNPC, sName)
 	local nodeEntry, nodeLastMatch = CombatManager.addNPCHelper(nodeNPC, sName);
 	
+    -- update NPC Saves for HD
+    updateNPCSaves(nodeEntry, nodeNPC);
+
 	-- Fill in spells
 	CampaignDataManager2.updateNPCSpells(nodeEntry);
 	
