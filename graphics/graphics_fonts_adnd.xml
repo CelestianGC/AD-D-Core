@@ -19,6 +19,12 @@
 	<font name="arial-regular-7">
 		<fgffile name="graphics/fonts/arial-regular-7.fgf" />
 	</font>
+	<font name="arial-bold-7">
+		<fgffile name="graphics/fonts/arial-bold-7.fgf" />
+	</font>
+	<font name="arial-bold-8">
+		<fgffile name="graphics/fonts/arial-bold-8.fgf" />
+	</font>
 	<font name="arial-regular-8">
 		<fgffile name="graphics/fonts/arial-regular-8.fgf" />
 	</font>

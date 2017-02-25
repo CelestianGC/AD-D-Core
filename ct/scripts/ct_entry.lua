@@ -215,7 +215,7 @@ function setAttributesVisible()
 	charisma.setVisible(v);
 	charisma_label.setVisible(v);
 
-	attr_save_division_label.setVisible(v);
+--	attr_save_division_label.setVisible(v);
 
 	save_paralyzation_poison_death.setVisible(v);
 	save_paralyzation_poison_death_label.setVisible(v);

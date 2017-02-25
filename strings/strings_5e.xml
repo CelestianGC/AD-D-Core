@@ -150,7 +150,7 @@
 
 	<string name="ct_tooltip_hptemp">Temporary Hit Points</string>
 	<string name="ct_tooltip_wounds">Wounds</string>
-	<string name="ct_tooltip_attribute">Attributes</string>
+	<string name="ct_tooltip_attribute">Attributes and Saves</string>
 	<string name="ct_tooltip_offense">Offense</string>
 	<string name="ct_tooltip_defense">Defense</string>
 	<string name="ct_tooltip_reactionon">Reaction Used</string>

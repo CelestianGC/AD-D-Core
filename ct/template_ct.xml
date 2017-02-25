@@ -311,7 +311,7 @@
 	<template name="number_ct_savescore">
         <number_charasavescore>
             <default>-1</default>
-			<font>arial-regular-8</font>
+			<font>arial-bold-8</font>
         </number_charasavescore>
 	</template>
 

@@ -27,7 +27,7 @@
 	
 	<template name="number_charasavescore">
 		<number_savescore>
-			<anchored to="statstitle" position="below" height="30"/>
+			<anchored to="statstitle" position="below"/>
 			<rollable />
 			<script>
 				function action(draginfo)

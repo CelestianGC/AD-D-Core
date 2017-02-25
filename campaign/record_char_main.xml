@@ -615,7 +615,7 @@
 			</label_charframetop>
 
 			<number_charasavescore name="save_paralyzation_poison_death" source="saves.save_paralyzation_poison_death.score">
-				<anchored to="savestitle" position="insidetopleft" offset="0,30"  width="30"/> 
+				<anchored to="savestitle" position="insidetopleft" offset="0,30"  height="30" width="30"/> 
 				<target>save_paralyzation_poison_death</target>
 				<modifierfield>saves.save_paralyzation_poison_death.modifier</modifierfield>
 			</number_charasavescore>
@@ -635,7 +635,7 @@
 			</label_mod_fields>
 
 			<number_charasavescore name="save_rod_staff_wand" source="saves.save_rod_staff_wand.score">
-				<anchored to="save_paralyzation_poison_death" />
+				<anchored to="save_paralyzation_poison_death"   height="30"  />
 				<target>save_rod_staff_wand</target>
 				<modifierfield>saves.rod_staff_wand.modifier</modifierfield>
 			</number_charasavescore>
@@ -655,7 +655,7 @@
 			</label_mod_fields>
             
 			<number_charasavescore name="save_petrify_polymorph" source="saves.save_petrify_polymorph.score">
-				<anchored to="save_rod_staff_wand" />
+				<anchored to="save_rod_staff_wand"   height="30" />
 				<target>save_petrify_polymorph</target>
 				<modifierfield>saves.save_petrify_polymorph.modifier</modifierfield>
 			</number_charasavescore>
@@ -675,7 +675,7 @@
 			</label_mod_fields>
             
 			<number_charasavescore name="save_breath" source="saves.save_breath.score">
-				<anchored to="save_petrify_polymorph" />
+				<anchored to="save_petrify_polymorph"   height="30" />
 				<target>save_breath</target>
 				<modifierfield>saves.save_breath.modifier</modifierfield>
 			</number_charasavescore>
@@ -695,7 +695,7 @@
 			</label_mod_fields>
 
    			<number_charasavescore name="save_spell" source="saves.save_spell.score">
-				<anchored to="save_breath" />
+				<anchored to="save_breath"   height="30" />
 				<target>save_spell</target>
 				<modifierfield>saves.save_spell.modifier</modifierfield>
 			</number_charasavescore>
