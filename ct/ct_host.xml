@@ -444,12 +444,17 @@
 				<static textres="cha" />
 			</label>
 
-			<label name="attr_save_division_label">
-				<static text="|" />
+			<genericcontrol name="attr_save_division_label">
+				<anchored to="charisma" position="righthigh" offset="10,0" width="30" height="20"/>
+				<icon>char_abilities</icon>
+			</genericcontrol>
+
+<!-- 			<label name="attr_save_division_label">
 				<anchored to="charisma" position="righthigh" offset="10,0" />
+   				<icon>char_abilities</icon>
 			</label>
 			
-            <!-- SAVES -->
+ -->            <!-- SAVES -->
             <!-- poison save -->
 			<number_ct_savescore name="save_paralyzation_poison_death" source="saves.save_paralyzation_poison_death.score">
 				<anchored to="attr_save_division_label" position="righthigh" offset="30,0" height="20" width="20"/>

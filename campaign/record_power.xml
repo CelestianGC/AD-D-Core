@@ -935,6 +935,12 @@
 				</script>
 			</string_columnh>
 			
+			<label_column name="sphere_label">
+				<static textres="ref_label_sphere" />
+			</label_column>
+			<string_columnh name="sphere">
+			</string_columnh>
+
 			<label_column name="ritual_label">
 				<static textres="ref_label_ritual" />
 			</label_column>
@@ -974,6 +980,12 @@
 				<static textres="ref_label_duration" />
 			</label_column>
 			<string_columnh name="duration" />
+
+			<label_column name="save_label">
+				<static textres="ref_label_save" />
+			</label_column>
+			<string_columnh name="save" />
+
 
 			<ft_columnh name="description" />
 			

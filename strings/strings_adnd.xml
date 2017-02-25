@@ -132,6 +132,8 @@
  	<string name="ref_type_backgroundfeature">Kit Feature</string>
 	<string name="ref_type_backgroundproficiency">Kit Proficiency</string>
 	<string name="ref_type_characteristic">Kit Characteristic</string>
+	<string name="ref_label_sphere">Sphere</string>
+	<string name="ref_label_save">Save</string>
     
     	<!-- Library - Master Index -->
 	<string name="library_recordtype_label_background">Kits</string>

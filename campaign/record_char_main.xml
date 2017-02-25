@@ -739,11 +739,6 @@
 				<anchored to="thaco" offset="0,15" />
 				<static textres="thaco" />
 			</label_charfieldtop>
-			
-			<!-- 	Magnify button -->
-			<button_charcombatcalc name="button_combatcalc">
-				<anchored to="thaco" position="lefthigh" offset="15,5" />
-			</button_charcombatcalc>
 
 			<number_chartotalac name="ac2" source="defenses.ac.total">
 				<readonly />
@@ -802,6 +797,12 @@
 				<multilinespacing>20</multilinespacing>
 			</string_labeled>
 
+			
+			<!-- 	Magnify button -->
+			<button_charcombatcalc name="button_combatcalc">
+				<anchored to="speed" position="righthigh" offset="10,5" />
+			</button_charcombatcalc>
+            
         <!-- Health/Wounds -->
  			<label_charframetop name="healthtitle">
 				<anchored to="combattitle" position="right" offset="25,0" width="180"/>
