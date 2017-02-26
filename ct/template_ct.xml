@@ -308,6 +308,7 @@
 		</stringfield>
 	</template>
 
+    <!-- 
 	<template name="number_ct_savescore">
         <number_charasavescore>
             <default>-1</default>
@@ -315,5 +316,31 @@
         </number_charasavescore>
 	</template>
 
+ -->	
+    <template name="number_ct_savescore">
+		<number_ct>
+            <default>-1</default>
+			<font>arial-bold-8</font>
+			<rollable />
+			<script>
+				function action(draginfo)
+                    local nTargetDC = 20;
+                    local rActor = ActorManager.getActor("", window.getDatabaseNode());
+                    local sActorType, nodeActor = ActorManager.getTypeAndNode(rActor);
+                    nTargetDC = DB.getValue(nodeActor, "saves." .. self.target[1] .. ".score", 0);
+					ActionSave.performRoll(draginfo, rActor, self.target[1],nTargetDC);
+					return true;
+				end
+				
+				function onDragStart(button, x, y, draginfo)
+					return action(draginfo);
+				end
+					
+				function onDoubleClick(x,y)
+					return action();
+				end
+			</script>
+		</number_ct>
+	</template>
     
 </root>

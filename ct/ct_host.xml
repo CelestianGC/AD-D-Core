@@ -444,29 +444,17 @@
 				<static textres="cha" />
 			</label>
 
-            <!-- save icon -->
-<!-- 			<genericcontrol name="attr_save_division_label">
-				<anchored to="strength_label" position="below" offset="10,0" width="30" height="20"/>
-				<icon>char_abilities</icon>
-			</genericcontrol>
- -->
-<!-- 			<label name="attr_save_division_label">
-				<anchored to="charisma" position="righthigh" offset="10,0" />
-   				<icon>char_abilities</icon>
-			</label>
-			
- -->            <!-- SAVES -->
             <!-- poison save -->
 			<label name="save_paralyzation_poison_death_label">
    				<tooltip textres="save_paralyzation_poison_death_full" />
 				<static text="Poison" />
-				<anchored to="strength_label" >
-					<top anchor="bottom" relation="relative" offset="5" />
-					<right offset="20" />
-                </anchored>
+				<anchored >
+					<top parent="name" anchor="bottom" relation="relative" offset="10" />
+					<left parent="attributesicon" anchor="right" offset="6" />
+				</anchored>
 			</label>
 			<number_ct_savescore name="save_paralyzation_poison_death" source="saves.save_paralyzation_poison_death.score">
-				<anchored to="save_paralyzation_poison_death_label" position="right" offset="10,0" width="20"/>
+				<anchored to="save_paralyzation_poison_death_label" position="righthigh" offset="10,0" width="20"/>
 				<tooltip textres="save_paralyzation_poison_death_full" />
 				<target>save_paralyzation_poison_death</target>
 				<modifierfield>saves.save_paralyzation_poison_death.modifier</modifierfield>
@@ -478,7 +466,7 @@
 				<anchored to="save_paralyzation_poison_death" position="righthigh" offset="5,0" />
 			</label>
 			<number_ct_savescore name="save_rod_staff_wand" source="saves.save_rod_staff_wand.score">
-				<anchored to="save_rod_staff_wand_label" position="right" offset="10,0" width="20"/>
+				<anchored to="save_rod_staff_wand_label" position="righthigh" offset="10,0" width="20"/>
 				<tooltip textres="save_rod_staff_wand_full" />
 				<target>save_rod_staff_wand</target>
 				<modifierfield>saves.save_rod_staff_wand.modifier</modifierfield>
@@ -490,7 +478,7 @@
 				<anchored to="save_rod_staff_wand" position="righthigh" offset="5,0" />
 			</label>
 			<number_ct_savescore name="save_petrify_polymorph" source="saves.save_petrify_polymorph.score">
-				<anchored to="save_petrify_polymorph_label" position="right" offset="10,0" width="20"/>
+				<anchored to="save_petrify_polymorph_label" position="righthigh" offset="10,0" width="20"/>
 				<tooltip textres="save_petrify_polymorph_full" />
 				<target>save_petrify_polymorph</target>
 				<modifierfield>saves.save_petrify_polymorph.modifier</modifierfield>
@@ -502,7 +490,7 @@
 				<anchored to="save_petrify_polymorph" position="righthigh" offset="5,0" />
 			</label>
 			<number_ct_savescore name="save_breath" source="saves.save_breath.score">
-				<anchored to="save_breath_label" position="right" offset="10,0" width="20"/>
+				<anchored to="save_breath_label" position="righthigh" offset="10,0" width="20"/>
 				<tooltip textres="save_breath_full" />
 				<target>save_breath</target>
 				<modifierfield>saves.save_breath.modifier</modifierfield>
@@ -514,7 +502,7 @@
 				<anchored to="save_breath" position="righthigh" offset="5,0" />
 			</label>
 			<number_ct_savescore name="save_spell" source="saves.save_spell.score">
-				<anchored to="save_spell_label" position="right" offset="8,0" width="20"/>
+				<anchored to="save_spell_label" position="righthigh" offset="8,0" width="20"/>
 				<tooltip textres="save_spell_full" />
 				<target>save_spell</target>
 				<modifierfield>saves.save_spell.modifier</modifierfield>
@@ -522,24 +510,24 @@
 
  			<genericcontrol name="spacer_attribute">
 				<anchored height="0">
-					<top parent="name" anchor="bottom" relation="relative" offset="30" />
-					<left parent="attributesicon" anchor="right" offset="75" />
+					<top parent="name" anchor="bottom" relation="relative" offset="2" />
+					<left parent="attributesicon" anchor="right" offset="55" />
 					<right offset="-17" />
 				</anchored>
 				<disabled />
 			</genericcontrol>
-			
 
             <frame_ctsub name="frame_attributes">
-				<anchored>
-					<top parent="attributesicon" offset="-1"/>
-					<bottom parent="spacer_attribute" offset="8" />
+ 				<anchored>
+ 					<top parent="attributesicon" offset="-1"/>
+					<bottom parent="spacer_attribute" offset="10" />
 				</anchored>
-			</frame_ctsub>
+
+            </frame_ctsub>
 
 			<!-- Offense subsection -->
 			<icon_ctsection name="activeicon">
-				<icon>button_sword_down</icon>
+                <icon>button_sword_down</icon>
 			</icon_ctsection>
 
 <!-- 			<buttonfield name="reaction">
