@@ -7,6 +7,7 @@
 
 <root>
 	<icon name="rulesetlogo_5E" file="graphics/icons/rulesetlogo_5E.png" />
+	<icon name="rulesetlogo_ADnD" file="graphics/icons/shield-png-23062.png" />
 
 	<!-- Common -->
 	<icon name="question" file="graphics/icons/question.png" />

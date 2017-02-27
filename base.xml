@@ -6,7 +6,7 @@
 -->
 
 <root version="3.0" release="7" logo="logo.png">
-	<announcement text="AD&amp;D Core (based on 5E ruleset\rCopyright 2015 Smiteworks USA, LLC)" font="emotefont" icon="rulesetlogo_5E" />
+	<announcement text="AD&amp;D Core v2017.03\rFor Fantasy Grounds" font="emotefont" icon="rulesetlogo_ADnD" />
 
 	<!-- Attributes -->
 	<description>
