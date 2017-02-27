@@ -161,9 +161,7 @@ function linkPCFields()
 		wisdom.setLink(nodeChar.createChild("abilities.wisdom.score", "number"), true);
 		charisma.setLink(nodeChar.createChild("abilities.charisma.score", "number"), true);
 
-        Debug.console("linkPCFields","save_paralyzation_poison_death",save_paralyzation_poison_death);
 		save_paralyzation_poison_death.setLink(nodeChar.createChild("saves.save_paralyzation_poison_death.score", "number"), true);
-        
 		save_rod_staff_wand.setLink(nodeChar.createChild("saves.save_rod_staff_wand.score", "number"), true);
 		save_petrify_polymorph.setLink(nodeChar.createChild("saves.save_petrify_polymorph.score", "number"), true);
 		save_breath.setLink(nodeChar.createChild("saves.save_breath.score", "number"), true);

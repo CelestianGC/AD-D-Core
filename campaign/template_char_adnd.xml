@@ -211,5 +211,31 @@
 		</stringcontrol>
 	</template>
 
+	<template name="cycler_skill_type">
+		<button_stringcycler>
+			<parameters>
+				<defaultlabelres mergerule="replace">dash</defaultlabelres>
+				<labelsres>percent|str|dex|con|int|wis|cha</labelsres>
+				<values>percent|strength|dexterity|constitution|intelligence|wisdom|charisma</values>
+			</parameters>
+		</button_stringcycler>
+	</template>
 
+    <template name="number_charskill_nosign">
+        <basicnumber>
+            <anchored width="32" height="20" />
+            <delaykeyupdate />
+            <hideonvalue>0</hideonvalue>
+            <nodrag />
+        </basicnumber>
+    </template>
+	<template name="number_charskilltotal_nosign">
+		<number_linked>
+			<anchored width="32" height="20" />
+			<frame name="fieldlight" offset="7,5,7,5" />
+			<rollable />
+            <script file="campaign/scripts/number_charskill.lua" />
+		</number_linked>
+	</template>
+    
 </root>

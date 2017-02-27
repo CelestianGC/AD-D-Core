@@ -343,6 +343,7 @@ function addNPC(sClass, nodeNPC, sName)
 	return nodeEntry;
 end
 
+-- review this to deal with AD&D monster/spells descriptions better? -msw
 function parseNPCPower(nodePower, aEffects, bAllowSpellDataOverride)
 	local sDisplay = DB.getValue(nodePower, "name", "");
 	local aDisplayOptions = {};

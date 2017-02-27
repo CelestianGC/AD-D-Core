@@ -18,25 +18,32 @@ function getRoll(rActor, nodeSkill, nTargetDC, bSecretRoll)
 	
 	local nMod, bADV, bDIS, sAddText = ActorManager2.getCheck(rActor, sAbility:lower(), sSkill);
 	rRoll.nMod = nMod;
-	rRoll.nMod = rRoll.nMod + DB.getValue(nodeSkill, "misc", 0);
+    -- we apply these mods to the total (making the target higher, thus easier. -msw
+	--rRoll.nMod = rRoll.nMod + DB.getValue(nodeSkill, "misc", 0);
 	
 	rRoll.sDesc = "[SKILL] " .. sSkill;
-	if not DataCommon.skilldata[sSkill] and sAbility ~= "" then
+	if sAbility == "percent" then
+        -- deal with percentile checks
+        rRoll.aDice = { "d100","d10" };
+		rRoll.sDesc = rRoll.sDesc .. " [PERCENT:" .. sSkill .. "]";
+    elseif not DataCommon.skilldata[sSkill] and sAbility ~= "" then
 		rRoll.sDesc = rRoll.sDesc .. " [MOD:" .. DataCommon.ability_ltos[sAbility] .. "]";
 	end
 
 	local nodeChar = nodeSkill.getChild("...");
-	local nProf = DB.getValue(nodeSkill, "prof", 0);
-	if nProf == 1 then
-		rRoll.nMod = rRoll.nMod + DB.getValue(nodeChar, "profbonus", 0);
-		rRoll.sDesc = rRoll.sDesc .. " [PROF]";
-	elseif nProf == 2 then
-		rRoll.nMod = rRoll.nMod + (2 * DB.getValue(nodeChar, "profbonus", 0));
-		rRoll.sDesc = rRoll.sDesc .. " [PROF x2]";
-	elseif nProf == 3 then
-		rRoll.nMod = rRoll.nMod + math.floor(DB.getValue(nodeChar, "profbonus", 0) / 2);
-		rRoll.sDesc = rRoll.sDesc .. " [PROF x1/2]";
-	end
+    
+    -- AD&D doesn't use this, might use it for weapon profs?
+	-- local nProf = DB.getValue(nodeSkill, "prof", 0);
+	-- if nProf == 1 then
+		-- rRoll.nMod = rRoll.nMod + DB.getValue(nodeChar, "profbonus", 0);
+		-- rRoll.sDesc = rRoll.sDesc .. " [PROF]";
+	-- elseif nProf == 2 then
+		-- rRoll.nMod = rRoll.nMod + (2 * DB.getValue(nodeChar, "profbonus", 0));
+		-- rRoll.sDesc = rRoll.sDesc .. " [PROF x2]";
+	-- elseif nProf == 3 then
+		-- rRoll.nMod = rRoll.nMod + math.floor(DB.getValue(nodeChar, "profbonus", 0) / 2);
+		-- rRoll.sDesc = rRoll.sDesc .. " [PROF x1/2]";
+	-- end
 	
 	if sAddText and sAddText ~= "" then
 		rRoll.sDesc = rRoll.sDesc .. " " .. sAddText;
@@ -286,6 +293,12 @@ function modRoll(rSource, rTarget, rRoll)
 		end
 	end
 	rRoll.nMod = rRoll.nMod + nAddMod;
+	-- flip +/- so if you +a check it's a bonus (reduces the roll to make sure it's under the ability check)
+	-- and - adds to the roll to make it harder to roll under the ability score (AD&D thing)
+    Debug.console("manager_action_skill.lua","modRoll","sAbility",sAbility);
+    if sAbility ~= "percent" then
+        rRoll.nMod = -(rRoll.nMod);
+    end
 	
 	ActionsManager2.encodeAdvantage(rRoll, bADV, bDIS);
 end
@@ -298,14 +311,18 @@ function onRoll(rSource, rTarget, rRoll)
 	if rRoll.nTarget then
 		local nTotal = ActionsManager.total(rRoll);
 		local nTargetDC = tonumber(rRoll.nTarget) or 0;
+		local nDifference = math.abs((nTotal - nTargetDC));
+
+    Debug.console("manager_action_skill.lua","onRoll","nTotal",nTotal,"nTargetDC",nTargetDC, "nDifference",nDifference);
 		
-		rMessage.text = rMessage.text .. " (vs. DC " .. nTargetDC .. ")";
-		if nTotal >= nTargetDC then
-			rMessage.text = rMessage.text .. " [SUCCESS]";
+		rMessage.text = rMessage.text .. " (vs. Target " .. nTargetDC .. ")";
+		if nTotal <= nTargetDC then
+			rMessage.text = rMessage.text .. " [SUCCESS by " .. nDifference .. "]";
 		else
-			rMessage.text = rMessage.text .. " [FAILURE]";
+			rMessage.text = rMessage.text .. " [FAILURE by " .. nDifference .. "]";
 		end
 	end
 	
 	Comm.deliverChatMessage(rMessage);
 end
+

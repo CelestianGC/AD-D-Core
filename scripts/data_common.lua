@@ -334,26 +334,27 @@ function onInit()
 	};
 
 	-- Skills
-	skilldata = {
-		[Interface.getString("skill_value_acrobatics")] = { lookup = "acrobatics", stat = 'dexterity' },
-		[Interface.getString("skill_value_animalhandling")] = { lookup = "animalhandling", stat = 'wisdom' },
-		[Interface.getString("skill_value_arcana")] = { lookup = "arcana", stat = 'intelligence' },
-		[Interface.getString("skill_value_athletics")] = { lookup = "athletics", stat = 'strength' },
-		[Interface.getString("skill_value_deception")] = { lookup = "deception", stat = 'charisma' },
-		[Interface.getString("skill_value_history")] = { lookup = "history", stat = 'intelligence' },
-		[Interface.getString("skill_value_insight")] = { lookup = "insight", stat = 'wisdom' },
-		[Interface.getString("skill_value_intimidation")] = { lookup = "intimidation", stat = 'charisma' },
-		[Interface.getString("skill_value_investigation")] = { lookup = "investigation", stat = 'intelligence' },
-		[Interface.getString("skill_value_medicine")] = { lookup = "medicine", stat = 'wisdom' },
-		[Interface.getString("skill_value_nature")] = { lookup = "nature", stat = 'intelligence' },
-		[Interface.getString("skill_value_perception")] = { lookup = "perception", stat = 'wisdom' },
-		[Interface.getString("skill_value_performance")] = { lookup = "performance", stat = 'charisma' },
-		[Interface.getString("skill_value_persuasion")] = { lookup = "persuasion", stat = 'charisma' },
-		[Interface.getString("skill_value_religion")] = { lookup = "religion", stat = 'intelligence' },
-		[Interface.getString("skill_value_sleightofhand")] = { lookup = "sleightofhand", stat = 'dexterity' },
-		[Interface.getString("skill_value_stealth")] = { lookup = "stealth", stat = 'dexterity', disarmorstealth = 1 },
-		[Interface.getString("skill_value_survival")] = { lookup = "survival", stat = 'wisdom' },
-	};
+        skilldata = {};
+	-- skilldata = {
+		-- [Interface.getString("skill_value_acrobatics")] = { lookup = "acrobatics", stat = 'dexterity' },
+		-- [Interface.getString("skill_value_animalhandling")] = { lookup = "animalhandling", stat = 'wisdom' },
+		-- [Interface.getString("skill_value_arcana")] = { lookup = "arcana", stat = 'intelligence' },
+		-- [Interface.getString("skill_value_athletics")] = { lookup = "athletics", stat = 'strength' },
+		-- [Interface.getString("skill_value_deception")] = { lookup = "deception", stat = 'charisma' },
+		-- [Interface.getString("skill_value_history")] = { lookup = "history", stat = 'intelligence' },
+		-- [Interface.getString("skill_value_insight")] = { lookup = "insight", stat = 'wisdom' },
+		-- [Interface.getString("skill_value_intimidation")] = { lookup = "intimidation", stat = 'charisma' },
+		-- [Interface.getString("skill_value_investigation")] = { lookup = "investigation", stat = 'intelligence' },
+		-- [Interface.getString("skill_value_medicine")] = { lookup = "medicine", stat = 'wisdom' },
+		-- [Interface.getString("skill_value_nature")] = { lookup = "nature", stat = 'intelligence' },
+		-- [Interface.getString("skill_value_perception")] = { lookup = "perception", stat = 'wisdom' },
+		-- [Interface.getString("skill_value_performance")] = { lookup = "performance", stat = 'charisma' },
+		-- [Interface.getString("skill_value_persuasion")] = { lookup = "persuasion", stat = 'charisma' },
+		-- [Interface.getString("skill_value_religion")] = { lookup = "religion", stat = 'intelligence' },
+		-- [Interface.getString("skill_value_sleightofhand")] = { lookup = "sleightofhand", stat = 'dexterity' },
+		-- [Interface.getString("skill_value_stealth")] = { lookup = "stealth", stat = 'dexterity', disarmorstealth = 1 },
+		-- [Interface.getString("skill_value_survival")] = { lookup = "survival", stat = 'wisdom' },
+	-- };
 
 	-- Party sheet drop down list data
 	psabilitydata = {
@@ -366,28 +367,30 @@ function onInit()
 	};
 
 	-- Party sheet drop down list data
-	psskilldata = {
-		Interface.getString("skill_value_acrobatics"),
-		Interface.getString("skill_value_animalhandling"),
-		Interface.getString("skill_value_arcana"),
-		Interface.getString("skill_value_athletics"),
-		Interface.getString("skill_value_deception"),
-		Interface.getString("skill_value_history"),
-		Interface.getString("skill_value_insight"),
-		Interface.getString("skill_value_intimidation"),
-		Interface.getString("skill_value_investigation"),
-		Interface.getString("skill_value_medicine"),
-		Interface.getString("skill_value_nature"),
-		Interface.getString("skill_value_perception"),
-		Interface.getString("skill_value_performance"),
-		Interface.getString("skill_value_persuasion"),
-		Interface.getString("skill_value_religion"),
-		Interface.getString("skill_value_sleightofhand"),
-		Interface.getString("skill_value_stealth"),
-		Interface.getString("skill_value_survival"),
-	};
+        psskilldata = {};
+	-- psskilldata = {
+		-- Interface.getString("skill_value_acrobatics"),
+		-- Interface.getString("skill_value_animalhandling"),
+		-- Interface.getString("skill_value_arcana"),
+		-- Interface.getString("skill_value_athletics"),
+		-- Interface.getString("skill_value_deception"),
+		-- Interface.getString("skill_value_history"),
+		-- Interface.getString("skill_value_insight"),
+		-- Interface.getString("skill_value_intimidation"),
+		-- Interface.getString("skill_value_investigation"),
+		-- Interface.getString("skill_value_medicine"),
+		-- Interface.getString("skill_value_nature"),
+		-- Interface.getString("skill_value_perception"),
+		-- Interface.getString("skill_value_performance"),
+		-- Interface.getString("skill_value_persuasion"),
+		-- Interface.getString("skill_value_religion"),
+		-- Interface.getString("skill_value_sleightofhand"),
+		-- Interface.getString("skill_value_stealth"),
+		-- Interface.getString("skill_value_survival"),
+	-- };
 	
 	-- partysheet save drop down list
+	pssavedata = saves;
 	-- pssavedata = {
 		-- Interface.getString("save_paralyzation_poison_death"),
 		-- Interface.getString("save_rod_staff_wand"),
@@ -395,7 +398,5 @@ function onInit()
 		-- Interface.getString("save_breath"),
 		-- Interface.getString("save_spell"),
 	-- };
-
-	pssavedata = saves;
 
 end

@@ -8,6 +8,7 @@
 <root>
 	<!-- Common -->
 	<string name="thaco">THACO</string>
+	<string name="percent">%</string>
 	
 	<string name="save_paralyzation_poison_death">Paralyzation, Poison or Death</string>
 	<string name="save_rod_staff_wand">Rod, Staff or Wand</string>
@@ -111,6 +112,16 @@
     <string name="char_tooltip_charisma">Strength of the character.</string>
     <string name="char_tooltip_charisma">Charisma of the character.</string>
 
+    <string name="char_label_skill_base_check">Base</string>
+    <string name="char_label_skill_base_check_tooltip">Base chance of a percentile skill.</string>
+    <string name="char_label_skill_type">Type</string>
+    <string name="char_label_skill_type_tooltip">The type of skill. Ability (select) or percentile.</string>
+    <string name="char_label_skill_stat_adj">Stat</string>
+    <string name="char_label_skill_stat_adj_tooltip">Adjustment applied for ability scores.</string>
+    <string name="char_label_skill_armor_adj">Armor</string>
+    <string name="char_label_skill_armor_adj_tooltip">Adjustment applied for armor worn.</string>
+    <string name="char_label_skill_class_adj">Class</string>
+    <string name="char_label_skill_class_adj_tooltip">Adjustment applied for chosen class(s).</string>
     
    	<!-- Combat Tracker -->
 	<string name="ct_label_speed">Mv</string>

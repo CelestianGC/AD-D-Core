@@ -26,7 +26,6 @@ end
 local m_sClass = "";
 local m_sRecord = "";
 function onLinkChanged()
-	print ("in char_weapon.lua: onLinkChanged");
 
 	local node = getDatabaseNode();
 	local sClass, sRecord = DB.getValue(node, "shortcut", "", "");
@@ -42,7 +41,6 @@ function onLinkChanged()
 end
 
 function onDataChanged()
-	print ("in char_weapon.lua: onDataChanged");
 
 	onLinkChanged();
 	onAttackChanged();
@@ -63,7 +61,6 @@ function highlightAttack(bOnControl)
 end
 			
 function onAttackAction(draginfo)
-	print ("in char_weapon.lua: onAttackAction");
 	local nodeWeapon = getDatabaseNode();
 	local nodeChar = nodeWeapon.getChild("...")
 	local rActor = ActorManager.getActor("pc", nodeChar);
@@ -130,7 +127,6 @@ function onAttackAction(draginfo)
 end
 
 function onDamageAction(draginfo)
-	print ("in char_weapon.lua: onDamageAction");
 	local nodeWeapon = getDatabaseNode();
 	local nodeChar = nodeWeapon.getChild("...")
 	local rActor = ActorManager.getActor("pc", nodeChar);
@@ -182,7 +178,6 @@ function onDamageAction(draginfo)
 end
 
 function onAttackChanged()
-	print ("in char_weapon.lua: onAttackChanged");
 	local nodeWeapon = getDatabaseNode();
 	local nodeChar = nodeWeapon.getChild("...")
 	local rActor = ActorManager.getActor("pc", nodeChar);
@@ -205,7 +200,6 @@ function onAttackChanged()
 end
 
 function onDamageChanged()
-	print ("in char_weapon.lua: onDamageChanged");
 	local nodeWeapon = getDatabaseNode();
 	local nodeChar = nodeWeapon.getChild("...")
 	local rActor = ActorManager.getActor("pc", nodeChar);

@@ -469,7 +469,7 @@ end
 -------------------------
 -- POWER PARSING
 -------------------------
-
+-- need to tweak this perhaps to deal with AD&D creatures descriptions? -msw
 function parseAttacks(sPowerName, aWords)
 	local attacks = {};
 	
