@@ -53,13 +53,13 @@
 				<columns width="90" fillwidth="true"/>
 			</windowlist>
 			
-			<label name="pactmagicslots_label">
+ 			<label name="pactmagicslots_label">
 				<anchored width="80">
 					<top parent="columnanchor" anchor="bottom" relation="current" offset="7" />
 					<left offset="10" />
 				</anchored>
 				<static textres="power_label_pactmagicslots" />
-			</label>
+			</label> 
 			<windowlist name="pactmagicslots">
 				<anchored>
 					<top parent="columnanchor" anchor="bottom" relation="relative" offset="7" />
@@ -70,7 +70,7 @@
 				<skipempty />
 				<readonly />
 				<noscroll />
-				<columns width="90" fillwidth="true"/>
+				<columns width="90" fillwidth="true"/> 
 			</windowlist>
 		</sheetdata>
 	</windowclass>
@@ -187,9 +187,9 @@
 			<number_pactmagicslots name="pactmagicslots5" source="powermeta.pactmagicslots5.max" />
 			<number_pactmagicslots name="pactmagicslots6" source="powermeta.pactmagicslots6.max" />
 			<number_pactmagicslots name="pactmagicslots7" source="powermeta.pactmagicslots7.max" />
-			<number_pactmagicslots name="pactmagicslots8" source="powermeta.pactmagicslots8.max" />
+<!-- 			<number_pactmagicslots name="pactmagicslots8" source="powermeta.pactmagicslots8.max" />
 			<number_pactmagicslots name="pactmagicslots9" source="powermeta.pactmagicslots9.max" />
-			<label_fieldtop name="pactmagicslots1_label">
+ -->			<label_fieldtop name="pactmagicslots1_label">
 				<anchored to="pactmagicslots1" />
 				<static>1</static>
 			</label_fieldtop>
@@ -217,7 +217,7 @@
 				<anchored to="pactmagicslots7" />
 				<static>7</static>
 			</label_fieldtop>
-			<label_fieldtop name="pactmagicslots8_label">
+<!-- 			<label_fieldtop name="pactmagicslots8_label">
 				<anchored to="pactmagicslots8" />
 				<static>8</static>
 			</label_fieldtop>
@@ -225,7 +225,7 @@
 				<anchored to="pactmagicslots9" />
 				<static>9</static>
 			</label_fieldtop>
-
+ -->
 			<genericcontrol name="spacer">
 				<anchored height="0">
 					<top parent="columnanchor" anchor="bottom" relation="relative" offset="3" />
@@ -286,6 +286,7 @@
 				</anchored>
 				<invisible />
 			</button_checkbox>
+            <!-- make this a template, calculate number of spells memorized compared to slots allowed? -->
 			<basicnumber name="prepared">
 				<anchored width="30" height="20">
 					<top offset="2" />
@@ -295,6 +296,7 @@
 				<tooltip textres="power_tooltip_prepared" />
 				<invisible />
 			</basicnumber>
+            
 			<cycler_power_useperiod name="usesperiod">
 				<anchored>
 					<top offset="2" />
@@ -323,6 +325,7 @@
 			<genericcontrol name="rightanchor">
 				<anchored position="insidetopright" width="0" height="0" />
 			</genericcontrol>
+            
 			<string_power name="group">
 				<anchored>
 					<top offset="2" />
@@ -332,6 +335,7 @@
 				<tooltip textres="power_tooltip_group" />
 				<delaykeyupdate />
 			</string_power>
+            
 			<windowlist name="actionsmini">
 				<anchored>
 					<top offset="2" />

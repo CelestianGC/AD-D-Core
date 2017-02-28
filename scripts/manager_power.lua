@@ -259,6 +259,7 @@ function getPowerRoll(rActor, nodeAction, sSubRoll)
 	return rAction;
 end
 
+-- check this -msw
 function onPowerAction(draginfo, nodeAction, sSubRoll)
 	if not nodeAction then
 		return;
