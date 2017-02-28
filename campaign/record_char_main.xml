@@ -900,6 +900,7 @@
 			</windowtitlebar_char>
 			<anchor_title_charsheethelper name="contentanchor" />
 
+             <!-- total levels -->
 			<label_charframetop name="leveltitle">
 				<anchored to="contentanchor" position="belowleft" offset="10,5" height="20" width="80" />
 				<static textres="char_label_totallevel" />
@@ -912,23 +913,29 @@
 				<frame name="fieldlight" offset="7,5,7,5" />
 			</number_charlevel>
 
+             <!-- exp -->
 			<label_charframetop name="exptitle">
+				<tooltip textres="char_tooltip_xp" />
 				<anchored to="contentanchor" position="belowleft" offset="110,5" height="20">
-					<right offset="-10" />
+                    <right offset="-10" />
 				</anchored>
 			</label_charframetop>
 			<number_dropadd name="exp">
+				<tooltip textres="char_tooltip_xp" />
 				<anchored to="exptitle" height="20" width="70">
 					<top anchor="bottom" offset="10" />
 					<right anchor="center" offset="-15" />
 				</anchored>
 				<description textres="char_tooltip_xp" />
 			</number_dropadd>
+
+            <!-- exp needed -->
 			<label_charfieldtop>
 				<anchored to="exp" offset="0,10" />
 				<static textres="xp" />
 			</label_charfieldtop>
 			<basicnumber name="expneeded">
+				<tooltip textres="char_tooltip_xpneeded" />
 				<anchored to="exptitle" height="20" width="70">
 					<top anchor="bottom" offset="10" />
 					<left anchor="center" offset="15" />
@@ -960,6 +967,7 @@
 				<static textres="char_label_nextlevel" />
 			</label_charfieldtop>
 			
+             <!-- hd used -->
 			<label_charframetop name="hdusedtitle">
 				<anchored to="contentanchor" position="belowright" offset="45,65" height="20" width="30" />
 				<static textres="char_label_hdused" />
@@ -968,13 +976,16 @@
 				<anchored to="hdusedtitle" position="left" offset="20,0" width="50" />
 				<static textres="char_label_hd" />
 			</label_charframetop>
-			<label_charframetop name="casterlevelmulttitle">
+
+            <!-- caster level multiplier -->
+			<label_charframetop name="experiencetitle">
 				<anchored to="hdtitle" position="left" offset="20,0" width="50" />
-				<static textres="char_label_caster" />
-				<tooltip textres="char_tooltip_caster" />
+				<static textres="char_label_class_exp" />
+				<tooltip textres="char_label_class_exp_tooltip" />
 			</label_charframetop>
+            
 			<label_charframetop name="classleveltitle">
-				<anchored to="casterlevelmulttitle" position="left" offset="20,0" width="35" />
+				<anchored to="experiencetitle" position="left" offset="20,0" width="35" />
 				<static textres="char_label_level" />
 			</label_charframetop>
 			<label_charframetop name="classtitle">
@@ -1069,10 +1080,13 @@
 					<right anchor="left" />
 				</anchored>
 			</button_idelete>
+
+            <!-- hd used -->
 			<number_charwounds name="hdused">
 				<anchored to="spacer" position="left" offset="15,0" width="30" />
 				<description textres="char_tooltip_hdused" />
 			</number_charwounds>
+            <!-- hdie -->
 			<basicdice name="hddie">
 				<anchored to="hdused" position="left" offset="20,0" width="50" />
 				<script>
@@ -1085,30 +1099,32 @@
 					end
 				</script>
 			</basicdice>
-			<button_checkbox name="casterpactmagic">
-				<anchored to="hddie" position="left" offset="15,0" width="10" />
-				<tooltip textres="char_tooltip_casterpactmagic" />
-			</button_checkbox>
-			<buttonfield name="casterlevelinvmult">
-				<anchored to="casterpactmagic" position="left" offset="5,0" width="40" />
-				<frame name="fielddark" offset="7,5,7,5" />
-				<state text="-" />
-				<state text="1 x" />
-				<state text="1/2 x" />
-				<state text="1/3 x" />
-			</buttonfield>
-			<basicnumber name="level">
-				<anchored to="casterlevelinvmult" position="left" offset="20,0" width="30" />
+
+            <!-- exp -->
+ 			<basicnumber name="exp">
+				<anchored to="hddie" position="left" offset="15,0" width="60" />
 			</basicnumber>
+
+
+ 			<basicnumber name="level">
+				<anchored to="exp" position="left" offset="18,0" width="30" />
+			</basicnumber>
+
+ 			<button_checkbox name="classactive">
+				<anchored to="level" position="left" offset="5,0" width="10" />
+				<tooltip textres="char_tooltip_classactivity" />
+			</button_checkbox>
+            
 			<string_textlistitem name="name">
 				<anchored>
 					<top parent="rightanchor" offset="0" />
 					<left offset="5" />
-					<right parent="level" anchor="left" relation="relative" offset="-25" />
+					<right parent="classactive" anchor="left" relation="relative" offset="-17" /> 
 				</anchored>
 				<multilinespacing>20</multilinespacing>
 			</string_textlistitem>
-		</sheetdata>
+
+        </sheetdata>
 	</windowclass>	
 
 	<windowclass name="charsheet_combatcalc">

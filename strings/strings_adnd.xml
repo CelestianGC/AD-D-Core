@@ -122,7 +122,12 @@
     <string name="char_label_skill_armor_adj_tooltip">Adjustment applied for armor worn.</string>
     <string name="char_label_skill_class_adj">Class</string>
     <string name="char_label_skill_class_adj_tooltip">Adjustment applied for chosen class(s).</string>
-    
+
+    <string name="char_label_class_exp">XP</string>
+    <string name="char_label_class_exp_tooltip">Experince Earned for Each Class</string>
+    <string name="char_tooltip_classactivity">Class active or not.</string>
+    <string name="char_tooltip_xp">Total Experience Earned</string>
+    <string name="char_tooltip_xpneeded">Experience needed for Next Level</string>
    	<!-- Combat Tracker -->
 	<string name="ct_label_speed">Mv</string>
 	<string name="ct_label_morale">Morale</string>
