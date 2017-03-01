@@ -126,4 +126,18 @@
 	<icon name="button_ctnextactor" file="graphics/buttons/button_ctnextactor.png" />
 	<icon name="button_ctnextactor_down" file="graphics/buttons/button_ctnextactor_down.png" />
 	<icon name="drag_targeting" file="graphics/icons/drag_targeting.png" />
+    
+    	<!-- Buttons -->
+	<icon name="button_toggle_on" file="graphics/buttons/button_toggle_on.png" />
+	<icon name="button_toggle_off" file="graphics/buttons/button_toggle_off.png" />
+	<icon name="button_toggle_skip" file="graphics/buttons/button_toggle_skip.png" />
+	<icon name="button_toggle_all" file="graphics/buttons/button_toggle_all.png" />
+	<icon name="button_toggle_action" file="graphics/buttons/button_toggle_action.png" />
+	<icon name="button_toggle_roll" file="graphics/buttons/button_toggle_roll.png" />
+	<icon name="button_toggle_single" file="graphics/buttons/button_toggle_single.png" />
+	<icon name="button_toggle_trgt" file="graphics/buttons/button_toggle_trgt.png" />
+	<icon name="button_toggle_self" file="graphics/buttons/button_toggle_self.png" />
+	<icon name="button_action_memorize" file="graphics/buttons/button_action_memorize.png" />
+	<icon name="button_action_memorize_down" file="graphics/buttons/button_action_memorize_down.png" />
+
 </root>
