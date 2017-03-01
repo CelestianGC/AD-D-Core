@@ -40,6 +40,21 @@ saves = {
 	"save_spell"
 };
 
+saves_multi_name = {
+	["poison"] = "save_paralyzation_poison_death",
+	["paralyzation"] = "save_paralyzation_poison_death",
+	["death"] = "save_paralyzation_poison_death",
+	["rod"] = "save_rod_staff_wand",
+	["staff"] = "save_rod_staff_wand",
+	["wand"] = "save_rod_staff_wand",
+	["petrification"] = "save_petrify_polymorph",
+	["petrify"] = "save_petrify_polymorph",
+	["polymorph"] = "save_petrify_polymorph",
+	["breath"] = "save_breath",
+	["other"] = "save_spell",
+	["spell"] = "save_spell"
+};
+
 saves_stol = {
 	["save_paralyzation_poison_death"] = "Paralyzation, Poison or Death",
 	["save_rod_staff_wand"] = "Rod, Staff or Wand",
@@ -56,6 +71,7 @@ saves_index = {
 	["save_breath"] = 4,
 	["save_spell"] = 5
 };
+
 -- Basic class values (not display values)
 classes = {
 	"barbarian",

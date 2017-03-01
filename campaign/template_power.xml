@@ -258,4 +258,29 @@
 			</parameters>
 		</button_stringcycler>
 	</template>
+    
+	<template name="button_powermemorize">
+		<button_roll>
+			<script>
+				function action(draginfo)
+					PowerManager.memorizeSpell(draginfo, window.getDatabaseNode());
+				end
+
+				function onButtonPress(x, y)
+					action();
+				end
+			</script>
+		</button_roll>
+	</template>
+	<template name="buttongroup_counter_powers">
+		<genericcontrol>
+			<stateicons>
+				<on>button_checkon</on>
+				<off>button_checkoff</off>
+			</stateicons>
+			<script file="common/scripts/buttongroup_counter.lua" />
+		</genericcontrol>
+	</template>
+    
+
 </root>

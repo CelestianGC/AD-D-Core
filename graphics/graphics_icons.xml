@@ -28,6 +28,8 @@
 	<icon name="button_toggle_single" file="graphics/buttons/button_toggle_single.png" />
 	<icon name="button_toggle_trgt" file="graphics/buttons/button_toggle_trgt.png" />
 	<icon name="button_toggle_self" file="graphics/buttons/button_toggle_self.png" />
+	<icon name="button_action_memorize" file="graphics/buttons/button_add.png" />
+	<icon name="button_action_memorize_down" file="graphics/buttons/button_add_down.png" />
 
 	<!-- Dragging -->
 	<icon name="action_attack" file="graphics/icons/action_attack.png" />

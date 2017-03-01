@@ -82,6 +82,7 @@ aRecords = {
 		aDisplayIcon = { "button_people", "button_people_down" },
 		-- sRecordDisplayClass = "npc", 
 		aCustomFilters = {
+			["Type"] = { sField = "type", sType = "string" },
 			["Organization"] = { sField = "organization", sType = "string" },
 			["Activity"] = { sField = "activity", sType = "string" },
 			["Diet"] = { sField = "diet", sType = "string" },

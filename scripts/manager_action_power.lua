@@ -108,9 +108,6 @@ end
 
 -- check this -msw
 function getPowerCastRoll(rActor, rAction)
-    
-    Debug.console("manager_action_power.lua","getPowerCastRoll","rActor",rActor,"rAction",rAction);
-    
 	local rRoll = {};
 	rRoll.sType = "cast";
 	rRoll.aDice = {};

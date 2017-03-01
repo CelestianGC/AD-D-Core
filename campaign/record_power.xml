@@ -6,6 +6,7 @@
 -->
 
 <root>
+    <!-- Power slot cast? -->
 	<windowclass name="power_slot_cast">
 		<sheetdata>
 			<label name="label">
@@ -18,6 +19,7 @@
 		</sheetdata>
 	</windowclass>
 	
+    <!-- Power slot cast -->
 	<windowclass name="power_slots_cast">
 		<script file="campaign/scripts/power_slots_cast.lua" />
 		<sheetdata>
@@ -189,7 +191,8 @@
 			<number_pactmagicslots name="pactmagicslots7" source="powermeta.pactmagicslots7.max" />
 <!-- 			<number_pactmagicslots name="pactmagicslots8" source="powermeta.pactmagicslots8.max" />
 			<number_pactmagicslots name="pactmagicslots9" source="powermeta.pactmagicslots9.max" />
- -->			<label_fieldtop name="pactmagicslots1_label">
+ -->			
+            <label_fieldtop name="pactmagicslots1_label">
 				<anchored to="pactmagicslots1" />
 				<static>1</static>
 			</label_fieldtop>
@@ -367,9 +370,12 @@
 		<sheetdata>
 			<hs name="group" />
 			<hn name="level" />
+			<hs name="castingtime" />
+			<hs name="type" />
 			<hs name="name" />
 			<hn name="cast" />
 			<hn name="prepared" />
+			<hn name="memorized" />
 			<hs name="usesperiod" />
 			
 			<genericcontrol name="rightanchor">
@@ -551,9 +557,22 @@
 				<anchored to="castbutton" position="righthigh" offset="5,0" />
 				<static textres="power_label_cast" />
 			</label>
-			
+            
+			<!-- memorize -->
+			<button_powermemorize name="memorizebutton">
+				<anchored to="castlabel" position="righthigh" offset="5,0" />
+                <tooltip textres="power_label_memorize_tooltip" />
+				<icon normal="button_action_memorize" pressed="button_action_memorize_down" />
+			</button_powermemorize>
+			<label name="memorizelabel">
+				<anchored to="memorizebutton" position="righthigh" offset="5,0" />
+				<static textres="power_label_memorize" />
+                <tooltip textres="power_label_memorize_tooltip" />
+			</label>
+
+
 			<button_poweraction name="attackbutton">
-				<anchored to="castlabel" position="righthigh" offset="15,0" />
+				<anchored to="memorizelabel" position="righthigh" offset="5,0" />
 				<icon normal="button_action_attack" pressed="button_action_attack_down" />
 				<subroll>atk</subroll>
 			</button_poweraction>
@@ -567,7 +586,7 @@
 			</string_poweractionview>
 
 			<button_poweraction name="savebutton">
-				<anchored to="attackview" position="righthigh" offset="15,0" />
+				<anchored to="attackview" position="righthigh" offset="5,0" />
 				<subroll>save</subroll>
 			</button_poweraction>
 			<label name="saveviewlabel">

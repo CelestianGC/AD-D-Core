@@ -237,5 +237,4 @@
             <script file="campaign/scripts/number_charskill.lua" />
 		</number_linked>
 	</template>
-    
 </root>

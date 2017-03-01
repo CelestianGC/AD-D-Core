@@ -49,6 +49,11 @@ function updateDisplay()
 	castbutton.setVisible(bShowCast);
 	castlabel.setVisible(bShowCast);
 	castbutton.setVisible(bShowCast);
+
+	memorizebutton.setVisible(bShowCast);
+	memorizelabel.setVisible(bShowCast);
+	memorizebutton.setVisible(bShowCast);
+
 	attackbutton.setVisible(bShowCast);
 	attackviewlabel.setVisible(bShowCast);
 	attackview.setVisible(bShowCast);
