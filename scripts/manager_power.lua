@@ -58,15 +58,18 @@ function resetPowers(nodeCaster, bLong)
 		end
 	end
 	
-	-- Reset spell slots
-	for i = 1, SPELL_LEVELS do
-		DB.setValue(nodeCaster, "powermeta.pactmagicslots" .. i .. ".used", "number", 0);
-	end
-	if bLong then
-		for i = 1, SPELL_LEVELS do
-			DB.setValue(nodeCaster, "powermeta.spellslots" .. i .. ".used", "number", 0);
-		end
-	end
+    -- disabled this because we dont clear the slots till they are cast.
+    -- 5e did it differently.
+    
+	-- -- Reset spell slots
+	-- for i = 1, SPELL_LEVELS do
+		-- DB.setValue(nodeCaster, "powermeta.pactmagicslots" .. i .. ".used", "number", 0);
+	-- end
+	-- if bLong then
+		-- for i = 1, SPELL_LEVELS do
+			-- DB.setValue(nodeCaster, "powermeta.spellslots" .. i .. ".used", "number", 0);
+		-- end
+	-- end
 end
 
 function addPower(sClass, nodeSource, nodeCreature, sGroup)
@@ -1883,9 +1886,6 @@ end
 
 function memorizeSpell(draginfo, nodeAction)
     local bSuccess = true;
-	Debug.console("manager_power.lua","memorizeSpell","rActor",draginfo);
-	Debug.console("manager_power.lua","memorizeSpell","nodeAction",nodeAction);
-	Debug.console("manager_power.lua","memorizeSpell","draginfo",draginfo);
 	if not nodeAction then
 		return;
 	end
@@ -1895,43 +1895,40 @@ function memorizeSpell(draginfo, nodeAction)
 	end
 
 	local nodeChar = nodeAction.getChild(".....");
-	Debug.console("manager_power.lua","memorizeSpell","nodeChar",nodeChar);
     
     local sName = DB.getValue(nodeAction, "...name", "");
     local nLevel = DB.getValue(nodeAction, "...level", 0);
-    local sSpellType = DB.getValue(nodeAction, "...type", 0):lower();
-    local sCastTime = DB.getValue(nodeAction, "...castingtime", 0);
-    local sDuration = DB.getValue(nodeAction, "...duration", 0);
+    local sSpellType = DB.getValue(nodeAction, "...type", ""):lower();
+    local sSource = DB.getValue(nodeAction, "...source", ""):lower();
+    local sCastTime = DB.getValue(nodeAction, "...castingtime", "");
+    local sDuration = DB.getValue(nodeAction, "...duration", "");
     local nMemorized = DB.getValue(nodeAction, "...memorized", 0);
-	Debug.console("manager_power.lua","memorizeSpell","nMemorized",nMemorized);
     
-    if (nLevel>0) then
+    if (nLevel>0 and (sSpellType == "arcane" or sSource == "wizard" or sSpellType == "divine" or sSource == "priest") ) then
         local nUsedArcane = DB.getValue(nodeChar, "powermeta.spellslots" .. nLevel .. ".used", 0);
         local nMaxArcane = DB.getValue(nodeChar, "powermeta.spellslots" .. nLevel .. ".max", 0);
-	Debug.console("manager_power.lua","memorizeSpell","nUsedArcane",nUsedArcane);
-	Debug.console("manager_power.lua","memorizeSpell","nMaxArcane",nMaxArcane);
         local nUsedDivine = DB.getValue(nodeChar, "powermeta.pactmagicslots" .. nLevel .. ".used", 0);
         local nMaxDivine = DB.getValue(nodeChar, "powermeta.pactmagicslots" .. nLevel .. ".max", 0);
-	Debug.console("manager_power.lua","memorizeSpell","nUsedDivine",nUsedDivine);
-	Debug.console("manager_power.lua","memorizeSpell","nMaxDivine",nMaxDivine);
 
         if (sSpellType ~= "divine") then
             if (nUsedArcane+1 <= nMaxArcane) then
                 DB.setValue(nodeChar,"powermeta.spellslots" .. nLevel .. ".used","number",(nUsedArcane+1));
                 DB.setValue(nodeAction,"...memorized","number",(nMemorized+1));
+                ChatManager.Message(Interface.getString("message_youmemorize") .. " " .. sName .. ".", true, ActorManager.getActor("pc", nodeChar));
             else
                 -- not enough slots left
                 bSuccess = false;
-                Debug.console("manager_power.lua","memorizeSpell","not enough slots left Arcane");
+                ChatManager.Message(Interface.getString("message_nomoreslots"), true, ActorManager.getActor("pc", nodeChar));
             end
         else
             if (nUsedDivine+1 <= nMaxDivine) then
                 DB.setValue(nodeChar,"powermeta.pactmagicslots" .. nLevel .. ".used","number",(nUsedDivine+1));
                 DB.setValue(nodeAction,"...memorized","number",(nMemorized+1));
+                ChatManager.Message(Interface.getString("message_youmemorize") .. " " .. sName .. ".", true, ActorManager.getActor("pc", nodeChar));
             else
                 -- not enough slots left
                 bSuccess = false;
-                Debug.console("manager_power.lua","memorizeSpell","not enough slots left Divine");
+                ChatManager.Message(Interface.getString("message_nomoreslots"), true, ActorManager.getActor("pc", nodeChar));
             end
         end -- spelltype
     end -- nLevel > 0
@@ -1942,9 +1939,6 @@ end
 -- cast spell
 function removeMemorizedSpell(draginfo, nodeAction)
     local bSuccess = true;
-	Debug.console("manager_power.lua","removeMemorizedSpell","rActor",draginfo);
-	Debug.console("manager_power.lua","removeMemorizedSpell","nodeAction",nodeAction);
-	Debug.console("manager_power.lua","removeMemorizedSpell","draginfo",draginfo);
 	if not nodeAction then
 		return;
 	end
@@ -1954,33 +1948,29 @@ function removeMemorizedSpell(draginfo, nodeAction)
 	end
 
 	local nodeChar = nodeAction.getChild(".....");
-	Debug.console("manager_power.lua","memorizeSpell","nodeChar",nodeChar);
     
     local sName = DB.getValue(nodeAction, "...name", "");
     local nLevel = DB.getValue(nodeAction, "...level", 0);
-    local sSpellType = DB.getValue(nodeAction, "...type", 0):lower();
-    local sCastTime = DB.getValue(nodeAction, "...castingtime", 0);
-    local sDuration = DB.getValue(nodeAction, "...duration", 0);
+    local sSpellType = DB.getValue(nodeAction, "...type", ""):lower();
+    local sSource = DB.getValue(nodeAction, "...source", ""):lower();
+    local sCastTime = DB.getValue(nodeAction, "...castingtime", "");
+    local sDuration = DB.getValue(nodeAction, "...duration", "");
     local nMemorized = DB.getValue(nodeAction, "...memorized", 0);
-	Debug.console("manager_power.lua","removeMemorizedSpell","nMemorized",nMemorized);
-    
-    if (nLevel>0) then
+
+    -- this should let 5e spells work
+    if (nLevel>0 and (sSpellType == "arcane" or sSource == "wizard" or sSpellType == "divine" or sSource == "priest") ) then
         local nUsedArcane = DB.getValue(nodeChar, "powermeta.spellslots" .. nLevel .. ".used", 0);
         local nMaxArcane = DB.getValue(nodeChar, "powermeta.spellslots" .. nLevel .. ".max", 0);
-	Debug.console("manager_power.lua","removeMemorizedSpell","nUsedArcane",nUsedArcane);
-	Debug.console("manager_power.lua","removeMemorizedSpell","nMaxArcane",nMaxArcane);
         local nUsedDivine = DB.getValue(nodeChar, "powermeta.pactmagicslots" .. nLevel .. ".used", 0);
         local nMaxDivine = DB.getValue(nodeChar, "powermeta.pactmagicslots" .. nLevel .. ".max", 0);
-	Debug.console("manager_power.lua","removeMemorizedSpell","nUsedDivine",nUsedDivine);
-	Debug.console("manager_power.lua","removeMemorizedSpell","nMaxDivine",nMaxDivine);
 
-        if (nMemorized > 0) then
+        if (nMemorized > 0 ) then
             DB.setValue(nodeAction,"...memorized","number",(nMemorized-1));
-            if (sSpellType ~= "divine") then
+            if (sSpellType == "arcane" or sSource == "wizard") then
                 local nLeftOver = (nUsedArcane - 1);
                 if nLeftOver < 0 then nLeftOver = 0; end
                 DB.setValue(nodeChar,"powermeta.spellslots" .. nLevel .. ".used","number",nLeftOver);
-            else
+            elseif (sSpellType == "divine" or sSource == "priest") then
                 local nLeftOver = (nUsedDivine - 1);
                 if nLeftOver < 0 then nLeftOver = 0; end
                 DB.setValue(nodeChar,"powermeta.pactmagicslots" .. nLevel .. ".used","number",nLeftOver);
@@ -1988,7 +1978,7 @@ function removeMemorizedSpell(draginfo, nodeAction)
         else
             -- didnt have any more memorized copies of the spell to cast
             bSuccess = false;
-            Debug.console("manager_power.lua","removeMemorizedSpell","not enough memorized slots left.");
+   			ChatManager.Message(Interface.getString("message_notmemorized"), true, ActorManager.getActor("pc", nodeChar));
         end
     end
 

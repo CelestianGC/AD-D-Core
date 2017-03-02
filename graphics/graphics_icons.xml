@@ -8,6 +8,7 @@
 <root>
 	<icon name="rulesetlogo_5E" file="graphics/icons/rulesetlogo_5E.png" />
 	<icon name="rulesetlogo_ADnD" file="graphics/icons/shield-png-23062.png" />
+	<icon name="desktopdecal_sw" file="graphics/decals/desktopdecal_sw.png" />
 
 	<!-- Common -->
 	<icon name="question" file="graphics/icons/question.png" />

@@ -45,14 +45,20 @@ function updateDisplay()
 	local bShowDamage = (sType == "damage");
 	local bShowHeal = (sType == "heal");
 	local bShowEffect = (sType == "effect");
+
+    local sSpellType = DB.getValue(node, "...type", ""):lower();
+    local sSource = DB.getValue(node, "...source", ""):lower();
+    local bShowMemorize = ((sSpellType == "arcane" or sSource == "wizard" or sSpellType == "divine" or sSource == "priest") and (sType == "cast") );
+
 	
 	castbutton.setVisible(bShowCast);
 	castlabel.setVisible(bShowCast);
 	castbutton.setVisible(bShowCast);
 
-	memorizebutton.setVisible(bShowCast);
-	memorizelabel.setVisible(bShowCast);
-	memorizebutton.setVisible(bShowCast);
+	memorizebutton.setVisible(bShowMemorize);
+	memorizelabel.setVisible(bShowMemorize);
+	memorizebutton.setVisible(bShowMemorize);
+   	memorizedcount.setVisible(bShowMemorize);
 
 	attackbutton.setVisible(bShowCast);
 	attackviewlabel.setVisible(bShowCast);

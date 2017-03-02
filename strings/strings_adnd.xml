@@ -133,6 +133,7 @@
 	<string name="power_label_pactmagicslots">Divine Magic</string>
     <string name="power_label_memorize">Mem</string>
     <string name="power_label_memorize_tooltip">Memorize Spell</string>
+    <string name="power_label_memorizecount_tooltip">Number of times this spell is memorized.</string>
     
    	<!-- Combat Tracker -->
 	<string name="ct_label_speed">Mv</string>
@@ -184,5 +185,12 @@
 	<string name="npc_label_treasure">Treasure</string>	
 	<string name="npc_label_specialDefense">Special Defense</string>	
 	<string name="npc_label_specialAttacks">Special Attack</string>	
+    
+    <!-- Chat -->
+	<string name="message_notmemorized">You do not have the spell memorized.</string>
+	<string name="message_nomoreslots">You do not have any more spell slots left to memorize this spell.</string>
+	<string name="message_youmemorize">You have memorized </string>
+    
+    
 	
 </root>

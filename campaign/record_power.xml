@@ -15,6 +15,7 @@
 			<buttongroup_counter name="counter">
 				<anchored position="insidetopleft" offset="25,0" />
 				<maxslotperrow>5</maxslotperrow>
+                <readonly />
 			</buttongroup_counter>
 		</sheetdata>
 	</windowclass>
@@ -375,8 +376,8 @@
 			<hs name="name" />
 			<hn name="cast" />
 			<hn name="prepared" />
-			<hn name="memorized" />
-			<hs name="usesperiod" />
+<!-- 			<hn name="memorized" />
+ -->			<hs name="usesperiod" />
 			
 			<genericcontrol name="rightanchor">
 				<anchored height="0" width="0">
@@ -569,10 +570,16 @@
 				<static textres="power_label_memorize" />
                 <tooltip textres="power_label_memorize_tooltip" />
 			</label>
+			<basicnumber name="memorizedcount" source="...memorized">
+				<anchored to="memorizelabel" position="righthigh" offset="10,0" width="20" height="20"/>
+ 				<hideonvalue>0</hideonvalue>
+                <nokeyedit />
+                <tooltip textres="power_label_memorizecount_tooltip" />
+			</basicnumber>
 
 
 			<button_poweraction name="attackbutton">
-				<anchored to="memorizelabel" position="righthigh" offset="5,0" />
+				<anchored to="memorizedcount" position="righthigh" offset="10,0" />
 				<icon normal="button_action_attack" pressed="button_action_attack_down" />
 				<subroll>atk</subroll>
 			</button_poweraction>

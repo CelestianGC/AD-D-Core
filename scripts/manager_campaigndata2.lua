@@ -248,7 +248,6 @@ end
 
 -- Check to see if NPC has no spell entries defined, but a spellcasting trait. If so, then attempt to lookup and add spells.
 function updateNPCSpells(nodeNPC)
-    Debug.console("manager_campaigndata2.lua","updateNPCSpells");
 	if not nodeNPC then
 		return;
 	end
@@ -256,11 +255,9 @@ function updateNPCSpells(nodeNPC)
 		return;
 	end
 	
-    Debug.console("manager_campaigndata2.lua","updateNPCSpells",DB.getChildCount(nodeNPC, "spells"));
 	if (DB.getChildCount(nodeNPC, "spells") > 0) or (DB.getChildCount(nodeNPC, "innatespells") > 0) then
 		return;
 	end
-    Debug.console("manager_campaigndata2.lua","updateNPCSpells","2");
 
 	for _,v in pairs(DB.getChildren(nodeNPC, "traits")) do
 		local sTraitName = StringManager.trim(DB.getValue(v, "name", ""):lower());
@@ -273,7 +270,6 @@ function updateNPCSpells(nodeNPC)
 end
 
 function updateNPCSpellcasting(nodeNPC, nodeTrait)
-    Debug.console("manager_campaigndata2.lua","updateNPCSpellcasting");
 	local aError = {};
 	local aSpellcasting = {};
 	aSpellcasting.bInnate = false; 
@@ -282,7 +278,6 @@ function updateNPCSpellcasting(nodeNPC, nodeTrait)
 	aSpellcasting.sDC = sDesc:match("spell save dc (%d+)");
 	aSpellcasting.sAtk = sDesc:match("([+-]%d+) to hit with spell attacks");
 		
-    Debug.console("manager_campaigndata2.lua","updateNPCSpellcasting","aSpellcasting.sAtk",aSpellcasting.sAtk);
     
 	local aLines = StringManager.split(DB.getValue(nodeTrait, "desc", ""), "\n");
 	for _,sLine in ipairs(aLines) do
@@ -317,7 +312,6 @@ end
 
 -- review this to deal with AD&D monster/spells -msw
 function updateNPCInnateSpellcasting(nodeNPC, nodeTrait)
-    Debug.console("manager_campaigndata2.lua","updateNPCInnateSpellcasting");
 	local aError = {};
 	local aSpellcasting = {};
 	aSpellcasting.bInnate = true; 
@@ -326,7 +320,6 @@ function updateNPCInnateSpellcasting(nodeNPC, nodeTrait)
 	aSpellcasting.sDC = sDesc:match("spell save dc (%d+)");
 	aSpellcasting.sAtk = sDesc:match("([+-]%d+) to hit with spell attacks");
 
-    Debug.console("manager_campaigndata2.lua","updateNPCInnateSpellcasting","aSpellcasting.sAtk",aSpellcasting.sAtk);
 
 	local aLines = StringManager.split(DB.getValue(nodeTrait, "desc", ""), "\n");
 	for _,sLine in ipairs(aLines) do
