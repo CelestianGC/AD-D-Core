@@ -48,7 +48,11 @@ function updateDisplay()
 
     local sSpellType = DB.getValue(node, "...type", ""):lower();
     local sSource = DB.getValue(node, "...source", ""):lower();
-    local bShowMemorize = ((sSpellType == "arcane" or sSource == "wizard" or sSpellType == "divine" or sSource == "priest") and (sType == "cast") );
+    local bShowMemorize = ( ( PowerManager.isArcaneSpellType(sSpellType) or 
+                              PowerManager.isArcaneSpellType(sSource) or 
+                              PowerManager.isDivineSpellType(sSpellType) or 
+                              PowerManager.isDivineSpellType(sSource) )  and 
+                              (sType == "cast")   );
 
 	
 	castbutton.setVisible(bShowCast);

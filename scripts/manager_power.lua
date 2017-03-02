@@ -1904,13 +1904,13 @@ function memorizeSpell(draginfo, nodeAction)
     local sDuration = DB.getValue(nodeAction, "...duration", "");
     local nMemorized = DB.getValue(nodeAction, "...memorized", 0);
     
-    if (nLevel>0 and (sSpellType == "arcane" or sSource == "wizard" or sSpellType == "divine" or sSource == "priest") ) then
+    if (nLevel>0 and (isArcaneSpellType(sSpellType) or isArcaneSpellType(sSource) or isDivineSpellType(sSpellType) or isDivineSpellType(sSource)) ) then
         local nUsedArcane = DB.getValue(nodeChar, "powermeta.spellslots" .. nLevel .. ".used", 0);
         local nMaxArcane = DB.getValue(nodeChar, "powermeta.spellslots" .. nLevel .. ".max", 0);
         local nUsedDivine = DB.getValue(nodeChar, "powermeta.pactmagicslots" .. nLevel .. ".used", 0);
         local nMaxDivine = DB.getValue(nodeChar, "powermeta.pactmagicslots" .. nLevel .. ".max", 0);
 
-        if (sSpellType ~= "divine") then
+        if (isArcaneSpellType(sSpellType) or isArcaneSpellType(sSource)) then
             if (nUsedArcane+1 <= nMaxArcane) then
                 DB.setValue(nodeChar,"powermeta.spellslots" .. nLevel .. ".used","number",(nUsedArcane+1));
                 DB.setValue(nodeAction,"...memorized","number",(nMemorized+1));
@@ -1920,7 +1920,7 @@ function memorizeSpell(draginfo, nodeAction)
                 bSuccess = false;
                 ChatManager.Message(Interface.getString("message_nomoreslots"), true, ActorManager.getActor("pc", nodeChar));
             end
-        else
+        elseif (isDivineSpellType(sSpellType) or isDivineSpellType(sSource)) then
             if (nUsedDivine+1 <= nMaxDivine) then
                 DB.setValue(nodeChar,"powermeta.pactmagicslots" .. nLevel .. ".used","number",(nUsedDivine+1));
                 DB.setValue(nodeAction,"...memorized","number",(nMemorized+1));
@@ -1958,7 +1958,7 @@ function removeMemorizedSpell(draginfo, nodeAction)
     local nMemorized = DB.getValue(nodeAction, "...memorized", 0);
 
     -- this should let 5e spells work
-    if (nLevel>0 and (sSpellType == "arcane" or sSource == "wizard" or sSpellType == "divine" or sSource == "priest") ) then
+    if (nLevel>0 and (isArcaneSpellType(sSpellType) or isArcaneSpellType(sSource) or isDivineSpellType(sSpellType) or isDivineSpellType(sSource)) ) then
         local nUsedArcane = DB.getValue(nodeChar, "powermeta.spellslots" .. nLevel .. ".used", 0);
         local nMaxArcane = DB.getValue(nodeChar, "powermeta.spellslots" .. nLevel .. ".max", 0);
         local nUsedDivine = DB.getValue(nodeChar, "powermeta.pactmagicslots" .. nLevel .. ".used", 0);
@@ -1966,11 +1966,11 @@ function removeMemorizedSpell(draginfo, nodeAction)
 
         if (nMemorized > 0 ) then
             DB.setValue(nodeAction,"...memorized","number",(nMemorized-1));
-            if (sSpellType == "arcane" or sSource == "wizard") then
+            if (isArcaneSpellType(sSpellType) or isArcaneSpellType(sSource)) then
                 local nLeftOver = (nUsedArcane - 1);
                 if nLeftOver < 0 then nLeftOver = 0; end
                 DB.setValue(nodeChar,"powermeta.spellslots" .. nLevel .. ".used","number",nLeftOver);
-            elseif (sSpellType == "divine" or sSource == "priest") then
+            elseif (isDivineSpellType(sSpellType) or isDivineSpellType(sSource)) then
                 local nLeftOver = (nUsedDivine - 1);
                 if nLeftOver < 0 then nLeftOver = 0; end
                 DB.setValue(nodeChar,"powermeta.pactmagicslots" .. nLevel .. ".used","number",nLeftOver);
@@ -1983,4 +1983,41 @@ function removeMemorizedSpell(draginfo, nodeAction)
     end
 
         return bSuccess;
+end
+
+-- return try if spelltype is valid arcane spell type, this is strictly because I also wanted
+-- to also allow the 5e spells if someone happened to use them and they use "source" not type
+function isArcaneSpellType(sSpellType)
+    local bValid = false;
+    local aArcane = {};
+        aArcane[1] = "arcane";
+        aArcane[2] = "wizard";
+    local nMaxArcane = 2;
+
+    for i = 1, nMaxArcane do
+        if string.find(sSpellType,aArcane[i]) then
+            bValid = true;
+            break;
+        end
+	end        
+    return bValid
+end
+function isDivineSpellType(sSpellType)
+    local bValid = false;
+    local aDivine = {};
+        aDivine[1] = "divine";
+        aDivine[2] = "cleric";
+        aDivine[3] = "bard";
+        aDivine[4] = "druid";
+        aDivine[5] = "paladin";
+        aDivine[6] = "ranger";
+    local nMaxDivine = 6;
+
+    for i = 1, nMaxDivine do
+        if string.find(sSpellType,aDivine[i]) then
+            bValid = true;
+            break;
+        end
+	end        
+    return bValid
 end
