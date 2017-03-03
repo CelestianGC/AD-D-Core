@@ -237,4 +237,14 @@
             <script file="campaign/scripts/number_charskill.lua" />
 		</number_linked>
 	</template>
+    
+	<template name="number_charthaco">
+		<basicnumber>
+            <min>-10</min>
+            <max>30</max>
+            <default>20</default>
+			<font>reference-b-large</font>
+		</basicnumber>
+	</template>
+    
 </root>

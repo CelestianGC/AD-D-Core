@@ -221,7 +221,9 @@ function addToArmorDB(nodeItem)
 	end
 end
 
+-- calculate armor class and set? -msw
 function calcItemArmorClass(nodeChar)
+	local nMainArmorBase = 10;
 	local nMainArmorTotal = 0;
 	local nMainShieldTotal = 0;
 	local sMainDexBonus = "";
@@ -237,43 +239,54 @@ function calcItemArmorClass(nodeChar)
 				local bIsShield = (sSubtypeLower == "shield");
 				if bIsShield then
 					if bID then
-						nMainShieldTotal = nMainShieldTotal + DB.getValue(vNode, "ac", 0) + DB.getValue(vNode, "bonus", 0);
+						nMainShieldTotal = nMainShieldTotal + (DB.getValue(vNode, "ac", 0)) + (DB.getValue(vNode, "bonus", 0));
 					else
-						nMainShieldTotal = nMainShieldTotal + DB.getValue(vNode, "ac", 0);
+						nMainShieldTotal = nMainShieldTotal - DB.getValue(vNode, "ac", 0);
 					end
 				else
+--					if bID then
+--						nMainArmorTotal = nMainArmorTotal + (DB.getValue(vNode, "ac", 0) - 10) + DB.getValue(vNode, "bonus", 0);
+--					else
+--						nMainArmorTotal = nMainArmorTotal + (DB.getValue(vNode, "ac", 0) - 10);
+--					end
 					if bID then
-						nMainArmorTotal = nMainArmorTotal + (DB.getValue(vNode, "ac", 0) - 10) + DB.getValue(vNode, "bonus", 0);
+						nMainArmorBase = DB.getValue(vNode, "ac", 0);
 					else
-						nMainArmorTotal = nMainArmorTotal + (DB.getValue(vNode, "ac", 0) - 10);
+						nMainArmorBase = DB.getValue(vNode, "ac", 0);
 					end
-					
-					local sItemDexBonus = DB.getValue(vNode, "dexbonus", ""):lower();
-					if sItemDexBonus:match("yes") then
-						local nMaxBonus = tonumber(sItemDexBonus:match("max (%d)")) or 0;
-						if nMaxBonus == 2 then
-							if sMainDexBonus == "" or sMainDexBonus == "max3" then
-								sMainDexBonus = "max2";
-							end
-						elseif nMaxBonus == 3 then
-							if sMainDexBonus == "" then
-								sMainDexBonus = "max3";
-							end
-						end
+                    -- convert bonus from +bonus to -bonus to adjust AC down for decending AC
+					if bID then
+						nMainArmorTotal = nMainArmorTotal -(DB.getValue(vNode, "bonus", 0));
 					else
-						sMainDexBonus = "no";
+						nMainArmorTotal = nMainArmorTotal -(DB.getValue(vNode, "bonus", 0));
 					end
 					
-					local sItemStealth = DB.getValue(vNode, "stealth", ""):lower();
-					if sItemStealth == "disadvantage" then
-						nMainStealthDis = 1;
-					end
+					-- local sItemDexBonus = DB.getValue(vNode, "dexbonus", ""):lower();
+					-- if sItemDexBonus:match("yes") then
+						-- local nMaxBonus = tonumber(sItemDexBonus:match("max (%d)")) or 0;
+						-- if nMaxBonus == 2 then
+							-- if sMainDexBonus == "" or sMainDexBonus == "max3" then
+								-- sMainDexBonus = "max2";
+							-- end
+						-- elseif nMaxBonus == 3 then
+							-- if sMainDexBonus == "" then
+								-- sMainDexBonus = "max3";
+							-- end
+						-- end
+					-- else
+						-- sMainDexBonus = "no";
+					-- end
 					
-					local sItemStrength = StringManager.trim(DB.getValue(vNode, "strength", "")):lower();
-					local nItemStrRequired = tonumber(sItemStrength:match("str (%d+)")) or 0;
-					if nItemStrRequired > 0 then
-						nMainStrRequired = math.max(nMainStrRequired, nItemStrRequired);
-					end
+					-- local sItemStealth = DB.getValue(vNode, "stealth", ""):lower();
+					-- if sItemStealth == "disadvantage" then
+						-- nMainStealthDis = 1;
+					-- end
+					
+					-- local sItemStrength = StringManager.trim(DB.getValue(vNode, "strength", "")):lower();
+					-- local nItemStrRequired = tonumber(sItemStrength:match("str (%d+)")) or 0;
+					-- if nItemStrRequired > 0 then
+						-- nMainStrRequired = math.max(nMainStrRequired, nItemStrRequired);
+					-- end
 				end
 			end
 		end
@@ -282,23 +295,28 @@ function calcItemArmorClass(nodeChar)
 	if (nMainArmorTotal == 0) and (nMainShieldTotal == 0) and hasTrait(nodeChar, TRAIT_NATURAL_ARMOR) then
 		nMainArmorTotal = 3;
 	end
+    -- flip value for decending ac in nMainShieldTotal
+    nMainShieldTotal = -(nMainShieldTotal);
+    
+	DB.setValue(nodeChar, "defenses.ac.base", "number", nMainArmorBase);
 	DB.setValue(nodeChar, "defenses.ac.armor", "number", nMainArmorTotal);
 	DB.setValue(nodeChar, "defenses.ac.shield", "number", nMainShieldTotal);
+    --steal/dex not used here
 	DB.setValue(nodeChar, "defenses.ac.dexbonus", "string", sMainDexBonus);
 	DB.setValue(nodeChar, "defenses.ac.disstealth", "number", nMainStealthDis);
 	
 	local bArmorSpeedPenalty = false;
-	if nMainStrRequired > 0 then
-		local nPCStr = ActorManager2.getAbilityScore(ActorManager.getActor("pc", nodeChar), "strength");
-		if nPCStr < nMainStrRequired then
-			bArmorSpeedPenalty = true;
+	-- if nMainStrRequired > 0 then
+		-- local nPCStr = ActorManager2.getAbilityScore(ActorManager.getActor("pc", nodeChar), "strength");
+		-- if nPCStr < nMainStrRequired then
+			-- bArmorSpeedPenalty = true;
 			
-			local sRace = DB.getValue(nodeChar, "race", ""):lower();
-			if sRace:match(RACE_DWARF) or sRace:match(RACE_DUERGAR) then
-				bArmorSpeedPenalty = false;
-			end
-		end
-	end
+			-- local sRace = DB.getValue(nodeChar, "race", ""):lower();
+			-- if sRace:match(RACE_DWARF) or sRace:match(RACE_DUERGAR) then
+				-- bArmorSpeedPenalty = false;
+			-- end
+		-- end
+	-- end
 	local nArmorSpeed = 0;
 	if bArmorSpeedPenalty then
 		nArmorSpeed = -10;

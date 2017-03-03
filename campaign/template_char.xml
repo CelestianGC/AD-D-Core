@@ -493,6 +493,7 @@
 			</script>
 		</number_chartotal>
 	</template>
+
 	<template name="number_charspeed">
 		<number_chartotal>
 			<font>reference-b-large</font>

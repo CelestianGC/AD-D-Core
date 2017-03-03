@@ -128,6 +128,7 @@
     <string name="char_tooltip_classactivity">Class active or not.</string>
     <string name="char_tooltip_xp">Total Experience Earned</string>
     <string name="char_tooltip_xpneeded">Experience needed for Next Level</string>
+   	<string name="char_label_armordexterity">Dex</string>
     <!-- Actions -->
 	<string name="power_label_spellcastingslots">Arcane Magic</string>
 	<string name="power_label_pactmagicslots">Divine Magic</string>

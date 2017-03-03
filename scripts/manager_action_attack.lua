@@ -209,6 +209,7 @@ function modAttack(rSource, rTarget, rRoll)
 		if bOpportunity then
 			table.insert(aAttackFilter, "opportunity");
 		end
+
 		
 		-- Get attack effect modifiers
 		local bEffects = false;
@@ -275,7 +276,7 @@ function modAttack(rSource, rTarget, rRoll)
 		end
 
 		-- Get Base Attack modifier
-		local nBaseAttack = ActionAttack.getBaseAttack(rSource);
+		local nBaseAttack = getBaseAttack(rSource);
 			nAddMod = nAddMod + nBaseAttack;
 		
 		-- Get ability modifiers

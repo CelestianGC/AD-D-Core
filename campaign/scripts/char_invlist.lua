@@ -72,6 +72,7 @@ function onBonusChanged(nodeField)
 	end
 end
 
+-- update armor based on new item in inventory -msw
 function onArmorChanged(nodeField)
 	local nodeItem = DB.getChild(nodeField, "..");
 	if (DB.getValue(nodeItem, "carried", 0) == 2) and ItemManager2.isArmor(nodeItem) then

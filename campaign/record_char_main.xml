@@ -727,15 +727,12 @@
 
 			
 <!-- 			THACO -->
-			<basicnumber name="thaco" source="combat.thaco.score">
-				<min>-10</min>
-				<max>30</max>
-				<default>20</default>
+			<number_charthaco name="thaco" source="combat.thaco.score">
 				<anchored to="combattitle" width="40" height="30">
 					<top anchor="bottom" offset="15" />
 					<left anchor="left" offset="20" />
 				</anchored>
-			</basicnumber>
+			</number_charthaco>
 			<label_charfieldtop>
 				<anchored to="thaco" offset="0,15" />
 				<static textres="thaco" />
@@ -1186,6 +1183,7 @@
 				<static textres="char_label_armordetail" />
 			</label>
 			<basicnumber name="acbase" source="defenses.ac.base">
+   				<gmeditonly />
 				<default>10</default>
 				<anchored to="label_armordetail" position="righthigh" offset="5,0" width="45" height="20" />
 			</basicnumber>
@@ -1199,6 +1197,7 @@
 				<center />
 			</label>
 			<basicnumber name="acarmor" source="defenses.ac.armor">
+   				<gmeditonly />
 				<anchored to="label_armorplus" position="righthigh" offset="5,0" width="45" height="20" />
 			</basicnumber>
 			<label_fieldtop name="label_acarmor">
@@ -1210,7 +1209,9 @@
 				<static>+</static>
 				<center />
 			</label>
+            
 			<basicnumber name="acshield" source="defenses.ac.shield">
+   				<gmeditonly />
 				<anchored to="label_armorplus2" position="righthigh" offset="5,0" width="45" height="20" />
 			</basicnumber>
 			<label_fieldtop name="label_acshield">
@@ -1222,11 +1223,21 @@
 				<static>+</static>
 				<center />
 			</label>
+
+			<basicnumber name="acdexterity" source="abilities.dexterity.defenseadj">
+   				<readonly />
+				<anchored to="label_armorplus3" position="righthigh" offset="5,0" width="45" height="20" />
+			</basicnumber>
+			<label_fieldtop name="label_acdexterity">
+				<anchored to="acdexterity" />
+				<static textres="char_label_armordexterity" />
+			</label_fieldtop>
 			<label name="label_armorplus5">
-				<anchored to="acshield" position="righthigh" offset="5,0" width="10" />
+				<anchored to="acdexterity" position="righthigh" offset="5,0" width="10" />
 				<static>+</static>
 				<center />
 			</label>
+            
 			<basicnumber name="acmisc" source="defenses.ac.misc">
 				<anchored to="label_armorplus5" position="righthigh" offset="5,0" width="45" height="20" />
 			</basicnumber>
