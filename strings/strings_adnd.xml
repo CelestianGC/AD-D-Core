@@ -112,16 +112,16 @@
     <string name="char_tooltip_charisma">Strength of the character.</string>
     <string name="char_tooltip_charisma">Charisma of the character.</string>
 
-    <string name="char_label_skill_base_check">Base</string>
+    <string name="char_label_skill_base_check">BASE</string>
     <string name="char_label_skill_base_check_tooltip">Base chance of a percentile skill.</string>
-    <string name="char_label_skill_type">Type</string>
+    <string name="char_label_skill_type">TYPE</string>
     <string name="char_label_skill_type_tooltip">The type of skill. Ability (select) or percentile.</string>
-    <string name="char_label_skill_stat_adj">Stat</string>
+    <string name="char_label_skill_stat_adj">STAT</string>
     <string name="char_label_skill_stat_adj_tooltip">Adjustment applied for ability scores.</string>
-    <string name="char_label_skill_armor_adj">Armor</string>
+    <string name="char_label_skill_armor_adj">ARMOR</string>
     <string name="char_label_skill_armor_adj_tooltip">Adjustment applied for armor worn.</string>
-    <string name="char_label_skill_class_adj">Class</string>
-    <string name="char_label_skill_class_adj_tooltip">Adjustment applied for chosen class(s).</string>
+    <string name="char_label_skill_mod_adj">MOD</string>
+    <string name="char_label_skill_mod_adj_tooltip">Modifier applied due to class, skill base adjustment or similar.</string>
 
     <string name="char_label_class_exp">XP</string>
     <string name="char_label_class_exp_tooltip">Experince Earned for Each Class</string>
@@ -146,6 +146,9 @@
    	<script name="SaveScore" file="campaign/scripts/number_savescore.lua" />
 	<!-- Character - Abilities -->
     <string name="char_abilities_message_backgroundadd">Kit '%s' added to '%s'.</string>
+	<string name="char_label_notes_ideals">PHILOSOPHY</string>
+	<string name="char_label_notes_bonds">RELATIONSHIPS</string>
+	<string name="char_label_notes_flaws">FAULTS</string>
 
    	<!-- Pregens -->
 	<string name="pregen_label_background">Kit</string>
@@ -158,7 +161,14 @@
 	<string name="ref_label_sphere">Sphere</string>
 	<string name="ref_label_save">Save</string>
     
-    	<!-- Library - Master Index -->
+	<string name="ref_label_source">TYPE</string>
+	<string name="ref_label_source_tooltip">The type of skill. Ability test or percentile check.</string>
+	<string name="ref_label_mod">MOD</string>
+	<string name="ref_label_mod_tooltip">Base modifier for skill if any.</string>
+	<string name="ref_label_base">BASE</string>
+	<string name="ref_label_base_tooltip">Base percentage chance of skill to succeed.</string>
+
+    <!-- Library - Master Index -->
 	<string name="library_recordtype_label_background">Kits</string>
 	<string name="library_recordtype_empty_background">&#171; New Kit &#187;</string>
 	<string name="library_recordtype_empty_backgroundfeature">&#171; New Kit Feature &#187;</string>

@@ -215,8 +215,8 @@
 		<button_stringcycler>
 			<parameters>
 				<defaultlabelres mergerule="replace">dash</defaultlabelres>
-				<labelsres>percent|str|dex|con|int|wis|cha</labelsres>
-				<values>percent|strength|dexterity|constitution|intelligence|wisdom|charisma</values>
+				<labelsres>str|dex|con|int|wis|cha|percent</labelsres>
+				<values>strength|dexterity|constitution|intelligence|wisdom|charisma|percent</values>
 			</parameters>
 		</button_stringcycler>
 	</template>
@@ -245,6 +245,15 @@
             <default>20</default>
 			<font>reference-b-large</font>
 		</basicnumber>
+	</template>
+
+	<template name="label_skill">
+		<stringcontrol>
+			<anchored />
+			<font>sheetlabel</font>
+			<nodrag />
+			<readonly />
+		</stringcontrol>
 	</template>
     
 </root>

@@ -1986,7 +1986,7 @@ function removeMemorizedSpell(draginfo, nodeAction)
 end
 
 -- return try if spelltype is valid arcane spell type, this is strictly because I also wanted
--- to also allow the 5e spells if someone happened to use them and they use "source" not type
+-- to also allow the 5e spells if someone happened to use them and 5e uses "source" not type
 function isArcaneSpellType(sSpellType)
     local bValid = false;
     local aArcane = {};

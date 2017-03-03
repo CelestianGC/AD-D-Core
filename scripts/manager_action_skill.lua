@@ -295,7 +295,6 @@ function modRoll(rSource, rTarget, rRoll)
 	rRoll.nMod = rRoll.nMod + nAddMod;
 	-- flip +/- so if you +a check it's a bonus (reduces the roll to make sure it's under the ability check)
 	-- and - adds to the roll to make it harder to roll under the ability score (AD&D thing)
-    Debug.console("manager_action_skill.lua","modRoll","sAbility",sAbility);
     if sAbility ~= "percent" then
         rRoll.nMod = -(rRoll.nMod);
     end
@@ -313,7 +312,6 @@ function onRoll(rSource, rTarget, rRoll)
 		local nTargetDC = tonumber(rRoll.nTarget) or 0;
 		local nDifference = math.abs((nTotal - nTargetDC));
 
-    Debug.console("manager_action_skill.lua","onRoll","nTotal",nTotal,"nTargetDC",nTargetDC, "nDifference",nDifference);
 		
 		rMessage.text = rMessage.text .. " (vs. Target " .. nTargetDC .. ")";
 		if nTotal <= nTargetDC then

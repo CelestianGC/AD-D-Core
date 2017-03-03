@@ -86,7 +86,7 @@
 			<label name="misc_label">
 				<anchored to="rightanchor" width="40">
 					<top />
-					<right anchor="left" relation="relative" offset="-12" />
+					<right anchor="left" relation="relative" offset="-6" />
 				</anchored>
 				<center />
 				<static textres="char_label_skillmisc" />
@@ -94,8 +94,8 @@
 
 
 			<label name="armor_adj_label">
-				<anchored to="rightanchor" width="40">
                     <tooltip textres="char_label_skill_armor_adj_tooltip" />
+				<anchored to="rightanchor" width="43">
 					<top />
 					<right anchor="left" relation="relative" offset="-3" />
 				</anchored>
@@ -104,8 +104,8 @@
 			</label>
 
 			<label name="stat_adj_label">
-				<anchored to="rightanchor" width="40">
                     <tooltip textres="char_label_skill_stat_adj_tooltip" />
+				<anchored to="rightanchor" width="40">
 					<top />
 					<right anchor="left" relation="relative" offset="-3" />
 				</anchored>
@@ -113,19 +113,19 @@
 				<static textres="char_label_skill_stat_adj" />
 			</label>
             
-			<label name="class_adj_label">
+			<label name="mod_adj_label">
+                <tooltip textres="char_label_skill_mod_adj_tooltip" />
 				<anchored to="rightanchor" width="40">
-                    <tooltip textres="char_label_skill_class_adj_tooltip" />
 					<top />
 					<right anchor="left" relation="relative" offset="-3" />
 				</anchored>
 				<center />
-				<static textres="char_label_skill_class_adj" />
+				<static textres="char_label_skill_mod_adj" />
 			</label>
 
    			<label name="type_label">
-				<anchored to="rightanchor" width="40">
                     <tooltip textres="char_label_skill_type_tooltip" />
+				<anchored to="rightanchor" width="40">
 					<top />
 					<right anchor="left" relation="relative" offset="-3" />
 				</anchored>
@@ -134,8 +134,8 @@
 			</label>
 
 			<label name="base_check_label">
-				<anchored to="rightanchor" width="40">
                     <tooltip textres="char_label_skill_base_check_tooltip" />
+				<anchored to="rightanchor" width="40">
 					<top />
 					<right anchor="left" relation="relative" offset="-3" />
 				</anchored>
@@ -218,7 +218,7 @@
 			<number_charskill name="misc">
 				<anchored>
 					<top offset="2" />
-					<right parent="rightanchor" anchor="left" relation="relative" offset="-20" />
+					<right parent="rightanchor" anchor="left" relation="relative" offset="-15" />
 				</anchored>
 				<tabtarget prev="stat" />
 			</number_charskill>
@@ -234,15 +234,15 @@
 			<number_charskill name="adj_stat">
 				<anchored to="rightanchor" width="30" height="20">
 					<top />
-					<right anchor="left" relation="relative" offset="-12" />
+					<right anchor="left" relation="relative" offset="-14" />
 				</anchored>
-				<tabtarget next="adj_armor" prev="adj_class" />
+				<tabtarget next="adj_armor" prev="adj_mod" />
 			</number_charskill>
  
- 			<number_charskill name="adj_class">
+ 			<number_charskill name="adj_mod">
 				<anchored to="rightanchor" width="30" height="20">
 					<top />
-					<right anchor="left" relation="relative" offset="-12" />
+					<right anchor="left" relation="relative" offset="-13" />
 				</anchored>
 				<tabtarget next="adj_stat" prev="base_check" />
 			</number_charskill>
@@ -263,12 +263,12 @@
 			</cycler_skill_type>
 
 			<number_charskill_nosign name="base_check">
-				<anchored to="rightanchor" width="30" height="20">
                     <tooltip textres="char_label_skill_base_check_tooltip" />
+				<anchored to="rightanchor" width="30" height="20">
 					<top />
 					<right anchor="left" relation="relative" offset="-12" />
 				</anchored>
-				<tabtarget next="adj_class" prev="name" />
+				<tabtarget next="adj_mod" prev="name" />
 			</number_charskill_nosign>
 
             

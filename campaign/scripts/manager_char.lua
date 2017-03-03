@@ -295,7 +295,7 @@ function calcItemArmorClass(nodeChar)
 	if (nMainArmorTotal == 0) and (nMainShieldTotal == 0) and hasTrait(nodeChar, TRAIT_NATURAL_ARMOR) then
 		nMainArmorTotal = 3;
 	end
-    -- flip value for decending ac in nMainShieldTotal
+    -- flip value for decending ac in nMainShieldTotal -msw
     nMainShieldTotal = -(nMainShieldTotal);
     
 	DB.setValue(nodeChar, "defenses.ac.base", "number", nMainArmorBase);

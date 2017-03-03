@@ -53,11 +53,20 @@
 		<script>
 			function onInit()
 				update();
+                updateVisibility();
 			end
 			function update()
 				local bReadOnly = WindowManager.getReadOnlyState(getDatabaseNode());
 				name.setReadOnly(bReadOnly);
 			end
+            function updateVisibility()
+                local bVisible = false;
+                if stat.getValue() == "%" then
+                    bVisible = true;
+                end
+                base_label.setVisible(bVisible);
+                base_check_label.setVisible(bVisible);
+            end                    
 		</script>
 		<sheetdata>
 			<link_record_header>
@@ -68,12 +77,55 @@
 			<icon_record_locked />
 			<button_record_locked />
 
-			<string_record_name name="name">
-				<empty textres="library_recordtype_empty_skill" />
-			</string_record_name>
-			<label_reftype name="reftype">
+            <anchor_column name="columnanchor"/>
+
+			<label_skill name="reftype">
 				<static textres="ref_type_skill" />
-			</label_reftype>
+				<anchored to="columnanchor" position="belowleft" offset="30, 10"/>
+			</label_skill>
+
+			<string_columnh name="name">
+				<empty textres="library_recordtype_empty_skill" />
+                <anchored>
+                    <right offset="-30" />
+                </anchored>
+			</string_columnh>
+
+			<label_column name="source_label">
+                <tooltip textres="ref_label_source_tooltip" />
+                <static textres="ref_label_source" />
+			</label_column>
+            <cycler_skill_type name="stat">
+                <script>
+                    function onValueChanged()
+                        window.updateVisibility();
+                    end
+                </script>
+                <anchored  width="40">
+                    <top parent="columnanchor" anchor="bottom" relation="relative" offset="7" />
+                    <left offset="97" />
+                </anchored>
+            </cycler_skill_type>
+   			
+			<label_column_right name="base_label">
+                <tooltip textres="ref_label_base_tooltip" />
+				<anchored to="stat" />
+				<static textres="ref_label_base" />
+			</label_column_right>
+			<number_column_right name="base_check_label" source="base_check">
+                <tooltip textres="ref_label_base_tooltip" />
+				<anchored to="stat" />
+			</number_column_right>
+
+			<label_column name="adj_label">
+                <tooltip textres="ref_label_mod_tooltip" />
+                <static textres="ref_label_mod" />
+			</label_column>
+			<number_columnh name="adj_mod"/>
+
+
+   			<line_column name="divider3" />
+            
 		</sheetdata>
 	</windowclass>
 </root>
