@@ -237,6 +237,7 @@ function modAttack(rSource, rTarget, rRoll)
 		if EffectManager.hasEffectCondition(rSource, "Blinded") then
 			bEffects = true;
 			bDIS = true;
+            nAddMod = nAddMod - 4;
 		end
 		if EffectManager.hasEffectCondition(rSource, "Incorporeal") then
 			bEffects = true;
@@ -253,10 +254,12 @@ function modAttack(rSource, rTarget, rRoll)
 		if EffectManager.hasEffectCondition(rSource, "Intoxicated") then
 			bEffects = true;
 			bDIS = true;
+            nAddMod = nAddMod - 1;
 		end
 		if EffectManager.hasEffectCondition(rSource, "Invisible") then
 			bEffects = true;
 			bADV = true;
+            nAddMod = nAddMod + 2;
 		end
 		if EffectManager.hasEffectCondition(rSource, "Poisoned") then
 			bEffects = true;
@@ -265,10 +268,12 @@ function modAttack(rSource, rTarget, rRoll)
 		if EffectManager.hasEffectCondition(rSource, "Prone") then
 			bEffects = true;
 			bDIS = true;
+            nAddMod = nAddMod - 2;
 		end
 		if EffectManager.hasEffectCondition(rSource, "Restrained") then
 			bEffects = true;
 			bDIS = true;
+            nAddMod = nAddMod - 2;
 		end
 		if EffectManager.hasEffectCondition(rSource, "Unconscious") then
 			bEffects = true;
@@ -359,6 +364,9 @@ function modAttack(rSource, rTarget, rRoll)
 	end
 	rRoll.nMod = rRoll.nMod + nAddMod;
 	
+    -- to disable advantage/disadvantage ... not AD&D -msw
+    bADV = false;
+    bDIS = false;
 	ActionsManager2.encodeAdvantage(rRoll, bADV, bDIS);
 end
 
