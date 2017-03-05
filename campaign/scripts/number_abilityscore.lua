@@ -175,7 +175,7 @@ function updateWisdom(nodeActor,nChanged)
     aWisdom[13]  =    { 0, "None", 0, "None"};
     aWisdom[14]  =    { 0, "1", 0, "None"};
     aWisdom[15]  =    { 1, "2x1", 0, "None"};
-    aWisdom[16]  =    { 2, "2x1,2", 0, "None"};
+    aWisdom[16]  =    { 2, "2x1,2x1", 0, "None"};
     aWisdom[17]  =    { 3, "2x1,2x2", 0, "None"};
     aWisdom[18]  =    { 4, "2x1,2x2,3", 0, "None"};
     aWisdom[19]  =    { 4, "Various", 0, "Various"};
@@ -186,33 +186,34 @@ function updateWisdom(nodeActor,nChanged)
     aWisdom[24]  =    { 4, "Various", 0, "Various"};
     aWisdom[25]  =    { 4, "Various", 0, "Various"};
 
-    aWisdom[119]  =    { 4, "3x1,2x2,2x3,4", 0, "fear,charm,command, friend, hypno"};
-    aWisdom[120]  =    { 4, "3x1,3x2,2x3,2x4", 0, "forget,hold,enfeeble,scare"};
-    aWisdom[121]  =    { 4, "3x1,3x2,3x3,2x4,5", 0, "fear"};
-    aWisdom[122]  =    { 4, "3x1,3x2,3x3,3x4,2x5", 0, "charm, confusion, emotion, fumble, suggestion"};
-    aWisdom[123]  =    { 4, "4x1,3x2,3x3,3x4,2x5,6", 0, "chaos,feeblemind,hold,jar,quest"};
-    aWisdom[124]  =    { 4, "4x1,3x2,3x3,3x4,3x5,2x6", 0, "geas,suggestion,ruleship"};
-    aWisdom[125]  =    { 4, "4x1,3x2,3x3,3x4,3x5,3x6,7", 0, "antipathy,death,charm"};
+    aWisdom[119]  =    { 4, "Bonus Spells: 3x1st, 2x2nd, 2x3rd, 1x4th", 0, "Spells: cause fear,charm person, command, friends, hypnotism"};
+    aWisdom[120]  =    { 4, "Bonus Spells: 3x1st, 3x2nd, 2x3rd, 2x4th", 0, "Spells: cause fear,charm person, command, friends, hypnotism, forget, hold person, enfeeble, scare"};
+    aWisdom[121]  =    { 4, "Bonus Spells: 3x1st, 3x2nd, 3x3rd, 2x4th, 5th", 0, "Spells: cause fear,charm person, command, friends, hypnotism, forget, hold person, enfeeble, scare, fear"};
+    aWisdom[122]  =    { 4, "Bonus Spells: 3x1st, 3x2nd, 3x3rd, 3x4th, 2x5th", 0, "Spells: cause fear,charm person, command, friends, hypnotism, forget, hold person, enfeeble, scare, fear, charm monster, confusion, emotion, fumble, suggestion"};
+    aWisdom[123]  =    { 4, "Bonus Spells: 4x1st, 3x2nd, 3x3rd, 3x4th, 2x5th, 1x6th", 0, "Spells: cause fear,charm person, command, friends, hypnotism, forget, hold person, enfeeble, scare, fear, charm monster, confusion, emotion, fumble, suggestion, chaos, feeblemind, hold monster,magic jar,quest"};
+    aWisdom[124]  =    { 4, "Bonus Spells: 4x1st, 3x2nd, 3x3rd, 3x4th, 3x5th, 2x6th", 0, "Spells: cause fear,charm person, command, friends, hypnotism, forget, hold person, enfeeble, scare, fear, charm monster, confusion, emotion, fumble, suggestion, chaos, feeblemind, hold monster,magic jar,quest, geas, mass suggestion, rod of ruleship"};
+    aWisdom[125]  =    { 4, "Bonus Spells: 4x1st, 3x2nd, 3x3rd, 3x4th, 3x5th, 3x6th,1x7th", 0, "Spells: cause fear,charm person, command, friends, hypnotism, forget, hold person, enfeeble, scare, fear, charm monster, confusion, emotion, fumble, suggestion, chaos, feeblemind, hold monster,magic jar,quest, geas, mass suggestion, rod of ruleship, antipathy/sympath, death spell,mass charm"};
     
     DB.setValue(nodeActor, "abilities.wisdom.magicdefenseadj", "number", aWisdom[nChanged][1]);
     DB.setValue(nodeActor, "abilities.wisdom.spellbonus", "string", aWisdom[nChanged][2]);
     DB.setValue(nodeActor, "abilities.wisdom.failure", "number", aWisdom[nChanged][3]);
     DB.setValue(nodeActor, "abilities.wisdom.immunity", "string", aWisdom[nChanged][4]);
 
-Debug.console("number_abilityscore.lua","updateWisdom","nodeActor",nodeActor);    
-Debug.console("number_abilityscore.lua","updateWisdom","self",self);    
-local wParent = self.getParent();
-Debug.console("number_abilityscore.lua","updateWisdom","wParent",wParent);    
-    if (nChanged >= 19) then
-        local sToolTip_SpellBonus = "Bonus spells granted by high wisdom. " .. aWisdom[nChanged+100][2];
-        local sToolTip_Immunity = "Immunity to spells granted by high wisdom. " .. aWisdom[nChanged+100][4];
-        -- set the xml elements tooltip to data to large for display
-        charsheet_main.wisdom_immunity.setTooltipText(sToolTip_Immunity);
-        charsheet_main.wisdom_immunity_label.setTooltipText(sToolTip_Immunity);
 
-        charsheet_main.wisdom_spellbonus.setTooltipText(sToolTip_SpellBonus);
-        charsheet_main.wisdom_spellbonus_label.setTooltipText(sToolTip_SpellBonus);
+    -- set tooltip for this because it's just to big for the
+    -- abilities pane
+    local sBonus_TT = "Bonus spells granted by high wisdom. ";
+    local sImmunity_TT = "Immunity to spells granted by high wisdom. ";
+    if (nChanged >= 19) then
+        sBonus_TT = sBonus_TT .. aWisdom[nChanged+100][2];
+        sImmunity_TT = sImmunity_TT .. aWisdom[nChanged+100][4];
+        -- set the xml elements tooltip to data to large for display
     end
+    window.wisdom_immunity.setTooltipText(sImmunity_TT);
+    window.wisdom_immunity_label.setTooltipText(sImmunity_TT);
+
+    window.wisdom_spellbonus.setTooltipText(sBonus_TT);
+    window.wisdom_spellbonus_label.setTooltipText(sBonus_TT);
 
 end
 
@@ -316,9 +317,29 @@ function updateIntelligence(nodeActor,nChanged)
     aIntelligence[24]  =   {15,9,100,0,"1,2,3,4,5,6"};
     aIntelligence[25]  =   {20,9,100,0,"1,2,3,4,5,6,7"};
     
+    -- these have such long values we stuff them into tooltips instead
+    
+    aIntelligence[119]  =   {8, 9,95, 0,"Level: 1st"};
+    aIntelligence[120]  =   {9, 9,96, 0,"Level: 1st, 2nd"};
+    aIntelligence[121]  =   {10,9,97, 0,"Level: 1st, 2nd, 3rd"};
+    aIntelligence[122]  =   {11,9,98, 0,"Level: 1st, 2nd, 3rd, 4th"};
+    aIntelligence[123]  =   {12,9,99, 0,"Level: 1st, 2nd, 3rd, 4th, 5th"};
+    aIntelligence[124]  =   {15,9,100,0,"Level: 1st, 2nd, 3rd, 4th, 5th, 6th"};
+    aIntelligence[125]  =   {20,9,100,0,"Level: 1st, 2nd, 3rd, 4th, 5th, 6th, 7th"};
+
     DB.setValue(nodeActor, "abilities.intelligence.languages", "number", aIntelligence[nChanged][1]);
     DB.setValue(nodeActor, "abilities.intelligence.spelllevel", "number", aIntelligence[nChanged][2]);
     DB.setValue(nodeActor, "abilities.intelligence.learn", "number", aIntelligence[nChanged][3]);
     DB.setValue(nodeActor, "abilities.intelligence.maxlevel", "number", aIntelligence[nChanged][4]);
     DB.setValue(nodeActor, "abilities.intelligence.illusion", "string", aIntelligence[nChanged][5]);
+
+    -- set tooltip for this because it's just to big for the
+    -- abilities pane
+    local sImmunity_TT = "Immune these level of Illusion spells. ";
+    if (nChanged >= 19) then
+        sImmunity_TT = sImmunity_TT .. aIntelligence[nChanged+100][5];
+    end
+    window.intelligence_illusion.setTooltipText(sImmunity_TT);
+    window.intelligence_illusion_label.setTooltipText(sImmunity_TT);
+
 end
