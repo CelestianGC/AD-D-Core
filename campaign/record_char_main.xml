@@ -445,7 +445,7 @@
 				<tooltip textres="char_tooltip_intelligence_illusion" />
 				<labelres>char_label_intelligence_illusion</labelres>
 			</string_abilityfield>
- 			<label_ability_fields>
+ 			<label_ability_fields name="intelligence_illusion_label">
 				<anchored to="intelligence_illusion" />
    				<tooltip textres="char_tooltip_intelligence_illusion" />
 				<static textres="char_label_intelligence_illusion" />
@@ -517,7 +517,7 @@
 				<tooltip textres="char_tooltip_wisdom_immunity" />
 				<labelres>char_label_wisdom_immunity</labelres>
 			</string_abilityfield>
- 			<label_ability_fields>
+ 			<label_ability_fields name="wisdom_immunity_label">
 				<anchored to="wisdom_immunity" />
    				<tooltip textres="char_tooltip_wisdom_immunity" />
 				<static textres="char_label_wisdom_immunity" />
@@ -529,7 +529,7 @@
 				<tooltip textres="char_tooltip_wisdom_spellbonus" />
 				<labelres>char_label_wisdom_spellbonus</labelres>
 			</string_abilityfield>
- 			<label_ability_fields>
+ 			<label_ability_fields name="wisdom_spellbonus_label">
 				<anchored to="wisdom_spellbonus" />
    				<tooltip textres="char_tooltip_wisdom_spellbonus" />
 				<static textres="char_label_wisdom_spellbonus" />
@@ -918,6 +918,7 @@
 				</anchored>
 			</label_charframetop>
 			<number_dropadd name="exp">
+                <gmeditonly />
 				<tooltip textres="char_tooltip_xp" />
 				<anchored to="exptitle" height="20" width="70">
 					<top anchor="bottom" offset="10" />

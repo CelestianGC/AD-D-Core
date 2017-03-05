@@ -713,7 +713,7 @@
 	<string name="weapon_header_damage">DAMAGE</string>
 	<string name="weapon_label_dmgdice">Dice</string>
 	<string name="weapon_label_dmgstat">Stat</string>
-	<string name="weapon_label_dmgbonus">Bonus</string>
+	<string name="weapon_label_dmgbonus">M</string>
 	<string name="weapon_label_dmgtype">Type</string>
 
 	<string name="power_label_name">Name</string>
@@ -730,7 +730,7 @@
 	<string name="power_label_atkbase_fixed">Fixed</string>
 	<string name="power_label_atkstat">Stat</string>
 	<string name="power_label_atkprof">Prof</string>
-	<string name="power_label_atkmod">Bonus</string>
+	<string name="power_label_atkmod">MOD</string>
 	<string name="power_header_cast_save">SAVE</string>
 	<string name="power_label_savetype">Type</string>
 	<string name="power_label_savedcbase">Base</string>
@@ -739,7 +739,7 @@
 	<string name="power_label_savebase_fixed">Fixed</string>
 	<string name="power_label_savedcstat">Stat</string>
 	<string name="power_label_savedcprof">Prof</string>
-	<string name="power_label_savedcmod">Bonus</string>
+	<string name="power_label_savedcmod">MOD</string>
 	<string name="power_header_cast_onmiss">ON SAVE</string>
 	<string name="power_label_onmissdamage">Damage</string>
 	<string name="power_label_onmissdamage_half">Half on Success</string>

@@ -77,7 +77,7 @@
 	</template>
 
 	<template name="number_charabilityscore2">
-		<number>
+		<basicnumber>
  			<anchored to="statstitle" position="insidetopleft"/> 
 			<rollable />
             <min>1</min>
@@ -86,7 +86,7 @@
 			<font>arial-bold-12</font>
 			<frame name="abilityscore_box" />
 			<script file="campaign/scripts/number_abilityscore.lua" />
-		</number>
+		</basicnumber>
 	</template>
     
 	<template name="number_modifier2">

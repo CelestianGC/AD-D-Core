@@ -308,15 +308,6 @@
 		</stringfield>
 	</template>
 
-    <!-- 
-	<template name="number_ct_savescore">
-        <number_charasavescore>
-            <default>-1</default>
-			<font>arial-bold-8</font>
-        </number_charasavescore>
-	</template>
-
- -->	
     <template name="number_ct_savescore">
 		<number_ct>
             <default>-1</default>

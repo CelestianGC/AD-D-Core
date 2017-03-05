@@ -9,6 +9,17 @@
 	<!-- Common -->
 	<string name="thaco">THACO</string>
 	<string name="percent">%</string>
+
+	<string name="paralyzation">Paralyze</string>
+	<string name="poison">Poison</string>
+	<string name="death">Death</string>
+	<string name="rod">Rod</string>
+	<string name="staff">Staff</string>
+	<string name="wand">Wand</string>
+	<string name="petrify">Petrify</string>
+	<string name="polymorph">Poly</string>
+	<string name="breath">Breath</string>
+	<string name="spell">Spell</string>
 	
 	<string name="save_paralyzation_poison_death">Paralyzation, Poison or Death</string>
 	<string name="save_rod_staff_wand">Rod, Staff or Wand</string>

@@ -193,7 +193,7 @@ function getPowerRoll(rActor, nodeAction, sSubRoll)
 				end
 				local nAttackProf = DB.getValue(nodeAction, "atkprof", 1);
 				
-				rAction.modifier = ActorManager2.getAbilityBonus(rActor, sAbility) + DB.getValue(nodeAction, "atkmod", 0);
+				rAction.modifier = ActorManager2.getAbilityBonus(rActor, sAbility, "hitadj") + DB.getValue(nodeAction, "atkmod", 0);
 				if nAttackProf == 1 then
 					rAction.modifier = rAction.modifier + DB.getValue(ActorManager.getCreatureNode(rActor), "profbonus", 0);
 				end
@@ -204,7 +204,7 @@ function getPowerRoll(rActor, nodeAction, sSubRoll)
 			end
 		end
 		
-		local sSaveType = DB.getValue(nodeAction, "savetype", "");
+		local sSaveType = DB.getValue(nodeAction, "savetype", ""):lower();
 		if sSaveType ~= "" then
 			local nGroupDC, sGroupStat = PowerManager.getGroupSaveDC(rActor, nodeAction, sSaveType);
 			if sSaveType == "base" then
@@ -219,12 +219,12 @@ function getPowerRoll(rActor, nodeAction, sSubRoll)
 				if sAbility == "base" then
 					sAbility = sGroupStat;
 				end
-				local nSaveProf = DB.getValue(nodeAction, "savedcprof", 1);
-				
-				rAction.savemod = 8 + ActorManager2.getAbilityBonus(rActor, sAbility) + DB.getValue(nodeAction, "savedcmod", 0);
-				if nSaveProf == 1 then
-					rAction.savemod = rAction.savemod + DB.getValue(ActorManager.getCreatureNode(rActor), "profbonus", 0);
-				end
+				--local nSaveProf = DB.getValue(nodeAction, "savedcprof", 1);
+				--rAction.savemod = 8 + ActorManager2.getAbilityBonus(rActor, sAbility) + DB.getValue(nodeAction, "savedcmod", 0);
+				--if nSaveProf == 1 then
+				--	rAction.savemod = rAction.savemod + DB.getValue(ActorManager.getCreatureNode(rActor), "profbonus", 0);
+				--end
+                rAction.savemod = DB.getValue(nodeAction, "savedcmod", 0);
 			else
 				rAction.savemod = nGroupDC + DB.getValue(nodeAction, "savedcmod", 0);
 			end
@@ -273,11 +273,11 @@ function onPowerAction(draginfo, nodeAction, sSubRoll)
 		return;
 	end
 
-    -- capture this and increment spells used? -msw
-    -- spell wasn't memorized so stop here
+    -- capture this and increment spells used -msw
   	local sType = DB.getValue(nodeAction, "type", "");
     if sType == "cast" then 
         if not removeMemorizedSpell(draginfo,nodeAction) then 
+            -- spell wasn't memorized so stop here
             return; 
         end
     end
@@ -351,7 +351,7 @@ function getGroupAttackBonus(rActor, nodeAction)
 	end
 	local nGroupAtkProf = DB.getValue(vGroup, "atkprof", 1);
 	
-	local nGroupAtkMod = ActorManager2.getAbilityBonus(rActor, sGroupAtkStat);
+	local nGroupAtkMod = ActorManager2.getAbilityBonus(rActor, sGroupAtkStat, "hitadj");
 	if nGroupAtkProf == 1 then
 		nGroupAtkMod = nGroupAtkMod + DB.getValue(ActorManager.getCreatureNode(rActor), "profbonus", 0);
 	end
@@ -369,10 +369,11 @@ function getGroupSaveDC(rActor, nodeAction)
 	end
 	local nGroupSaveProf = DB.getValue(vGroup, "saveprof", 1);
 	
-	local nGroupSaveDC = 8 + ActorManager2.getAbilityBonus(rActor, sGroupSaveStat);
-	if nGroupSaveProf == 1 then
-		nGroupSaveDC = nGroupSaveDC + DB.getValue(ActorManager.getCreatureNode(rActor), "profbonus", 0);
-	end
+--	local nGroupSaveDC = 8 + ActorManager2.getAbilityBonus(rActor, sGroupSaveStat);
+	local nGroupSaveDC = 0;
+	--if nGroupSaveProf == 1 then
+	--	nGroupSaveDC = nGroupSaveDC + DB.getValue(ActorManager.getCreatureNode(rActor), "profbonus", 0);
+	--end
 	nGroupSaveDC = nGroupSaveDC + DB.getValue(vGroup, "savemod", 0);
 	
 	return nGroupSaveDC, sGroupSaveStat;

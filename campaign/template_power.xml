@@ -214,8 +214,8 @@
 			<anchored width="50" height="20" />
 			<parameters>
 				<defaultlabelres>dash</defaultlabelres>
-				<labelsres>base|str|dex|con|int|wis|cha|prof|lvl|class_short_barbarian|class_short_bard|class_short_cleric|class_short_druid|class_short_fighter|class_short_monk|class_short_paladin|class_short_ranger|class_short_rogue|class_short_sorcerer|class_short_warlock|class_short_wizard</labelsres>
-				<values>base|strength|dexterity|constitution|intelligence|wisdom|charisma|prf|level|barbarian|bard|cleric|druid|fighter|monk|paladin|ranger|rogue|sorcerer|warlock|wizard</values>
+				<labelsres>base|str|dex|con|int|wis|cha</labelsres>
+				<values>base|strength|dexterity|constitution|intelligence|wisdom|charisma</values>
 			</parameters>
 		</button_stringcycler>
 	</template>
@@ -223,18 +223,18 @@
 		<button_stringcycler>
 			<parameters>
 				<defaultlabelres mergerule="replace">base</defaultlabelres>
-				<labelsres>str|dex|con|int|wis|cha|prof|lvl|class_short_barbarian|class_short_bard|class_short_cleric|class_short_druid|class_short_fighter|class_short_monk|class_short_paladin|class_short_ranger|class_short_rogue|class_short_sorcerer|class_short_warlock|class_short_wizard</labelsres>
-				<values>strength|dexterity|constitution|intelligence|wisdom|charisma|prf|level|barbarian|bard|cleric|druid|fighter|monk|paladin|ranger|rogue|sorcerer|warlock|wizard</values>
+				<labelsres>str|dex|con|int|wis|cha</labelsres>
+				<values>strength|dexterity|constitution|intelligence|wisdom|charisma</values>
 			</parameters>
 		</button_stringcycler>
 	</template>
 	<template name="cycler_power_savetype">
 		<button_stringcycler>
-			<anchored width="50" height="20" />
+			<anchored width="65" height="20" />
 			<parameters>
 				<defaultlabelres>dash</defaultlabelres>
-				<labelsres>base|str|dex|con|int|wis|cha</labelsres>
-				<values>base|strength|dexterity|constitution|intelligence|wisdom|charisma</values>
+				<labelsres>spell|paralyzation|poison|death|rod|staff|wand|petrify|polymorph|breath</labelsres>
+				<values>spell|paralyzation|poison|death|rod|staff|wand|petrify|polymorph|breath</values>
 			</parameters>
 		</button_stringcycler>
 	</template>

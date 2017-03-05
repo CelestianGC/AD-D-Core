@@ -178,14 +178,6 @@ function updateWisdom(nodeActor,nChanged)
     aWisdom[16]  =    { 2, "2x1,2", 0, "None"};
     aWisdom[17]  =    { 3, "2x1,2x2", 0, "None"};
     aWisdom[18]  =    { 4, "2x1,2x2,3", 0, "None"};
-    -- aWisdom[19]  =    { 4, "3x1,2x2,2x3,4", 0, "fear,charm,command, friend, hypno"};
-    -- aWisdom[20]  =    { 4, "3x1,3x2,2x3,2x4", 0, "forget,hold,enfeeble,scare"};
-    -- aWisdom[21]  =    { 4, "3x1,3x2,3x3,2x4,5", 0, "fear"};
-    -- aWisdom[22]  =    { 4, "3x1,3x2,3x3,3x4,2x5", 0, "charm, confusion, emotion, fumble, suggestion"};
-    -- aWisdom[23]  =    { 4, "4x1,3x2,3x3,3x4,2x5,6", 0, "chaos,feeblemind,hold,jar,quest"};
-    -- aWisdom[24]  =    { 4, "4x1,3x2,3x3,3x4,3x5,2x6", 0, "geas,suggestion,ruleship"};
-    -- aWisdom[25]  =    { 4, "4x1,3x2,3x3,3x4,3x5,3x6,7", 0, "antipathy,death,charm"};
-    
     aWisdom[19]  =    { 4, "Various", 0, "Various"};
     aWisdom[20]  =    { 4, "Various", 0, "Various"};
     aWisdom[21]  =    { 4, "Various", 0, "Various"};
@@ -194,10 +186,34 @@ function updateWisdom(nodeActor,nChanged)
     aWisdom[24]  =    { 4, "Various", 0, "Various"};
     aWisdom[25]  =    { 4, "Various", 0, "Various"};
 
+    aWisdom[119]  =    { 4, "3x1,2x2,2x3,4", 0, "fear,charm,command, friend, hypno"};
+    aWisdom[120]  =    { 4, "3x1,3x2,2x3,2x4", 0, "forget,hold,enfeeble,scare"};
+    aWisdom[121]  =    { 4, "3x1,3x2,3x3,2x4,5", 0, "fear"};
+    aWisdom[122]  =    { 4, "3x1,3x2,3x3,3x4,2x5", 0, "charm, confusion, emotion, fumble, suggestion"};
+    aWisdom[123]  =    { 4, "4x1,3x2,3x3,3x4,2x5,6", 0, "chaos,feeblemind,hold,jar,quest"};
+    aWisdom[124]  =    { 4, "4x1,3x2,3x3,3x4,3x5,2x6", 0, "geas,suggestion,ruleship"};
+    aWisdom[125]  =    { 4, "4x1,3x2,3x3,3x4,3x5,3x6,7", 0, "antipathy,death,charm"};
+    
     DB.setValue(nodeActor, "abilities.wisdom.magicdefenseadj", "number", aWisdom[nChanged][1]);
     DB.setValue(nodeActor, "abilities.wisdom.spellbonus", "string", aWisdom[nChanged][2]);
     DB.setValue(nodeActor, "abilities.wisdom.failure", "number", aWisdom[nChanged][3]);
     DB.setValue(nodeActor, "abilities.wisdom.immunity", "string", aWisdom[nChanged][4]);
+
+Debug.console("number_abilityscore.lua","updateWisdom","nodeActor",nodeActor);    
+Debug.console("number_abilityscore.lua","updateWisdom","self",self);    
+local wParent = self.getParent();
+Debug.console("number_abilityscore.lua","updateWisdom","wParent",wParent);    
+    if (nChanged >= 19) then
+        local sToolTip_SpellBonus = "Bonus spells granted by high wisdom. " .. aWisdom[nChanged+100][2];
+        local sToolTip_Immunity = "Immunity to spells granted by high wisdom. " .. aWisdom[nChanged+100][4];
+        -- set the xml elements tooltip to data to large for display
+        charsheet_main.wisdom_immunity.setTooltipText(sToolTip_Immunity);
+        charsheet_main.wisdom_immunity_label.setTooltipText(sToolTip_Immunity);
+
+        charsheet_main.wisdom_spellbonus.setTooltipText(sToolTip_SpellBonus);
+        charsheet_main.wisdom_spellbonus_label.setTooltipText(sToolTip_SpellBonus);
+    end
+
 end
 
 function updateConstitution(nodeActor,nChanged)

@@ -76,7 +76,7 @@ function onCastChanged()
 			end
 			local nAttackProf = DB.getValue(nodeAction, "atkprof", 1);
 			
-			nAttackMod = ActorManager2.getAbilityBonus(rActor, sAbility) + DB.getValue(nodeAction, "atkmod", 0);
+			nAttackMod = ActorManager2.getAbilityBonus(rActor, sAbility, "hitadj") + DB.getValue(nodeAction, "atkmod", 0);
 			if nAttackProf == 1 then
 				nAttackMod = nAttackMod + DB.getValue(ActorManager.getCreatureNode(rActor), "profbonus", 0);
 			end
@@ -108,15 +108,17 @@ function onCastChanged()
 			end
 			local nSaveProf = DB.getValue(nodeAction, "savedcprof", 1);
 			
-			nDC = 8 + ActorManager2.getAbilityBonus(rActor, sAbility) + DB.getValue(nodeAction, "savedcmod", 0);
-			if nSaveProf == 1 then
-				nDC = nDC + DB.getValue(ActorManager.getCreatureNode(rActor), "profbonus", 0);
-			end
+			nDC = DB.getValue(nodeAction, "savedcmod", 0);
+			--nDC = 8 + ActorManager2.getAbilityBonus(rActor, sAbility) + DB.getValue(nodeAction, "savedcmod", 0);
+			--if nSaveProf == 1 then
+			--	nDC = nDC + DB.getValue(ActorManager.getCreatureNode(rActor), "profbonus", 0);
+			--end
 		else
 			nDC = nGroupDC + DB.getValue(nodeAction, "savedcmod", 0);
 		end
 
-		sSave = "SAVE: " .. StringManager.capitalize(sSaveType:sub(1,3)) .. " DC " .. nDC;
+--		sSave = "SAVE: " .. StringManager.capitalize(sSaveType:sub(1,3)) .. " DC " .. nDC;
+		sSave = "SAVE: " .. StringManager.capitalize(sSaveType) .. " ADJ " .. nDC;
 		
 		if DB.getValue(nodeAction, "onmissdamage", "") == "half" then
 			sSave = sSave .. " (H)";

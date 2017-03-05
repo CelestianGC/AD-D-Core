@@ -62,26 +62,9 @@
 				atkstat.setVisible(bAtkAbilityMode);
 				label_atkstat.setVisible(bAtkAbilityMode);
 				atkplus.setVisible(bAtkAbilityMode);
-				atkprof.setVisible(bAtkAbilityMode);
-				label_atkprof.setVisible(bAtkAbilityMode);
-				atkplus2.setVisible(bAtkAbilityMode);
-				if bAtkAbilityMode then
-					atkmod.setAnchor("left", "atkplus2", "right", "absolute", 5);
-				else
-					atkmod.setAnchor("left", "atkbase", "right", "absolute", 10);
-				end
+				atkmod.setAnchor("left", "atkplus", "right", "absolute", 10);
 
-				savedcstat.setVisible(bSaveAbilityMode);
-				label_savedcstat.setVisible(bSaveAbilityMode);
-				savedcplus.setVisible(bSaveAbilityMode);
-				savedcprof.setVisible(bSaveAbilityMode);
-				label_savedcprof.setVisible(bSaveAbilityMode);
-				savedcplus2.setVisible(bSaveAbilityMode);
-				if bSaveAbilityMode then
-					savedcmod.setAnchor("left", "savedcplus2", "right", "absolute", 5);
-				else
-					savedcmod.setAnchor("left", "savedcbase", "right", "absolute", 10);
-				end
+				savedcmod.setAnchor("left", "savetype", "right", "absolute", 10);
 			end
 		</script>
 		<sheetdata>
@@ -123,9 +106,12 @@
 			<button_stringcycler name="atkbase">
 				<anchored to="atktype" position="righthigh" offset="10,0" width="80" height="20" />
 				<parameters>
-					<defaultlabelres>power_label_atkbase_group</defaultlabelres>
+<!-- 					<defaultlabelres>power_label_atkbase_group</defaultlabelres>
 					<labelsres>power_label_atkbase_ability|power_label_atkbase_fixed</labelsres>
-					<values>ability|fixed</values>
+					<values>ability|fixed</values> -->
+                    <defaultlabelres>dash</defaultlabelres>
+					<labelsres>power_label_atkbase_fixed|power_label_atkbase_ability</labelsres>
+					<values>fixed|ability</values>
 				</parameters>
 				<script>
 					function onValueChanged()
@@ -149,21 +135,9 @@
 				<static>+</static>
 				<center />
 			</label>
-			<button_prof name="atkprof">
-				<anchored to="atkplus" position="righthigh" offset="0,0" height="20" width="20" />
-				<default>1</default>
-			</button_prof>
-			<label_fieldtop name="label_atkprof">
-				<anchored to="atkprof" />
-				<static textres="power_label_atkprof" />
-			</label_fieldtop>
-			<label name="atkplus2">
-				<anchored to="atkprof" position="righthigh" offset="0,0" width="10" />
-				<static>+</static>
-				<center />
-			</label>
+
 			<basicnumber name="atkmod">
-				<anchored to="atkplus2" position="righthigh" offset="5,0" width="25" height="20" />
+				<anchored to="atkplus" position="righthigh" offset="5,0" width="25" height="20" />
 				<hideonvalue value="0" />
 			</basicnumber>
 			<label_fieldtop>
@@ -185,54 +159,10 @@
 				<anchored to="savetype" />
 				<static textres="power_label_savetype" />
 			</label_fieldtop>
-			<label name="savedclabel">
-				<anchored to="savetype" position="righthigh" offset="10,0" width="15" />
-				<static textres="dc" />
-			</label>
-			<button_stringcycler name="savedcbase">
-				<anchored to="savedclabel" position="righthigh" offset="10,0" width="80" height="20" />
-				<parameters>
-					<defaultlabelres>power_label_savebase_group</defaultlabelres>
-					<labelsres>power_label_savebase_ability|power_label_savebase_fixed</labelsres>
-					<values>ability|fixed</values>
-				</parameters>
-				<script>
-					function onValueChanged()
-						window.updateDisplay();
-					end
-				</script>
-			</button_stringcycler>
-			<label_fieldtop>
-				<anchored to="savedcbase" />
-				<static textres="power_label_savedcbase" />
-			</label_fieldtop>
-			<cycler_power name="savedcstat">
-				<anchored to="savedcbase" position="righthigh" offset="10,0" />
-			</cycler_power>
-			<label_fieldtop name="label_savedcstat">
-				<anchored to="savedcstat" />
-				<static textres="power_label_savedcstat" />
-			</label_fieldtop>
-			<label name="savedcplus">
-				<anchored to="savedcstat" position="righthigh" offset="5,0" width="10" />
-				<static>+</static>
-				<center />
-			</label>
-			<button_prof name="savedcprof">
-				<anchored to="savedcplus" position="righthigh" offset="0,0" height="20" width="20" />
-				<default>1</default>
-			</button_prof>
-			<label_fieldtop name="label_savedcprof">
-				<anchored to="savedcprof" />
-				<static textres="power_label_savedcprof" />
-			</label_fieldtop>
-			<label name="savedcplus2">
-				<anchored to="savedcprof" position="righthigh" offset="0,0" width="10" />
-				<static>+</static>
-				<center />
-			</label>
+
+            
 			<basicnumber name="savedcmod">
-				<anchored to="savedcplus2" position="righthigh" offset="5,0" width="25" height="20" />
+				<anchored to="savetype" position="righthigh" offset="5,0" width="25" height="20" />
 				<hideonvalue value="0" />
 			</basicnumber>
 			<label_fieldtop>

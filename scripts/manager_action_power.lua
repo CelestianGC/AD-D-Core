@@ -22,17 +22,18 @@ end
 function handleApplySave(msgOOB)
 	local rSource = ActorManager.getActor(msgOOB.sSourceType, msgOOB.sSourceNode);
 	local rTarget = ActorManager.getActor(msgOOB.sTargetType, msgOOB.sTargetNode);
-	
-	local sSaveShort, sSaveDC = string.match(msgOOB.sDesc, "%[(%w+) DC (%d+)%]")
-	if sSaveShort then
-		local sSave = DataCommon.ability_stol[sSaveShort];
+	local sSaveType = msgOOB.sSaveType;
+    
+	--local sSaveShort, sSaveDC = string.match(msgOOB.sDesc, "%[(%w+) DC (%d+)%]")
+	if sSaveType then
+		local sSave = DataCommon.saves_multi_name[sSaveType];
 		if sSave then
 			ActionSave.performRoll(nil, rTarget, sSave, msgOOB.nDC, (tonumber(msgOOB.nSecret) == 1), rSource, msgOOB.bRemoveOnMiss, msgOOB.sDesc);
 		end
 	end
 end
 
-function notifyApplySave(rSource, rTarget, bSecret, sDesc, nDC, bRemoveOnMiss)
+function notifyApplySave(rSource, rTarget, bSecret, sDesc, nDC, bRemoveOnMiss, sSaveType)
 	if not rTarget then
 		return;
 	end
@@ -48,6 +49,13 @@ function notifyApplySave(rSource, rTarget, bSecret, sDesc, nDC, bRemoveOnMiss)
 	msgOOB.sDesc = sDesc;
 	msgOOB.nDC = nDC;
 
+    local sSave = sSaveType;
+    if (sSaveType) then
+        msgOOB.sSaveType = sSaveType;
+    else
+        msgOOB.sSaveType = "";
+    end
+    
 	local sSourceType, sSourceNode = ActorManager.getTypeAndNodeName(rSource);
 	msgOOB.sSourceType = sSourceType;
 	msgOOB.sSourceNode = sSourceNode;
@@ -106,7 +114,6 @@ function onPowerTargeting(rSource, aTargeting, rRolls)
 	return aTargeting;
 end
 
--- check this -msw
 function getPowerCastRoll(rActor, rAction)
 	local rRoll = {};
 	rRoll.sType = "cast";
@@ -122,19 +129,26 @@ function getPowerCastRoll(rActor, rAction)
 	return rRoll;
 end
 
+-- sort out saves for targets from actions tab button "save" -msw
 function getSaveVsRoll(rActor, rAction)
 	local rRoll = {};
 	rRoll.sType = "powersave";
 	rRoll.aDice = {};
 	rRoll.nMod = rAction.savemod or 0;
-	
+    rRoll.sSaveType = rAction.save;
+    
+    local sSaveDisplayText = StringManager.capitalize(rAction.save);
+    local sSaveType = DataCommon.saves_multi_name[rAction.save];
+
 	rRoll.sDesc = "[SAVE VS";
 	if rAction.order and rAction.order > 1 then
 		rRoll.sDesc = rRoll.sDesc .. " #" .. rAction.order;
 	end
 	rRoll.sDesc = rRoll.sDesc .. "] " .. rAction.label;
-	if DataCommon.ability_ltos[rAction.save] then
-		rRoll.sDesc = rRoll.sDesc .. " [" .. DataCommon.ability_ltos[rAction.save] .. " DC " .. rAction.savemod .. "]";
+--	if DataCommon.ability_ltos[rAction.save] then
+	if sSaveDisplayText then
+		--rRoll.sDesc = rRoll.sDesc .. " [" .. DataCommon.ability_ltos[rAction.save] .. " DC " .. rAction.savemod .. "]";
+        rRoll.sDesc = rRoll.sDesc .. " [" .. sSaveDisplayText .. " ADJ " .. rAction.savemod .. "]";
 	end
 	if rAction.onmissdamage == "half" then
 		rRoll.sDesc = rRoll.sDesc .. " [HALF ON SAVE]";
@@ -170,15 +184,18 @@ function onPowerCast(rSource, rTarget, rRoll)
 end
 
 function onCastSave(rSource, rTarget, rRoll)
-	if rTarget then
-		local sSaveShort, sSaveDC = string.match(rRoll.sDesc, "%[(%w+) DC (%d+)%]")
-		if sSaveShort then
-			local sSave = DataCommon.ability_stol[sSaveShort];
-			if sSave then
-				notifyApplySave(rSource, rTarget, rRoll.bSecret, rRoll.sDesc, rRoll.nMod, rRoll.bRemoveOnMiss);
-				return true;
-			end
-		end
+	if rTarget and rRoll.sSaveType then
+        local sActorType, nodeTarget = ActorManager.getTypeAndNode(rTarget);
+        -- get Target score to save
+        local sSave = DataCommon.saves_multi_name[rRoll.sSaveType];
+        local nSaveTarget = DB.getValue(nodeTarget, "saves." .. sSave .. ".score",0);
+        -- flip value, if minues to save, make target higher (harder)
+        -- if positive, it will lower the target making easier -msw
+        nSaveTarget = nSaveTarget - (rRoll.nMod); 
+        
+        notifyApplySave(rSource, rTarget, rRoll.bSecret, rRoll.sDesc, nSaveTarget, rRoll.bRemoveOnMiss, rRoll.sSaveType);
+        
+        return true;
 	end
 
 	return false;
