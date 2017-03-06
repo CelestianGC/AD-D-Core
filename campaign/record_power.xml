@@ -78,6 +78,7 @@
 		</sheetdata>
 	</windowclass>
 	
+    <!-- action tab, spell prep mode -->
 	<windowclass name="power_slots_prep">
 		<script>
 			function onInit()
@@ -928,7 +929,9 @@
 			</label_reftype>	
 		</sheetdata>
 	</windowclass>
-	
+
+
+	<!-- Spells database view -->
 	<windowclass name="power_stats">
 		<margins control="0,0,0,7" />
 		<script file="campaign/scripts/power_main.lua" />
@@ -966,22 +969,21 @@
 			</string_columnh>
 			
 			<label_column name="sphere_label">
+                <script>
+                        function onValueChanged()
+                            window.update();
+                        end
+                </script>
 				<static textres="ref_label_sphere" />
 			</label_column>
 			<string_columnh name="sphere">
+                <script>
+                        function onValueChanged()
+                            window.update();
+                        end
+                </script>
 			</string_columnh>
 
-			<label_column name="ritual_label">
-				<static textres="ref_label_ritual" />
-			</label_column>
-			<button_checkbox_columnh name="ritual">
-				<script>
-					function onValueChanged()
-						window.onSummaryChanged();
-					end
-				</script>
-			</button_checkbox_columnh>
-			
 			<label_column name="summary_label">
 				<anchored>
 					<top relation="relative" offset="7" />
@@ -1000,6 +1002,14 @@
 				<static textres="ref_label_range" />
 			</label_column>
 			<string_columnh name="range" />
+
+			<label_column name="aoe_label">
+				<tooltip textres="ref_label_aoe_tooltip" />
+				<static textres="ref_label_aoe" />
+			</label_column>
+			<string_columnh name="aoe">
+				<tooltip textres="ref_label_aoe_tooltip" />
+            </string_columnh>
 
 			<label_column name="components_label">
 				<static textres="ref_label_components" />

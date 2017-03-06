@@ -55,6 +55,7 @@ function onDisplayChanged()
 	end
 end
 
+-- add action for spell/item
 function createAction(sType)
 	local nodeAttack = getDatabaseNode();
 	if nodeAttack then
@@ -89,6 +90,12 @@ function onMenuSelection(selection, subselection)
 			activatedetail.setValue(1);
 		end
 	end
+end
+
+-- create a cast action
+function createActionCast() 
+	createAction("cast");
+	activatedetail.setValue(1);
 end
 
 function toggleDetail()

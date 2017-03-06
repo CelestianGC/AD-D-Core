@@ -72,6 +72,7 @@ function resetPowers(nodeCaster, bLong)
 	-- end
 end
 
+-- add spells dropped on to sheet -msw
 function addPower(sClass, nodeSource, nodeCreature, sGroup)
 	-- Validate
 	if not nodeSource or not nodeCreature then
@@ -98,7 +99,7 @@ function addPower(sClass, nodeSource, nodeCreature, sGroup)
 		DB.setValue(nodeNewPower, "group", "string", sGroup);
 	end
 	
-	-- Class specific handling
+    -- Class specific handling
 	if sClass == "reference_spell" or sClass == "power" then
 		-- DEPRECATED: Used to add spell slot of matching spell level, but deprecated since handled by class drops and doesn't work for warlock
 	else
@@ -122,6 +123,21 @@ function addPower(sClass, nodeSource, nodeCreature, sGroup)
 		parsePCPower(nodeNewPower);
 	end
 	
+    -- add cast bar for spells with level and type
+	local nLevel = nodeNewPower.getChild("level").getValue();
+	local sSpellType = nodeNewPower.getChild("type").getValue():lower();
+    if (nLevel > 0 and (sSpellType == "arcane" or sSpellType == "divine")) then
+		local nodeActions = nodeNewPower.createChild("actions");
+		if nodeActions then
+			local nodeAction = nodeActions.createChild();
+			if nodeAction then
+				DB.setValue(nodeAction, "type", "string", "cast");
+                -- set "savetype" to "spell"
+                DB.setValue(nodeAction, "savetype", "string", "spell");                
+			end
+		end
+    end
+
 	return nodeNewPower;
 end
 

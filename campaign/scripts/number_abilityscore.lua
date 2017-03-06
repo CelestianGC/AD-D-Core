@@ -21,17 +21,17 @@ function onValueChanged()
         local sActorType, nodeActor = ActorManager.getTypeAndNode(rActor);
         if sActorType == "pc" and (nChanged >= 1) and (nChanged <= 25) then
             if (sTarget == "strength") then
-                updateStrength(nodeActor,nChanged);
+                updateStrength(nodeActor,nChanged,sActorType);
             elseif (sTarget == "dexterity") then
-                updateDexterity(nodeActor,nChanged);
+                updateDexterity(nodeActor,nChanged,sActorType);
             elseif (sTarget == "wisdom") then
-                updateWisdom(nodeActor,nChanged);
+                updateWisdom(nodeActor,nChanged,sActorType);
             elseif (sTarget == "constitution") then
-                updateConstitution(nodeActor,nChanged);
+                updateConstitution(nodeActor,nChanged,sActorType);
             elseif (sTarget == "charisma") then
-                updateCharisma(nodeActor,nChanged);
+                updateCharisma(nodeActor,nChanged,sActorType);
             elseif (sTarget == "intelligence") then
-                updateIntelligence(nodeActor,nChanged);
+                updateIntelligence(nodeActor,nChanged,sActorType);
             end
 			
         end -- was PC
@@ -60,7 +60,7 @@ function onDoubleClick(x, y)
 	end
 end
 
-function updateStrength(nodeActor,nChanged)
+function updateStrength(nodeActor,nChanged,sActorType)
     -- aStrength[abilityScore]={hit prob, dam adj, weight allow, max press, open doors, bend bars}
     local aStrength = {};
     aStrength[1]  = {-5,-4,1,3,"1(0)",0};
@@ -123,7 +123,7 @@ function updateStrength(nodeActor,nChanged)
     DB.setValue(nodeActor, "abilities.strength.bendbars", "number", aStrength[nChanged][6]);
 end
 
-function updateDexterity(nodeActor,nChanged)
+function updateDexterity(nodeActor,nChanged,sActorType)
     -- aDexterity[abilityScore]={reaction, missile, defensive}
     local aDexterity = {};
     aDexterity[1]  =  {-6,-6,5};
@@ -157,7 +157,7 @@ function updateDexterity(nodeActor,nChanged)
     DB.setValue(nodeActor, "abilities.dexterity.defenseadj", "number", aDexterity[nChanged][3]);
 end
 
-function updateWisdom(nodeActor,nChanged)
+function updateWisdom(nodeActor,nChanged,sActorType)
     local aWisdom = {};
     -- aWisdom[abilityScore]={magic adj, spell bonuses, spell failure, spell imm. }
     aWisdom[1]   =    {-6, "None", 80, "None"};
@@ -200,24 +200,26 @@ function updateWisdom(nodeActor,nChanged)
     DB.setValue(nodeActor, "abilities.wisdom.immunity", "string", aWisdom[nChanged][4]);
 
 
-    -- set tooltip for this because it's just to big for the
-    -- abilities pane
-    local sBonus_TT = "Bonus spells granted by high wisdom. ";
-    local sImmunity_TT = "Immunity to spells granted by high wisdom. ";
-    if (nChanged >= 19) then
-        sBonus_TT = sBonus_TT .. aWisdom[nChanged+100][2];
-        sImmunity_TT = sImmunity_TT .. aWisdom[nChanged+100][4];
-        -- set the xml elements tooltip to data to large for display
-    end
-    window.wisdom_immunity.setTooltipText(sImmunity_TT);
-    window.wisdom_immunity_label.setTooltipText(sImmunity_TT);
+    if (sActorType == "pc") then
+        -- set tooltip for this because it's just to big for the
+        -- abilities pane
+        local sBonus_TT = "Bonus spells granted by high wisdom. ";
+        local sImmunity_TT = "Immunity to spells granted by high wisdom. ";
+        if (nChanged >= 19) then
+            sBonus_TT = sBonus_TT .. aWisdom[nChanged+100][2];
+            sImmunity_TT = sImmunity_TT .. aWisdom[nChanged+100][4];
+            -- set the xml elements tooltip to data to large for display
+        end
+        window.wisdom_immunity.setTooltipText(sImmunity_TT);
+        window.wisdom_immunity_label.setTooltipText(sImmunity_TT);
 
-    window.wisdom_spellbonus.setTooltipText(sBonus_TT);
-    window.wisdom_spellbonus_label.setTooltipText(sBonus_TT);
+        window.wisdom_spellbonus.setTooltipText(sBonus_TT);
+        window.wisdom_spellbonus_label.setTooltipText(sBonus_TT);
+    end
 
 end
 
-function updateConstitution(nodeActor,nChanged)
+function updateConstitution(nodeActor,nChanged,sActorType)
     -- aConstitution[abilityScore]={hp, system shock, resurrection survivial, poison save, regeneration}
     local aConstitution = {};
     aConstitution[1]  =   {"-3",25,30,-2,"None"};
@@ -253,7 +255,7 @@ function updateConstitution(nodeActor,nChanged)
     DB.setValue(nodeActor, "abilities.constitution.regeneration", "string", aConstitution[nChanged][5]);
 end
 
-function updateCharisma(nodeActor,nChanged)
+function updateCharisma(nodeActor,nChanged,sActorType)
     -- aCharisma[abilityScore]={reaction, missile, defensive}
     local aCharisma = {};
     aCharisma[1]   =  {0, -8,-7};
@@ -288,7 +290,7 @@ function updateCharisma(nodeActor,nChanged)
 	
 end
 
-function updateIntelligence(nodeActor,nChanged)
+function updateIntelligence(nodeActor,nChanged,sActorType)
     -- aIntelligence[abilityScore]={# languages, spelllevel, learn spell, max spells, illusion immunity}
     local aIntelligence = {};
     aIntelligence[1]  =    {0, 0,0,  0,"None"};
@@ -335,11 +337,12 @@ function updateIntelligence(nodeActor,nChanged)
 
     -- set tooltip for this because it's just to big for the
     -- abilities pane
-    local sImmunity_TT = "Immune these level of Illusion spells. ";
-    if (nChanged >= 19) then
-        sImmunity_TT = sImmunity_TT .. aIntelligence[nChanged+100][5];
+    if (sActorType == "pc") then
+        local sImmunity_TT = "Immune these level of Illusion spells. ";
+        if (nChanged >= 19) then
+            sImmunity_TT = sImmunity_TT .. aIntelligence[nChanged+100][5];
+        end
+        window.intelligence_illusion.setTooltipText(sImmunity_TT);
+        window.intelligence_illusion_label.setTooltipText(sImmunity_TT);
     end
-    window.intelligence_illusion.setTooltipText(sImmunity_TT);
-    window.intelligence_illusion_label.setTooltipText(sImmunity_TT);
-
 end

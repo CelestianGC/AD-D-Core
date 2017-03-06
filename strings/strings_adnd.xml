@@ -171,6 +171,8 @@
 	<string name="ref_type_characteristic">Kit Characteristic</string>
 	<string name="ref_label_sphere">Sphere</string>
 	<string name="ref_label_save">Save</string>
+	<string name="ref_label_aoe">AoE</string>
+	<string name="ref_label_aoe_tooltip">Area of Effect</string>
     
 	<string name="ref_label_source">TYPE</string>
 	<string name="ref_label_source_tooltip">The type of skill. Ability test or percentile check.</string>
