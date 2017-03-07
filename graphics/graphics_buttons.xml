@@ -66,7 +66,7 @@
 	<icon name="button_effects" file="graphics/sidebar/button_effects.png" />
 	<icon name="button_effects_down" file="graphics/sidebar/button_effects_down.png" />
 
-	<icon name="button_characters" file="graphics/sidebar/button_characters.png" />
+<!-- 	<icon name="button_characters" file="graphics/sidebar/button_characters.png" />
 	<icon name="button_characters_down" file="graphics/sidebar/button_characters_down.png" />
 	<icon name="button_book" file="graphics/sidebar/button_story.png" />
 	<icon name="button_book_down" file="graphics/sidebar/button_story_down.png" />
@@ -105,6 +105,54 @@
 	<icon name="button_parcels_down" file="graphics/sidebar/button_parcels_down.png" />
 	<icon name="button_quests" file="graphics/sidebar/button_quests.png" />
 	<icon name="button_quests_down" file="graphics/sidebar/button_quests_down.png" />
+
+ -->    
+    <!-- New Sidebar --->
+	<icon name="button_characters" file="graphics/sidebar/side_button_black.png" />
+	<icon name="button_characters_down" file="graphics/sidebar/side_button_grey.png" />
+	<icon name="button_book" file="graphics/sidebar/side_button_black.png" />
+	<icon name="button_book_down" file="graphics/sidebar/side_button_grey.png" />
+	<icon name="button_maps" file="graphics/sidebar/side_button_black.png" />
+	<icon name="button_maps_down" file="graphics/sidebar/side_button_grey.png" />
+	<icon name="button_people" file="graphics/sidebar/side_button_black.png" />
+	<icon name="button_people_down" file="graphics/sidebar/side_button_grey.png" />
+	<icon name="button_encounters" file="graphics/sidebar/side_button_black.png" />
+	<icon name="button_encounters_down" file="graphics/sidebar/side_button_grey.png" />
+	<icon name="button_items" file="graphics/sidebar/side_button_black.png" />
+	<icon name="button_items_down" file="graphics/sidebar/side_button_grey.png" />
+	<icon name="button_notes" file="graphics/sidebar/side_button_black.png" />
+	<icon name="button_notes_down" file="graphics/sidebar/side_button_grey.png" />
+	<icon name="button_parcels" file="graphics/sidebar/side_button_black.png" />
+	<icon name="button_parcels_down" file="graphics/sidebar/side_button_grey.png" />
+	<icon name="button_quests" file="graphics/sidebar/side_button_black.png" />
+	<icon name="button_quests_down" file="graphics/sidebar/side_button_grey.png" />
+	<icon name="button_tables" file="graphics/sidebar/side_button_black.png" />
+	<icon name="button_tables_down" file="graphics/sidebar/side_button_grey.png" />
+	<icon name="button_cas" file="graphics/sidebar/side_button_black.png" />
+	<icon name="button_cas_down" file="graphics/sidebar/side_button_grey.png" />
+	<icon name="button_mcmod" file="graphics/sidebar/side_button_black.png" />
+	<icon name="button_mcmod_down" file="graphics/sidebar/side_button_grey.png" />
+	<icon name="button_mcability" file="graphics/sidebar/side_button_black.png" />
+	<icon name="button_mcability_down" file="graphics/sidebar/side_button_grey.png" />
+	<icon name="button_library" file="graphics/sidebar/side_button_black.png" />
+	<icon name="button_library_down" file="graphics/sidebar/side_button_grey.png" />
+	<icon name="button_tokencase" file="graphics/sidebar/side_button_black.png" />
+	<icon name="button_tokencase_down" file="graphics/sidebar/side_button_grey.png" />	
+
+	<icon name="button_backgrounds" file="graphics/sidebar/side_button_black.png" />
+	<icon name="button_backgrounds_down" file="graphics/sidebar/side_button_grey.png" />
+	<icon name="button_classes" file="graphics/sidebar/side_button_black.png" />
+	<icon name="button_classes_down" file="graphics/sidebar/side_button_grey.png" />
+	<icon name="button_feats" file="graphics/sidebar/side_button_black.png" />
+	<icon name="button_feats_down" file="graphics/sidebar/side_button_grey.png" />
+	<icon name="button_races" file="graphics/sidebar/side_button_black.png" />
+	<icon name="button_races_down" file="graphics/sidebar/side_button_grey.png" />
+	<icon name="button_skills" file="graphics/sidebar/side_button_black.png" />
+	<icon name="button_skills_down" file="graphics/sidebar/side_button_grey.png" />
+	<icon name="button_spells" file="graphics/sidebar/side_button_black.png" />
+	<icon name="button_spells_down" file="graphics/sidebar/side_button_grey.png" />
+    <!-- end new sidebar -->
+
 	
 	<!-- Combat Tracker -->
 	<icon name="button_fist" file="graphics/buttons/button_fist.png" />

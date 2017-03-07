@@ -113,6 +113,7 @@
 				<static textres="ref_label_base" />
 			</label_column_right>
 			<number_column_right name="base_check_label" source="base_check">
+                <hideonvalue>0</hideonvalue>
                 <tooltip textres="ref_label_base_tooltip" />
 				<anchored to="stat" />
 			</number_column_right>
@@ -121,7 +122,10 @@
                 <tooltip textres="ref_label_mod_tooltip" />
                 <static textres="ref_label_mod" />
 			</label_column>
-			<number_columnh name="adj_mod"/>
+			<number_columnh name="adj_mod">
+                <hideonvalue>0</hideonvalue>
+                <displaysign />
+            </number_columnh>
 
 
    			<line_column name="divider3" />

@@ -158,7 +158,7 @@ aRecords = {
 };
 
 aDefaultSidebarState = {
-	["create"] = "charsheet,background,class,feat,item,race,skill,spell",
+	["create"] = "charsheet,background,class,item,race,skill,spell",
 };
 
 function onInit()

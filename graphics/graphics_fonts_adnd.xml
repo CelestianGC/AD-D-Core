@@ -6,6 +6,10 @@
 -->
 
 <root>
+	<font name="sidebar">
+		<ttf file="graphics/fonts/rockwell_bold_18.fgf" name="rockwell_bold_18" size="18" />
+		<color value="#dedede" />
+	</font>
 
 	<font name="sheetlabelmini_percent">
 		<fgffile name="graphics/fonts/arial-regular-6.fgf" />

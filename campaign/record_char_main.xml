@@ -1125,6 +1125,7 @@
         </sheetdata>
 	</windowclass>	
 
+    <!-- combat popup window-->
 	<windowclass name="charsheet_combatcalc">
 		<frame>charsheethelper</frame>
 		<placement>

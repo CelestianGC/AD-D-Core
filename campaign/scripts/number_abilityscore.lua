@@ -200,7 +200,8 @@ function updateWisdom(nodeActor,nChanged,sActorType)
     DB.setValue(nodeActor, "abilities.wisdom.immunity", "string", aWisdom[nChanged][4]);
 
 
-    if (sActorType == "pc") then
+    if (window and window.wisdom_immunity and window.wisdom_immunity_label 
+        and window.wisdom_spellbonus and window.wisdom_spellbonus_label) then
         -- set tooltip for this because it's just to big for the
         -- abilities pane
         local sBonus_TT = "Bonus spells granted by high wisdom. ";
@@ -337,7 +338,7 @@ function updateIntelligence(nodeActor,nChanged,sActorType)
 
     -- set tooltip for this because it's just to big for the
     -- abilities pane
-    if (sActorType == "pc") then
+    if (window and window.intelligence_illusion and window.intelligence_illusion_label) then
         local sImmunity_TT = "Immune these level of Illusion spells. ";
         if (nChanged >= 19) then
             sImmunity_TT = sImmunity_TT .. aIntelligence[nChanged+100][5];

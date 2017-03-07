@@ -215,6 +215,9 @@
 	<string name="message_nomoreslots">You do not have any more spell slots left to memorize this spell.</string>
 	<string name="message_youmemorize">You have memorized </string>
     
-    
+    <!-- Sidebar -->
+   	<string name="library_recordtype_label_image">Maps</string>
+	<string name="library_recordtype_label_treasureparcel">Loot</string>
+
 	
 </root>

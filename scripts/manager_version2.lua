@@ -3,7 +3,7 @@
 -- attribution and copyright information.
 --
 
-local rsname = "5E";
+local rsname = "AD&D Core";
 local rsmajorversion = 7;
 
 function onInit()
