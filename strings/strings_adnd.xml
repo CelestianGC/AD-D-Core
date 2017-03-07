@@ -219,5 +219,7 @@
    	<string name="library_recordtype_label_image">Maps</string>
 	<string name="library_recordtype_label_treasureparcel">Loot</string>
 
-	
+    <!-- Item -->
+	<string name="item_label_speedfactor">Speedfactor</string>
+    
 </root>

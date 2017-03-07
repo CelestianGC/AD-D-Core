@@ -941,7 +941,9 @@
 			<label_column name="shortdescription_label">
 				<static textres="ref_label_shortdescription" />
 			</label_column>
-			<string_columnh name="shortdescription" />
+			<string_columnh name="shortdescription" >
+       				<gmeditonly />
+            </string_columnh>
 
 			<line_column name="divider" />
 			
@@ -949,6 +951,7 @@
 				<static textres="level" />
 			</label_column>
 			<number_columnh name="level">
+				<gmeditonly />
 				<delaykeyupdate />
 				<script>
 					function onValueChanged()
@@ -961,6 +964,7 @@
 				<static textres="ref_label_school" />
 			</label_column>
 			<string_columnh name="school">
+				<gmeditonly />
 				<script>
 					function onValueChanged()
 						window.onSummaryChanged();
@@ -977,6 +981,7 @@
 				<static textres="ref_label_sphere" />
 			</label_column>
 			<string_columnh name="sphere">
+				<gmeditonly />
                 <script>
                         function onValueChanged()
                             window.update();
@@ -996,45 +1001,61 @@
 			<label_column name="castingtime_label">
 				<static textres="ref_label_castingtime" />
 			</label_column>
-			<string_columnh name="castingtime" />
+			<string_columnh name="castingtime" >
+				<gmeditonly />
+            </string_columnh>
 
 			<label_column name="range_label">
 				<static textres="ref_label_range" />
 			</label_column>
-			<string_columnh name="range" />
+			<string_columnh name="range" >
+				<gmeditonly />
+            </string_columnh>
 
 			<label_column name="aoe_label">
 				<tooltip textres="ref_label_aoe_tooltip" />
 				<static textres="ref_label_aoe" />
 			</label_column>
 			<string_columnh name="aoe">
+				<gmeditonly />
 				<tooltip textres="ref_label_aoe_tooltip" />
             </string_columnh>
 
 			<label_column name="components_label">
 				<static textres="ref_label_components" />
 			</label_column>
-			<string_columnh name="components" />
+			<string_columnh name="components" >
+				<gmeditonly />
+            </string_columnh>
 
 			<label_column name="duration_label">
 				<static textres="ref_label_duration" />
 			</label_column>
-			<string_columnh name="duration" />
+			<string_columnh name="duration" >
+				<gmeditonly />
+            </string_columnh>
 
 			<label_column name="save_label">
 				<static textres="ref_label_save" />
 			</label_column>
-			<string_columnh name="save" />
+			<string_columnh name="save" >
+				<gmeditonly />
+            </string_columnh>
 
 
-			<ft_columnh name="description" />
-			
+			<ft_columnh name="description" >
+							<gmeditonly />
+            </ft_columnh>
+
 			<line_column name="divider3" />
 			
 			<label_column name="source_label">
 				<static textres="ref_label_source" />
 			</label_column>
-			<string_columnh name="source" />
+			<string_columnh name="source" >
+            				<gmeditonly />
+            </string_columnh>
+
 		</sheetdata>
 	</windowclass>
 </root>

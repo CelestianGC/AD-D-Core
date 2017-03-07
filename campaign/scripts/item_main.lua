@@ -64,6 +64,7 @@ function update()
 	local bSection4 = false;
 	if updateControl("bonus", bReadOnly, bID and (bWeapon or bArmor or bArcaneFocus)) then bSection4 = true; end
 	if updateControl("damage", bReadOnly, bID and bWeapon) then bSection4 = true; end
+	if updateControl("speedfactor", bReadOnly, bID and bWeapon) then bSection4 = true; end
 	
 	if updateControl("ac", bReadOnly, bID and bArmor) then bSection4 = true; end
 	if updateControl("dexbonus", bReadOnly, bID and bArmor) then bSection4 = true; end

@@ -152,6 +152,13 @@
 			<string_columnh name="damage">
 				<gmeditonly />
 			</string_columnh>
+
+			<label_column name="speedfactor_label">
+				<static textres="item_label_speedfactor" />
+			</label_column>
+			<number_columnh name="speedfactor">
+				<gmeditonly />
+			</number_columnh>
 			
 			<label_column name="ac_label">
 				<static textres="item_label_ac" />
