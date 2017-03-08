@@ -42,7 +42,9 @@
 				</script>
 			</buttoncontrol>
 
-			<stringcontrol name="damageview">
+            <!-- damage section -->
+            
+<!-- 			<stringcontrol name="damageview">
 				<anchored to="rightanchor" width="91">
 					<top offset="8" />
 					<right anchor="left" relation="relative" offset="-5" />
@@ -64,7 +66,16 @@
 					end
 				</script>
 			</stringcontrol>
-
+ -->
+            <windowlist name="damage_split_list">
+				<anchored to="rightanchor" width="91">
+					<top offset="8" />
+ 					<right anchor="left" relation="relative" offset="-5" /> 
+				</anchored>
+				<datasource>.damagelist</datasource>
+				<class>split_damage_entries</class>
+            </windowlist>
+            
 			<genericcontrol name="attackshade">
 				<anchored to="rightanchor" width="80" height="36">
 					<top />
@@ -176,7 +187,8 @@
 
 			<label name="label_ammo">
 				<anchored width="50">
-					<top parent="damageview" anchor="bottom" relation="relative" offset="5" />
+					<!-- <top parent="damageview" anchor="bottom" relation="relative" offset="5" /> -->
+                    <top parent="damage_split_list" anchor="bottom" relation="relative" offset="5" />
 					<left offset="15" />
 				</anchored>
 				<static textres="char_label_weaponammo" />
@@ -192,6 +204,51 @@
 		</sheetdata>
 	</windowclass>
 <!-- END char_weapon class -->
+
+    <!-- window, display damage rolls, each in their own clickable to have s/m and large damage types -->
+	<windowclass name="split_damage_entries">
+        <margins control="0,0,0,5" />
+   		<sheetdata>
+			<genericcontrol name="rightanchor">
+				<anchored width="0" height="0">
+					<top offset="2" />
+					<right />
+				</anchored>
+				<invisible />
+			</genericcontrol>
+            <stringcontrol name="damageasstring">
+                <script>
+                    function onInit()
+                        local nodeSelf = window.getDatabaseNode();
+                        Debug.console("record_char_weapon.xml","split_damage_entries","nodeSelf",nodeSelf);
+                        local sTest = DB.getValue(nodeSelf,"damageasstring","");
+                        setValue(sTest);
+                    end
+                    function onDoubleClick(x,y)
+                        Debug.console("record_char_weapon.xml","split_damage_entries","window",window);
+                        Debug.console("record_char_weapon.xml","split_damage_entries","self",self);
+                        return window.onDamageActionSingle();
+                    end			
+
+                    function onDragStart(button, x, y, draginfo)
+                        return window.onDamageActionSingle(draginfo);
+                    end
+                </script>
+				<anchored to="rightanchor">
+                    <top  />
+					<left parent="" offset="2" />
+                    <right anchor="left" offset="-2"/>
+                    <bottom parent="" offset="15" />				
+                </anchored>
+				<frame name="fielddark" offset="7,8,7,8" />
+				<stateframe>
+					<hover name="rowshade" offset="7,8,7,8" />
+				</stateframe>
+				<cursor hover="hand" />
+				<readonly />
+			</stringcontrol>
+        </sheetdata>
+    </windowclass>
 
 	<windowclass name="char_weapon_editor">
 		<frame>charsheethelper</frame>

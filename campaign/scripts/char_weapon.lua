@@ -126,6 +126,11 @@ function onAttackAction(draginfo)
 	return true;
 end
 
+function onDamageActionSingle(draginfo)
+    local node = getDatabaseNode();
+    Debug.console("char_weapon.lua","onDamageActionSingle","draginfo",draginfo,"node",node,"self",self);
+end
+
 function onDamageAction(draginfo)
 	local nodeWeapon = getDatabaseNode();
 	local nodeChar = nodeWeapon.getChild("...")
@@ -179,7 +184,7 @@ end
 
 function onAttackChanged()
 	local nodeWeapon = getDatabaseNode();
-	local nodeChar = nodeWeapon.getChild("...")
+	local nodeChar = nodeWeapon.getChild("...");
 	local rActor = ActorManager.getActor("pc", nodeChar);
 
 	local sAbility = DB.getValue(nodeWeapon, "attackstat", "");
@@ -228,10 +233,16 @@ function onDamageChanged()
 			if sType ~= "" then
 				sDamage = sDamage .. " " .. sType;
 			end
+            -- do this to make splitting up damage rolls, 
+            -- for small/medium and large type damage style of AD&D viable -msw
+            DB.removeHandler(nodeWeapon.getNodeName(), "onChildUpdate", onDataChanged);
+                DB.setValue(v, "damageasstring","string",sDamage);
+            DB.addHandler(nodeWeapon.getNodeName(), "onChildUpdate", onDataChanged);
+            --
 			table.insert(aDamage, sDamage);
 		end
 	end
 
-	damageview.setValue(table.concat(aDamage, "\n"));
+	--damageview.setValue(table.concat(aDamage, "\n"));
 end
 

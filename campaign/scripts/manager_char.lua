@@ -365,7 +365,9 @@ function addToWeaponDB(nodeItem)
 	
 	-- Set new weapons as equipped
 	DB.setValue(nodeItem, "carried", "number", 2);
-
+    
+    local nSpeedFactor = DB.getValue(nodeItem, "speedfactor", 0);
+    
 	-- Determine identification
 	local nItemID = 0;
 	if LibraryData.getIDState("item", nodeItem, true) then
@@ -480,6 +482,8 @@ function addToWeaponDB(nodeItem)
 			DB.setValue(nodeWeapon, "attackstat", "string", sAttackAbility);
 			DB.setValue(nodeWeapon, "attackbonus", "number", nBonus);
 
+			DB.setValue(nodeWeapon, "speedfactor", "number", nSpeedFactor);
+
 			local nodeDmgList = DB.createChild(nodeWeapon, "damagelist");
 			if nodeDmgList then
 				for kClause,rClause in ipairs(aDmgClauses) do
@@ -514,6 +518,8 @@ function addToWeaponDB(nodeItem)
 
 			DB.setValue(nodeWeapon, "attackstat", "string", sAttackAbility);
 			DB.setValue(nodeWeapon, "attackbonus", "number", nBonus);
+
+			DB.setValue(nodeWeapon, "speedfactor", "number", nSpeedFactor);
 
 			local nodeDmgList = DB.createChild(nodeWeapon, "damagelist");
 			if nodeDmgList then
@@ -555,6 +561,8 @@ function addToWeaponDB(nodeItem)
 
 			DB.setValue(nodeWeapon, "attackstat", "string", sAttackAbility);
 			DB.setValue(nodeWeapon, "attackbonus", "number", nBonus);
+
+			DB.setValue(nodeWeapon, "speedfactor", "number", nSpeedFactor);
 
 			local nodeDmgList = DB.createChild(nodeWeapon, "damagelist");
 			if nodeDmgList then
