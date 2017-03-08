@@ -72,6 +72,9 @@
 					<top offset="8" />
  					<right anchor="left" relation="relative" offset="-5" /> 
 				</anchored>
+                <child><backcolor>1A40301E</backcolor></child>
+                <child></child>
+                <noscroll />
 				<datasource>.damagelist</datasource>
 				<class>split_damage_entries</class>
             </windowlist>
@@ -216,37 +219,37 @@
 				</anchored>
 				<invisible />
 			</genericcontrol>
-            <stringcontrol name="damageasstring">
+			<stringfield name="damageasstring">
                 <script>
-                    function onInit()
-                        local nodeSelf = window.getDatabaseNode();
-                        Debug.console("record_char_weapon.xml","split_damage_entries","nodeSelf",nodeSelf);
-                        local sTest = DB.getValue(nodeSelf,"damageasstring","");
-                        setValue(sTest);
-                    end
                     function onDoubleClick(x,y)
-                        Debug.console("record_char_weapon.xml","split_damage_entries","window",window);
-                        Debug.console("record_char_weapon.xml","split_damage_entries","self",self);
-                        return window.onDamageActionSingle();
+                        local node = getDatabaseNode();
+                      	local nodeDamage = node.getChild("..");
+                        Debug.console("record_char_weapon.xml","onDoubleClick","nodeDamage",nodeDamage);
+
+                        return window.windowlist.window.onDamageActionSingle(nodeDamage);
                     end			
 
                     function onDragStart(button, x, y, draginfo)
-                        return window.onDamageActionSingle(draginfo);
+                        local node = getDatabaseNode();
+                      	local nodeDamage = node.getChild("..");
+                        Debug.console("record_char_weapon.xml","onDragStart","nodeDamage",nodeDamage);
+                        return window.windowlist.window.onDamageActionSingle(nodeDamage, draginfo);
                     end
                 </script>
-				<anchored to="rightanchor">
+                <multilinespacing>20</multilinespacing>
+                <anchored to="rightanchor">
                     <top  />
-					<left parent="" offset="2" />
+                    <left parent="" offset="2" />
                     <right anchor="left" offset="-2"/>
-                    <bottom parent="" offset="15" />				
                 </anchored>
-				<frame name="fielddark" offset="7,8,7,8" />
-				<stateframe>
-					<hover name="rowshade" offset="7,8,7,8" />
-				</stateframe>
-				<cursor hover="hand" />
-				<readonly />
-			</stringcontrol>
+                <frame name="fielddark" offset="7,8,7,8" />
+                <stateframe>
+                    <hover name="rowshade" offset="7,8,7,8" />
+                </stateframe>
+                <cursor hover="hand" />
+                <readonly />
+			</stringfield>
+
         </sheetdata>
     </windowclass>
 

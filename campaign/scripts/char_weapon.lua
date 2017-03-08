@@ -126,11 +126,67 @@ function onAttackAction(draginfo)
 	return true;
 end
 
-function onDamageActionSingle(draginfo)
-    local node = getDatabaseNode();
-    Debug.console("char_weapon.lua","onDamageActionSingle","draginfo",draginfo,"node",node,"self",self);
+function onDamageActionSingle(nodeDamage, draginfo)
+    
+    if not nodeDamage then
+        return false;
+    end
+    
+    local nodeWeapon = getDatabaseNode();
+	local nodeChar = nodeWeapon.getChild("...");
+	local rActor = ActorManager.getActor("pc", nodeChar);
+
+    Debug.console("char_weapon.lua","onDamageActionSingle","nodeDamage",nodeDamage);
+    Debug.console("char_weapon.lua","onDamageActionSingle","nodeWeapon",nodeWeapon);
+    Debug.console("char_weapon.lua","onDamageActionSingle","nodeChar",nodeChar);
+    Debug.console("char_weapon.lua","onDamageActionSingle","rActor",rActor);
+    
+	local aWeaponProps = StringManager.split(DB.getValue(nodeWeapon, "properties", ""):lower(), ",", true);
+	
+	local rAction = {};
+	rAction.bWeapon = true;
+	rAction.label = DB.getValue(nodeWeapon, "name", "");
+	if type.getValue() == 0 then
+		rAction.range = "M";
+	else
+		rAction.range = "R";
+	end
+
+	local sBaseAbility = "strength";
+	if type.getValue() == 1 then
+		sBaseAbility = "dexterity";
+	end
+	
+	rAction.clauses = {};
+   
+    local sDmgAbility = DB.getValue(nodeDamage, "stat", "");
+    if sDmgAbility == "base" then
+        sDmgAbility = sBaseAbility;
+    end
+    local aDmgDice = DB.getValue(nodeDamage, "dice", {});
+    local nDmgMod = DB.getValue(nodeDamage, "bonus", 0) + ActorManager2.getAbilityBonus(rActor, sDmgAbility, "damageadj");
+    local sDmgType = DB.getValue(nodeDamage, "type", "");
+    
+    table.insert(rAction.clauses, { dice = aDmgDice, stat = sDmgAbility, modifier = nDmgMod, dmgtype = sDmgType });
+	
+	-- Check for reroll tag
+	local nReroll = 0;
+	for _,vProperty in ipairs(aWeaponProps) do
+		local nPropReroll = tonumber(vProperty:match("reroll (%d+)")) or 0;
+		if nPropReroll > nReroll then
+			nReroll = nPropReroll;
+		end
+	end
+	if nReroll > 0 then
+		rAction.label = rAction.label .. " [REROLL " .. nReroll .. "]";
+	end
+	
+	ActionDamage.performRoll(draginfo, rActor, rAction);
+	return true;
 end
 
+-- this was used in the 5e ruleset to allow multiple dice types and 
+-- bonuses for a single roll, not needed, using to onDamageActionSingle to support AD&D-msw
 function onDamageAction(draginfo)
 	local nodeWeapon = getDatabaseNode();
 	local nodeChar = nodeWeapon.getChild("...")
