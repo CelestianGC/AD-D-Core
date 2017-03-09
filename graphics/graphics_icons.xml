@@ -11,11 +11,15 @@
 	<icon name="desktopdecal_sw" file="graphics/decals/desktopdecal_sw.png" />
 
 	<!-- Common -->
+	<icon name="details" file="graphics/icons/wheels-icon.png" />
+	<icon name="details_down" file="graphics/icons/wheels-icon-down.png" />
+
+<!-- 	<icon name="details" file="graphics/icons/details.png" />
+	<icon name="details_down" file="graphics/icons/details_down.png" />
+ -->
 	<icon name="question" file="graphics/icons/question.png" />
 	<icon name="actions" file="graphics/icons/actions.png" />
 	<icon name="actions_down" file="graphics/icons/actions_down.png" />
-	<icon name="details" file="graphics/icons/details.png" />
-	<icon name="details_down" file="graphics/icons/details_down.png" />
 	<icon name="expand" file="graphics/icons/expand.png" />
 	<icon name="expand_down" file="graphics/icons/expand_down.png" />
 

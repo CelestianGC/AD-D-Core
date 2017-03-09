@@ -309,6 +309,11 @@
 					function update()
 						window.onHealthChanged();
 					end
+                    
+					function onDoubleClick(x,y)
+                        Interface.openWindow("ct_healthadjust", window.getDatabaseNode());
+					end			
+                    
 				</script>
 			</number_ct_crosslink>
 			<number_ct_crosslink name="hptemp">
@@ -1039,4 +1044,110 @@
 			</string_ctentry_effect_targets>
 		</sheetdata>
 	</windowclass>
+
+	<windowclass name="ct_healthadjust">
+		<frame>charsheethelper</frame>
+		<placement>
+			<size width="400" height="220" />
+		</placement>
+		<nodelete />
+		<sheetdata>
+            <windowtitlebar name="title">
+                <prefix>ct_healthadjustment_title</prefix>
+                <bounds merge="replace">0,10,-1,120</bounds>
+                <field>name</field>
+                <font>subwindowtitle</font>
+                <script>
+                    function setValue(sTitle)
+                        if widgetTitle then
+                            if prefix then
+                                sTitle = Interface.getString(prefix[1]) .. " - " .. sTitle;
+                            end
+                            widgetTitle.setText(sTitle);
+                            updatePosition();
+                        end
+                    end
+                </script>
+            </windowtitlebar>
+            
+            <genericcontrol name="contentanchor" >
+                <anchored height="0">
+                    <top parent="title" anchor="bottom" offset="0" />
+                    <left parent="" anchor="left" offset="20" />
+                    <right parent="" anchor="right" offset="-20" />
+                </anchored>
+                <disabled />
+            </genericcontrol>
+
+			<anchor_column name="columnanchor">
+				<anchored to="contentanchor" position="below" offset="0,-5" />
+			</anchor_column>
+			
+			<label name="label_healthadjust_amount">
+				<anchored to="columnanchor" position="belowleft" offset="20,15" width="300" height="65" />
+                <multilinespacing>20</multilinespacing>
+				<static textres="ct_healthadjustment_detail" />
+			</label>
+            
+			<basicnumber name="healthadjustment">
+				<anchored to="label_healthadjust_amount" position="belowleft" offset="100,10" width="55" height="20" />
+				<hideonvalue value="0" />
+                <script>
+                    function applyChange()
+						local node = window.getDatabaseNode();
+						local rActor = ActorManager.getActorFromCT(node);
+                        local nAdjustment = self.getValue();
+                        nAdjustment = -(nAdjustment);
+
+                        if (nAdjustment ~= 0) then
+                            ActionDamage.applyDamage(nil, rActor, CombatManager.isCTHidden(node), "DM manually applied adjustment-NOTSHOWN.", nAdjustment);
+                        end
+                        setValue(0);
+                    end
+                </script>
+			</basicnumber>
+			<label_fieldtop name="label_healthadj_top">
+				<anchored to="healthadjustment" />
+				<static text="Adjustment" />
+			</label_fieldtop>
+
+            <buttoncontrol name="healthadjustdone">
+				<anchored to="healthadjustment" position="righthigh" offset="10,0" width="35" height="20" />
+                <icon normal="button_dialog_ok" pressed="button_dialog_ok_down" />
+                <script>
+                    function onButtonPress(x, y)
+                        window.healthadjustment.applyChange();
+                    end
+                </script>
+            </buttoncontrol>
+			<label_fieldtop name="label_apply_button">
+				<anchored to="healthadjustdone" />
+				<static text="Apply" />
+			</label_fieldtop>
+            
+            <buttoncontrol name="healthadjustcancel">
+				<anchored to="healthadjustdone" position="righthigh" offset="10,0" width="35" height="20" />
+                <icon normal="button_dialog_cancel" pressed="button_dialog_cancel_down" />
+                <script>
+                    function onButtonPress(x, y)
+                        window.healthadjustment.setValue(0);
+                        window.close();
+                    end
+                </script>
+            </buttoncontrol>
+			<label_fieldtop name="label_cancel_button">
+				<anchored to="healthadjustcancel" />
+				<static text="Cancel" />
+			</label_fieldtop>
+
+            <close>
+			<anchored>
+				<top offset="24" />
+				<right offset="-12" />
+			</anchored>
+		</close>
+
+		</sheetdata>
+	</windowclass>
+    
 </root>

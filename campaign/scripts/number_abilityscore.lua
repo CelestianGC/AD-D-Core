@@ -33,7 +33,6 @@ function onValueChanged()
             elseif (sTarget == "intelligence") then
                 updateIntelligence(nodeActor,nChanged,sActorType);
             end
-			
         end -- was PC
     end
 end

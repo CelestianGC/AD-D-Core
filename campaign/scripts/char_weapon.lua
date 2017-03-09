@@ -6,9 +6,9 @@
 function onInit()
  local node = getDatabaseNode();
  DB.addHandler(node.getNodeName(), "onChildUpdate", onDataChanged);
--- DB.addHandler(DB.getPath(DB.getChild(node, "..."), "abilities.*.score"), "onUpdate", onDataChanged);
+ -- DB.addHandler(DB.getPath(DB.getChild(node, "..."), "abilities.*.score"), "onUpdate", onDataChanged);
  DB.addHandler(DB.getPath(DB.getChild(node, "..."), "abilities.strength.hitadj"), "onUpdate", onDataChanged);
- DB.addHandler(DB.getPath(DB.getChild(node, "..."), "abilities.strength.damageadj"), "onUpdate", onDataChanged);
+ DB.addHandler(DB.getPath(DB.getChild(node, "..."), "abilities.strength.dmgadj"), "onUpdate", onDataChanged);
  DB.addHandler(DB.getPath(DB.getChild(node, "..."), "abilities.dexterity.hitadj"), "onUpdate", onDataChanged);
  DB.addHandler(DB.getPath(DB.getChild(node, "..."), "abilities.dexterity.defenseadj"), "onUpdate", onDataChanged);
  onDataChanged();
@@ -17,9 +17,10 @@ end
 function onClose()
  local node = getDatabaseNode();
  DB.removeHandler(node.getNodeName(), "onChildUpdate", onDataChanged);
--- DB.removeHandler(DB.getPath(DB.getChild(node, "..."), "abilities.*.score"), "onUpdate", onDataChanged);
+ --DB.removeHandler(DB.getPath(DB.getChild(node, "..."), "abilities.*.score"), "onUpdate", onDataChanged);
  DB.removeHandler(DB.getPath(DB.getChild(node, "..."), "abilities.strength.hitadj"), "onUpdate", onDataChanged);
- DB.removeHandler(DB.getPath(DB.getChild(node, "..."), "abilities.strength.damageadj"), "onUpdate", onDataChanged);
+ DB.removeHandler(DB.getPath(DB.getChild(node, "..."), "abilities.strength.dmgadj"), "onUpdate", onDataChanged);
+ DB.removeHandler(DB.getPath(DB.getChild(node, "..."), "abilities.dexterity.hitadj"), "onUpdate", onDataChanged);
  DB.removeHandler(DB.getPath(DB.getChild(node, "..."), "abilities.dexterity.defenseadj"), "onUpdate", onDataChanged);
 end
 
@@ -41,7 +42,6 @@ function onLinkChanged()
 end
 
 function onDataChanged()
-
 	onLinkChanged();
 	onAttackChanged();
 	onDamageChanged();
@@ -136,11 +136,6 @@ function onDamageActionSingle(nodeDamage, draginfo)
 	local nodeChar = nodeWeapon.getChild("...");
 	local rActor = ActorManager.getActor("pc", nodeChar);
 
-    Debug.console("char_weapon.lua","onDamageActionSingle","nodeDamage",nodeDamage);
-    Debug.console("char_weapon.lua","onDamageActionSingle","nodeWeapon",nodeWeapon);
-    Debug.console("char_weapon.lua","onDamageActionSingle","nodeChar",nodeChar);
-    Debug.console("char_weapon.lua","onDamageActionSingle","rActor",rActor);
-    
 	local aWeaponProps = StringManager.split(DB.getValue(nodeWeapon, "properties", ""):lower(), ",", true);
 	
 	local rAction = {};
@@ -186,7 +181,7 @@ function onDamageActionSingle(nodeDamage, draginfo)
 end
 
 -- this was used in the 5e ruleset to allow multiple dice types and 
--- bonuses for a single roll, not needed, using to onDamageActionSingle to support AD&D-msw
+-- bonuses for a single roll, not needed, switched to onDamageActionSingle to support AD&D-msw
 function onDamageAction(draginfo)
 	local nodeWeapon = getDatabaseNode();
 	local nodeChar = nodeWeapon.getChild("...")
@@ -295,6 +290,7 @@ function onDamageChanged()
                 DB.setValue(v, "damageasstring","string",sDamage);
             DB.addHandler(nodeWeapon.getNodeName(), "onChildUpdate", onDataChanged);
             --
+            
 			table.insert(aDamage, sDamage);
 		end
 	end

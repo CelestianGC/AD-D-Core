@@ -224,18 +224,16 @@
                     function onDoubleClick(x,y)
                         local node = getDatabaseNode();
                       	local nodeDamage = node.getChild("..");
-                        Debug.console("record_char_weapon.xml","onDoubleClick","nodeDamage",nodeDamage);
-
                         return window.windowlist.window.onDamageActionSingle(nodeDamage);
                     end			
 
                     function onDragStart(button, x, y, draginfo)
                         local node = getDatabaseNode();
                       	local nodeDamage = node.getChild("..");
-                        Debug.console("record_char_weapon.xml","onDragStart","nodeDamage",nodeDamage);
                         return window.windowlist.window.onDamageActionSingle(nodeDamage, draginfo);
                     end
                 </script>
+                <font>arial-regular-8</font>
                 <multilinespacing>20</multilinespacing>
                 <anchored to="rightanchor">
                     <top  />
