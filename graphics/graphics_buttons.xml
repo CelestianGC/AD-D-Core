@@ -11,6 +11,9 @@
 	<icon name="button_dialog_ok_down" file="graphics/buttons/button_dialog_ok_down.png" />
 	<icon name="button_dialog_cancel" file="graphics/buttons/button_dialog_cancel.png" />
 	<icon name="button_dialog_cancel_down" file="graphics/buttons/button_dialog_cancel_down.png" />
+
+	<icon name="button_dialog_check_green" file="graphics/buttons/button_dialog_check_green.png" />
+	<icon name="button_dialog_check_red" file="graphics/buttons/button_dialog_check_red.png" />
 	<icon name="button_dialog_roll" file="graphics/buttons/button_dialog_roll.png" />
 	<icon name="button_dialog_roll_down" file="graphics/buttons/button_dialog_roll_down.png" />
 	

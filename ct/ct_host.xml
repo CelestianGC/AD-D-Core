@@ -296,7 +296,9 @@
 				</anchored>
 				<min value="0" />
 				<hideonvalue value="0" />
+                <tooltip textres="ct_wounds_tooltip" />
 				<tabtarget prev="hptemp" next="strength" />
+                
 				<script>
 					function handleDrop(draginfo)
 						if draginfo.getType() == "number" then
@@ -1082,52 +1084,69 @@
 			<anchor_column name="columnanchor">
 				<anchored to="contentanchor" position="below" offset="0,-5" />
 			</anchor_column>
-			
+
 			<label name="label_healthadjust_amount">
-				<anchored to="columnanchor" position="belowleft" offset="20,15" width="300" height="65" />
+				<anchored to="columnanchor" position="belowleft" offset="20,15" width="300" height="45" />
                 <multilinespacing>20</multilinespacing>
 				<static textres="ct_healthadjustment_detail" />
 			</label>
             
 			<basicnumber name="healthadjustment">
-				<anchored to="label_healthadjust_amount" position="belowleft" offset="100,10" width="55" height="20" />
+				<anchored to="label_healthadjust_amount" position="belowleft" offset="100,15" width="55" height="20" />
 				<hideonvalue value="0" />
                 <script>
-                    function applyChange()
+                    function applyChange(sAdjustmentType)
 						local node = window.getDatabaseNode();
 						local rActor = ActorManager.getActorFromCT(node);
                         local nAdjustment = self.getValue();
-                        nAdjustment = -(nAdjustment);
-
+                        if (sAdjustmentType == "heal") then
+                            nAdjustment = -(nAdjustment);
+                        end
                         if (nAdjustment ~= 0) then
                             ActionDamage.applyDamage(nil, rActor, CombatManager.isCTHidden(node), "DM manually applied adjustment-NOTSHOWN.", nAdjustment);
                         end
                         setValue(0);
+                        window.close();
                     end
                 </script>
 			</basicnumber>
 			<label_fieldtop name="label_healthadj_top">
 				<anchored to="healthadjustment" />
-				<static text="Adjustment" />
+				<static textres="ct_healthadjustment_input" />
 			</label_fieldtop>
 
-            <buttoncontrol name="healthadjustdone">
-				<anchored to="healthadjustment" position="righthigh" offset="10,0" width="35" height="20" />
-                <icon normal="button_dialog_ok" pressed="button_dialog_ok_down" />
+            <buttoncontrol name="healthadjustdamage">
+				<anchored to="healthadjustment" position="lefthigh" offset="10,0" width="35" height="20" />
+                <icon normal="button_dialog_check_red" pressed="button_dialog_ok" />
                 <script>
                     function onButtonPress(x, y)
-                        window.healthadjustment.applyChange();
+                        window.healthadjustment.applyChange("damage");
                     end
                 </script>
             </buttoncontrol>
-			<label_fieldtop name="label_apply_button">
-				<anchored to="healthadjustdone" />
-				<static text="Apply" />
+			<label_fieldtop name="label_applydamage_button">
+				<anchored to="healthadjustdamage" />
+				<static textres="ct_healthadjustment_damagebutton" />
+			</label_fieldtop>
+
+
+            <buttoncontrol name="healthadjustheal">
+				<anchored to="healthadjustment" position="righthigh" offset="10,0" width="35" height="20" />
+                <icon normal="button_dialog_check_green" pressed="button_dialog_ok" />
+                <script>
+                    function onButtonPress(x, y)
+                        window.healthadjustment.applyChange("heal");
+                    end
+                </script>
+            </buttoncontrol>
+			<label_fieldtop name="label_applyheal_button">
+				<anchored to="healthadjustheal" />
+				<static textres="ct_healthadjustment_healbutton" />
 			</label_fieldtop>
             
             <buttoncontrol name="healthadjustcancel">
-				<anchored to="healthadjustdone" position="righthigh" offset="10,0" width="35" height="20" />
-                <icon normal="button_dialog_cancel" pressed="button_dialog_cancel_down" />
+				<anchored to="healthadjustheal" position="righthigh" offset="10,0" width="35" height="20" />
+                <icon normal="button_dialog_cancel_down" pressed="button_dialog_cancel" />
                 <script>
                     function onButtonPress(x, y)
                         window.healthadjustment.setValue(0);
@@ -1137,7 +1156,7 @@
             </buttoncontrol>
 			<label_fieldtop name="label_cancel_button">
 				<anchored to="healthadjustcancel" />
-				<static text="Cancel" />
+				<static textres="ct_healthadjustment_cancelbutton" />
 			</label_fieldtop>
 
             <close>

@@ -156,7 +156,12 @@
 	<string name="ct_label_savelevel">LVL</string>
 	<string name="ct_label_savelevel_tooltip">Level used to calculate saves.</string>
 	<string name="ct_healthadjustment_title">HEALTH ADJUST</string>
-	<string name="ct_healthadjustment_detail">Amount to adjust the current health. Enter -12 and press Apply to reduce health by 12. Enter 15 and press Apply to add 15 health.</string>
+	<string name="ct_healthadjustment_detail">Enter amount to adjust health by and press the button to apply the type desired.</string>
+	<string name="ct_healthadjustment_input">Amount</string>
+	<string name="ct_healthadjustment_healbutton">Heal</string>
+	<string name="ct_healthadjustment_damagebutton">Damage</string>
+	<string name="ct_healthadjustment_cancelbutton">Cancel</string>
+	<string name="ct_wounds_tooltip">Double click to manually adjust wounds.</string>
 
 	<!-- Character - Abilities -->
     <string name="char_abilities_message_backgroundadd">Kit '%s' added to '%s'.</string>
