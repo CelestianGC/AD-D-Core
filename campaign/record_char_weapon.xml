@@ -69,7 +69,7 @@
  -->
             <windowlist name="damage_split_list">
 				<anchored to="rightanchor" width="91">
-					<top offset="8" />
+					<top offset="6" />
  					<right anchor="left" relation="relative" offset="-5" /> 
 				</anchored>
                 <child><backcolor>1A40301E</backcolor></child>
@@ -214,7 +214,7 @@
    		<sheetdata>
 			<genericcontrol name="rightanchor">
 				<anchored width="0" height="0">
-					<top offset="2" />
+					<top offset="4" />
 					<right />
 				</anchored>
 				<invisible />
@@ -236,7 +236,7 @@
                 <font>arial-regular-8</font>
                 <multilinespacing>20</multilinespacing>
                 <anchored to="rightanchor">
-                    <top  />
+                    <top />
                     <left parent="" offset="4" />
                     <right anchor="left" offset="-4"/>
                 </anchored>
