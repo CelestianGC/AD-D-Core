@@ -138,10 +138,10 @@ function updateDexterity(nodeActor,nChanged,sActorType)
     aDexterity[11]  = {0,0,0};
     aDexterity[12]  = {0,0,0};
     aDexterity[13]  = {0,0,0};
-    aDexterity[14]  = {0,0,-1};
-    aDexterity[15]  = {0,0,-2};
-    aDexterity[16]  = {1,1,-3};
-    aDexterity[17]  = {2,2,-4};
+    aDexterity[14]  = {0,0,0};
+    aDexterity[15]  = {0,0,-1};
+    aDexterity[16]  = {1,1,-2};
+    aDexterity[17]  = {2,2,-3};
     aDexterity[18]  = {2,2,-4};
     aDexterity[19]  = {3,3,-4};
     aDexterity[20]  = {3,3,-4};
