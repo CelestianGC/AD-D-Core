@@ -170,6 +170,21 @@ function updateHealthHelper(tokenCT, nodeCT)
 			end
 		end
 	end
+    -- new stuff, adds indicator for "DEAD" on the token. -msw
+	local nPercentHealth = ActorManager2.getPercentWounded2("ct", nodeCT);
+    local widgetDeathIndicator = tokenCT.findWidget("deathindicator");
+    local nWidth, nHeight = tokenCT.getSize();
+    if not widgetDeathIndicator then
+        widgetDeathIndicator = tokenCT.addBitmapWidget("token_dead");
+        widgetDeathIndicator.setBitmap("token_dead");
+        widgetDeathIndicator.setName("deathindicator");
+        widgetDeathIndicator.setTooltipText("Creature has fallen, as if dead.");
+--        widgetDeathIndicator.setSize(nWidth, nHeight, "center");
+        widgetDeathIndicator.setSize(nWidth-20, nHeight-20);
+    end
+    -- nPercentHealth is the percent of damage, 1 = 100% or more so dead
+    widgetDeathIndicator.setVisible(nPercentHealth>=1);
+    -- end new stuff
 end
 
 function updateHealthBarScale(tokenCT, nodeCT)

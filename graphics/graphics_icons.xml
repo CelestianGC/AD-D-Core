@@ -128,6 +128,8 @@
 	<icon name="healthbar" file="graphics/token/token_healthbar.png" />
 	<icon name="healthdot" file="graphics/token/token_healthdot.png" />
 	
+	<icon name="token_dead" file="graphics/token/rip_tombstone.png" />
+
 	<!-- Tokens - Tactical states -->
 	<icon name="cond_cover" file="graphics/token/token_cond_cover.png" />
 
