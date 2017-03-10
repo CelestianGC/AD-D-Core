@@ -1092,7 +1092,7 @@
 			</label>
             
 			<basicnumber name="healthadjustment">
-				<anchored to="label_healthadjust_amount" position="belowleft" offset="100,15" width="55" height="20" />
+				<anchored to="label_healthadjust_amount" position="belowleft" offset="120,15" width="55" height="20" />
 				<hideonvalue value="0" />
                 <script>
                     function applyChange(sAdjustmentType)
@@ -1116,7 +1116,7 @@
 			</label_fieldtop>
 
             <buttoncontrol name="healthadjustdamage">
-				<anchored to="healthadjustment" position="lefthigh" offset="10,0" width="35" height="20" />
+				<anchored to="healthadjustment" position="belowleft" offset="-30,5" width="35" height="20" />
                 <icon normal="button_dialog_check_red" pressed="button_dialog_ok" />
                 <script>
                     function onButtonPress(x, y)
@@ -1124,14 +1124,14 @@
                     end
                 </script>
             </buttoncontrol>
-			<label_fieldtop name="label_applydamage_button">
+			<label_fieldbottom name="label_applydamage_button">
 				<anchored to="healthadjustdamage" />
 				<static textres="ct_healthadjustment_damagebutton" />
-			</label_fieldtop>
+			</label_fieldbottom>
 
 
             <buttoncontrol name="healthadjustheal">
-				<anchored to="healthadjustment" position="righthigh" offset="10,0" width="35" height="20" />
+				<anchored to="healthadjustment" position="belowright" offset="10,5" width="35" height="20" />
                 <icon normal="button_dialog_check_green" pressed="button_dialog_ok" />
                 <script>
                     function onButtonPress(x, y)
@@ -1139,13 +1139,13 @@
                     end
                 </script>
             </buttoncontrol>
-			<label_fieldtop name="label_applyheal_button">
+			<label_fieldbottom name="label_applyheal_button">
 				<anchored to="healthadjustheal" />
 				<static textres="ct_healthadjustment_healbutton" />
-			</label_fieldtop>
+			</label_fieldbottom>
             
             <buttoncontrol name="healthadjustcancel">
-				<anchored to="healthadjustheal" position="righthigh" offset="10,0" width="35" height="20" />
+				<anchored to="healthadjustheal" position="right" offset="5,0" width="35" />
                 <icon normal="button_dialog_cancel_down" pressed="button_dialog_cancel" />
                 <script>
                     function onButtonPress(x, y)
@@ -1154,10 +1154,10 @@
                     end
                 </script>
             </buttoncontrol>
-			<label_fieldtop name="label_cancel_button">
+			<label_fieldbottom name="label_cancel_button">
 				<anchored to="healthadjustcancel" />
 				<static textres="ct_healthadjustment_cancelbutton" />
-			</label_fieldtop>
+			</label_fieldbottom>
 
             <close>
 			<anchored>

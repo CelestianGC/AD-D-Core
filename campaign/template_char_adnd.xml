@@ -255,5 +255,13 @@
 			<readonly />
 		</stringcontrol>
 	</template>
+
+	<template name="label_fieldbottom">
+		<stringcontrol>
+			<anchored position="below" offset="3,1" />
+			<font>sheetlabelmini</font>
+			<center />
+		</stringcontrol>
+	</template>
     
 </root>
