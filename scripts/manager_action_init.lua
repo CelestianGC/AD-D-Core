@@ -52,17 +52,17 @@ function getRoll(rActor, bSecretRoll)
 	if nodeActor then
 		if sActorType == "pc" then
 			rRoll.nMod = DB.getValue(nodeActor, "initiative.total", 0);
-			sAbility = "dexterity";
+--			sAbility = "dexterity";
 		else
 			rRoll.nMod = DB.getValue(nodeActor, "init", 0);
 		end
 	end
-	if sAbility and sAbility ~= "" and sAbility ~= "dexterity" then
-		local sAbilityEffect = DataCommon.ability_ltos[sAbility];
-		if sAbilityEffect then
-			rRoll.sDesc = rRoll.sDesc .. " [MOD:" .. sAbilityEffect .. "]";
-		end
-	end
+--	if sAbility and sAbility ~= "" and sAbility ~= "dexterity" then
+--		local sAbilityEffect = DataCommon.ability_ltos[sAbility];
+--		if sAbilityEffect then
+--			rRoll.sDesc = rRoll.sDesc .. " [MOD:" .. sAbilityEffect .. "]";
+--		end
+--	end
 	
 	return rRoll;
 end

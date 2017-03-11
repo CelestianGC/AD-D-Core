@@ -1097,7 +1097,8 @@ function parseSaves(sPowerName, aWords, bPC)
 	for i = 1, #aWords do
 		if StringManager.isWord(aWords[i], "throw") and
 				StringManager.isWord(aWords[i-1], "saving") and
-				StringManager.isWord(aWords[i-2], DataCommon.abilities) then
+--				StringManager.isWord(aWords[i-2], DataCommon.abilities) then
+                StringManager.isWord(aWords[i-2], DataCommon.saves_shortnames) then
 			
 			local rSave = nil;
 			local bValid = false;
@@ -1157,7 +1158,8 @@ function parseSaves(sPowerName, aWords, bPC)
 				StringManager.isWord(aWords[i+2], "8") and
 				StringManager.isWord(aWords[i+3], "+") and
 				StringManager.isWord(aWords[i+4], "your") and
-				StringManager.isWord(aWords[i+5], DataCommon.abilities) and
+--				StringManager.isWord(aWords[i+5], DataCommon.abilities) and
+				StringManager.isWord(aWords[i+5], DataCommon.saves_shortnames) and
 				StringManager.isWord(aWords[i+6], "modifier") and
 				StringManager.isWord(aWords[i+7], "+") and
 				StringManager.isWord(aWords[i+8], "your") and

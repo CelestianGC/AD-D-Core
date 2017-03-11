@@ -461,6 +461,18 @@ function updateNPCSpellHelper(sSpell, nodeNPC, aSpellcasting, nDaily)
 		sRefDesc = sRefDesc:gsub("Intelligence saving throw([^s])", "DC " .. aSpellcasting.sDC .. " Intelligence saving throw%1");
 		sRefDesc = sRefDesc:gsub("Wisdom saving throw([^s])", "DC " .. aSpellcasting.sDC .. " Wisdom saving throw%1");
 		sRefDesc = sRefDesc:gsub("Charisma saving throw([^s])", "DC " .. aSpellcasting.sDC .. " Charisma saving throw%1");
+
+        -- AD&D save types
+		sRefDesc = sRefDesc:gsub("Poison saving throw([^s])", "DC " .. aSpellcasting.sDC .. " Poison saving throw%1");
+		sRefDesc = sRefDesc:gsub("Paralyzation saving throw([^s])", "DC " .. aSpellcasting.sDC .. " Paralyzation saving throw%1");
+		sRefDesc = sRefDesc:gsub("Death saving throw([^s])", "DC " .. aSpellcasting.sDC .. " Death saving throw%1");
+		sRefDesc = sRefDesc:gsub("Rod saving throw([^s])", "DC " .. aSpellcasting.sDC .. " Rod saving throw%1");
+		sRefDesc = sRefDesc:gsub("Staff saving throw([^s])", "DC " .. aSpellcasting.sDC .. " Staff saving throw%1");
+		sRefDesc = sRefDesc:gsub("Wand saving throw([^s])", "DC " .. aSpellcasting.sDC .. " Wand saving throw%1");
+		sRefDesc = sRefDesc:gsub("Petrification saving throw([^s])", "DC " .. aSpellcasting.sDC .. " Petrification saving throw%1");
+		sRefDesc = sRefDesc:gsub("Polymorph saving throw([^s])", "DC " .. aSpellcasting.sDC .. " Polymorph saving throw%1");
+		sRefDesc = sRefDesc:gsub("Breath saving throw([^s])", "DC " .. aSpellcasting.sDC .. " Breath saving throw%1");
+		sRefDesc = sRefDesc:gsub("Spell saving throw([^s])", "DC " .. aSpellcasting.sDC .. " Spell saving throw%1");
 	end
 
 	sDesc = sDesc .. "\r" .. sRefDesc;

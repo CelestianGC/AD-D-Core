@@ -227,15 +227,32 @@ function addNPC(sClass, nodeNPC, sName)
 
 	-- Fill in spells
 	CampaignDataManager2.updateNPCSpells(nodeEntry);
+
+	-- Set initiative from Dexterity modifier
+--	local nDex = DB.getValue(nodeNPC, "abilities.dexterity.score", 10);
+--	local nDexMod = math.floor((nDex - 10) / 2);
+--	DB.setValue(nodeEntry, "init", "number", nDexMod);
+
+	-- base modifier for initiative
+    -- we set modifiers based on size per DMG for AD&D -msw
+    DB.setValue(nodeEntry, "init", "number", 0);
 	
 	-- Determine size
 	local sSize = StringManager.trim(DB.getValue(nodeEntry, "size", ""):lower());
-	if sSize == "large" then
+	local sSizeNoLower = StringManager.trim(DB.getValue(nodeEntry, "size", ""));
+	if sSize == "small" or string.find(sSizeNoLower,"S") then
+        DB.setValue(nodeEntry, "init", "number", 3);
+	elseif sSize == "medium" or string.find(sSizeNoLower,"M") then
+        DB.setValue(nodeEntry, "init", "number", 3);
+	elseif sSize == "large" or string.find(sSizeNoLower,"L") then
 		DB.setValue(nodeEntry, "space", "number", 10);
-	elseif sSize == "huge" then
+        DB.setValue(nodeEntry, "init", "number", 6);
+	elseif sSize == "huge" or string.find(sSizeNoLower,"H") then
 		DB.setValue(nodeEntry, "space", "number", 15);
-	elseif sSize == "gargantuan" then
+        DB.setValue(nodeEntry, "init", "number", 9);
+	elseif sSize == "gargantuan" or string.find(sSizeNoLower,"G") then
 		DB.setValue(nodeEntry, "space", "number", 20);
+        DB.setValue(nodeEntry, "init", "number", 12);
 	end
 	
 	-- Set current hit points
@@ -249,10 +266,6 @@ function addNPC(sClass, nodeNPC, sName)
 	end
 	DB.setValue(nodeEntry, "hptotal", "number", nHP);
 	
-	-- Set initiative from Dexterity modifier
-	local nDex = DB.getValue(nodeNPC, "abilities.dexterity.score", 10);
-	local nDexMod = math.floor((nDex - 10) / 2);
-	DB.setValue(nodeEntry, "init", "number", nDexMod);
 	
 	-- Track additional damage types and intrinsic effects
 	local aEffects = {};
@@ -329,15 +342,16 @@ function addNPC(sClass, nodeNPC, sName)
 
 	-- Roll initiative and sort
 	local sOptINIT = OptionsManager.getOption("INIT");
+    local nInitiativeRoll = math.random(DataCommon.nDefaultInitiativeDice) + DB.getValue(nodeEntry, "init", 0);
 	if sOptINIT == "group" then
 		if nodeLastMatch then
 			local nLastInit = DB.getValue(nodeLastMatch, "initresult", 0);
 			DB.setValue(nodeEntry, "initresult", "number", nLastInit);
 		else
-			DB.setValue(nodeEntry, "initresult", "number", math.random(DataCommon.nDefaultInitiativeDice) + DB.getValue(nodeEntry, "init", 0));
+			DB.setValue(nodeEntry, "initresult", "number", nInitiativeRoll);
 		end
 	elseif sOptINIT == "on" then
-		DB.setValue(nodeEntry, "initresult", "number", math.random(DataCommon.nDefaultInitiativeDice) + DB.getValue(nodeEntry, "init", 0));
+		DB.setValue(nodeEntry, "initresult", "number", nInitiativeRoll);
 	end
 
 	return nodeEntry;

@@ -75,6 +75,19 @@ saves_index = {
 	["save_spell"] = 5
 };
 
+saves_shortnames = {
+	"poison",
+	"paralyzation",
+	"death",
+	"rod",
+	"staff",
+	"wand",
+	"petrification",
+	"polymorph",
+	"breath",
+	"spell"
+};
+
 -- Basic class values (not display values)
 classes = {
 	"barbarian",
