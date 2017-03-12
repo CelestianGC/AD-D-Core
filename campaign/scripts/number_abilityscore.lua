@@ -4,7 +4,9 @@
 --
 
 function onInit()
-	super.onInit();
+    if super then
+        super.onInit();
+    end
 	onValueChanged();
 end
 
@@ -21,17 +23,17 @@ function onValueChanged()
         local sActorType, nodeActor = ActorManager.getTypeAndNode(rActor);
         if sActorType == "pc" and (nChanged >= 1) and (nChanged <= 25) then
             if (sTarget == "strength") then
-                updateStrength(nodeActor,nChanged,sActorType);
+                updateStrength(nodeActor,nChanged);
             elseif (sTarget == "dexterity") then
-                updateDexterity(nodeActor,nChanged,sActorType);
+                updateDexterity(nodeActor,nChanged);
             elseif (sTarget == "wisdom") then
-                updateWisdom(nodeActor,nChanged,sActorType);
+                updateWisdom(nodeActor,nChanged);
             elseif (sTarget == "constitution") then
-                updateConstitution(nodeActor,nChanged,sActorType);
+                updateConstitution(nodeActor,nChanged);
             elseif (sTarget == "charisma") then
-                updateCharisma(nodeActor,nChanged,sActorType);
+                updateCharisma(nodeActor,nChanged);
             elseif (sTarget == "intelligence") then
-                updateIntelligence(nodeActor,nChanged,sActorType);
+                updateIntelligence(nodeActor,nChanged);
             end
         end -- was PC
     end
@@ -59,7 +61,7 @@ function onDoubleClick(x, y)
 	end
 end
 
-function updateStrength(nodeActor,nChanged,sActorType)
+function updateStrength(nodeActor,nChanged)
     -- aStrength[abilityScore]={hit prob, dam adj, weight allow, max press, open doors, bend bars}
     local aStrength = {};
     aStrength[1]  = {-5,-4,1,3,"1(0)",0};
@@ -122,7 +124,7 @@ function updateStrength(nodeActor,nChanged,sActorType)
     DB.setValue(nodeActor, "abilities.strength.bendbars", "number", aStrength[nChanged][6]);
 end
 
-function updateDexterity(nodeActor,nChanged,sActorType)
+function updateDexterity(nodeActor,nChanged)
     -- aDexterity[abilityScore]={reaction, missile, defensive}
     local aDexterity = {};
     aDexterity[1]  =  {-6,-6,5};
@@ -156,7 +158,7 @@ function updateDexterity(nodeActor,nChanged,sActorType)
     DB.setValue(nodeActor, "abilities.dexterity.defenseadj", "number", aDexterity[nChanged][3]);
 end
 
-function updateWisdom(nodeActor,nChanged,sActorType)
+function updateWisdom(nodeActor,nChanged)
     local aWisdom = {};
     -- aWisdom[abilityScore]={magic adj, spell bonuses, spell failure, spell imm. }
     aWisdom[1]   =    {-6, "None", 80, "None"};
@@ -219,7 +221,7 @@ function updateWisdom(nodeActor,nChanged,sActorType)
 
 end
 
-function updateConstitution(nodeActor,nChanged,sActorType)
+function updateConstitution(nodeActor,nChanged)
     -- aConstitution[abilityScore]={hp, system shock, resurrection survivial, poison save, regeneration}
     local aConstitution = {};
     aConstitution[1]  =   {"-3",25,30,-2,"None"};
@@ -255,7 +257,7 @@ function updateConstitution(nodeActor,nChanged,sActorType)
     DB.setValue(nodeActor, "abilities.constitution.regeneration", "string", aConstitution[nChanged][5]);
 end
 
-function updateCharisma(nodeActor,nChanged,sActorType)
+function updateCharisma(nodeActor,nChanged)
     -- aCharisma[abilityScore]={reaction, missile, defensive}
     local aCharisma = {};
     aCharisma[1]   =  {0, -8,-7};
@@ -290,7 +292,7 @@ function updateCharisma(nodeActor,nChanged,sActorType)
 	
 end
 
-function updateIntelligence(nodeActor,nChanged,sActorType)
+function updateIntelligence(nodeActor,nChanged)
     -- aIntelligence[abilityScore]={# languages, spelllevel, learn spell, max spells, illusion immunity}
     local aIntelligence = {};
     aIntelligence[1]  =    {0, 0,0,  0,"None"};
