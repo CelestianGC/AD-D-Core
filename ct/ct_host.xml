@@ -1146,7 +1146,7 @@
             
             <buttoncontrol name="healthadjustcancel">
 				<anchored to="healthadjustheal" position="right" offset="5,0" width="35" />
-                <icon normal="button_dialog_cancel_down" pressed="button_dialog_cancel" />
+                <icon normal="button_dialog_cancel" pressed="button_dialog_cancel_down" />
                 <script>
                     function onButtonPress(x, y)
                         window.healthadjustment.setValue(0);

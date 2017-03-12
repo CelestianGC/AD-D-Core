@@ -1095,7 +1095,47 @@ function parseSaves(sPowerName, aWords, bPC)
 	local saves = {};
 	
 	for i = 1, #aWords do
-		if StringManager.isWord(aWords[i], "throw") and
+        -- AD&D style entries -msw
+        -- "saving throw versus breath for half damage" ?
+		if StringManager.isWord(aWords[i], {"throw","throws"}) and
+				StringManager.isWord(aWords[i+1], {"versus", "vrs", "vrs.", "vr","vr.","v","v."}) and
+                StringManager.isWord(aWords[i+2], DataCommon.saves_shortnames) then
+			local rSave = nil;
+			local bValid = true; --for now, if we get above I consider it valid, might change later.
+			local bHalf = false;
+			local nStart = i;
+			local nDC = nil;
+
+            if StringManager.isWord(aWords[nStart + 1], { "half" }) then
+                bHalf = true;
+			end
+
+			if bValid then
+				rSave = {};
+				rSave.startindex = nStart;
+				rSave.endindex = i+2;
+				rSave.label = sPowerName;
+				rSave.save = aWords[i+2];
+                if (bHalf) then
+                    rSave.onmissdamage = "half";
+                end
+				if nDC then
+					rSave.savemod = nDC;
+				else
+					--rSave.spell = true;
+					rSave.savemod = 0;
+				end
+			end
+			if rSave then
+				table.insert(saves, rSave);
+				-- Only pick up first save for PC powers
+				if bPC then
+					break;
+				end
+			end
+        
+        -- 5e style entries
+        elseif StringManager.isWord(aWords[i], "throw") and
 				StringManager.isWord(aWords[i-1], "saving") and
 --				StringManager.isWord(aWords[i-2], DataCommon.abilities) then
                 StringManager.isWord(aWords[i-2], DataCommon.saves_shortnames) then
