@@ -103,7 +103,7 @@ function getAbilityEffectsBonus(rActor, sAbility, sType)
 		-- return 0, 0;
 	-- end
 	
-	-- local nAbilityMod, nAbilityEffects = EffectManager.getEffectsBonus(rActor, sAbilityEffect, true);
+	local nAbilityMod, nAbilityEffects = EffectManager.getEffectsBonus(rActor, sAbilityEffect, true);
 	
 	-- local nAbilityScore = getAbilityScore(rActor, sAbility);
 	-- if nAbilityScore > 0 then
@@ -128,7 +128,7 @@ function getAbilityEffectsBonus(rActor, sAbility, sType)
 	end
 	
 	--print ("in manager_ctor2.lua, getAbilityEffectsBonus");
-	return nBonus, 0;
+	return nBonus, nAbilityEffects;
 end
 
 function getClassLevel(nodeActor, sValue)
