@@ -264,4 +264,37 @@
 		</stringcontrol>
 	</template>
     
+	<template name="number_actions_init">
+        <basicnumber>
+			<frame name="fieldlight" offset="7,5,7,5" />
+			<showemptywidget />
+			<font>reference-b-large</font>
+			<rollable />
+			<displaysign />
+			<script>
+				function action(draginfo)
+                    local nValue = getValue();
+
+                    local rItem = {};
+                    rItem.sName = window.name.getValue();
+                    rItem.nInit = nValue;
+                    local nodeWeapon = getDatabaseNode();
+                    local nodeChar = nodeWeapon.getChild("....");
+					local rActor = ActorManager.getActor("pc", nodeChar);
+					ActionInit.performRoll(draginfo, rActor, nil, rItem);
+
+					return true;
+				end
+				
+				function onDragStart(button, x, y, draginfo)
+					return action(draginfo);
+				end
+					
+				function onDoubleClick(x,y)
+					return action();
+				end
+			</script>
+        </basicnumber>
+	</template>
+    
 </root>

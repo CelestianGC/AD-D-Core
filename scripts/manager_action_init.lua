@@ -36,7 +36,7 @@ function notifyApplyInit(rSource, nTotal)
 	Comm.deliverOOBMessage(msgOOB, "");
 end
 
-function getRoll(rActor, bSecretRoll)
+function getRoll(rActor, bSecretRoll, rItem)
 	local rRoll = {};
 	rRoll.sType = "init";
 	rRoll.aDice = { "d10" };
@@ -49,14 +49,18 @@ function getRoll(rActor, bSecretRoll)
 	-- Determine the modifier and ability to use for this roll
 	local sAbility = nil;
 	local sActorType, nodeActor = ActorManager.getTypeAndNode(rActor);
-	if nodeActor then
-		if sActorType == "pc" then
-			rRoll.nMod = DB.getValue(nodeActor, "initiative.total", 0);
+    if nodeActor then
+        if rItem then
+            rRoll.nMod =  rItem.nInit;
+            rRoll.sDesc = rRoll.sDesc .. " [MOD:" .. rItem.sName .. "]";
+        elseif sActorType == "pc" then
+            rRoll.nMod = DB.getValue(nodeActor, "initiative.total", 0);
 --			sAbility = "dexterity";
-		else
-			rRoll.nMod = DB.getValue(nodeActor, "init", 0);
-		end
-	end
+        else
+            rRoll.nMod = DB.getValue(nodeActor, "init", 0);
+        end
+    end
+    
 --	if sAbility and sAbility ~= "" and sAbility ~= "dexterity" then
 --		local sAbilityEffect = DataCommon.ability_ltos[sAbility];
 --		if sAbilityEffect then
@@ -67,8 +71,8 @@ function getRoll(rActor, bSecretRoll)
 	return rRoll;
 end
 
-function performRoll(draginfo, rActor, bSecretRoll)
-	local rRoll = getRoll(rActor, bSecretRoll);
+function performRoll(draginfo, rActor, bSecretRoll, rItem)
+	local rRoll = getRoll(rActor, bSecretRoll, rItem);
 	
 	ActionsManager.performAction(draginfo, rActor, rRoll);
 end

@@ -53,6 +53,7 @@
    	<string name="char_label_adj">Adj.</string>
 	<string name="char_label_background">KIT</string>
 	<string name="char_label_speed">MOVE</string>
+	<string name="char_label_speeddetail">Move:</string>
 	
     <string name="char_label_ability_percent">%</string>
     <string name="char_tooltip_percentile">Percentile score of this ability.</string>
@@ -229,5 +230,8 @@
 
     <!-- Item -->
 	<string name="item_label_speedfactor">Speedfactor</string>
+	<string name="item_label_speed">Move</string>
+
+	<string name="ref_label_listspeed">Move</string>
     
 </root>

@@ -98,7 +98,7 @@ function getAbilityEffectsBonus(rActor, sAbility, sType)
 	 return 0, 0;
 	end
 	
-	-- local sAbilityEffect = DataCommon.ability_ltos[sAbility];
+	local sAbilityEffect = DataCommon.ability_ltos[sAbility];
 	-- if not sAbilityEffect then
 		-- return 0, 0;
 	-- end

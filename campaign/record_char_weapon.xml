@@ -43,30 +43,6 @@
 			</buttoncontrol>
 
             <!-- damage section -->
-            
-<!-- 			<stringcontrol name="damageview">
-				<anchored to="rightanchor" width="91">
-					<top offset="8" />
-					<right anchor="left" relation="relative" offset="-5" />
-				</anchored>
-				<multilinespacing>20</multilinespacing>
-				<frame name="fielddark" offset="7,8,7,8" />
-				<stateframe>
-					<hover name="rowshade" offset="7,8,7,8" />
-				</stateframe>
-				<cursor hover="hand" />
-				<readonly />
-				<script>
-					function onDoubleClick(x,y)
-						return window.onDamageAction();
-					end			
-
-					function onDragStart(button, x, y, draginfo)
-						return window.onDamageAction(draginfo);
-					end
-				</script>
-			</stringcontrol>
- -->
             <windowlist name="damage_split_list">
 				<anchored to="rightanchor" width="91">
 					<top offset="6" />
@@ -180,13 +156,22 @@
 				<script file="common/scripts/button_crosslink.lua" />
 			</button_char_inv_carried>
 			
+            <!-- init item roll -->
+			<number_actions_init name="speedfactor">
+				<anchored height="20" width="30">
+					<top offset="8" />
+					<left parent="leftanchor" anchor="right" relation="relative" offset="5" />
+				</anchored>
+			</number_actions_init>
+
 			<stringu name="name">
 				<anchored height="20">
 					<top offset="8" />
-					<left parent="leftanchor" anchor="right" relation="relative" offset="2" />
+					<left parent="speedfactor" anchor="right" relation="relative" offset="5" />
 					<right parent="rightanchor" anchor="left" relation="relative" offset="0" />
 				</anchored>
 			</stringu>
+
 
 			<label name="label_ammo">
 				<anchored width="50">
