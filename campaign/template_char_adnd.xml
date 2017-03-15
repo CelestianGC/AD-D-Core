@@ -296,5 +296,40 @@
 			</script>
         </basicnumber>
 	</template>
+	<template name="number_power_init">
+        <basicnumber>
+			<frame name="fieldlight" offset="7,5,7,5" />
+			<showemptywidget />
+			<font>arial-regular-8</font>
+			<rollable />
+			<displaysign />
+			<hideonvalue>0</hideonvalue>
+			<script>
+				function action(draginfo)
+                    local nValue = getValue();
+                    local nodePower = getDatabaseNode();
+                    local nodeSpell = nodePower.getChild("....");
+                    local sName = DB.getValue(nodeSpell,"name","");
+                
+                    local rItem = {};
+                    rItem.sName = sName;
+                    rItem.nInit = nValue;
+                    local nodeChar = nodePower.getChild("......");
+					local rActor = ActorManager.getActor("pc", nodeChar);
+					ActionInit.performRoll(draginfo, rActor, nil, rItem);
+
+					return true;
+				end
+				
+				function onDragStart(button, x, y, draginfo)
+					return action(draginfo);
+				end
+					
+				function onDoubleClick(x,y)
+					return action();
+				end
+			</script>
+        </basicnumber>
+	</template>
     
 </root>

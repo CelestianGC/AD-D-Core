@@ -55,10 +55,13 @@ function updateDisplay()
                               (sType == "cast")   );
 
 	
+    castinitiative.setVisible(bShowMemorize);
+
 	castbutton.setVisible(bShowCast);
 	castlabel.setVisible(bShowCast);
 	castbutton.setVisible(bShowCast);
 
+    
 	memorizebutton.setVisible(bShowMemorize);
 	memorizelabel.setVisible(bShowMemorize);
 	memorizebutton.setVisible(bShowMemorize);
@@ -234,3 +237,4 @@ function onEffectChanged()
 	effectview.setValue(sLabel);
 	durationview.setValue(sDuration);
 end
+

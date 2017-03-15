@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
+<?xml version="1.0" encoding="iso-8859-1"?>
 
 <!-- 
   Please see the license.html file included with this distribution for 
@@ -252,6 +253,7 @@
 		</sheetdata>
 	</windowclass>
 	
+    <!-- action listing of power -->
 	<windowclass name="power_item_header">
 		<margins control="0,0,0,3" />
 		<sheetdata>
@@ -291,7 +293,7 @@
 				</anchored>
 				<invisible />
 			</button_checkbox>
-            <!-- make this a template, calculate number of spells memorized compared to slots allowed? -->
+
 			<basicnumber name="prepared">
 				<anchored width="30" height="20">
 					<top offset="2" />
@@ -310,6 +312,7 @@
 				<invisible />
 			</cycler_power_useperiod>
 
+            <!-- spell name -->
 			<string_power name="name">
 				<anchored>
 					<top offset="2" />
@@ -372,13 +375,11 @@
 		<sheetdata>
 			<hs name="group" />
 			<hn name="level" />
-			<hs name="castingtime" />
 			<hs name="type" />
 			<hs name="name" />
 			<hn name="cast" />
 			<hn name="prepared" />
-<!-- 			<hn name="memorized" />
- -->			<hs name="usesperiod" />
+			<hs name="usesperiod" />
 			
 			<genericcontrol name="rightanchor">
 				<anchored height="0" width="0">
@@ -551,9 +552,21 @@
 				<bounds>-22,3,20,20</bounds>
 			</button_idelete>
 
+            <!-- initiative -->
+<!-- 			<number_power_init name="castinitiative" source="...castinitiative">
+				<anchored position="insidetopleft" offset="5,2" height="18" width="25" />
+			</number_power_init>
+            
+ -->			
+            <number_power_init name="castinitiative">
+                <tooltip text="Roll initiative for this action." />
+				<anchored position="insidetopleft" offset="5,2" height="18" width="25" />
+			</number_power_init>
+
 			<!-- CAST -->
 			<button_poweraction name="castbutton">
-				<anchored position="insidetopleft" offset="2,2" />
+				<anchored to="castinitiative" position="righthigh" offset="5,0" />
+<!--				<anchored position="insidetopleft" offset="2,2" /> -->
 			</button_poweraction>
 			<label name="castlabel">
 				<anchored to="castbutton" position="righthigh" offset="5,0" />

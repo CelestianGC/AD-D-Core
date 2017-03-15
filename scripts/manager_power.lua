@@ -123,9 +123,12 @@ function addPower(sClass, nodeSource, nodeCreature, sGroup)
 		parsePCPower(nodeNewPower);
 	end
 	
-    -- add cast bar for spells with level and type
+    -- add cast bar for spells with level and type -msw
+    -- also setup vars for castinitiative 
 	local nLevel = nodeNewPower.getChild("level").getValue();
 	local sSpellType = nodeNewPower.getChild("type").getValue():lower();
+	local sCastingTime = nodeNewPower.getChild("castingtime").getValue():lower();
+    local nCastTime = getCastingTime(sCastingTime,nLevel);
     if (nLevel > 0 and (sSpellType == "arcane" or sSpellType == "divine")) then
 		local nodeActions = nodeNewPower.createChild("actions");
 		if nodeActions then
@@ -133,12 +136,35 @@ function addPower(sClass, nodeSource, nodeCreature, sGroup)
 			if nodeAction then
 				DB.setValue(nodeAction, "type", "string", "cast");
                 -- set "savetype" to "spell"
-                DB.setValue(nodeAction, "savetype", "string", "spell");                
+                DB.setValue(nodeAction, "savetype", "string", "spell");      
+                -- initiative setting
+                DB.setValue(nodeAction, "castinitiative", "number", nCastTime);
 			end
 		end
     end
 
 	return nodeNewPower;
+end
+
+-- parse the castingtime of a spell and turn into "init modifier" -msw
+function getCastingTime(sCastingTime,nSpellLevel)
+    local nCastTime = 1;
+    local nCastBase = sCastingTime:match("(%d+)") or nSpellLevel;
+    local sLeftover = sCastingTime:match("%d+(.*)") or "";
+    
+    nCastTime = nCastBase;
+    -- if something other than number/space in string...
+    if string.len(sLeftover) > 1 then 
+        sLeftover = sLeftover:gsub(" ","");
+        if (StringManager.isWord(sLeftover, {"round","rd","rds","rd.","rn","rn."})) then
+            nCastTime = nCastBase * 10;
+        else
+            -- anything more than this we really shouldn't be rolling for init
+            nCastTime = 999;
+        end
+    end
+    
+    return nCastTime;
 end
 
 -------------------------
