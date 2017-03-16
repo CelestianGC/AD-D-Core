@@ -15,14 +15,14 @@
 	</template>
 
 	<template name="label_savescore">
-		<stringfield name="label_save_type">
-			<anchored position="right" offset="5,0" width="45" />
+		<label name="label_save_type">
+			<anchored position="righthigh" offset="5,0" width="45" />
  			<multilinespacing>10</multilinespacing>
 			<center />
             <readonly />
 			<font>arial-regular-6</font>
 			<!-- <frame name="abilityfields" /> -->
-		</stringfield>
+		</label>
 	</template>
 	
 	<template name="number_charasavescore">
@@ -89,8 +89,9 @@
 		</basicnumber>
 	</template>
     
-	<template name="number_modifier2">
+	<template name="number_saves_modifier">
 		<number>
+            <anchored position="righthigh" offset="1,0" width="30" height="30"/>
             <displaysign />
 			<center />
             <min>-25</min>
@@ -268,7 +269,8 @@
         <basicnumber>
 			<frame name="fieldlight" offset="7,5,7,5" />
 			<showemptywidget />
-			<font>reference-b-large</font>
+			<font>arial-regular-8</font>
+			<hideonvalue>0</hideonvalue>
 			<rollable />
 			<displaysign />
 			<script>

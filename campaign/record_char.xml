@@ -9,7 +9,7 @@
 	<windowclass name="charsheet">
 		<frame>charsheet</frame>
 		<placement>
-			<size width="525" height="600" />
+			<size width="560" height="640" />
 		</placement>
 		<sizelimits>
 			<minimum width="450" height="570" />

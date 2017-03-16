@@ -624,10 +624,10 @@
 				<anchored to="save_paralyzation_poison_death" />
 				<static textres="save_paralyzation_poison_death_wrapped" />
 			</label_savescore>
-			<number_modifier2 name="save_paralyzation_poison_death_mod" source="saves.save_paralyzation_poison_death.modifier">
+			<number_saves_modifier name="save_paralyzation_poison_death_mod" source="saves.save_paralyzation_poison_death.modifier">
    				<tooltip textres="save_tooltip_mod" />
-				<anchored to="save_poison_label" position="right" offset="0,0" width="30" />
-			</number_modifier2>
+				<anchored to="save_poison_label" />
+			</number_saves_modifier>
 			<label_mod_fields>
 				<anchored to="save_paralyzation_poison_death_mod" />
    				<tooltip textres="save_tooltip_mod" />
@@ -644,10 +644,10 @@
 				<anchored to="save_rod_staff_wand" />
 				<static textres="save_rod_staff_wand_wrapped" />
 			</label_savescore>
-			<number_modifier2 name="save_rod_staff_wand_mod" source="saves.save_rod_staff_wand.modifier">
+			<number_saves_modifier name="save_rod_staff_wand_mod" source="saves.save_rod_staff_wand.modifier">
    				<tooltip textres="save_tooltip_mod" />
-				<anchored to="save_wand_label" position="right" offset="0,0" width="30" />
-			</number_modifier2>
+				<anchored to="save_wand_label"/>
+			</number_saves_modifier>
 			<label_mod_fields>
 				<anchored to="save_rod_staff_wand_mod" />
    				<tooltip textres="save_tooltip_mod" />
@@ -664,10 +664,10 @@
 				<anchored to="save_petrify_polymorph" />
 				<static textres="save_petrify_polymorph_wrapped" />
 			</label_savescore>
-			<number_modifier2 name="save_petrify_polymorph_mod" source="saves.save_petrify_polymorph.modifier">
+			<number_saves_modifier name="save_petrify_polymorph_mod" source="saves.save_petrify_polymorph.modifier">
    				<tooltip textres="save_tooltip_mod" />
-				<anchored to="save_poly_label" position="right" offset="0,0" width="30" />
-			</number_modifier2>
+				<anchored to="save_poly_label" />
+			</number_saves_modifier>
 			<label_mod_fields>
 				<anchored to="save_petrify_polymorph_mod" />
    				<tooltip textres="save_tooltip_mod" />
@@ -684,10 +684,10 @@
 				<anchored to="save_breath" />
 				<static textres="save_breath_wrapped" />
 			</label_savescore>
-			<number_modifier2 name="save_breath_mod" source="saves.save_breath.modifier">
+			<number_saves_modifier name="save_breath_mod" source="saves.save_breath.modifier">
    				<tooltip textres="save_tooltip_mod" />
-				<anchored to="save_breath_label" position="right" offset="0,0" width="30" />
-			</number_modifier2>
+				<anchored to="save_breath_label" />
+			</number_saves_modifier>
 			<label_mod_fields>
 				<anchored to="save_breath_mod" />
    				<tooltip textres="save_tooltip_mod" />
@@ -704,10 +704,10 @@
 				<anchored to="save_spell" />
 				<static textres="save_spell_wrapped" />
 			</label_savescore>
-			<number_modifier2 name="save_spell_mod" source="saves.save_spell.modifier">
+			<number_saves_modifier name="save_spell_mod" source="saves.save_spell.modifier">
    				<tooltip textres="save_tooltip_mod" />
-				<anchored to="save_spell_label" position="right" offset="0,0" width="30" />
-			</number_modifier2>
+				<anchored to="save_spell_label" />
+			</number_saves_modifier>
 			<label_mod_fields>
 				<anchored to="save_spell_mod" />
    				<tooltip textres="save_tooltip_mod" />

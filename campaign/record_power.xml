@@ -90,8 +90,10 @@
 				local nodeChar = getDatabaseNode();
 				local sMode = DB.getValue(nodeChar, "powermode", "");
 				if sMode == "preparation" then
+                Debug.console("record_power.xml","power_slots_prep","parentcontrol 1 = " .. parentcontrol.getName());
 					parentcontrol.setVisible(true);
 				else
+                Debug.console("record_power.xml","power_slots_prep","parentcontrol 2 = " .. parentcontrol.getName());
 					parentcontrol.setVisible(false);
 				end
 			end
@@ -559,7 +561,7 @@
             
  -->			
             <number_power_init name="castinitiative">
-                <tooltip text="Roll initiative for this action." />
+                <tooltip textres="power_label_initiative_tooltip" />
 				<anchored position="insidetopleft" offset="5,2" height="18" width="25" />
 			</number_power_init>
 

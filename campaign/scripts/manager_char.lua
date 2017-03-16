@@ -234,6 +234,7 @@ function calcItemArmorClass(nodeChar)
 		if DB.getValue(vNode, "carried", 0) == 2 then
 			local bIsArmor, _, sSubtypeLower = ItemManager2.isArmor(vNode);
 			if bIsArmor then
+                -- no clue what bID is for yet -msw, need to look at getIDState
 				local bID = LibraryData.getIDState("item", vNode, true);
 				
 				local bIsShield = (sSubtypeLower == "shield");
@@ -241,7 +242,8 @@ function calcItemArmorClass(nodeChar)
 					if bID then
 						nMainShieldTotal = nMainShieldTotal + (DB.getValue(vNode, "ac", 0)) + (DB.getValue(vNode, "bonus", 0));
 					else
-						nMainShieldTotal = nMainShieldTotal - DB.getValue(vNode, "ac", 0);
+						nMainShieldTotal = nMainShieldTotal + (DB.getValue(vNode, "ac", 0)) + (DB.getValue(vNode, "bonus", 0));
+--						nMainShieldTotal = nMainShieldTotal - DB.getValue(vNode, "ac", 0);
 					end
 				else
 --					if bID then

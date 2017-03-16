@@ -158,7 +158,8 @@
 			
             <!-- init item roll -->
 			<number_actions_init name="speedfactor">
-				<anchored height="20" width="30">
+                <tooltip textres="power_label_initiative_tooltip" />
+				<anchored height="18" width="25" >
 					<top offset="8" />
 					<left parent="leftanchor" anchor="right" relation="relative" offset="5" />
 				</anchored>
