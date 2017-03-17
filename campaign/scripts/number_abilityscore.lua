@@ -178,7 +178,7 @@ function updateWisdom(nodeActor,nChanged)
     aWisdom[15]  =    { 1, "2x1", 0, "None"};
     aWisdom[16]  =    { 2, "2x1,2x1", 0, "None"};
     aWisdom[17]  =    { 3, "2x1,2x2", 0, "None"};
-    aWisdom[18]  =    { 4, "2x1,2x2,3", 0, "None"};
+    aWisdom[18]  =    { 4, "Various", 0, "None"};
     aWisdom[19]  =    { 4, "Various", 0, "Various"};
     aWisdom[20]  =    { 4, "Various", 0, "Various"};
     aWisdom[21]  =    { 4, "Various", 0, "Various"};
@@ -187,6 +187,7 @@ function updateWisdom(nodeActor,nChanged)
     aWisdom[24]  =    { 4, "Various", 0, "Various"};
     aWisdom[25]  =    { 4, "Various", 0, "Various"};
 
+    aWisdom[118]  =    { 4, "Bonus Spells: 2x1st, 2x2nd, 1x3rd", 0, "None"};
     aWisdom[119]  =    { 4, "Bonus Spells: 3x1st, 2x2nd, 2x3rd, 1x4th", 0, "Spells: cause fear,charm person, command, friends, hypnotism"};
     aWisdom[120]  =    { 4, "Bonus Spells: 3x1st, 3x2nd, 2x3rd, 2x4th", 0, "Spells: cause fear,charm person, command, friends, hypnotism, forget, hold person, enfeeble, scare"};
     aWisdom[121]  =    { 4, "Bonus Spells: 3x1st, 3x2nd, 3x3rd, 2x4th, 5th", 0, "Spells: cause fear,charm person, command, friends, hypnotism, forget, hold person, enfeeble, scare, fear"};
@@ -207,7 +208,7 @@ function updateWisdom(nodeActor,nChanged)
         -- abilities pane
         local sBonus_TT = "Bonus spells granted by high wisdom. ";
         local sImmunity_TT = "Immunity to spells granted by high wisdom. ";
-        if (nChanged >= 19) then
+        if (nChanged >= 18) then
             sBonus_TT = sBonus_TT .. aWisdom[nChanged+100][2];
             sImmunity_TT = sImmunity_TT .. aWisdom[nChanged+100][4];
             -- set the xml elements tooltip to data to large for display

@@ -237,12 +237,23 @@ function calcItemArmorClass(nodeChar)
                 -- no clue what bID is for yet -msw, need to look at getIDState
 				local bID = LibraryData.getIDState("item", vNode, true);
 				
+                -- we only want the "bonus" value for ring/cloaks/robes
+				local bIsRingOrCloak = (sSubtypeLower == "ring" or sSubtypeLower == "cloak" or sSubtypeLower == "robe");
+                
 				local bIsShield = (sSubtypeLower == "shield");
+
 				if bIsShield then
 					if bID then
 						nMainShieldTotal = nMainShieldTotal + (DB.getValue(vNode, "ac", 0)) + (DB.getValue(vNode, "bonus", 0));
 					else
 						nMainShieldTotal = nMainShieldTotal + (DB.getValue(vNode, "ac", 0)) + (DB.getValue(vNode, "bonus", 0));
+--						nMainShieldTotal = nMainShieldTotal - DB.getValue(vNode, "ac", 0);
+					end
+				elseif bIsRingOrCloak then 
+					if bID then
+						nMainShieldTotal = nMainShieldTotal + DB.getValue(vNode, "bonus", 0);
+					else
+						nMainShieldTotal = nMainShieldTotal + DB.getValue(vNode, "bonus", 0);
 --						nMainShieldTotal = nMainShieldTotal - DB.getValue(vNode, "ac", 0);
 					end
 				else

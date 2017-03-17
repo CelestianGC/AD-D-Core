@@ -83,7 +83,7 @@
     <string name="char_tooltip_charisma_loyalty">Loyalty adjustment for followers/henchmen</string>
     <string name="char_label_charisma_loyalty">Loyalty Adj</string>
     <string name="char_tooltip_charisma_reaction">Reaction Adjustment</string>
-    <string name="char_label_charisma_reaction">Raction Adj</string>
+    <string name="char_label_charisma_reaction">Reaction Adj</string>
     <string name="char_label_strength_hitadj">HIT</string>
     <string name="char_tooltip_strength_hitadj">To Hit adjustment</string>
     <string name="char_label_strength_dmgadj">DMG</string>
@@ -135,7 +135,7 @@
     <string name="char_label_skill_armor_adj">ARMOR</string>
     <string name="char_label_skill_armor_adj_tooltip">Adjustment applied for armor worn.</string>
     <string name="char_label_skill_mod_adj">MOD</string>
-    <string name="char_label_skill_mod_adj_tooltip">Modifier applied due to class, skill base adjustment or similar.</string>
+    <string name="char_label_skill_mod_adj_tooltip">Modifier applied due to race, class, skill base adjustment or similar.</string>
 
     <string name="char_label_class_exp">XP</string>
     <string name="char_label_class_exp_tooltip">Experince Earned for Each Class</string>
