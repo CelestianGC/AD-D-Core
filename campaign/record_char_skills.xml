@@ -220,7 +220,7 @@
 					<top offset="2" />
 					<right parent="rightanchor" anchor="left" relation="relative" offset="-15" />
 				</anchored>
-				<tabtarget prev="stat" />
+				<tabtarget prev="adj_armor" next="base_check"/>
 			</number_charskill>
 
    			<number_charskill name="adj_armor">
@@ -228,7 +228,7 @@
 					<top />
 					<right anchor="left" relation="relative" offset="-12" />
 				</anchored>
-				<tabtarget next="stat" prev="adj_stat" />
+				<tabtarget next="misc" prev="adj_stat" />
 			</number_charskill>
 
 			<number_charskill name="adj_stat">
@@ -244,7 +244,7 @@
 					<top />
 					<right anchor="left" relation="relative" offset="-13" />
 				</anchored>
-				<tabtarget next="adj_stat" prev="base_check" />
+				<tabtarget next="adj_stat" prev="stat" />
 			</number_charskill>
  
             <!-- stat -->
@@ -259,7 +259,7 @@
 					<top />
 					<right anchor="left" relation="relative" offset="-12" />
 				</anchored>
-				<tabtarget next="misc" prev="adj_armor" />
+				<tabtarget next="adj_mod" prev="base_check" />
 			</cycler_skill_type>
 
 			<number_charskill_nosign name="base_check">

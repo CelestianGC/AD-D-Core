@@ -48,6 +48,7 @@ function onSourceUpdate(node)
     local nClassADJ = DB.getValue(nodeSkill, "adj_class", 0);
     local nArmorADJ = DB.getValue(nodeSkill, "adj_armor", 0);
     local nStatADJ = DB.getValue(nodeSkill, "adj_stat", 0);
+    local nModADJ = DB.getValue(nodeSkill, "adj_mod", 0);
     local nMisc = DB.getValue(nodeSkill, "misc", 0);
     -- -msw 
     if sAbility == "percent" then
@@ -78,7 +79,7 @@ function onSourceUpdate(node)
 --    end
     
 
-    nValue = nValue + nClassADJ + nArmorADJ + nStatADJ + nMisc;
+    nValue = nValue + nClassADJ + nArmorADJ + nStatADJ + nModADJ+ nMisc;
     --DB.setValue(nodeSkill, "total","number", nValue);
     setValue(nValue);
 end
