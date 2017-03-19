@@ -167,10 +167,13 @@
 	<script name="ActionSave" file="scripts/manager_action_save.lua" />
 	<script name="ActionCheck" file="scripts/manager_action_check.lua" />
 	<script name="ActionAttack" file="scripts/manager_action_attack.lua" />
-	<script name="CombatManager" file="scripts/manager_combat.lua" />
 	<script name="CombatManager2" file="scripts/manager_combat2.lua" />
 -->
 
+    <!-- We have to have a custom version of this from CoreRPG so it sorts reverse for the low to high initiative -->
+	<script name="CombatManager" file="scripts/manager_combat.lua" />
+    <!-- -->
+    
  	<script name="LibraryDataADNDCORE" file="scripts/data_library_core.lua" />
 
     
