@@ -135,7 +135,10 @@
     <string name="char_label_skill_armor_adj">ARMOR</string>
     <string name="char_label_skill_armor_adj_tooltip">Adjustment applied for armor worn.</string>
     <string name="char_label_skill_mod_adj">MOD</string>
-    <string name="char_label_skill_mod_adj_tooltip">Modifier applied due to race, class, skill base adjustment or similar.</string>
+    <string name="char_label_skill_mod_adj_tooltip">Modifier applied due to race,skill base adjustment or similar.</string>
+
+    <string name="char_label_skill_class_adj">CLASS</string>
+    <string name="char_label_skill_class_adj_tooltip">Modifiers to a skill check based on class.</string>
 
     <string name="char_label_class_exp">XP</string>
     <string name="char_label_class_exp_tooltip">Experince Earned for Each Class</string>

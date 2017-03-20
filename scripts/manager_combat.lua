@@ -347,7 +347,7 @@ function sortfuncStandard(node1, node2)
 end
 
 -- Changing this to node2,node1 has initiative go in 
--- low to high order, not high to low order -msw
+-- low to high order like AD&D Expects, not high to low order -msw
 --function sortfuncDnD(node1, node2)
 function sortfuncDnD(node2, node1)
 	local bHost = User.isHost();

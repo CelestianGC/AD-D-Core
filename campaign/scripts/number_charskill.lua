@@ -7,17 +7,15 @@ function onInit()
     DB.addHandler(DB.getPath(nodeChar, "profbonus"), "onUpdate", onSourceUpdate);
 
 
-    -- class adj
+    -- -- class adj
     addSource("adj_class");
-    -- armor adj
+    -- -- armor adj
     addSource("adj_armor");
-    -- stat adj
+    addSource("adj_mod");
+    -- -- stat adj
     addSource("adj_stat");
-    -- base check
+    -- -- base check
     addSource("base_check");
-
-    -- total target
-    --addSource("total");
 
     addSource("stat", "string");
     addSource("prof");
@@ -34,7 +32,6 @@ function onClose()
 end
 
 function onSourceUpdate(node)
-    --local nValue = calculateSources();
     local nValue = 0;
 
     local nodeSkill = window.getDatabaseNode();
@@ -79,7 +76,7 @@ function onSourceUpdate(node)
 --    end
     
 
-    nValue = nValue + nClassADJ + nArmorADJ + nStatADJ + nModADJ+ nMisc;
+    nValue = nValue + nClassADJ + nModADJ + nStatADJ + nArmorADJ +  nMisc;
     --DB.setValue(nodeSkill, "total","number", nValue);
     setValue(nValue);
 end

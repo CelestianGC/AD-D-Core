@@ -123,6 +123,16 @@
 				<static textres="char_label_skill_mod_adj" />
 			</label>
 
+			<label name="class_adj_label">
+                <tooltip textres="char_label_skill_class_adj_tooltip" />
+				<anchored to="rightanchor" width="40">
+					<top />
+					<right anchor="left" relation="relative" offset="-3" />
+				</anchored>
+				<center />
+				<static textres="char_label_skill_class_adj" />
+			</label>
+
    			<label name="type_label">
                     <tooltip textres="char_label_skill_type_tooltip" />
 				<anchored to="rightanchor" width="40">
@@ -202,6 +212,7 @@
             
             <!-- total -->
 			<number_charskilltotal_nosign name="total">
+                <tooltip text="total" />
 <!--             <source><name>base_check</name></source>
             <source><name>armor_adj</name><op>+</op></source>
             <source><name>stat_adj</name><op>+</op></source>
@@ -214,16 +225,28 @@
 				</anchored>
 			</number_charskilltotal_nosign>
 
+            <!-- this is just to make tab wrap down to next line because of the order these modifiers are listed  -->
+ 			<genericcontrol name="tab_stub_">
+                <invisible />
+				<anchored to="rightanchor" width="30" height="20">
+					<top />
+					<right anchor="left" relation="relative" offset="-13" />
+				</anchored>
+				<tabtarget next="name" prev="misc" />
+			</genericcontrol>
+
             <!-- misc -->
 			<number_charskill name="misc">
+                <tooltip text="misc" />
 				<anchored>
 					<top offset="2" />
 					<right parent="rightanchor" anchor="left" relation="relative" offset="-15" />
 				</anchored>
-				<tabtarget prev="adj_armor" next="base_check"/>
+				<tabtarget prev="adj_armor"/>
 			</number_charskill>
 
    			<number_charskill name="adj_armor">
+                <tooltip text="adj_armor" />
 				<anchored to="rightanchor" width="30" height="20">
 					<top />
 					<right anchor="left" relation="relative" offset="-12" />
@@ -232,6 +255,7 @@
 			</number_charskill>
 
 			<number_charskill name="adj_stat">
+                <tooltip text="adj_stat" />
 				<anchored to="rightanchor" width="30" height="20">
 					<top />
 					<right anchor="left" relation="relative" offset="-14" />
@@ -240,13 +264,23 @@
 			</number_charskill>
  
  			<number_charskill name="adj_mod">
+                <tooltip text="adj_mod" />
 				<anchored to="rightanchor" width="30" height="20">
 					<top />
 					<right anchor="left" relation="relative" offset="-13" />
 				</anchored>
-				<tabtarget next="adj_stat" prev="stat" />
+				<tabtarget next="adj_stat" prev="adj_class" />
 			</number_charskill>
  
+ 			<number_charskill name="adj_class">
+                <tooltip text="adj_class" />
+				<anchored to="rightanchor" width="30" height="20">
+					<top />
+					<right anchor="left" relation="relative" offset="-13" />
+				</anchored>
+				<tabtarget next="adj_mod" prev="stat" />
+			</number_charskill>
+
             <!-- stat -->
 			<cycler_skill_type name="stat">
                 <script>
@@ -259,16 +293,17 @@
 					<top />
 					<right anchor="left" relation="relative" offset="-12" />
 				</anchored>
-				<tabtarget next="adj_mod" prev="base_check" />
+				<tabtarget next="adj_class" prev="base_check" />
 			</cycler_skill_type>
 
 			<number_charskill_nosign name="base_check">
-                    <tooltip textres="char_label_skill_base_check_tooltip" />
+                <tooltip text="base_check" />
+<!--                     <tooltip textres="char_label_skill_base_check_tooltip" /> -->
 				<anchored to="rightanchor" width="30" height="20">
 					<top />
 					<right anchor="left" relation="relative" offset="-12" />
 				</anchored>
-				<tabtarget next="adj_mod" prev="name" />
+				<tabtarget next="stat" prev="name" />
 			</number_charskill_nosign>
 
             
@@ -295,7 +330,7 @@
 					<right anchor="left" relation="relative" offset="-7" />
 				</anchored>
 				<multilinespacing>20</multilinespacing>
-				<tabtarget next="stat" prev="prof" />
+				<tabtarget next="base_check" prev="prof" />
 			</string_textlistitem>
 		</sheetdata>
 	</windowclass>
