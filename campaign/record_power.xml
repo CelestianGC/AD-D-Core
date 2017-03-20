@@ -15,7 +15,7 @@
 			<buttongroup_counter name="counter">
 				<anchored position="insidetopleft" offset="25,0" />
 				<maxslotperrow>5</maxslotperrow>
-                <readonly />
+                <gmeditonly />
 			</buttongroup_counter>
 		</sheetdata>
 	</windowclass>
@@ -89,10 +89,8 @@
 				local nodeChar = getDatabaseNode();
 				local sMode = DB.getValue(nodeChar, "powermode", "");
 				if sMode == "preparation" then
-                Debug.console("record_power.xml","power_slots_prep","parentcontrol 1 = " .. parentcontrol.getName());
 					parentcontrol.setVisible(true);
 				else
-                Debug.console("record_power.xml","power_slots_prep","parentcontrol 2 = " .. parentcontrol.getName());
 					parentcontrol.setVisible(false);
 				end
 			end

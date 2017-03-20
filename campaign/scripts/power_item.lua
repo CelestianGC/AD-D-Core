@@ -37,17 +37,20 @@ function onInit()
 	windowlist.onChildWindowAdded(self);
 end
 
-function onDisplayChanged(v)
+function onModeChanged(v)
     if v then
-        Debug.console("power_item.lua","onDisplayChanged","v",v);
-        Debug.console("power_item.lua","onDisplayChanged","parentcontrol",parentcontrol);
-        Debug.console("power_item.lua","onDisplayChanged","v.parentcontrol",v.parentcontrol);
-        Debug.console("power_item.lua","onDisplayChanged","PING");
         local node = getDatabaseNode();
         local nodeChar = node.getChild("...");
         local bMemorized = (DB.getValue(node,"memorized",0) > 0);
         local sMode = DB.getValue(nodeChar, "powermode", "");
-        if sMode ~= "preparation" then
+        
+--        local sSpellType = DB.getValue(node, "type", ""):lower();
+--        local sSource = DB.getValue(node, "source", ""):lower();
+        local nLevel = DB.getValue(node, "level",0);
+        local sGroup = DB.getValue(node, "group",""):lower();
+        local bisCastSpell = ( (nLevel > 0) and (sGroup == "spells") );
+        
+        if sMode ~= "preparation" and bisCastSpell then
             -- only show spells that are memorized
             -- check that it's a spell w/level and not some rando ability -msw
             v.shortcut.setVisible(bMemorized);
@@ -58,7 +61,7 @@ function onDisplayChanged(v)
             if not bMemorized then 
                 v.actions.setVisible(bMemorized);
             end
-            Debug.console("power_item.lua","updateDisplay","header ----");
+--            Debug.console("power_item.lua","onModeChange","header ----");
         else
             v.shortcut.setVisible(true);
             v.activatedetail.setVisible(true);
@@ -67,6 +70,9 @@ function onDisplayChanged(v)
         end
     end
 
+end
+
+function onDisplayChanged()
     local sDisplayMode = DB.getValue(getDatabaseNode(), "...powerdisplaymode", "");
     
     if sDisplayMode == "summary" then

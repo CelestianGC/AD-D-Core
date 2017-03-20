@@ -105,16 +105,18 @@ end
 function onModeChanged()
 	rebuildGroups();
 	updateUses();
+    
+	for _,v in pairs(powers.getWindows()) do
+		if v.getClass() ~= "power_group_header" then
+			v.onModeChanged(v);
+		end
+	end
 end
 
 function onDisplayChanged()
-Debug.console("power_page.lua","onDisplayChanged","------PING---------");
-
 	for _,v in pairs(powers.getWindows()) do
 		if v.getClass() ~= "power_group_header" then
-Debug.console("power_page.lua","onDisplayChanged","1");
 			v.onDisplayChanged(v);
-Debug.console("power_page.lua","onDisplayChanged","2");
 		end
 	end
 end
@@ -305,34 +307,7 @@ function updatePowerWindowDisplay(w)
 	end
 end
 
--- this is where to hide/show memorized spells 
---- AD&D style -msw
 function updatePowerWindowUses(nodeChar, w)
-	-- local node = getDatabaseNode();
-    -- local nodeSpell = w.getDatabaseNode();
--- --Debug.console("power_page.lua","updatePowerWindowUses","w",w);
--- --Debug.console("power_page.lua","updatePowerWindowUses","nodeSpell",nodeSpell);
-    
--- --    local bMemorized = (DB.getValue(node,"memorized",0) > 0);
--- --	local sDisplayMode = DB.getValue(getDatabaseNode(), "...powerdisplaymode", "");
-    
--- --Debug.console("power_page.lua","updatePowerWindowUses","node",node);
--- --Debug.console("power_item.lua","updatePowerWindowUses","nodeChar",nodeChar);
--- --Debug.console("power_page.lua","updatePowerWindowUses","bMemorized",bMemorized);
-
--- --Debug.console("power_page.lua","updatePowerWindowUses","window",window);
--- --Debug.console("power_page.lua","updatePowerWindowUses","parentcontrol",parentcontrol);
--- --Debug.console("power_page.lua","updatePowerWindowUses","parentcontrol.window",parentcontrol.window);
--- --Debug.console("power_page.lua","updatePowerWindowUses","parentcontrol.w",parentcontrol.w);
--- --Debug.console("power_page.lua","updatePowerWindowUses","w.parentcontrol",w.parentcontrol);
-
--- local wMain = parentcontrol.window;
--- --Debug.console("power_page.lua","updatePowerWindowUses","wMain.spellslots_cast",wMain.spellslots_cast);
--- --Debug.console("power_page.lua","updatePowerWindowUses","wMain.actions.window",wMain.actions.window);
-
--- --Debug.console("power_page.lua","updatePowerWindowUses","wMain.windowlist",wMain.windowlist);
-
---
 	local sMode = DB.getValue(nodeChar, "powermode", "");
 	local bShow = true;
 	
@@ -368,20 +343,26 @@ function updatePowerWindowUses(nodeChar, w)
 	if bCaster then
 		if sMode == "combat" then
 			if nLevel > 0 then
-				if rGroup.nPrepared > 0 and nPrepared <= 0 then
+				
+                if rGroup.nPrepared > 0 and nPrepared <= 0 then
 					bShow = false;
 				else
-					local bValidSlot = false;
-					for i = nLevel, PowerManager.SPELL_LEVELS do
-						if (aCharSlots[i].nTotalCast or 0) < aCharSlots[i].nMax then
-							bValidSlot = true;
-							break;
-						end
-					end
-					if not bValidSlot then
-						bShow = false;
-					end
+                -- we don't want to hide because there are no slots "unused" because
+                -- I use the slots as memorization slots now which means they are tic'distribution
+                -- if they have one memorized. 
+                -- AD&D style, -msw
+					-- local bValidSlot = false;
+					-- for i = nLevel, PowerManager.SPELL_LEVELS do
+						-- if (aCharSlots[i].nTotalCast or 0) < aCharSlots[i].nMax then
+							-- bValidSlot = true;
+							-- break;
+						-- end
+					-- end
+					-- if not bValidSlot then
+						-- bShow = false;
+					-- end
 				end
+                
 			else
 				bShow = true;
 			end
@@ -467,17 +448,6 @@ function updatePowerWindowUses(nodeChar, w)
 		end
 	end
     
-    -- if sMode ~= "preparation" then
-        -- local bMemorized = (DB.getValue(nodeSpell,"memorized",0) > 0);
-        -- --Debug.console("power_page.lua","updatePowerWindowUses","bMemorized",bMemorized);
-        -- --wMain.spellslots_cast.setVisible(bMemorized);
-        -- --wMain.actions.window.powers.setVisible(bMemorized);
-        -- -- only show spells that are memorized
-        -- -- check that it's a spell w/level and not some rando ability -msw
-       -- -- Debug.console("power_page.lua","updatePowerWindowUses","hide spells ----");
-        -- bShow = bMemorized;
-    -- end
-
 	return bShow;
 end
 

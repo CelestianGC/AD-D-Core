@@ -120,6 +120,10 @@
 	<windowclass name="charsheet_actions_contents">
 		<margins control="0,0,0,2" />
 		<script>
+            function onInit()
+                onModeChanged();
+            end
+            
 			function onModeChanged()
 				weapons.onModeChanged();
 				
