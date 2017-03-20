@@ -224,9 +224,9 @@
 	<string name="npc_label_specialAttacks">Special Attack</string>	
     
     <!-- Chat -->
-	<string name="message_notmemorized">You do not have the spell memorized.</string>
-	<string name="message_nomoreslots">You do not have any more spell slots left to memorize this spell.</string>
-	<string name="message_youmemorize">You have memorized </string>
+	<string name="message_notmemorized">Tried to cast spell not memorized.</string>
+	<string name="message_nomoreslots">Tried to memorize a spell but had with no more spell slots left.</string>
+	<string name="message_youmemorize">Memorized </string>
     
     <!-- Sidebar -->
    	<string name="library_recordtype_label_image">Maps</string>

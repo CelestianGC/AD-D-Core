@@ -44,24 +44,23 @@ function onModeChanged(v)
         local bMemorized = (DB.getValue(node,"memorized",0) > 0);
         local sMode = DB.getValue(nodeChar, "powermode", "");
         
---        local sSpellType = DB.getValue(node, "type", ""):lower();
---        local sSource = DB.getValue(node, "source", ""):lower();
         local nLevel = DB.getValue(node, "level",0);
         local sGroup = DB.getValue(node, "group",""):lower();
+        -- make sure it's a spell, with level and in group "Spells"
         local bisCastSpell = ( (nLevel > 0) and (sGroup == "spells") );
         
         if sMode ~= "preparation" and bisCastSpell then
             -- only show spells that are memorized
-            -- check that it's a spell w/level and not some rando ability -msw
             v.shortcut.setVisible(bMemorized);
             v.activatedetail.setVisible(bMemorized);
             v.header.setVisible(bMemorized);
-            --v.actions.setVisible(bMemorized);
             -- only set this if false, not if true.
             if not bMemorized then 
-                v.actions.setVisible(bMemorized);
+                v.actions.setVisible(false);
+                v.idelete.setVisible(false);
+                -- toggle the gear/config button to not pressed
+                v.activatedetail.setValue(0);
             end
---            Debug.console("power_item.lua","onModeChange","header ----");
         else
             v.shortcut.setVisible(true);
             v.activatedetail.setVisible(true);
@@ -106,7 +105,10 @@ end
 
 function onMenuSelection(selection, subselection)
 	if selection == 6 and subselection == 7 then
+        cleanUpMemorization(getDatabaseNode());
 		getDatabaseNode().delete();
+Debug.console("power_item.lua","onMenuSelection","DELETE");
+
 	elseif selection == 4 then
 		PowerManager.parsePCPower(getDatabaseNode());
 		activatedetail.setValue(1);
@@ -125,6 +127,29 @@ function onMenuSelection(selection, subselection)
 			activatedetail.setValue(1);
 		end
 	end
+end
+
+-- this is to clean up and dangling memorized spells (since we disabled player
+-- edit options on the tics) when a player decides to delete a memorized spell
+-- AD&D, -msw
+function cleanUpMemorization(nodeSpell)
+    local nodeChar = nodeSpell.getChild("...");
+
+    local sSpellType = DB.getValue(nodeSpell, "type", ""):lower();
+    local nLevel = DB.getValue(nodeSpell, "level", 0);
+    local nMemorized = DB.getValue(nodeSpell, "memorized", 0);
+    local nUsedArcane = DB.getValue(nodeChar, "powermeta.spellslots" .. nLevel .. ".used", 0);
+    local nLeftOver = nUsedArcane - nMemorized;
+
+    if (nMemorized > 0) then
+        if (sSpellType == "arcane") then
+            DB.setValue(nodeChar,"powermeta.spellslots" .. nLevel .. ".used","number",nLeftOver);
+        elseif (sSpellType == "divine") then
+            DB.setValue(nodeChar,"powermeta.pactmagicslots" .. nLevel .. ".used","number",nLeftOver);
+        else
+            DB.setValue(nodeChar,"powermeta.spellslots" .. nLevel .. ".used","number",nLeftOver);
+        end
+    end
 end
 
 -- create a cast action
