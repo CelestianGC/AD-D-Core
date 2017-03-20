@@ -6,15 +6,10 @@ function onInit()
     DB.addHandler(DB.getPath(nodeChar, "abilities.*.score"), "onUpdate", onSourceUpdate);
     DB.addHandler(DB.getPath(nodeChar, "profbonus"), "onUpdate", onSourceUpdate);
 
-
-    -- -- class adj
     addSource("adj_class");
-    -- -- armor adj
     addSource("adj_armor");
     addSource("adj_mod");
-    -- -- stat adj
     addSource("adj_stat");
-    -- -- base check
     addSource("base_check");
 
     addSource("stat", "string");

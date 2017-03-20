@@ -37,22 +37,51 @@ function onInit()
 	windowlist.onChildWindowAdded(self);
 end
 
-function onDisplayChanged()
-	sDisplayMode = DB.getValue(getDatabaseNode(), "...powerdisplaymode", "");
+function onDisplayChanged(v)
+    if v then
+        Debug.console("power_item.lua","onDisplayChanged","v",v);
+        Debug.console("power_item.lua","onDisplayChanged","parentcontrol",parentcontrol);
+        Debug.console("power_item.lua","onDisplayChanged","v.parentcontrol",v.parentcontrol);
+        Debug.console("power_item.lua","onDisplayChanged","PING");
+        local node = getDatabaseNode();
+        local nodeChar = node.getChild("...");
+        local bMemorized = (DB.getValue(node,"memorized",0) > 0);
+        local sMode = DB.getValue(nodeChar, "powermode", "");
+        if sMode ~= "preparation" then
+            -- only show spells that are memorized
+            -- check that it's a spell w/level and not some rando ability -msw
+            v.shortcut.setVisible(bMemorized);
+            v.activatedetail.setVisible(bMemorized);
+            v.header.setVisible(bMemorized);
+            --v.actions.setVisible(bMemorized);
+            -- only set this if false, not if true.
+            if not bMemorized then 
+                v.actions.setVisible(bMemorized);
+            end
+            Debug.console("power_item.lua","updateDisplay","header ----");
+        else
+            v.shortcut.setVisible(true);
+            v.activatedetail.setVisible(true);
+            v.header.setVisible(true);
+            --v.actions.setVisible(bMemorized);
+        end
+    end
 
-	if sDisplayMode == "summary" then
-		header.subwindow.group.setVisible(false);
-		header.subwindow.shortdescription.setVisible(true);
-		header.subwindow.actionsmini.setVisible(false);
-	elseif sDisplayMode == "action" then
-		header.subwindow.group.setVisible(false);
-		header.subwindow.shortdescription.setVisible(false);
-		header.subwindow.actionsmini.setVisible(true);
-	else
-		header.subwindow.group.setVisible(true);
-		header.subwindow.shortdescription.setVisible(false);
-		header.subwindow.actionsmini.setVisible(false);
-	end
+    local sDisplayMode = DB.getValue(getDatabaseNode(), "...powerdisplaymode", "");
+    
+    if sDisplayMode == "summary" then
+        header.subwindow.group.setVisible(false);
+        header.subwindow.shortdescription.setVisible(true);
+        header.subwindow.actionsmini.setVisible(false);
+    elseif sDisplayMode == "action" then
+        header.subwindow.group.setVisible(false);
+        header.subwindow.shortdescription.setVisible(false);
+        header.subwindow.actionsmini.setVisible(true);
+    else
+        header.subwindow.group.setVisible(true);
+        header.subwindow.shortdescription.setVisible(false);
+        header.subwindow.actionsmini.setVisible(false);
+    end
 end
 
 -- add action for spell/item

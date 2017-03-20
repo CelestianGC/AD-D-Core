@@ -38,7 +38,6 @@ end
 
 function updateDisplay()
 	local node = getDatabaseNode();
-	
 	local sType = DB.getValue(node, "type", "");
 	
 	local bShowCast = (sType == "cast");

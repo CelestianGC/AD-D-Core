@@ -15,7 +15,9 @@ end
 
 function onModeChanged()
 	local nodeChar = getDatabaseNode();
+
 	local sMode = DB.getValue(nodeChar, "powermode", "");
+    
 	if sMode == "preparation" then
 		parentcontrol.setVisible(false);
 	else
@@ -50,6 +52,7 @@ function onModeChanged()
 		end
 		parentcontrol.setVisible(bSpellSlotsVisible or bPactMagicSlotsVisible);
 	end
+    
 end
 
 function rebuildListSlots(ctrlList, sPrefix)
