@@ -335,7 +335,7 @@ function calcItemArmorClass(nodeChar)
 		nArmorSpeed = -10;
 	end
 	DB.setValue(nodeChar, "speed.armor", "number", nArmorSpeed);
-	local nSpeedTotal = DB.getValue(nodeChar, "speed.base", 0) + nArmorSpeed + DB.getValue(nodeChar, "speed.misc", 0) + DB.getValue(nodeChar, "speed.temporary", 0);
+	local nSpeedTotal = DB.getValue(nodeChar, "speed.base", 12) + nArmorSpeed + DB.getValue(nodeChar, "speed.misc", 0) + DB.getValue(nodeChar, "speed.temporary", 0);
 	DB.setValue(nodeChar, "speed.total", "number", nSpeedTotal);
 end
 

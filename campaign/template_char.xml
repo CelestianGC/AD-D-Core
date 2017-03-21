@@ -386,6 +386,59 @@
 			</script>
 		</number_chartotal>
 	</template>
+
+    <!-- number_chartotalac_new, is to get around not having a default in the <source></source> type method, so base ac defaults to 10 
+         it works but for some reason trying to add a handler for defenses.ac.base,defenses.ac.misc, defenses.ac.shield
+         doesn't work. It only works if you do defenses.*.name or defenses.*... no clue why. And if you do that then you have
+         to disable the handler when you set the value because defenses.ac.total is in that and it'll cause a recursion error.
+         What would be nice is if I could just set it for each type and exclude .total but it's not working
+         -msw
+    -->
+	<template name="number_chartotalac_defaults">
+		<basicnumber>
+			<description textres="armorclass" />
+			<font>reference-b-large</font>
+			<modifiersize>mini</modifiersize>
+			<script>
+				function onInit()
+					super.onInit();
+                    local nodeChar = window.getDatabaseNode();
+					DB.addHandler(DB.getPath(nodeChar, "abilities"), "onChildUpdate", onSourceUpdate);
+					DB.addHandler(DB.getPath(nodeChar, "defenses.ac.temporary"), "onUpdate", onSourceUpdate);
+					DB.addHandler(DB.getPath(nodeChar, "defenses.ac.base"), "onUpdate", onSourceUpdate);
+					DB.addHandler(DB.getPath(nodeChar, "defenses.ac.armor"), "onUpdate", onSourceUpdate);
+					DB.addHandler(DB.getPath(nodeChar, "defenses.ac.shield"), "onUpdate", onSourceUpdate);
+					DB.addHandler(DB.getPath(nodeChar, "defenses.ac.misc"), "onUpdate", onSourceUpdate);
+				end
+				
+				function onClose()
+                    local nodeChar = window.getDatabaseNode();
+					DB.removeHandler(DB.getPath(nodeChar, "abilities"), "onChildUpdate", onSourceUpdate);
+					DB.removeHandler(DB.getPath(nodeChar, "defenses.ac.temporary"), "onUpdate", onSourceUpdate);
+					DB.removeHandler(DB.getPath(nodeChar, "defenses.ac.base"), "onUpdate", onSourceUpdate);
+					DB.removeHandler(DB.getPath(nodeChar, "defenses.ac.armor"), "onUpdate", onSourceUpdate);
+					DB.removeHandler(DB.getPath(nodeChar, "defenses.ac.shield"), "onUpdate", onSourceUpdate);
+					DB.removeHandler(DB.getPath(nodeChar, "defenses.ac.misc"), "onUpdate", onSourceUpdate);
+				end
+				
+				function onSourceUpdate()
+					local rActor = ActorManager.getActor("pc", window.getDatabaseNode());
+                    local node = getDatabaseNode();
+                    local nodeChar = node.getChild("....");
+
+					local nDexBonus = ActorManager2.getAbilityBonus(rActor, "dexterity","defenseadj");
+					local nACTemp = DB.getValue(nodeChar, "defenses.ac.temporary",0);
+					local nACBase = DB.getValue(nodeChar, "defenses.ac.base",10);
+					local nACArmor = DB.getValue(nodeChar, "defenses.ac.armor",0);
+					local nACShield = DB.getValue(nodeChar, "defenses.ac.shield",0);
+					local nACMisc = DB.getValue(nodeChar, "defenses.ac.misc",0);
+                    
+                    setValue(nDexBonus + nACTemp + nACBase + nACArmor + nACShield + nACMisc);
+				end
+			</script>
+		</basicnumber>
+	</template>
+    
 	<template name="number_chartotalac2">
 		<number_chartotal>
 			<description textres="armorclass" />
@@ -504,6 +557,43 @@
 			<source><name>speed.armor</name><op>+</op></source>
 			<source><name>speed.misc</name><op>+</op></source>
 		</number_chartotal>
+	</template>
+	<template name="number_charspeed_defaults">
+		<basicnumber>
+			<font>reference-b-large</font>
+			<modifiersize>mini</modifiersize>
+			<description textres="char_tooltip_speed" />
+			<script>
+				function onInit()
+					super.onInit();
+                    local nodeChar = window.getDatabaseNode();
+					DB.addHandler(DB.getPath(nodeChar, "speed.base"), "onUpdate", onSourceUpdate);
+					DB.addHandler(DB.getPath(nodeChar, "speed.armor"), "onUpdate", onSourceUpdate);
+					DB.addHandler(DB.getPath(nodeChar, "speed.misc"), "onUpdate", onSourceUpdate);
+                    onSourceUpdate();
+				end
+				
+				function onClose()
+                    local nodeChar = window.getDatabaseNode();
+					DB.removeHandler(DB.getPath(nodeChar, "speed.base"), "onUpdate", onSourceUpdate);
+					DB.removeHandler(DB.getPath(nodeChar, "speed.armor"), "onUpdate", onSourceUpdate);
+					DB.removeHandler(DB.getPath(nodeChar, "speed.misc"), "onUpdate", onSourceUpdate);
+				end
+				
+				function onSourceUpdate()
+					local rActor = ActorManager.getActor("pc", window.getDatabaseNode());
+                    local node = getDatabaseNode();
+                    local nodeChar = node.getChild("....");
+
+					local nSpeedBase = DB.getValue(nodeChar, "speed.base",12);
+					local nSpeedArmor = DB.getValue(nodeChar, "speed.armor",0);
+					local nSpeedMisc = DB.getValue(nodeChar, "speed.misc",0);
+                    
+                    setValue(nSpeedBase + nSpeedArmor + nSpeedMisc );
+				end
+			</script>
+            
+		</basicnumber>
 	</template>
 	
 	<template name="list_charweapon">

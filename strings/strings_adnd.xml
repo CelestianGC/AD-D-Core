@@ -229,7 +229,7 @@
 	<string name="message_youmemorize">Memorized </string>
     
     <!-- Sidebar -->
-   	<string name="library_recordtype_label_image">Maps</string>
+   	<string name="library_recordtype_label_image">Images</string>
 	<string name="library_recordtype_label_treasureparcel">Loot</string>
 
     <!-- Item -->

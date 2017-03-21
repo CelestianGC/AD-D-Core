@@ -738,14 +738,14 @@
 				<static textres="thaco" />
 			</label_charfieldtop>
 
-			<number_chartotalac name="ac2" source="defenses.ac.total">
+			<number_chartotalac_defaults name="ac2" source="defenses.ac.total">
 				<readonly />
 				<anchored to="combattitle" width="30" height="40">
 					<top anchor="bottom" offset="10" />
 					<left anchor="center" offset="-55" />
 				</anchored>
 				<frame name="acicon" offset="2,0,2,4" />
-			</number_chartotalac>
+			</number_chartotalac_defaults>
 			<button_armorprof name="armorprof" source="defenses.ac.prof">
 				<anchored to="ac2" />
 			</button_armorprof>
@@ -766,10 +766,10 @@
 				<static textres="char_label_initiative" />
 			</label_charfieldtop>
 			
-			<number_charspeed name="speed" source="speed.total">
+			<number_charspeed_defaults name="speed" source="speed.total">
 				<readonly />
 				<anchored to="initiative" position="righthigh" offset="15,0" width="40" height="30" />
-			</number_charspeed>
+			</number_charspeed_defaults>
 			<label_charfieldtop>
 				<anchored to="speed" offset="0,15" />
 				<static textres="char_label_speed" />
@@ -1169,6 +1169,7 @@
 				<static textres="char_label_speeddetail" />
 			</label>
 			<basicnumber name="speedbase" source="speed.base">
+				<default>12</default>
 				<anchored to="label_speeddetail" position="righthigh" offset="5,0" width="45" height="20" />
 			</basicnumber>
 			<label_fieldtop name="label_speedbase">
