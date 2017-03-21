@@ -987,7 +987,10 @@ function addSkillDB(nodeChar, sSkill, nProficient)
 		nodeSkill = nodeList.createChild();
 		DB.setValue(nodeSkill, "name", "string", sSkill);
 		if DataCommon.skilldata[sSkill] then
-			DB.setValue(nodeSkill, "stat", "string", DataCommon.skilldata[sSkill].stat);
+--			DB.setValue(nodeSkill, "stat", "string", DataCommon.skilldata[sSkill].stat);
+			DB.setValue(nodeSkill, "stat", "string",DB.getValue(nodeSkill, "stat", ""));
+			DB.setValue(nodeSkill, "adj_mod", "number",DB.getValue(nodeSkill, "adj_mod", 0));
+			DB.setValue(nodeSkill, "base_check", "number",DB.getValue(nodeSkill, "base_check", 0));
 		end
 	end
 	if nProficient then

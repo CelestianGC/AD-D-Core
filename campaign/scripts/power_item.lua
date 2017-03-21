@@ -5,6 +5,7 @@
 
 local bFilter = true;
 function setFilter(bNewFilter)
+Debug.console("power_item.lua","setFilter","bNewFilter",bNewFilter);
 	bFilter = bNewFilter;
 end
 --function getFilter()
@@ -37,6 +38,7 @@ function onInit()
 	windowlist.onChildWindowAdded(self);
 end
 
+-- filters out non-memorized spells when in "combat" mode.
 function getFilter()
     local bShow = bFilter;
     local node = getDatabaseNode();
@@ -45,15 +47,15 @@ function getFilter()
     local sMode = DB.getValue(nodeChar, "powermode", "");
     local nLevel = DB.getValue(node, "level",0);
     local sGroup = DB.getValue(node, "group",""):lower();
-    -- make sure it's a spell, with level and in group "Spells"
+    -- make sure it's in group "Spells" and has level > 0
     local bisCastSpell = ( (nLevel > 0) and (sGroup == "spells") );
 
     -- this is so when they cast a spell it doesn't go away instantly
     -- otherwise they can't use save/damage/heal/etc
-    -- it's reset when they visit the preparation windows.
+    -- it's reset when they toggle mode to standard/preparation mode
     local bWasMemorized = (DB.getValue(node,"wasmemorized",0) > 0);
     
-    if sMode ~= "preparation" and bisCastSpell then
+    if sMode == "combat" and bisCastSpell then
         if (bMemorized) then
             DB.setValue(node,"wasmemorized","number",1);
         end

@@ -519,7 +519,6 @@ function updateUses()
 					bShow = ((rGroup.nShown or 0) > 0);
 				end
 			end
-			
 			v.setFilter(bShow);
 		end
 	end
