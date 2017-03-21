@@ -7,9 +7,9 @@ local bFilter = true;
 function setFilter(bNewFilter)
 	bFilter = bNewFilter;
 end
-function getFilter()
-	return bFilter;
-end
+--function getFilter()
+--	return bFilter;
+--end
 
 function onInit()
 	if not windowlist.isReadOnly() then
@@ -37,38 +37,33 @@ function onInit()
 	windowlist.onChildWindowAdded(self);
 end
 
-function onModeChanged(v)
-    if v then
-        local node = getDatabaseNode();
-        local nodeChar = node.getChild("...");
-        local bMemorized = (DB.getValue(node,"memorized",0) > 0);
-        local sMode = DB.getValue(nodeChar, "powermode", "");
-        
-        local nLevel = DB.getValue(node, "level",0);
-        local sGroup = DB.getValue(node, "group",""):lower();
-        -- make sure it's a spell, with level and in group "Spells"
-        local bisCastSpell = ( (nLevel > 0) and (sGroup == "spells") );
-        
-        if sMode ~= "preparation" and bisCastSpell then
-            -- only show spells that are memorized
-            v.shortcut.setVisible(bMemorized);
-            v.activatedetail.setVisible(bMemorized);
-            v.header.setVisible(bMemorized);
-            -- only set this if false, not if true.
-            if not bMemorized then 
-                v.actions.setVisible(false);
-                v.idelete.setVisible(false);
-                -- toggle the gear/config button to not pressed
-                v.activatedetail.setValue(0);
-            end
-        else
-            v.shortcut.setVisible(true);
-            v.activatedetail.setVisible(true);
-            v.header.setVisible(true);
-            --v.actions.setVisible(bMemorized);
-        end
-    end
+function getFilter()
+    local bShow = bFilter;
+    local node = getDatabaseNode();
+    local nodeChar = node.getChild("...");
+    local bMemorized = (DB.getValue(node,"memorized",0) > 0);
+    local sMode = DB.getValue(nodeChar, "powermode", "");
+    local nLevel = DB.getValue(node, "level",0);
+    local sGroup = DB.getValue(node, "group",""):lower();
+    -- make sure it's a spell, with level and in group "Spells"
+    local bisCastSpell = ( (nLevel > 0) and (sGroup == "spells") );
 
+    -- this is so when they cast a spell it doesn't go away instantly
+    -- otherwise they can't use save/damage/heal/etc
+    -- it's reset when they visit the preparation windows.
+    local bWasMemorized = (DB.getValue(node,"wasmemorized",0) > 0);
+    
+    if sMode ~= "preparation" and bisCastSpell then
+        if (bMemorized) then
+            DB.setValue(node,"wasmemorized","number",1);
+        end
+        bShow = (bMemorized or bWasMemorized);
+    else
+        DB.setValue(node,"wasmemorized","number",0);
+        bShow = true;
+    end
+    
+    return bShow;
 end
 
 function onDisplayChanged()

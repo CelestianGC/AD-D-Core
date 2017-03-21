@@ -105,12 +105,6 @@ end
 function onModeChanged()
 	rebuildGroups();
 	updateUses();
-    
-	for _,v in pairs(powers.getWindows()) do
-		if v.getClass() ~= "power_group_header" then
-			v.onModeChanged(v);
-		end
-	end
 end
 
 function onDisplayChanged()

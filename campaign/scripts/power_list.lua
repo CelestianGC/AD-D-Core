@@ -96,5 +96,6 @@ function onFilter(w)
 		return false;
 	end
 	
-	return w.getFilter();
+    return w.getFilter();
 end
+
