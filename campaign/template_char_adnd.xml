@@ -333,5 +333,28 @@
 			</script>
         </basicnumber>
 	</template>
+
+	<template name="button_charabiltiesdetail">
+		<buttoncontrol>
+			<anchored width="20" height="20" />
+			<state icon="details" pressed="details_down" />
+			<script>
+				function onButtonPress()
+					Interface.openWindow("charsheet_abilities_details", window.getDatabaseNode());
+				end
+			</script>
+		</buttoncontrol>
+	</template>
+	<template name="button_charasavesdetail">
+		<buttoncontrol>
+			<anchored width="20" height="20" />
+			<state icon="details" pressed="details_down" />
+			<script>
+				function onButtonPress()
+					Interface.openWindow("charsheet_saves_details", window.getDatabaseNode());
+				end
+			</script>
+		</buttoncontrol>
+	</template>
     
 </root>

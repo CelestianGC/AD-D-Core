@@ -88,8 +88,12 @@
 				<static textres="char_label_stats" />
 			</label_charframetop>
 			
+            <button_charabiltiesdetail name="abilities_details">
+				<anchored to="statstitle" position="insidetopleft" offset="290,0">
+				</anchored>
+            </button_charabiltiesdetail>
+            
 			<!-- Ability STR -->
-			
 			<number_charabilityscore2 name="strength" source="abilities.strength.score" >
 				<tooltip textres="char_tooltip_strength" />
 				<anchored offset="-10,30"  width="45" height="45"/>
@@ -613,6 +617,10 @@
 				<anchored to="statstitle" position="right" offset="35,0" width="130"/>
                 <static textres="char_label_save" />
 			</label_charframetop>
+            <button_charasavesdetail name="saves_details">
+				<anchored to="savestitle" position="insidetopleft" offset="117,0">
+				</anchored>
+            </button_charasavesdetail>
 
 			<number_charasavescore name="save_paralyzation_poison_death" source="saves.save_paralyzation_poison_death.score">
 				<anchored to="savestitle" position="insidetopleft" offset="0,30"  height="30" width="30"/> 
@@ -1324,6 +1332,102 @@
 			</label_fieldtop>
 
 			<close_charsheethelper />
+		</sheetdata>
+	</windowclass>
+    
+	<windowclass name="charsheet_abilities_details">
+		<frame>charsheethelper</frame>
+		<placement>
+			<size width="400" height="220" />
+		</placement>
+		<nodelete />
+		<sheetdata>
+            <windowtitlebar name="title">
+                <prefix>charsheet_abilities_detail_title</prefix>
+                <bounds merge="replace">0,10,-1,120</bounds>
+                <field>name</field>
+                <font>subwindowtitle</font>
+                <script>
+                    function setValue(sTitle)
+                        if widgetTitle then
+                            if prefix then
+                                sTitle = Interface.getString(prefix[1]) .. " - " .. sTitle;
+                            end
+                            widgetTitle.setText(sTitle);
+                            updatePosition();
+                        end
+                    end
+                </script>
+            </windowtitlebar>
+            
+            <genericcontrol name="contentanchor" >
+                <anchored height="0">
+                    <top parent="title" anchor="bottom" offset="0" />
+                    <left parent="" anchor="left" offset="20" />
+                    <right parent="" anchor="right" offset="-20" />
+                </anchored>
+                <disabled />
+            </genericcontrol>
+
+			<anchor_column name="columnanchor">
+				<anchored to="contentanchor" position="below" offset="0,-5" />
+			</anchor_column>
+
+            <close>
+			<anchored>
+				<top offset="24" />
+				<right offset="-12" />
+			</anchored>
+		</close>
+
+		</sheetdata>
+	</windowclass>
+    
+	<windowclass name="charsheet_saves_details">
+		<frame>charsheethelper</frame>
+		<placement>
+			<size width="400" height="220" />
+		</placement>
+		<nodelete />
+		<sheetdata>
+            <windowtitlebar name="title">
+                <prefix>charsheet_saves_detail_title</prefix>
+                <bounds merge="replace">0,10,-1,120</bounds>
+                <field>name</field>
+                <font>subwindowtitle</font>
+                <script>
+                    function setValue(sTitle)
+                        if widgetTitle then
+                            if prefix then
+                                sTitle = Interface.getString(prefix[1]) .. " - " .. sTitle;
+                            end
+                            widgetTitle.setText(sTitle);
+                            updatePosition();
+                        end
+                    end
+                </script>
+            </windowtitlebar>
+            
+            <genericcontrol name="contentanchor" >
+                <anchored height="0">
+                    <top parent="title" anchor="bottom" offset="0" />
+                    <left parent="" anchor="left" offset="20" />
+                    <right parent="" anchor="right" offset="-20" />
+                </anchored>
+                <disabled />
+            </genericcontrol>
+
+			<anchor_column name="columnanchor">
+				<anchored to="contentanchor" position="below" offset="0,-5" />
+			</anchor_column>
+
+            <close>
+			<anchored>
+				<top offset="24" />
+				<right offset="-12" />
+			</anchored>
+		</close>
+
 		</sheetdata>
 	</windowclass>
 </root>

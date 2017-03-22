@@ -146,6 +146,8 @@
     <string name="char_tooltip_xp">Total Experience Earned</string>
     <string name="char_tooltip_xpneeded">Experience needed for Next Level</string>
    	<string name="char_label_armordexterity">Dex</string>
+	<string name="charsheet_abilities_detail_title">Ability Score Details</string>
+	<string name="charsheet_saves_detail_title">Save Score Details</string>
     <!-- Actions -->
 	<string name="power_label_spellcastingslots">Arcane Magic</string>
 	<string name="power_label_pactmagicslots">Divine Magic</string>
