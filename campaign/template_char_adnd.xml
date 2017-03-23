@@ -375,7 +375,7 @@
 					<left anchor="right" relation="relative" offset="10" />
 				</anchored>
                 <frame name="fieldlight" offset="7,5,7,5" />
-                <font>arial-regular-8</font>
+                <font>arial-bold-8</font>
                 <default>9</default>
                 <hideonvalue>0</hideonvalue>
                 <min>0</min>
@@ -390,7 +390,7 @@
 					<left anchor="right" relation="relative" offset="10" />
 				</anchored>
                 <frame name="fieldlight" offset="7,5,7,5" />
-                <font>arial-regular-8</font>
+                <font>arial-bold-8</font>
                 <default>0</default>
                 <hideonvalue>0</hideonvalue>
                 <min>0</min>
@@ -413,9 +413,7 @@
     </template>
     <template name="ability_details_total">
             <number>
-                <readonly />
        			<script file="campaign/scripts/char_abilities_details.lua" />
-
                 <script>
                     function onInit()
                         super.onInit();
@@ -447,14 +445,14 @@
                     <left anchor="right" relation="relative" offset="10" />
                 </anchored>
                 <frame name="fieldlight" offset="7,5,7,5" />
-                <font>arial-regular-8</font>
+                <font>arial-bold-8</font>
+                <readonly />
+                <hideonvalue>0</hideonvalue>
             </number>
     </template>
     <template name="ability_details_percent_total" >
             <number>
-                <readonly />
        			<script file="campaign/scripts/char_abilities_details.lua" />
-
                 <script>
                     function onInit()
                         super.onInit();
@@ -488,7 +486,29 @@
                     <left anchor="right" relation="relative" offset="10" />
                 </anchored>
                 <frame name="fieldlight" offset="7,5,7,5" />
-                <font>arial-regular-8</font>
+                <font>arial-bold-8</font>
+                <readonly />
+                <hideonvalue>0</hideonvalue>
             </number>
+    </template>
+    
+    <template name="label_ability_details_stat">
+            <label>
+                <center />
+   				<backcolor>#afaf83</backcolor>
+				<anchored to="leftanchor" width="75">
+					<top relation="relative"/>
+ 					<left anchor="right" offset="70"/>
+				</anchored>
+            </label>
+    </template>
+    <template name="label_ability_details">
+            <label>
+                <center />
+				<anchored to="leftanchor"  width="75">
+					<top relation="relative" />
+					<left anchor="right" offset="70"/>
+				</anchored>
+            </label>
     </template>
 </root>

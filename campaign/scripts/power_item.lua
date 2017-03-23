@@ -5,7 +5,6 @@
 
 local bFilter = true;
 function setFilter(bNewFilter)
-Debug.console("power_item.lua","setFilter","bNewFilter",bNewFilter);
 	bFilter = bNewFilter;
 end
 --function getFilter()
@@ -104,7 +103,6 @@ function onMenuSelection(selection, subselection)
 	if selection == 6 and subselection == 7 then
         cleanUpMemorization(getDatabaseNode());
 		getDatabaseNode().delete();
-Debug.console("power_item.lua","onMenuSelection","DELETE");
 
 	elseif selection == 4 then
 		PowerManager.parsePCPower(getDatabaseNode());
