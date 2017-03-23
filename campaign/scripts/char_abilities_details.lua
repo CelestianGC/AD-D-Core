@@ -1,4 +1,7 @@
-
+--
+-- for AD&D Core, abilities menu
+--
+--
 
 function detailsUpdate()
     local node = getDatabaseNode();

@@ -32,48 +32,104 @@ ability_stol = {
 };
 
 -- saves (Database names)
-saves = {
-	"save_paralyzation_poison_death",
-	"save_rod_staff_wand",
-	"save_petrify_polymorph",
-	"save_breath",
-	"save_spell"
-};
+-- saves = {
+	-- "save_paralyzation_poison_death",
+	-- "save_rod_staff_wand",
+	-- "save_petrify_polymorph",
+	-- "save_breath",
+	-- "save_spell"
+-- };
 
-saves_multi_name = {
-	["poison"] = "save_paralyzation_poison_death",
-	["paralyzation"] = "save_paralyzation_poison_death",
-	["death"] = "save_paralyzation_poison_death",
-	["rod"] = "save_rod_staff_wand",
-	["rods"] = "save_rod_staff_wand",
-	["staff"] = "save_rod_staff_wand",
-	["staves"] = "save_rod_staff_wand",
-	["wand"] = "save_rod_staff_wand",
-	["wands"] = "save_rod_staff_wand",
-	["petrification"] = "save_petrify_polymorph",
-	["petrify"] = "save_petrify_polymorph",
-	["polymorph"] = "save_petrify_polymorph",
-	["breath"] = "save_breath",
-	["other"] = "save_spell",
-	["spell"] = "save_spell"
-};
+    saves = {
+        "poison",
+        "paralyzation",
+        "death",
+        "rod",
+        "staff",
+        "wand",
+        "petrification",
+        "polymorph",
+        "breath",
+        "spell"
+    };
 
-saves_stol = {
-	["save_paralyzation_poison_death"] = "Paralyzation, Poison or Death",
-	["save_rod_staff_wand"] = "Rod, Staff or Wand",
-	["save_petrify_polymorph"] = "Petrification or Polymorph",
-	["save_breath"] = "Breath Weapon",
-	["save_spell"] = "Spells"
+-- saves_stol = {
+	-- ["save_paralyzation_poison_death"] = "Paralyzation, Poison or Death",
+	-- ["save_rod_staff_wand"] = "Rod, Staff or Wand",
+	-- ["save_petrify_polymorph"] = "Petrification or Polymorph",
+	-- ["save_breath"] = "Breath Weapon",
+	-- ["save_spell"] = "Spells"
 	
+-- };
+    saves_stol = {
+        ["poison"] = "Poison",
+        ["paralyzation"] = "Paralyzation",
+        ["death"] = "Death",
+        ["rod"] = "Rod",
+        ["staff"] = "Staff",
+        ["wand"] = "Wand",
+        ["petrification"] = "Petrification",
+        ["polymorph"] = "Polymorph",
+        ["breath"] = "Breath",
+        ["spell"] = "Spell",
+    };
+
+-- saves_multi_name = {
+	-- ["poison"] = "save_paralyzation_poison_death",
+	-- ["paralyzation"] = "save_paralyzation_poison_death",
+	-- ["death"] = "save_paralyzation_poison_death",
+	-- ["rod"] = "save_rod_staff_wand",
+	-- ["rods"] = "save_rod_staff_wand",
+	-- ["staff"] = "save_rod_staff_wand",
+	-- ["staves"] = "save_rod_staff_wand",
+	-- ["wand"] = "save_rod_staff_wand",
+	-- ["wands"] = "save_rod_staff_wand",
+	-- ["petrification"] = "save_petrify_polymorph",
+	-- ["petrify"] = "save_petrify_polymorph",
+	-- ["polymorph"] = "save_petrify_polymorph",
+	-- ["breath"] = "save_breath",
+	-- ["other"] = "save_spell",
+	-- ["spells"] = "save_spell",
+	-- ["spell"] = "save_spell"
+-- };
+saves_multi_name = {
+	["poison"] = "poison",
+	["paralyzation"] = "paralyzation",
+	["death"] = "death",
+	["rod"] = "rod",
+	["rods"] = "rod",
+	["staff"] = "staff",
+	["staves"] = "staff",
+	["wand"] = "wand",
+	["wands"] = "wand",
+	["petrification"] = "petrification",
+	["petrify"] = "petrification",
+	["polymorph"] = "polymorph",
+	["breath"] = "breath",
+	["other"] = "other",
+	["spell"] = "spell",
+	["spells"] = "spell"
 };
 
-saves_index = {
-	["save_paralyzation_poison_death"] = 1,
-	["save_rod_staff_wand"] = 2,
-	["save_petrify_polymorph"] = 3,
-	["save_breath"] = 4,
-	["save_spell"] = 5
-};
+-- saves_index = {
+	-- ["save_paralyzation_poison_death"] = 1,
+	-- ["save_rod_staff_wand"] = 2,
+	-- ["save_petrify_polymorph"] = 3,
+	-- ["save_breath"] = 4,
+	-- ["save_spell"] = 5
+-- };
+    saves_index = {
+        ["poison"] = 1,
+        ["paralyzation"] = 2,
+        ["death"] = 3,
+        ["rod"] = 4,
+        ["staff"] = 5,
+        ["wand"] = 7,
+        ["petrification"] = 8,
+        ["polymorph"] = 9,
+        ["breath"] = 10,
+        ["spell"] = 11
+    };
 
 saves_shortnames = {
 	"poison",

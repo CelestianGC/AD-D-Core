@@ -7,17 +7,9 @@
 
 <root>
 
-	<template name="number_savescore">
-		<basicnumber>
-			<default>18</default>
-			<script file="campaign/scripts/number_savescore.lua" />
-		</basicnumber>
-	</template>
-
 	<template name="label_savescore">
 		<label name="label_save_type">
 			<anchored position="righthigh" offset="5,0" width="45" />
- 			<multilinespacing>10</multilinespacing>
 			<center />
             <readonly />
 			<font>arial-regular-6</font>
@@ -511,4 +503,109 @@
 				</anchored>
             </label>
     </template>
+
+	<template name="number_char_save">
+		<basicnumber>
+			<default>20</default>
+			<anchored to="statstitle" position="below"/>
+			<rollable />
+            <readonly />
+			<script>
+				function action(draginfo)
+                    local nTargetDC = 20;
+                    local rActor = ActorManager.getActor("pc", window.getDatabaseNode());
+                    local sActorType, nodeActor = ActorManager.getTypeAndNode(rActor);
+                    nTargetDC = DB.getValue(nodeActor, "saves." .. self.target[1] .. ".score", 0);
+					ActionSave.performRoll(draginfo, rActor, self.target[1],nTargetDC);
+					return true;
+				end
+				
+				function onDragStart(button, x, y, draginfo)
+					return action(draginfo);
+				end
+					
+				function onDoubleClick(x,y)
+					return action();
+				end
+			</script>
+		</basicnumber>
+	</template>
+
+    <template name="label_save_details">
+            <label>
+                <center />
+				<anchored to="leftanchor"  width="75">
+					<top relation="relative" />
+					<left anchor="right" offset="55"/>
+				</anchored>
+            </label>
+    </template>
+    <template name="save_details_total">
+            <number>
+       			<script file="campaign/scripts/char_saves_details.lua" />
+                <script>
+                    function onInit()
+                        super.onInit();
+                        local nodeChar = window.getDatabaseNode();
+                        local sTarget = string.lower(self.target[1]);
+                        DB.addHandler(DB.getPath(nodeChar, "saves." .. sTarget .. ".base"),       "onUpdate", detailsUpdate);
+                        DB.addHandler(DB.getPath(nodeChar, "saves." .. sTarget .. ".basemod"),    "onUpdate", detailsUpdate);
+                        DB.addHandler(DB.getPath(nodeChar, "saves." .. sTarget .. ".itemmod"),    "onUpdate", detailsUpdate);
+                        DB.addHandler(DB.getPath(nodeChar, "saves." .. sTarget .. ".effectmod"),  "onUpdate", detailsUpdate);
+                        DB.addHandler(DB.getPath(nodeChar, "saves." .. sTarget .. ".adjustment"), "onUpdate", detailsUpdate);
+                        DB.addHandler(DB.getPath(nodeChar, "saves." .. sTarget .. ".tempmod"),    "onUpdate", detailsUpdate);
+                        detailsUpdate();
+                    end
+                    
+                    function onClose()
+                        local nodeChar = window.getDatabaseNode();
+                        local sTarget = string.lower(self.target[1]);
+                        DB.removeHandler(DB.getPath(nodeChar, "saves." .. sTarget .. ".base"),       "onUpdate", detailsUpdate);
+                        DB.removeHandler(DB.getPath(nodeChar, "saves." .. sTarget .. ".basemod"),    "onUpdate", detailsUpdate);
+                        DB.removeHandler(DB.getPath(nodeChar, "saves." .. sTarget .. ".itemmod"),    "onUpdate", detailsUpdate);
+                        DB.removeHandler(DB.getPath(nodeChar, "saves." .. sTarget .. ".effectmod"),  "onUpdate", detailsUpdate);
+                        DB.removeHandler(DB.getPath(nodeChar, "saves." .. sTarget .. ".adjustment"), "onUpdate", detailsUpdate);
+                        DB.removeHandler(DB.getPath(nodeChar, "saves." .. sTarget .. ".tempmod"),    "onUpdate", detailsUpdate);
+                    end
+                    
+                </script>
+                <anchored width="30" height="20">
+                    <top  />
+                    <left anchor="right" relation="relative" offset="10" />
+                </anchored>
+                <frame name="fieldlight" offset="7,5,7,5" />
+                <font>arial-bold-8</font>
+                <readonly />
+                <hideonvalue>0</hideonvalue>
+            </number>
+    </template>
+    <template name="save_number_base">
+            <number>
+				<anchored width="30" height="20">
+					<top  />
+					<left anchor="right" relation="relative" offset="10" />
+				</anchored>
+                <frame name="fieldlight" offset="7,5,7,5" />
+                <font>arial-bold-8</font>
+                <default>20</default>
+                <hideonvalue>0</hideonvalue>
+                <min>0</min>
+                <max>25</max>
+            </number>
+    
+    </template>
+    <template name="save_number_mod">
+            <number>
+				<anchored width="30" height="20">
+					<top  />
+					<left anchor="right" relation="relative" offset="5" />
+				</anchored>
+                <frame name="fieldlight" offset="7,5,7,5" />
+                <font>arial-regular-8</font>
+                <hideonvalue>0</hideonvalue>
+                <default>0</default>
+                <displaysign />
+            </number>
+    </template>
+    
 </root>

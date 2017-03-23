@@ -622,106 +622,106 @@
 				</anchored>
             </button_charasavesdetail>
 
-			<number_charasavescore name="save_paralyzation_poison_death" source="saves.save_paralyzation_poison_death.score">
-				<anchored to="savestitle" position="insidetopleft" offset="0,30"  height="30" width="30"/> 
-				<target>save_paralyzation_poison_death</target>
-				<modifierfield>saves.save_paralyzation_poison_death.modifier</modifierfield>
-			</number_charasavescore>
-			<label_savescore name="save_poison_label">
-   				<tooltip textres="save_paralyzation_poison_death_full" />
-				<anchored to="save_paralyzation_poison_death" />
-				<static textres="save_paralyzation_poison_death_wrapped" />
+			<number_char_save name="paralyzation" source="saves.paralyzation.score">
+				<anchored to="savestitle" position="belowright" offset="80,10"  height="25" width="25"/> 
+				<target>paralyzation</target>
+			</number_char_save>
+			<label_savescore>
+   				<tooltip textres="save_paralyzation_full" />
+				<anchored to="paralyzation" />
+				<static textres="save_paralyzation_wrapped" />
 			</label_savescore>
-			<number_saves_modifier name="save_paralyzation_poison_death_mod" source="saves.save_paralyzation_poison_death.modifier">
-   				<tooltip textres="save_tooltip_mod" />
-				<anchored to="save_poison_label" />
-			</number_saves_modifier>
-			<label_mod_fields>
-				<anchored to="save_paralyzation_poison_death_mod" />
-   				<tooltip textres="save_tooltip_mod" />
-				<static textres="text_MOD" />
-			</label_mod_fields>
 
-			<number_charasavescore name="save_rod_staff_wand" source="saves.save_rod_staff_wand.score">
-				<anchored to="save_paralyzation_poison_death"   height="30"  />
-				<target>save_rod_staff_wand</target>
-				<modifierfield>saves.rod_staff_wand.modifier</modifierfield>
-			</number_charasavescore>
-			<label_savescore name="save_wand_label">
-   				<tooltip textres="save_rod_staff_wand_full" />
-				<anchored to="save_rod_staff_wand" />
-				<static textres="save_rod_staff_wand_wrapped" />
+			<number_char_save name="poison" source="saves.poison.score">
+				<anchored to="paralyzation"   height="25"  />
+				<target>poison</target>
+			</number_char_save>
+			<label_savescore>
+   				<tooltip textres="save_poison_full" />
+				<anchored to="poison" />
+				<static textres="save_poison_wrapped" />
 			</label_savescore>
-			<number_saves_modifier name="save_rod_staff_wand_mod" source="saves.save_rod_staff_wand.modifier">
-   				<tooltip textres="save_tooltip_mod" />
-				<anchored to="save_wand_label"/>
-			</number_saves_modifier>
-			<label_mod_fields>
-				<anchored to="save_rod_staff_wand_mod" />
-   				<tooltip textres="save_tooltip_mod" />
-				<static textres="text_MOD" />
-			</label_mod_fields>
-            
-			<number_charasavescore name="save_petrify_polymorph" source="saves.save_petrify_polymorph.score">
-				<anchored to="save_rod_staff_wand"   height="30" />
-				<target>save_petrify_polymorph</target>
-				<modifierfield>saves.save_petrify_polymorph.modifier</modifierfield>
-			</number_charasavescore>
-			<label_savescore  name="save_poly_label">
-   				<tooltip textres="save_petrify_polymorph_full" />
-				<anchored to="save_petrify_polymorph" />
-				<static textres="save_petrify_polymorph_wrapped" />
+
+			<number_char_save name="death" source="saves.death.score">
+				<anchored to="poison"   height="25"  />
+				<target>death</target>
+			</number_char_save>
+			<label_savescore>
+   				<tooltip textres="save_death_full" />
+				<anchored to="death" />
+				<static textres="save_death_wrapped" />
 			</label_savescore>
-			<number_saves_modifier name="save_petrify_polymorph_mod" source="saves.save_petrify_polymorph.modifier">
-   				<tooltip textres="save_tooltip_mod" />
-				<anchored to="save_poly_label" />
-			</number_saves_modifier>
-			<label_mod_fields>
-				<anchored to="save_petrify_polymorph_mod" />
-   				<tooltip textres="save_tooltip_mod" />
-				<static textres="text_MOD" />
-			</label_mod_fields>
+
+			<number_char_save name="rod" source="saves.rod.score">
+				<anchored to="death"   height="25"  />
+				<target>rod</target>
+			</number_char_save>
+			<label_savescore>
+   				<tooltip textres="save_rod_full" />
+				<anchored to="rod" />
+				<static textres="save_rod_wrapped" />
+			</label_savescore>
             
-			<number_charasavescore name="save_breath" source="saves.save_breath.score">
-				<anchored to="save_petrify_polymorph"   height="30" />
-				<target>save_breath</target>
-				<modifierfield>saves.save_breath.modifier</modifierfield>
-			</number_charasavescore>
-			<label_savescore  name="save_breath_label">
+			<number_char_save name="staff" source="saves.staff.score">
+				<anchored to="rod"   height="25"  />
+				<target>staff</target>
+			</number_char_save>
+			<label_savescore>
+   				<tooltip textres="save_staff_full" />
+				<anchored to="staff" />
+				<static textres="save_staff_wrapped" />
+			</label_savescore>
+
+			<number_char_save name="wand" source="saves.wand.score">
+				<anchored to="staff"   height="25"  />
+				<target>wand</target>
+			</number_char_save>
+			<label_savescore>
+   				<tooltip textres="save_wand_full" />
+				<anchored to="wand" />
+				<static textres="save_wand_wrapped" />
+			</label_savescore>
+
+			<number_char_save name="petrification" source="saves.petrification.score">
+				<anchored to="wand"   height="25"  />
+				<target>petrification</target>
+			</number_char_save>
+			<label_savescore>
+   				<tooltip textres="save_petrification_full" />
+				<anchored to="petrification" />
+				<static textres="save_petrification_wrapped" />
+			</label_savescore>
+
+			<number_char_save name="polymorph" source="saves.polymorph.score">
+				<anchored to="petrification"   height="25"  />
+				<target>polymorph</target>
+			</number_char_save>
+			<label_savescore>
+   				<tooltip textres="save_polymorph_full" />
+				<anchored to="polymorph" />
+				<static textres="save_polymorph_wrapped" />
+			</label_savescore>
+
+			<number_char_save name="breath" source="saves.breath.score">
+				<anchored to="polymorph"   height="25"  />
+				<target>breath</target>
+			</number_char_save>
+			<label_savescore>
    				<tooltip textres="save_breath_full" />
-				<anchored to="save_breath" />
+				<anchored to="breath" />
 				<static textres="save_breath_wrapped" />
 			</label_savescore>
-			<number_saves_modifier name="save_breath_mod" source="saves.save_breath.modifier">
-   				<tooltip textres="save_tooltip_mod" />
-				<anchored to="save_breath_label" />
-			</number_saves_modifier>
-			<label_mod_fields>
-				<anchored to="save_breath_mod" />
-   				<tooltip textres="save_tooltip_mod" />
-				<static textres="text_MOD" />
-			</label_mod_fields>
 
-   			<number_charasavescore name="save_spell" source="saves.save_spell.score">
-				<anchored to="save_breath"   height="30" />
-				<target>save_spell</target>
-				<modifierfield>saves.save_spell.modifier</modifierfield>
-			</number_charasavescore>
-			<label_savescore  name="save_spell_label">
+			<number_char_save name="spell" source="saves.spell.score">
+				<anchored to="breath"   height="25"  />
+				<target>spell</target>
+			</number_char_save>
+			<label_savescore>
    				<tooltip textres="save_spell_full" />
-				<anchored to="save_spell" />
+				<anchored to="spell" />
 				<static textres="save_spell_wrapped" />
 			</label_savescore>
-			<number_saves_modifier name="save_spell_mod" source="saves.save_spell.modifier">
-   				<tooltip textres="save_tooltip_mod" />
-				<anchored to="save_spell_label" />
-			</number_saves_modifier>
-			<label_mod_fields>
-				<anchored to="save_spell_mod" />
-   				<tooltip textres="save_tooltip_mod" />
-				<static textres="text_MOD" />
-			</label_mod_fields>
-<!-- END SAVES -->
+            <!-- END SAVES -->
 
 			<!-- THACO/AC/Move -->
  			<label_charframetop name="combattitle" >
@@ -2221,7 +2221,7 @@
 	<windowclass name="charsheet_saves_details">
 		<frame>charsheethelper</frame>
 		<placement>
-			<size width="400" height="220" />
+			<size width="550" height="475" />
 		</placement>
 		<nodelete />
 		<sheetdata>
@@ -2249,13 +2249,743 @@
                     <left parent="" anchor="left" offset="20" />
                     <right parent="" anchor="right" offset="-20" />
                 </anchored>
-                <disabled />
+                <disabled />                
             </genericcontrol>
+			<genericcontrol name="leftanchor">
+				<anchored width="0" height="0">
+					<top offset="90" />
+					<left />
+				</anchored>
+				<invisible />
+			</genericcontrol>
 
-			<anchor_column name="columnanchor">
-				<anchored to="contentanchor" position="below" offset="0,-5" />
-			</anchor_column>
+            <!-- paralyzation base label -->
+            <label_save_details name="paralyzation_label">
+				<anchored>
+					<top offset="5" />
+				</anchored>
+				<static textres="paralyzation" />
+            </label_save_details>
 
+                <!-- paralyzation base -->
+            <save_number_base name="paralyzation_base" source="saves.paralyzation.base">
+                <tooltip textres="charsheet_saves_base_tooltip" />
+				<anchored to="paralyzation_label" />
+            </save_number_base>
+			<label_fieldtop name="label_save_base_top">
+                <tooltip textres="charsheet_saves_base_tooltip" />
+				<anchored to="paralyzation_base" />
+				<static text="Base" />
+			</label_fieldtop>
+            
+            <!-- paralyzation basemod -->
+            <save_number_base name="paralyzation_base_mod" source="saves.paralyzation.basemod">
+                <tooltip textres="charsheet_saves_basemod_tooltip" />
+                <gmeditonly />
+                <default>0</default>
+				<anchored to="paralyzation_label" />
+            </save_number_base>
+			<label_fieldtop name="label_save_basemod_top">
+                <tooltip textres="charsheet_saves_basemod_tooltip" />
+				<anchored to="paralyzation_base_mod" />
+				<static text="Base" />
+			</label_fieldtop>
+			<label_fieldtop>
+                <tooltip textres="charsheet_saves_basemod_tooltip" />
+				<anchored to="label_save_basemod_top" />
+				<static text="Mod" />
+			</label_fieldtop>
+
+            <!-- paralyzation item mods -->
+            <label_plus>
+                <anchored to="paralyzation_label"/>
+            </label_plus>
+            <save_number_mod name="paralyzation_item_mod" source="saves.paralyzation.itemmod">
+                <tooltip textres="charsheet_saves_itemmod_tooltip" />
+                <gmeditonly />
+				<anchored to="paralyzation_label" />
+            </save_number_mod>
+			<label_fieldtop name="label_saves_itemmod_top">
+                <tooltip textres="charsheet_saves_itemmod_tooltip" />
+				<anchored to="paralyzation_item_mod" />
+				<static text="Mod" />
+			</label_fieldtop>
+			<label_fieldtop>
+                <tooltip textres="charsheet_saves_itemmod_tooltip" />
+				<anchored to="label_saves_itemmod_top" />
+				<static text="Item" />
+			</label_fieldtop>
+
+            <!-- paralyzation effect mods -->
+            <label_plus>
+                <anchored to="paralyzation_label"/>
+            </label_plus>
+            <save_number_mod name="paralyzation_effect_mod" source="saves.paralyzation.effectmod">
+                <tooltip textres="charsheet_saves_effectmod_tooltip" />
+                <gmeditonly />
+				<anchored to="paralyzation_label" />
+            </save_number_mod>
+			<label_fieldtop name="label_saves_effectmod_top">
+                <tooltip textres="charsheet_saves_effectmod_tooltip" />
+				<anchored to="paralyzation_effect_mod" />
+				<static text="Mod" />
+			</label_fieldtop>
+			<label_fieldtop>
+                <tooltip textres="charsheet_saves_effectmod_tooltip" />
+				<anchored to="label_saves_effectmod_top" />
+				<static text="Effect" />
+			</label_fieldtop>
+            
+            <!-- paralyzation mods -->
+            <label_plus>
+                <anchored to="paralyzation_label"/>
+            </label_plus>
+            <save_number_mod name="paralyzation_mod" source="saves.paralyzation.adjustment">
+                <tooltip textres="charsheet_saves_adjustment_tooltip" />
+				<anchored to="paralyzation_label" />
+            </save_number_mod>
+			<label_fieldtop name="label_saves_mod_top">
+                <tooltip textres="charsheet_saves_adjustment_tooltip" />
+				<anchored to="paralyzation_mod" />
+				<static text="Mod" />
+			</label_fieldtop>
+
+            <!-- paralyzation temp mods -->
+            <label_plus>
+                <anchored to="paralyzation_label"/>
+            </label_plus>
+            <save_number_mod name="paralyzation_temp" source="saves.paralyzation.tempmod">
+                <tooltip textres="charsheet_saves_tempmod_tooltip" />
+				<anchored to="paralyzation_label" />
+            </save_number_mod>
+			<label_fieldtop name="label_saves_tempmod_top">
+                <tooltip textres="charsheet_saves_tempmod_tooltip" />
+				<anchored to="paralyzation_temp" />
+				<static text="Mod" />
+			</label_fieldtop>
+			<label_fieldtop >
+                <tooltip textres="charsheet_saves_tempmod_tooltip" />
+				<anchored to="label_saves_tempmod_top" />
+				<static text="Temp." />
+			</label_fieldtop>
+
+            <!-- paralyzation total -->
+            <save_details_total name="paralyzation_total">
+				<target>paralyzation</target>
+                <anchored to="paralyzation_label"/>
+            </save_details_total>
+			<label_fieldtop name="paralyzation_total_top">
+				<anchored to="paralyzation_total" />
+				<static text="Total" />
+			</label_fieldtop>
+            
+            <!-- poison -->
+            <!-- poison base label -->
+            <label_save_details name="poison_label">
+				<anchored>
+					<top offset="30" />
+				</anchored>
+				<static textres="poison" />
+            </label_save_details>
+
+                <!-- poison base -->
+            <save_number_base name="poison_base" source="saves.poison.base">
+                <tooltip textres="charsheet_saves_base_tooltip" />
+				<anchored to="poison_label" />
+            </save_number_base>
+            
+            <!-- poison basemod -->
+            <save_number_base name="poison_base_mod" source="saves.poison.basemod">
+                <tooltip textres="charsheet_saves_basemod_tooltip" />
+                <gmeditonly />
+                <default>0</default>
+				<anchored to="poison_label" />
+            </save_number_base>
+
+            <!-- poison item mods -->
+            <label_plus>
+                <anchored to="poison_label"/>
+            </label_plus>
+            <save_number_mod name="poison_item_mod" source="saves.poison.itemmod">
+                <tooltip textres="charsheet_saves_itemmod_tooltip" />
+                <gmeditonly />
+				<anchored to="poison_label" />
+            </save_number_mod>
+
+            <!-- poison effect mods -->
+            <label_plus>
+                <anchored to="poison_label"/>
+            </label_plus>
+            <save_number_mod name="poison_effect_mod" source="saves.poison.effectmod">
+                <tooltip textres="charsheet_saves_effectmod_tooltip" />
+                <gmeditonly />
+				<anchored to="poison_label" />
+            </save_number_mod>
+            
+            <!-- poison mods -->
+            <label_plus>
+                <anchored to="poison_label"/>
+            </label_plus>
+            <save_number_mod name="poison_mod" source="saves.poison.adjustment">
+                <tooltip textres="charsheet_saves_adjustment_tooltip" />
+				<anchored to="poison_label" />
+            </save_number_mod>
+
+            <!-- poison temp mods -->
+            <label_plus>
+                <anchored to="poison_label"/>
+            </label_plus>
+            <save_number_mod name="poison_temp" source="saves.poison.tempmod">
+                <tooltip textres="charsheet_saves_tempmod_tooltip" />
+				<anchored to="poison_label" />
+            </save_number_mod>
+
+            <!-- poison total -->
+            <save_details_total name="poison_total">
+				<target>poison</target>
+                <anchored to="poison_label"/>
+            </save_details_total>
+
+            <!-- death -->
+            <!-- death base label -->
+            <label_save_details name="death_label">
+				<anchored>
+					<top offset="55" />
+				</anchored>
+				<static textres="death" />
+            </label_save_details>
+
+                <!-- death base -->
+            <save_number_base name="death_base" source="saves.death.base">
+                <tooltip textres="charsheet_saves_base_tooltip" />
+				<anchored to="death_label" />
+            </save_number_base>
+            
+            <!-- death basemod -->
+            <save_number_base name="death_base_mod" source="saves.death.basemod">
+                <tooltip textres="charsheet_saves_basemod_tooltip" />
+                <gmeditonly />
+                <default>0</default>
+				<anchored to="death_label" />
+            </save_number_base>
+
+            <!-- death item mods -->
+            <label_plus>
+                <anchored to="death_label"/>
+            </label_plus>
+            <save_number_mod name="death_item_mod" source="saves.death.itemmod">
+                <tooltip textres="charsheet_saves_itemmod_tooltip" />
+                <gmeditonly />
+				<anchored to="death_label" />
+            </save_number_mod>
+
+            <!-- death effect mods -->
+            <label_plus>
+                <anchored to="death_label"/>
+            </label_plus>
+            <save_number_mod name="death_effect_mod" source="saves.death.effectmod">
+                <tooltip textres="charsheet_saves_effectmod_tooltip" />
+                <gmeditonly />
+				<anchored to="death_label" />
+            </save_number_mod>
+            
+            <!-- death mods -->
+            <label_plus>
+                <anchored to="death_label"/>
+            </label_plus>
+            <save_number_mod name="death_mod" source="saves.death.adjustment">
+                <tooltip textres="charsheet_saves_adjustment_tooltip" />
+				<anchored to="death_label" />
+            </save_number_mod>
+
+            <!-- death temp mods -->
+            <label_plus>
+                <anchored to="death_label"/>
+            </label_plus>
+            <save_number_mod name="death_temp" source="saves.death.tempmod">
+                <tooltip textres="charsheet_saves_tempmod_tooltip" />
+				<anchored to="death_label" />
+            </save_number_mod>
+
+            <!-- death total -->
+            <save_details_total name="death_total">
+				<target>death</target>
+                <anchored to="death_label"/>
+            </save_details_total>
+
+            <!-- rod -->
+            <!-- rod base label -->
+            <label_save_details name="rod_label">
+				<anchored>
+					<top offset="80" />
+				</anchored>
+				<static textres="rod" />
+            </label_save_details>
+
+                <!-- rod base -->
+            <save_number_base name="rod_base" source="saves.rod.base">
+                <tooltip textres="charsheet_saves_base_tooltip" />
+				<anchored to="rod_label" />
+            </save_number_base>
+            
+            <!-- rod basemod -->
+            <save_number_base name="rod_base_mod" source="saves.rod.basemod">
+                <tooltip textres="charsheet_saves_basemod_tooltip" />
+                <gmeditonly />
+                <default>0</default>
+				<anchored to="rod_label" />
+            </save_number_base>
+
+            <!-- rod item mods -->
+            <label_plus>
+                <anchored to="rod_label"/>
+            </label_plus>
+            <save_number_mod name="rod_item_mod" source="saves.rod.itemmod">
+                <tooltip textres="charsheet_saves_itemmod_tooltip" />
+                <gmeditonly />
+				<anchored to="rod_label" />
+            </save_number_mod>
+
+            <!-- rod effect mods -->
+            <label_plus>
+                <anchored to="rod_label"/>
+            </label_plus>
+            <save_number_mod name="rod_effect_mod" source="saves.rod.effectmod">
+                <tooltip textres="charsheet_saves_effectmod_tooltip" />
+                <gmeditonly />
+				<anchored to="rod_label" />
+            </save_number_mod>
+            
+            <!-- rod mods -->
+            <label_plus>
+                <anchored to="rod_label"/>
+            </label_plus>
+            <save_number_mod name="rod_mod" source="saves.rod.adjustment">
+                <tooltip textres="charsheet_saves_adjustment_tooltip" />
+				<anchored to="rod_label" />
+            </save_number_mod>
+
+            <!-- rod temp mods -->
+            <label_plus>
+                <anchored to="rod_label"/>
+            </label_plus>
+            <save_number_mod name="rod_temp" source="saves.rod.tempmod">
+                <tooltip textres="charsheet_saves_tempmod_tooltip" />
+				<anchored to="rod_label" />
+            </save_number_mod>
+
+            <!-- rod total -->
+            <save_details_total name="rod_total">
+				<target>rod</target>
+                <anchored to="rod_label"/>
+            </save_details_total>
+            
+            <!-- staff -->
+            <!-- staff base label -->
+            <label_save_details name="staff_label">
+				<anchored>
+					<top offset="105" />
+				</anchored>
+				<static textres="staff" />
+            </label_save_details>
+
+                <!-- staff base -->
+            <save_number_base name="staff_base" source="saves.staff.base">
+                <tooltip textres="charsheet_saves_base_tooltip" />
+				<anchored to="staff_label" />
+            </save_number_base>
+            
+            <!-- staff basemod -->
+            <save_number_base name="staff_base_mod" source="saves.staff.basemod">
+                <tooltip textres="charsheet_saves_basemod_tooltip" />
+                <gmeditonly />
+                <default>0</default>
+				<anchored to="staff_label" />
+            </save_number_base>
+
+            <!-- staff item mods -->
+            <label_plus>
+                <anchored to="staff_label"/>
+            </label_plus>
+            <save_number_mod name="staff_item_mod" source="saves.staff.itemmod">
+                <tooltip textres="charsheet_saves_itemmod_tooltip" />
+                <gmeditonly />
+				<anchored to="staff_label" />
+            </save_number_mod>
+
+            <!-- staff effect mods -->
+            <label_plus>
+                <anchored to="staff_label"/>
+            </label_plus>
+            <save_number_mod name="staff_effect_mod" source="saves.staff.effectmod">
+                <tooltip textres="charsheet_saves_effectmod_tooltip" />
+                <gmeditonly />
+				<anchored to="staff_label" />
+            </save_number_mod>
+            
+            <!-- staff mods -->
+            <label_plus>
+                <anchored to="staff_label"/>
+            </label_plus>
+            <save_number_mod name="staff_mod" source="saves.staff.adjustment">
+                <tooltip textres="charsheet_saves_adjustment_tooltip" />
+				<anchored to="staff_label" />
+            </save_number_mod>
+
+            <!-- staff temp mods -->
+            <label_plus>
+                <anchored to="staff_label"/>
+            </label_plus>
+            <save_number_mod name="staff_temp" source="saves.staff.tempmod">
+                <tooltip textres="charsheet_saves_tempmod_tooltip" />
+				<anchored to="staff_label" />
+            </save_number_mod>
+
+            <!-- staff total -->
+            <save_details_total name="staff_total">
+				<target>staff</target>
+                <anchored to="staff_label"/>
+            </save_details_total>
+
+
+            <!-- wand -->
+            <!-- wand base label -->
+            <label_save_details name="wand_label">
+				<anchored>
+					<top offset="130" />
+				</anchored>
+				<static textres="wand" />
+            </label_save_details>
+
+                <!-- wand base -->
+            <save_number_base name="wand_base" source="saves.wand.base">
+                <tooltip textres="charsheet_saves_base_tooltip" />
+				<anchored to="wand_label" />
+            </save_number_base>
+            
+            <!-- wand basemod -->
+            <save_number_base name="wand_base_mod" source="saves.wand.basemod">
+                <tooltip textres="charsheet_saves_basemod_tooltip" />
+                <gmeditonly />
+                <default>0</default>
+				<anchored to="wand_label" />
+            </save_number_base>
+
+            <!-- wand item mods -->
+            <label_plus>
+                <anchored to="wand_label"/>
+            </label_plus>
+            <save_number_mod name="wand_item_mod" source="saves.wand.itemmod">
+                <tooltip textres="charsheet_saves_itemmod_tooltip" />
+                <gmeditonly />
+				<anchored to="wand_label" />
+            </save_number_mod>
+
+            <!-- wand effect mods -->
+            <label_plus>
+                <anchored to="wand_label"/>
+            </label_plus>
+            <save_number_mod name="wand_effect_mod" source="saves.wand.effectmod">
+                <tooltip textres="charsheet_saves_effectmod_tooltip" />
+                <gmeditonly />
+				<anchored to="wand_label" />
+            </save_number_mod>
+            
+            <!-- wand mods -->
+            <label_plus>
+                <anchored to="wand_label"/>
+            </label_plus>
+            <save_number_mod name="wand_mod" source="saves.wand.adjustment">
+                <tooltip textres="charsheet_saves_adjustment_tooltip" />
+				<anchored to="wand_label" />
+            </save_number_mod>
+
+            <!-- wand temp mods -->
+            <label_plus>
+                <anchored to="wand_label"/>
+            </label_plus>
+            <save_number_mod name="wand_temp" source="saves.wand.tempmod">
+                <tooltip textres="charsheet_saves_tempmod_tooltip" />
+				<anchored to="wand_label" />
+            </save_number_mod>
+
+            <!-- wand total -->
+            <save_details_total name="wand_total">
+				<target>wand</target>
+                <anchored to="wand_label"/>
+            </save_details_total>
+
+            <!-- petrification -->
+            <!-- petrification base label -->
+            <label_save_details name="petrification_label">
+				<anchored>
+					<top offset="155" />
+				</anchored>
+				<static textres="petrification" />
+            </label_save_details>
+
+                <!-- petrification base -->
+            <save_number_base name="petrification_base" source="saves.petrification.base">
+                <tooltip textres="charsheet_saves_base_tooltip" />
+				<anchored to="petrification_label" />
+            </save_number_base>
+            
+            <!-- petrification basemod -->
+            <save_number_base name="petrification_base_mod" source="saves.petrification.basemod">
+                <tooltip textres="charsheet_saves_basemod_tooltip" />
+                <gmeditonly />
+                <default>0</default>
+				<anchored to="petrification_label" />
+            </save_number_base>
+
+            <!-- petrification item mods -->
+            <label_plus>
+                <anchored to="petrification_label"/>
+            </label_plus>
+            <save_number_mod name="petrification_item_mod" source="saves.petrification.itemmod">
+                <tooltip textres="charsheet_saves_itemmod_tooltip" />
+                <gmeditonly />
+				<anchored to="petrification_label" />
+            </save_number_mod>
+
+            <!-- petrification effect mods -->
+            <label_plus>
+                <anchored to="petrification_label"/>
+            </label_plus>
+            <save_number_mod name="petrification_effect_mod" source="saves.petrification.effectmod">
+                <tooltip textres="charsheet_saves_effectmod_tooltip" />
+                <gmeditonly />
+				<anchored to="petrification_label" />
+            </save_number_mod>
+            
+            <!-- petrification mods -->
+            <label_plus>
+                <anchored to="petrification_label"/>
+            </label_plus>
+            <save_number_mod name="petrification_mod" source="saves.petrification.adjustment">
+                <tooltip textres="charsheet_saves_adjustment_tooltip" />
+				<anchored to="petrification_label" />
+            </save_number_mod>
+
+            <!-- petrification temp mods -->
+            <label_plus>
+                <anchored to="petrification_label"/>
+            </label_plus>
+            <save_number_mod name="petrification_temp" source="saves.petrification.tempmod">
+                <tooltip textres="charsheet_saves_tempmod_tooltip" />
+				<anchored to="petrification_label" />
+            </save_number_mod>
+
+            <!-- petrification total -->
+            <save_details_total name="petrification_total">
+				<target>petrification</target>
+                <anchored to="petrification_label"/>
+            </save_details_total>
+
+            <!-- polymorph -->
+            <!-- polymorph base label -->
+            <label_save_details name="polymorph_label">
+				<anchored>
+					<top offset="180" />
+				</anchored>
+				<static textres="polymorph" />
+            </label_save_details>
+
+                <!-- polymorph base -->
+            <save_number_base name="polymorph_base" source="saves.polymorph.base">
+                <tooltip textres="charsheet_saves_base_tooltip" />
+				<anchored to="polymorph_label" />
+            </save_number_base>
+            
+            <!-- polymorph basemod -->
+            <save_number_base name="polymorph_base_mod" source="saves.polymorph.basemod">
+                <tooltip textres="charsheet_saves_basemod_tooltip" />
+                <gmeditonly />
+                <default>0</default>
+				<anchored to="polymorph_label" />
+            </save_number_base>
+
+            <!-- polymorph item mods -->
+            <label_plus>
+                <anchored to="polymorph_label"/>
+            </label_plus>
+            <save_number_mod name="polymorph_item_mod" source="saves.polymorph.itemmod">
+                <tooltip textres="charsheet_saves_itemmod_tooltip" />
+                <gmeditonly />
+				<anchored to="polymorph_label" />
+            </save_number_mod>
+
+            <!-- polymorph effect mods -->
+            <label_plus>
+                <anchored to="polymorph_label"/>
+            </label_plus>
+            <save_number_mod name="polymorph_effect_mod" source="saves.polymorph.effectmod">
+                <tooltip textres="charsheet_saves_effectmod_tooltip" />
+                <gmeditonly />
+				<anchored to="polymorph_label" />
+            </save_number_mod>
+            
+            <!-- polymorph mods -->
+            <label_plus>
+                <anchored to="polymorph_label"/>
+            </label_plus>
+            <save_number_mod name="polymorph_mod" source="saves.polymorph.adjustment">
+                <tooltip textres="charsheet_saves_adjustment_tooltip" />
+				<anchored to="polymorph_label" />
+            </save_number_mod>
+
+            <!-- polymorph temp mods -->
+            <label_plus>
+                <anchored to="polymorph_label"/>
+            </label_plus>
+            <save_number_mod name="polymorph_temp" source="saves.polymorph.tempmod">
+                <tooltip textres="charsheet_saves_tempmod_tooltip" />
+				<anchored to="polymorph_label" />
+            </save_number_mod>
+
+            <!-- polymorph total -->
+            <save_details_total name="polymorph_total">
+				<target>polymorph</target>
+                <anchored to="polymorph_label"/>
+            </save_details_total>
+
+            
+            <!-- breath -->
+            <!-- breath base label -->
+            <label_save_details name="breath_label">
+				<anchored>
+					<top offset="205" />
+				</anchored>
+				<static textres="breath" />
+            </label_save_details>
+
+                <!-- breath base -->
+            <save_number_base name="breath_base" source="saves.breath.base">
+                <tooltip textres="charsheet_saves_base_tooltip" />
+				<anchored to="breath_label" />
+            </save_number_base>
+            
+            <!-- breath basemod -->
+            <save_number_base name="breath_base_mod" source="saves.breath.basemod">
+                <tooltip textres="charsheet_saves_basemod_tooltip" />
+                <gmeditonly />
+                <default>0</default>
+				<anchored to="breath_label" />
+            </save_number_base>
+
+            <!-- breath item mods -->
+            <label_plus>
+                <anchored to="breath_label"/>
+            </label_plus>
+            <save_number_mod name="breath_item_mod" source="saves.breath.itemmod">
+                <tooltip textres="charsheet_saves_itemmod_tooltip" />
+                <gmeditonly />
+				<anchored to="breath_label" />
+            </save_number_mod>
+
+            <!-- breath effect mods -->
+            <label_plus>
+                <anchored to="breath_label"/>
+            </label_plus>
+            <save_number_mod name="breath_effect_mod" source="saves.breath.effectmod">
+                <tooltip textres="charsheet_saves_effectmod_tooltip" />
+                <gmeditonly />
+				<anchored to="breath_label" />
+            </save_number_mod>
+            
+            <!-- breath mods -->
+            <label_plus>
+                <anchored to="breath_label"/>
+            </label_plus>
+            <save_number_mod name="breath_mod" source="saves.breath.adjustment">
+                <tooltip textres="charsheet_saves_adjustment_tooltip" />
+				<anchored to="breath_label" />
+            </save_number_mod>
+
+            <!-- breath temp mods -->
+            <label_plus>
+                <anchored to="breath_label"/>
+            </label_plus>
+            <save_number_mod name="breath_temp" source="saves.breath.tempmod">
+                <tooltip textres="charsheet_saves_tempmod_tooltip" />
+				<anchored to="breath_label" />
+            </save_number_mod>
+
+            <!-- breath total -->
+            <save_details_total name="breath_total">
+				<target>breath</target>
+                <anchored to="breath_label"/>
+            </save_details_total>
+
+
+            <!-- spell -->
+            <!-- spell base label -->
+            <label_save_details name="spell_label">
+				<anchored>
+					<top offset="230" />
+				</anchored>
+				<static textres="spell" />
+            </label_save_details>
+
+                <!-- spell base -->
+            <save_number_base name="spell_base" source="saves.spell.base">
+                <tooltip textres="charsheet_saves_base_tooltip" />
+				<anchored to="spell_label" />
+            </save_number_base>
+            
+            <!-- spell basemod -->
+            <save_number_base name="spell_base_mod" source="saves.spell.basemod">
+                <tooltip textres="charsheet_saves_basemod_tooltip" />
+                <gmeditonly />
+                <default>0</default>
+				<anchored to="spell_label" />
+            </save_number_base>
+
+            <!-- spell item mods -->
+            <label_plus>
+                <anchored to="spell_label"/>
+            </label_plus>
+            <save_number_mod name="spell_item_mod" source="saves.spell.itemmod">
+                <tooltip textres="charsheet_saves_itemmod_tooltip" />
+                <gmeditonly />
+				<anchored to="spell_label" />
+            </save_number_mod>
+
+            <!-- spell effect mods -->
+            <label_plus>
+                <anchored to="spell_label"/>
+            </label_plus>
+            <save_number_mod name="spell_effect_mod" source="saves.spell.effectmod">
+                <tooltip textres="charsheet_saves_effectmod_tooltip" />
+                <gmeditonly />
+				<anchored to="spell_label" />
+            </save_number_mod>
+            
+            <!-- spell mods -->
+            <label_plus>
+                <anchored to="spell_label"/>
+            </label_plus>
+            <save_number_mod name="spell_mod" source="saves.spell.adjustment">
+                <tooltip textres="charsheet_saves_adjustment_tooltip" />
+				<anchored to="spell_label" />
+            </save_number_mod>
+
+            <!-- spell temp mods -->
+            <label_plus>
+                <anchored to="spell_label"/>
+            </label_plus>
+            <save_number_mod name="spell_temp" source="saves.spell.tempmod">
+                <tooltip textres="charsheet_saves_tempmod_tooltip" />
+				<anchored to="spell_label" />
+            </save_number_mod>
+
+            <!-- spell total -->
+            <save_details_total name="spell_total">
+				<target>spell</target>
+                <anchored to="spell_label"/>
+            </save_details_total>
+            
+            <!-- END -->
             <close>
 			<anchored>
 				<top offset="24" />

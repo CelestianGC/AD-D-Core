@@ -7,18 +7,16 @@
 
 <root>
 	<!-- Common -->
-   	<script name="SaveScore" file="campaign/scripts/number_savescore.lua" />
-
 	<string name="thaco">THACO</string>
 	<string name="percent">%</string>
 
-	<string name="paralyzation">Paralyze</string>
+	<string name="paralyzation">Paralyzation</string>
 	<string name="poison">Poison</string>
 	<string name="death">Death</string>
 	<string name="rod">Rod</string>
 	<string name="staff">Staff</string>
 	<string name="wand">Wand</string>
-	<string name="petrify">Petrify</string>
+	<string name="petrification">Petrification</string>
 	<string name="polymorph">Poly</string>
 	<string name="breath">Breath</string>
 	<string name="spell">Spell</string>
@@ -29,14 +27,16 @@
 	<string name="save_breath">Breath</string>
 	<string name="save_spell">Spell</string>
 
-	<string name="save_paralyzation_poison_death_wrapped">Paralyzation\rPoison,Death</string>
-	<string name="save_rod_staff_wand_wrapped">\rRod, Staff\rWand</string>
-	<string name="save_petrify_polymorph_wrapped">\rPetrification\rPolymorph</string>
-	<string name="save_breath_wrapped">\rBreath</string>
-	<string name="save_spell_wrapped">\rSpell</string>
-	
-	<string name="save_tooltip_mod">Saving throw modifier</string>
-
+	<string name="save_paralyzation_wrapped">Paralyzation</string>
+	<string name="save_poison_wrapped">Poison</string>
+	<string name="save_death_wrapped">Death</string>
+	<string name="save_rod_wrapped">Rod</string>
+	<string name="save_staff_wrapped">Staff</string>
+	<string name="save_wand_wrapped">Wand</string>
+	<string name="save_petrification_wrapped">Petrification</string>
+	<string name="save_polymorph_wrapped">Polymorph</string>
+	<string name="save_breath_wrapped">Breath</string>
+	<string name="save_spell_wrapped">Spell</string>
 
 	<string name="text_MOD">MOD</string>
     
@@ -153,8 +153,15 @@
 	<string name="charsheet_abilities_basemod_tooltip">Items or Effects can set a NEW base score. System and GM Only set.</string>
 	<string name="charsheet_abilities_itemmod_tooltip">Item modifier applied to this ability score. System and GM Only set.</string>
 	<string name="charsheet_abilities_effectmod_tooltip">Effect modifier applied to this ability score. System and GM Only set.</string>
-	<string name="charsheet_abilities_adjustment_tooltip">Manual set modifier applied to this ability score.</string>
+	<string name="charsheet_abilities_adjustment_tooltip">Manually set modifier applied to this ability score.</string>
 	<string name="charsheet_abilities_tempmod_tooltip">Manually set, temporary modifier applied to this ability score.</string>
+
+	<string name="charsheet_saves_base_tooltip">Base Score of this save.</string>
+	<string name="charsheet_saves_basemod_tooltip">Items or Effects can set a NEW base score. System and GM Only set.</string>
+	<string name="charsheet_saves_itemmod_tooltip">Item modifier applied to this save score. System and GM Only set.</string>
+	<string name="charsheet_saves_effectmod_tooltip">Effect modifier applied to this save score. System and GM Only set.</string>
+	<string name="charsheet_saves_adjustment_tooltip">Manually set modifier applied to this save score.</string>
+	<string name="charsheet_saves_tempmod_tooltip">Manually set, temporary modifier applied to this save score.</string>
 
     <!-- Actions -->
 	<string name="power_label_spellcastingslots">Arcane Magic</string>
