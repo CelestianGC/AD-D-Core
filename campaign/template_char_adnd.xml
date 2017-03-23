@@ -80,6 +80,7 @@
 		<basicnumber>
  			<anchored to="statstitle" position="insidetopleft"/> 
 			<rollable />
+            <readonly />
             <min>1</min>
             <max>25</max>
 			<default>9</default>
@@ -177,6 +178,7 @@
 
 	<template name="percentile_abilityfield">
 			<number>
+                <readonly />
 				<frame name="abilityscore_box" />
 				<anchored position="right" offset="0,0" width="40"/>
    				<center />
@@ -357,4 +359,136 @@
 		</buttoncontrol>
 	</template>
     
+    <template name="label_plus">
+            <label>
+				<anchored>
+					<top  />
+					<left anchor="right" relation="relative" offset="5" />
+				</anchored>
+                <static text="+"/>
+            </label>
+    </template>
+    <template name="ability_number_base">
+            <number>
+				<anchored width="30" height="20">
+					<top  />
+					<left anchor="right" relation="relative" offset="10" />
+				</anchored>
+                <frame name="fieldlight" offset="7,5,7,5" />
+                <font>arial-regular-8</font>
+                <default>9</default>
+                <hideonvalue>0</hideonvalue>
+                <min>0</min>
+                <max>25</max>
+            </number>
+    
+    </template>
+    <template name="ability_percent_number_base">
+            <number>
+				<anchored width="30" height="20">
+					<top  />
+					<left anchor="right" relation="relative" offset="10" />
+				</anchored>
+                <frame name="fieldlight" offset="7,5,7,5" />
+                <font>arial-regular-8</font>
+                <default>0</default>
+                <hideonvalue>0</hideonvalue>
+                <min>0</min>
+                <max>100</max>
+            </number>
+    
+    </template>
+    <template name="ability_number_mod">
+            <number>
+				<anchored width="30" height="20">
+					<top  />
+					<left anchor="right" relation="relative" offset="5" />
+				</anchored>
+                <frame name="fieldlight" offset="7,5,7,5" />
+                <font>arial-regular-8</font>
+                <hideonvalue>0</hideonvalue>
+                <default>0</default>
+                <displaysign />
+            </number>
+    </template>
+    <template name="ability_details_total">
+            <number>
+                <readonly />
+       			<script file="campaign/scripts/char_abilities_details.lua" />
+
+                <script>
+                    function onInit()
+                        super.onInit();
+                        local nodeChar = window.getDatabaseNode();
+                        local sTarget = string.lower(self.target[1]);
+                        DB.addHandler(DB.getPath(nodeChar, "abilities." .. sTarget .. ".base"),       "onUpdate", detailsUpdate);
+                        DB.addHandler(DB.getPath(nodeChar, "abilities." .. sTarget .. ".basemod"),    "onUpdate", detailsUpdate);
+                        DB.addHandler(DB.getPath(nodeChar, "abilities." .. sTarget .. ".itemmod"),    "onUpdate", detailsUpdate);
+                        DB.addHandler(DB.getPath(nodeChar, "abilities." .. sTarget .. ".effectmod"),  "onUpdate", detailsUpdate);
+                        DB.addHandler(DB.getPath(nodeChar, "abilities." .. sTarget .. ".adjustment"), "onUpdate", detailsUpdate);
+                        DB.addHandler(DB.getPath(nodeChar, "abilities." .. sTarget .. ".tempmod"),    "onUpdate", detailsUpdate);
+                        detailsUpdate();
+                    end
+                    
+                    function onClose()
+                        local nodeChar = window.getDatabaseNode();
+                        local sTarget = string.lower(self.target[1]);
+                        DB.removeHandler(DB.getPath(nodeChar, "abilities." .. sTarget .. ".base"),       "onUpdate", detailsUpdate);
+                        DB.removeHandler(DB.getPath(nodeChar, "abilities." .. sTarget .. ".basemod"),    "onUpdate", detailsUpdate);
+                        DB.removeHandler(DB.getPath(nodeChar, "abilities." .. sTarget .. ".itemmod"),    "onUpdate", detailsUpdate);
+                        DB.removeHandler(DB.getPath(nodeChar, "abilities." .. sTarget .. ".effectmod"),  "onUpdate", detailsUpdate);
+                        DB.removeHandler(DB.getPath(nodeChar, "abilities." .. sTarget .. ".adjustment"), "onUpdate", detailsUpdate);
+                        DB.removeHandler(DB.getPath(nodeChar, "abilities." .. sTarget .. ".tempmod"),    "onUpdate", detailsUpdate);
+                    end
+                    
+                </script>
+                <anchored width="30" height="20">
+                    <top  />
+                    <left anchor="right" relation="relative" offset="10" />
+                </anchored>
+                <frame name="fieldlight" offset="7,5,7,5" />
+                <font>arial-regular-8</font>
+            </number>
+    </template>
+    <template name="ability_details_percent_total" >
+            <number>
+                <readonly />
+       			<script file="campaign/scripts/char_abilities_details.lua" />
+
+                <script>
+                    function onInit()
+                        super.onInit();
+                        local nodeChar = window.getDatabaseNode();
+                        local sTarget = string.lower(self.target[1]);
+                        
+                        DB.addHandler(DB.getPath(nodeChar, "abilities." .. sTarget .. ".percentbase"),      "onUpdate", detailsPercentUpdate);
+                        DB.addHandler(DB.getPath(nodeChar, "abilities." .. sTarget .. ".percentbasemod"),   "onUpdate", detailsPercentUpdate);
+                        DB.addHandler(DB.getPath(nodeChar, "abilities." .. sTarget .. ".percentitemmod"),   "onUpdate", detailsPercentUpdate);
+                        DB.addHandler(DB.getPath(nodeChar, "abilities." .. sTarget .. ".percenteffectmod"), "onUpdate", detailsPercentUpdate);
+                        DB.addHandler(DB.getPath(nodeChar, "abilities." .. sTarget .. ".percentadjustment"),"onUpdate", detailsPercentUpdate);
+                        DB.addHandler(DB.getPath(nodeChar, "abilities." .. sTarget .. ".percenttempmod"),   "onUpdate", detailsPercentUpdate);
+                        detailsPercentUpdate();
+                    end
+                    
+                    function onClose()
+                        local nodeChar = window.getDatabaseNode();
+                        local sTarget = string.lower(self.target[1]);
+
+                        DB.removeHandler(DB.getPath(nodeChar, "abilities." .. sTarget .. ".percentbase"),       "onUpdate", detailsPercentUpdate);
+                        DB.removeHandler(DB.getPath(nodeChar, "abilities." .. sTarget .. ".percentbasemod"),    "onUpdate", detailsPercentUpdate);
+                        DB.removeHandler(DB.getPath(nodeChar, "abilities." .. sTarget .. ".percentitemmod"),    "onUpdate", detailsPercentUpdate);
+                        DB.removeHandler(DB.getPath(nodeChar, "abilities." .. sTarget .. ".percenteffectmod"),  "onUpdate", detailsPercentUpdate);
+                        DB.removeHandler(DB.getPath(nodeChar, "abilities." .. sTarget .. ".percentadjustment"), "onUpdate", detailsPercentUpdate);
+                        DB.removeHandler(DB.getPath(nodeChar, "abilities." .. sTarget .. ".percenttempmod"),    "onUpdate", detailsPercentUpdate);
+                    end
+                    
+                </script>
+                <anchored width="30" height="20">
+                    <top  />
+                    <left anchor="right" relation="relative" offset="10" />
+                </anchored>
+                <frame name="fieldlight" offset="7,5,7,5" />
+                <font>arial-regular-8</font>
+            </number>
+    </template>
 </root>

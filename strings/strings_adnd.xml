@@ -148,6 +148,14 @@
    	<string name="char_label_armordexterity">Dex</string>
 	<string name="charsheet_abilities_detail_title">Ability Score Details</string>
 	<string name="charsheet_saves_detail_title">Save Score Details</string>
+
+	<string name="charsheet_abilities_base_tooltip">Base Score of this ability.</string>
+	<string name="charsheet_abilities_basemod_tooltip">Items or Effects can set a NEW base score. System and GM Only set.</string>
+	<string name="charsheet_abilities_itemmod_tooltip">Item modifier applied to this ability score. System and GM Only set.</string>
+	<string name="charsheet_abilities_effectmod_tooltip">Effect modifier applied to this ability score. System and GM Only set.</string>
+	<string name="charsheet_abilities_adjustment_tooltip">Manual set modifier applied to this ability score.</string>
+	<string name="charsheet_abilities_tempmod_tooltip">Manually set, temporary modifier applied to this ability score.</string>
+
     <!-- Actions -->
 	<string name="power_label_spellcastingslots">Arcane Magic</string>
 	<string name="power_label_pactmagicslots">Divine Magic</string>

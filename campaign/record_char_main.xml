@@ -1338,7 +1338,7 @@
 	<windowclass name="charsheet_abilities_details">
 		<frame>charsheethelper</frame>
 		<placement>
-			<size width="400" height="220" />
+			<size width="550" height="475" />
 		</placement>
 		<nodelete />
 		<sheetdata>
@@ -1368,11 +1368,852 @@
                 </anchored>
                 <disabled />
             </genericcontrol>
+			<genericcontrol name="leftanchor">
+				<anchored width="0" height="0">
+					<top offset="90" />
+					<top />
+					<left offset="15" />
+					<left />
+				</anchored>
+				<invisible />
+			</genericcontrol>
 
-			<anchor_column name="columnanchor">
-				<anchored to="contentanchor" position="below" offset="0,-5" />
-			</anchor_column>
+            <!-- strength base -->
+            <label name="strength_label">
+				<anchored to="leftanchor" width="75">
+					<top relation="relative" offset="5" />
+					<left anchor="right" offset="70"/>
+				</anchored>
+				<static text="Strength" />
+            </label>
 
+            
+            <ability_number_base name="strength_base" source="abilities.strength.base">
+                <tooltip textres="charsheet_abilities_base_tooltip" />
+				<anchored to="strength_label" />
+            </ability_number_base>
+			<label_fieldtop name="label_ability_strbase_top">
+                <tooltip textres="charsheet_abilities_base_tooltip" />
+				<anchored to="strength_base" />
+				<static text="Base" />
+			</label_fieldtop>
+            
+            <!-- strength basemod -->
+            <ability_number_base name="strength_base_mod" source="abilities.strength.basemod">
+                <tooltip textres="charsheet_abilities_basemod_tooltip" />
+                <gmeditonly />
+                <default>0</default>
+				<anchored to="strength_label" />
+            </ability_number_base>
+			<label_fieldtop name="label_ability_strbasemod_top">
+                <tooltip textres="charsheet_abilities_basemod_tooltip" />
+				<anchored to="strength_base_mod" />
+				<static text="Base" />
+			</label_fieldtop>
+			<label_fieldtop name="label_ability_strbasemod_top_top">
+                <tooltip textres="charsheet_abilities_basemod_tooltip" />
+				<anchored to="label_ability_strbasemod_top" />
+				<static text="Mod" />
+			</label_fieldtop>
+
+            <!-- strength item mods -->
+            <label_plus>
+                <anchored to="strength_label"/>
+            </label_plus>
+            <ability_number_mod name="strength_item_mod" source="abilities.strength.itemmod">
+                <tooltip textres="charsheet_abilities_itemmod_tooltip" />
+                <gmeditonly />
+				<anchored to="strength_label" />
+            </ability_number_mod>
+			<label_fieldtop name="label_ability_stritemmod_top">
+                <tooltip textres="charsheet_abilities_itemmod_tooltip" />
+				<anchored to="strength_item_mod" />
+				<static text="Mod" />
+			</label_fieldtop>
+			<label_fieldtop name="label_ability_stritemmod_top_top">
+                <tooltip textres="charsheet_abilities_itemmod_tooltip" />
+				<anchored to="label_ability_stritemmod_top" />
+				<static text="Item" />
+			</label_fieldtop>
+
+            <!-- strength effect mods -->
+            <label_plus>
+                <anchored to="strength_label"/>
+            </label_plus>
+            <ability_number_mod name="strength_effect_mod" source="abilities.strength.effectmod">
+                <tooltip textres="charsheet_abilities_effectmod_tooltip" />
+                <gmeditonly />
+				<anchored to="strength_label" />
+            </ability_number_mod>
+			<label_fieldtop name="label_ability_streffectmod_top">
+                <tooltip textres="charsheet_abilities_effectmod_tooltip" />
+				<anchored to="strength_effect_mod" />
+				<static text="Mod" />
+			</label_fieldtop>
+			<label_fieldtop name="label_ability_streffectmod_top_top">
+                <tooltip textres="charsheet_abilities_effectmod_tooltip" />
+				<anchored to="label_ability_streffectmod_top" />
+				<static text="Effect" />
+			</label_fieldtop>
+            
+            <!-- strength mods -->
+            <label_plus>
+                <anchored to="strength_label"/>
+            </label_plus>
+            <ability_number_mod name="strength_mod" source="abilities.strength.adjustment">
+                <tooltip textres="charsheet_abilities_adjustment_tooltip" />
+				<anchored to="strength_label" />
+            </ability_number_mod>
+			<label_fieldtop name="label_ability_strmod_top">
+                <tooltip textres="charsheet_abilities_adjustment_tooltip" />
+				<anchored to="strength_mod" />
+				<static text="Mod" />
+			</label_fieldtop>
+
+            <!-- strength temp mods -->
+            <label_plus>
+                <anchored to="strength_label"/>
+            </label_plus>
+            <ability_number_mod name="strength_temp" source="abilities.strength.tempmod">
+                <tooltip textres="charsheet_abilities_tempmod_tooltip" />
+				<anchored to="strength_label" />
+            </ability_number_mod>
+			<label_fieldtop name="label_ability_strtempmod_top">
+                <tooltip textres="charsheet_abilities_tempmod_tooltip" />
+				<anchored to="strength_temp" />
+				<static text="Mod" />
+			</label_fieldtop>
+			<label_fieldtop name="label_ability_strtempmod_top_top">
+                <tooltip textres="charsheet_abilities_tempmod_tooltip" />
+				<anchored to="label_ability_strtempmod_top" />
+				<static text="Temp." />
+			</label_fieldtop>
+
+            <!-- strength total -->
+            <ability_details_total name="strength_total">
+				<target>strength</target>
+                <anchored to="strength_label"/>
+            </ability_details_total>
+			<label_fieldtop name="strength_total_top">
+				<anchored to="strength_total" />
+				<static text="Total" />
+			</label_fieldtop>
+            
+            
+            
+            <!-- strength percent base -->
+            <label name="strength_percent_label">
+				<anchored to="leftanchor"  width="75">
+					<top relation="relative" offset="30" />
+					<left anchor="right" offset="70"/>
+				</anchored>
+				<static text="Str %" />
+            </label>
+
+            <ability_percent_number_base name="strength_percent_base" source="abilities.strength.percentbase">
+                <tooltip textres="charsheet_abilities_base_tooltip" />
+				<anchored to="strength_percent_label" />
+            </ability_percent_number_base>
+            
+            <!-- strength percent basemod -->
+            <ability_percent_number_base name="strength_percent_base_mod" source="abilities.strength.percentbasemod">
+                <tooltip textres="charsheet_abilities_basemod_tooltip" />
+                <gmeditonly />
+				<anchored to="strength_percent_label" />
+            </ability_percent_number_base>
+
+            <!-- strength percent item mods -->
+            <label_plus>
+                <anchored to="strength_percent_label"/>
+            </label_plus>
+            <ability_number_mod name="strength_percent_item_mod" source="abilities.strength.percentitemmod">
+                <tooltip textres="charsheet_abilities_itemmod_tooltip" />
+                <gmeditonly />
+				<anchored to="strength_percent_label" />
+            </ability_number_mod>
+            <!-- strength percent effect mods -->
+            <label_plus>
+                <anchored to="strength_percent_label"/>
+            </label_plus>
+            <ability_number_mod name="strength_percent_effect_mod" source="abilities.strength.percenteffectmod">
+                <tooltip textres="charsheet_abilities_effectmod_tooltip" />
+                <gmeditonly />
+				<anchored to="strength_percent_label" />
+            </ability_number_mod>
+            <!-- strength percent mods -->
+            <label_plus>
+                <anchored to="strength_percent_label"/>
+            </label_plus>
+            <ability_number_mod name="strength_percent_mod" source="abilities.strength.percentadjustment">
+                <tooltip textres="charsheet_abilities_adjustment_tooltip" />
+				<anchored to="strength_percent_label" />
+            </ability_number_mod>
+
+            <!-- strength percent temp mods -->
+            <label_plus>
+                <anchored to="strength_percent_label"/>
+            </label_plus>
+            <ability_number_mod name="strength_percent_temp" source="abilities.strength.percenttempmod">
+                <tooltip textres="charsheet_abilities_tempmod_tooltip" />
+				<anchored to="strength_percent_label" />
+            </ability_number_mod>
+
+            <!-- strength percent total -->
+            <ability_details_percent_total name="strength_percent_total">
+				<target>strength</target>
+                <anchored to="strength_percent_label"/>
+            </ability_details_percent_total>
+            
+            <!-- dex -->
+            <!-- dex  base -->
+            <label name="dexterity_label">
+				<anchored to="leftanchor" width="75">
+					<top relation="relative" offset="55" />
+					<left anchor="right" offset="70"/>
+				</anchored>
+				<static text="Dexterity" />
+            </label>
+
+            <ability_number_base name="dexterity_base" source="abilities.dexterity.base">
+                <tooltip textres="charsheet_abilities_base_tooltip" />
+				<anchored to="dexterity_label" />
+            </ability_number_base>
+            
+            <!-- dex  basemod -->
+            <ability_number_base name="dexterity_base_mod" source="abilities.dexterity.basemod">
+                <tooltip textres="charsheet_abilities_basemod_tooltip" />
+                <gmeditonly />
+                <default>0</default>
+				<anchored to="dexterity_label" />
+            </ability_number_base>
+
+            <!-- dex  item mods -->
+            <label_plus>
+                <anchored to="dexterity_label"/>
+            </label_plus>
+            <ability_number_mod name="dexterity_item_mod" source="abilities.dexterity.itemmod">
+                <tooltip textres="charsheet_abilities_itemmod_tooltip" />
+                <gmeditonly />
+				<anchored to="dexterity_label" />
+            </ability_number_mod>
+            <!-- dex  effect mods -->
+            <label_plus>
+                <anchored to="dexterity_label"/>
+            </label_plus>
+            <ability_number_mod name="dexterity_effect_mod" source="abilities.dexterity.effectmod">
+                <tooltip textres="charsheet_abilities_effectmod_tooltip" />
+                <gmeditonly />
+				<anchored to="dexterity_label" />
+            </ability_number_mod>
+            <!-- dex  mods -->
+            <label_plus>
+                <anchored to="dexterity_label"/>
+            </label_plus>
+            <ability_number_mod name="dexterity_mod" source="abilities.dexterity.adjustment">
+                <tooltip textres="charsheet_abilities_adjustment_tooltip" />
+				<anchored to="dexterity_label" />
+            </ability_number_mod>
+
+            <!-- dex  temp mods -->
+            <label_plus>
+                <anchored to="dexterity_label"/>
+            </label_plus>
+            <ability_number_mod name="dexterity_temp" source="abilities.dexterity.tempmod">
+                <tooltip textres="charsheet_abilities_tempmod_tooltip" />
+				<anchored to="dexterity_label" />
+            </ability_number_mod>
+
+            <!-- dex  total -->
+            <ability_details_total name="dexterity_total">
+				<target>dexterity</target>
+                <anchored to="dexterity_label"/>
+            </ability_details_total>
+            
+            <!-- dexterity percent base -->
+            <label name="dexterity_percent_label">
+				<anchored to="leftanchor"  width="75">
+					<top relation="relative" offset="80" />
+					<left anchor="right" offset="70"/>
+				</anchored>
+				<static text="Dex %" />
+            </label>
+
+            <ability_percent_number_base name="dexterity_percent_base" source="abilities.dexterity.percentbase">
+                <tooltip textres="charsheet_abilities_base_tooltip" />
+				<anchored to="dexterity_percent_label" />
+            </ability_percent_number_base>
+            
+            <!-- dexterity percent basemod -->
+            <ability_percent_number_base name="dexterity_percent_base_mod" source="abilities.dexterity.percentbasemod">
+                <tooltip textres="charsheet_abilities_basemod_tooltip" />
+                <gmeditonly />
+                <default>0</default>
+				<anchored to="dexterity_percent_label" />
+            </ability_percent_number_base>
+
+            <!-- dexterity percent item mods -->
+            <label_plus>
+                <anchored to="dexterity_percent_label"/>
+            </label_plus>
+            <ability_number_mod name="dexterity_percent_item_mod" source="abilities.dexterity.percentitemmod">
+                <tooltip textres="charsheet_abilities_itemmod_tooltip" />
+                <gmeditonly />
+				<anchored to="dexterity_percent_label" />
+            </ability_number_mod>
+            <!-- dexterity percent effect mods -->
+            <label_plus>
+                <anchored to="dexterity_percent_label"/>
+            </label_plus>
+            <ability_number_mod name="dexterity_percent_effect_mod" source="abilities.dexterity.percenteffectmod">
+                <tooltip textres="charsheet_abilities_effectmod_tooltip" />
+                <gmeditonly />
+				<anchored to="dexterity_percent_label" />
+            </ability_number_mod>
+            <!-- dexterity percent mods -->
+            <label_plus>
+                <anchored to="dexterity_percent_label"/>
+            </label_plus>
+            <ability_number_mod name="dexterity_percent_mod" source="abilities.dexterity.percentadjustment">
+                <tooltip textres="charsheet_abilities_adjustment_tooltip" />
+				<anchored to="dexterity_percent_label" />
+            </ability_number_mod>
+
+            <!-- dexterity percent temp mods -->
+            <label_plus>
+                <anchored to="dexterity_percent_label"/>
+            </label_plus>
+            <ability_number_mod name="dexterity_percent_temp" source="abilities.dexterity.percenttempmod">
+                <tooltip textres="charsheet_abilities_tempmod_tooltip" />
+				<anchored to="dexterity_percent_label" />
+            </ability_number_mod>
+
+            <!-- dexterity percent total -->
+            <ability_details_percent_total name="dexterity_percent_total">
+				<target>dexterity</target>
+                <anchored to="dexterity_percent_label"/>
+            </ability_details_percent_total>
+            
+            
+
+            <!-- constitution -->
+            <!-- constitution  base -->
+            <label name="constitution_label">
+				<anchored to="leftanchor" width="75">
+					<top relation="relative" offset="105" />
+					<left anchor="right" offset="70"/>
+				</anchored>
+				<static text="Constitution" />
+            </label>
+
+            <ability_number_base name="constitution_base" source="abilities.constitution.base">
+                <tooltip textres="charsheet_abilities_base_tooltip" />
+				<anchored to="constitution_label" />
+            </ability_number_base>
+            
+            <!-- constitution  basemod -->
+            <ability_number_base name="constitution_base_mod" source="abilities.constitution.basemod">
+                <tooltip textres="charsheet_abilities_basemod_tooltip" />
+                <gmeditonly />
+                <default>0</default>
+				<anchored to="constitution_label" />
+            </ability_number_base>
+
+            <!-- constitution  item mods -->
+            <label_plus>
+                <anchored to="constitution_label"/>
+            </label_plus>
+            <ability_number_mod name="constitution_item_mod" source="abilities.constitution.itemmod">
+                <tooltip textres="charsheet_abilities_itemmod_tooltip" />
+                <gmeditonly />
+				<anchored to="constitution_label" />
+            </ability_number_mod>
+            <!-- constitution  effect mods -->
+            <label_plus>
+                <anchored to="constitution_label"/>
+            </label_plus>
+            <ability_number_mod name="constitution_effect_mod" source="abilities.constitution.effectmod">
+                <tooltip textres="charsheet_abilities_effectmod_tooltip" />
+                <gmeditonly />
+				<anchored to="constitution_label" />
+            </ability_number_mod>
+            <!-- constitution  mods -->
+            <label_plus>
+                <anchored to="constitution_label"/>
+            </label_plus>
+            <ability_number_mod name="constitution_mod" source="abilities.constitution.adjustment">
+                <tooltip textres="charsheet_abilities_adjustment_tooltip" />
+				<anchored to="constitution_label" />
+            </ability_number_mod>
+
+            <!-- constitution  temp mods -->
+            <label_plus>
+                <anchored to="constitution_label"/>
+            </label_plus>
+            <ability_number_mod name="constitution_temp" source="abilities.constitution.tempmod">
+                <tooltip textres="charsheet_abilities_tempmod_tooltip" />
+				<anchored to="constitution_label" />
+            </ability_number_mod>
+
+            <!-- constitution  total -->
+            <ability_details_total name="constitution_total">
+				<target>constitution</target>
+                <anchored to="constitution_label"/>
+            </ability_details_total>
+            
+            <!-- constitution percent base -->
+            <label name="constitution_percent_label">
+				<anchored to="leftanchor"  width="75">
+					<top relation="relative" offset="130" />
+					<left anchor="right" offset="70"/>
+				</anchored>
+				<static text="Con %" />
+            </label>
+
+            <ability_percent_number_base name="constitution_percent_base" source="abilities.constitution.percentbase">
+                <tooltip textres="charsheet_abilities_base_tooltip" />
+				<anchored to="constitution_percent_label" />
+            </ability_percent_number_base>
+            
+            <!-- constitution percent basemod -->
+            <ability_percent_number_base name="constitution_percent_base_mod" source="abilities.constitution.percentbasemod">
+                <tooltip textres="charsheet_abilities_basemod_tooltip" />
+                <gmeditonly />
+                <default>0</default>
+				<anchored to="constitution_percent_label" />
+            </ability_percent_number_base>
+
+            <!-- constitution percent item mods -->
+            <label_plus>
+                <anchored to="constitution_percent_label"/>
+            </label_plus>
+            <ability_number_mod name="constitution_percent_item_mod" source="abilities.constitution.percentitemmod">
+                <tooltip textres="charsheet_abilities_itemmod_tooltip" />
+                <gmeditonly />
+				<anchored to="constitution_percent_label" />
+            </ability_number_mod>
+            <!-- constitution percent effect mods -->
+            <label_plus>
+                <anchored to="constitution_percent_label"/>
+            </label_plus>
+            <ability_number_mod name="constitution_percent_effect_mod" source="abilities.constitution.percenteffectmod">
+                <tooltip textres="charsheet_abilities_effectmod_tooltip" />
+                <gmeditonly />
+				<anchored to="constitution_percent_label" />
+            </ability_number_mod>
+            <!-- constitution percent mods -->
+            <label_plus>
+                <anchored to="constitution_percent_label"/>
+            </label_plus>
+            <ability_number_mod name="constitution_percent_mod" source="abilities.constitution.percentadjustment">
+                <tooltip textres="charsheet_abilities_adjustment_tooltip" />
+				<anchored to="constitution_percent_label" />
+            </ability_number_mod>
+
+            <!-- constitution percent temp mods -->
+            <label_plus>
+                <anchored to="constitution_percent_label"/>
+            </label_plus>
+            <ability_number_mod name="constitution_percent_temp" source="abilities.constitution.percenttempmod">
+                <tooltip textres="charsheet_abilities_tempmod_tooltip" />
+				<anchored to="constitution_percent_label" />
+            </ability_number_mod>
+
+            <!-- constitution percent total -->
+            <ability_details_percent_total name="constitution_percent_total">
+				<target>constitution</target>
+                <anchored to="constitution_percent_label"/>
+            </ability_details_percent_total>
+
+            <!-- intelligence -->
+            <!-- intelligence  base -->
+            <label name="intelligence_label">
+				<anchored to="leftanchor" width="75">
+					<top relation="relative" offset="155" />
+					<left anchor="right" offset="70"/>
+				</anchored>
+				<static text="Intelligence" />
+            </label>
+
+            <ability_number_base name="intelligence_base" source="abilities.intelligence.base">
+                <tooltip textres="charsheet_abilities_base_tooltip" />
+				<anchored to="intelligence_label" />
+            </ability_number_base>
+            
+            <!-- intelligence  basemod -->
+            <ability_number_base name="intelligence_base_mod" source="abilities.intelligence.basemod">
+                <tooltip textres="charsheet_abilities_basemod_tooltip" />
+                <gmeditonly />
+                <default>0</default>
+				<anchored to="intelligence_label" />
+            </ability_number_base>
+
+            <!-- intelligence  item mods -->
+            <label_plus>
+                <anchored to="intelligence_label"/>
+            </label_plus>
+            <ability_number_mod name="intelligence_item_mod" source="abilities.intelligence.itemmod">
+                <tooltip textres="charsheet_abilities_itemmod_tooltip" />
+                <gmeditonly />
+				<anchored to="intelligence_label" />
+            </ability_number_mod>
+            <!-- intelligence  effect mods -->
+            <label_plus>
+                <anchored to="intelligence_label"/>
+            </label_plus>
+            <ability_number_mod name="intelligence_effect_mod" source="abilities.intelligence.effectmod">
+                <tooltip textres="charsheet_abilities_effectmod_tooltip" />
+                <gmeditonly />
+				<anchored to="intelligence_label" />
+            </ability_number_mod>
+            <!-- intelligence  mods -->
+            <label_plus>
+                <anchored to="intelligence_label"/>
+            </label_plus>
+            <ability_number_mod name="intelligence_mod" source="abilities.intelligence.adjustment">
+                <tooltip textres="charsheet_abilities_adjustment_tooltip" />
+				<anchored to="intelligence_label" />
+            </ability_number_mod>
+
+            <!-- intelligence  temp mods -->
+            <label_plus>
+                <anchored to="intelligence_label"/>
+            </label_plus>
+            <ability_number_mod name="intelligence_temp" source="abilities.intelligence.tempmod">
+                <tooltip textres="charsheet_abilities_tempmod_tooltip" />
+				<anchored to="intelligence_label" />
+            </ability_number_mod>
+
+            <!-- intelligence  total -->
+            <ability_details_total name="intelligence_total">
+				<target>intelligence</target>
+                <anchored to="intelligence_label"/>
+            </ability_details_total>
+            
+            <!-- intelligence percent base -->
+            <label name="intelligence_percent_label">
+				<anchored to="leftanchor"  width="75">
+					<top relation="relative" offset="180" />
+					<left anchor="right" offset="70"/>
+				</anchored>
+				<static text="Int %" />
+            </label>
+
+            <ability_percent_number_base name="intelligence_percent_base" source="abilities.intelligence.percentbase">
+                <tooltip textres="charsheet_abilities_base_tooltip" />
+				<anchored to="intelligence_percent_label" />
+            </ability_percent_number_base>
+            
+            <!-- intelligence percent basemod -->
+            <ability_percent_number_base name="intelligence_percent_base_mod" source="abilities.intelligence.percentbasemod">
+                <tooltip textres="charsheet_abilities_basemod_tooltip" />
+                <gmeditonly />
+                <default>0</default>
+				<anchored to="intelligence_percent_label" />
+            </ability_percent_number_base>
+
+            <!-- intelligence percent item mods -->
+            <label_plus>
+                <anchored to="intelligence_percent_label"/>
+            </label_plus>
+            <ability_number_mod name="intelligence_percent_item_mod" source="abilities.intelligence.percentitemmod">
+                <tooltip textres="charsheet_abilities_itemmod_tooltip" />
+                <gmeditonly />
+				<anchored to="intelligence_percent_label" />
+            </ability_number_mod>
+            <!-- intelligence percent effect mods -->
+            <label_plus>
+                <anchored to="intelligence_percent_label"/>
+            </label_plus>
+            <ability_number_mod name="intelligence_percent_effect_mod" source="abilities.intelligence.percenteffectmod">
+                <tooltip textres="charsheet_abilities_effectmod_tooltip" />
+                <gmeditonly />
+				<anchored to="intelligence_percent_label" />
+            </ability_number_mod>
+            <!-- intelligence percent mods -->
+            <label_plus>
+                <anchored to="intelligence_percent_label"/>
+            </label_plus>
+            <ability_number_mod name="intelligence_percent_mod" source="abilities.intelligence.percentadjustment">
+                <tooltip textres="charsheet_abilities_adjustment_tooltip" />
+				<anchored to="intelligence_percent_label" />
+            </ability_number_mod>
+
+            <!-- intelligence percent temp mods -->
+            <label_plus>
+                <anchored to="intelligence_percent_label"/>
+            </label_plus>
+            <ability_number_mod name="intelligence_percent_temp" source="abilities.intelligence.percenttempmod">
+                <tooltip textres="charsheet_abilities_tempmod_tooltip" />
+				<anchored to="intelligence_percent_label" />
+            </ability_number_mod>
+
+            <!-- intelligence percent total -->
+            <ability_details_percent_total name="intelligence_percent_total">
+				<target>intelligence</target>
+                <anchored to="intelligence_percent_label"/>
+            </ability_details_percent_total>
+
+            <!-- wisdom -->
+            <!-- wisdom  base -->
+            <label name="wisdom_label">
+				<anchored to="leftanchor" width="75">
+					<top relation="relative" offset="205" />
+					<left anchor="right" offset="70"/>
+				</anchored>
+				<static text="Wisdom" />
+            </label>
+
+            <ability_number_base name="wisdom_base" source="abilities.wisdom.base">
+                <tooltip textres="charsheet_abilities_base_tooltip" />
+				<anchored to="wisdom_label" />
+            </ability_number_base>
+            
+            <!-- wisdom  basemod -->
+            <ability_number_base name="wisdom_base_mod" source="abilities.wisdom.basemod">
+                <tooltip textres="charsheet_abilities_basemod_tooltip" />
+                <gmeditonly />
+                <default>0</default>
+				<anchored to="wisdom_label" />
+            </ability_number_base>
+
+            <!-- wisdom  item mods -->
+            <label_plus>
+                <anchored to="wisdom_label"/>
+            </label_plus>
+            <ability_number_mod name="wisdom_item_mod" source="abilities.wisdom.itemmod">
+                <tooltip textres="charsheet_abilities_itemmod_tooltip" />
+                <gmeditonly />
+				<anchored to="wisdom_label" />
+            </ability_number_mod>
+            <!-- wisdom  effect mods -->
+            <label_plus>
+                <anchored to="wisdom_label"/>
+            </label_plus>
+            <ability_number_mod name="wisdom_effect_mod" source="abilities.wisdom.effectmod">
+                <tooltip textres="charsheet_abilities_effectmod_tooltip" />
+                <gmeditonly />
+				<anchored to="wisdom_label" />
+            </ability_number_mod>
+            <!-- wisdom  mods -->
+            <label_plus>
+                <anchored to="wisdom_label"/>
+            </label_plus>
+            <ability_number_mod name="wisdom_mod" source="abilities.wisdom.adjustment">
+                <tooltip textres="charsheet_abilities_adjustment_tooltip" />
+				<anchored to="wisdom_label" />
+            </ability_number_mod>
+
+            <!-- wisdom  temp mods -->
+            <label_plus>
+                <anchored to="wisdom_label"/>
+            </label_plus>
+            <ability_number_mod name="wisdom_temp" source="abilities.wisdom.tempmod">
+                <tooltip textres="charsheet_abilities_tempmod_tooltip" />
+				<anchored to="wisdom_label" />
+            </ability_number_mod>
+
+            <!-- wisdom  total -->
+            <ability_details_total name="wisdom_total">
+				<target>wisdom</target>
+                <anchored to="wisdom_label"/>
+            </ability_details_total>
+            
+            <!-- wisdom percent base -->
+            <label name="wisdom_percent_label">
+				<anchored to="leftanchor"  width="75">
+					<top relation="relative" offset="230" />
+					<left anchor="right" offset="70"/>
+				</anchored>
+				<static text="Wis %" />
+            </label>
+
+            <ability_percent_number_base name="wisdom_percent_base" source="abilities.wisdom.percentbase">
+                <tooltip textres="charsheet_abilities_base_tooltip" />
+				<anchored to="wisdom_percent_label" />
+            </ability_percent_number_base>
+            
+            <!-- wisdom percent basemod -->
+            <ability_percent_number_base name="wisdom_percent_base_mod" source="abilities.wisdom.percentbasemod">
+                <tooltip textres="charsheet_abilities_basemod_tooltip" />
+                <gmeditonly />
+                <default>0</default>
+				<anchored to="wisdom_percent_label" />
+            </ability_percent_number_base>
+
+            <!-- wisdom percent item mods -->
+            <label_plus>
+                <anchored to="wisdom_percent_label"/>
+            </label_plus>
+            <ability_number_mod name="wisdom_percent_item_mod" source="abilities.wisdom.percentitemmod">
+                <tooltip textres="charsheet_abilities_itemmod_tooltip" />
+                <gmeditonly />
+				<anchored to="wisdom_percent_label" />
+            </ability_number_mod>
+            <!-- wisdom percent effect mods -->
+            <label_plus>
+                <anchored to="wisdom_percent_label"/>
+            </label_plus>
+            <ability_number_mod name="wisdom_percent_effect_mod" source="abilities.wisdom.percenteffectmod">
+                <tooltip textres="charsheet_abilities_effectmod_tooltip" />
+                <gmeditonly />
+				<anchored to="wisdom_percent_label" />
+            </ability_number_mod>
+            <!-- wisdom percent mods -->
+            <label_plus>
+                <anchored to="wisdom_percent_label"/>
+            </label_plus>
+            <ability_number_mod name="wisdom_percent_mod" source="abilities.wisdom.percentadjustment">
+                <tooltip textres="charsheet_abilities_adjustment_tooltip" />
+				<anchored to="wisdom_percent_label" />
+            </ability_number_mod>
+
+            <!-- wisdom percent temp mods -->
+            <label_plus>
+                <anchored to="wisdom_percent_label"/>
+            </label_plus>
+            <ability_number_mod name="wisdom_percent_temp" source="abilities.wisdom.percenttempmod">
+                <tooltip textres="charsheet_abilities_tempmod_tooltip" />
+				<anchored to="wisdom_percent_label" />
+            </ability_number_mod>
+
+            <!-- wisdom percent total -->
+            <ability_details_percent_total name="wisdom_percent_total">
+				<target>wisdom</target>
+                <anchored to="wisdom_percent_label"/>
+            </ability_details_percent_total>
+
+            <!-- charisma -->
+            <!-- charisma  base -->
+            <label name="charisma_label">
+				<anchored to="leftanchor" width="75">
+					<top relation="relative" offset="255" />
+					<left anchor="right" offset="70"/>
+				</anchored>
+				<static text="Charisma" />
+            </label>
+
+            <ability_number_base name="charisma_base" source="abilities.charisma.base">
+                <tooltip textres="charsheet_abilities_base_tooltip" />
+				<anchored to="charisma_label" />
+            </ability_number_base>
+            
+            <!-- charisma  basemod -->
+            <ability_number_base name="charisma_base_mod" source="abilities.charisma.basemod">
+                <tooltip textres="charsheet_abilities_basemod_tooltip" />
+                <gmeditonly />
+                <default>0</default>
+				<anchored to="charisma_label" />
+            </ability_number_base>
+
+            <!-- charisma  item mods -->
+            <label_plus>
+                <anchored to="charisma_label"/>
+            </label_plus>
+            <ability_number_mod name="charisma_item_mod" source="abilities.charisma.itemmod">
+                <tooltip textres="charsheet_abilities_itemmod_tooltip" />
+                <gmeditonly />
+				<anchored to="charisma_label" />
+            </ability_number_mod>
+            <!-- charisma  effect mods -->
+            <label_plus>
+                <anchored to="charisma_label"/>
+            </label_plus>
+            <ability_number_mod name="charisma_effect_mod" source="abilities.charisma.effectmod">
+                <tooltip textres="charsheet_abilities_effectmod_tooltip" />
+                <gmeditonly />
+				<anchored to="charisma_label" />
+            </ability_number_mod>
+            <!-- charisma  mods -->
+            <label_plus>
+                <anchored to="charisma_label"/>
+            </label_plus>
+            <ability_number_mod name="charisma_mod" source="abilities.charisma.adjustment">
+                <tooltip textres="charsheet_abilities_adjustment_tooltip" />
+				<anchored to="charisma_label" />
+            </ability_number_mod>
+
+            <!-- charisma  temp mods -->
+            <label_plus>
+                <anchored to="charisma_label"/>
+            </label_plus>
+            <ability_number_mod name="charisma_temp" source="abilities.charisma.tempmod">
+                <tooltip textres="charsheet_abilities_tempmod_tooltip" />
+				<anchored to="charisma_label" />
+            </ability_number_mod>
+
+            <!-- charisma  total -->
+            <ability_details_total name="charisma_total">
+				<target>charisma</target>
+                <anchored to="charisma_label"/>
+            </ability_details_total>
+            
+            <!-- charisma percent base -->
+            <label name="charisma_percent_label">
+				<anchored to="leftanchor"  width="75">
+					<top relation="relative" offset="280" />
+					<left anchor="right" offset="70"/>
+				</anchored>
+				<static text="Chr %" />
+            </label>
+
+            <ability_percent_number_base name="charisma_percent_base" source="abilities.charisma.percentbase">
+                <tooltip textres="charsheet_abilities_base_tooltip" />
+				<anchored to="charisma_percent_label" />
+            </ability_percent_number_base>
+            
+            <!-- charisma percent basemod -->
+            <ability_percent_number_base name="charisma_percent_base_mod" source="abilities.charisma.percentbasemod">
+                <tooltip textres="charsheet_abilities_basemod_tooltip" />
+                <gmeditonly />
+                <default>0</default>
+				<anchored to="charisma_percent_label" />
+            </ability_percent_number_base>
+
+            <!-- charisma percent item mods -->
+            <label_plus>
+                <anchored to="charisma_percent_label"/>
+            </label_plus>
+            <ability_number_mod name="charisma_percent_item_mod" source="abilities.charisma.percentitemmod">
+                <tooltip textres="charsheet_abilities_itemmod_tooltip" />
+                <gmeditonly />
+				<anchored to="charisma_percent_label" />
+            </ability_number_mod>
+            <!-- charisma percent effect mods -->
+            <label_plus>
+                <anchored to="charisma_percent_label"/>
+            </label_plus>
+            <ability_number_mod name="charisma_percent_effect_mod" source="abilities.charisma.percenteffectmod">
+                <tooltip textres="charsheet_abilities_effectmod_tooltip" />
+                <gmeditonly />
+				<anchored to="charisma_percent_label" />
+            </ability_number_mod>
+            <!-- charisma percent mods -->
+            <label_plus>
+                <anchored to="charisma_percent_label"/>
+            </label_plus>
+            <ability_number_mod name="charisma_percent_mod" source="abilities.charisma.percentadjustment">
+                <tooltip textres="charsheet_abilities_adjustment_tooltip" />
+				<anchored to="charisma_percent_label" />
+            </ability_number_mod>
+
+            <!-- charisma percent temp mods -->
+            <label_plus>
+                <anchored to="charisma_percent_label"/>
+            </label_plus>
+            <ability_number_mod name="charisma_percent_temp" source="abilities.charisma.percenttempmod">
+                <tooltip textres="charsheet_abilities_tempmod_tooltip" />
+				<anchored to="charisma_percent_label" />
+            </ability_number_mod>
+
+            <!-- charisma percent total -->
+            <ability_details_percent_total name="charisma_percent_total">
+				<target>charisma</target>
+                <anchored to="charisma_percent_label"/>
+            </ability_details_percent_total>
+
+
+
+            <!-- END -->
             <close>
 			<anchored>
 				<top offset="24" />
