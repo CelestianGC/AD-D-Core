@@ -308,8 +308,27 @@
 		</stringfield>
 	</template>
 
+    <template name="ct_abilities_label" >
+        <label>
+            <center />
+            <anchored width="40"/>
+
+            <font>arial-bold-8</font>
+        </label>
+    </template>
+
+    <template name="ct_save_label" >
+        <label>
+            <center />
+            <anchored width="40"/>
+
+            <font>arial-bold-8</font>
+        </label>
+    </template>
+    
     <template name="number_ct_savescore">
 		<number_ct>
+            <anchored width="20" height="20"/>
             <default>-1</default>
 			<font>arial-bold-8</font>
 			<rollable />

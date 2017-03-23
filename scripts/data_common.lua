@@ -118,18 +118,20 @@ saves_multi_name = {
 	-- ["save_breath"] = 4,
 	-- ["save_spell"] = 5
 -- };
-    saves_index = {
-        ["poison"] = 1,
-        ["paralyzation"] = 2,
-        ["death"] = 3,
-        ["rod"] = 4,
-        ["staff"] = 5,
-        ["wand"] = 7,
-        ["petrification"] = 8,
-        ["polymorph"] = 9,
-        ["breath"] = 10,
-        ["spell"] = 11
-    };
+    -- -- this index points to the location of this save
+    -- -- in the aFighterSaves in setNPCSave
+    -- saves_fighter_index = {
+        -- ["poison"] = 1,
+        -- ["paralyzation"] = 1,
+        -- ["death"] = 1,
+        -- ["rod"] = 2,
+        -- ["staff"] = 2,
+        -- ["wand"] = 2,
+        -- ["petrification"] = 3,
+        -- ["polymorph"] = 3,
+        -- ["breath"] = 4,
+        -- ["spell"] = 5
+    -- };
 
 saves_shortnames = {
 	"poison",

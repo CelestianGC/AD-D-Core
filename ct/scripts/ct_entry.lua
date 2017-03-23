@@ -162,11 +162,19 @@ function linkPCFields()
 		wisdom.setLink(nodeChar.createChild("abilities.wisdom.score", "number"), true);
 		charisma.setLink(nodeChar.createChild("abilities.charisma.score", "number"), true);
 
-		save_paralyzation_poison_death.setLink(nodeChar.createChild("saves.save_paralyzation_poison_death.score", "number"), true);
-		save_rod_staff_wand.setLink(nodeChar.createChild("saves.save_rod_staff_wand.score", "number"), true);
-		save_petrify_polymorph.setLink(nodeChar.createChild("saves.save_petrify_polymorph.score", "number"), true);
-		save_breath.setLink(nodeChar.createChild("saves.save_breath.score", "number"), true);
-		save_spell.setLink(nodeChar.createChild("saves.save_spell.score", "number"), true);
+		paralyzation.setLink(nodeChar.createChild("saves.paralyzation.score", "number"), true);
+		poison.setLink(nodeChar.createChild("saves.poison.score", "number"), true);
+		death.setLink(nodeChar.createChild("saves.death.score", "number"), true);
+		
+        rod.setLink(nodeChar.createChild("saves.rod.score", "number"), true);
+		staff.setLink(nodeChar.createChild("saves.staff.score", "number"), true);
+		wand.setLink(nodeChar.createChild("saves.wand.score", "number"), true);
+		
+        petrification.setLink(nodeChar.createChild("saves.petrification.score", "number"), true);
+		polymorph.setLink(nodeChar.createChild("saves.polymorph.score", "number"), true);
+		
+        breath.setLink(nodeChar.createChild("saves.breath.score", "number"), true);
+		spell.setLink(nodeChar.createChild("saves.spell.score", "number"), true);
 
 
 		init.setLink(nodeChar.createChild("initiative.total", "number"), true);
@@ -218,20 +226,32 @@ function setAttributesVisible()
 
 --	attr_save_division_label.setVisible(v);
 
-	save_paralyzation_poison_death.setVisible(v);
-	save_paralyzation_poison_death_label.setVisible(v);
+	paralyzation.setVisible(v);
+	paralyzation_label.setVisible(v);
+	poison.setVisible(v);
+	poison_label.setVisible(v);
+	
+    death.setVisible(v);
+	death_label.setVisible(v);
     
-	save_rod_staff_wand.setVisible(v);
-	save_rod_staff_wand_label.setVisible(v);
+    rod.setVisible(v);
+	rod_label.setVisible(v);
+    staff.setVisible(v);
+	staff_label.setVisible(v);
+    wand.setVisible(v);
+	wand_label.setVisible(v);
+
+    petrification.setVisible(v);
+	petrification_label.setVisible(v);
     
-	save_petrify_polymorph.setVisible(v);
-	save_petrify_polymorph_label.setVisible(v);
-    
-	save_breath.setVisible(v);
-	save_breath_label.setVisible(v);
-    
-	save_spell.setVisible(v);
-	save_spell_label.setVisible(v);
+    polymorph.setVisible(v);
+	polymorph_label.setVisible(v);
+
+    breath.setVisible(v);
+	breath_label.setVisible(v);
+
+    spell.setVisible(v);
+	spell_label.setVisible(v);
 
 	--spacer_attribute.setVisible(v);
 	

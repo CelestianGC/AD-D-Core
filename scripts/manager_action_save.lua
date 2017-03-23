@@ -11,6 +11,21 @@ end
 function setNPCSave(nodeEntry, sSave, nodeNPC)
     
     --Debug.console("manager_action_save.lua", "setNPCSave", sSave);
+
+    -- this index points to the location of this save
+    -- in the aFighterSaves in setNPCSave
+    local saves_fighter_index = {
+        ["poison"] = 1,
+        ["paralyzation"] = 1,
+        ["death"] = 1,
+        ["rod"] = 2,
+        ["staff"] = 2,
+        ["wand"] = 2,
+        ["petrification"] = 3,
+        ["polymorph"] = 3,
+        ["breath"] = 4,
+        ["spell"] = 5
+    };
     
     local aFighterSaves = {};
         -- Death, Rod, Poly, Breath, Spell
@@ -33,7 +48,7 @@ function setNPCSave(nodeEntry, sSave, nodeNPC)
         aFighterSaves[16] = {4,6,5,4,7};
         aFighterSaves[17] = {3,5,4,4,6};
         
-    local nSaveIndex = DataCommon.saves_index[sSave];
+    local nSaveIndex = saves_fighter_index[sSave];
     
     --Debug.console("manager_action_save.lua", "setNPCSave", "nSaveIndex", nSaveIndex);
     

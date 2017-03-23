@@ -2221,7 +2221,7 @@
 	<windowclass name="charsheet_saves_details">
 		<frame>charsheethelper</frame>
 		<placement>
-			<size width="550" height="475" />
+			<size width="550" height="400" />
 		</placement>
 		<nodelete />
 		<sheetdata>

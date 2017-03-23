@@ -17,7 +17,7 @@
 	<string name="staff">Staff</string>
 	<string name="wand">Wand</string>
 	<string name="petrification">Petrification</string>
-	<string name="polymorph">Poly</string>
+	<string name="polymorph">Polymorph</string>
 	<string name="breath">Breath</string>
 	<string name="spell">Spell</string>
 	
@@ -40,9 +40,17 @@
 
 	<string name="text_MOD">MOD</string>
     
-	<string name="save_paralyzation_poison_death_full">Paralyzation, Poison or Death</string>
-	<string name="save_rod_staff_wand_full">Rod, Staff or Wand</string>
-	<string name="save_petrify_polymorph_full">Petrify, Polymorph</string>
+	<string name="save_paralyzation_full">Paralyzation</string>
+	<string name="save_poison_full">Poison</string>
+	<string name="save_death_full">Death</string>
+
+	<string name="save_rod_full">Rod</string>
+	<string name="save_staff_full">Staff</string>
+	<string name="save_wand_full">Wand</string>
+
+	<string name="save_petrification_full">Petrification</string>
+	<string name="save_polymorph_full">Polymorph</string>
+
 	<string name="save_breath_full">Breath Weapon</string>
 	<string name="save_spell_full">Spell or Other</string>
     
