@@ -89,6 +89,7 @@
 			</label_charframetop>
 			
             <button_charabiltiesdetail name="abilities_details">
+                <tooltip textres="ability_details_tooltip" />
 				<anchored to="statstitle" position="insidetopleft" offset="290,0">
 				</anchored>
             </button_charabiltiesdetail>
@@ -618,6 +619,7 @@
                 <static textres="char_label_save" />
 			</label_charframetop>
             <button_charasavesdetail name="saves_details">
+                <tooltip textres="save_details_tooltip" />
 				<anchored to="savestitle" position="insidetopleft" offset="117,0">
 				</anchored>
             </button_charasavesdetail>

@@ -361,50 +361,62 @@
             </label>
     </template>
     <template name="ability_number_base">
-            <number>
+            <basicnumber>
 				<anchored width="30" height="20">
 					<top  />
 					<left anchor="right" relation="relative" offset="10" />
 				</anchored>
-                <frame name="fieldlight" offset="7,5,7,5" />
+                <frame name="fielddark" offset="7,5,7,5" />
+                <stateframe>
+                    <hover name="rowshade" offset="7,5,7,5" />
+                </stateframe>
+                <cursor hover="hand" />
                 <font>arial-bold-8</font>
                 <default>9</default>
                 <hideonvalue>0</hideonvalue>
                 <min>0</min>
                 <max>25</max>
-            </number>
+            </basicnumber>
     
     </template>
     <template name="ability_percent_number_base">
-            <number>
+            <basicnumber>
 				<anchored width="30" height="20">
 					<top  />
 					<left anchor="right" relation="relative" offset="10" />
 				</anchored>
-                <frame name="fieldlight" offset="7,5,7,5" />
+                <frame name="fielddark" offset="7,5,7,5" />
+                <stateframe>
+                    <hover name="rowshade" offset="7,5,7,5" />
+                </stateframe>
+                <cursor hover="hand" />
                 <font>arial-bold-8</font>
                 <default>0</default>
                 <hideonvalue>0</hideonvalue>
                 <min>0</min>
                 <max>100</max>
-            </number>
+            </basicnumber>
     
     </template>
     <template name="ability_number_mod">
-            <number>
+            <basicnumber>
 				<anchored width="30" height="20">
 					<top  />
 					<left anchor="right" relation="relative" offset="5" />
 				</anchored>
-                <frame name="fieldlight" offset="7,5,7,5" />
+                <frame name="fielddark" offset="7,5,7,5" />
+                <stateframe>
+                    <hover name="rowshade" offset="7,5,7,5" />
+                </stateframe>
+                <cursor hover="hand" />
                 <font>arial-regular-8</font>
                 <hideonvalue>0</hideonvalue>
                 <default>0</default>
                 <displaysign />
-            </number>
+            </basicnumber>
     </template>
     <template name="ability_details_total">
-            <number>
+            <basicnumber>
        			<script file="campaign/scripts/char_abilities_details.lua" />
                 <script>
                     function onInit()
@@ -436,14 +448,19 @@
                     <top  />
                     <left anchor="right" relation="relative" offset="10" />
                 </anchored>
-                <frame name="fieldlight" offset="7,5,7,5" />
+                <frame name="fielddark" offset="7,5,7,5" />
+                <stateframe>
+                    <hover name="rowshade" offset="7,5,7,5" />
+                </stateframe>
+                <cursor hover="hand" />
+                <readonly />
                 <font>arial-bold-8</font>
                 <readonly />
                 <hideonvalue>0</hideonvalue>
-            </number>
+            </basicnumber>
     </template>
     <template name="ability_details_percent_total" >
-            <number>
+            <basicnumber>
        			<script file="campaign/scripts/char_abilities_details.lua" />
                 <script>
                     function onInit()
@@ -477,11 +494,16 @@
                     <top  />
                     <left anchor="right" relation="relative" offset="10" />
                 </anchored>
-                <frame name="fieldlight" offset="7,5,7,5" />
+                <frame name="fielddark" offset="7,5,7,5" />
+                <stateframe>
+                    <hover name="rowshade" offset="7,5,7,5" />
+                </stateframe>
+                <cursor hover="hand" />
+                <readonly />
                 <font>arial-bold-8</font>
                 <readonly />
                 <hideonvalue>0</hideonvalue>
-            </number>
+            </basicnumber>
     </template>
     
     <template name="label_ability_details_stat">
@@ -506,6 +528,11 @@
 
 	<template name="number_char_save">
 		<basicnumber>
+                <frame name="fielddark" offset="7,5,7,5" />
+                <stateframe>
+                    <hover name="rowshade" offset="7,5,7,5" />
+                </stateframe>
+                <cursor hover="hand" />
 			<default>20</default>
 			<anchored to="statstitle" position="below"/>
 			<rollable />
@@ -541,7 +568,7 @@
             </label>
     </template>
     <template name="save_details_total">
-            <number>
+            <basicnumber>
        			<script file="campaign/scripts/char_saves_details.lua" />
                 <script>
                     function onInit()
@@ -573,39 +600,52 @@
                     <top  />
                     <left anchor="right" relation="relative" offset="10" />
                 </anchored>
-                <frame name="fieldlight" offset="7,5,7,5" />
+                <frame name="fielddark" offset="7,5,7,5" />
+                <stateframe>
+                    <hover name="rowshade" offset="7,5,7,5" />
+                </stateframe>
+                <cursor hover="hand" />
+                <readonly />
                 <font>arial-bold-8</font>
                 <readonly />
                 <hideonvalue>0</hideonvalue>
-            </number>
+            </basicnumber>
     </template>
     <template name="save_number_base">
-            <number>
+            <basicnumber>
 				<anchored width="30" height="20">
 					<top  />
 					<left anchor="right" relation="relative" offset="10" />
 				</anchored>
-                <frame name="fieldlight" offset="7,5,7,5" />
+                <frame name="fielddark" offset="7,5,7,5" />
+                <stateframe>
+                    <hover name="rowshade" offset="7,5,7,5" />
+                </stateframe>
+                <cursor hover="hand" />
                 <font>arial-bold-8</font>
                 <default>20</default>
                 <hideonvalue>0</hideonvalue>
                 <min>0</min>
                 <max>25</max>
-            </number>
+            </basicnumber>
     
     </template>
     <template name="save_number_mod">
-            <number>
+            <basicnumber>
 				<anchored width="30" height="20">
 					<top  />
 					<left anchor="right" relation="relative" offset="5" />
 				</anchored>
-                <frame name="fieldlight" offset="7,5,7,5" />
+                <frame name="fielddark" offset="7,5,7,5" />
+                <stateframe>
+                    <hover name="rowshade" offset="7,5,7,5" />
+                </stateframe>
+                <cursor hover="hand" />
                 <font>arial-regular-8</font>
                 <hideonvalue>0</hideonvalue>
                 <default>0</default>
                 <displaysign />
-            </number>
+            </basicnumber>
     </template>
     
 </root>

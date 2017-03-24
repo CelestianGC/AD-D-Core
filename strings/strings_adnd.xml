@@ -38,6 +38,9 @@
 	<string name="save_breath_wrapped">Breath</string>
 	<string name="save_spell_wrapped">Spell</string>
 
+	<string name="save_details_tooltip">Save detail window. Set scores and adjustments.</string>
+	<string name="ability_details_tooltip">Ability detail window. Set scores and adjustments.</string>
+    
 	<string name="text_MOD">MOD</string>
     
 	<string name="save_paralyzation_full">Paralyzation</string>

@@ -328,6 +328,7 @@
     
     <template name="number_ct_savescore">
 		<number_ct>
+			<frame name="fieldlight" offset="7,5,7,5" />
             <anchored width="20" height="20"/>
             <default>-1</default>
 			<font>arial-bold-8</font>
