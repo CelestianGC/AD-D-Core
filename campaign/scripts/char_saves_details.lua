@@ -22,12 +22,15 @@ function detailsUpdate()
         nFinalBase = nBaseMod;
     end
     
-    local nTotal = (nFinalBase + nItemMod + nEffectMod + nAdjustment + nTempMod);
+    -- flip negative to positive, since we expect +2 to be better and -2 to be worse
+    -- here.
+    local nFlipMods = ( (nItemMod + nEffectMod + nAdjustment + nTempMod) * -1);
+    local nTotal = (nFinalBase + nFlipMods);
     if (nTotal < 1) then
         nTotal = 1;
     end
-    if (nTotal > 25) then
-        nTotal = 25;
+    if (nTotal > 50) then
+        nTotal = 50;
     end
     DB.setValue(nodeChar, "saves." .. sTarget .. ".score","number", nTotal);
     setValue(nTotal);
