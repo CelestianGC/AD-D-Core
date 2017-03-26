@@ -391,7 +391,7 @@ function onAttack(rSource, rTarget, rRoll)
 
 	-- insert AC hit
 	local nACHit = (20 - rAction.nTotal);
-	rMessage.text = rMessage.text .. "[AC:" .. nACHit .. "]" .. table.concat(rAction.aMessages, " ");
+	rMessage.text = rMessage.text .. "[AC: " .. nACHit .. " ]" .. table.concat(rAction.aMessages, " ");
 
 	if nDefEffectsBonus ~= 0 then
 		nDefenseVal = nDefenseVal + nDefEffectsBonus;

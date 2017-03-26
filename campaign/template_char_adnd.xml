@@ -648,4 +648,19 @@
             </basicnumber>
     </template>
     
+    <template name="char_speed_details">
+			<basicnumber name="speedbase" source="speed.base">
+				<default>12</default>
+                <script>
+                    function onInit()
+                        onUpdate();
+                    end
+                    function onUpdate()
+                        local node = getDatabaseNode();
+                        local nodeChar = node.getChild("...");
+                        DB.setValue(nodeChar,"speed.total","number",getValue());
+                    end
+                </script>
+			</basicnumber>
+    </template>
 </root>

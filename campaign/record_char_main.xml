@@ -1178,10 +1178,9 @@
 				</anchored>
 				<static textres="char_label_speeddetail" />
 			</label>
-			<basicnumber name="speedbase" source="speed.base">
-				<default>12</default>
+			<char_speed_details name="speedbase" source="speed.base">
 				<anchored to="label_speeddetail" position="righthigh" offset="5,0" width="45" height="20" />
-			</basicnumber>
+			</char_speed_details>
 			<label_fieldtop name="label_speedbase">
 				<anchored to="speedbase" />
 				<static textres="char_label_speedbase" />
