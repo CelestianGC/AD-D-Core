@@ -663,4 +663,16 @@
                 </script>
 			</basicnumber>
     </template>
-</root>
+
+	<template name="class_cycler_do_as">
+		<button_stringcycler>
+            <default>fighter</default>
+			<parameters>
+				<defaultlabelres>dash</defaultlabelres>
+				<labelsres>fighter|cleric|mage|thief</labelsres>
+				<values>fighter|cleric|mage|thief</values>
+			</parameters>
+		</button_stringcycler>
+	</template>
+    
+    </root>

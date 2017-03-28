@@ -881,10 +881,10 @@
 	<windowclass name="charsheet_classes">
 		<frame>charsheethelper</frame>
 		<placement>
-			<size width="470" height="300" />
+			<size width="500" height="300" />
 		</placement>
 		<sizelimits>
-			<minimum width="470" height="300" />
+			<minimum width="500" height="300" />
 			<dynamic />
 		</sizelimits>
 		<nodelete />
@@ -974,16 +974,55 @@
 				<anchored to="expneeded" offset="0,10" />
 				<static textres="char_label_nextlevel" />
 			</label_charfieldtop>
+
+            
+            
+            
+            
+   			<genericcontrol name="rightanchor">
+				<anchored position="insidetopright" offset="15,120" width="0" height="0" />
+				<invisible />
+			</genericcontrol>
+			<genericcontrol name="spacer">
+				<anchored to="rightanchor" width="20" height="20">
+					<top />
+					<right anchor="left" relation="relative" />
+				</anchored>
+				<disabled />
+			</genericcontrol>
+         
+            
+            
+            
+            
+            
+            
+            <!-- save as -->
+			<label_charframetop name="classsave">
+                <tooltip textres="char_label_class_save_tooltip" />
+				<anchored to="spacer" position="left" offset="15,0" width="50" />
+				<static textres="char_label_class_save" />
+			</label_charframetop>
+
+            <!-- fight as -->
+			<label_charframetop name="classfight">
+                <tooltip textres="char_label_class_fight_tooltip" />
+				<anchored to="classsave" position="left" offset="20,0" width="55" />
+				<static textres="char_label_class_fight" />
+			</label_charframetop>
+
 			
-             <!-- hd used -->
+            <!-- hd used -->
 			<label_charframetop name="hdusedtitle">
-				<anchored to="contentanchor" position="belowright" offset="45,65" height="20" width="30" />
+				<!-- <anchored to="contentanchor" position="belowright" offset="45,65" height="20" width="30" /> -->
+				<anchored to="classfight" position="left" offset="20,0" width="50" />
 				<static textres="char_label_hdused" />
 			</label_charframetop>
 			<label_charframetop name="hdtitle">
 				<anchored to="hdusedtitle" position="left" offset="20,0" width="50" />
 				<static textres="char_label_hd" />
 			</label_charframetop>
+
 
             <!-- caster level multiplier -->
 			<label_charframetop name="experiencetitle">
@@ -996,14 +1035,18 @@
 				<anchored to="experiencetitle" position="left" offset="20,0" width="35" />
 				<static textres="char_label_level" />
 			</label_charframetop>
+            
 			<label_charframetop name="classtitle">
-				<anchored to="classleveltitle" position="left" offset="20,0">
+				<!-- <anchored to="classleveltitle" position="left" offset="10,0" width="140" /> -->
+ 				<anchored to="classleveltitle" position="left" offset="20,0">
 					<left parent="contentanchor" offset="10" />
-				</anchored>
+				</anchored> 
 				<static textres="char_label_class" />
 			</label_charframetop>
+
+            
 			<button_iadd name="classes_iadd">
-				<anchored to="hdusedtitle">
+				<anchored to="classsave">
 					<top anchor="bottom" relation="relative" offset="3" />
 					<left anchor="right" offset="15" />
 				</anchored>
@@ -1024,7 +1067,7 @@
 				<target>classes</target>
 			</scrollbar>
 			<button_iedit name="classes_iedit">
-				<anchored to="hdusedtitle" position="righthigh" offset="15,0" />
+				<anchored to="classsave" position="righthigh" offset="15,0" />
 				<target>classes</target>
 			</button_iedit>
 
@@ -1083,15 +1126,25 @@
 				</script>
 			</linkfield>
 			<button_idelete name="idelete">
-				<anchored to="rightanchor">
+ 				<anchored to="rightanchor">
 					<top />
 					<right anchor="left" />
 				</anchored>
 			</button_idelete>
 
+            <!-- save as -->
+			<class_cycler_do_as name="saveas">
+				<anchored to="spacer" position="left" offset="5,0" width="45" />
+			</class_cycler_do_as>
+
+            <!-- fight as -->
+			<class_cycler_do_as name="fightas">
+				<anchored to="saveas" position="left" offset="25,0" width="45" />
+			</class_cycler_do_as>
+
             <!-- hd used -->
 			<number_charwounds name="hdused">
-				<anchored to="spacer" position="left" offset="15,0" width="30" />
+				<anchored to="fightas" position="left" offset="25,0" width="50" />
 				<description textres="char_tooltip_hdused" />
 			</number_charwounds>
             <!-- hdie -->
@@ -1118,21 +1171,23 @@
 				<anchored to="exp" position="left" offset="18,0" width="30" />
 			</basicnumber>
 
- 			<button_checkbox name="classactive">
-				<anchored to="level" position="left" offset="5,0" width="10" />
-				<tooltip textres="char_tooltip_classactivity" />
-			</button_checkbox>
             
 			<string_textlistitem name="name">
-				<anchored>
+<!-- 				<anchored to="level" position="left" offset="18,0" width="70" /> -->
+ 				<anchored>
 					<top parent="rightanchor" offset="0" />
-					<left offset="5" />
-					<right parent="classactive" anchor="left" relation="relative" offset="-17" /> 
-				</anchored>
+					<left offset="15" />
+					<right parent="level" anchor="left" relation="relative" offset="-17" /> 
+				</anchored> 
 				<multilinespacing>20</multilinespacing>
 			</string_textlistitem>
 
-        </sheetdata>
+ 			<button_checkbox name="classactive">
+				<anchored to="name" position="left" offset="2,0" width="10" />
+				<tooltip textres="char_tooltip_classactivity" />
+			</button_checkbox>
+
+            </sheetdata>
 	</windowclass>	
 
     <!-- combat popup window-->
