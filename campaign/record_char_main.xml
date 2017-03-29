@@ -1098,6 +1098,31 @@
 				action();
 				return true;
 			end
+            function onInit()
+                local node = getDatabaseNode();
+                DB.addHandler(DB.getPath(node, "saveas"),"onUpdate", cyclerUpdated);
+                DB.addHandler(DB.getPath(node, "fightas"),"onUpdate", cyclerUpdated);
+                cyclerUpdated();
+            end
+            function onClose()
+                local node = getDatabaseNode();
+                DB.removeHandler(DB.getPath(node, "saveas"),"onUpdate", cyclerUpdated);
+                DB.removeHandler(DB.getPath(node, "fightas"),"onUpdate", cyclerUpdated);
+            end
+            function cyclerUpdated()
+                Debug.console("record_char_main.xml","charsheet_class","cyclerUpdated");
+                local node = getDatabaseNode();
+                local sSaveClass = DB.getValue(node,"saveas","");
+                local sFightClass = DB.getValue(node,"fightas","");
+                
+                if sSaveClass == "" then
+                    DB.setValue(node,"saveas","string","warrior");
+                end
+                if sFightClass == "" then
+                    DB.setValue(node,"fightas","string","warrior");
+                end
+            end
+            
 		</script>
 		<sheetdata>
 			<genericcontrol name="rightanchor">
@@ -1134,12 +1159,12 @@
 
             <!-- save as -->
 			<class_cycler_do_as name="saveas">
-				<anchored to="spacer" position="left" offset="5,0" width="45" />
+				<anchored to="spacer" position="lefthigh" offset="5,0" width="45" />
 			</class_cycler_do_as>
 
             <!-- fight as -->
 			<class_cycler_do_as name="fightas">
-				<anchored to="saveas" position="left" offset="25,0" width="45" />
+				<anchored to="saveas" position="lefthigh" offset="25,0" width="45" />
 			</class_cycler_do_as>
 
             <!-- hd used -->

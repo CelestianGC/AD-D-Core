@@ -12,6 +12,11 @@
     <string name="mage">Mage</string>
     <string name="thief">Thief</string>
 
+    <string name="warrior">Warrior</string>
+    <string name="priest">Priest</string>
+    <string name="wizard">Wizard</string>
+    <string name="rogue">Rogue</string>
+
 	<string name="thaco">THACO</string>
 	<string name="percent">%</string>
 
