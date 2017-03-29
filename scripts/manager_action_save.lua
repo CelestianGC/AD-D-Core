@@ -12,43 +12,45 @@ function setNPCSave(nodeEntry, sSave, nodeNPC)
     
     --Debug.console("manager_action_save.lua", "setNPCSave", sSave);
 
-    -- this index points to the location of this save
-    -- in the aFighterSaves in setNPCSave
-    local saves_fighter_index = {
-        ["poison"] = 1,
-        ["paralyzation"] = 1,
-        ["death"] = 1,
-        ["rod"] = 2,
-        ["staff"] = 2,
-        ["wand"] = 2,
-        ["petrification"] = 3,
-        ["polymorph"] = 3,
-        ["breath"] = 4,
-        ["spell"] = 5
-    };
+    -- -- this index points to the location of this save
+    -- -- in the aFighterSaves in setNPCSave
+    -- local saves_fighter_index = {
+        -- ["poison"] = 1,
+        -- ["paralyzation"] = 1,
+        -- ["death"] = 1,
+        -- ["rod"] = 2,
+        -- ["staff"] = 2,
+        -- ["wand"] = 2,
+        -- ["petrification"] = 3,
+        -- ["polymorph"] = 3,
+        -- ["breath"] = 4,
+        -- ["spell"] = 5
+    -- };
     
-    local aFighterSaves = {};
-        -- Death, Rod, Poly, Breath, Spell
-        aFighterSaves[0]  = {16,18,17,20,19};
-        aFighterSaves[1]  = {15,16,15,17,17};
-        aFighterSaves[2]  = {15,16,15,17,17};
-        aFighterSaves[3]  = {13,15,14,16,16};
-        aFighterSaves[4]  = {13,15,14,16,16};
-        aFighterSaves[5]  = {11,13,12,13,14};
-        aFighterSaves[6]  = {11,13,12,13,14};
-        aFighterSaves[7]  = {10,12,11,12,13};
-        aFighterSaves[8]  = {10,12,11,12,13};
-        aFighterSaves[9]  = {8,10,9,9,11};
-        aFighterSaves[10] = {8,10,9,9,11};
-        aFighterSaves[11] = {7,9,8,8,10};
-        aFighterSaves[12] = {7,9,8,8,10};
-        aFighterSaves[13] = {5,7,6,5,8};
-        aFighterSaves[14] = {5,7,6,5,8};
-        aFighterSaves[15] = {4,6,5,4,7};
-        aFighterSaves[16] = {4,6,5,4,7};
-        aFighterSaves[17] = {3,5,4,4,6};
+    -- local aFighterSaves = {};
+        -- -- Death, Rod, Poly, Breath, Spell
+        -- aFighterSaves[0]  = {16,18,17,20,19};
+        -- aFighterSaves[1]  = {15,16,15,17,17};
+        -- aFighterSaves[2]  = {15,16,15,17,17};
+        -- aFighterSaves[3]  = {13,15,14,16,16};
+        -- aFighterSaves[4]  = {13,15,14,16,16};
+        -- aFighterSaves[5]  = {11,13,12,13,14};
+        -- aFighterSaves[6]  = {11,13,12,13,14};
+        -- aFighterSaves[7]  = {10,12,11,12,13};
+        -- aFighterSaves[8]  = {10,12,11,12,13};
+        -- aFighterSaves[9]  = {8,10,9,9,11};
+        -- aFighterSaves[10] = {8,10,9,9,11};
+        -- aFighterSaves[11] = {7,9,8,8,10};
+        -- aFighterSaves[12] = {7,9,8,8,10};
+        -- aFighterSaves[13] = {5,7,6,5,8};
+        -- aFighterSaves[14] = {5,7,6,5,8};
+        -- aFighterSaves[15] = {4,6,5,4,7};
+        -- aFighterSaves[16] = {4,6,5,4,7};
+        -- aFighterSaves[17] = {3,5,4,4,6};
         
-    local nSaveIndex = saves_fighter_index[sSave];
+    local nSaveIndex = DataCommonADND.saves_warrior_index[sSave];
+
+    --Debug.console("manager_action_save.lua", "setNPCSave", "DataCommonADND.saves_warrior_index[sSave]", DataCommonADND.saves_warrior_index[sSave]);
     
     --Debug.console("manager_action_save.lua", "setNPCSave", "nSaveIndex", nSaveIndex);
     
@@ -61,11 +63,12 @@ function setNPCSave(nodeEntry, sSave, nodeNPC)
     --Debug.console("manager_action_save.lua", "setNPCSave", "nLevel", nLevel);
     
     if (nLevel > 17) then
-        nSaveScore = aFighterSaves[17][nSaveIndex];
+        nSaveScore = DataCommonADND.aWarriorSaves[17][nSaveIndex];
     elseif (nLevel < 1) then
-        nSaveScore = aFighterSaves[0][nSaveIndex];
+        nSaveScore = DataCommonADND.aWarriorSaves[0][nSaveIndex];
     else
-        nSaveScore = aFighterSaves[nLevel][nSaveIndex];
+        nSaveScore = DataCommonADND.aWarriorSaves[nLevel][nSaveIndex];
+    --Debug.console("manager_action_save.lua", "setNPCSave", "DataCommonADND.aWarriorSaves[nLevel][nSaveIndex]", DataCommonADND.aWarriorSaves[nLevel][nSaveIndex]);
     end
 
     --Debug.console("manager_action_save.lua", "setNPCSave", "nSaveScore", nSaveScore);

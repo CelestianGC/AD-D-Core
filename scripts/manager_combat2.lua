@@ -210,7 +210,7 @@ end
 -- Set NPC Saves -msw
 -- move to manager_action_save.lua?
 function updateNPCSaves(nodeEntry, nodeNPC)
-    for i=1,5,1 do
+    for i=1,10,1 do
         local sSave = DataCommon.saves[i];
         local nSave = DB.getValue(nodeNPC, "saves." .. sSave .. ".score", -1);
         if (nSave <= 0) then
