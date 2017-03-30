@@ -240,7 +240,16 @@ function addNPC(sClass, nodeNPC, sName)
 	-- Determine size
 	local sSize = StringManager.trim(DB.getValue(nodeEntry, "size", ""):lower());
 	local sSizeNoLower = StringManager.trim(DB.getValue(nodeEntry, "size", ""));
-	if sSize == "small" or string.find(sSizeNoLower,"S") then
+	if sSize == "tiny" or string.find(sSizeNoLower,"T") then
+        -- tokenscale doesn't work, guessing it's "reset" when
+        -- the token is actually dropped on the map
+        -- need to figure out a work around -msw
+		DB.setValue(nodeEntry, "tokenscale", "number", 0.5);
+        DB.setValue(nodeEntry, "init", "number", 0);
+	elseif sSize == "small" or string.find(sSizeNoLower,"S") then
+        -- tokenscale doesn't work, guessing it's "reset" when
+        -- the token is actually dropped on the map
+		DB.setValue(nodeEntry, "tokenscale", "number", 0.75);
         DB.setValue(nodeEntry, "init", "number", 3);
 	elseif sSize == "medium" or string.find(sSizeNoLower,"M") then
         DB.setValue(nodeEntry, "init", "number", 3);
