@@ -3,11 +3,60 @@
 --
 --
 
+function onInit()
+    super.onInit();
+    local nodeChar = window.getDatabaseNode();
+
+    --Debug.console("char_abilities_details.lua","onInit","nodeChar",nodeChar);
+
+    local sTarget = string.lower(self.target[1]);
+    DB.addHandler(DB.getPath(nodeChar, "saves." .. sTarget .. ".base"),       "onUpdate", detailsUpdate);
+    DB.addHandler(DB.getPath(nodeChar, "saves." .. sTarget .. ".basemod"),    "onUpdate", detailsUpdate);
+    DB.addHandler(DB.getPath(nodeChar, "saves." .. sTarget .. ".itemmod"),    "onUpdate", detailsUpdate);
+    DB.addHandler(DB.getPath(nodeChar, "saves." .. sTarget .. ".effectmod"),  "onUpdate", detailsUpdate);
+    DB.addHandler(DB.getPath(nodeChar, "saves." .. sTarget .. ".adjustment"), "onUpdate", detailsUpdate);
+    DB.addHandler(DB.getPath(nodeChar, "saves." .. sTarget .. ".tempmod"),    "onUpdate", detailsUpdate);
+    detailsUpdate();
+end
+
+function action(draginfo)
+    local nTargetDC = 20;
+    local rActor = ActorManager.getActor("pc", window.getDatabaseNode());
+    local sActorType, nodeActor = ActorManager.getTypeAndNode(rActor);
+    nTargetDC = DB.getValue(nodeActor, "saves." .. self.target[1] .. ".score", 0);
+    ActionSave.performRoll(draginfo, rActor, self.target[1],nTargetDC);
+    return true;
+end
+
+function onDragStart(button, x, y, draginfo)
+    return action(draginfo);
+end
+    
+function onDoubleClick(x,y)
+    return action();
+end
+
+
+function onClose()
+    local nodeChar = window.getDatabaseNode();
+
+    --Debug.console("char_abilities_details.lua","onClose","nodeChar",nodeChar);
+
+    local sTarget = string.lower(self.target[1]);
+    DB.removeHandler(DB.getPath(nodeChar, "saves." .. sTarget .. ".base"),       "onUpdate", detailsUpdate);
+    DB.removeHandler(DB.getPath(nodeChar, "saves." .. sTarget .. ".basemod"),    "onUpdate", detailsUpdate);
+    DB.removeHandler(DB.getPath(nodeChar, "saves." .. sTarget .. ".itemmod"),    "onUpdate", detailsUpdate);
+    DB.removeHandler(DB.getPath(nodeChar, "saves." .. sTarget .. ".effectmod"),  "onUpdate", detailsUpdate);
+    DB.removeHandler(DB.getPath(nodeChar, "saves." .. sTarget .. ".adjustment"), "onUpdate", detailsUpdate);
+    DB.removeHandler(DB.getPath(nodeChar, "saves." .. sTarget .. ".tempmod"),    "onUpdate", detailsUpdate);
+end
+
 function detailsUpdate()
     local node = getDatabaseNode();
-    local nodeChar = node.getChild("..");
+    local nodeChar = window.getDatabaseNode();
     local sTarget = string.lower(self.target[1]);
     
+    --Debug.console("char_abilities_details.lua","detailsUpdate","nodeChar",nodeChar);
     --Debug.console("char_abilities_details.lua","detailsUpdate","sTarget",sTarget);
     
     local nBase =       DB.getValue(nodeChar, "saves." .. sTarget .. ".base",20);
@@ -33,6 +82,9 @@ function detailsUpdate()
         nTotal = 50;
     end
     DB.setValue(nodeChar, "saves." .. sTarget .. ".score","number", nTotal);
-    setValue(nTotal);
+    --Debug.console("char_abilities_details.lua","detailsUpdate","nTotal",nTotal);
+    
+    --setValue(nTotal);
 end
+
 

@@ -24,10 +24,17 @@
     aRogueSaves = {};
 
     -- thaco rates, 2/3 = 0.67 etc..
-    thaco_priest = 0.67;
-    thaco_warrior = 1;
-    thaco_rogue = 0.5;
-    thaco_wizard = 0.33;
+    thaco_priest_rate = 3;
+    thaco_priest_advancement = 2;
+    
+    thaco_warrior_rate = 1;
+    thaco_warrior_advancement = 1;
+    
+    thaco_rogue_rate = 2;
+    thaco_rogue_advancement = 1;
+    
+    thaco_wizard_rate = 3;
+    thaco_wizard_advancement = 1;
     
 function onInit()
 

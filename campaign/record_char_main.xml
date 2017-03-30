@@ -881,10 +881,10 @@
 	<windowclass name="charsheet_classes">
 		<frame>charsheethelper</frame>
 		<placement>
-			<size width="500" height="300" />
+			<size width="600" height="300" />
 		</placement>
 		<sizelimits>
-			<minimum width="500" height="300" />
+			<minimum width="600" height="300" />
 			<dynamic />
 		</sizelimits>
 		<nodelete />
@@ -1100,34 +1100,30 @@
 			end
             function onInit()
                 local node = getDatabaseNode();
+                DB.addHandler(DB.getPath(node, "level"),"onUpdate", cyclerUpdated);
                 DB.addHandler(DB.getPath(node, "saveas"),"onUpdate", cyclerUpdated);
                 DB.addHandler(DB.getPath(node, "fightas"),"onUpdate", cyclerUpdated);
                 cyclerUpdated();
             end
             function onClose()
                 local node = getDatabaseNode();
+                DB.removeHandler(DB.getPath(node, "level"),"onUpdate", cyclerUpdated);
                 DB.removeHandler(DB.getPath(node, "saveas"),"onUpdate", cyclerUpdated);
                 DB.removeHandler(DB.getPath(node, "fightas"),"onUpdate", cyclerUpdated);
             end
             function cyclerUpdated()
-                Debug.console("record_char_main.xml","charsheet_class","cyclerUpdated");
                 local node = getDatabaseNode();
                 local sSaveClass = DB.getValue(node,"saveas","");
                 local sFightClass = DB.getValue(node,"fightas","");
-                local nLevel = level.getValue();
                 
+                local nodeChar = node.getChild("...");
                 if sSaveClass == "" then
-                    DB.setValue(node,"saveas","string","warrior");
-                    sSaveClass = "warrior";
-                    sFightClass = "warrior";
+                    DB.setValue(nodeChar,"saveas","string","warrior");
                 end
                 if sFightClass == "" then
-                    DB.setValue(node,"fightas","string","warrior");
-                    sSaveClass = "warrior";
-                    sFightClass = "warrior";
+                    DB.setValue(nodeChar,"fightas","string","warrior");
                 end
-                
-                CharAutoFill.updateAutoFills(node);
+                CharAutoFill.updateAutoFills(nodeChar);
             end
             
 		</script>
@@ -2458,7 +2454,7 @@
 			</label_fieldtop>
 
             <!-- paralyzation total -->
-            <save_details_total name="paralyzation_total">
+            <save_details_total name="paralyzation_total" source="saves.paralyzation.score">
 				<target>paralyzation</target>
                 <anchored to="paralyzation_label"/>
             </save_details_total>
@@ -2529,7 +2525,7 @@
             </save_number_mod>
 
             <!-- poison total -->
-            <save_details_total name="poison_total">
+            <save_details_total name="poison_total"  source="saves.poison.score">
 				<target>poison</target>
                 <anchored to="poison_label"/>
             </save_details_total>
@@ -2596,7 +2592,7 @@
             </save_number_mod>
 
             <!-- death total -->
-            <save_details_total name="death_total">
+            <save_details_total name="death_total" source="saves.death.score">
 				<target>death</target>
                 <anchored to="death_label"/>
             </save_details_total>
@@ -2663,7 +2659,7 @@
             </save_number_mod>
 
             <!-- rod total -->
-            <save_details_total name="rod_total">
+            <save_details_total name="rod_total" source="saves.rod.score">
 				<target>rod</target>
                 <anchored to="rod_label"/>
             </save_details_total>
@@ -2730,7 +2726,7 @@
             </save_number_mod>
 
             <!-- staff total -->
-            <save_details_total name="staff_total">
+            <save_details_total name="staff_total" source="saves.staff.score">
 				<target>staff</target>
                 <anchored to="staff_label"/>
             </save_details_total>
@@ -2798,7 +2794,7 @@
             </save_number_mod>
 
             <!-- wand total -->
-            <save_details_total name="wand_total">
+            <save_details_total name="wand_total" source="saves.wand.score">
 				<target>wand</target>
                 <anchored to="wand_label"/>
             </save_details_total>
@@ -2865,7 +2861,7 @@
             </save_number_mod>
 
             <!-- petrification total -->
-            <save_details_total name="petrification_total">
+            <save_details_total name="petrification_total" source="saves.petrification.score">
 				<target>petrification</target>
                 <anchored to="petrification_label"/>
             </save_details_total>
@@ -2932,7 +2928,7 @@
             </save_number_mod>
 
             <!-- polymorph total -->
-            <save_details_total name="polymorph_total">
+            <save_details_total name="polymorph_total" source="saves.polymorph.score">
 				<target>polymorph</target>
                 <anchored to="polymorph_label"/>
             </save_details_total>
@@ -3000,7 +2996,7 @@
             </save_number_mod>
 
             <!-- breath total -->
-            <save_details_total name="breath_total">
+            <save_details_total name="breath_total" source="saves.breath.score">
 				<target>breath</target>
                 <anchored to="breath_label"/>
             </save_details_total>
@@ -3068,7 +3064,7 @@
             </save_number_mod>
 
             <!-- spell total -->
-            <save_details_total name="spell_total">
+            <save_details_total name="spell_total" source="saves.spell.score">
 				<target>spell</target>
                 <anchored to="spell_label"/>
             </save_details_total>
