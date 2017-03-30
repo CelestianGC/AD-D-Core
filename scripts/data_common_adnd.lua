@@ -5,7 +5,7 @@
 
     -- this index points to the location of this save
     -- in the aWarriorSaves, aPriestSaves, aWizardSaves, aRogueSaves
-    saves_warrior_index = {
+    saves_table_index = {
         ["poison"] = 1,
         ["paralyzation"] = 1,
         ["death"] = 1,
@@ -23,6 +23,12 @@
     aWizardSaves = {};
     aRogueSaves = {};
 
+    -- thaco rates, 2/3 = 0.67 etc..
+    thaco_priest = 0.67;
+    thaco_warrior = 1;
+    thaco_rogue = 0.5;
+    thaco_wizard = 0.33;
+    
 function onInit()
 
     -- Death, Rod, Poly, Breath, Spell

@@ -1114,13 +1114,20 @@
                 local node = getDatabaseNode();
                 local sSaveClass = DB.getValue(node,"saveas","");
                 local sFightClass = DB.getValue(node,"fightas","");
+                local nLevel = level.getValue();
                 
                 if sSaveClass == "" then
                     DB.setValue(node,"saveas","string","warrior");
+                    sSaveClass = "warrior";
+                    sFightClass = "warrior";
                 end
                 if sFightClass == "" then
                     DB.setValue(node,"fightas","string","warrior");
+                    sSaveClass = "warrior";
+                    sFightClass = "warrior";
                 end
+                
+                CharAutoFill.updateAutoFills(node);
             end
             
 		</script>

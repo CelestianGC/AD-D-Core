@@ -48,9 +48,9 @@ function setNPCSave(nodeEntry, sSave, nodeNPC)
         -- aFighterSaves[16] = {4,6,5,4,7};
         -- aFighterSaves[17] = {3,5,4,4,6};
         
-    local nSaveIndex = DataCommonADND.saves_warrior_index[sSave];
+    local nSaveIndex = DataCommonADND.saves_table_index[sSave];
 
-    --Debug.console("manager_action_save.lua", "setNPCSave", "DataCommonADND.saves_warrior_index[sSave]", DataCommonADND.saves_warrior_index[sSave]);
+    --Debug.console("manager_action_save.lua", "setNPCSave", "DataCommonADND.saves_table_index[sSave]", DataCommonADND.saves_table_index[sSave]);
     
     --Debug.console("manager_action_save.lua", "setNPCSave", "nSaveIndex", nSaveIndex);
     

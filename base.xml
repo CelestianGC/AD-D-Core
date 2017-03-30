@@ -113,6 +113,7 @@
 	<!-- High-level scripts -->
 	<script name="DataCommon" file="scripts/data_common.lua" />
 	<script name="DataCommonADND" file="scripts/data_common_adnd.lua" />
+	<script name="CharAutoFill" file="campaign/scripts/char_autofill.lua" />
 	<script name="GameSystem" file="scripts/manager_gamesystem.lua" />
 	<script name="CampaignDataManager2" file="scripts/manager_campaigndata2.lua" />
 	<script name="DataSpell" file="scripts/data_spell.lua" />
