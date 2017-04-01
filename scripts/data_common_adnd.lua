@@ -40,8 +40,8 @@ function onInit()
 
     -- Death, Rod, Poly, Breath, Spell
     aWarriorSaves[0]  = {16,18,17,20,19};
-    aWarriorSaves[1]  = {15,16,15,17,17};
-    aWarriorSaves[2]  = {15,16,15,17,17};
+    aWarriorSaves[1]  = {14,16,15,17,17};
+    aWarriorSaves[2]  = {14,16,15,17,17};
     aWarriorSaves[3]  = {13,15,14,16,16};
     aWarriorSaves[4]  = {13,15,14,16,16};
     aWarriorSaves[5]  = {11,13,12,13,14};
