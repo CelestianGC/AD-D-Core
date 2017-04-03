@@ -280,26 +280,28 @@ function getCheck(rActor, sCheck, sSkill)
 	local nValue = getAbilityBonus(rActor, sCheck, "check");
 	local aAddText = {};
 
-	local sActorType, nodeActor = ActorManager.getTypeAndNode(rActor);
-	if sActorType == "pc" then
-		nValue = nValue + DB.getValue(nodeActor, "abilities." .. sCheck .. ".checkmodifier", 0);
+    -- dont need this for AD&D.
+    
+	-- local sActorType, nodeActor = ActorManager.getTypeAndNode(rActor);
+	-- if sActorType == "pc" then
+		-- nValue = nValue + DB.getValue(nodeActor, "abilities." .. sCheck .. ".checkmodifier", 0);
 
-		-- Check for armor non-proficiency
-		if StringManager.contains({"strength", "dexterity"}, sCheck) then
-			if DB.getValue(nodeActor, "defenses.ac.prof", 1) == 0 then
-				table.insert(aAddText, Interface.getString("roll_msg_armor_nonprof"));
-				bDIS = true;
-			end
-		end
+		-- -- Check for armor non-proficiency
+		-- if StringManager.contains({"strength", "dexterity"}, sCheck) then
+			-- if DB.getValue(nodeActor, "defenses.ac.prof", 1) == 0 then
+				-- table.insert(aAddText, Interface.getString("roll_msg_armor_nonprof"));
+				-- bDIS = true;
+			-- end
+		-- end
 		
-		-- Check for armor stealth disadvantage
-		if sSkill and sSkill:lower() == Interface.getString("skill_value_stealth"):lower() then
-			if DB.getValue(nodeActor, "defenses.ac.disstealth", 0) == 1 then
-				table.insert(aAddText, Interface.getString("roll_msg_armor_disstealth"));
-				bDIS = true;
-			end
-		end
-	end
+		-- -- Check for armor stealth disadvantage
+		-- if sSkill and sSkill:lower() == Interface.getString("skill_value_stealth"):lower() then
+			-- if DB.getValue(nodeActor, "defenses.ac.disstealth", 0) == 1 then
+				-- table.insert(aAddText, Interface.getString("roll_msg_armor_disstealth"));
+				-- bDIS = true;
+			-- end
+		-- end
+	-- end
 	
 	return nValue, bADV, bDIS, table.concat(aAddText, " ");
 end

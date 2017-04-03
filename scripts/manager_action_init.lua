@@ -103,6 +103,7 @@ function modRoll(rSource, rTarget, rRoll)
 		-- Determine general effect modifiers
 		local bEffects = false;
 		local aAddDice, nAddMod, nEffectCount = EffectManager.getEffectsBonus(rSource, {"INIT"});
+        
 		if nEffectCount > 0 then
 			bEffects = true;
 			for _,vDie in ipairs(aAddDice) do
@@ -132,24 +133,24 @@ function modRoll(rSource, rTarget, rRoll)
 			bEffects = true;
 		end
 		
-		-- Since initiative is a Dexterity check, do all those checks as well
-		local aCheckFilter = { "dexterity" };
-		
-		-- Dexterity check modifiers
-		local aDexCheckAddDice, nDexCheckAddMod, nDexCheckEffectCount = EffectManager.getEffectsBonus(rSource, {"CHECK"}, false, aCheckFilter);
-		if (nDexCheckEffectCount > 0) then
-			bEffects = true;
-			for _,vDie in ipairs(aDexCheckAddDice) do
-				if vDie:sub(1,1) == "-" then
-					table.insert(rRoll.aDice, "-p" .. vDie:sub(3));
-				else
-					table.insert(rRoll.aDice, "p" .. vDie:sub(2));
-				end
-				table.insert(aAddDice, vDie)
-			end
-			rRoll.nMod = rRoll.nMod + nDexCheckAddMod;
-			nAddMod = nAddMod + nDexCheckAddMod;
-		end
+		-- Not done in AD&D -celestian
+		-- -- Since initiative is a Dexterity check, do all those checks as well
+		-- --local aCheckFilter = { "dexterity" };
+		-- -- Dexterity check modifiers
+		-- local aDexCheckAddDice, nDexCheckAddMod, nDexCheckEffectCount = EffectManager.getEffectsBonus(rSource, {"CHECK"}, false, aCheckFilter);
+		-- if (nDexCheckEffectCount > 0) then
+			-- bEffects = true;
+			-- for _,vDie in ipairs(aDexCheckAddDice) do
+				-- if vDie:sub(1,1) == "-" then
+					-- table.insert(rRoll.aDice, "-p" .. vDie:sub(3));
+				-- else
+					-- table.insert(rRoll.aDice, "p" .. vDie:sub(2));
+				-- end
+				-- table.insert(aAddDice, vDie)
+			-- end
+			-- rRoll.nMod = rRoll.nMod + nDexCheckAddMod;
+			-- nAddMod = nAddMod + nDexCheckAddMod;
+		-- end
 		
 		-- Dexterity check conditions
 		if EffectManager.hasEffectCondition(rSource, "ADVCHK") then
