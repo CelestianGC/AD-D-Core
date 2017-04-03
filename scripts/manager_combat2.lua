@@ -322,6 +322,19 @@ function addNPC(sClass, nodeNPC, sName)
 	end
 	
 	-- Decode traits and actions
+    -- if it has no actions... 
+    if DB.getChildCount(nodeEntry, "actions") == 0 then
+        -- add a single default entry that has at least a melee attack, ranged attack, simple damage and saves for each type. -celestian
+        --Debug.console("manager_combat2.lua","addNPC","!Actions",DB.getChildren(nodeEntry, "actions"));
+        local nodeDefaultActions = nodeEntry.createChild("actions");
+		if nodeDefaultActions then
+			local nodeDefaultAction = nodeDefaultActions.createChild();
+			if nodeDefaultAction then
+				DB.setValue(nodeDefaultAction, "name", "string", "Default:");
+				DB.setValue(nodeDefaultAction, "desc", "string", "Melee Weapon Attack: +0 to hit. Ranged Weapon Attack: +0 to hit. Hit: 1d6 slashing damage.\rVictims must make a saving throw versus spell. Victims must make a saving throw versus poison. Victims must make a saving throw versus rod.\rVictims must make a saving throw versus polymorph. Victims must make a saving throw versus breath.");
+			end
+		end
+    end
 	for _,v in pairs(DB.getChildren(nodeEntry, "actions")) do
 		parseNPCPower(v, aEffects);
 	end
