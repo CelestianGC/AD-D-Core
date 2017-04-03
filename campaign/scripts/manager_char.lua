@@ -713,7 +713,9 @@ function resetHealth(nodeChar, bLong)
 	
 	-- Reset health fields and conditions
 	if bResetWounds then
-		DB.setValue(nodeChar, "hp.wounds", "number", 0);
+        -- in AD&D we dont just reset all health on a rest.
+		--DB.setValue(nodeChar, "hp.wounds", "number", 0);
+        --
 		DB.setValue(nodeChar, "hp.deathsavesuccess", "number", 0);
 		DB.setValue(nodeChar, "hp.deathsavefail", "number", 0);
 	end

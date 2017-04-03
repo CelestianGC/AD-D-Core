@@ -20,7 +20,7 @@ end
 -- flip through all classes
 -- and set saves/thaco
 function updateAutoFills(nodeChar)
-
+    
     -- start clean, set values to 20
     DB.setValue(nodeChar, "combat.thaco.score", "number", 20);
     setDefaultSaves(nodeChar);
