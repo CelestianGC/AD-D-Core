@@ -1060,6 +1060,8 @@ function applyDamage(rSource, rTarget, bSecret, sDamage, nTotal)
 		return;
 	end
 
+	local nRemainder = 0;
+
 	local nTotalHP, nTempHP, nWounds, nDeathSaveSuccess, nDeathSaveFail;
 	if sTargetType == "pc" then
 		nTotalHP = DB.getValue(nodeTarget, "hp.total", 0);
@@ -1268,7 +1270,6 @@ function applyDamage(rSource, rTarget, bSecret, sDamage, nTotal)
 			nWounds = math.max(nWounds + nAdjustedDamage, 0);
 			
 			-- Calculate wounds above HP
-			local nRemainder = 0;
 			if nWounds > nTotalHP then
 				nRemainder = nWounds - nTotalHP;
 				nWounds = nTotalHP;
@@ -1278,7 +1279,7 @@ function applyDamage(rSource, rTarget, bSecret, sDamage, nTotal)
 			local nodeTargetCT = ActorManager.getCTNode(rTarget);
 
 			-- Deal with remainder damage
-			if nRemainder >= nTotalHP then
+			if nRemainder >= (nTotalHP+10) then
 				table.insert(aNotifications, "[INSTANT DEATH]");
 				nDeathSaveFail = 3;
 			elseif nRemainder > 0 then
@@ -1351,7 +1352,7 @@ function applyDamage(rSource, rTarget, bSecret, sDamage, nTotal)
 		DB.setValue(nodeTarget, "hp.deathsavesuccess", "number", math.min(nDeathSaveSuccess, 3));
 		DB.setValue(nodeTarget, "hp.deathsavefail", "number", math.min(nDeathSaveFail, 3));
 		DB.setValue(nodeTarget, "hp.temporary", "number", nTempHP);
-		DB.setValue(nodeTarget, "hp.wounds", "number", nWounds);
+		DB.setValue(nodeTarget, "hp.wounds", "number", (nWounds+nRemainder));
 	else
 		DB.setValue(nodeTarget, "deathsavesuccess", "number", math.min(nDeathSaveSuccess, 3));
 		DB.setValue(nodeTarget, "deathsavefail", "number", math.min(nDeathSaveFail, 3));
