@@ -9,10 +9,10 @@
 
 	<template name="label_savescore">
 		<label name="label_save_type">
-			<anchored position="righthigh" offset="5,0" width="45" />
+			<anchored position="righthigh" offset="5,0" width="60" />
 			<center />
             <readonly />
-			<font>arial-regular-6</font>
+			<font>arial-regular-8</font>
 			<!-- <frame name="abilityfields" /> -->
 		</label>
 	</template>

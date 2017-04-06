@@ -615,7 +615,7 @@
 			
 <!-- SAVES -->
 			<label_charframetop name="savestitle">
-				<anchored to="statstitle" position="right" offset="35,0" width="130"/>
+				<anchored to="statstitle" position="right" offset="35,0" width="90"/>
                 <static textres="char_label_save" />
 			</label_charframetop>
             <button_charasavesdetail name="saves_details">
@@ -625,7 +625,7 @@
             </button_charasavesdetail>
 
 			<number_char_save name="paralyzation" source="saves.paralyzation.score">
-				<anchored to="savestitle" position="belowright" offset="80,10"  height="25" width="25"/> 
+				<anchored to="savestitle" position="belowleft" offset="0,10"  height="25" width="25"/> 
 				<target>paralyzation</target>
 			</number_char_save>
 			<label_savescore>

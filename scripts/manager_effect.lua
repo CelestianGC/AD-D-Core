@@ -599,6 +599,8 @@ function expireEffect(nodeActor, nodeEffect, nExpireComponent, bOverride)
 		end
 	end
 	
+    -- add remove/delete mods from abilities here? -celestian
+    
 	-- DELETE THE EFFECT
 	sMsg = "Effect ['" .. sEffect .. "'] -> [EXPIRED]";
 	nodeEffect.delete();
@@ -800,6 +802,9 @@ function evalAbilityHelper(rActor, sEffectAbility)
 		end
 	end
 	
+    --- this might be a good place to SET the ability/ability_base to abilities.type.{itemmod,baseitem}?
+    --- so that we can +add ability scores and they adjust damage/hit -celestian
+        
 	-- RESULTS
 	return nAbility;
 end

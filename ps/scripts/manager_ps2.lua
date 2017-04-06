@@ -85,6 +85,25 @@ function addEncounter(nodeEnc)
 	DB.copyNode(nodeEnc, nodePSEnc);
 end
 
+-- this little tweak is to simply allow a single NPC to be added from
+-- the NPC window or the shield drag/drop from the combat tracker.
+-- celestian
+function addEncounterNPC(nodeEnc)
+	if not nodeEnc then
+		return;
+	end
+
+    -- capture XP and to set it in the current default usage 
+    -- for partysheet.encounters
+    local nXP = DB.getValue(nodeEnc,"xp",0);
+    
+	local nodePSEnc = DB.createChild("partysheet.encounters");
+    -- store xp in "exp" also so we don't have to manipulate 
+    -- other code to deal with "xp" also.
+    DB.setValue(nodePSEnc,"exp","number",nXP);
+	DB.copyNode(nodeEnc, nodePSEnc);
+end
+
 function addQuest(nodeQuest)
 	if not nodeQuest then
 		return;

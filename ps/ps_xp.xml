@@ -15,6 +15,8 @@
 						PartyManager2.addQuest(draginfo.getDatabaseNode());
 					elseif sClass == "battle" then
 						PartyManager2.addEncounter(draginfo.getDatabaseNode());
+					elseif sClass == "npc" then
+						PartyManager2.addEncounterNPC(draginfo.getDatabaseNode());
 					end
 					return true;
 				end
