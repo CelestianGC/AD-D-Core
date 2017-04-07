@@ -126,10 +126,10 @@
 					<subwindow>inventory</subwindow>
 				</tab>
 				<tab>
-				<tab>
 					<icon>tab_abilities</icon>
 					<subwindow>abilities</subwindow>
 				</tab>
+				<tab>
 					<icon>tab_notes</icon>
 					<subwindow>notes</subwindow>
 				</tab>
