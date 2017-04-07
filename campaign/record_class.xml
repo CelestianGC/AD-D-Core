@@ -104,10 +104,24 @@
 			function update()
 				local bReadOnly = WindowManager.getReadOnlyState(getDatabaseNode());
 				hitdice.update(bReadOnly);
+				saveas.setReadOnly(bReadOnly);
+				fightas.setReadOnly(bReadOnly);
 				proficiencies.update(bReadOnly);
 				multiclassproficiencies.update(bReadOnly);
 				features.update(bReadOnly);
 				specializations.update(bReadOnly);
+                
+                local node = getDatabaseNode();
+                local sSaveClass = DB.getValue(node,"saveas","");
+                local sFightClass = DB.getValue(node,"fightas","");
+                
+                if sSaveClass == "" then
+                    DB.setValue(node,"saveas","string","warrior");
+                end
+                if sFightClass == "" then
+                    DB.setValue(node,"fightas","string","warrior");
+                end
+                
 			end
 		</script>
 		<sheetdata>
@@ -117,7 +131,29 @@
 				<static textres="class_label_hitdice" />
 			</label_column>
 			<string_columnh name="hitdice" source="hp.hitdice.text" />
-			
+
+            <!-- save as -->
+			<label_column name="saveas_label">
+				<static textres="class_label_saveas" />
+			</label_column>
+			<class_cycler_do_as name="saveas">
+                <anchored width="45" height="20">
+                    <top parent="columnanchor" anchor="bottom" relation="relative" offset="7" />
+                    <left offset="97" />
+                </anchored>
+			</class_cycler_do_as>
+            
+            <!-- fight as -->
+			<label_column name="fightas_label">
+				<static textres="class_label_fightas" />
+			</label_column>
+			<class_cycler_do_as name="fightas">
+                <anchored width="45" height="20">
+                    <top parent="columnanchor" anchor="bottom" relation="relative" offset="7" />
+                    <left offset="97" />
+                </anchored>
+			</class_cycler_do_as>
+            
 			<header_column name="proficiencies_header">
 				<static textres="class_header_proficiencies"/>
 				<center />

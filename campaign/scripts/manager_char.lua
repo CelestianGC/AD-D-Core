@@ -1928,6 +1928,14 @@ function addClassRef(nodeChar, sClass, sRecord)
 		end
 	end
 	
+    -- setup the save/fight as cyclers.
+	if not bExistingClass then
+        local sSaveAs = DB.getValue(nodeSource,"saveas","warrior");
+        local sFightAs = DB.getValue(nodeSource,"fightas","warrior");
+        DB.setValue(nodeClass,"saveas","string",sSaveAs);
+        DB.setValue(nodeClass,"fightas","string",sFightAs);
+    end
+    
 	-- Determine whether a specialization is added this level
 	local nodeSpecializationFeature = nil;
 	local aOptions = {};

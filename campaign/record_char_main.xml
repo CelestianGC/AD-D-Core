@@ -1100,6 +1100,8 @@
 			end
             function onInit()
                 local node = getDatabaseNode();
+                local nodeChar = node.getChild("...");
+                DB.addHandler(DB.getPath(nodeChar, "classes"),"onChildDeleted", cyclerUpdated);
                 DB.addHandler(DB.getPath(node, "level"),"onUpdate", cyclerUpdated);
                 DB.addHandler(DB.getPath(node, "saveas"),"onUpdate", cyclerUpdated);
                 DB.addHandler(DB.getPath(node, "fightas"),"onUpdate", cyclerUpdated);
@@ -1107,6 +1109,8 @@
             end
             function onClose()
                 local node = getDatabaseNode();
+                local nodeChar = node.getChild("...");
+                DB.removeHandler(DB.getPath(nodeChar, "classes"),"onChildDeleted", cyclerUpdated);
                 DB.removeHandler(DB.getPath(node, "level"),"onUpdate", cyclerUpdated);
                 DB.removeHandler(DB.getPath(node, "saveas"),"onUpdate", cyclerUpdated);
                 DB.removeHandler(DB.getPath(node, "fightas"),"onUpdate", cyclerUpdated);

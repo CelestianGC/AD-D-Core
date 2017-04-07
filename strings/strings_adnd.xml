@@ -217,6 +217,10 @@
 	<string name="char_label_notes_bonds">RELATIONSHIPS</string>
 	<string name="char_label_notes_flaws">FAULTS</string>
 
+    <!-- class -->
+	<string name="class_label_saveas">Save As</string>
+	<string name="class_label_fightas">Fight As</string>
+    
    	<!-- Pregens -->
 	<string name="pregen_label_background">Kit</string>
     
