@@ -85,19 +85,20 @@
 					<top offset="70" />
 					<left offset="15" />
 				</anchored>
+				<icons>char_abilities</icons>
 				<static textres="char_label_stats" />
 			</label_charframetop>
 			
             <button_charabiltiesdetail name="abilities_details">
                 <tooltip textres="ability_details_tooltip" />
-				<anchored to="statstitle" position="insidetopleft" offset="290,0">
+				<anchored to="statstitle" position="insidetopright" offset="0,0">
 				</anchored>
             </button_charabiltiesdetail>
             
 			<!-- Ability STR -->
 			<number_charabilityscore2 name="strength" source="abilities.strength.score" >
 				<tooltip textres="char_tooltip_strength" />
-				<anchored offset="-10,30"  width="45" height="45"/>
+				<anchored offset="-10,35"  width="45" height="45"/>
 				<target>strength</target>
 			</number_charabilityscore2>
  			<label_abilityscore>
@@ -616,16 +617,17 @@
 <!-- SAVES -->
 			<label_charframetop name="savestitle">
 				<anchored to="statstitle" position="right" offset="35,0" width="90"/>
+				<icons>char_senses</icons>
                 <static textres="char_label_save" />
 			</label_charframetop>
             <button_charasavesdetail name="saves_details">
                 <tooltip textres="save_details_tooltip" />
-				<anchored to="savestitle" position="insidetopleft" offset="117,0">
+				<anchored to="savestitle" position="insidetopright" offset="-5,0">
 				</anchored>
             </button_charasavesdetail>
 
 			<number_char_save name="paralyzation" source="saves.paralyzation.score">
-				<anchored to="savestitle" position="belowleft" offset="0,10"  height="25" width="25"/> 
+				<anchored to="savestitle" position="belowleft" offset="0,20"  height="25" width="25"/> 
 				<target>paralyzation</target>
 			</number_char_save>
 			<label_savescore>
