@@ -1928,7 +1928,7 @@ function addClassRef(nodeChar, sClass, sRecord)
 		end
 	end
 	
-    -- setup the save/fight as cyclers.
+    -- setup/copy the save/fight as cyclers. --celestian
 	if not bExistingClass then
         local sSaveAs = DB.getValue(nodeSource,"saveas","warrior");
         local sFightAs = DB.getValue(nodeSource,"fightas","warrior");

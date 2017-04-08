@@ -285,4 +285,7 @@
 
 	<string name="ref_label_listspeed">Move</string>
     
+    
+  	<string name="effect_label_durunitmin">TRN</string>
+
 </root>

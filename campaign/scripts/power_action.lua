@@ -222,15 +222,20 @@ function onEffectChanged()
 	
 	local sUnits = DB.getValue(nodeAction, "durunit", "");
 	if sDuration ~= "" then
+        local nDuration = tonumber(sDuration);
+        local bMultiple = (nDuration > 1);
 		if sUnits == "minute" then
-			sDuration = sDuration .. " min";
+			sDuration = sDuration .. " turn";
 		elseif sUnits == "hour" then
-			sDuration = sDuration .. " hr";
+			sDuration = sDuration .. " hour";
 		elseif sUnits == "day" then
-			sDuration = sDuration .. " dy";
+			sDuration = sDuration .. " day";
 		else
-			sDuration = sDuration .. " rd";
+			sDuration = sDuration .. " rnd";
 		end
+        if (bMultiple) then
+            sDuration = sDuration .. "s";
+        end
 	end
 	
 	effectview.setValue(sLabel);
