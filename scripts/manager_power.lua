@@ -78,7 +78,7 @@ function addPower(sClass, nodeSource, nodeCreature, sGroup)
 	if not nodeSource or not nodeCreature then
 		return nil;
 	end
-	
+
 	-- Create the powers list entry
 	local nodePowers = nodeCreature.createChild("powers");
 	if not nodePowers then
@@ -91,6 +91,16 @@ function addPower(sClass, nodeSource, nodeCreature, sGroup)
 		return nil;
 	end
 	
+    -- add these so that spells copied from other players/sources
+    -- get setup immediately --celestian
+    local sTypeSource = DB.getValue(nodeSource,"type","");
+    DB.setValue(nodeNewPower,"type","string",sTypeSource);
+    local sCastingTimeSource = DB.getValue(nodeSource,"castingtime","");
+    DB.setValue(nodeNewPower,"castingtime","string",sCastingTimeSource);
+    local nLevelSource = DB.getValue(nodeSource,"level",0);
+    DB.setValue(nodeNewPower,"level","number",nLevelSource);
+    --
+    
 	-- Copy the power details over
 	DB.copyNode(nodeSource, nodeNewPower);
 	
@@ -119,8 +129,10 @@ function addPower(sClass, nodeSource, nodeCreature, sGroup)
 	DB.setValue(nodeNewPower, "locked", "number", 1);
 	
 	-- Parse power details to create actions
+    local bNeedsActions = false; -- does this power already have actions?
 	if DB.getChildCount(nodeNewPower, "actions") == 0 then
 		parsePCPower(nodeNewPower);
+        bNeedsActions = true;
 	end
 	
     -- add cast bar for spells with level and type -msw
@@ -129,20 +141,22 @@ function addPower(sClass, nodeSource, nodeCreature, sGroup)
 	local sSpellType = nodeNewPower.getChild("type").getValue():lower();
 	local sCastingTime = nodeNewPower.getChild("castingtime").getValue():lower();
     local nCastTime = getCastingTime(sCastingTime,nLevel);
-    if (nLevel > 0 and (sSpellType == "arcane" or sSpellType == "divine")) then
-		local nodeActions = nodeNewPower.createChild("actions");
-		if nodeActions then
-			local nodeAction = nodeActions.createChild();
-			if nodeAction then
-				DB.setValue(nodeAction, "type", "string", "cast");
-                -- set "savetype" to "spell"
-                DB.setValue(nodeAction, "savetype", "string", "spell");      
-                -- initiative setting
-                DB.setValue(nodeAction, "castinitiative", "number", nCastTime);
-			end
-		end
+    if bNeedsActions then
+        if (nLevel > 0 and (sSpellType == "arcane" or sSpellType == "divine")) then
+            local nodeActions = nodeNewPower.createChild("actions");
+            if nodeActions then
+                local nodeAction = nodeActions.createChild();
+                if nodeAction then
+                    DB.setValue(nodeAction, "type", "string", "cast");
+                    -- set "savetype" to "spell"
+                    DB.setValue(nodeAction, "savetype", "string", "spell");      
+                    -- initiative setting
+                    DB.setValue(nodeAction, "castinitiative", "number", nCastTime);
+                end
+            end
+        end
     end
-
+    
 	return nodeNewPower;
 end
 
@@ -1715,6 +1729,7 @@ function parsePCPower(nodePower)
 		v.delete();
 	end
 	
+    
 	-- Track whether cast action already created
 	local nodeCastAction = nil;
 	
@@ -2073,6 +2088,8 @@ end
 -- return try if spelltype is valid arcane spell type, this is strictly because I also wanted
 -- to also allow the 5e spells if someone happened to use them and 5e uses "source" not type
 function isArcaneSpellType(sSpellType)
+
+
     local bValid = false;
     local aArcane = {};
         aArcane[1] = "arcane";

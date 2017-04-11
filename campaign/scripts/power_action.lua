@@ -38,6 +38,7 @@ end
 
 function updateDisplay()
 	local node = getDatabaseNode();
+    local nodeSpell = node.getChild("...");
 	local sType = DB.getValue(node, "type", "");
 	
 	local bShowCast = (sType == "cast");
@@ -45,8 +46,11 @@ function updateDisplay()
 	local bShowHeal = (sType == "heal");
 	local bShowEffect = (sType == "effect");
 
-    local sSpellType = DB.getValue(node, "...type", ""):lower();
-    local sSource = DB.getValue(node, "...source", ""):lower();
+    --Debug.console("power_action.lua","updateDisplay","node",node);
+    --Debug.console("power_action.lua","updateDisplay","nodeSpell",nodeSpell);
+    
+    local sSpellType = DB.getValue(nodeSpell, "type", ""):lower();
+    local sSource = DB.getValue(nodeSpell, "source", ""):lower();
     local bShowMemorize = ( ( PowerManager.isArcaneSpellType(sSpellType) or 
                               PowerManager.isArcaneSpellType(sSource) or 
                               PowerManager.isDivineSpellType(sSpellType) or 
