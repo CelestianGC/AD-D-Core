@@ -220,7 +220,12 @@
     <!-- class -->
 	<string name="class_label_saveas">Save As</string>
 	<string name="class_label_fightas">Fight As</string>
-    
+	<string name="class_label_exp_needed">XP NEEDED</string>
+	<string name="class_label_exp_needed_tooltip">Experience needed for this class to reach next level.</string>
+	<string name="class_label_total_xp_earned">TOTAL XP</string>
+	<string name="class_label_total_xp_earned_tooltip">Total experience earned for this character.</string>
+	<string name="char_abilities_message_leveledup">'%s' gained a level in %s. Manually apply earned hitpoints.</string>
+
    	<!-- Pregens -->
 	<string name="pregen_label_background">Kit</string>
     

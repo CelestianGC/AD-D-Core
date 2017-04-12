@@ -1886,7 +1886,8 @@ function addClassRef(nodeChar, sClass, sRecord)
 	
 	-- Add hit points based on level added
 	local nHP = DB.getValue(nodeChar, "hp.total", 0);
-	local nConBonus = DB.getValue(nodeChar, "abilities.constitution.bonus", 0);
+--	local nConBonus = DB.getValue(nodeChar, "abilities.constitution.bonus", 0);
+	local nConBonus = tonumber(DB.getValue(nodeChar, "abilities.constitution.hitpointadj", 0));
 	if nTotalLevel == 1 then
 		local nAddHP = (nHDMult * nHDSides);
 		nHP = nHP + nAddHP + nConBonus;
@@ -1895,25 +1896,35 @@ function addClassRef(nodeChar, sClass, sRecord)
 		local sMsg = string.format(sFormat, DB.getValue(nodeSource, "name", ""), DB.getValue(nodeChar, "name", "")) .. " (" .. nAddHP .. "+" .. nConBonus .. ")";
 		ChatManager.SystemMessage(sMsg);
 	else
-		local nAddHP = math.floor(((nHDMult * (nHDSides + 1)) / 2) + 0.5);
-		nHP = nHP + nAddHP + nConBonus;
+		-- local nAddHP = math.floor(((nHDMult * (nHDSides + 1)) / 2) + 0.5);
+		-- nHP = nHP + nAddHP + nConBonus;
 
-		local sFormat = Interface.getString("char_abilities_message_hpaddavg");
-		local sMsg = string.format(sFormat, DB.getValue(nodeSource, "name", ""), DB.getValue(nodeChar, "name", "")) .. " (" .. nAddHP .. "+" .. nConBonus .. ")";
+		-- local sFormat = Interface.getString("char_abilities_message_hpaddavg");
+		-- local sMsg = string.format(sFormat, DB.getValue(nodeSource, "name", ""), DB.getValue(nodeChar, "name", "")) .. " (" .. nAddHP .. "+" .. nConBonus .. ")";
+		-- ChatManager.SystemMessage(sMsg);
+
+        -- for now we're going to manually roll hp. We don't have charts with the varying HD 
+		local sFormat = Interface.getString("char_abilities_message_leveledup");
+		local sMsg = string.format(sFormat, DB.getValue(nodeChar, "name", ""),DB.getValue(nodeSource, "name", ""));
 		ChatManager.SystemMessage(sMsg);
+        -- this just sets it's to what it was for now till we get tables of exp/hd if we
+        -- we ever get it. Let them manually apply it for now --celestian
+        nHP = DB.getValue(nodeChar, "hp.total", 0);
 	end
 	DB.setValue(nodeChar, "hp.total", "number", nHP);
 
-	-- Special hit point level up handling
-	if hasTrait(nodeChar, TRAIT_DWARVEN_TOUGHNESS) then
-		applyDwarvenToughness(nodeChar);
-	end
-	if (sClassNameLower == CLASS_SORCERER) and hasFeature(nodeChar, FEATURE_DRACONIC_RESILIENCE) then
-		applyDraconicResilience(nodeChar);
-	end
-	if hasFeat(nodeChar, FEAT_TOUGH) then
-		applyTough(nodeChar);
-	end
+	-- AD&D doesn't use these.
+    
+    -- Special hit point level up handling
+	-- if hasTrait(nodeChar, TRAIT_DWARVEN_TOUGHNESS) then
+		-- applyDwarvenToughness(nodeChar);
+	-- end
+	-- if (sClassNameLower == CLASS_SORCERER) and hasFeature(nodeChar, FEATURE_DRACONIC_RESILIENCE) then
+		-- applyDraconicResilience(nodeChar);
+	-- end
+	-- if hasFeat(nodeChar, FEAT_TOUGH) then
+		-- applyTough(nodeChar);
+	-- end
 	
 	-- Add proficiencies
 	if not bExistingClass then

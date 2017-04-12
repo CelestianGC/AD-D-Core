@@ -14,6 +14,9 @@
 
 					if StringManager.contains({"reference_class", "reference_race", "reference_subrace", "reference_background"}, sClass) then
 						CharManager.addInfoDB(getDatabaseNode(), sClass, sRecord);
+                        if StringManager.contains({"reference_class"}, sClass) then
+                            Interface.openWindow("charsheet_classes", getDatabaseNode());
+                        end
 						return true;
 					end
 				end
@@ -942,44 +945,10 @@
             <!-- exp needed -->
 			<label_charfieldtop>
 				<anchored to="exp" offset="0,10" />
-				<static textres="xp" />
-			</label_charfieldtop>
-			<basicnumber name="expneeded">
-				<tooltip textres="char_tooltip_xpneeded" />
-				<anchored to="exptitle" height="20" width="70">
-					<top anchor="bottom" offset="10" />
-					<left anchor="center" offset="15" />
-				</anchored>
-				<description textres="char_tooltip_xpneeded" />
-				<script>
-					function onHover(oncontrol)
-						if oncontrol then
-							local draginfo = Input.getDragData();
-							if draginfo and draginfo.isType("number") and draginfo.getNumberData() &lt; getValue() then
-								setColor("BB0000");
-							end
-						else
-							setColor(nil);
-						end
-					end
-					
-					function onDrop(x, y, draginfo)
-						if draginfo.isType("number") and draginfo.getNumberData() &gt; getValue() then
-							setValue(draginfo.getNumberData());
-						end
-
-						return true;
-					end
-				</script>
-			</basicnumber>
-			<label_charfieldtop>
-				<anchored to="expneeded" offset="0,10" />
-				<static textres="char_label_nextlevel" />
+				<static textres="class_label_total_xp_earned" />
+				<tooltip textres="class_label_total_xp_earned_tooltip" />
 			</label_charfieldtop>
 
-            
-            
-            
             
    			<genericcontrol name="rightanchor">
 				<anchored position="insidetopright" offset="15,120" width="0" height="0" />
@@ -1015,20 +984,28 @@
 
 			
             <!-- hd used -->
-			<label_charframetop name="hdusedtitle">
-				<!-- <anchored to="contentanchor" position="belowright" offset="45,65" height="20" width="30" /> -->
+<!-- 			<label_charframetop name="hdusedtitle">
 				<anchored to="classfight" position="left" offset="20,0" width="50" />
 				<static textres="char_label_hdused" />
-			</label_charframetop>
+			</label_charframetop> -->
+
+            <!-- HD type -->
 			<label_charframetop name="hdtitle">
-				<anchored to="hdusedtitle" position="left" offset="20,0" width="50" />
+				<anchored to="classfight" position="left" offset="20,0" width="50" />
 				<static textres="char_label_hd" />
 			</label_charframetop>
 
 
-            <!-- caster level multiplier -->
+            <!-- exp needed -->
+			<label_charframetop name="experienceneededtitle">
+				<anchored to="hdtitle" position="left" offset="20,0" width="65" />
+				<static textres="class_label_exp_needed" />
+				<tooltip textres="class_label_exp_needed_tooltip" />
+			</label_charframetop>
+
+            <!-- exp  -->
 			<label_charframetop name="experiencetitle">
-				<anchored to="hdtitle" position="left" offset="20,0" width="50" />
+				<anchored to="experienceneededtitle" position="left" offset="20,0" width="50" />
 				<static textres="char_label_class_exp" />
 				<tooltip textres="char_label_class_exp_tooltip" />
 			</label_charframetop>
@@ -1056,7 +1033,7 @@
 			</button_iadd>
 			<list_text name="classes">
 				<anchored to="contentanchor">
-					<top parent="hdusedtitle" anchor="bottom" relation="relative" offset="3" />
+					<top parent="classtitle" anchor="bottom" relation="relative" offset="3" />
 					<left offset="5" />
 					<right offset="-10" />
 					<bottom parent="" offset="-30" />
@@ -1177,13 +1154,14 @@
 			</class_cycler_do_as>
 
             <!-- hd used -->
-			<number_charwounds name="hdused">
+<!-- 			<number_charwounds name="hdused">
 				<anchored to="fightas" position="left" offset="25,0" width="50" />
 				<description textres="char_tooltip_hdused" />
-			</number_charwounds>
+			</number_charwounds> -->
+
             <!-- hdie -->
 			<basicdice name="hddie">
-				<anchored to="hdused" position="left" offset="20,0" width="50" />
+				<anchored to="fightas" position="left" offset="25,0" width="50" />
 				<script>
 					function onDragStart(button, x, y, draginfo)
 						return window.onDragStart(button, x, y, draginfo);
@@ -1195,9 +1173,37 @@
 				</script>
 			</basicdice>
 
+            <!-- exp needed -->
+ 			<basicnumber name="expneeded">
+				<script>
+					function onHover(oncontrol)
+						if oncontrol then
+							local draginfo = Input.getDragData();
+							if draginfo and draginfo.isType("number") and draginfo.getNumberData() &lt; getValue() then
+								setColor("BB0000");
+							end
+						else
+							setColor(nil);
+						end
+					end
+					
+					function onDrop(x, y, draginfo)
+						if draginfo.isType("number") and draginfo.getNumberData() &gt; getValue() then
+							setValue(draginfo.getNumberData());
+						end
+
+						return true;
+					end
+				</script>
+				<anchored to="hddie" position="left" offset="20,0" width="60" />
+				<tooltip textres="class_label_exp_needed_tooltip" />
+			</basicnumber>
+
+
             <!-- exp -->
  			<basicnumber name="exp">
-				<anchored to="hddie" position="left" offset="15,0" width="60" />
+				<anchored to="expneeded" position="left" offset="20,0" width="60" />
+				<tooltip textres="char_label_class_exp_tooltip" />
 			</basicnumber>
 
 
