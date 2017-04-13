@@ -282,7 +282,7 @@ function modAttack(rSource, rTarget, rRoll)
 
 		-- Get Base Attack modifier
 		local nBaseAttack = getBaseAttack(rSource);
-			nAddMod = nAddMod + nBaseAttack;
+        rRoll.nBaseAttack = nBaseAttack;
 		
 		-- Get ability modifiers
 		local nBonusStat, nBonusEffects = ActorManager2.getAbilityEffectsBonus(rSource, sActionStat,"hitadj");
@@ -380,6 +380,12 @@ function onAttack(rSource, rTarget, rRoll)
 
 	local rAction = {};
 	rAction.nTotal = ActionsManager.total(rRoll);
+    -- add base attack bonus here so it doesn't confuse players and show up as a +tohit --celestian
+    --Debug.console("manager_action_attack.lua","onAttack","rAction.nTotal1",rAction.nTotal);
+    --Debug.console("manager_action_attack.lua","onAttack","rRoll.nBaseAttack",rRoll.nBaseAttack);
+	rAction.nTotal = rAction.nTotal + rRoll.nBaseAttack;
+    --Debug.console("manager_action_attack.lua","onAttack","rAction.nTotal2",rAction.nTotal);
+    
 	rAction.aMessages = {};
 	
 	local nDefenseVal, nAtkEffectsBonus, nDefEffectsBonus = ActorManager2.getDefenseValue(rSource, rTarget, rRoll);
