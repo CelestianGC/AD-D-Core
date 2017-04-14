@@ -6,12 +6,12 @@
 -->
 
 <root version="3.0" release="7" logo="logo.png">
-	<announcement text="AD&amp;D Core v2017.03\rFor Fantasy Grounds" font="emotefont" icon="rulesetlogo_ADnD" />
+	<announcement text="AD&amp;D Core v2017.04\rFor Fantasy Grounds" font="emotefont" icon="rulesetlogo_ADnD" />
 
 	<!-- Attributes -->
 	<description>
 		<text>Advanced Dungeons &amp; Dragons ruleset</text>
-		<author>Mike W.</author>
+		<author>Celestian</author>
 		<website>http://www.fantasygrounds.com</website>
 	</description>
 
