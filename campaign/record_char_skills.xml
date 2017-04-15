@@ -75,89 +75,21 @@
 				</anchored>
 				<disabled />
 			</genericcontrol>
+            
 			<label name="total_label">
 				<anchored to="rightanchor" width="40">
 					<top />
-					<right anchor="left" relation="relative" offset="-3" />
+					<right anchor="left" relation="relative" offset="-25" />
 				</anchored>
 				<center />
 				<static textres="char_label_skilltotal" />
-			</label>
-			<label name="misc_label">
-				<anchored to="rightanchor" width="40">
-					<top />
-					<right anchor="left" relation="relative" offset="-6" />
-				</anchored>
-				<center />
-				<static textres="char_label_skillmisc" />
-			</label>
-
-
-			<label name="armor_adj_label">
-                    <tooltip textres="char_label_skill_armor_adj_tooltip" />
-				<anchored to="rightanchor" width="43">
-					<top />
-					<right anchor="left" relation="relative" offset="-3" />
-				</anchored>
-				<center />
-				<static textres="char_label_skill_armor_adj" />
-			</label>
-
-			<label name="stat_adj_label">
-                    <tooltip textres="char_label_skill_stat_adj_tooltip" />
-				<anchored to="rightanchor" width="40">
-					<top />
-					<right anchor="left" relation="relative" offset="-3" />
-				</anchored>
-				<center />
-				<static textres="char_label_skill_stat_adj" />
-			</label>
-            
-			<label name="mod_adj_label">
-                <tooltip textres="char_label_skill_mod_adj_tooltip" />
-				<anchored to="rightanchor" width="40">
-					<top />
-					<right anchor="left" relation="relative" offset="-3" />
-				</anchored>
-				<center />
-				<static textres="char_label_skill_mod_adj" />
-			</label>
-
-			<label name="class_adj_label">
-                <tooltip textres="char_label_skill_class_adj_tooltip" />
-				<anchored to="rightanchor" width="40">
-					<top />
-					<right anchor="left" relation="relative" offset="-3" />
-				</anchored>
-				<center />
-				<static textres="char_label_skill_class_adj" />
-			</label>
-
-   			<label name="type_label">
-                    <tooltip textres="char_label_skill_type_tooltip" />
-				<anchored to="rightanchor" width="40">
-					<top />
-					<right anchor="left" relation="relative" offset="-3" />
-				</anchored>
-				<center />
-				<static textres="char_label_skill_type" />
-			</label>
-
-			<label name="base_check_label">
-                    <tooltip textres="char_label_skill_base_check_tooltip" />
-				<anchored to="rightanchor" width="40">
-					<top />
-					<right anchor="left" relation="relative" offset="-3" />
-				</anchored>
-				<center />
-				<static textres="char_label_skill_base_check" />
 			</label>
 
 			<label name="name_label">
 				<anchored>
 					<top parent="rightanchor" />
 					<left offset="35" />
-					<right parent="rightanchor" anchor="left" relation="relative" offset="-2" />
+					<right parent="rightanchor" anchor="left" relation="relative" offset="-15" />
 				</anchored>
 				<static textres="char_label_skillname" />
 				<center />
@@ -210,96 +142,28 @@
 				</anchored>
 			</button_idelete>
             
+			<buttoncontrol name="skillconfig">
+				<anchored to="rightanchor" width="20" height="20">
+					<top offset="0" />
+					<right anchor="left" relation="relative" offset="-3" />
+				</anchored>
+				<state icon="details" pressed="details_down" />
+				<script>
+					function onButtonPress()
+						Interface.openWindow("char_skill_editor", window.getDatabaseNode());
+					end
+				</script>
+			</buttoncontrol>
+
+
             <!-- total -->
 			<number_charskilltotal_nosign name="total">
-<!--             <source><name>base_check</name></source>
-            <source><name>armor_adj</name><op>+</op></source>
-            <source><name>stat_adj</name><op>+</op></source>
-            <source><name>class_adj</name><op>+</op></source>
-            <source><name>misc</name><op>+</op></source>
- -->				<anchored to="rightanchor">
- 
+                <anchored to="rightanchor">
 					<top />
 					<right anchor="left" relation="relative" offset="-7" />
 				</anchored>
 			</number_charskilltotal_nosign>
 
-            <!-- this is just to make tab wrap down to next line because of the order these modifiers are listed  -->
- 			<genericcontrol name="tab_stub_">
-                <invisible />
-				<anchored to="rightanchor" width="30" height="20">
-					<top />
-					<right anchor="left" relation="relative" offset="-13" />
-				</anchored>
-				<tabtarget next="name" prev="misc" />
-			</genericcontrol>
-
-            <!-- misc -->
-			<number_charskill name="misc">
-				<anchored>
-					<top offset="2" />
-					<right parent="rightanchor" anchor="left" relation="relative" offset="-15" />
-				</anchored>
-				<tabtarget prev="adj_armor"/>
-			</number_charskill>
-
-   			<number_charskill name="adj_armor">
-				<anchored to="rightanchor" width="30" height="20">
-					<top />
-					<right anchor="left" relation="relative" offset="-12" />
-				</anchored>
-				<tabtarget next="misc" prev="adj_stat" />
-			</number_charskill>
-
-			<number_charskill name="adj_stat">
-				<anchored to="rightanchor" width="30" height="20">
-					<top />
-					<right anchor="left" relation="relative" offset="-14" />
-				</anchored>
-				<tabtarget next="adj_armor" prev="adj_mod" />
-			</number_charskill>
- 
- 			<number_charskill name="adj_mod">
-				<anchored to="rightanchor" width="30" height="20">
-					<top />
-					<right anchor="left" relation="relative" offset="-13" />
-				</anchored>
-				<tabtarget next="adj_stat" prev="adj_class" />
-			</number_charskill>
- 
- 			<number_charskill name="adj_class">
-				<anchored to="rightanchor" width="30" height="20">
-					<top />
-					<right anchor="left" relation="relative" offset="-13" />
-				</anchored>
-				<tabtarget next="adj_mod" prev="stat" />
-			</number_charskill>
-
-            <!-- stat -->
-			<cycler_skill_type name="stat">
-                <script>
-                    function onValueChanged()
-                        window.updateVisibility();
-                    end
-                </script>
-            
-				<anchored to="rightanchor" width="30" height="20">
-					<top />
-					<right anchor="left" relation="relative" offset="-12" />
-				</anchored>
-				<tabtarget next="adj_class" prev="base_check" />
-			</cycler_skill_type>
-
-			<number_charskill_nosign name="base_check">
-                     <tooltip textres="char_label_skill_base_check_tooltip" /> 
-				<anchored to="rightanchor" width="30" height="20">
-					<top />
-					<right anchor="left" relation="relative" offset="-12" />
-				</anchored>
-				<tabtarget next="stat" prev="name" />
-			</number_charskill_nosign>
-
-            
             <!-- armor widget? -->
 			<genericcontrol name="armorwidget">
 				<anchored to="rightanchor" width="8" height="9">
@@ -320,11 +184,161 @@
 				<anchored to="rightanchor">
 					<top />
 					<left parent="" offset="20" />
-					<right anchor="left" relation="relative" offset="-7" />
+					<right anchor="left" relation="relative" offset="-15" />
 				</anchored>
 				<multilinespacing>20</multilinespacing>
 				<tabtarget next="base_check" prev="prof" />
 			</string_textlistitem>
 		</sheetdata>
+	</windowclass>
+    
+    <!-- skill edit window -->
+    <windowclass name="char_skill_editor">
+		<frame>charsheethelper</frame>
+		<placement>
+			<size width="350" height="350" />
+		</placement>
+		<sizelimits>
+			<minimum width="350" height="350" />
+			<dynamic />
+		</sizelimits>
+		<nodelete />
+		<playercontrol />
+		<minimize>minimized_char</minimize>
+		<tooltip control="name" />
+		<sheetdata>
+			<windowtitlebar_char name="title">
+				<prefix>skill_title</prefix>
+			</windowtitlebar_char>
+			<anchor_title_charsheethelper name="contentanchor" />
+
+			<genericcontrol name="contentframe">
+				<anchored to="contentanchor">
+					<top anchor="bottom" offset="0" />
+					<left />
+					<right />
+					<bottom parent="" offset="-30" />
+				</anchored>
+			</genericcontrol>
+
+			<subwindow_record name="main">
+				<class>char_skill_editor_main</class>
+				<activate />
+			</subwindow_record>
+
+			<scrollbar_record>
+				<target>main</target>
+			</scrollbar_record>
+            
+			<resize_charsheethelper />
+			<close_charsheethelper />
+		</sheetdata>
+	</windowclass>
+	<windowclass name="char_skill_editor_main">
+		<sheetdata>
+			<anchor_column name="columnanchor" />
+
+			<label_column name="name_label" >
+				<static textres="skill_label_name" />
+			</label_column>
+			<string_column name="name">
+                <script>
+                        function onInit()
+                            window.stat.updateVisibility();
+                        end
+                </script>
+            </string_column>
+
+			<label_column name="type_label" >
+                <tooltip textres="char_label_skill_type_tooltip" />
+				<static textres="char_label_skill_type" />
+			</label_column>
+			<cycler_skill_type name="stat">
+                <script>
+                    function onValueChanged()
+                        updateVisibility();
+                    end
+                    function updateVisibility()
+                        local bVisible = false;
+
+                        if window.stat.getValue() == "%" then
+                            bVisible = true;
+                        end
+
+                        window.base_check.setVisible(bVisible);
+                        window.base_label.setVisible(bVisible);
+                    end
+                </script>
+                <anchored width="40" height="20">
+                    <top parent="columnanchor" anchor="bottom" relation="relative" offset="7" />
+                    <left offset="97" />
+                </anchored>
+			</cycler_skill_type>
+            
+			<label_column name="base_label" >
+                <tooltip textres="char_label_skill_base_check_tooltip" />
+				<static textres="char_label_skill_base_check" />
+			</label_column>
+			<number_charskill_nosign name="base_check">
+                <anchored width="40" height="20">
+                    <top parent="columnanchor" anchor="bottom" relation="relative" offset="7" />
+                    <left offset="97" />
+                </anchored>
+                <tooltip textres="char_label_skill_base_check_tooltip" /> 
+			</number_charskill_nosign>
+
+
+			<label_column name="class_adj_label" >
+                <tooltip textres="char_label_skill_class_adj_tooltip" />
+				<static textres="char_label_skill_class_adj" />
+			</label_column>
+            <number_column name="adj_class" >
+                <hideonvalue>0</hideonvalue>
+                <default>0</default>
+                <displaysign />
+            </number_column>
+            
+            
+			<label_column name="stat_adj_label" >
+                <tooltip textres="char_label_skill_stat_adj_tooltip" />
+				<static textres="char_label_skill_stat_adj" />
+			</label_column>
+            <number_column name="adj_stat" >
+                <hideonvalue>0</hideonvalue>
+                <default>0</default>
+                <displaysign />
+            </number_column>
+
+			<label_column name="armor_adj_label" >
+                <tooltip textres="char_label_skill_armor_adj_tooltip" />
+				<static textres="char_label_skill_armor_adj" />
+			</label_column>
+            <number_column name="adj_armor" >
+                <hideonvalue>0</hideonvalue>
+                <default>0</default>
+                <displaysign />
+            </number_column>
+
+			<label_column name="mod_adj_label" >
+                <tooltip textres="char_label_skill_mod_adj_tooltip" />
+				<static textres="char_label_skill_mod_adj" />
+			</label_column>
+            <number_column name="adj_mod" >
+                <hideonvalue>0</hideonvalue>
+                <default>0</default>
+                <displaysign />
+            </number_column>
+
+			<label_column name="misc_label" >
+                <tooltip textres="char_label_skill_misc_adj_tooltip" />
+				<static textres="char_label_skill_misc_adj" />
+			</label_column>
+            <number_column name="misc" >
+                <hideonvalue>0</hideonvalue>
+                <default>0</default>
+                <displaysign />
+            </number_column>
+
+            </sheetdata>
 	</windowclass>
 </root>

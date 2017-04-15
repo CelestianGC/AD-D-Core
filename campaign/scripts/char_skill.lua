@@ -8,7 +8,7 @@ local iscustom = true;
 function onInit()
 	setRadialOptions();
     
-    updateVisibility();
+    --updateVisibility();
 end
 
 function onMenuSelection(selection, subselection)
@@ -51,15 +51,15 @@ function setRadialOptions()
 	end
 end
 
-function updateVisibility()
-    local bVisible = false;
+-- function updateVisibility()
+    -- local bVisible = false;
 
 
-    if stat.getValue() == "%" then
-		bVisible = true;
-    end
+    -- if stat.getValue() == "%" then
+		-- bVisible = true;
+    -- end
 
-    -- hide base_check if the type of skill is NOT percentile
-    base_check.setVisible(bVisible);
+    -- -- hide base_check if the type of skill is NOT percentile
+    -- base_check.setVisible(bVisible);
     
-end
+-- end

@@ -128,10 +128,12 @@ function addSkillReference(nodeSource)
         local nBase = DB.getValue(nodeSource, "base_check", 0);
         -- set values from skill to the one we're adding
 		wSkill.name.setValue(sName);
-        wSkill.base_check.setValue(nBase);
-        wSkill.adj_mod.setValue(nMod);
+        --wSkill.base_check.setValue(nBase);
+		DB.setValue(wSkill.getDatabaseNode(), "base_check", "number", nBase);
+        --wSkill.adj_mod.setValue(nMod);
+		DB.setValue(wSkill.getDatabaseNode(), "adj_mod", "number", nMod);
         --wSkill.stat.setValue(sStat);
-		DB.setValue(wSkill.getDatabaseNode(), "stat", "string", DB.getValue(nodeSource, "stat", ""));
+		DB.setValue(wSkill.getDatabaseNode(), "stat", "string", sStat);
 	end
 	if wSkill then
 		DB.setValue(wSkill.getDatabaseNode(), "text", "formattedtext", DB.getValue(nodeSource, "text", ""));

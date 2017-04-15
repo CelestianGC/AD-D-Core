@@ -42,7 +42,7 @@ function onSourceUpdate(node)
     local nStatADJ = DB.getValue(nodeSkill, "adj_stat", 0);
     local nModADJ = DB.getValue(nodeSkill, "adj_mod", 0);
     local nMisc = DB.getValue(nodeSkill, "misc", 0);
-    -- -msw 
+    -- -celestian 
     if sAbility == "percent" then
         --DB.getPath(nodeChar, "base_check").show(true);
         -- add stuff to deal with percentile checks
@@ -50,7 +50,7 @@ function onSourceUpdate(node)
     elseif sAbility ~= "" then
         --DB.getPath(nodeChar, "base_check").show(false);
         -- local nScore = DB.getValue(nodeChar, "abilities." .. sAbility .. ".score", 0)
-        -- AD&D doesn't do this -msw
+        -- AD&D doesn't do this -celestian
         -- nValue = nValue + math.floor((nScore - 10) / 2);
 
         local nAbilityScore = DB.getValue(nodeChar, "abilities." .. sAbility .. ".score", 0);
@@ -60,7 +60,7 @@ function onSourceUpdate(node)
         --DB.setValue(nodeSkill, "base_check","number", 0);
     end
     
-        -- not sure what I'm going to do with this. Perhaps will use it for weapon profs? -msw
+        -- not sure what I'm going to do with this. Perhaps will use it for weapon profs? -celestian
 --    local nProf = DB.getValue(nodeSkill, "prof", 0);
 --    if nProf == 1 then
 --        nValue = nValue + DB.getValue(nodeChar, "profbonus", 0);

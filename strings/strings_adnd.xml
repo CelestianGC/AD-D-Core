@@ -147,20 +147,26 @@
     <string name="char_tooltip_charisma">Strength of the character.</string>
     <string name="char_tooltip_charisma">Charisma of the character.</string>
 
-    <string name="char_label_skill_base_check">BASE</string>
+    <!-- skill -->
+	<string name="skill_label_name">Name</string>
+    <string name="char_label_skill_base_check">Base Percent</string>
     <string name="char_label_skill_base_check_tooltip">Base chance of a percentile skill.</string>
-    <string name="char_label_skill_type">TYPE</string>
+    <string name="char_label_skill_type">Type</string>
     <string name="char_label_skill_type_tooltip">The type of skill. Ability (select) or percentile.</string>
-    <string name="char_label_skill_stat_adj">STAT</string>
+    <string name="char_label_skill_stat_adj">Stat Modifier</string>
     <string name="char_label_skill_stat_adj_tooltip">Adjustment applied for ability scores.</string>
-    <string name="char_label_skill_armor_adj">ARMOR</string>
+    <string name="char_label_skill_armor_adj">Armor Modifier</string>
     <string name="char_label_skill_armor_adj_tooltip">Adjustment applied for armor worn.</string>
-    <string name="char_label_skill_mod_adj">MOD</string>
-    <string name="char_label_skill_mod_adj_tooltip">Modifier applied due to race,skill base adjustment or similar.</string>
-
-    <string name="char_label_skill_class_adj">CLASS</string>
+    <string name="char_label_skill_mod_adj">Skill Modifiers</string>
+    <string name="char_label_skill_mod_adj_tooltip">Modifiers applied due to ease or difficulty of the skill.</string>
+    <string name="char_label_skill_misc_adj_tooltip">Adjustment applied for various reasons that do not fit any of the other areas.</string>
+    <string name="char_label_skill_class_adj">Class Modifier</string>
     <string name="char_label_skill_class_adj_tooltip">Modifiers to a skill check based on class.</string>
-
+    <string name="char_label_skill_misc_adj">Miscellaneous</string>
+    <string name="char_label_skill_misc_adj_tooltip">Miscellaneous modifiers.</string>
+    <string name="char_label_skilltotal">VALUE</string>
+    <string name="skill_title">Skill</string>
+    
     <string name="char_label_class_exp">XP</string>
     <string name="char_label_class_exp_tooltip">Experince Earned for Each Class</string>
     <string name="char_tooltip_classactivity">Class active or not.</string>
