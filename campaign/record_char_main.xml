@@ -437,11 +437,11 @@
 				<static textres="char_label_intelligence_learn" />
 			</label_ability_fields>
 
-			<number_abilityfield name="intelligence_maxlevel" source="abilities.intelligence.maxlevel">
+			<string_abilityfield name="intelligence_maxlevel" source="abilities.intelligence.maxlevel">
 				<anchored to="intelligence_learn"/>
 				<tooltip textres="char_tooltip_intelligence_maxlevel" />
 				<labelres>char_label_intelligence_maxlevel</labelres>
-			</number_abilityfield>
+			</string_abilityfield>
  			<label_ability_fields>
 				<anchored to="intelligence_maxlevel" />
    				<tooltip textres="char_tooltip_intelligence_maxlevel" />

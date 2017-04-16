@@ -304,23 +304,23 @@ function updateIntelligence(nodeActor,nChanged)
     aIntelligence[6]  =    {0, 0,0,  0,"None"};
     aIntelligence[7]  =    {0, 0,0,  0,"None"};
     aIntelligence[8]  =    {0, 0,0,  0,"None"};
-    aIntelligence[9]  =    {2, 4,35, 0,"None"};
-    aIntelligence[10]  =   {2, 5,40, 0,"None"};
-    aIntelligence[11]  =   {2, 5,45, 0,"None"};
-    aIntelligence[12]  =   {3, 6,50, 0,"None"};
-    aIntelligence[13]  =   {3, 6,55, 0,"None"};
-    aIntelligence[14]  =   {4, 7,60, 0,"None"};
-    aIntelligence[15]  =   {4, 7,65, 0,"None"};
-    aIntelligence[16]  =   {5, 8,70, 0,"None"};
-    aIntelligence[17]  =   {6, 8,75, 0,"None"};
-    aIntelligence[18]  =   {7, 9,85, 0,"None"};
-    aIntelligence[19]  =   {8, 9,95, 0,"1st"};
-    aIntelligence[20]  =   {9, 9,96, 0,"1,2"};
-    aIntelligence[21]  =   {10,9,97, 0,"1,2,3"};
-    aIntelligence[22]  =   {11,9,98, 0,"1,2,3,4"};
-    aIntelligence[23]  =   {12,9,99, 0,"1,2,3,4,5"};
-    aIntelligence[24]  =   {15,9,100,0,"1,2,3,4,5,6"};
-    aIntelligence[25]  =   {20,9,100,0,"1,2,3,4,5,6,7"};
+    aIntelligence[9]  =    {2, 4,35, 6,"None"};
+    aIntelligence[10]  =   {2, 5,40, 7,"None"};
+    aIntelligence[11]  =   {2, 5,45, 7,"None"};
+    aIntelligence[12]  =   {3, 6,50, 7,"None"};
+    aIntelligence[13]  =   {3, 6,55, 9,"None"};
+    aIntelligence[14]  =   {4, 7,60, 9,"None"};
+    aIntelligence[15]  =   {4, 7,65, 11,"None"};
+    aIntelligence[16]  =   {5, 8,70, 11,"None"};
+    aIntelligence[17]  =   {6, 8,75, 14,"None"};
+    aIntelligence[18]  =   {7, 9,85, 18,"None"};
+    aIntelligence[19]  =   {8, 9,95, "All","1st"};
+    aIntelligence[20]  =   {9, 9,96, "All","1,2"};
+    aIntelligence[21]  =   {10,9,97, "All","1,2,3"};
+    aIntelligence[22]  =   {11,9,98, "All","1,2,3,4"};
+    aIntelligence[23]  =   {12,9,99, "All","1,2,3,4,5"};
+    aIntelligence[24]  =   {15,9,100,"All","1,2,3,4,5,6"};
+    aIntelligence[25]  =   {20,9,100,"All","1,2,3,4,5,6,7"};
     
     -- these have such long values we stuff them into tooltips instead
     
@@ -335,7 +335,7 @@ function updateIntelligence(nodeActor,nChanged)
     DB.setValue(nodeActor, "abilities.intelligence.languages", "number", aIntelligence[nChanged][1]);
     DB.setValue(nodeActor, "abilities.intelligence.spelllevel", "number", aIntelligence[nChanged][2]);
     DB.setValue(nodeActor, "abilities.intelligence.learn", "number", aIntelligence[nChanged][3]);
-    DB.setValue(nodeActor, "abilities.intelligence.maxlevel", "number", aIntelligence[nChanged][4]);
+    DB.setValue(nodeActor, "abilities.intelligence.maxlevel", "string", aIntelligence[nChanged][4]);
     DB.setValue(nodeActor, "abilities.intelligence.illusion", "string", aIntelligence[nChanged][5]);
 
     -- set tooltip for this because it's just to big for the
