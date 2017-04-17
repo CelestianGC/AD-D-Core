@@ -279,6 +279,7 @@
 			<close_charsheethelper />
 		</sheetdata>
 	</windowclass>
+    
 	<windowclass name="char_weapon_editor_main">
 		<script>
 			function onDrop(x, y, draginfo)
