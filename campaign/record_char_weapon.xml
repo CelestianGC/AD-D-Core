@@ -315,6 +315,22 @@
 				<static textres="weapon_header_attack" />
 				<center />
 			</header_column>
+            <!-- global edit button -->
+			<button_iedit name="weapon_iedit">
+				<anchored to="header_attack" position="insidetopright" offset="-5,0" />
+				<tooltip textres="char_abilities_tooltip_edit" />
+				<script>
+					function onValueChanged()
+						local bEditMode = (getValue() == 1);
+						
+						window.prof_list_iadd.setVisible(bEditMode);
+						window.prof_list.update();
+
+						window.list_iadd.setVisible(bEditMode);
+						window.list.update();
+					end
+				</script>
+			</button_iedit>
 			
 			<cycler_abilitybase name="attackstat">
 				<anchored width="40" height="20">
@@ -359,16 +375,16 @@
 				<static textres="weapon_header_prof" />
 				<center />
 			</header_column>
-			<button_iedit name="prof_list_iedit">
+			<!-- <button_iedit name="prof_list_iedit">
 				<anchored to="header_prof" position="insidetopright" offset="-5,0" />
 				<target>prof_list</target>
-			</button_iedit>
+			</button_iedit> -->
 			<button_iadd name="prof_list_iadd">
-				<anchored to="prof_list_iedit" position="lefthigh" offset="5,0" />
+				<anchored to="header_prof" position="insidetopright" offset="-5,0" />
 				<target>prof_list</target>
 			</button_iadd>
 
-			<list_editor name="prof_list">
+			<list_editor_grouped name="prof_list">
 				<datasource>.proflist</datasource>
 				<class>char_weapon_prof_entry</class>
 				<script>
@@ -385,7 +401,7 @@
 						return w;
 					end
 				</script>
-			</list_editor>
+			</list_editor_grouped>
 			
 			<label_fieldtop>
 				<anchored to="prof_list" position="aboveleft" offset="5,1" width="200" />
@@ -409,16 +425,16 @@
 				<static textres="weapon_header_damage" />
 				<center />
 			</header_column>
-			<button_iedit name="list_iedit">
+			<!-- <button_iedit name="list_iedit">
 				<anchored to="header_damage" position="insidetopright" offset="-5,0" />
 				<target>list</target>
-			</button_iedit>
+			</button_iedit> -->
 			<button_iadd name="list_iadd">
-				<anchored to="list_iedit" position="lefthigh" offset="5,0" />
+				<anchored to="header_damage" position="insidetopright" offset="-5,0" />
 				<target>list</target>
 			</button_iadd>
 
-			<list_editor name="list">
+			<list_editor_grouped name="list">
 				<datasource>.damagelist</datasource>
 				<class>char_weapon_damage_entry</class>
 				<script>
@@ -439,7 +455,7 @@
 						return w;
 					end
 				</script>
-			</list_editor>
+			</list_editor_grouped>
 			
 			<label_fieldtop>
 				<anchored to="list" position="aboveleft" offset="5,1" width="60" />
