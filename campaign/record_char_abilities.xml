@@ -177,19 +177,62 @@
 			<genericcontrol name="rightanchor">
 				<anchored position="insidetopright" height="0" width="0" />
 			</genericcontrol>
+
 			<button_idelete name="idelete">
+				<anchored to="rightanchor">
+					<top />
+					<right anchor="left" relation="relative" offset="-7" />
+				</anchored>
+			</button_idelete>
+            
+			<number_adjustment name="dmgadj">
+				<anchored to="rightanchor">
+					<top />
+					<right anchor="left" relation="relative" offset="-15" />
+				</anchored>
+				<tabtarget next="name" prev="hitadj" />
+			</number_adjustment>
+			<label name="label_dmgadj">
+                <static textres="weapon_label_dmgadj"/>
+				<anchored to="rightanchor">
+					<top />
+					<right anchor="left" relation="relative" offset="-7" />
+				</anchored>
+			</label>
+
+			<number_adjustment name="hitadj">
+				<anchored to="rightanchor">
+					<top />
+					<right anchor="left" relation="relative" offset="-15" />
+				</anchored>
+				<tabtarget next="dmgadj" prev="name" />
+			</number_adjustment>
+			<label name="label_hitadj">
+                <static textres="weapon_label_hitadj"/>
 				<anchored to="rightanchor">
 					<top />
 					<right anchor="left" relation="relative" offset="-5" />
 				</anchored>
-			</button_idelete>
-			<string_textlistitem name="name">
-				<anchored position="insidetopleft">
+			</label>
+
+<!-- 			<string_textlistitem name="name">
+ 				<anchored position="insidetopleft">
 					<right parent="rightanchor" anchor="left" relation="relative" offset="-5" />
+				</anchored> 
+				<multilinespacing>20</multilinespacing>
+			</string_textlistitem> -->
+			<string_textlistitem name="name">
+				<anchored to="rightanchor">
+					<top />
+					<left parent="" offset="10" />
+					<right anchor="left" relation="relative" offset="-15" />
 				</anchored>
 				<multilinespacing>20</multilinespacing>
+				<tabtarget next="hitadj" prev="dmgadj" />
 			</string_textlistitem>
-		</sheetdata>
+
+
+            </sheetdata>
 	</windowclass>
 
 	<windowclass name="ability_item">

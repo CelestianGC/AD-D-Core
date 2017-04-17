@@ -232,6 +232,15 @@
 	<string name="class_label_total_xp_earned_tooltip">Total experience earned for this character.</string>
 	<string name="char_abilities_message_leveledup">'%s' gained a level in %s. Manually apply earned hitpoints.</string>
 
+	<!-- Editors -->
+	<string name="weapon_header_prof">Proficiencies Applied</string>
+	<string name="weapon_label_profdefault">Not-Proficient</string>
+	<string name="weapon_label_profname">PROF</string>
+	<string name="weapon_label_hitadj">TOHIT</string>
+	<string name="weapon_label_hitadj_tooltip">To hit adjustment applied.</string>
+	<string name="weapon_label_dmgadj">DMG</string>
+	<string name="weapon_label_dmgadj_tooltip">Damage adjustment applied.</string>
+
    	<!-- Pregens -->
 	<string name="pregen_label_background">Kit</string>
     
@@ -258,7 +267,7 @@
 	<string name="library_recordtype_empty_backgroundfeature">&#171; New Kit Feature &#187;</string>
 
 	<!-- Party Sheet -->
-	<string name="ps_default_groupsave">save_paralyzation_poison_death</string>
+	<string name="ps_default_groupsave">Paralyzation</string>
 	
 	<!-- NPCs -->
 	<string name="npc_label_hitdice">Hit Dice</string>	

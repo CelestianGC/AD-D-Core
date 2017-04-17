@@ -215,7 +215,6 @@
 			</parameters>
 		</button_stringcycler>
 	</template>
-
     <template name="number_charskill_nosign">
         <basicnumber>
             <anchored width="32" height="20" />
@@ -629,5 +628,12 @@
 		</button_stringcycler>
 	</template>
     
-    
+    <template name="number_adjustment">
+			<basicnumber>
+            <anchored width="20" height="15"/>
+                <default>0</default>
+                <displaysign />
+				<hideonvalue>0</hideonvalue>
+			</basicnumber>
+    </template>
     </root>
