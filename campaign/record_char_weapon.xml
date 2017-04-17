@@ -375,10 +375,6 @@
 				<static textres="weapon_header_prof" />
 				<center />
 			</header_column>
-			<!-- <button_iedit name="prof_list_iedit">
-				<anchored to="header_prof" position="insidetopright" offset="-5,0" />
-				<target>prof_list</target>
-			</button_iedit> -->
 			<button_iadd name="prof_list_iadd">
 				<anchored to="header_prof" position="insidetopright" offset="-5,0" />
 				<target>prof_list</target>
@@ -425,10 +421,6 @@
 				<static textres="weapon_header_damage" />
 				<center />
 			</header_column>
-			<!-- <button_iedit name="list_iedit">
-				<anchored to="header_damage" position="insidetopright" offset="-5,0" />
-				<target>list</target>
-			</button_iedit> -->
 			<button_iadd name="list_iadd">
 				<anchored to="header_damage" position="insidetopright" offset="-5,0" />
 				<target>list</target>
