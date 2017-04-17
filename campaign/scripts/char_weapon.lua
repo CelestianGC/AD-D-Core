@@ -88,9 +88,11 @@ function onAttackAction(draginfo)
 	end
 	rAction.modifier = DB.getValue(nodeWeapon, "attackbonus", 0) + ActorManager2.getAbilityBonus(rActor, rAction.stat, "hitadj");
 	
-	if prof.getValue() == 1 then
-		rAction.modifier = rAction.modifier + DB.getValue(nodeChar, "profbonus", 0);
-	end
+	-- if prof.getValue() == 1 then
+		-- rAction.modifier = rAction.modifier + DB.getValue(nodeChar, "profbonus", 0);
+	-- end
+    rAction.modifier = rAction.modifier + getToHitProfs(nodeWeapon);
+    
 	rAction.bWeapon = true;
 	
 	-- Decrement ammo
@@ -162,6 +164,8 @@ function onDamageActionSingle(nodeDamage, draginfo)
     local nDmgMod = DB.getValue(nodeDamage, "bonus", 0) + ActorManager2.getAbilityBonus(rActor, sDmgAbility, "damageadj");
     local sDmgType = DB.getValue(nodeDamage, "type", "");
     
+    nDmgMod = nDmgMod + getToDamageProfs(nodeWeapon);
+
     table.insert(rAction.clauses, { dice = aDmgDice, stat = sDmgAbility, modifier = nDmgMod, dmgtype = sDmgType });
 	
 	-- Check for reroll tag
@@ -214,7 +218,9 @@ function onDamageAction(draginfo)
 		local nDmgMod = DB.getValue(v, "bonus", 0) + ActorManager2.getAbilityBonus(rActor, sDmgAbility, "damageadj");
 		local sDmgType = DB.getValue(v, "type", "");
 		
-		table.insert(rAction.clauses, { dice = aDmgDice, stat = sDmgAbility, modifier = nDmgMod, dmgtype = sDmgType });
+        nDmgMod = nDmgMod + getToDamageProfs(nodeWeapon);
+
+    table.insert(rAction.clauses, { dice = aDmgDice, stat = sDmgAbility, modifier = nDmgMod, dmgtype = sDmgType });
 	end
 	
 	-- Check for reroll tag
@@ -248,11 +254,26 @@ function onAttackChanged()
 	end
 	local nMod = DB.getValue(nodeWeapon, "attackbonus", 0) + ActorManager2.getAbilityBonus(rActor, sAbility, "hitadj");
 
-	if prof.getValue() ~= 0 then
-		nMod = nMod + DB.getValue(nodeChar, "profbonus", 0);
-	end
+	-- if prof.getValue() ~= 0 then
+		-- nMod = nMod + DB.getValue(nodeChar, "profbonus", 0);
+	-- end
 	
+    nMod = nMod + getToHitProfs(nodeWeapon);
+    
 	attackview.setValue(nMod);
+end
+
+-- get all the +hit modifiers from the profs 
+-- attached to this weapon
+function getToHitProfs(nodeWeapon)
+    local nMod = 0;
+    
+    for _,v in pairs(DB.getChildren(nodeWeapon, "proflist")) do
+        nMod = nMod + DB.getValue(v, "hitadj", 0)
+        local svName = DB.getValue(v,"profselected","Unnamed");
+    end
+
+    return nMod;
 end
 
 function onDamageChanged()
@@ -277,6 +298,9 @@ function onDamageChanged()
 			nMod = nMod + ActorManager2.getAbilityBonus(rActor, sAbility, "damageadj");
 		end
 		
+        -- add in prof modifiers
+        nMod = nMod + getToDamageProfs(nodeWeapon);
+        
 		local aDice = DB.getValue(v, "dice", {});
 		if #aDice > 0 or nMod ~= 0 then
 			local sDamage = StringManager.convertDiceToString(DB.getValue(v, "dice", {}), nMod);
@@ -298,3 +322,14 @@ function onDamageChanged()
 	--damageview.setValue(table.concat(aDamage, "\n"));
 end
 
+-- return dmgadj values for all profs attached to weapon
+function getToDamageProfs(nodeWeapon)
+    local nMod = 0;
+    
+    for _,v in pairs(DB.getChildren(nodeWeapon, "proflist")) do
+        nMod = nMod + DB.getValue(v, "dmgadj", 0)
+        local svName = DB.getValue(v,"profselected","Unnamed");
+    end
+
+    return nMod;
+end

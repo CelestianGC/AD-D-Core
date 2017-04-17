@@ -125,14 +125,15 @@
 					end
 				</script>
 			</simplenumberc>
-			<button_weaponprof name="prof">
+
+<!-- 			<button_weaponprof name="prof">
 				<anchored to="attackframe" />
 				<script>
 					function onValueChanged()
 						window.onAttackChanged();
 					end
 				</script>
-			</button_weaponprof>
+			</button_weaponprof> -->
 
 			<state_charweapontype name="type">
 				<anchored to="rightanchor">
@@ -337,19 +338,20 @@
 				<anchored to="attackbonus" />
 				<static textres="weapon_label_atkbonus" />
 			</label_fieldtop>
-			<label name="label_atkplus2">
+
+			<!--<label name="label_atkplus2">
 				<anchored to="attackbonus" position="righthigh" offset="5,0" width="10" />
 				<static>+</static>
 				<center />
 			</label>
-			<button_prof name="prof_old">
+			 <button_prof name="prof_old">
 				<anchored to="label_atkplus2" position="righthigh" offset="0,0" height="20" width="20" />
 				<default>1</default>
 			</button_prof>
 			<label_fieldtop>
 				<anchored to="prof_old" />
 				<static textres="weapon_label_atkprof" />
-			</label_fieldtop>
+			</label_fieldtop> -->
 
             <!-- prof entries -->
 			<header_column name="header_prof">
@@ -385,16 +387,16 @@
 			</list_editor>
 			
 			<label_fieldtop>
-				<anchored to="prof_list" position="aboveleft" offset="5,1" width="100" />
+				<anchored to="prof_list" position="aboveleft" offset="5,1" width="200" />
 				<static textres="weapon_label_profname" />
 			</label_fieldtop>
 			<label_fieldtop>
-				<anchored to="prof_list" position="aboveleft" offset="123,1" width="30" />
+				<anchored to="prof_list" position="aboveleft" offset="224,1" width="30" />
 				<tooltip textres="weapon_label_hitadj_tooltip" />
 				<static textres="weapon_label_hitadj" />
 			</label_fieldtop>
 			<label_fieldtop>
-				<anchored to="prof_list" position="aboveleft" offset="172,1" width="35" />
+				<anchored to="prof_list" position="aboveleft" offset="283,1" width="35" />
 				<tooltip textres="weapon_label_dmgadj_tooltip" />
 				<static textres="weapon_label_dmgadj" />
 			</label_fieldtop>
@@ -459,6 +461,51 @@
 		</sheetdata>
 	</windowclass>
 
+    <!-- weapon prof selection -->
+	<windowclass name="char_weapon_prof_entry">
+		<margins control="0,0,0,5" />
+		<sheetdata>
+			<genericcontrol name="rightanchor">
+				<anchored width="0" height="0">
+					<top offset="2" />
+					<right />
+				</anchored>
+				<invisible />
+			</genericcontrol>
+
+			<button_idelete name="idelete">
+				<anchored to="rightanchor">
+					<top />
+					<right anchor="left" relation="relative" offset="-5" />
+				</anchored>
+			</button_idelete>
+
+			<combobox name="profselected">
+				<listdirection>down</listdirection>
+				<anchored position="insidetopleft" offset="5,2" width="200" height="20" />
+				<!-- <default textres="weapon_label_profdefault" /> -->
+				<script file="campaign/scripts/prof_select.lua"/>
+			</combobox>
+			<label name="label_plus">
+				<anchored to="profselected" position="righthigh" offset="5,0" width="10" />
+				<static>+</static>
+			</label>
+			<number_adjustment name="hitadj">
+                <readonly />
+				<anchored to="label_plus" position="righthigh" offset="2,0" width="35" height="20" />
+			</number_adjustment>
+			<label name="label_plus2">
+				<anchored to="hitadj" position="righthigh" offset="10,0" width="15" />
+				<static>&amp;</static>
+			</label>
+			<number_adjustment name="dmgadj">
+                <readonly />
+				<anchored to="label_plus2" position="righthigh" offset="2,0" width="35" height="20" />
+			</number_adjustment>
+
+        </sheetdata>
+	</windowclass>
+
 	<windowclass name="char_weapon_damage_entry">
 		<margins control="0,0,0,5" />
 		<sheetdata>
@@ -502,51 +549,5 @@
 		</sheetdata>
 	</windowclass>
 
-    
-	<windowclass name="char_weapon_prof_entry">
-		<margins control="0,0,0,5" />
-		<sheetdata>
-			<genericcontrol name="rightanchor">
-				<anchored width="0" height="0">
-					<top offset="2" />
-					<right />
-				</anchored>
-				<invisible />
-			</genericcontrol>
-
-			<button_idelete name="idelete">
-				<anchored to="rightanchor">
-					<top />
-					<right anchor="left" relation="relative" offset="-5" />
-				</anchored>
-			</button_idelete>
-
-			<combobox name="profselected">
-				<listdirection>down</listdirection>
-				<anchored position="insidetopleft" offset="5,2" width="100" height="20" />
-				<default textres="weapon_label_profdefault" />
-				<script file="campaign/scripts/prof_select.lua"/>
-			</combobox>
-			<label name="label_plus">
-				<anchored to="profselected" position="righthigh" offset="5,0" width="10" />
-				<static>+</static>
-			</label>
-			<number_adjustment name="hitadj">
-                <readonly />
-				<anchored to="label_plus" position="righthigh" offset="2,0" width="35" height="20" />
-			</number_adjustment>
-			<label name="label_plus2">
-				<anchored to="hitadj" position="righthigh" offset="5,0" width="10" />
-				<static>&amp;</static>
-			</label>
-			<number_adjustment name="dmgadj">
-                <readonly />
-				<anchored to="label_plus2" position="righthigh" offset="2,0" width="35" height="20" />
-			</number_adjustment>
-
-        </sheetdata>
-	</windowclass>
-    
-    
     
 </root>

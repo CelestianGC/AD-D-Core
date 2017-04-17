@@ -4,7 +4,7 @@
 --
 --
 function onInit()
-Debug.console("prof_select.lua","onInit","RAN");
+--Debug.console("prof_select.lua","onInit","RAN");
     super.onInit();
     local node = getDatabaseNode();
     local nodeChar = node.getChild("......");
@@ -13,7 +13,7 @@ Debug.console("prof_select.lua","onInit","RAN");
     
     updateAllAdjustments();
     
-    Debug.console("prof_select.lua","onInit","getItems",getItems());
+    --Debug.console("prof_select.lua","onInit","getItems",getItems());
 end
 
 function onClose()
@@ -23,7 +23,7 @@ function onClose()
 end
 
 function onValueChanged()
-Debug.console("prof_select.lua","onValueChanged","RAN");
+--Debug.console("prof_select.lua","onValueChanged","RAN");
     local node = getDatabaseNode();
     updateAdjustments(node);
 end
@@ -33,23 +33,20 @@ function updateAdjustments(node)
     -- flip through proflist
     local nodeChar = node.getChild("......");
     local sFindName = window.profselected.getValue();
-Debug.console("prof_select.lua","updateAdjustments","sFindName",sFindName);
+--Debug.console("prof_select.lua","updateAdjustments","sFindName",sFindName);
     local prof = getProf(nodeChar,sFindName);
     
     if prof then
-Debug.console("prof_select.lua","updateAdjustments","prof",prof);
+--Debug.console("prof_select.lua","updateAdjustments","prof",prof);
         local nHitAdj = prof.hitadj;
         local nDMGAdj = prof.dmgadj;
         window.hitadj.setValue(nHitAdj);
         window.dmgadj.setValue(nDMGAdj);
     else
-Debug.console("prof_select.lua","updateAdjustments","!prof");
+--Debug.console("prof_select.lua","updateAdjustments","!prof");
     end
-    
-Debug.console("prof_select.lua","updateAdjustments","nodeWeapon",nodeWeapon);
-    
-Debug.console("prof_select.lua","updateAdjustments","RAN");
 end
+
 
 -- update all adjustments for this weapon
 function updateAllAdjustments()
@@ -70,43 +67,34 @@ function updateAllAdjustments()
             DB.setValue(v,"dmgadj","number",nDMGAdj);
         end
     end
-Debug.console("prof_select.lua","updateAllAdjustments","nodeWeapon",nodeWeapon);
-    
-Debug.console("prof_select.lua","updateAllAdjustments","RAN");
 end
 
 -- fill in the drop down list values
 function setProfList(nodeChar)
-    Debug.console("prof_select.lua","setProfList","RAN");
+--    Debug.console("prof_select.lua","setProfList","RAN");
     -- sort through player's list of profs and add them
-    Debug.console("prof_select.lua","setProfList","nodeChar",nodeChar);
+--    Debug.console("prof_select.lua","setProfList","nodeChar",nodeChar);
     -- proficiencylist
     local aProfs = {};
     local bNonProf = false;
     for _,v in pairs(DB.getChildren(nodeChar, "proficiencylist")) do
         local sName = DB.getValue(v, "name", "");
         local sNameLower = sName:lower();
-    Debug.console("prof_select.lua","setProfList","sName",sName);
+--    Debug.console("prof_select.lua","setProfList","sName",sName);
         if (sName ~= "") then
             if StringManager.contains({"not-prof", "non-prof","non prof", "not prof"}, sNameLower) then
-    Debug.console("prof_select.lua","setProfList","sNameLower",sNameLower);
+--    Debug.console("prof_select.lua","setProfList","sNameLower",sNameLower);
                 bNonProf = true;
             end
             table.insert(aProfs,sName);
         end
     end
-    if not bNonProf then
-            table.insert(aProfs,"Not-Proficient");
-    end
+    -- if not bNonProf then
+            -- table.insert(aProfs,"Not-Proficient");
+    -- end
+    
     clear(); -- (removed existing items in list)
     addItems(aProfs);
-    
-    -- add("Not-Proficient");
-    -- add("Longsword");
-    -- add("Dagger");
-    -- add("Short bow");
-    -- add("Racial: Elf Bow");
-    -- add("Racial: Elf Sword");
 end
 
 function getProf(nodeChar,sFindName)
@@ -117,10 +105,10 @@ function getProf(nodeChar,sFindName)
     local bFoundMatch = false;
     for _,v in pairs(DB.getChildren(nodeChar, "proficiencylist")) do
         local sName = DB.getValue(v, "name", "");
-    Debug.console("prof_select.lua","getProf","sName",sName);
+--    Debug.console("prof_select.lua","getProf","sName",sName);
         local sNameLower = sName:lower();
         if (sNameLower == sFindNameLower) then
-    Debug.console("prof_select.lua","getProf","sNameLower FOUND",sNameLower);
+--    Debug.console("prof_select.lua","getProf","sNameLower FOUND",sNameLower);
             bFoundMatch = true;
             prof.hitadj = DB.getValue(v,"hitadj",0);
             prof.dmgadj = DB.getValue(v,"dmgadj",0);
@@ -129,10 +117,10 @@ function getProf(nodeChar,sFindName)
     end
     
     if bFoundMatch then
-    Debug.console("prof_select.lua","getProf","bFoundMatch",bFoundMatch);
+    --Debug.console("prof_select.lua","getProf","bFoundMatch",bFoundMatch);
         return prof;
     else
-    Debug.console("prof_select.lua","getProf","bFoundMatch",bFoundMatch);
+    --Debug.console("prof_select.lua","getProf","bFoundMatch",bFoundMatch);
         return nil;
     end
 end
