@@ -843,7 +843,7 @@ function addClassProficiencyDB(nodeChar, sClass, sRecord)
 	-- Armor, Weapon or Tool Proficiencies
 	if StringManager.contains({"armor", "weapons", "tools"}, sType) then
 		local sText = DB.getText(nodeSource, "text");
-		addProficiencyDB(nodeChar, sType, sText);
+		addProficiencyDB(nodeChar, sType, sText, nodeSource);
 		
 	-- Saving Throw Proficiencies
 	elseif sType == "savingthrows" then
@@ -929,7 +929,7 @@ function onClassSkillSelect(aSelection, rSkillAdd)
 	end
 end
 
-function addProficiencyDB(nodeChar, sType, sText)
+function addProficiencyDB(nodeChar, sType, sText, nodeSource)
 	-- Get the list we are going to add to
 	local nodeList = nodeChar.createChild("proficiencylist");
 	if not nodeList then
@@ -960,9 +960,13 @@ function addProficiencyDB(nodeChar, sType, sText)
 	sValue = sValue .. ": " .. sText;
 	DB.setValue(nodeEntry, "name", "string", sValue);
 
-	--??? need these values
-    --DB.setValue(nodeEntry, "hitadj", "number", nHitADJ);
-	--DB.setValue(nodeEntry, "dmgadj", "number", nDMGADJ);
+	-- need these values --celestian
+    if nodeSource then
+        local nHitADJ = DB.getValue(nodeSource,"hitadj",0);
+        local nDMGADJ = DB.getValue(nodeSource,"dmgadj",0);
+        DB.setValue(nodeEntry, "hitadj", "number", nHitADJ);
+        DB.setValue(nodeEntry, "dmgadj", "number", nDMGADJ);
+    end
 
 	-- Announce
 	local sFormat = Interface.getString("char_abilities_message_profadd");
@@ -1691,7 +1695,7 @@ function addBackgroundRef(nodeChar, sClass, sRecord)
 
 	local sTools = DB.getValue(nodeSource, "tool", "");
 	if sTools ~= "" and sTools ~= "None" then
-		addProficiencyDB(nodeChar, "tools", sTools);
+		addProficiencyDB(nodeChar, "tools", sTools, nodeSource);
 	end
 	
 	local sLanguages = DB.getValue(nodeSource, "languages", "");
