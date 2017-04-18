@@ -42,6 +42,10 @@ function getFilter()
     local bShow = bFilter;
     local node = getDatabaseNode();
     local nodeChar = node.getChild("...");
+    
+--    Debug.console("power_item.lua","getFilter","node",node);
+--    Debug.console("power_item.lua","getFilter","nodeChar",nodeChar);
+
     local bMemorized = (DB.getValue(node,"memorized",0) > 0);
     local sMode = DB.getValue(nodeChar, "powermode", "");
     local nLevel = DB.getValue(node, "level",0);

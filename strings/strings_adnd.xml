@@ -202,6 +202,8 @@
     <string name="power_label_memorize_tooltip">Memorize Spell</string>
     <string name="power_label_memorizecount_tooltip">Number of times this spell is memorized.</string>
     <string name="power_label_initiative_tooltip">Roll initiative for this action.</string>
+    <string name="power_label_hidespell">Hide</string>
+    <string name="power_label_hidespell_tooltip">Hide spell from combat listing since it is no longer memorized.</string>
     
    	<!-- Combat Tracker -->
 	<string name="ct_label_speed">Mv</string>

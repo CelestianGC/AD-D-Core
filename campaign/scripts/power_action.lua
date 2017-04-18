@@ -39,6 +39,7 @@ end
 function updateDisplay()
 	local node = getDatabaseNode();
     local nodeSpell = node.getChild("...");
+    local nodeChar = node.getChild(".....");
 	local sType = DB.getValue(node, "type", "");
 	
 	local bShowCast = (sType == "cast");
@@ -56,9 +57,23 @@ function updateDisplay()
                               PowerManager.isDivineSpellType(sSpellType) or 
                               PowerManager.isDivineSpellType(sSource) )  and 
                               (sType == "cast")   );
-
-	
-    castinitiative.setVisible(bShowMemorize);
+    
+    local sMode = DB.getValue(nodeChar, "powermode", "");
+--Debug.console("power_action.lua","updateDisplay","sMode",sMode);
+    local bMemorized = (DB.getValue(nodeSpell,"memorized",0) > 0);
+--Debug.console("power_action.lua","updateDisplay","bMemorized",bMemorized);
+    local bWasMemorized = (DB.getValue(nodeSpell,"wasmemorized",0) == 1);
+--Debug.console("power_action.lua","updateDisplay","bWasMemorized",bWasMemorized);
+    local bShowSpellHide = false;
+--Debug.console("power_action.lua","updateDisplay","bShowSpellHide",bShowSpellHide);
+    -- show the button to hide this spell since it was cast
+	if sMode == "combat" and bWasMemorized and not bMemorized then
+        bShowSpellHide = true;
+        bShowMemorize = false;
+--Debug.console("power_action.lua","updateDisplay","bShowSpellHide",bShowSpellHide);
+    end
+    
+    castinitiative.setVisible(bShowCast);
 
 	castbutton.setVisible(bShowCast);
 	castlabel.setVisible(bShowCast);
@@ -69,6 +84,9 @@ function updateDisplay()
 	memorizelabel.setVisible(bShowMemorize);
 	memorizebutton.setVisible(bShowMemorize);
    	memorizedcount.setVisible(bShowMemorize);
+
+   	hidespellbutton.setVisible(bShowSpellHide);
+   	hidespelllabel.setVisible(bShowSpellHide);
 
 	attackbutton.setVisible(bShowCast);
 	attackviewlabel.setVisible(bShowCast);
@@ -93,6 +111,18 @@ function updateDisplay()
 	effectview.setVisible(bShowEffect);
 	durationview.setVisible(bShowEffect);
 	effectdetail.setVisible(bShowEffect);
+end
+
+-- when "hidespell pressed" and the spell was memorized (not any longer) 
+-- we remove the wasmemorized flag and force display update to clear it from list.
+function hideSpellPressed()
+    local node = getDatabaseNode();
+    local nodeSpell = node.getChild("...");
+
+--    Debug.console("power_action.lua","hideSpellPressed","node",node);
+--    Debug.console("power_action.lua","hideSpellPressed","nodeSpell",nodeSpell);
+    DB.setValue(nodeSpell,"wasmemorized","number",0);
+    updateDisplay();
 end
 
 function updateViews()
