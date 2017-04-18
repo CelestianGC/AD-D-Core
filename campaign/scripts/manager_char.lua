@@ -960,6 +960,10 @@ function addProficiencyDB(nodeChar, sType, sText)
 	sValue = sValue .. ": " .. sText;
 	DB.setValue(nodeEntry, "name", "string", sValue);
 
+	--??? need these values
+    --DB.setValue(nodeEntry, "hitadj", "number", nHitADJ);
+	--DB.setValue(nodeEntry, "dmgadj", "number", nDMGADJ);
+
 	-- Announce
 	local sFormat = Interface.getString("char_abilities_message_profadd");
 	local sMsg = string.format(sFormat, DB.getValue(nodeEntry, "name", ""), DB.getValue(nodeChar, "name", ""));

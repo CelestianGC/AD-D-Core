@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<!-- 
+  Please see the license.html file included with this distribution for 
+  attribution and copyright information.
+-->
+
+<root>
+	<!-- Portrait Chat icons -->	
+	<icon name="portrait_gm_token" file="graphics/portraits/portrait_gm_token.png" />
+</root>    
+	
