@@ -74,10 +74,10 @@ end
 
 function getCharSelectDetailHost(nodeChar)
 	local sValue = "";
-	local nLevel = DB.getValue(nodeChar, "level", 0);
-	if nLevel > 0 then
-		sValue = "Level " .. math.floor(nLevel*100)*0.01;
-	end
+	-- local nLevel = DB.getValue(nodeChar, "level", 0);
+	-- if nLevel > 0 then
+		-- sValue = "Level " .. math.floor(nLevel*100)*0.01;
+	-- end
 	return sValue;
 end
 
@@ -86,13 +86,14 @@ function requestCharSelectDetailClient()
 end
 
 function receiveCharSelectDetailClient(vDetails)
-	return vDetails[1], "Level " .. math.floor(vDetails[2]*100)*0.01;
+--	return vDetails[1], "Level " .. math.floor(vDetails[2]*100)*0.01;
+	return vDetails[1];
 end
 
 function getCharSelectDetailLocal(nodeLocal)
 	local vDetails = {};
 	table.insert(vDetails, DB.getValue(nodeLocal, "name", ""));
-	table.insert(vDetails, DB.getValue(nodeLocal, "level", 0));
+	--table.insert(vDetails, DB.getValue(nodeLocal, "level", 0));
 	return receiveCharSelectDetailClient(vDetails);
 end
 
