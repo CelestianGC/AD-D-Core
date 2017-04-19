@@ -218,7 +218,7 @@
 	<string name="ct_healthadjustment_damagebutton">Damage</string>
 	<string name="ct_healthadjustment_cancelbutton">Cancel</string>
 	<string name="ct_wounds_tooltip">Double click to manually adjust wounds.</string>
-
+    <string name="ct_tooltip_space">Size, Reach, HD and Morale</string>
 	<!-- Character - Abilities -->
     <string name="char_abilities_message_backgroundadd">Kit '%s' added to '%s'.</string>
 	<string name="char_label_notes_ideals">PHILOSOPHY</string>

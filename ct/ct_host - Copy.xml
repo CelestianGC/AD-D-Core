@@ -402,7 +402,7 @@
 			<number_ct_ability name="strength" source="abilities.strength.score">
 				<anchored >
 					<top parent="name" anchor="bottom" relation="relative" offset="10" />
-					<left parent="attributesicon" anchor="right" offset="45" />
+					<left parent="attributesicon" anchor="right" offset="55" />
 				</anchored>
 				<target>strength</target>
 			</number_ct_ability>
@@ -411,7 +411,7 @@
 				<static textres="str" />
 			</ct_abilities_label>
 			<number_ct_ability name="dexterity" source="abilities.dexterity.score">
-				<anchored to="strength" position="righthigh" offset="45,0" />
+				<anchored to="strength" position="righthigh" offset="55,0" />
 				<target>dexterity</target>
 			</number_ct_ability>
 			<ct_abilities_label name="dexterity_label">
@@ -419,7 +419,7 @@
 				<static textres="dex" />
 			</ct_abilities_label>
 			<number_ct_ability name="constitution" source="abilities.constitution.score">
-				<anchored to="dexterity" position="righthigh" offset="45,0" />
+				<anchored to="dexterity" position="righthigh" offset="55,0" />
 				<target>constitution</target>
 			</number_ct_ability>
 			<ct_abilities_label name="constitution_label">
@@ -427,7 +427,7 @@
 				<static textres="con" />
 			</ct_abilities_label>
 			<number_ct_ability name="intelligence" source="abilities.intelligence.score">
-				<anchored to="constitution" position="righthigh" offset="45,0" />
+				<anchored to="constitution" position="righthigh" offset="55,0" />
 				<target>intelligence</target>
 			</number_ct_ability>
 			<ct_abilities_label name="intelligence_label">
@@ -435,7 +435,7 @@
 				<static textres="int" />
 			</ct_abilities_label>
 			<number_ct_ability name="wisdom" source="abilities.wisdom.score">
-				<anchored to="intelligence" position="righthigh" offset="45,0" />
+				<anchored to="intelligence" position="righthigh" offset="55,0" />
 				<target>wisdom</target>
 			</number_ct_ability>
 			<ct_abilities_label name="wisdom_label">
@@ -452,64 +452,64 @@
 			</ct_abilities_label>
 
             <!-- poison save -->
-			<number_ct_savescore name="paralyzation" source="saves.paralyzation.score">
+			<ct_save_label name="paralyzation_label">
+   				<tooltip textres="save_paralyzation_full" />
+				<static text="Para" />
 				<anchored >
-					<top parent="name" anchor="bottom" relation="relative" offset="15" />
+					<top parent="name" anchor="bottom" relation="relative" offset="10" />
 					<left parent="attributesicon" anchor="right" offset="6" />
 				</anchored>
+			</ct_save_label>
+			<number_ct_savescore name="paralyzation" source="saves.paralyzation.score">
+				<anchored to="paralyzation_label" position="righthigh" offset="10,0" width="20"/>
 				<tooltip textres="save_paralyzation_full" />
 				<target>paralyzation</target>
 			</number_ct_savescore>
-			<ct_save_toplabel name="paralyzation_label">
-   				<tooltip textres="save_paralyzation_full" />
-				<static text="Para" />
-				<anchored to="paralyzation"  />
-			</ct_save_toplabel>
             
+			<ct_save_label name="poison_label">
+   				<tooltip textres="save_poison_full" />
+				<static text="Poison" />
+				<anchored to="paralyzation" position="righthigh" offset="5,0" />
+			</ct_save_label>
 			<number_ct_savescore name="poison" source="saves.poison.score">
-				<anchored to="paralyzation" position="righthigh" offset="10,0"/>
+				<anchored to="poison_label" position="righthigh" offset="10,0" width="20"/>
 				<tooltip textres="save_poison_full" />
 				<target>poison</target>
 			</number_ct_savescore>
-			<ct_save_toplabel name="poison_label">
-   				<tooltip textres="save_poison_full" />
-				<static text="Poison" />
-				<anchored to="poison"  />
-			</ct_save_toplabel>
             
+			<ct_save_label name="death_label">
+   				<tooltip textres="save_death_full" />
+				<static text="Death" />
+				<anchored to="poison" position="righthigh" offset="5,0" />
+			</ct_save_label>
 			<number_ct_savescore name="death" source="saves.death.score">
-				<anchored to="poison" position="righthigh" offset="10,0" />
+				<anchored to="death_label" position="righthigh" offset="10,0" width="20"/>
 				<tooltip textres="save_death_full" />
 				<target>death</target>
 			</number_ct_savescore>
-			<ct_save_toplabel name="death_label">
-   				<tooltip textres="save_death_full" />
-				<static text="Death" />
-				<anchored to="death" />
-			</ct_save_toplabel>
             
+			<ct_save_label name="rod_label">
+   				<tooltip textres="save_rod_full" />
+				<static text="Rod" />
+				<anchored to="death" position="righthigh" offset="5,0" />
+			</ct_save_label>
 			<number_ct_savescore name="rod" source="saves.rod.score">
-				<anchored to="death" position="righthigh" offset="10,0"/>
+				<anchored to="rod_label" position="righthigh" offset="10,0" width="20"/>
 				<tooltip textres="save_rod_full" />
 				<target>rod</target>
 			</number_ct_savescore>
-			<ct_save_toplabel name="rod_label">
-   				<tooltip textres="save_rod_full" />
-				<static text="Rod" />
-				<anchored to="rod" />
-			</ct_save_toplabel>
 
 
+			<ct_save_label name="staff_label">
+   				<tooltip textres="save_staff_full" />
+				<static text="Staff" />
+				<anchored to="rod" position="righthigh" offset="5,0" />
+			</ct_save_label>
 			<number_ct_savescore name="staff" source="saves.staff.score">
-				<anchored to="rod" position="righthigh" offset="10,0" />
+				<anchored to="staff_label" position="righthigh" offset="10,0" width="20"/>
 				<tooltip textres="save_staff_full" />
 				<target>staff</target>
 			</number_ct_savescore>
-			<ct_save_toplabel name="staff_label">
-   				<tooltip textres="save_staff_full" />
-				<static text="Staff" />
-				<anchored to="staff"  />
-			</ct_save_toplabel>
 
             <!-- next line -->
 <!-- 			<ct_save_label name="wand_label">
@@ -518,60 +518,63 @@
 				<anchored to="staff" position="righthigh" offset="5,0" />
 			</ct_save_label>
  -->
+			<ct_save_label name="wand_label">
+   				<tooltip textres="save_wand_full" />
+				<static text="Wand" />
+				<anchored >
+					<top parent="name" anchor="bottom" relation="relative" offset="10" />
+					<left parent="attributesicon" anchor="right" offset="6" />
+				</anchored>
+			</ct_save_label>
             <number_ct_savescore name="wand" source="saves.wand.score">
-				<anchored to="staff" position="righthigh" offset="10,0" />
+				<anchored to="wand_label" position="righthigh" offset="10,0" width="20"/>
 				<tooltip textres="save_wand_full" />
 				<target>wand</target>
 			</number_ct_savescore>
-			<ct_save_toplabel name="wand_label">
-   				<tooltip textres="save_wand_full" />
-				<static text="Wand" />
-				<anchored to="wand" />
-			</ct_save_toplabel>
 
+			<ct_save_label name="petrification_label">
+   				<tooltip textres="save_petrification_full" />
+				<static text="Petrify" />
+				<anchored to="wand" position="righthigh" offset="5,0" />
+			</ct_save_label>
 			<number_ct_savescore name="petrification" source="saves.petrification.score">
-				<anchored to="wand" position="righthigh" offset="10,0" />
+				<anchored to="petrification_label" position="righthigh" offset="10,0" width="20"/>
 				<tooltip textres="save_petrification_full" />
 				<target>petrification</target>
 			</number_ct_savescore>
-			<ct_save_toplabel name="petrification_label">
-   				<tooltip textres="save_petrification_full" />
-				<static text="Petrify" />
-				<anchored to="petrification" />
-			</ct_save_toplabel>
 
+			<ct_save_label name="polymorph_label">
+   				<tooltip textres="save_polymorph_full" />
+				<static text="Poly" />
+				<anchored to="petrification" position="righthigh" offset="5,0" />
+			</ct_save_label>
 			<number_ct_savescore name="polymorph" source="saves.polymorph.score">
-				<anchored to="petrification" position="righthigh" offset="10,0" />
+				<anchored to="polymorph_label" position="righthigh" offset="10,0" width="20"/>
 				<tooltip textres="save_polymorph_full" />
 				<target>polymorph</target>
 			</number_ct_savescore>
-			<ct_save_toplabel name="polymorph_label">
-   				<tooltip textres="save_polymorph_full" />
-				<static text="Poly" />
-				<anchored to="polymorph"  />
-			</ct_save_toplabel>
 
+			<ct_save_label name="breath_label">
+   				<tooltip textres="save_breath_full" />
+				<static text="Breath" />
+				<anchored to="polymorph" position="righthigh" offset="5,0" />
+			</ct_save_label>
 			<number_ct_savescore name="breath" source="saves.breath.score">
-				<anchored to="polymorph" position="righthigh" offset="10,0" />
+				<anchored to="breath_label" position="righthigh" offset="10,0" width="20"/>
 				<tooltip textres="save_breath_full" />
 				<target>breath</target>
 			</number_ct_savescore>
-			<ct_save_toplabel name="breath_label">
-   				<tooltip textres="save_breath_full" />
-				<static text="Breath" />
-				<anchored to="breath"  />
-			</ct_save_toplabel>
 
+			<ct_save_label name="spell_label">
+   				<tooltip textres="save_spell_full" />
+				<static text="Spell" />
+				<anchored to="breath" position="righthigh" offset="5,0" />
+			</ct_save_label>
 			<number_ct_savescore name="spell" source="saves.spell.score">
-				<anchored to="breath" position="righthigh" offset="10,0" />
+				<anchored to="spell_label" position="righthigh" offset="10,0" width="20"/>
 				<tooltip textres="save_spell_full" />
 				<target>spell</target>
 			</number_ct_savescore>
-			<ct_save_toplabel name="spell_label">
-   				<tooltip textres="save_spell_full" />
-				<static text="Spell" />
-				<anchored to="spell"  />
-			</ct_save_toplabel>
 
             
 

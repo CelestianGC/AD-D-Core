@@ -325,13 +325,19 @@
             <font>arial-bold-8</font>
         </label>
     </template>
+   	<template name="ct_save_toplabel">
+		<label_fieldtop>
+			<anchored position="insidetopright" offset="-3,-8" width="35" />
+            <font>arial-regular-7</font>
+			<frame name="abilityfields" />
+		</label_fieldtop>
+	</template>
     
     <template name="number_ct_savescore">
 		<number_ct>
-			<frame name="fieldlight" offset="7,5,7,5" />
-            <anchored width="20" height="20"/>
+            <margins control="0,0,0,0" />
+            <anchored width="30" height="20"/>
             <default>-1</default>
-			<font>arial-bold-8</font>
 			<rollable />
 			<script>
 				function action(draginfo)
