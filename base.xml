@@ -64,6 +64,7 @@
 
 	<!-- Campaign Records -->
 	<includefile source="campaign/template_campaign.xml" />
+	<includefile source="campaign/template_campaign_adnd.xml" />
 	<includefile source="campaign/template_char.xml" />
 	<includefile source="campaign/template_power.xml" />
 

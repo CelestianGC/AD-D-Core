@@ -153,7 +153,7 @@
 	<template name="button_charclasslevel">
 		<buttoncontrol>
 			<anchored width="20" height="20" />
-			<state icon="details" pressed="details_down" />
+			<state icon="button_details" pressed="button_details_down" />
 			<script>
 				function onButtonPress()
 					Interface.openWindow("charsheet_classes", window.getDatabaseNode());
@@ -225,7 +225,7 @@
 	<template name="button_charcombatcalc">
 		<buttoncontrol>
 			<anchored width="20" height="20" />
-			<state icon="details" pressed="details_down" />
+			<state icon="button_details" pressed="button_details_down" />
 			<script>
 				function onButtonPress()
 					Interface.openWindow("charsheet_combatcalc", window.getDatabaseNode());
@@ -305,7 +305,7 @@
 	<template name="button_charhealthcalc">
 		<buttoncontrol>
 			<anchored width="20" height="20" />
-			<state icon="details" pressed="details_down" />
+			<state icon="button_details" pressed="button_details_down" />
 			<script>
 				function onButtonPress()
 					Interface.openWindow("charsheet_healthcalc", window.getDatabaseNode());
@@ -624,6 +624,8 @@
 
 	<template name="list_abilities">
 		<list_text>
+			<child></child>
+			<child><backcolor>1A40301E</backcolor></child>
 			<allowcreate />
 			<allowdelete />
 			<sortby mergerule="replace"><control>name</control></sortby>
@@ -695,6 +697,8 @@
 
 	<template name="list_charinv">
 		<windowlist>
+			<child></child>
+			<child><backcolor>1A40301E</backcolor></child>
 			<datasource>.inventorylist</datasource>
 			<class>char_invitem</class>
 			<allowdelete />

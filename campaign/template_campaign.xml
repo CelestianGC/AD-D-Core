@@ -76,8 +76,8 @@
 	<template name="button_toggledetail">
 		<buttoncontrol>
 			<anchored width="20" height="20" />
-			<state icon="details" />
-			<state icon="details_down" />
+			<state icon="button_details" />
+			<state icon="button_details_down" />
 			<script>
 				function onValueChanged()
 					if window.toggleDetail then
@@ -181,6 +181,7 @@
 	</template>
 	<template name="list_npcactions">
 		<list_column>
+			<child merge="delete" />
 			<sortby merge="delete" />
 		</list_column>
 	</template>
@@ -224,8 +225,8 @@
 				<right />
 			</anchored>
 			<allowdelete />
-			<child><backcolor>1A40301E</backcolor></child>
-			<child></child>
+            <child></child>
+            <child><backcolor>1A40301E</backcolor></child>
 			<noscroll />
 			<script>
 				function onInit()
@@ -256,46 +257,6 @@
 		</windowlist>
 	</template>
 	
-	<template name="list_editor_grouped">
-		<windowlist name="list">
-			<anchored>
-				<top parent="columnanchor" anchor="bottom" relation="relative" offset="20" />
-				<left />
-				<right />
-			</anchored>
-			<allowdelete />
-			<child><backcolor>1A40301E</backcolor></child>
-			<child></child>
-			<noscroll />
-			<script>
-				function onInit()
-					registerMenuItem(Interface.getString("list_menu_createitem"), "insert", 5);
-				end
-				
-				function onMenuSelection(selection)
-					if selection == 5 then
-						self.addEntry(true);
-					end
-				end
-				
-				function onListChanged()
-					update();
-				end
-
-				function update()
-					local bEdit = (window.weapon_iedit.getValue() == 1);
-					for _,w in ipairs(getWindows()) do
-						w.idelete.setVisibility(bEdit);
-					end
-				end
-				
-				function addEntry(bFocus)
-					return createWindow();
-				end
-			</script>
-		</windowlist>
-	</template>
-
 	<template name="sub_charsheet">
 		<subwindow>
 			<anchored to="contentanchor">

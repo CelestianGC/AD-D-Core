@@ -85,8 +85,12 @@
 				<anchored to="buttonanchor" position="belowleft" offset="0,170" width="70" height="25" />
 				<textres>modifier_label_dmgcrit</textres>
 			</button_modifierkey>
-			<button_modifierkey name="DMG_HALF">
+			<button_modifierkey name="DMG_MAX">
 				<anchored to="buttonanchor" position="belowright" offset="0,170" width="70" height="25" />
+				<textres>modifier_label_dmgmax</textres>
+			</button_modifierkey>
+			<button_modifierkey name="DMG_HALF">
+				<anchored to="buttonanchor" position="belowright" offset="0,205" width="70" height="25" />
 				<textres>modifier_label_dmghalf</textres>
 			</button_modifierkey>
 			

@@ -48,8 +48,8 @@
 					<top offset="6" />
  					<right anchor="left" relation="relative" offset="-5" /> 
 				</anchored>
-                <child><backcolor>1A40301E</backcolor></child>
                 <child></child>
+                <child><backcolor>1A40301E</backcolor></child>
                 <noscroll />
 				<datasource>.damagelist</datasource>
 				<class>split_damage_entries</class>

@@ -51,8 +51,8 @@
 					<right offset="0" />
 					<bottom offset="-20" />
 				</anchored>
-				<child><backcolor>1A40301E</backcolor></child>
-				<child></child>
+                <child></child>
+                <child><backcolor>1A40301E</backcolor></child>
 				<datasource>.npclist</datasource>
 				<class>battle_npc</class>
 				<allowdelete />

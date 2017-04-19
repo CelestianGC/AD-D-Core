@@ -105,6 +105,8 @@
 					<left offset="15" />
 					<right offset="-15" />
 				</anchored>
+				<child></child>
+				<child><backcolor>1A40301E</backcolor></child>
 				<noscroll />
 				<datasource>.skilllist</datasource>
 				<class>skill_item</class>

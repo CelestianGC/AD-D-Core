@@ -108,8 +108,8 @@
 			<useallmodules />
 			<allowcreate />
 			<allowdelete />
-			<child><backcolor>1A40301E</backcolor></child>
-			<child></child>
+                <child></child>
+                <child><backcolor>1A40301E</backcolor></child>
 			<filter control="encfilter" />
 			<filteron control="name" />
 			<empty font="list-empty-ps" textres="ps_emptylistenc" />
@@ -131,8 +131,8 @@
 			<useallmodules />
 			<allowcreate />
 			<allowdelete />
-			<child><backcolor>1A40301E</backcolor></child>
-			<child></child>
+                <child></child>
+                <child><backcolor>1A40301E</backcolor></child>
 			<filter control="questfilter" />
 			<filteron control="name" />
 			<empty font="list-empty" textres="ps_emptylistquest" />

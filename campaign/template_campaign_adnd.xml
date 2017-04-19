@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<!-- 
+  Please see the license.html file included with this distribution for 
+  attribution and copyright information.
+-->
+
+<root>
+	
+	<template name="list_editor_grouped">
+		<windowlist name="list">
+			<anchored>
+				<top parent="columnanchor" anchor="bottom" relation="relative" offset="20" />
+				<left />
+				<right />
+			</anchored>
+			<allowdelete />
+			<child></child>
+			<child><backcolor>1A40301E</backcolor></child>
+			<noscroll />
+			<script>
+				function onInit()
+					registerMenuItem(Interface.getString("list_menu_createitem"), "insert", 5);
+				end
+				
+				function onMenuSelection(selection)
+					if selection == 5 then
+						self.addEntry(true);
+					end
+				end
+				
+				function onListChanged()
+					update();
+				end
+
+				function update()
+					local bEdit = (window.weapon_iedit.getValue() == 1);
+					for _,w in ipairs(getWindows()) do
+						w.idelete.setVisibility(bEdit);
+					end
+				end
+				
+				function addEntry(bFocus)
+					return createWindow();
+				end
+			</script>
+		</windowlist>
+	</template>
+
+</root>

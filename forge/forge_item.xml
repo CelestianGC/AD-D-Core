@@ -29,8 +29,8 @@
 					<bottom parent="" anchor="bottom" offset="-120" />
 				</anchored>
 				<frame name="groupbox" offset="5,10,15,10" />
-				<child><backcolor>1A40301E</backcolor></child>
-				<child></child>
+                <child></child>
+                <child><backcolor>1A40301E</backcolor></child>
 				<datasource>.baseitems</datasource>
 				<class>forgebaseitem</class>
 				<allowcreate />
@@ -69,8 +69,8 @@
 					<bottom parent="" anchor="bottom" offset="-120" />
 				</anchored>
 				<frame name="groupbox" offset="5,10,15,10" />
-				<child><backcolor>1A40301E</backcolor></child>
-				<child></child>
+                <child></child>
+                <child><backcolor>1A40301E</backcolor></child>
 				<datasource>.templates</datasource>
 				<class>forgeitemtemplate</class>
 				<allowcreate />
