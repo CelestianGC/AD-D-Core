@@ -13,6 +13,8 @@
 	<!-- Common -->
 	<icon name="details" file="graphics/icons/wheels-icon.png" />
 	<icon name="details_down" file="graphics/icons/wheels-icon-down.png" />
+	<icon name="button_details" file="graphics/icons/wheels-icon.png" />
+	<icon name="button_details_down" file="graphics/icons/wheels-icon-down.png" />
 
 <!-- 	<icon name="details" file="graphics/icons/details.png" />
 	<icon name="details_down" file="graphics/icons/details_down.png" />
