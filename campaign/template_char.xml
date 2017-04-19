@@ -602,6 +602,8 @@
 			<sortby><control>name</control></sortby>
 			<allowcreate />
 			<allowdelete />
+            <child></child>
+            <child><backcolor>1A40301E</backcolor></child>
 			<script file="campaign/scripts/char_weaponlist.lua" />
 		</windowlist>
 	</template>
@@ -697,8 +699,8 @@
 
 	<template name="list_charinv">
 		<windowlist>
-			<child></child>
-			<child><backcolor>1A40301E</backcolor></child>
+            <child></child>
+            <child><backcolor>1A40301E</backcolor></child>
 			<datasource>.inventorylist</datasource>
 			<class>char_invitem</class>
 			<allowdelete />

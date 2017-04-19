@@ -36,6 +36,8 @@
 			<datasource>.powers</datasource>
 			<class>power_item</class>
 			<noscroll />
+            <child></child>
+            <child><backcolor>1A40301E</backcolor></child>
 			<footer>footer_wide</footer>
 			<script file="campaign/scripts/power_list.lua" />
 		</windowlist>
@@ -116,6 +118,8 @@
 		<windowlist>
 			<datasource>.actions</datasource>
 			<class>power_action</class>
+            <child></child>
+            <child><backcolor>1A40301E</backcolor></child>
 			<noscroll />
 			<sortby><control>order</control></sortby>
 			<script>

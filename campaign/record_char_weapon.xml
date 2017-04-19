@@ -178,7 +178,7 @@
 			<label name="label_ammo">
 				<anchored width="50">
 					<!-- <top parent="damageview" anchor="bottom" relation="relative" offset="5" /> -->
-                    <top parent="damage_split_list" anchor="bottom" relation="relative" offset="5" />
+                    <top parent="name" anchor="bottom" relation="relative" offset="5" />
 					<left offset="15" />
 				</anchored>
 				<static textres="char_label_weaponammo" />

@@ -53,6 +53,8 @@
 				<skipempty />
 				<readonly />
 				<noscroll />
+                <child></child>
+                <child><backcolor>1A40301E</backcolor></child>
 				<columns width="90" fillwidth="true"/>
 			</windowlist>
 			
@@ -73,6 +75,8 @@
 				<skipempty />
 				<readonly />
 				<noscroll />
+                <child></child>
+                <child><backcolor>1A40301E</backcolor></child>
 				<columns width="90" fillwidth="true"/> 
 			</windowlist>
 		</sheetdata>
@@ -354,6 +358,8 @@
 				<noscroll />
 				<readonly />
 				<columns width="25" fillwidth="true" />
+                <child></child>
+                <child><backcolor>1A40301E</backcolor></child>
 				<invisible />
 			</windowlist>
 			<string_power name="shortdescription">
