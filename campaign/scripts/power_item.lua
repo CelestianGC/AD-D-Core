@@ -58,14 +58,16 @@ function getFilter()
     -- it's reset when they toggle mode to standard/preparation mode
     local bWasMemorized = (DB.getValue(node,"wasmemorized",0) > 0);
     
-    if sMode == "combat" and bisCastSpell then
-        if (bMemorized) then
-            DB.setValue(node,"wasmemorized","number",1);
+    if bisCastSpell then
+        if sMode == "combat" then
+            if (bMemorized) then
+                DB.setValue(node,"wasmemorized","number",1);
+            end
+            bShow = (bMemorized or bWasMemorized);
+        else
+            DB.setValue(node,"wasmemorized","number",0);
+            bShow = true;
         end
-        bShow = (bMemorized or bWasMemorized);
-    else
-        DB.setValue(node,"wasmemorized","number",0);
-        bShow = true;
     end
     
     return bShow;
@@ -130,7 +132,7 @@ end
 
 -- this is to clean up and dangling memorized spells (since we disabled player
 -- edit options on the tics) when a player decides to delete a memorized spell
--- AD&D, -msw
+-- AD&D, -celestian
 function cleanUpMemorization(nodeSpell)
     local nodeChar = nodeSpell.getChild("...");
 

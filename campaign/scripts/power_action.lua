@@ -7,11 +7,16 @@ function onInit()
 	registerMenuItem(Interface.getString("power_menu_actiondelete"), "deletepointer", 4);
 	registerMenuItem(Interface.getString("list_menu_deleteconfirm"), "delete", 4, 3);
 	
+
 	updateDisplay();
 	
 	local node = getDatabaseNode();
 	windowlist.setOrder(node);
 
+    local nodeSpell = DB.getChild(node, "...");
+    -- this is so when wasmemorized is changed we update display
+    DB.addHandler(DB.getPath(nodeSpell, "wasmemorized"),"onUpdate", updateDisplay);
+    
 	local sNode = getDatabaseNode().getNodeName();
 	DB.addHandler(sNode, "onChildUpdate", onDataChanged);
 	onDataChanged();
@@ -20,6 +25,10 @@ end
 function onClose()
 	local sNode = getDatabaseNode().getNodeName();
 	DB.removeHandler(sNode, "onChildUpdate", onDataChanged);
+
+	local node = getDatabaseNode();
+    local nodeSpell = DB.getChild(node, "...");
+    DB.addHandler(DB.getPath(nodeSpell, "wasmemorized"),"onUpdate", updateDisplay);
 end
 
 function onMenuSelection(selection, subselection)
@@ -83,7 +92,7 @@ function updateDisplay()
 	memorizebutton.setVisible(bShowMemorize);
 	memorizelabel.setVisible(bShowMemorize);
 	memorizebutton.setVisible(bShowMemorize);
-   	memorizedcount.setVisible(bShowMemorize);
+  	memorizedcount.setVisible(bShowMemorize);
 
    	hidespellbutton.setVisible(bShowSpellHide);
    	hidespelllabel.setVisible(bShowSpellHide);

@@ -549,7 +549,7 @@
 			<hn name="order" />
 			<hs name="type">
 				<script>
-					function onValueChanged()
+                    function onValueChanged()
 						window.updateDisplay();
 					end
 				</script>
@@ -634,7 +634,7 @@
 				<static textres="power_label_memorize" />
                 <tooltip textres="power_label_memorize_tooltip" />
 			</label>
-			<basicnumber name="memorizedcount" source="...memorized">
+ 			<basicnumber name="memorizedcount" source="...memorized">
                 <script>
 					function onValueChanged()
 						window.updateDisplay();
@@ -644,7 +644,7 @@
  				<hideonvalue>0</hideonvalue>
                 <nokeyedit />
                 <tooltip textres="power_label_memorizecount_tooltip" />
-			</basicnumber>
+			</basicnumber> 
 
             
 			<button_poweractioneditor name="castdetail">

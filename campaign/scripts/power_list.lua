@@ -95,7 +95,7 @@ function onFilter(w)
 	if aFilters[sCategory] then
 		return false;
 	end
-	
+
     return w.getFilter();
 end
 

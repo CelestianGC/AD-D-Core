@@ -47,6 +47,8 @@ function onInit()
 
 	DB.addHandler(DB.getPath(node, "powers.*.group"), "onUpdate", onPowerGroupChanged);
 	DB.addHandler(DB.getPath(node, "powers.*.level"), "onUpdate", onPowerGroupChanged);
+	DB.addHandler(DB.getPath(node, "powers.*.memorized"), "onUpdate", onPowerGroupChanged);
+	DB.addHandler(DB.getPath(node, "powers.*.wasmemorized"), "onUpdate", onPowerGroupChanged);
 end
 
 function onClose()
@@ -85,6 +87,8 @@ function onClose()
 
 	DB.removeHandler(DB.getPath(node, "powers.*.group"), "onUpdate", onPowerGroupChanged);
 	DB.removeHandler(DB.getPath(node, "powers.*.level"), "onUpdate", onPowerGroupChanged);
+	DB.removeHandler(DB.getPath(node, "powers.*.memorized"), "onUpdate", onPowerGroupChanged);
+	DB.removeHandler(DB.getPath(node, "powers.*.wasmemorized"), "onUpdate", onPowerGroupChanged);
 end
 
 function onAbilityChanged()
@@ -304,14 +308,18 @@ end
 function updatePowerWindowUses(nodeChar, w)
 	local sMode = DB.getValue(nodeChar, "powermode", "");
 	local bShow = true;
-	
+
 	-- Get power information
 	local sGroup = w.group.getValue();
 	local nLevel = w.level.getValue();
+    
 	local nCast = w.cast.getValue();
 	local nPrepared = w.prepared.getValue();
 	local sUsesPeriod = w.usesperiod.getValue();
-	
+    local nodeSpell = w.getDatabaseNode();
+    local nMemorizedCount = DB.getValue(nodeSpell,"memorized",0);
+	local nWasMemorized = DB.getValue(nodeSpell,"wasmemorized",0);
+    
 	-- Get the power group, and whether it's a caster group
 	local rGroup = aGroups[sGroup];
 	local bCaster = (rGroup and rGroup.grouptype ~= "");
@@ -337,7 +345,6 @@ function updatePowerWindowUses(nodeChar, w)
 	if bCaster then
 		if sMode == "combat" then
 			if nLevel > 0 then
-				
                 if rGroup.nPrepared > 0 and nPrepared <= 0 then
 					bShow = false;
 				else
@@ -355,6 +362,9 @@ function updatePowerWindowUses(nodeChar, w)
 					-- if not bValidSlot then
 						-- bShow = false;
 					-- end
+                    if nMemorizedCount <= 0 and nWasMemorized == 0 then
+                        bShow = false;
+                    end
 				end
                 
 			else
