@@ -64,6 +64,7 @@
 	<windowclass name="npc_combat">
 		<margins control="0,0,0,2" />
 		<script file="campaign/scripts/npc_main.lua" />
+        
 		<sheetdata>
 			<anchor_column name="columnanchor" />
 			
@@ -261,23 +262,11 @@
 				<anchored to="strength" />
 				<static textres="STR" />
 			</label_npc_abilityscore>
-			<hn name="strength_bonus" source="abilities.strength.bonus" />
-			<string_npc_abilitymodtext name="strength_modtext">
-				<anchored to="strength" />
-			</string_npc_abilitymodtext>
-			<button_npcabilitycheck>
-				<anchored to="strength" />
-				<target>strength</target>
-			</button_npcabilitycheck>
-			<button_npcabilitysave>
-				<anchored to="strength" />
-				<target>strength</target>
-			</button_npcabilitysave>
 			
 			<number_npc_abilityscore name="dexterity" source="abilities.dexterity.score">
 				<anchored merge="replace" to="strength" width="40" height="30">
 					<top />
-					<left anchor="right" relation="relative" offset="30" />
+					<left anchor="right" relation="relative" offset="10" />
 				</anchored>
 				<target>dexterity</target>
 			</number_npc_abilityscore>
@@ -285,23 +274,11 @@
 				<anchored to="dexterity" />
 				<static textres="DEX" />
 			</label_npc_abilityscore>
-			<hn name="dexterity_bonus" source="abilities.dexterity.bonus" />
-			<string_npc_abilitymodtext name="dexterity_modtext">
-				<anchored to="dexterity" />
-			</string_npc_abilitymodtext>
-			<button_npcabilitycheck>
-				<anchored to="dexterity" />
-				<target>dexterity</target>
-			</button_npcabilitycheck>
-			<button_npcabilitysave>
-				<anchored to="dexterity" />
-				<target>dexterity</target>
-			</button_npcabilitysave>
 
 			<number_npc_abilityscore name="constitution" source="abilities.constitution.score">
 				<anchored merge="replace" to="strength" width="40" height="30">
 					<top />
-					<left anchor="right" relation="relative" offset="30" />
+					<left anchor="right" relation="relative" offset="10" />
 				</anchored>
 				<target>constitution</target>
 			</number_npc_abilityscore>
@@ -309,23 +286,11 @@
 				<anchored to="constitution" />
 				<static textres="CON" />
 			</label_npc_abilityscore>
-			<hn name="constitution_bonus" source="abilities.constitution.bonus" />
-			<string_npc_abilitymodtext name="constitution_modtext">
-				<anchored to="constitution" />
-			</string_npc_abilitymodtext>
-			<button_npcabilitycheck>
-				<anchored to="constitution" />
-				<target>constitution</target>
-			</button_npcabilitycheck>
-			<button_npcabilitysave>
-				<anchored to="constitution" />
-				<target>constitution</target>
-			</button_npcabilitysave>
 
 			<number_npc_abilityscore name="intelligence" source="abilities.intelligence.score">
 				<anchored merge="replace" to="strength" width="40" height="30">
 					<top />
-					<left anchor="right" relation="relative" offset="30" />
+					<left anchor="right" relation="relative" offset="10" />
 				</anchored>
 				<target>intelligence</target>
 			</number_npc_abilityscore>
@@ -333,23 +298,11 @@
 				<anchored to="intelligence" />
 				<static textres="INT" />
 			</label_npc_abilityscore>
-			<hn name="intelligence_bonus" source="abilities.intelligence.bonus" />
-			<string_npc_abilitymodtext name="intelligence_modtext">
-				<anchored to="intelligence" />
-			</string_npc_abilitymodtext>
-			<button_npcabilitycheck>
-				<anchored to="intelligence" />
-				<target>intelligence</target>
-			</button_npcabilitycheck>
-			<button_npcabilitysave>
-				<anchored to="intelligence" />
-				<target>intelligence</target>
-			</button_npcabilitysave>
 
 			<number_npc_abilityscore name="wisdom" source="abilities.wisdom.score">
 				<anchored merge="replace" to="strength" width="40" height="30">
 					<top />
-					<left anchor="right" relation="relative" offset="30" />
+					<left anchor="right" relation="relative" offset="10" />
 				</anchored>
 				<target>wisdom</target>
 			</number_npc_abilityscore>
@@ -357,23 +310,11 @@
 				<anchored to="wisdom" />
 				<static textres="WIS" />
 			</label_npc_abilityscore>
-			<hn name="wisdom_bonus" source="abilities.wisdom.bonus" />
-			<string_npc_abilitymodtext name="wisdom_modtext">
-				<anchored to="wisdom" />
-			</string_npc_abilitymodtext>
-			<button_npcabilitycheck>
-				<anchored to="wisdom" />
-				<target>wisdom</target>
-			</button_npcabilitycheck>
-			<button_npcabilitysave>
-				<anchored to="wisdom" />
-				<target>wisdom</target>
-			</button_npcabilitysave>
 
 			<number_npc_abilityscore name="charisma" source="abilities.charisma.score">
 				<anchored merge="replace" to="strength" width="40" height="30">
 					<top />
-					<left anchor="right" relation="relative" offset="30" />
+					<left anchor="right" relation="relative" offset="10" />
 				</anchored>
 				<target>charisma</target>
 			</number_npc_abilityscore>
@@ -381,19 +322,151 @@
 				<anchored to="charisma" />
 				<static textres="CHA" />
 			</label_npc_abilityscore>
-			<hn name="charisma_bonus" source="abilities.charisma.bonus" />
-			<string_npc_abilitymodtext name="charisma_modtext">
-				<anchored to="charisma" />
-			</string_npc_abilitymodtext>
-			<button_npcabilitycheck>
-				<anchored to="charisma" />
-				<target>charisma</target>
-			</button_npcabilitycheck>
-			<button_npcabilitysave>
-				<anchored to="charisma" />
-				<target>charisma</target>
-			</button_npcabilitysave>
 			
+
+			<line_column />
+            <!-- saves -->
+			<number_npc_savescore name="paralyzation" source="saves.paralyzation.score">
+				<anchored merge="replace" width="30" height="30">
+					<top parent="columnanchor" anchor="bottom" relation="relative" offset="12" />
+					<left anchor="center" offset="-202" />
+				</anchored>
+				<tooltip textres="save_paralyzation_full" />
+				<target>paralyzation</target>
+			</number_npc_savescore>
+			<label_npc_savescore name="paralyzation_label">
+   				<tooltip textres="save_paralyzation_full" />
+				<static text="Para" />
+				<anchored to="paralyzation"  />
+			</label_npc_savescore>
+            
+			<number_npc_savescore name="poison" source="saves.poison.score">
+				<anchored merge="replace" to="paralyzation" width="30" height="30">
+					<top />
+					<left anchor="right" relation="relative" offset="10" />
+				</anchored>
+				<tooltip textres="save_poison_full" />
+				<target>poison</target>
+			</number_npc_savescore>
+			<label_npc_savescore name="poison_label">
+   				<tooltip textres="save_poison_full" />
+				<static text="Poison" />
+				<anchored to="poison"  />
+			</label_npc_savescore>
+            
+			<number_npc_savescore name="death" source="saves.death.score">
+				<anchored merge="replace" to="poison" width="30" height="30">
+					<top />
+					<left anchor="right" relation="relative" offset="10" />
+				</anchored>
+				<tooltip textres="save_death_full" />
+				<target>death</target>
+			</number_npc_savescore>
+			<label_npc_savescore name="death_label">
+   				<tooltip textres="save_death_full" />
+				<static text="Death" />
+				<anchored to="death" />
+			</label_npc_savescore>
+            
+			<number_npc_savescore name="rod" source="saves.rod.score">
+				<anchored merge="replace" to="death" width="30" height="30">
+					<top />
+					<left anchor="right" relation="relative" offset="10" />
+				</anchored>
+				<tooltip textres="save_rod_full" />
+				<target>rod</target>
+			</number_npc_savescore>
+			<label_npc_savescore name="rod_label">
+   				<tooltip textres="save_rod_full" />
+				<static text="Rod" />
+				<anchored to="rod" />
+			</label_npc_savescore>
+
+
+			<number_npc_savescore name="staff" source="saves.staff.score">
+				<anchored merge="replace" to="rod" width="30" height="30">
+					<top />
+					<left anchor="right" relation="relative" offset="10" />
+				</anchored>
+				<tooltip textres="save_staff_full" />
+				<target>staff</target>
+			</number_npc_savescore>
+			<label_npc_savescore name="staff_label">
+   				<tooltip textres="save_staff_full" />
+				<static text="Staff" />
+				<anchored to="staff"  />
+			</label_npc_savescore>
+
+            <number_npc_savescore name="wand" source="saves.wand.score">
+				<anchored merge="replace" to="staff" width="30" height="30">
+					<top />
+					<left anchor="right" relation="relative" offset="10" />
+				</anchored>
+				<tooltip textres="save_wand_full" />
+				<target>wand</target>
+			</number_npc_savescore>
+			<label_npc_savescore name="wand_label">
+   				<tooltip textres="save_wand_full" />
+				<static text="Wand" />
+				<anchored to="wand" />
+			</label_npc_savescore>
+
+			<number_npc_savescore name="petrification" source="saves.petrification.score">
+				<anchored merge="replace" to="wand" width="30" height="30">
+					<top />
+					<left anchor="right" relation="relative" offset="10" />
+				</anchored>
+				<tooltip textres="save_petrification_full" />
+				<target>petrification</target>
+			</number_npc_savescore>
+			<label_npc_savescore name="petrification_label">
+   				<tooltip textres="save_petrification_full" />
+				<static text="Petrify" />
+				<anchored to="petrification" />
+			</label_npc_savescore>
+
+			<number_npc_savescore name="polymorph" source="saves.polymorph.score">
+				<anchored merge="replace" to="petrification" width="30" height="30">
+					<top />
+					<left anchor="right" relation="relative" offset="10" />
+				</anchored>
+				<tooltip textres="save_polymorph_full" />
+				<target>polymorph</target>
+			</number_npc_savescore>
+			<label_npc_savescore name="polymorph_label">
+   				<tooltip textres="save_polymorph_full" />
+				<static text="Poly" />
+				<anchored to="polymorph"  />
+			</label_npc_savescore>
+
+			<number_npc_savescore name="breath" source="saves.breath.score">
+				<anchored merge="replace" to="polymorph" width="30" height="30">
+					<top />
+					<left anchor="right" relation="relative" offset="10" />
+				</anchored>
+				<tooltip textres="save_breath_full" />
+				<target>breath</target>
+			</number_npc_savescore>
+			<label_npc_savescore name="breath_label">
+   				<tooltip textres="save_breath_full" />
+				<static text="Breath" />
+				<anchored to="breath"  />
+			</label_npc_savescore>
+
+			<number_npc_savescore name="spell" source="saves.spell.score">
+				<anchored merge="replace" to="breath" width="30" height="30">
+					<top />
+					<left anchor="right" relation="relative" offset="10" />
+				</anchored>
+				<tooltip textres="save_spell_full" />
+				<target>spell</target>
+			</number_npc_savescore>
+			<label_npc_savescore name="spell_label">
+   				<tooltip textres="save_spell_full" />
+				<static text="Spell" />
+				<anchored to="spell"  />
+			</label_npc_savescore>
+            
 			<line_column>
 				<anchored>
 					<top parent="columnanchor" anchor="bottom" relation="relative" offset="12" />

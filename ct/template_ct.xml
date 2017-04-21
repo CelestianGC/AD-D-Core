@@ -339,24 +339,7 @@
             <anchored width="30" height="20"/>
             <default>-1</default>
 			<rollable />
-			<script>
-				function action(draginfo)
-                    local nTargetDC = 20;
-                    local rActor = ActorManager.getActor("", window.getDatabaseNode());
-                    local sActorType, nodeActor = ActorManager.getTypeAndNode(rActor);
-                    nTargetDC = DB.getValue(nodeActor, "saves." .. self.target[1] .. ".score", 0);
-					ActionSave.performRoll(draginfo, rActor, self.target[1],nTargetDC);
-					return true;
-				end
-				
-				function onDragStart(button, x, y, draginfo)
-					return action(draginfo);
-				end
-					
-				function onDoubleClick(x,y)
-					return action();
-				end
-			</script>
+			<script file="campaign/scripts/number_savescore.lua" />
 		</number_ct>
 	</template>
     

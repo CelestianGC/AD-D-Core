@@ -4,6 +4,16 @@
 --
 
 function onInit()
+
+    local nodeNPC = getDatabaseNode();
+    local nCount = DB.getChildCount(nodeNPC, "saves");
+    local nPoison = DB.getValue(nodeNPC, "saves.poison.score",0);
+    -- if set to default -20, then we build the saves from 
+    -- creatures HDice
+    if nPoison == -20 then
+        CombatManager2.updateNPCSaves(nodeNPC, nodeNPC, true);
+    end
+
 	onSummaryChanged();
 	update();
 end

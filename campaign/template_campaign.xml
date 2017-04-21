@@ -114,7 +114,9 @@
 		<label_abilityscore />
 	</template>
 	<template name="number_npc_abilityscore">
-		<number_abilityscore />
+		<number_abilityscore>
+			<rollable />
+		</number_abilityscore>
 	</template>
 	<template name="string_npc_abilitymodtext">
 		<string_abilitymodtext />
@@ -139,20 +141,23 @@
 			<state frame="abilityscore" text="C" font="" />
 			<script>
 				function action(draginfo)
+                    local node = window.getDatabaseNode();
 					local rActor = ActorManager.getActor("", window.getDatabaseNode());
-					ActionCheck.performRoll(draginfo, rActor, self.target[1]);
-					return true;
-				end
+                    local sActorType, nodeActor = ActorManager.getTypeAndNode(rActor);
 
-				function onDragStart(button, x, y, draginfo)
-					action(draginfo);
+                    local nTargetDC = DB.getValue(nodeActor, "abilities.".. self.target[1] .. ".score", 0);
+                    ActionCheck.performRoll(draginfo, rActor, self.target[1], nTargetDC, CombatManager.isCTHidden(node));
 					return true;
 				end
 				
-				function onButtonPress()
-					action();
-					return true;
+				function onDragStart(button, x, y, draginfo)
+					return action(draginfo);
 				end
+
+				function onDoubleClick(x,y)
+					return action();
+				end
+
 			</script>
 		</buttoncontrol>
 	</template>
@@ -267,4 +272,28 @@
 			</anchored>
 		</subwindow>
 	</template>
+
+	<template name="label_savescore_npc">
+		<label_fieldtop>
+			<anchored position="insidetopright" offset="-2,-6" width="35" />
+            <font>arial-regular-7</font>
+			<!-- <anchored offset="-2,-6" width="35"/> -->
+			<frame name="abilityscore" />
+		</label_fieldtop>
+	</template>
+	<template name="number_savescore">
+		<basicnumber>
+			<rollable />
+			<default>-20</default>
+			<script file="campaign/scripts/number_savescore.lua" />
+		</basicnumber>
+	</template>
+	<template name="label_npc_savescore">
+		<label_savescore_npc />
+	</template>
+	<template name="number_npc_savescore">
+		<number_savescore />
+	</template>
+    
+    
 </root>
