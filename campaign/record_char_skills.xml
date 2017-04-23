@@ -246,7 +246,9 @@
 			<string_column name="name">
                 <script>
                         function onInit()
-                            window.stat.updateVisibility();
+                            local node = getDatabaseNode();
+                            local nodeSkill = node.getChild("..");
+                            window.stat.updateVisibility(nodeSkill);
                         end
                 </script>
             </string_column>
@@ -260,10 +262,12 @@
                     function onValueChanged()
                         updateVisibility();
                     end
-                    function updateVisibility()
+                    function updateVisibility(nodeSkill)
                         local bVisible = false;
-
-                        if window.stat.getValue() == "%" then
+ 
+                        if (nodeSkill) then 
+                            bVisible = (DB.getValue(nodeSkill,"stat","Strength"):lower() == "percent");
+                        elseif window.stat.getValue() == "%" then
                             bVisible = true;
                         end
 

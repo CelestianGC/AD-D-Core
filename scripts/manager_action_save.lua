@@ -12,42 +12,6 @@ function setNPCSave(nodeEntry, sSave, nodeNPC)
     
     --Debug.console("manager_action_save.lua", "setNPCSave", sSave);
 
-    -- -- this index points to the location of this save
-    -- -- in the aFighterSaves in setNPCSave
-    -- local saves_fighter_index = {
-        -- ["poison"] = 1,
-        -- ["paralyzation"] = 1,
-        -- ["death"] = 1,
-        -- ["rod"] = 2,
-        -- ["staff"] = 2,
-        -- ["wand"] = 2,
-        -- ["petrification"] = 3,
-        -- ["polymorph"] = 3,
-        -- ["breath"] = 4,
-        -- ["spell"] = 5
-    -- };
-    
-    -- local aFighterSaves = {};
-        -- -- Death, Rod, Poly, Breath, Spell
-        -- aFighterSaves[0]  = {16,18,17,20,19};
-        -- aFighterSaves[1]  = {15,16,15,17,17};
-        -- aFighterSaves[2]  = {15,16,15,17,17};
-        -- aFighterSaves[3]  = {13,15,14,16,16};
-        -- aFighterSaves[4]  = {13,15,14,16,16};
-        -- aFighterSaves[5]  = {11,13,12,13,14};
-        -- aFighterSaves[6]  = {11,13,12,13,14};
-        -- aFighterSaves[7]  = {10,12,11,12,13};
-        -- aFighterSaves[8]  = {10,12,11,12,13};
-        -- aFighterSaves[9]  = {8,10,9,9,11};
-        -- aFighterSaves[10] = {8,10,9,9,11};
-        -- aFighterSaves[11] = {7,9,8,8,10};
-        -- aFighterSaves[12] = {7,9,8,8,10};
-        -- aFighterSaves[13] = {5,7,6,5,8};
-        -- aFighterSaves[14] = {5,7,6,5,8};
-        -- aFighterSaves[15] = {4,6,5,4,7};
-        -- aFighterSaves[16] = {4,6,5,4,7};
-        -- aFighterSaves[17] = {3,5,4,4,6};
-        
     local nSaveIndex = DataCommonADND.saves_table_index[sSave];
 
     --Debug.console("manager_action_save.lua", "setNPCSave", "DataCommonADND.saves_table_index[sSave]", DataCommonADND.saves_table_index[sSave]);
@@ -282,6 +246,10 @@ function modSave(rSource, rTarget, rRoll)
 	end
 	
 	ActionsManager2.encodeDesktopMods(rRoll);
+
+    -- don't use advantage/disadvantage in AD&D --celestian
+    bADV = false;
+    bDIS = false;
 	ActionsManager2.encodeAdvantage(rRoll, bADV, bDIS);
 	
 	if bAutoFail then
