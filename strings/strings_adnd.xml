@@ -238,7 +238,7 @@
 	<string name="weapon_header_prof">Proficiencies Applied</string>
 	<string name="weapon_label_profdefault">Not-Proficient</string>
 	<string name="weapon_label_profname">PROF</string>
-	<string name="weapon_label_hitadj">TOHIT</string>
+	<string name="weapon_label_hitadj">HIT</string>
 	<string name="weapon_label_hitadj_tooltip">To hit adjustment applied.</string>
 	<string name="weapon_label_dmgadj">DMG</string>
 	<string name="weapon_label_dmgadj_tooltip">Damage adjustment applied.</string>

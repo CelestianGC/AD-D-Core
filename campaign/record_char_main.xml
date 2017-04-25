@@ -761,9 +761,12 @@
 				</anchored>
 				<frame name="acicon" offset="2,0,2,4" />
 			</number_chartotalac_defaults>
-			<button_armorprof name="armorprof" source="defenses.ac.prof">
+			<!-- hidden, not used in AD&D -->
+            <button_armorprof name="armorprof" source="defenses.ac.prof">
+                <invisible />
 				<anchored to="ac2" />
 			</button_armorprof>
+            
 			<label_charfieldtop>
 				<anchored to="ac2" offset="0,10" />
 				<static textres="ac" />

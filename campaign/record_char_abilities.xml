@@ -187,31 +187,35 @@
             
 			<number_adjustment name="dmgadj">
 				<anchored to="rightanchor">
-					<top />
-					<right anchor="left" relation="relative" offset="-15" />
+					<top offset="3" />
+					<right anchor="left" relation="relative" offset="-10" />
 				</anchored>
 				<tabtarget next="name" prev="hitadj" />
+				<tooltip textres="weapon_label_dmgadj_tooltip" />
 			</number_adjustment>
 			<label name="label_dmgadj">
                 <static textres="weapon_label_dmgadj"/>
+				<tooltip textres="weapon_label_dmgadj_tooltip" />
 				<anchored to="rightanchor">
 					<top />
-					<right anchor="left" relation="relative" offset="-7" />
+					<right anchor="left" relation="relative" offset="-10" />
 				</anchored>
 			</label>
 
 			<number_adjustment name="hitadj">
 				<anchored to="rightanchor">
-					<top />
-					<right anchor="left" relation="relative" offset="-15" />
+					<top offset="3" />
+					<right anchor="left" relation="relative" offset="-10" />
 				</anchored>
 				<tabtarget next="dmgadj" prev="name" />
+				<tooltip textres="weapon_label_hitadj_tooltip" />
 			</number_adjustment>
 			<label name="label_hitadj">
                 <static textres="weapon_label_hitadj"/>
+				<tooltip textres="weapon_label_hitadj_tooltip" />
 				<anchored to="rightanchor">
 					<top />
-					<right anchor="left" relation="relative" offset="-5" />
+					<right anchor="left" relation="relative" offset="-10" />
 				</anchored>
 			</label>
 
