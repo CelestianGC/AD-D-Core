@@ -366,7 +366,7 @@ function addNPC(sClass, nodeNPC, sName)
 
 	-- Roll initiative and sort
 	local sOptINIT = OptionsManager.getOption("INIT");
-    local nInitiativeRoll = math.random(DataCommon.nDefaultInitiativeDice) + DB.getValue(nodeEntry, "init", 0);
+    local nInitiativeRoll = math.random(DataCommonADND.nDefaultInitiativeDice) + DB.getValue(nodeEntry, "init", 0);
 	if sOptINIT == "group" then
 		if nodeLastMatch then
 			local nLastInit = DB.getValue(nodeLastMatch, "initresult", 0);
@@ -603,9 +603,9 @@ function rest(bLong)
 end
 
 function rollRandomInit(nMod, bADV)
-	local nInitResult = math.random(DataCommon.nDefaultInitiativeDice);
+	local nInitResult = math.random(DataCommonADND.nDefaultInitiativeDice);
 	if bADV then
-		nInitResult = math.max(nInitResult, math.random(DataCommon.nDefaultInitiativeDice));
+		nInitResult = math.max(nInitResult, math.random(DataCommonADND.nDefaultInitiativeDice));
 	end
 	nInitResult = nInitResult + nMod;
 	return nInitResult;
