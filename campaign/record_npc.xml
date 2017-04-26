@@ -532,22 +532,6 @@
 				<anchored to="cr" />
 			</number_column_right>
 			
-			<header_column name="header_traits">
-				<static textres="npc_header_traits"/>
-			</header_column>
-			<button_iedit name="traits_iedit">
-				<anchored to="header_traits" position="righthigh" offset="-20,0" />
-				<target>traits</target>
-			</button_iedit>
-			<button_iadd name="traits_iadd">
-				<anchored to="traits_iedit" position="lefthigh" offset="5,0" />
-				<target>traits</target>
-			</button_iadd>
-			<list_npcactions name="traits">
-				<datasource>.traits</datasource>
-				<class>npc_power</class>
-			</list_npcactions>
-			
 			<header_column name="header_actions">
 				<static textres="npc_header_actions" />
 			</header_column>
@@ -561,6 +545,22 @@
 			</button_iadd>
 			<list_npcactions name="actions">
 				<datasource>.actions</datasource>
+				<class>npc_power</class>
+			</list_npcactions>
+
+			<header_column name="header_traits">
+				<static textres="npc_header_traits"/>
+			</header_column>
+			<button_iedit name="traits_iedit">
+				<anchored to="header_traits" position="righthigh" offset="-20,0" />
+				<target>traits</target>
+			</button_iedit>
+			<button_iadd name="traits_iadd">
+				<anchored to="traits_iedit" position="lefthigh" offset="5,0" />
+				<target>traits</target>
+			</button_iadd>
+			<list_npcactions name="traits">
+				<datasource>.traits</datasource>
 				<class>npc_power</class>
 			</list_npcactions>
 
