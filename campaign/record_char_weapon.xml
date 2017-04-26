@@ -241,10 +241,10 @@
 	<windowclass name="char_weapon_editor">
 		<frame>charsheethelper</frame>
 		<placement>
-			<size width="350" height="350" />
+			<size width="350" height="400" />
 		</placement>
 		<sizelimits>
-			<minimum width="350" height="350" />
+			<minimum width="350" height="400" />
 			<dynamic />
 		</sizelimits>
 		<nodelete />
@@ -400,18 +400,20 @@
 			</list_editor_grouped>
 			
 			<label_fieldtop>
-				<anchored to="prof_list" position="aboveleft" offset="5,1" width="200" />
-				<static textres="weapon_label_profname" />
-			</label_fieldtop>
-			<label_fieldtop>
-				<anchored to="prof_list" position="aboveleft" offset="224,1" width="30" />
+				<anchored to="prof_list" position="aboveleft" offset="9,1" width="30" />
 				<tooltip textres="weapon_label_hitadj_tooltip" />
 				<static textres="weapon_label_hitadj" />
 			</label_fieldtop>
 			<label_fieldtop>
-				<anchored to="prof_list" position="aboveleft" offset="283,1" width="35" />
+				<anchored to="prof_list" position="aboveleft" offset="65,1" width="35" />
 				<tooltip textres="weapon_label_dmgadj_tooltip" />
 				<static textres="weapon_label_dmgadj" />
+			</label_fieldtop>
+			<label_fieldtop>
+				<anchored to="prof_list" position="aboveright" offset="5,1">
+					<left offset="100" />
+				</anchored>
+				<static textres="weapon_label_profname" />
 			</label_fieldtop>
             
             
@@ -489,19 +491,10 @@
 				</anchored>
 			</button_idelete>
 
-			<combobox name="profselected">
-				<listdirection>down</listdirection>
-				<anchored position="insidetopleft" offset="5,2" width="200" height="20" />
-				<!-- <default textres="weapon_label_profdefault" /> -->
-				<script file="campaign/scripts/prof_select.lua"/>
-			</combobox>
-			<label name="label_plus">
-				<anchored to="profselected" position="righthigh" offset="5,0" width="10" />
-				<static>+</static>
-			</label>
 			<number_adjustment name="hitadj">
                 <readonly />
-				<anchored to="label_plus" position="righthigh" offset="2,0" width="35" height="20" />
+				<!-- <anchored to="label_plus" position="righthigh" offset="2,0" width="35" height="20" /> -->
+                <anchored position="insidetopleft" offset="5,2" width="35" height="20" />
 			</number_adjustment>
 			<label name="label_plus2">
 				<anchored to="hitadj" position="righthigh" offset="10,0" width="15" />
@@ -511,6 +504,19 @@
                 <readonly />
 				<anchored to="label_plus2" position="righthigh" offset="2,0" width="35" height="20" />
 			</number_adjustment>
+
+			<combobox name="profselected">
+				<listdirection>down</listdirection>
+				<anchored to="dmgadj" position="righthigh" offset="10,0" height="20">
+					<right parent="rightanchor" anchor="left" relation="relative" offset="-5" />
+				</anchored>
+
+				<!-- <anchored position="insidetopleft" offset="5,2" width="200" height="20" /> -->
+				<!-- <default textres="weapon_label_profdefault" /> -->
+				<script file="campaign/scripts/prof_select.lua"/>
+			</combobox>
+            
+            
 
         </sheetdata>
 	</windowclass>
