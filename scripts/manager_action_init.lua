@@ -39,7 +39,7 @@ end
 function getRoll(rActor, bSecretRoll, rItem)
 	local rRoll = {};
 	rRoll.sType = "init";
-	rRoll.aDice = { "d10" };
+	rRoll.aDice = { "d" .. DataCommonADND.nDefaultInitiativeDice };
 	rRoll.nMod = 0;
 	
 	rRoll.sDesc = "[INIT]";
