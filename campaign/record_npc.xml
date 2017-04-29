@@ -130,7 +130,15 @@
 			<label_column name="hitdice_label">
 				<static textres="npc_label_hitdice" />
 			</label_column>
-			<string_column_left name="hitDice" />
+			<string_column_left name="hitDice" >
+                <script>
+                    function onValueChanged()
+                        local node = getDatabaseNode();
+                        local nodeNPC = node.getChild("..");
+                        CombatManager2.updateNPCSaves(nodeNPC, nodeNPC, true);
+                    end
+                </script>
+            </string_column_left>
 			<string_column_npc_remainder name="hdtext" >
 				<anchored to="hitDice" />
 			</string_column_npc_remainder>

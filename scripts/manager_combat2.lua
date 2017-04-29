@@ -210,11 +210,12 @@ end
 -- Set NPC Saves -msw
 -- move to manager_action_save.lua?
 function updateNPCSaves(nodeEntry, nodeNPC, bForceUpdate)
+--    Debug.console("manager_combat2.lua","updateNPCSaves","nodeNPC",nodeNPC);
     if  (bForceUpdate) or (DB.getChildCount(nodeNPC, "saves") <= 0) then
         for i=1,10,1 do
             local sSave = DataCommon.saves[i];
             local nSave = DB.getValue(nodeNPC, "saves." .. sSave .. ".score", -1);
-            if (nSave <= 0) then
+            if (nSave <= 0 or bForceUpdate) then
                 ActionSave.setNPCSave(nodeEntry, sSave, nodeNPC)
             end
         end
