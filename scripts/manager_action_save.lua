@@ -3,7 +3,9 @@
 -- attribution and copyright information.
 --
 
+OOB_MSGTYPE_APPLYSAVE = "applysave";
 function onInit()
+	OOBManager.registerOOBMsgHandler(OOB_MSGTYPE_APPLYSAVE, handleApplySave);
 	ActionsManager.registerModHandler("save", modSave);
 	ActionsManager.registerResultHandler("save", onSave);
 end
@@ -44,6 +46,64 @@ function setNPCSave(nodeEntry, sSave, nodeNPC)
     return nSaveScore;
 end
 
+function handleApplySave(msgOOB)
+    --Debug.console("manager_action_Save.lua","handleApplySave","msgOOB",msgOOB);
+	local rSource = ActorManager.getActor(msgOOB.sSourceType, msgOOB.sSourceNode);
+	local rOrigin = ActorManager.getActor(msgOOB.sTargetType, msgOOB.sTargetNode);
+	
+	local rAction = {};
+	rAction.bSecret = (tonumber(msgOOB.nSecret) == 1);
+	rAction.sDesc = msgOOB.sDesc;
+	rAction.nTotal = tonumber(msgOOB.nTotal) or 0;
+	rAction.sSaveDesc = msgOOB.sSaveDesc;
+	rAction.nTarget = tonumber(msgOOB.nTarget) or 0;
+--	rAction.nTarget = tonumber(msgOOB.nDC) or 0;
+	rAction.sResult = msgOOB.sResult;
+	rAction.bRemoveOnMiss = (tonumber(msgOOB.nRemoveOnMiss) == 1);
+	
+--    Debug.console("manager_action_Save.lua","handleApplySave","rSource",rSource);
+--    Debug.console("manager_action_Save.lua","handleApplySave","rOrigin",rOrigin);
+--    Debug.console("manager_action_Save.lua","handleApplySave","rAction",rAction);
+	applySave(rSource, rOrigin, rAction);
+end
+
+function notifyApplySave(rSource, bSecret, rRoll)
+--    Debug.console("manager_action_Save.lua","notifyApplySave","rSource",rSource);
+--    Debug.console("manager_action_Save.lua","notifyApplySave","bSecret",bSecret);
+--    Debug.console("manager_action_Save.lua","notifyApplySave","rRoll",rRoll);
+	local msgOOB = {};
+	msgOOB.type = OOB_MSGTYPE_APPLYSAVE;
+	
+	if bSecret then
+		msgOOB.nSecret = 1;
+	else
+		msgOOB.nSecret = 0;
+	end
+	msgOOB.sDesc = rRoll.sDesc;
+	msgOOB.nTotal = ActionsManager.total(rRoll);
+	msgOOB.sSaveDesc = rRoll.sSaveDesc;
+	msgOOB.nTarget = rRoll.nTarget;
+	msgOOB.sResult = rRoll.sResult;
+	if rRoll.bRemoveOnMiss then msgOOB.nRemoveOnMiss = 1; end
+
+	local sSourceType, sSourceNode = ActorManager.getTypeAndNodeName(rSource);
+	msgOOB.sSourceType = sSourceType;
+	msgOOB.sSourceNode = sSourceNode;
+
+	if rRoll.sSource ~= "" then
+		msgOOB.sTargetType = "ct";
+		msgOOB.sTargetNode = rRoll.sSource;
+	else
+		msgOOB.sTargetType = "";
+		msgOOB.sTargetNode = "";
+	end
+
+--    Debug.console("manager_action_Save.lua","notifyApplySave2","rSource",rSource);
+--    Debug.console("manager_action_Save.lua","notifyApplySave2","bSecret",bSecret);
+--    Debug.console("manager_action_Save.lua","notifyApplySave2","rRoll",rRoll);
+--    Debug.console("manager_action_Save.lua","notifyApplySave2","msgOOB",msgOOB);
+	Comm.deliverOOBMessage(msgOOB, "");
+end
 
 function performRoll(draginfo, rActor, sSave, nTargetDC, bSecretRoll, rSource, bRemoveOnMiss, sSaveDesc)
     local rRoll = {};
@@ -52,6 +112,13 @@ function performRoll(draginfo, rActor, sSave, nTargetDC, bSecretRoll, rSource, b
 	local nMod, bADV, bDIS, sAddText = ActorManager2.getSave(rActor, sSave);
 	rRoll.nMod = nMod;
 	
+    -- Debug.console("manager_action_Save.lua","performRoll","draginfo",draginfo);
+    -- Debug.console("manager_action_Save.lua","performRoll","rActor",rActor);
+    -- Debug.console("manager_action_Save.lua","performRoll","sSave",sSave);
+    -- Debug.console("manager_action_Save.lua","performRoll","nTargetDC",nTargetDC);
+    -- Debug.console("manager_action_Save.lua","performRoll","bSecretRoll",bSecretRoll);
+    -- Debug.console("manager_action_Save.lua","performRoll","rSource",rSource);
+    -- Debug.console("manager_action_Save.lua","performRoll","bRemoveOnMiss",bRemoveOnMiss);
 
 	-- sPrettySaveText = aSave[string.lower(sSave)];
     local sPrettySaveText = DataCommon.saves_stol[sSave];
@@ -85,6 +152,9 @@ function performRoll(draginfo, rActor, sSave, nTargetDC, bSecretRoll, rSource, b
 end
 
 function modSave(rSource, rTarget, rRoll)
+    -- Debug.console("manager_action_Save.lua","modSave","rSource",rSource);
+    -- Debug.console("manager_action_Save.lua","modSave","rTarget",rTarget);
+    -- Debug.console("manager_action_Save.lua","modSave","rRoll",rRoll);
 	local bAutoFail = false;
 
 	local sSave = string.match(rRoll.sDesc, "%[SAVE%] (%w+)");
@@ -257,106 +327,226 @@ function modSave(rSource, rTarget, rRoll)
 	end
 end
 
+-- function onSave(rSource, rTarget, rRoll)
+	-- ActionsManager2.decodeAdvantage(rRoll);
+
+	-- local rMessage = ActionsManager.createActionMessage(rSource, rRoll);
+
+	-- local bAutoFail = string.match(rRoll.sDesc, "%[AUTOFAIL%]");
+	-- if not bAutoFail and rRoll.nTarget then
+    -- --
+		-- local nTotal = ActionsManager.total(rRoll);
+		-- local nTargetDC = tonumber(rRoll.nTarget) or 0;
+		
+		-- rMessage.text = rMessage.text .. " (Target " .. nTargetDC .. ")";
+		-- if nTotal >= nTargetDC then
+			-- rMessage.text = rMessage.text .. " [SUCCESS]";
+
+			-- if rSource and rRoll.sSource then
+				-- if rRoll.sSaveDesc then
+					-- local sAttack = string.match(rRoll.sSaveDesc, "%[SAVE VS[^]]*%] ([^[]+)");
+					-- if sAttack then
+						-- local rRollSource = ActorManager.getActor("ct", rRoll.sSource);
+						-- local bHalfMatch = rRoll.sSaveDesc:match("%[HALF ON SAVE%]");
+						
+						-- local bHalfDamage = false;
+						-- local bAvoidDamage = false;
+						-- if bHalfMatch then
+							-- bHalfDamage = true;
+						-- end
+						-- if bHalfDamage then
+							-- if EffectManager.hasEffectCondition(rSource, "Avoidance") then
+								-- bAvoidDamage = true;
+								-- rMessage.text = rMessage.text .. " [AVOIDANCE]";
+							-- elseif EffectManager.hasEffectCondition(rSource, "Evasion") then
+								-- local sSave = string.match(rRoll.sDesc, "%[SAVE%] (%w+)");
+								-- if sSave then
+									-- sSave = sSave:lower();
+								-- end
+								-- if sSave == "dexterity" then
+									-- bAvoidDamage = true;
+									-- rMessage.text = rMessage.text .. " [EVASION]";
+								-- end
+							-- end
+						-- end
+						
+						-- if bAvoidDamage then
+							-- ActionDamage.setDamageState(rRollSource, rSource, StringManager.trim(sAttack), "none");
+							-- rRoll.bRemoveOnMiss = false;
+						-- elseif bHalfDamage then
+							-- ActionDamage.setDamageState(rRollSource, rSource, StringManager.trim(sAttack), "half");
+							-- rRoll.bRemoveOnMiss = false;
+						-- else
+							-- ActionDamage.setDamageState(rRollSource, rSource, StringManager.trim(sAttack), "");
+						-- end
+					-- end
+				-- end
+			
+				-- local bRemoveTarget = false;
+				-- if OptionsManager.isOption("RMMT", "on") then
+					-- bRemoveTarget = true;
+				-- elseif rRoll.bRemoveOnMiss then
+					-- bRemoveTarget = true;
+				-- end
+				
+				-- if bRemoveTarget then
+					-- TargetingManager.removeTarget(rRoll.sSource, ActorManager.getCTNodeName(rSource));
+				-- end
+			-- end
+		-- else
+			-- rMessage.text = rMessage.text .. " [FAILURE]";
+
+			-- if rRoll.sSaveDesc then
+				-- local sAttack = string.match(rRoll.sSaveDesc, "%[SAVE VS[^]]*%] ([^[]+)");
+				-- if sAttack then
+					-- local rRollSource = ActorManager.getActor("ct", rRoll.sSource);
+					-- local bHalfMatch = rRoll.sSaveDesc:match("%[HALF ON SAVE%]");
+					
+					-- local bHalfDamage = false;
+					-- if bHalfMatch then
+						-- if EffectManager.hasEffectCondition(rSource, "Avoidance") then
+							-- bHalfDamage = true;
+							-- rMessage.text = rMessage.text .. " [AVOIDANCE]";
+						-- elseif EffectManager.hasEffectCondition(rSource, "Evasion") then
+							-- local sSave = string.match(rRoll.sDesc, "%[SAVE%] (%w+)");
+							-- if sSave then
+								-- sSave = sSave:lower();
+							-- end
+							-- if sSave == "dexterity" then
+								-- bHalfDamage = true;
+								-- rMessage.text = rMessage.text .. " [EVASION]";
+							-- end
+						-- end
+					-- end
+					
+					-- if bHalfDamage then
+						-- ActionDamage.setDamageState(rRollSource, rSource, StringManager.trim(sAttack), "half");
+					-- else
+						-- ActionDamage.setDamageState(rRollSource, rSource, StringManager.trim(sAttack), "");
+					-- end
+				-- end
+			-- end
+		-- end
+	-- end
+
+	-- Comm.deliverChatMessage(rMessage);
+-- end
+
+-- this part of the new save method in the 5e ruleset, need to trace it and see if we need it.
 function onSave(rSource, rTarget, rRoll)
+    -- Debug.console("manager_action_Save.lua","onSave","rSource",rSource);
+    -- Debug.console("manager_action_Save.lua","onSave","rTarget",rTarget);
+    -- Debug.console("manager_action_Save.lua","onSave","rRoll",rRoll);
 	ActionsManager2.decodeAdvantage(rRoll);
 
 	local rMessage = ActionsManager.createActionMessage(rSource, rRoll);
+	Comm.deliverChatMessage(rMessage);
 
-	local bAutoFail = string.match(rRoll.sDesc, "%[AUTOFAIL%]");
+	local bAutoFail = rRoll.sDesc:match("%[AUTOFAIL%]");
 	if not bAutoFail and rRoll.nTarget then
-		local nTotal = ActionsManager.total(rRoll);
-		local nTargetDC = tonumber(rRoll.nTarget) or 0;
-		
-		rMessage.text = rMessage.text .. " (Target " .. nTargetDC .. ")";
-		if nTotal >= nTargetDC then
-			rMessage.text = rMessage.text .. " [SUCCESS]";
+		notifyApplySave(rSource, rMessage.secret, rRoll);
+	end
+end
 
-			if rSource and rRoll.sSource then
-				if rRoll.sSaveDesc then
-					local sAttack = string.match(rRoll.sSaveDesc, "%[SAVE VS[^]]*%] ([^[]+)");
-					if sAttack then
-						local rRollSource = ActorManager.getActor("ct", rRoll.sSource);
-						local bHalfMatch = rRoll.sSaveDesc:match("%[HALF ON SAVE%]");
-						
-						local bHalfDamage = false;
-						local bAvoidDamage = false;
-						if bHalfMatch then
-							bHalfDamage = true;
-						end
-						if bHalfDamage then
-							if EffectManager.hasEffectCondition(rSource, "Avoidance") then
-								bAvoidDamage = true;
-								rMessage.text = rMessage.text .. " [AVOIDANCE]";
-							elseif EffectManager.hasEffectCondition(rSource, "Evasion") then
-								local sSave = string.match(rRoll.sDesc, "%[SAVE%] (%w+)");
-								if sSave then
-									sSave = sSave:lower();
-								end
-								if sSave == "dexterity" then
-									bAvoidDamage = true;
-									rMessage.text = rMessage.text .. " [EVASION]";
-								end
-							end
-						end
-						
-						if bAvoidDamage then
-							ActionDamage.setDamageState(rRollSource, rSource, StringManager.trim(sAttack), "none");
-							rRoll.bRemoveOnMiss = false;
-						elseif bHalfDamage then
-							ActionDamage.setDamageState(rRollSource, rSource, StringManager.trim(sAttack), "half");
-							rRoll.bRemoveOnMiss = false;
-						else
-							ActionDamage.setDamageState(rRollSource, rSource, StringManager.trim(sAttack), "");
-						end
+-- this part of the new save method in the 5e ruleset, need to trace it and see if we need it.
+function applySave(rSource, rOrigin, rAction, sUser)
+    -- Debug.console("manager_action_Save.lua","applySave","rSource",rSource);
+    -- Debug.console("manager_action_Save.lua","applySave","rOrigin",rOrigin);
+    -- Debug.console("manager_action_Save.lua","applySave","rAction",rAction);
+    -- Debug.console("manager_action_Save.lua","applySave","sUser",sUser);
+	local msgShort = {font = "msgfont"};
+	local msgLong = {font = "msgfont"};
+	
+	msgShort.text = "Save";
+	msgLong.text = "Save [" .. rAction.nTotal ..  "]";
+	if rAction.nTarget > 0 then
+		msgLong.text = msgLong.text .. " [Target " .. rAction.nTarget .. "]";
+	end
+	msgShort.text = msgShort.text .. " ->";
+	msgLong.text = msgLong.text .. " ->";
+	if rSource then
+		msgShort.text = msgShort.text .. " [for " .. rSource.sName .. "]";
+		msgLong.text = msgLong.text .. " [for " .. rSource.sName .. "]";
+	end
+	if rOrigin then
+		msgShort.text = msgShort.text .. " [vs " .. rOrigin.sName .. "]";
+		msgLong.text = msgLong.text .. " [vs " .. rOrigin.sName .. "]";
+	end
+	
+	msgShort.icon = "roll_cast";
+		
+	local sAttack = "";
+	local bHalfMatch = false;
+	if rAction.sSaveDesc then
+		sAttack = rAction.sSaveDesc:match("%[SAVE VS[^]]*%] ([^[]+)") or "";
+		bHalfMatch = (rAction.sSaveDesc:match("%[HALF ON SAVE%]") ~= nil);
+	end
+	rAction.sResult = "";
+	
+	if rAction.nTotal >= rAction.nTarget then
+		msgLong.text = msgLong.text .. " [SUCCESS]";
+		
+		if rSource then
+			local bHalfDamage = bHalfMatch;
+			local bAvoidDamage = false;
+			if bHalfDamage then
+				if EffectManager.hasEffectCondition(rSource, "Avoidance") then
+					bAvoidDamage = true;
+					msgLong.text = msgLong.text .. " [AVOIDANCE]";
+				elseif EffectManager.hasEffectCondition(rSource, "Evasion") then
+					local sSave = rAction.sDesc:match("%[SAVE%] (%w+)");
+					if sSave then
+						sSave = sSave:lower();
 					end
-				end
-			
-				local bRemoveTarget = false;
-				if OptionsManager.isOption("RMMT", "on") then
-					bRemoveTarget = true;
-				elseif rRoll.bRemoveOnMiss then
-					bRemoveTarget = true;
-				end
-				
-				if bRemoveTarget then
-					TargetingManager.removeTarget(rRoll.sSource, ActorManager.getCTNodeName(rSource));
+					if sSave == "dexterity" then
+						bAvoidDamage = true;
+						msgLong.text = msgLong.text .. " [EVASION]";
+					end
 				end
 			end
-		else
-			rMessage.text = rMessage.text .. " [FAILURE]";
+			
+			if bAvoidDamage then
+				rAction.sResult = "none";
+				rAction.bRemoveOnMiss = false;
+			elseif bHalfDamage then
+				rAction.sResult = "half";
+				rAction.bRemoveOnMiss = false;
+			end
+			
+			if rOrigin and rAction.bRemoveOnMiss then
+				TargetingManager.removeTarget(ActorManager.getCTNodeName(rOrigin), ActorManager.getCTNodeName(rSource));
+			end
+		end
+	else
+		msgLong.text = msgLong.text .. " [FAILURE]";
 
-			if rRoll.sSaveDesc then
-				local sAttack = string.match(rRoll.sSaveDesc, "%[SAVE VS[^]]*%] ([^[]+)");
-				if sAttack then
-					local rRollSource = ActorManager.getActor("ct", rRoll.sSource);
-					local bHalfMatch = rRoll.sSaveDesc:match("%[HALF ON SAVE%]");
-					
-					local bHalfDamage = false;
-					if bHalfMatch then
-						if EffectManager.hasEffectCondition(rSource, "Avoidance") then
-							bHalfDamage = true;
-							rMessage.text = rMessage.text .. " [AVOIDANCE]";
-						elseif EffectManager.hasEffectCondition(rSource, "Evasion") then
-							local sSave = string.match(rRoll.sDesc, "%[SAVE%] (%w+)");
-							if sSave then
-								sSave = sSave:lower();
-							end
-							if sSave == "dexterity" then
-								bHalfDamage = true;
-								rMessage.text = rMessage.text .. " [EVASION]";
-							end
-						end
+		if rSource then
+			local bHalfDamage = false;
+			if bHalfMatch then
+				if EffectManager.hasEffectCondition(rSource, "Avoidance") then
+					bHalfDamage = true;
+					msgLong.text = msgLong.text .. " [AVOIDANCE]";
+				elseif EffectManager.hasEffectCondition(rSource, "Evasion") then
+					local sSave = rAction.sDesc:match("%[SAVE%] (%w+)");
+					if sSave then
+						sSave = sSave:lower();
 					end
-					
-					if bHalfDamage then
-						ActionDamage.setDamageState(rRollSource, rSource, StringManager.trim(sAttack), "half");
-					else
-						ActionDamage.setDamageState(rRollSource, rSource, StringManager.trim(sAttack), "");
+					if sSave == "dexterity" then
+						bHalfDamage = true;
+						msgLong.text = msgLong.text .. " [EVASION]";
 					end
 				end
+			end
+			
+			if bHalfDamage then
+				rAction.sResult = "half";
 			end
 		end
 	end
-
-	Comm.deliverChatMessage(rMessage);
+	
+	ActionsManager.messageResult(bSecret, rSource, rOrigin, msgLong, msgShort);
+	
+	if rSource and rOrigin then
+		ActionDamage.setDamageState(rOrigin, rSource, StringManager.trim(sAttack), rAction.sResult);
+	end
 end

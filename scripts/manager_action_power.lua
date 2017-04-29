@@ -3,10 +3,10 @@
 -- attribution and copyright information.
 --
 
-OOB_MSGTYPE_APPLYSAVE = "applysave";
+OOB_MSGTYPE_APPLYSAVEVS = "applysavevs";
 
 function onInit()
-	OOBManager.registerOOBMsgHandler(OOB_MSGTYPE_APPLYSAVE, handleApplySave);
+	OOBManager.registerOOBMsgHandler(OOB_MSGTYPE_APPLYSAVEVS, handleApplySave);
 
 	ActionsManager.registerTargetingHandler("cast", onPowerTargeting);
 	ActionsManager.registerTargetingHandler("powersave", onPowerTargeting);
@@ -20,6 +20,7 @@ function onInit()
 end
 
 function handleApplySave(msgOOB)
+    --Debug.console("manager_action_power.lua","handleApplySave","msgOOB",msgOOB);
 	local rSource = ActorManager.getActor(msgOOB.sSourceType, msgOOB.sSourceNode);
 	local rTarget = ActorManager.getActor(msgOOB.sTargetType, msgOOB.sTargetNode);
 	local sSaveType = msgOOB.sSaveType;
@@ -39,7 +40,7 @@ function notifyApplySave(rSource, rTarget, bSecret, sDesc, nDC, bRemoveOnMiss, s
 	end
 
 	local msgOOB = {};
-	msgOOB.type = OOB_MSGTYPE_APPLYSAVE;
+	msgOOB.type = OOB_MSGTYPE_APPLYSAVEVS;
 	
 	if bSecret then
 		msgOOB.nSecret = 1;
@@ -98,17 +99,23 @@ function notifyApplySave(rSource, rTarget, bSecret, sDesc, nDC, bRemoveOnMiss, s
 end
 
 function onPowerTargeting(rSource, aTargeting, rRolls)
-	if OptionsManager.isOption("RMMT", "multi") then
+	local bRemoveOnMiss = false;
+	local sOptRMMT = OptionsManager.getOption("RMMT");
+	if sOptRMMT == "on" then
+		bRemoveOnMiss = true;
+	elseif sOptRMMT == "multi" then
 		local aTargets = {};
 		for _,vTargetGroup in ipairs(aTargeting) do
 			for _,vTarget in ipairs(vTargetGroup) do
 				table.insert(aTargets, vTarget);
 			end
 		end
-		if #aTargets > 1 then
-			for _,vRoll in ipairs(rRolls) do
-				vRoll.bRemoveOnMiss = "true";
-			end
+		bRemoveOnMiss = (#aTargets > 1);
+	end
+	
+	if bRemoveOnMiss then
+		for _,vRoll in ipairs(rRolls) do
+			vRoll.bRemoveOnMiss = "true";
 		end
 	end
 	return aTargeting;
