@@ -47,6 +47,11 @@
 		<margins control="0,0,0,2" />
 		<script file="campaign/scripts/item_main.lua" />
 		<sheetdata>
+            <hs name="rateofattack" />
+            <hs name="range"/>
+            <hs name="reach" />
+            <hs name="knockdown" />
+                
 			<anchor_column name="columnanchor" />
 			
 			<label_column name="nonid_name_label">
