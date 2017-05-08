@@ -221,7 +221,7 @@ function addToArmorDB(nodeItem)
 	end
 end
 
--- calculate armor class and set? -msw
+-- calculate armor class and set? -celestian
 function calcItemArmorClass(nodeChar)
 	local nMainArmorBase = 10;
 	local nMainArmorTotal = 0;
@@ -234,7 +234,7 @@ function calcItemArmorClass(nodeChar)
 		if DB.getValue(vNode, "carried", 0) == 2 then
 			local bIsArmor, _, sSubtypeLower = ItemManager2.isArmor(vNode);
 			if bIsArmor then
-                -- no clue what bID is for yet -msw, need to look at getIDState
+                -- no clue what bID is for yet -celestian, need to look at getIDState
 				local bID = LibraryData.getIDState("item", vNode, true);
 				
                 -- we only want the "bonus" value for ring/cloaks/robes
@@ -308,7 +308,7 @@ function calcItemArmorClass(nodeChar)
 	if (nMainArmorTotal == 0) and (nMainShieldTotal == 0) and hasTrait(nodeChar, TRAIT_NATURAL_ARMOR) then
 		nMainArmorTotal = 3;
 	end
-    -- flip value for decending ac in nMainShieldTotal -msw
+    -- flip value for decending ac in nMainShieldTotal -celestian
     nMainShieldTotal = -(nMainShieldTotal);
     
 	DB.setValue(nodeChar, "defenses.ac.base", "number", nMainArmorBase);

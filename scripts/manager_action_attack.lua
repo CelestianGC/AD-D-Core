@@ -364,7 +364,7 @@ function modAttack(rSource, rTarget, rRoll)
 	end
 	rRoll.nMod = rRoll.nMod + nAddMod;
 	
-    -- to disable advantage/disadvantage ... not AD&D -msw
+    -- to disable advantage/disadvantage ... not AD&D -celestian
     bADV = false;
     bDIS = false;
 	ActionsManager2.encodeAdvantage(rRoll, bADV, bDIS);

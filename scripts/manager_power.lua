@@ -72,7 +72,7 @@ function resetPowers(nodeCaster, bLong)
 	-- end
 end
 
--- add spells dropped on to sheet -msw
+-- add spells dropped on to sheet -celestian
 function addPower(sClass, nodeSource, nodeCreature, sGroup)
 	-- Validate
 	if not nodeSource or not nodeCreature then
@@ -135,7 +135,7 @@ function addPower(sClass, nodeSource, nodeCreature, sGroup)
         bNeedsActions = true;
 	end
 	
-    -- add cast bar for spells with level and type -msw
+    -- add cast bar for spells with level and type -celestian
     -- also setup vars for castinitiative 
 	local nLevel = nodeNewPower.getChild("level").getValue();
 	local sSpellType = nodeNewPower.getChild("type").getValue():lower();
@@ -160,7 +160,7 @@ function addPower(sClass, nodeSource, nodeCreature, sGroup)
 	return nodeNewPower;
 end
 
--- parse the castingtime of a spell and turn into "init modifier" -msw
+-- parse the castingtime of a spell and turn into "init modifier" -celestian
 function getCastingTime(sCastingTime,nSpellLevel)
     local nCastTime = 1;
     local nCastBase = sCastingTime:match("(%d+)") or nSpellLevel;
@@ -319,7 +319,7 @@ function getPowerRoll(rActor, nodeAction, sSubRoll)
 end
 
 
--- check this -msw
+-- check this -celestian
 function onPowerAction(draginfo, nodeAction, sSubRoll)
 	if not nodeAction then
 		return;
@@ -329,7 +329,7 @@ function onPowerAction(draginfo, nodeAction, sSubRoll)
 		return;
 	end
 
-    -- capture this and increment spells used -msw
+    -- capture this and increment spells used -celestian
   	local sType = DB.getValue(nodeAction, "type", "");
     if sType == "cast" then 
         if not removeMemorizedSpell(draginfo,nodeAction) then 
@@ -541,7 +541,7 @@ end
 -------------------------
 -- POWER PARSING
 -------------------------
--- need to tweak this perhaps to deal with AD&D creatures descriptions? -msw
+-- need to tweak this perhaps to deal with AD&D creatures descriptions? -celestian
 function parseAttacks(sPowerName, aWords)
 	local attacks = {};
 	
@@ -1135,7 +1135,7 @@ function parseSaves(sPowerName, aWords, bPC)
 	local saves = {};
 	
 	for i = 1, #aWords do
-        -- AD&D style entries -msw
+        -- AD&D style entries -celestian
         -- "saving throw versus breath for half damage" ?
 		if StringManager.isWord(aWords[i], {"throw","throws"}) and
 				StringManager.isWord(aWords[i+1], {"versus", "vrs", "vrs.", "vr","vr.","v","v."}) and
@@ -1721,7 +1721,7 @@ function parseNPCPower(nodePower, bAllowSpellDataOverride)
 	return parsePower(sPowerName, sPowerDesc);
 end
 
--- review this to add in casttime/spell level? -msw
+-- review this to add in casttime/spell level? -celestian
 function parsePCPower(nodePower)
 	-- CLean out old actions
 	local nodeActions = nodePower.createChild("actions");

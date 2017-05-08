@@ -392,7 +392,7 @@
          doesn't work. It only works if you do defenses.*.name or defenses.*... no clue why. And if you do that then you have
          to disable the handler when you set the value because defenses.ac.total is in that and it'll cause a recursion error.
          What would be nice is if I could just set it for each type and exclude .total but it's not working
-         -msw
+         -celestian
     -->
 	<template name="number_chartotalac_defaults">
 		<basicnumber>

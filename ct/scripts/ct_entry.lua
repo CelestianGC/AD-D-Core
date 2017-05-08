@@ -110,7 +110,7 @@ function onLinkChanged()
 	end
 end
 
--- check here to add "RIP" token overlay? -msw
+-- check here to add "RIP" token overlay? -celestian
 function onHealthChanged()
 	local sColor, nPercentWounded, sStatus = ActorManager2.getWoundColor("ct", getDatabaseNode());
 

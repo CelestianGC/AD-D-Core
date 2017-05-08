@@ -18,7 +18,7 @@ function getRoll(rActor, nodeSkill, nTargetDC, bSecretRoll)
 	
 	local nMod, bADV, bDIS, sAddText = ActorManager2.getCheck(rActor, sAbility:lower(), sSkill);
 	rRoll.nMod = nMod;
-    -- we apply these mods to the total (making the target higher, thus easier. -msw
+    -- we apply these mods to the total (making the target higher, thus easier. -celestian
 	--rRoll.nMod = rRoll.nMod + DB.getValue(nodeSkill, "misc", 0);
 	
 	rRoll.sDesc = "[SKILL] " .. sSkill;

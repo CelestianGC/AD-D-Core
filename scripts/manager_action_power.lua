@@ -136,7 +136,7 @@ function getPowerCastRoll(rActor, rAction)
 	return rRoll;
 end
 
--- sort out saves for targets from actions tab button "save" -msw
+-- sort out saves for targets from actions tab button "save" -celestian
 function getSaveVsRoll(rActor, rAction)
 	local rRoll = {};
 	rRoll.sType = "powersave";
@@ -197,7 +197,7 @@ function onCastSave(rSource, rTarget, rRoll)
         local sSave = DataCommon.saves_multi_name[rRoll.sSaveType];
         local nSaveTarget = DB.getValue(nodeTarget, "saves." .. sSave .. ".score",0);
         -- flip value, if minues to save, make target higher (harder)
-        -- if positive, it will lower the target making easier -msw
+        -- if positive, it will lower the target making easier -celestian
         nSaveTarget = nSaveTarget - (rRoll.nMod); 
         
         notifyApplySave(rSource, rTarget, rRoll.bSecret, rRoll.sDesc, nSaveTarget, rRoll.bRemoveOnMiss, rRoll.sSaveType);

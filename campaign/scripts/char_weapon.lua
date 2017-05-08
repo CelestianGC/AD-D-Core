@@ -185,7 +185,7 @@ function onDamageActionSingle(nodeDamage, draginfo)
 end
 
 -- this was used in the 5e ruleset to allow multiple dice types and 
--- bonuses for a single roll, not needed, switched to onDamageActionSingle to support AD&D-msw
+-- bonuses for a single roll, not needed, switched to onDamageActionSingle to support AD&D-celestian
 function onDamageAction(draginfo)
 	local nodeWeapon = getDatabaseNode();
 	local nodeChar = nodeWeapon.getChild("...")
@@ -309,7 +309,7 @@ function onDamageChanged()
 				sDamage = sDamage .. " " .. sType;
 			end
             -- do this to make splitting up damage rolls, 
-            -- for small/medium and large type damage style of AD&D viable -msw
+            -- for small/medium and large type damage style of AD&D viable -celestian
             DB.removeHandler(nodeWeapon.getNodeName(), "onChildUpdate", onDataChanged);
                 DB.setValue(v, "damageasstring","string",sDamage);
             DB.addHandler(nodeWeapon.getNodeName(), "onChildUpdate", onDataChanged);

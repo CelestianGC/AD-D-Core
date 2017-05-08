@@ -151,7 +151,7 @@ function parseResistances(sResistances)
 	return aResults;
 end
 
--- calculate npc level from HD and return it -msw
+-- calculate npc level from HD and return it -celestian
 -- move to manager_action_save.lua?
 function getNPCLevelFromHitDice(nodeEntry, nodeNPC) 
     local bWoops = false;
@@ -195,7 +195,7 @@ function getNPCLevelFromHitDice(nodeEntry, nodeNPC)
                 nHitDice = tonumber(match1);
                 nLevel = nHitDice;
             else
-                -- pop up menu and ask them for a decent value? -msw
+                -- pop up menu and ask them for a decent value? -celestian
                 ChatManager.SystemMessage("Unable to find a working hitDice [" .. sHitDice .. "] for " .. DB.getValue(nodeNPC, "name", "") .." to calculate saves. It should be # or #+# or #-#."); 
                 bWoops = true;
                 nAdjustment = 0;
@@ -207,7 +207,7 @@ function getNPCLevelFromHitDice(nodeEntry, nodeNPC)
     return nLevel;
 end
 
--- Set NPC Saves -msw
+-- Set NPC Saves -celestian
 -- move to manager_action_save.lua?
 function updateNPCSaves(nodeEntry, nodeNPC, bForceUpdate)
 --    Debug.console("manager_combat2.lua","updateNPCSaves","nodeNPC",nodeNPC);
@@ -237,7 +237,7 @@ function addNPC(sClass, nodeNPC, sName)
 --	DB.setValue(nodeEntry, "init", "number", nDexMod);
 
 	-- base modifier for initiative
-    -- we set modifiers based on size per DMG for AD&D -msw
+    -- we set modifiers based on size per DMG for AD&D -celestian
     DB.setValue(nodeEntry, "init", "number", 0);
 	
 	-- Determine size
@@ -246,7 +246,7 @@ function addNPC(sClass, nodeNPC, sName)
 	if sSize == "tiny" or string.find(sSizeNoLower,"T") then
         -- tokenscale doesn't work, guessing it's "reset" when
         -- the token is actually dropped on the map
-        -- need to figure out a work around -msw
+        -- need to figure out a work around -celestian
 		DB.setValue(nodeEntry, "tokenscale", "number", 0.5);
         DB.setValue(nodeEntry, "init", "number", 0);
 	elseif sSize == "small" or string.find(sSizeNoLower,"S") then
@@ -382,7 +382,7 @@ function addNPC(sClass, nodeNPC, sName)
 	return nodeEntry;
 end
 
--- review this to deal with AD&D monster/spells descriptions better? -msw
+-- review this to deal with AD&D monster/spells descriptions better? -celestian
 function parseNPCPower(nodePower, aEffects, bAllowSpellDataOverride)
 	local sDisplay = DB.getValue(nodePower, "name", "");
 	local aDisplayOptions = {};

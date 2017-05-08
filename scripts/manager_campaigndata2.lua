@@ -310,7 +310,7 @@ function updateNPCSpellcasting(nodeNPC, nodeTrait)
 	end
 end
 
--- review this to deal with AD&D monster/spells -msw
+-- review this to deal with AD&D monster/spells -celestian
 function updateNPCInnateSpellcasting(nodeNPC, nodeTrait)
 	local aError = {};
 	local aSpellcasting = {};

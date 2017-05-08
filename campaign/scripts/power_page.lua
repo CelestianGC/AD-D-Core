@@ -351,7 +351,7 @@ function updatePowerWindowUses(nodeChar, w)
                 -- we don't want to hide because there are no slots "unused" because
                 -- I use the slots as memorization slots now which means they are tic'distribution
                 -- if they have one memorized. 
-                -- AD&D style, -msw
+                -- AD&D style, -celestian
 					-- local bValidSlot = false;
 					-- for i = nLevel, PowerManager.SPELL_LEVELS do
 						-- if (aCharSlots[i].nTotalCast or 0) < aCharSlots[i].nMax then

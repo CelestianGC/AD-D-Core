@@ -26,6 +26,10 @@ function onInit()
 
 	DB.addHandler("options.TNPCE", "onUpdate", TokenManager.onOptionChanged);
 	DB.addHandler("options.TNPCH", "onUpdate", TokenManager.onOptionChanged);
+
+	DB.addHandler("options.DM_SHOW_NPC_EFFECTS", "onUpdate", TokenManager.onOptionChanged);
+	DB.addHandler("options.DM_SHOW_NPC_HEALTHBAR", "onUpdate", TokenManager.onOptionChanged);
+
 	DB.addHandler("options.TPCE", "onUpdate", TokenManager.onOptionChanged);
 	DB.addHandler("options.TPCH", "onUpdate", TokenManager.onOptionChanged);
 	DB.addHandler("options.WNDC", "onUpdate", TokenManager.onOptionChanged);
@@ -47,7 +51,13 @@ function onHover(tokenCT, nodeCT, bOver)
 		sOptEffects = OptionsManager.getOption("TNPCE");
 		sOptHealth = OptionsManager.getOption("TNPCH");
 	end
-		
+
+    -- DM can see NPC effects and healthbars
+    if User.isHost() then
+		sOptEffects = OptionsManager.getOption("DM_SHOW_NPC_EFFECTS");
+		sOptHealth = OptionsManager.getOption("DM_SHOW_NPC_HEALTHBAR");
+    end
+    
 	local aWidgets = {};
 	if sOptHealth == "barhover" then
 		aWidgets["healthbar"] = tokenCT.findWidget("healthbar");
@@ -80,6 +90,11 @@ function updateTooltip(tokenCT, nodeCT)
 		sOptTE = OptionsManager.getOption("TNPCE");
 		sOptTH = OptionsManager.getOption("TNPCH");
 	end
+    -- DM can see NPC effects and healthbars
+    if User.isHost() then
+		sOptTE = OptionsManager.getOption("DM_SHOW_NPC_EFFECTS");
+		sOptTH = OptionsManager.getOption("DM_SHOW_NPC_HEALTHBAR");
+    end
 		
 	local aTooltip = {};
 	if sOptTNAM == "tooltip" then
@@ -91,7 +106,7 @@ function updateTooltip(tokenCT, nodeCT)
 		table.insert(aTooltip, sStatus);
 	end
 	if sOptTE == "tooltip" then
-		local aCondList = getConditionIconList(nodeCT);
+		local aCondList = getConditionIconList(nodeCT, true);
 		for _,v in ipairs(aCondList) do
 			table.insert(aTooltip, v.sLabel);
 		end
@@ -121,6 +136,10 @@ function updateHealthHelper(tokenCT, nodeCT)
 	else
 		sOptTH = OptionsManager.getOption("TNPCH");
 	end
+    -- DM can see NPC effects and healthbars
+    if User.isHost() then
+		sOptTH = OptionsManager.getOption("DM_SHOW_NPC_HEALTHBAR");
+    end
 	
 	local aWidgets = getWidgetList(tokenCT, "health");
 	
@@ -170,7 +189,7 @@ function updateHealthHelper(tokenCT, nodeCT)
 			end
 		end
 	end
-    -- new stuff, adds indicator for "DEAD" on the token. -msw
+    -- new stuff, adds indicator for "DEAD" on the token. -celestian
 	local nPercentHealth = ActorManager2.getPercentWounded2("ct", nodeCT);
     local widgetDeathIndicator = tokenCT.findWidget("deathindicator");
     local nWidth, nHeight = tokenCT.getSize();
@@ -238,6 +257,10 @@ function updateEffectsHelper(tokenCT, nodeCT)
 	else
 		sOptTE = OptionsManager.getOption("TNPCE");
 	end
+    -- DM can see NPC effects and healthbars
+    if User.isHost() then
+		sOptTE = OptionsManager.getOption("DM_SHOW_NPC_EFFECTS");
+    end
 
 	local aWidgets = getWidgetList(tokenCT, "effect");
 	
@@ -328,7 +351,7 @@ function updateEffectsHelper(tokenCT, nodeCT)
 	end
 end
 
-function getConditionIconList(nodeCT)
+function getConditionIconList(nodeCT, bSkipGMOnly)
 	local aIconList = {};
 
 	local rActor = ActorManager.getActorFromCT(nodeCT);
@@ -342,7 +365,7 @@ function getConditionIconList(nodeCT)
 
 	for k,v in pairs(aSorted) do
 		if DB.getValue(v, "isactive", 0) == 1 then
-			if User.isHost() or (DB.getValue(v, "isgmonly", 0) == 0) then
+			if (not bSkipGMOnly and User.isHost()) or (DB.getValue(v, "isgmonly", 0) == 0) then
 				local sLabel = DB.getValue(v, "label", "");
 				
 				local sEffect = nil;
