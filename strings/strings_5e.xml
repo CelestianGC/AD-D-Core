@@ -354,7 +354,6 @@
 	<string name="char_abilities_label_features">FEATURES</string>
 	<string name="char_abilities_label_abilities">ABILITIES</string>
 	<string name="char_abilities_label_traits">TRAITS</string>
-	<string name="char_abilities_label_proficiencies">PROFICIENCIES</string>
 	<string name="char_abilities_label_languages">LANGUAGES</string>
 	<string name="char_abilities_tooltip_edit">Edit Abilities</string>
 	
@@ -502,8 +501,6 @@
 
 	<!-- Races -->
 	<string name="race_header_subraces">SUB-RACES</string>
-	<string name="race_header_traits">TRAITS</string>
-
 	<!-- Skills -->
 	<string name="skill_value_acrobatics">Acrobatics</string>
 	<string name="skill_value_animalhandling">Animal Handling</string>
@@ -692,6 +689,7 @@
 	<string name="ref_type_feat">Feat</string>
 	<string name="ref_type_npc">NPC</string>
 	<string name="ref_type_proficiency">Proficiency</string>
+	<string name="ref_type_racialproficiency">Racial Proficiency</string>	
 	<string name="ref_type_race">Race</string>
 	<string name="ref_type_racialtrait">Racial Trait</string>
 	<string name="ref_type_subrace">Subrace</string>

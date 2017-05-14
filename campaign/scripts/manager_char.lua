@@ -803,6 +803,8 @@ function addInfoDB(nodeChar, sClass, sRecord)
 		addClassRef(nodeChar, sClass, sRecord);
 	elseif sClass == "reference_classproficiency" then
 		addClassProficiencyDB(nodeChar, sClass, sRecord);
+	elseif sClass == "reference_racialproficiency" then                                     -- import racial profs
+		addClassProficiencyDB(nodeChar, sClass, sRecord);
 	elseif sClass == "reference_classability" or sClass == "reference_classfeature" then
 		addClassFeatureDB(nodeChar, sClass, sRecord);
 	elseif sClass == "reference_feat" then
@@ -832,6 +834,11 @@ function resolveRefNode(sRecord)
 	return nodeSource;
 end
 
+-- tweak this to handle multiple weapon profs at once --celestian
+function addWeaponProficiencyDB()
+    -- use this to flip through the weapon profs
+end
+
 function addClassProficiencyDB(nodeChar, sClass, sRecord)
 	local nodeSource = resolveRefNode(sRecord);
 	if not nodeSource then
@@ -842,9 +849,13 @@ function addClassProficiencyDB(nodeChar, sClass, sRecord)
 	
 	-- Armor, Weapon or Tool Proficiencies
 	if StringManager.contains({"armor", "weapons", "tools"}, sType) then
-		local sText = DB.getText(nodeSource, "text");
+		-- celestian
+        -- if sType == "weapons" then
+        --  addWeaponProficiencyDB();
+        -- else
+        local sText = DB.getText(nodeSource, "name");                       -- get name name of the weapon prof
 		addProficiencyDB(nodeChar, sType, sText, nodeSource);
-		
+		-- end
 	-- Saving Throw Proficiencies
 	elseif sType == "savingthrows" then
 		local sText = DB.getText(nodeSource, "text");
@@ -916,7 +927,7 @@ function onRaceAbilitySelect(aSelection, nodeChar)
 	for _,sAbility in ipairs(aSelection) do
 		local k = sAbility:lower();
 		if StringManager.contains(DataCommon.abilities, k) then
-			local sPath = "abilities." .. k .. ".score";
+			local sPath = "abilities." .. k .. ".base";
 			DB.setValue(nodeChar, sPath, "number", DB.getValue(nodeChar, sPath, 10) + 1);
 		end
 	end
@@ -928,6 +939,7 @@ function onClassSkillSelect(aSelection, rSkillAdd)
 		addSkillDB(rSkillAdd.nodeChar, sSkill, rSkillAdd.nProf or 1);
 	end
 end
+
 
 function addProficiencyDB(nodeChar, sType, sText, nodeSource)
 	-- Get the list we are going to add to
@@ -961,7 +973,7 @@ function addProficiencyDB(nodeChar, sType, sText, nodeSource)
 	DB.setValue(nodeEntry, "name", "string", sValue);
 
 	-- need these values --celestian
-    if nodeSource then
+    if nodeSource and sType == "weapons" then
         local nHitADJ = DB.getValue(nodeSource,"hitadj",0);
         local nDMGADJ = DB.getValue(nodeSource,"dmgadj",0);
         DB.setValue(nodeEntry, "hitadj", "number", nHitADJ);
@@ -1164,7 +1176,7 @@ function addTraitDB(nodeChar, sClass, sRecord)
 		
 		if sAdjust:match("your ability scores each increase") then
 			for _,v in pairs(DataCommon.abilities) do
-				local sPath = "abilities." .. v .. ".score";
+				local sPath = "abilities." .. v .. ".base";
 				DB.setValue(nodeChar, sPath, "number", DB.getValue(nodeChar, sPath, 10) + 1);
 				bApplied = true;
 			end
@@ -1190,7 +1202,7 @@ function addTraitDB(nodeChar, sClass, sRecord)
 			
 			for k,v in pairs(aIncreases) do
 				if StringManager.contains(DataCommon.abilities, k) then
-					local sPath = "abilities." .. k .. ".score";
+					local sPath = "abilities." .. k .. ".base";
 					DB.setValue(nodeChar, sPath, "number", DB.getValue(nodeChar, sPath, 10) + v);
 					bApplied = true;
 				end

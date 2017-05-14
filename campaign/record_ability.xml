@@ -97,4 +97,132 @@
 			</label_reftype>
 		</sheetdata>
 	</windowclass>
+	
+<!-- new bits for samarex ref docs -->
+	<windowclass name="ref_proficiency_item">
+		<frame>recordsheet</frame>
+		<placement>
+			<size width="350" height="350" />
+		</placement>
+		<sizelimits>
+			<minimum width="300" height="300" />
+			<dynamic />
+		</sizelimits>
+		<minimize>minimized_reference</minimize>
+		<tooltip field="name" />
+		<nodelete />
+		<script>
+			function onLockChanged()
+				if header.subwindow then
+					header.subwindow.update();
+				end
+				local bReadOnly = WindowManager.getReadOnlyState(getDatabaseNode());
+				text.setReadOnly(bReadOnly);
+			
+			end
+		</script>
+		<sheetdata>
+			<hs name="type" />
+
+			<sub_record_header name="header">
+				<class>proficiency_item_header</class>
+			</sub_record_header>
+
+			<frame_record_content name="contentframe" />		
+           
+		    <ft_record name="text">
+				<anchored to="contentframe" position="over" />
+				<empty textres="ft_empty" hideonreadonly="true" />
+			</ft_record>
+			<scrollbar_record>
+				<target>text</target>
+			</scrollbar_record>
+			
+			<resize_recordsheet />
+			<close_recordsheet />
+			</sheetdata>
+	</windowclass>
+
+	<windowclass name="proficiency_item_header">
+		<margins control="0,0,0,2" />
+		<script>
+			function onInit()
+				update();
+			end
+			function update()
+				local bReadOnly = WindowManager.getReadOnlyState(getDatabaseNode());
+				name.setReadOnly(bReadOnly);
+				dmgadj.setReadOnly(bReadOnly);
+				hitadj.setReadOnly(bReadOnly);				
+			end
+		</script>
+		<sheetdata>
+			<link_record_header>
+				<class>ref_proficiency_item</class>
+			</link_record_header>
+
+			<anchor_record_header_right name="rightanchor" />
+			<icon_record_locked />
+			<button_record_locked />
+
+			<string_record_name name="name" />
+			
+			<label_reftype name="reftype">
+				<script>
+					function onInit()
+						local sList = window.getDatabaseNode().getParent().getName();
+						
+						local sValue = "";
+						if sList == "skilllist" then
+							sValue = Interface.getString("ref_type_skill");
+						elseif sList == "proficiencylist" then
+							sValue = Interface.getString("ref_type_proficiency");
+						elseif sList == "featlist" then
+							sValue = Interface.getString("ref_type_feat");
+						elseif sList == "featurelist" then
+							sValue = Interface.getString("ref_type_feature");
+						elseif sList == "traitlist" then
+							sValue = Interface.getString("ref_type_trait");
+						end
+						
+						setValue(sValue);
+						
+						super.onInit();
+					end 
+				</script>
+			</label_reftype>
+			<number_adjustment name="dmgadj">
+				<anchored to="reftype">					
+					<top offset="3"/>
+					<right anchor="right" offset="-0" />
+				</anchored>
+				<tabtarget next="name" prev="hitadj" />
+				<tooltip textres="weapon_label_dmgadj_tooltip" />
+			</number_adjustment>
+			<label name="label_dmgadj">
+                <static textres="weapon_label_dmgadj"/>
+				<tooltip textres="weapon_label_dmgadj_tooltip" />
+				<anchored to="dmgadj">
+					<top />
+					<right anchor="left" relation="relative" offset="-10" />
+				</anchored>
+			</label>
+			<number_adjustment name="hitadj">
+				<anchored to="reftype">
+					<top offset="3" />
+					<right anchor="right" offset="-70" />
+				</anchored>
+				<tabtarget next="dmgadj" prev="name" />
+				<tooltip textres="weapon_label_hitadj_tooltip" />
+			</number_adjustment>
+			<label name="label_hitadj">
+                <static textres="weapon_label_hitadj"/>
+				<tooltip textres="weapon_label_hitadj_tooltip" />
+				<anchored to="hitadj">
+					<top />
+					<right anchor="left" relation="relative" offset="-10" />
+				</anchored>
+			</label>
+		</sheetdata>
+	</windowclass>
 </root>

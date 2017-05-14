@@ -177,7 +177,15 @@
 			<genericcontrol name="rightanchor">
 				<anchored position="insidetopright" height="0" width="0" />
 			</genericcontrol>
-
+			<!-- bit added for samarex ref docs -->
+			<linkcontrol name="shortcut">
+				<anchored to="rightanchor" width="20" height="20">
+					<top />
+					<right anchor="left" relation="relative" offset="-5" />
+				</anchored>
+				<class>ref_proficiency_item</class>
+				<readonly />
+			</linkcontrol>
 			<button_idelete name="idelete">
 				<anchored to="rightanchor">
 					<top />

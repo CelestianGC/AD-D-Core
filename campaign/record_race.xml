@@ -105,6 +105,7 @@
 				local bReadOnly = WindowManager.getReadOnlyState(getDatabaseNode());
 				subraces.update(bReadOnly);
 				traits.update(bReadOnly);
+				proficiencies.update(bReadOnly);				
 			end
 		</script>
 		<sheetdata>
@@ -143,6 +144,23 @@
 				<datasource>.traits</datasource>
 				<class>ref_racial_trait</class>
 			</list_column>
+			
+			<header_column name="proficiencies_header">
+				<static textres="race_header_proficiencies"/>
+				<center />
+			</header_column>
+			<button_iedit name="proficiencies_iedit">
+				<anchored to="proficiencies_header" position="righthigh" offset="-20,0" />
+				<target>proficiencies</target>
+			</button_iedit>
+			<button_iadd name="proficiencies_iadd">
+				<anchored to="proficiencies_iedit" position="lefthigh" offset="5,0" />
+				<target>proficiencies</target>
+			</button_iadd>
+			<list_column name="proficiencies">
+				<datasource>.proficiencies</datasource>
+				<class>ref_racial_proficiencies</class>
+			</list_column>		
 		</sheetdata>
 	</windowclass>
 
@@ -449,4 +467,172 @@
 			</label_reftype>	
 		</sheetdata>
 	</windowclass>
-</root>
+	
+	<windowclass name="reference_racialproficiency">
+		<frame>recordsheet</frame>
+		<placement>
+			<size width="350" height="350" />
+		</placement>
+		<sizelimits>
+			<minimum width="300" height="300" />
+			<dynamic />
+		</sizelimits>
+		<minimize>minimized_reference</minimize>
+		<tooltip field="name" />
+		<script>
+			function onLockChanged()
+				if header.subwindow then
+					header.subwindow.update();
+				end
+				
+				local bReadOnly = WindowManager.getReadOnlyState(getDatabaseNode());
+				text.setReadOnly(bReadOnly);
+			end
+		</script>
+		<sheetdata>
+			<hs name="type" />
+			<sub_record_header name="header">
+				<class>ref_racialproficiency_header</class>
+			</sub_record_header>
+
+			<frame_record_content />
+			 <ft_record name="text">
+				<anchored to="contentframe" position="over" />
+				<empty textres="ft_empty" hideonreadonly="true" />
+			</ft_record>
+			<scrollbar_record>
+				<target>text</target>
+			</scrollbar_record>
+			
+			<resize_recordsheet />
+			<close_recordsheet />
+		</sheetdata>
+	</windowclass>
+	
+	<windowclass name="ref_racialproficiency_header">
+		<margins control="0,0,0,2" />
+		<script>
+			function onInit()
+				update();
+			end
+			function update()
+				local bReadOnly = WindowManager.getReadOnlyState(getDatabaseNode());
+				name.setReadOnly(bReadOnly);
+				dmgadj.setReadOnly(bReadOnly);
+				hitadj.setReadOnly(bReadOnly);
+			end
+		</script>
+		<sheetdata>
+			<link_record_header>
+				<class>ref_racial_proficiencies</class>
+			</link_record_header>
+
+			<anchor_record_header_right name="rightanchor" />
+			<icon_record_locked />
+			<button_record_locked />
+
+			<string_record_name name="name" />
+			
+			<label_reftype name="reftype">
+				<static textres="ref_type_racialproficiency" />
+			</label_reftype>
+			<number_adjustment name="dmgadj">
+				<anchored to="reftype">					
+					<top offset="3"/>
+					<right anchor="right" offset="-0" />
+				</anchored>
+				<tabtarget next="name" prev="hitadj" />
+				<tooltip textres="weapon_label_dmgadj_tooltip" />
+			</number_adjustment>
+			<label name="label_dmgadj">
+                <static textres="weapon_label_dmgadj"/>
+				<tooltip textres="weapon_label_dmgadj_tooltip" />
+				<anchored to="dmgadj">
+					<top />
+					<right anchor="left" relation="relative" offset="-10" />
+				</anchored>
+			</label>
+			<number_adjustment name="hitadj">
+				<anchored to="reftype">
+					<top offset="3" />
+					<right anchor="right" offset="-70" />
+				</anchored>
+				<tabtarget next="dmgadj" prev="name" />
+				<tooltip textres="weapon_label_hitadj_tooltip" />
+			</number_adjustment>
+			<label name="label_hitadj">
+                <static textres="weapon_label_hitadj"/>
+				<tooltip textres="weapon_label_hitadj_tooltip" />
+				<anchored to="hitadj">
+					<top />
+					<right anchor="left" relation="relative" offset="-10" />
+				</anchored>
+			</label>
+		</sheetdata>
+	</windowclass>
+	<windowclass name="ref_racial_proficiencies">
+		<margins control="0,0,0,2" />
+		<sheetdata>
+		<anchor_listitem_column_right name="rightanchor" />
+			<link_listitem_column name="shortcut">
+				<class>reference_racialproficiency</class>
+			</link_listitem_column>
+			<button_listitem_column_delete name="idelete" />
+
+			<string_listitem_column_name name="name">
+				<empty textres="library_recordtype_empty_racialtrait" />
+			</string_listitem_column_name>			
+			
+			
+            
+			<number_adjustment name="dmgadj">
+				<anchored to="rightanchor">
+					<top offset="3" />
+					<right anchor="left" relation="relative" offset="-10" />
+				</anchored>
+				<tabtarget next="name" prev="hitadj" />
+				<tooltip textres="weapon_label_dmgadj_tooltip" />
+			</number_adjustment>
+			<label name="label_dmgadj">
+                <static textres="weapon_label_dmgadj"/>
+				<tooltip textres="weapon_label_dmgadj_tooltip" />
+				<anchored to="rightanchor">
+					<top />
+					<right anchor="left" relation="relative" offset="-10" />
+				</anchored>
+			</label>
+
+			<number_adjustment name="hitadj">
+				<anchored to="rightanchor">
+					<top offset="3" />
+					<right anchor="left" relation="relative" offset="-10" />
+				</anchored>
+				<tabtarget next="dmgadj" prev="name" />
+				<tooltip textres="weapon_label_hitadj_tooltip" />
+			</number_adjustment>
+			<label name="label_hitadj">
+                <static textres="weapon_label_hitadj"/>
+				<tooltip textres="weapon_label_hitadj_tooltip" />
+				<anchored to="rightanchor">
+					<top />
+					<right anchor="left" relation="relative" offset="-10" />
+				</anchored>
+			</label>
+
+		
+ 			<string_textlistitem name="name">
+				<anchored to="rightanchor">
+					<top />
+					<left parent="" offset="10" />
+					<right anchor="left" relation="relative" offset="-15" />
+				</anchored>
+				<multilinespacing>20</multilinespacing>
+				<tabtarget next="hitadj" prev="dmgadj" />
+			</string_textlistitem>
+         </sheetdata>
+	</windowclass>
+	
+	
+
+	
+	</root>

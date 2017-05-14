@@ -233,7 +233,11 @@
 	<string name="class_label_total_xp_earned">TOTAL XP</string>
 	<string name="class_label_total_xp_earned_tooltip">Total experience earned for this character.</string>
 	<string name="char_abilities_message_leveledup">'%s' gained a level in %s. Manually apply earned hitpoints.</string>
-
+    <!-- RACE -->
+	<string name="race_header_traits">RACE TRAITS</string>
+	<string name="race_header_proficiencies">RACE WEAPON PROFICIENCIES</string>
+	<string name="char_abilities_label_proficiencies">WEAPON PROFICIENCIES</string>
+    
 	<!-- Editors -->
 	<string name="weapon_header_prof">Proficiencies Applied</string>
 	<string name="weapon_label_profdefault">Not-Proficient</string>
