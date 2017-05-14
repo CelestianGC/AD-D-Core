@@ -323,10 +323,10 @@ function onInit()
     aRogueSaves[2]  = {13,14,12,16,15};
     aRogueSaves[3]  = {13,14,12,16,15};
     aRogueSaves[4]  = {13,14,12,16,15};
-    aRogueSaves[5]  = {12,12,11,15,12};
-    aRogueSaves[6]  = {12,12,11,15,12};
-    aRogueSaves[7]  = {12,12,11,15,12};
-    aRogueSaves[8]  = {12,12,11,15,12};
+    aRogueSaves[5]  = {12,12,11,15,13};
+    aRogueSaves[6]  = {12,12,11,15,13};
+    aRogueSaves[7]  = {12,12,11,15,13};
+    aRogueSaves[8]  = {12,12,11,15,13};
     aRogueSaves[9]  = {11,10,10,14,11};
     aRogueSaves[10]  = {11,10,10,14,11};
     aRogueSaves[11]  = {11,10,10,14,11};
