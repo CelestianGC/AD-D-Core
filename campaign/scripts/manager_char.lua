@@ -845,17 +845,18 @@ function addClassProficiencyDB(nodeChar, sClass, sRecord)
 		return;
 	end
 	
-	local sType = nodeSource.getName();
+	--local sType = nodeSource.getName();
+    -- added type to each prof
+	local sType = DB.getValue(nodeSource,"type","");
 	
+--Debug.console("manager_char.lua","addClassProficiencyDB","nodeSource",nodeSource);
+--Debug.console("manager_char.lua","addClassProficiencyDB","sType",sType);
+
 	-- Armor, Weapon or Tool Proficiencies
-	if StringManager.contains({"armor", "weapons", "tools"}, sType) then
-		-- celestian
-        -- if sType == "weapons" then
-        --  addWeaponProficiencyDB();
-        -- else
+--	if StringManager.contains({"armor", "weapons", "tools"}, sType) then
+    if sType == "weapon" then		-- celestian
         local sText = DB.getText(nodeSource, "name");                       -- get name name of the weapon prof
 		addProficiencyDB(nodeChar, sType, sText, nodeSource);
-		-- end
 	-- Saving Throw Proficiencies
 	elseif sType == "savingthrows" then
 		local sText = DB.getText(nodeSource, "text");
@@ -928,7 +929,7 @@ function onRaceAbilitySelect(aSelection, nodeChar)
 		local k = sAbility:lower();
 		if StringManager.contains(DataCommon.abilities, k) then
 			local sPath = "abilities." .. k .. ".base";
-			DB.setValue(nodeChar, sPath, "number", DB.getValue(nodeChar, sPath, 10) + 1);
+			DB.setValue(nodeChar, sPath, "number", DB.getValue(nodeChar, sPath, 9) + 1);
 		end
 	end
 end
@@ -964,7 +965,8 @@ function addProficiencyDB(nodeChar, sType, sText, nodeSource)
 	local sValue;
 	if sType == "armor" then
 		sValue = Interface.getString("char_label_addprof_armor");
-	elseif sType == "weapons" then
+--	elseif sType == "weapons" then
+	elseif sType == "weapon" then
 		sValue = Interface.getString("char_label_addprof_weapon");
 	else
 		sValue = Interface.getString("char_label_addprof_tool");
@@ -973,7 +975,7 @@ function addProficiencyDB(nodeChar, sType, sText, nodeSource)
 	DB.setValue(nodeEntry, "name", "string", sValue);
 
 	-- need these values --celestian
-    if nodeSource and sType == "weapons" then
+    if nodeSource and sType == "weapon" then
         local nHitADJ = DB.getValue(nodeSource,"hitadj",0);
         local nDMGADJ = DB.getValue(nodeSource,"dmgadj",0);
         DB.setValue(nodeEntry, "hitadj", "number", nHitADJ);
@@ -1177,7 +1179,7 @@ function addTraitDB(nodeChar, sClass, sRecord)
 		if sAdjust:match("your ability scores each increase") then
 			for _,v in pairs(DataCommon.abilities) do
 				local sPath = "abilities." .. v .. ".base";
-				DB.setValue(nodeChar, sPath, "number", DB.getValue(nodeChar, sPath, 10) + 1);
+				DB.setValue(nodeChar, sPath, "number", DB.getValue(nodeChar, sPath, 9) + 1);
 				bApplied = true;
 			end
 		else
@@ -1203,7 +1205,7 @@ function addTraitDB(nodeChar, sClass, sRecord)
 			for k,v in pairs(aIncreases) do
 				if StringManager.contains(DataCommon.abilities, k) then
 					local sPath = "abilities." .. k .. ".base";
-					DB.setValue(nodeChar, sPath, "number", DB.getValue(nodeChar, sPath, 10) + v);
+					DB.setValue(nodeChar, sPath, "number", DB.getValue(nodeChar, sPath, 9) + v);
 					bApplied = true;
 				end
 			end
@@ -1799,6 +1801,10 @@ function addRaceSelect(aSelection, aTable)
 	for _,v in pairs(DB.getChildren(nodeSource, "traits")) do
 		addTraitDB(nodeChar, "reference_racialtrait", v.getPath());
 	end
+
+    for _,v in pairs(DB.getChildren(nodeSource, "proficiencies")) do
+        addClassProficiencyDB(nodeChar, "reference_racialproficiency", v.getPath());
+    end
 	
 	if sSubRace then
 		for _,vSubRace in pairs(DB.getChildrenGlobal(nodeSource, "subraces")) do

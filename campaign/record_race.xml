@@ -570,6 +570,19 @@
 			</label>
 		</sheetdata>
 	</windowclass>
+    
+ <!-- -->
+	<windowclass name="ref_racial_proficiencies_type">
+		<margins control="0,0,0,7" />
+		<sheetdata>
+			<anchor_column name="columnanchor" />
+			<list_column name="proficiencies">
+				<datasource>.weapons</datasource>
+				<class>ref_racial_proficiencies_weapons</class>
+			</list_column>		
+		</sheetdata>
+	</windowclass>
+ <!-- --> 
 	<windowclass name="ref_racial_proficiencies">
 		<margins control="0,0,0,2" />
 		<sheetdata>
