@@ -1914,6 +1914,10 @@ function addClassRef(nodeChar, sClass, sRecord)
 	local nHP = DB.getValue(nodeChar, "hp.total", 0);
 --	local nConBonus = DB.getValue(nodeChar, "abilities.constitution.bonus", 0);
 	local nConBonus = tonumber(DB.getValue(nodeChar, "abilities.constitution.hitpointadj", 0));
+    -- make sure it's a number, we'll need to split out normal/fighterBonus values eventually --celestian
+    if type(nConBonus) ~= "number" then
+        nConBonus = 0;
+    end
 	if nTotalLevel == 1 then
 		local nAddHP = (nHDMult * nHDSides);
 		nHP = nHP + nAddHP + nConBonus;
