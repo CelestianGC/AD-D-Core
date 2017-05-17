@@ -15,8 +15,6 @@
 					function onValueChanged()
 						local bEditMode = (getValue() == 1);
 						
-						window.contents.subwindow.feats_iadd.setVisible(bEditMode);
-						window.contents.subwindow.feats.update();
 						window.contents.subwindow.features_iadd.setVisible(bEditMode);
 						window.contents.subwindow.features.update();
 						window.contents.subwindow.traits_iadd.setVisible(bEditMode);
@@ -48,7 +46,8 @@
 		<margins control="0,0,0,2" />
 		<script file="campaign/scripts/char_abilities.lua" />
 		<sheetdata>
-			<label_charframetop name="featstitle">
+
+<!--             <label_charframetop name="featstitle">
 				<bounds>15,10,-10,20</bounds>
 				<static textres="char_abilities_label_feats" />
 				<icons>char_abilities_green</icons>
@@ -68,13 +67,14 @@
 				<anchored to="featstitle" position="insidetopright" offset="5,0" />
 				<target>feats</target>
 			</button_iadd>
-
+ -->
 			<label_charframetop name="featurestitle">
-				<anchored to="featstitle" height="20">
+<!-- 				<anchored to="featstitle" height="20">
 					<top anchor="bottom" relation="relative" offset="7" />
 					<left />
 					<right />
-				</anchored>
+				</anchored> -->
+                <bounds>15,10,-10,20</bounds>
 				<static textres="char_abilities_label_features" />
 				<icons>char_abilities_red</icons>
 				<target>features</target>
