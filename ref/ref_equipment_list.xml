@@ -498,4 +498,209 @@
 			<close_referencelist />
 		</sheetdata>
 	</windowclass>
+
+	
+	<!-- Helmets Table List (non-editable) -->
+	<windowclass name="reference_helmtablegroupitem">
+		<margins control="0,0,0,2" />
+		<sheetdata>
+			<linkfield_list name="link" />
+			<string_list_link name="name">
+				<bounds>30,2,140,20</bounds>
+			</string_list_link>
+
+			<genericcontrol name="reftableanchor">
+				<bounds>190,2,0,0</bounds>
+			</genericcontrol>
+			<string_reftable name="cost">							<anchored width="60" />
+				<center />
+			</string_reftable>					
+			<string_reftable name="ac"><anchored width="50" />				
+				<center />
+			</string_reftable>
+			<number_ref_weightwithsuffix name="weight" />
+			<stringc_reftable name="weightwithsuffix">
+				<anchored width="50" />
+				<center />
+			</stringc_reftable>
+			
+			<string_reftable name="susprise"><anchored width="100" />				
+				
+			</string_reftable>			
+		</sheetdata>
+	</windowclass>	
+	<windowclass name="reference_helmtablegroup">
+		<script file="ref/scripts/ref_listgroup.lua" />
+		<sheetdata>
+			<anchor_column name="topanchor" />
+			
+			<frame_groupdesc name="descframe" />
+			<string_groupdesc name="description" />
+			<string_groupsubdesc name="subdescription" />
+
+			<list_reftablegroupitems name="list">
+				<datasource>.equipment</datasource>
+				<class>reference_helmtablegroupitem</class>
+				<sortby><control>ac</control></sortby>
+			</list_reftablegroupitems>
+
+			<ft_reftablefooter name="myfooter" />
+		</sheetdata>
+	</windowclass>
+	<windowclass name="reference_helmtable">
+		<frame>referencelist</frame>
+		<placement>
+			<size width="750" height="650" />
+		</placement>
+		<sizelimits>
+			<minimum width="750" height="650" />
+			<dynamic />
+		</sizelimits>
+		<minimize>minimized_reference</minimize>
+		<tooltip field="description" />
+		<nodelete />
+		<sheetdata>
+			<windowtitlebar name="reftitle">
+				<field>description</field>
+			</windowtitlebar>
+			<anchor_reftitle name="contentanchor" />
+		
+			<!-- Header --><!-- Name	Cost	Weight	AC	Surprise -->
+			<header_reftablegroup />
+			<label_reftable name="headername">
+				<anchored width="160" />
+				<static textres="ref_label_listname" />
+				<center />
+			</label_reftable>
+			<label_reftable name="header_cost"><static textres="ref_label_listcost" />
+			<center />
+			</label_reftable>
+			<label_reftable name="header_ac"><static textres="ref_label_listac" /><anchored width="55" />				
+				<center />
+			</label_reftable>			
+			<label_reftable name="header_weight"><static textres="ref_label_list_weight" /><anchored width="40" />				
+				<center />
+			</label_reftable>
+			<label_reftable name="header_susprise"><static textres="ref_label_list_susprise" /><anchored width="90" />				
+				<left />
+			</label_reftable>			
+			
+			<!-- Table -->			
+			<list_reftablegroup name="grouplist">
+				<class>reference_helmtablegroup</class>
+				<datasource>.groups</datasource>
+			</list_reftablegroup>
+			<scrollbar_reftablegroup />
+			
+			<filter_reftable name="filter" />
+			<button_reftable_expand />
+			<button_reftable_collapse />
+
+			<resize_referencelist />
+			<close_referencelist />
+		</sheetdata>
+	</windowclass>
+	
+	
+	<!-- Shields Table List (non-editable) -->
+	<windowclass name="reference_shieldtablegroupitem">
+		<margins control="0,0,0,2" />
+		<sheetdata>
+			<linkfield_list name="link" />
+			<string_list_link name="name">
+				<bounds>30,2,140,20</bounds>
+			</string_list_link>
+
+			<genericcontrol name="reftableanchor">
+				<bounds>190,2,0,0</bounds>
+			</genericcontrol>
+			<string_reftable name="cost"><anchored width="60" />
+				<center />
+			</string_reftable>					
+			<string_reftable name="ac"><anchored width="50" />				
+				<center />
+			</string_reftable>
+			<number_ref_weightwithsuffix name="weight" />
+			<stringc_reftable name="weightwithsuffix">
+				<anchored width="40" />
+				<center />
+			</stringc_reftable>			
+			<string_reftable name="nofoes"><anchored width="50" />				
+				<center />
+			</string_reftable>			
+		</sheetdata>
+	</windowclass>	
+	<windowclass name="reference_shieldtablegroup">
+		<script file="ref/scripts/ref_listgroup.lua" />
+		<sheetdata>
+			<anchor_column name="topanchor" />
+			
+			<frame_groupdesc name="descframe" />
+			<string_groupdesc name="description" />
+			<string_groupsubdesc name="subdescription" />
+
+			<list_reftablegroupitems name="list">
+				<datasource>.equipment</datasource>
+				<class>reference_shieldtablegroupitem</class>
+				<sortby><control>name</control></sortby>
+			</list_reftablegroupitems>
+
+			<ft_reftablefooter name="myfooter" />
+		</sheetdata>
+	</windowclass>
+	<windowclass name="reference_shieldtable">
+		<frame>referencelist</frame>
+		<placement>
+			<size width="750" height="650" />
+		</placement>
+		<sizelimits>
+			<minimum width="750" height="650" />
+			<dynamic />
+		</sizelimits>
+		<minimize>minimized_reference</minimize>
+		<tooltip field="description" />
+		<nodelete />
+		<sheetdata>
+			<windowtitlebar name="reftitle">
+				<field>description</field>
+			</windowtitlebar>
+			<anchor_reftitle name="contentanchor" />
+		
+			<!-- Header --><!-- Name	Cost	AC	Weight	# Foes -->
+			<header_reftablegroup />
+			<label_reftable name="headername">
+				<anchored width="160" />
+				<static textres="ref_label_listname" />
+				<center />
+			</label_reftable>
+			<label_reftable name="headercost"><static textres="ref_label_listcost" />
+			<center />
+			</label_reftable>
+			<label_reftable name="header_ac"><static textres="ref_label_listac" /><anchored width="55" />				
+				<center />
+			</label_reftable>			
+			<label_reftable name="headerweight"><static textres="ref_label_list_weight" /><anchored width="40" />				
+				<center />
+			</label_reftable>
+			<label_reftable name="header_nofoes"><static textres="ref_label_list_nofoes" /><anchored width="50" />				
+				<center />
+			</label_reftable>
+			
+			
+			<!-- Table -->			
+			<list_reftablegroup name="grouplist">
+				<class>reference_shieldtablegroup</class>
+				<datasource>.groups</datasource>
+			</list_reftablegroup>
+			<scrollbar_reftablegroup />
+			
+			<filter_reftable name="filter" />
+			<button_reftable_expand />
+			<button_reftable_collapse />
+
+			<resize_referencelist />
+			<close_referencelist />
+		</sheetdata>
+	</windowclass>
+	    
 </root>
