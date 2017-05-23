@@ -379,7 +379,9 @@ function updatePowerWindowUses(nodeChar, w)
 	-- ABILITY GROUP
 	else
 		if sMode == "combat" then
-			if rGroup and (nTotalCast >= nAvailable) and (nAvailable > 0) then -- got alert of compare number with nil here... test
+			if rGroup and 
+                (nTotalCast >= nAvailable) and 
+                                (nAvailable > 0) then -- got alert of compare number with nil here... test
 				bShow = false;
 			elseif (nCast >= nPrepared) and (nPrepared > 0) then
 				bShow = false;

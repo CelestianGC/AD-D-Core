@@ -321,4 +321,28 @@
 	<string name="option_label_TPCE">Token: PC:Show Ally effects</string>
 	<string name="option_label_TPCH">Token: PC:Show Ally health</string>
 
+	<!-- Armor Table (Samarex CnT Ext ) -->
+	<string name="ref_label_list_weight">Wt.</string>
+	<string name="ref_label_list_fullac">Full AC</string>	
+	<string name="ref_label_list_torso">Torso AC</string>	
+	<string name="ref_label_list_arm">Arm AC</string>
+	<string name="ref_label_list_leg">Leg AC</string>
+	<!-- Helmet Table (Samarex CnT Ext ) -->
+	<string name="ref_label_list_susprise">Surprise</string>
+	<!-- Shield Table (Samarex CnT Ext ) -->
+	<string name="ref_label_list_nofoes"># Foes</string>
+	<!-- Weapon Table (Samarex CnT Ext ) -->
+	<string name="ref_label_wtwt">Wt.</string>
+	<string name="ref_label_wtsize">Size</string>
+	<string name="ref_label_wttype">Type</string>
+	<string name="ref_label_wtspeed">Speed</string>
+	<string name="ref_label_wtreach">(M)Reach</string>
+	<string name="ref_label_wtrof">(R)ROF</string>	
+	<string name="ref_label_wtrange">Rng S/M/L</string>
+	<string name="ref_label_wtdsm">Dmg S/M</string>
+	<string name="ref_label_wtdl">Dmg L</string>
+	<string name="ref_label_wtdkd">KnockDown</string>
+	<string name="item_label_damage_sm">Damage Vs S/M</string>
+	<string name="item_label_damage_l">Damage Vs L</string>
+    
 </root>
