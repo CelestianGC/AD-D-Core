@@ -76,6 +76,7 @@
 	<icon name="spell_damage" file="graphics/icons/spell_damage.png" />
 	<icon name="spell_heal" file="graphics/icons/spell_heal.png" />
 	<icon name="spell_effect" file="graphics/icons/spell_effect.png" />
+	<icon name="caster_prep" file="graphics/icons/caster_prep.png" />
 
 	<!-- Combat Tracker -->
 	<icon name="ct_faction_empty" file="graphics/icons/ct_faction_empty.png" />

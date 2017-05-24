@@ -834,11 +834,6 @@ function resolveRefNode(sRecord)
 	return nodeSource;
 end
 
--- tweak this to handle multiple weapon profs at once --celestian
-function addWeaponProficiencyDB()
-    -- use this to flip through the weapon profs
-end
-
 function addClassProficiencyDB(nodeChar, sClass, sRecord)
 	local nodeSource = resolveRefNode(sRecord);
 	if not nodeSource then

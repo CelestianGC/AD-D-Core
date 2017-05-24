@@ -157,8 +157,7 @@
 			<label_column name="ac_label">
 				<static textres="item_label_ac" />
 			</label_column>
-			<number_columnh name="ac" />
-			
+			<string_column name="ac" />
 			<label_column name="dexbonus_label">
 				<static textres="item_label_dexbonus" />
 			</label_column>
