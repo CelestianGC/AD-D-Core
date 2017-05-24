@@ -1142,13 +1142,13 @@ function addClassFeatureDB(nodeChar, sClass, sRecord, nodeClass)
 			DB.setValue(nodeClass, "casterlevelinvmult", "number", nFeatureLevel);
 		end
 	
-	elseif sOriginalNameLower == FEATURE_DRACONIC_RESILIENCE then
-		applyDraconicResilience(nodeChar, true);
+--	elseif sOriginalNameLower == FEATURE_DRACONIC_RESILIENCE then
+--		applyDraconicResilience(nodeChar, true);
 	elseif sOriginalNameLower == FEATURE_UNARMORED_DEFENSE then
 		applyUnarmoredDefense(nodeChar, nodeClass);
-	else
-		local sText = DB.getText(vNew, "text", "");
-		--checkSkillProficiencies(nodeChar, sText);
+--	else
+--		local sText = DB.getText(vNew, "text", "");
+--		checkSkillProficiencies(nodeChar, sText);
 	end
 	
 	-- Announce
@@ -1363,11 +1363,11 @@ function addTraitDB(nodeChar, sClass, sRecord)
 	else
 		local sText = DB.getText(nodeSource, "text", "");
 		
-		if sTraitType == "stonecunning" then
-			-- Note: Bypass due to false positive in skill proficiency detection
-		else
-			checkSkillProficiencies(nodeChar, sText);
-		end
+		-- if sTraitType == "stonecunning" then
+			-- -- Note: Bypass due to false positive in skill proficiency detection
+		-- else
+			-- checkSkillProficiencies(nodeChar, sText);
+		-- end
 		
 		-- Get the list we are going to add to
 		local nodeList = nodeChar.createChild("traitlist");
@@ -2271,25 +2271,25 @@ function applyDwarvenToughness(nodeChar, bInitialAdd)
 	ChatManager.SystemMessage(sMsg);
 end
 
-function applyDraconicResilience(nodeChar, bInitialAdd)
-	-- Add extra hit points
-	local nAddHP = 1;
-	local nHP = DB.getValue(nodeChar, "hp.total", 0);
-	nHP = nHP + nAddHP;
-	DB.setValue(nodeChar, "hp.total", "number", nHP);
+-- function applyDraconicResilience(nodeChar, bInitialAdd)
+	-- -- Add extra hit points
+	-- local nAddHP = 1;
+	-- local nHP = DB.getValue(nodeChar, "hp.total", 0);
+	-- nHP = nHP + nAddHP;
+	-- DB.setValue(nodeChar, "hp.total", "number", nHP);
 	
-	local sFormat = Interface.getString("char_abilities_message_hpaddfeature");
-	local sMsg = string.format(sFormat, StringManager.capitalizeAll(FEATURE_DRACONIC_RESILIENCE), DB.getValue(nodeChar, "name", "")) .. " (" .. nAddHP .. ")";
-	ChatManager.SystemMessage(sMsg);
+	-- local sFormat = Interface.getString("char_abilities_message_hpaddfeature");
+	-- local sMsg = string.format(sFormat, StringManager.capitalizeAll(FEATURE_DRACONIC_RESILIENCE), DB.getValue(nodeChar, "name", "")) .. " (" .. nAddHP .. ")";
+	-- ChatManager.SystemMessage(sMsg);
 		
-	if bInitialAdd then
-		-- Add armor (if wearing none)
-		local nArmor = DB.getValue(nodeChar, "defenses.ac.armor", 0);
-		if nArmor == 0 then
-			DB.setValue(nodeChar, "defenses.ac.armor", "number", 3);
-		end
-	end
-end
+	-- if bInitialAdd then
+		-- -- Add armor (if wearing none)
+		-- local nArmor = DB.getValue(nodeChar, "defenses.ac.armor", 0);
+		-- if nArmor == 0 then
+			-- DB.setValue(nodeChar, "defenses.ac.armor", "number", 3);
+		-- end
+	-- end
+-- end
 
 function applyUnarmoredDefense(nodeChar, nodeClass)
 	local sAbility = "";

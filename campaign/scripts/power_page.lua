@@ -379,9 +379,19 @@ function updatePowerWindowUses(nodeChar, w)
 	-- ABILITY GROUP
 	else
 		if sMode == "combat" then
+            -- got alert of compare number with nil here... test
+            -- there is some edge case where one of these is nil
+            -- so this will make sure it doesn't happen.
+            if nTotalCast == nil then
+                nTotalCast = 0;
+            end
+            if nAvailable == nil then
+                nAvailable = 0;
+            end
+            -- nil kludge tweak --celestian
 			if rGroup and 
                 (nTotalCast >= nAvailable) and 
-                                (nAvailable > 0) then -- got alert of compare number with nil here... test
+                                (nAvailable > 0) then 
 				bShow = false;
 			elseif (nCast >= nPrepared) and (nPrepared > 0) then
 				bShow = false;

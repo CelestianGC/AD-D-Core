@@ -47,4 +47,16 @@
 		</windowlist>
 	</template>
 
+	<template name="sub_charsheet_actions">
+		<subwindow>
+			<anchored to="contentanchor">
+				<!-- <top parent="name" anchor="bottom" offset="2" /> -->
+                <top />
+				<left />
+				<right />
+				<bottom parent="" offset="-20" />
+			</anchored>
+		</subwindow>
+	</template>
+    
 </root>

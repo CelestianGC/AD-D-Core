@@ -76,6 +76,7 @@
 	<includefile source="campaign/record_char_notes.xml" />
 	<includefile source="campaign/record_char_logs.xml" />
 	<includefile source="campaign/record_char_actions.xml" />
+	<includefile source="campaign/record_char_combat.xml" />
 	<includefile source="campaign/record_char_weapon.xml" />
 	<includefile source="campaign/record_ability.xml" />
 	<includefile source="campaign/record_adventure.xml" />
@@ -176,8 +177,7 @@
 
     <!-- We have to have a custom version of this from CoreRPG so it sorts reverse for the low to high initiative -->
 	<script name="CombatManager" file="scripts/manager_combat.lua" />
-    <!-- -->
-    
+    <!-- AD&D specific settings -->
  	<script name="LibraryDataADNDCORE" file="scripts/data_library_core.lua" />
 
     
