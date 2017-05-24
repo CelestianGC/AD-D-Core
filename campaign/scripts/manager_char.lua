@@ -868,53 +868,54 @@ function addClassProficiencyDB(nodeChar, sClass, sRecord)
 
 	-- Skill Proficiencies
 	elseif sType == "skills" then
-		-- Parse the skill choice text
-		local sText = DB.getText(nodeSource, "text");
+        addSkillRef(nodeChar, sClass, sRecord);
+		-- -- Parse the skill choice text
+		-- local sText = DB.getText(nodeSource, "text");
 		
-		local aSkills = {};
-		local sPicks;
+		-- local aSkills = {};
+		-- local sPicks;
 		
-		if sText:match("Choose any ") then
-			sPicks = sText:match("Choose any (%w+)");
+		-- if sText:match("Choose any ") then
+			-- sPicks = sText:match("Choose any (%w+)");
 			
-			for k,_ in pairs(DataCommon.skilldata) do
-				table.insert(aSkills, k);
-			end
+			-- for k,_ in pairs(DataCommon.skilldata) do
+				-- table.insert(aSkills, k);
+			-- end
 			
-		elseif sText:match("Choose ") then
-			sPicks = sText:match("Choose (%w+) ");
+		-- elseif sText:match("Choose ") then
+			-- sPicks = sText:match("Choose (%w+) ");
 			
-			sText = sText:gsub("Choose (%w+) from ", "");
-			sText = sText:gsub("Choose (%w+) skills? from ", "");
-			sText = sText:gsub("and ", "");
-			sText = sText:gsub("or ", "");
+			-- sText = sText:gsub("Choose (%w+) from ", "");
+			-- sText = sText:gsub("Choose (%w+) skills? from ", "");
+			-- sText = sText:gsub("and ", "");
+			-- sText = sText:gsub("or ", "");
 			
-			for sSkill in string.gmatch(sText, "(%a[%a%s]+)%,?") do
-				local sTrim = StringManager.trim(sSkill);
-				table.insert(aSkills, sTrim);
-			end
-		end
+			-- for sSkill in string.gmatch(sText, "(%a[%a%s]+)%,?") do
+				-- local sTrim = StringManager.trim(sSkill);
+				-- table.insert(aSkills, sTrim);
+			-- end
+		-- end
 		
-		local nPicks = 0;
-		if sPicks == "one" then
-			nPicks = 1;
-		elseif sPicks == "two" then
-			nPicks = 2;
-		elseif sPicks == "three" then
-			nPicks = 3;
-		elseif sPicks == "four" then
-			nPicks = 4;
-		end
+		-- local nPicks = 0;
+		-- if sPicks == "one" then
+			-- nPicks = 1;
+		-- elseif sPicks == "two" then
+			-- nPicks = 2;
+		-- elseif sPicks == "three" then
+			-- nPicks = 3;
+		-- elseif sPicks == "four" then
+			-- nPicks = 4;
+		-- end
 		
-		if nPicks == 0 or #aSkills == 0 then
-			ChatManager.SystemMessage(Interface.getString("char_error_addskill"));
-			return nil;
-		end
+		-- if nPicks == 0 or #aSkills == 0 then
+			-- ChatManager.SystemMessage(Interface.getString("char_error_addskill"));
+			-- return nil;
+		-- end
 		
-		pickSkills(nodeChar, aSkills, nPicks);
-	else
-		ChatManager.SystemMessage(Interface.getString("char_error_addclassprof") .. " (" .. sType .. ")");
-	end
+		-- pickSkills(nodeChar, aSkills, nPicks);
+	-- else
+		-- ChatManager.SystemMessage(Interface.getString("char_error_addclassprof") .. " (" .. sType .. ")");
+	-- end
 	
 	return true;
 end
