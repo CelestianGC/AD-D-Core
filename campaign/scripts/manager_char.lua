@@ -915,7 +915,7 @@ function addClassProficiencyDB(nodeChar, sClass, sRecord)
 		-- pickSkills(nodeChar, aSkills, nPicks);
 	-- else
 		-- ChatManager.SystemMessage(Interface.getString("char_error_addclassprof") .. " (" .. sType .. ")");
-	-- end
+	end
 	
 	return true;
 end
@@ -930,12 +930,12 @@ function onRaceAbilitySelect(aSelection, nodeChar)
 	end
 end
 
-function onClassSkillSelect(aSelection, rSkillAdd)
-	-- For each selected skill, add it to the character
-	for _,sSkill in ipairs(aSelection) do
-		addSkillDB(rSkillAdd.nodeChar, sSkill, rSkillAdd.nProf or 1);
-	end
-end
+-- function onClassSkillSelect(aSelection, rSkillAdd)
+	-- -- For each selected skill, add it to the character
+	-- for _,sSkill in ipairs(aSelection) do
+		-- addSkillDB(rSkillAdd.nodeChar, sSkill, rSkillAdd.nProf or 1);
+	-- end
+-- end
 
 
 function addProficiencyDB(nodeChar, sType, sText, nodeSource)
@@ -986,13 +986,13 @@ function addProficiencyDB(nodeChar, sType, sText, nodeSource)
 	return nodeEntry;
 end
 
-function addSkillDB(nodeChar, sSkill, nProficient)
+function addSkillDB(nodeChar, sSkill, nodeSource)
 	-- Get the list we are going to add to
 	local nodeList = nodeChar.createChild("skilllist");
 	if not nodeList then
 		return nil;
 	end
-	
+
 	-- Make sure this item does not already exist
 	local nodeSkill = nil;
 	for _,vSkill in pairs(nodeList.getChildren()) do
@@ -1001,24 +1001,26 @@ function addSkillDB(nodeChar, sSkill, nProficient)
 			break;
 		end
 	end
-		
+
 	-- Add the item
 	if not nodeSkill then
 		nodeSkill = nodeList.createChild();
 		DB.setValue(nodeSkill, "name", "string", sSkill);
-		if DataCommon.skilldata[sSkill] then
---			DB.setValue(nodeSkill, "stat", "string", DataCommon.skilldata[sSkill].stat);
-			DB.setValue(nodeSkill, "stat", "string",DB.getValue(nodeSkill, "stat", ""));
-			DB.setValue(nodeSkill, "adj_mod", "number",DB.getValue(nodeSkill, "adj_mod", 0));
-			DB.setValue(nodeSkill, "base_check", "number",DB.getValue(nodeSkill, "base_check", 0));
-		end
+		if nodeSource then
+            local sStat = DB.getValue(nodeSource, "stat", "");
+            local nMod = DB.getValue(nodeSource, "adj_mod", 0);
+            local nBaseCheck = DB.getValue(nodeSource, "base_check", 0);
+			DB.setValue(nodeSkill, "stat", "string",sStat);
+			DB.setValue(nodeSkill, "adj_mod", "number",nMod);
+			DB.setValue(nodeSkill, "base_check", "number",nBaseCheck);
+        end
 	end
-	if nProficient then
-		if nProficient and type(nProficient) ~= "number" then
-			nProficient = 1;
-		end
-		DB.setValue(nodeSkill, "prof", "number", nProficient);
-	end
+	-- if nProficient then
+		-- if nProficient and type(nProficient) ~= "number" then
+			-- nProficient = 1;
+		-- end
+		-- DB.setValue(nodeSkill, "prof", "number", nProficient);
+	-- end
 
 	-- Announce
 	local sFormat = Interface.getString("char_abilities_message_skilladd");
@@ -1146,7 +1148,7 @@ function addClassFeatureDB(nodeChar, sClass, sRecord, nodeClass)
 		applyUnarmoredDefense(nodeChar, nodeClass);
 	else
 		local sText = DB.getText(vNew, "text", "");
-		checkSkillProficiencies(nodeChar, sText);
+		--checkSkillProficiencies(nodeChar, sText);
 	end
 	
 	-- Announce
@@ -1427,120 +1429,120 @@ function parseSkillsFromString(sSkills)
 	return aSkills;
 end
 
-function pickSkills(nodeChar, aSkills, nPicks, nProf)
-	-- Add links (if we can find them)
-	for k,v in ipairs(aSkills) do
-		local rSkillData = DataCommon.skilldata[v];
-		if rSkillData then
-			aSkills[k] = { text = v, linkclass = "reference_skill", linkrecord = "reference.skilldata." .. rSkillData.lookup .. "@*" };
-		end
-	end
+-- function pickSkills(nodeChar, aSkills, nPicks, nProf)
+	-- -- Add links (if we can find them)
+	-- for k,v in ipairs(aSkills) do
+		-- local rSkillData = DataCommon.skilldata[v];
+		-- if rSkillData then
+			-- aSkills[k] = { text = v, linkclass = "reference_skill", linkrecord = "reference.skilldata." .. rSkillData.lookup .. "@*" };
+		-- end
+	-- end
 	
-	-- Display dialog to choose skill selection
-	local rSkillAdd = { nodeChar = nodeChar, nProf = nProf };
-	local wSelect = Interface.openWindow("select_dialog", "");
-	local sTitle = Interface.getString("char_build_title_selectskills");
-	local sMessage = string.format(Interface.getString("char_build_message_selectskills"), nPicks);
-	wSelect.requestSelection (sTitle, sMessage, aSkills, CharManager.onClassSkillSelect, rSkillAdd, nPicks);
-end
+	-- -- Display dialog to choose skill selection
+	-- local rSkillAdd = { nodeChar = nodeChar, nProf = nProf };
+	-- local wSelect = Interface.openWindow("select_dialog", "");
+	-- local sTitle = Interface.getString("char_build_title_selectskills");
+	-- local sMessage = string.format(Interface.getString("char_build_message_selectskills"), nPicks);
+	-- wSelect.requestSelection (sTitle, sMessage, aSkills, CharManager.onClassSkillSelect, rSkillAdd, nPicks);
+-- end
 
-function checkSkillProficiencies(nodeChar, sText)
-	-- Elf - Keen Senses - PHB
-	-- Half-Orc - Menacing - PHB
-	-- Goliath - Natural Athlete - Volo
-	local sSkill = sText:match("proficiency in the (%w+) skill");
-	if sSkill then
-		CharManager.addSkillDB(nodeChar, sSkill, 1);
-		return true;
-	end
-	-- Bugbear - Sneaky - Volo
-	-- (FALSE POSITIVE) Dwarf - Stonecunning
-	sSkill = sText:match("proficient in the (%w+) skill");
-	if sSkill then
-		CharManager.addSkillDB(nodeChar, sSkill, 1);
-		return true;
-	end
-	-- Orc - Menacing - Volo
-	sSkill = sText:match("trained in the (%w+) skill");
-	if sSkill then
-		CharManager.addSkillDB(nodeChar, sSkill, 1);
-		return true;
-	end
-	-- Tabaxi - Cat's Talent - Volo
-	local sSkill, sSkill2 = sText:match("proficiency in the (%w+) and (%w+) skills");
-	if sSkill and sSkill2 then
-		CharManager.addSkillDB(nodeChar, sSkill, 1);
-		CharManager.addSkillDB(nodeChar, sSkill2, 1);
-		return true;
-	end
+-- function checkSkillProficiencies(nodeChar, sText)
+	-- -- Elf - Keen Senses - PHB
+	-- -- Half-Orc - Menacing - PHB
+	-- -- Goliath - Natural Athlete - Volo
+	-- local sSkill = sText:match("proficiency in the (%w+) skill");
+	-- if sSkill then
+		-- CharManager.addSkillDB(nodeChar, sSkill, 1);
+		-- return true;
+	-- end
+	-- -- Bugbear - Sneaky - Volo
+	-- -- (FALSE POSITIVE) Dwarf - Stonecunning
+	-- sSkill = sText:match("proficient in the (%w+) skill");
+	-- if sSkill then
+		-- CharManager.addSkillDB(nodeChar, sSkill, 1);
+		-- return true;
+	-- end
+	-- -- Orc - Menacing - Volo
+	-- sSkill = sText:match("trained in the (%w+) skill");
+	-- if sSkill then
+		-- CharManager.addSkillDB(nodeChar, sSkill, 1);
+		-- return true;
+	-- end
+	-- -- Tabaxi - Cat's Talent - Volo
+	-- local sSkill, sSkill2 = sText:match("proficiency in the (%w+) and (%w+) skills");
+	-- if sSkill and sSkill2 then
+		-- CharManager.addSkillDB(nodeChar, sSkill, 1);
+		-- CharManager.addSkillDB(nodeChar, sSkill2, 1);
+		-- return true;
+	-- end
 
-	-- Half-Elf - Skill Versatility - PHB
-	-- Human (Variant) - Skills - PHB
-	local sPicks = sText:match("proficiency in (%w+) skills? of your choice");
-	if sPicks then
-		local aSkills = {};
-		for kSkill,_ in pairs(DataCommon.skilldata) do
-			table.insert(aSkills, kSkill);
-		end
-		table.sort(aSkills);
-		local nPicks = 0;
-		if sPicks == "one" then
-			nPicks = 1;
-		elseif sPicks == "two" then
-			nPicks = 2;
-		elseif sPicks == "three" then
-			nPicks = 3;
-		elseif sPicks == "four" then
-			nPicks = 4;
-		end
-		pickSkills(nodeChar, aSkills, nPicks);
-		return true;
-	end
-	-- Cleric - Acolyte of Nature - PHB
-	local nMatchEnd = sText:match("proficiency in one of the following skills of your choice()")
-	if nMatchEnd then
-		pickSkills(nodeChar, parseSkillsFromString(sText:sub(nMatchEnd)), 1);
-		return true;
-	end
-	-- Lizardfolk - Hunter's Lore - Volo
-	sPicks, nMatchEnd = sText:match("proficiency with (%w+) of the following skills of your choice()")
-	if sPicks then
-		local nPicks = 0;
-		if sPicks == "one" then
-			nPicks = 1;
-		elseif sPicks == "two" then
-			nPicks = 2;
-		elseif sPicks == "three" then
-			nPicks = 3;
-		elseif sPicks == "four" then
-			nPicks = 4;
-		end
-		pickSkills(nodeChar, parseSkillsFromString(sText:sub(nMatchEnd)), nPicks);
-		return true;
-	end
-	-- Cleric - Blessings of Knowledge - PHB
-	-- Kenku - Kenuku Training - Volo
-	sPicks, nMatchEnd = sText:match("proficient in your choice of (%w+) of the following skills()")
-	if sPicks then
-		local nPicks = 0;
-		if sPicks == "one" then
-			nPicks = 1;
-		elseif sPicks == "two" then
-			nPicks = 2;
-		elseif sPicks == "three" then
-			nPicks = 3;
-		elseif sPicks == "four" then
-			nPicks = 4;
-		end
-		local nProf = 1;
-		if sText:match("proficiency bonus is doubled") then
-			nProf = 2;
-		end
-		pickSkills(nodeChar, parseSkillsFromString(sText:sub(nMatchEnd)), nPicks, nProf);
-		return true;
-	end
-	return false;
-end
+	-- -- Half-Elf - Skill Versatility - PHB
+	-- -- Human (Variant) - Skills - PHB
+	-- local sPicks = sText:match("proficiency in (%w+) skills? of your choice");
+	-- if sPicks then
+		-- local aSkills = {};
+		-- for kSkill,_ in pairs(DataCommon.skilldata) do
+			-- table.insert(aSkills, kSkill);
+		-- end
+		-- table.sort(aSkills);
+		-- local nPicks = 0;
+		-- if sPicks == "one" then
+			-- nPicks = 1;
+		-- elseif sPicks == "two" then
+			-- nPicks = 2;
+		-- elseif sPicks == "three" then
+			-- nPicks = 3;
+		-- elseif sPicks == "four" then
+			-- nPicks = 4;
+		-- end
+		-- pickSkills(nodeChar, aSkills, nPicks);
+		-- return true;
+	-- end
+	-- -- Cleric - Acolyte of Nature - PHB
+	-- local nMatchEnd = sText:match("proficiency in one of the following skills of your choice()")
+	-- if nMatchEnd then
+		-- pickSkills(nodeChar, parseSkillsFromString(sText:sub(nMatchEnd)), 1);
+		-- return true;
+	-- end
+	-- -- Lizardfolk - Hunter's Lore - Volo
+	-- sPicks, nMatchEnd = sText:match("proficiency with (%w+) of the following skills of your choice()")
+	-- if sPicks then
+		-- local nPicks = 0;
+		-- if sPicks == "one" then
+			-- nPicks = 1;
+		-- elseif sPicks == "two" then
+			-- nPicks = 2;
+		-- elseif sPicks == "three" then
+			-- nPicks = 3;
+		-- elseif sPicks == "four" then
+			-- nPicks = 4;
+		-- end
+		-- pickSkills(nodeChar, parseSkillsFromString(sText:sub(nMatchEnd)), nPicks);
+		-- return true;
+	-- end
+	-- -- Cleric - Blessings of Knowledge - PHB
+	-- -- Kenku - Kenuku Training - Volo
+	-- sPicks, nMatchEnd = sText:match("proficient in your choice of (%w+) of the following skills()")
+	-- if sPicks then
+		-- local nPicks = 0;
+		-- if sPicks == "one" then
+			-- nPicks = 1;
+		-- elseif sPicks == "two" then
+			-- nPicks = 2;
+		-- elseif sPicks == "three" then
+			-- nPicks = 3;
+		-- elseif sPicks == "four" then
+			-- nPicks = 4;
+		-- end
+		-- local nProf = 1;
+		-- if sText:match("proficiency bonus is doubled") then
+			-- nProf = 2;
+		-- end
+		-- pickSkills(nodeChar, parseSkillsFromString(sText:sub(nMatchEnd)), nPicks, nProf);
+		-- return true;
+	-- end
+	-- return false;
+-- end
 
 function addFeatDB(nodeChar, sClass, sRecord)
 	local nodeSource = resolveRefNode(sRecord);
@@ -1691,12 +1693,12 @@ function addBackgroundRef(nodeChar, sClass, sRecord)
 			table.sort(aPickSkills);
 		end
 		
-		for sSkill in sSkills:gmatch("(%a[%a%s]+),?") do
-			local sTrim = StringManager.trim(sSkill);
-			if sTrim ~= "" then
-				addSkillDB(nodeChar, sTrim, 1);
-			end
-		end
+		-- for sSkill in sSkills:gmatch("(%a[%a%s]+),?") do
+			-- local sTrim = StringManager.trim(sSkill);
+			-- if sTrim ~= "" then
+				-- addSkillDB(nodeChar, sTrim, 1);
+			-- end
+		-- end
 		
 		if nPicks > 0 then
 			pickSkills(nodeChar, aPickSkills, nPicks);
@@ -2139,9 +2141,10 @@ function addSkillRef(nodeChar, sClass, sRecord)
 	if not nodeSource then
 		return;
 	end
+--Debug.console("manager_char.lua","addSkillRef","nodeSource",nodeSource);    
 	
 	-- Add skill entry
-	local nodeSkill = addSkillDB(nodeChar, DB.getValue(nodeSource, "name", ""));
+	local nodeSkill = addSkillDB(nodeChar, DB.getValue(nodeSource, "name", ""),nodeSource);
 	if nodeSkill then
 		DB.setValue(nodeSkill, "text", "formattedtext", DB.getValue(nodeSource, "text", ""));
 	end
