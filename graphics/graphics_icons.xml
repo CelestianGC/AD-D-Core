@@ -206,4 +206,9 @@
 	<icon name="forge_magicitem_weapon" file="graphics/forge/magic_weapon.png" />
 	<icon name="forge_magicitem_wondrousitem" file="graphics/forge/magic_wondrousitem.png" />
 	<icon name="forge_magicspell" file="graphics/forge/magic_spell.png" />
+    
+    <!-- tabs -->
+ 	<icon name="tab_weapons" file="graphics/tabs/tab_weapons.png" />
+
+    
 </root>

@@ -23,7 +23,7 @@
                     <right offset="-9" />
                 </anchored>
 				<tab>
-					<icon>tab_combat</icon>
+					<icon>tab_weapons</icon>
 					<subwindow>weapons</subwindow>
 				</tab>
 				<tab>
