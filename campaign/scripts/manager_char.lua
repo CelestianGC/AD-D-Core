@@ -974,10 +974,12 @@ function addProficiencyDB(nodeChar, sType, sText, nodeSource)
 
 	-- need these values --celestian
     if nodeSource and ( sType == "weapon" or sType == "racial" ) then
+        local sDescription = DB.getValue(nodeSource,"text","");
         local nHitADJ = DB.getValue(nodeSource,"hitadj",0);
         local nDMGADJ = DB.getValue(nodeSource,"dmgadj",0);
         DB.setValue(nodeEntry, "hitadj", "number", nHitADJ);
         DB.setValue(nodeEntry, "dmgadj", "number", nDMGADJ);
+        DB.setValue(nodeEntry, "text", "formattedtext", sDescription);
     end
 
 	-- Announce
@@ -1805,6 +1807,9 @@ function addRaceSelect(aSelection, aTable)
     for _,v in pairs(DB.getChildren(nodeSource, "proficiencies")) do
         addClassProficiencyDB(nodeChar, "reference_racialproficiency", v.getPath());
     end
+    for _,v in pairs(DB.getChildren(nodeSource, "nonweaponprof")) do
+        addClassProficiencyDB(nodeChar, "reference_racialproficiency", v.getPath());
+    end
 	
 	if sSubRace then
 		for _,vSubRace in pairs(DB.getChildrenGlobal(nodeSource, "subraces")) do
@@ -1958,15 +1963,18 @@ function addClassRef(nodeChar, sClass, sRecord)
 	
 	-- Add proficiencies
 	if not bExistingClass then
-		if nTotalLevel == 1 then
+--		if nTotalLevel == 1 then
 			for _,v in pairs(DB.getChildren(nodeSource, "proficiencies")) do
 				addClassProficiencyDB(nodeChar, "reference_classproficiency", v.getPath());
 			end
-		else
-			for _,v in pairs(DB.getChildren(nodeSource, "multiclassproficiencies")) do
+			for _,v in pairs(DB.getChildren(nodeSource, "nonweaponprof")) do
 				addClassProficiencyDB(nodeChar, "reference_classproficiency", v.getPath());
 			end
-		end
+--		else
+--			for _,v in pairs(DB.getChildren(nodeSource, "multiclassproficiencies")) do
+--				addClassProficiencyDB(nodeChar, "reference_classproficiency", v.getPath());
+--			end
+--		end
 	end
 	
     -- setup/copy the save/fight as cyclers. --celestian
