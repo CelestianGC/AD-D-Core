@@ -138,10 +138,6 @@
 						
 						window.weapons_iadd.setVisible(bEditMode);
 
-						window.powermode_label.setVisible(not bEditMode);
-						window.powermode.setVisible(not bEditMode);
-						window.powerdisplay_label.setVisible(not bEditMode);
-						window.powerdisplaymode.setVisible(not bEditMode);
 						if bEditMode then
 							DB.setValue(window.getDatabaseNode(), "powermode", "string", "standard");
 							DB.setValue(window.getDatabaseNode(), "powerdisplaymode", "string", "");
