@@ -32,6 +32,7 @@ end
 
 function onModeChanged()
 	local bPrepMode = (DB.getValue(window.getDatabaseNode(), "powermode", "") == "preparation");
+    bPrepMode = true; -- I wanna have equipped/carried item view always, so set this to always true --celestian
 	for _,w in ipairs(getWindows()) do
 		w.carried.setVisible(bPrepMode);
 	end
@@ -66,8 +67,11 @@ function onDrop(x, y, draginfo)
 end
 
 function onFilter(w)
-	if (DB.getValue(window.getDatabaseNode(), "powermode", "") == "combat") and (w.carried.getValue() < 2) then
-		return false;
-	end
+    -- this hides custom entries that are not actual items. I like to have them visible everywhere because
+    -- of things like adding "weapons" for unarmed combat or something similar.
+    -- because of that I've commented it out so that they are never hidden   --celestian
+	-- if (DB.getValue(window.getDatabaseNode(), "powermode", "") == "combat") and (w.carried.getValue() < 2) then
+		-- return false;
+	-- end
 	return true;
 end

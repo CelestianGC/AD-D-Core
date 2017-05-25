@@ -95,6 +95,120 @@
 			</label_reftype>	
 		</sheetdata>
 	</windowclass>
+	<windowclass name="ref_classproficiency_header">
+		<margins control="0,0,0,2" />
+		<script>
+			function onInit()
+				update();
+			end
+			function update()
+				local bReadOnly = WindowManager.getReadOnlyState(getDatabaseNode());
+				name.setReadOnly(bReadOnly);
+			end
+		</script>
+		<sheetdata>
+			<link_record_header>
+				<class>reference_classproficiency</class>
+			</link_record_header>
+
+			<anchor_record_header_right />
+			<icon_record_locked />
+			<button_record_locked />
+
+			<string_record_name name="name">
+				<empty textres="library_recordtype_empty_classproficiency" />
+			</string_record_name>
+			<label_reftype name="reftype">
+				<static textres="ref_type_classproficiency" />
+			</label_reftype>	
+		</sheetdata>
+	</windowclass>
+	<windowclass name="ref_nonweaponproficiency_header">
+		<margins control="0,0,0,2" />
+		<script>
+			function onInit()
+				update();
+			end
+			function update()
+				local bReadOnly = WindowManager.getReadOnlyState(getDatabaseNode());
+				name.setReadOnly(bReadOnly);
+			end
+		</script>
+		<sheetdata>
+			<link_record_header>
+				<class>reference_nonweaponproficiency</class>
+			</link_record_header>
+
+			<anchor_record_header_right />
+			<icon_record_locked />
+			<button_record_locked />
+
+			<string_record_name name="name">
+				<empty textres="library_recordtype_empty_nonweaponproficiency" />
+			</string_record_name>
+			<label_reftype name="reftype">
+				<static textres="ref_type_nonweaponproficiency" />
+			</label_reftype>	
+		</sheetdata>
+	</windowclass>
+	<windowclass name="ref_classfeature_header">
+		<margins control="0,0,0,2" />
+		<script>
+			function onInit()
+				update();
+			end
+			function update()
+				local bReadOnly = WindowManager.getReadOnlyState(getDatabaseNode());
+				name.setReadOnly(bReadOnly);
+			end
+		</script>
+		<sheetdata>
+			<link_record_header>
+				<class>reference_classfeature</class>
+			</link_record_header>
+
+			<anchor_record_header_right />
+			<icon_record_locked />
+			<button_record_locked />
+
+			<string_record_name name="name">
+				<empty textres="library_recordtype_empty_classfeature" />
+			</string_record_name>
+			<label_reftype name="reftype">
+				<static textres="ref_type_feature" />
+			</label_reftype>	
+		</sheetdata>
+	</windowclass>
+	<windowclass name="ref_classability_header">
+		<margins control="0,0,0,2" />
+		<script>
+			function onInit()
+				update();
+			end
+			function update()
+				local bReadOnly = WindowManager.getReadOnlyState(getDatabaseNode());
+				name.setReadOnly(bReadOnly);
+			end
+		</script>
+		<sheetdata>
+			<link_record_header>
+				<class>reference_classability</class>
+			</link_record_header>
+
+			<anchor_record_header_right />
+			<icon_record_locked />
+			<button_record_locked />
+
+			<string_record_name name="name">
+				<empty textres="library_recordtype_empty_classspecialization" />
+			</string_record_name>
+			<label_reftype name="reftype">
+				<static textres="ref_type_classability" />
+			</label_reftype>	
+		</sheetdata>
+	</windowclass>
+	
+	
 	<windowclass name="ref_class_stats">
 		<margins control="0,0,0,7" />
 		<script>
@@ -107,7 +221,7 @@
 				saveas.setReadOnly(bReadOnly);
 				fightas.setReadOnly(bReadOnly);
 				proficiencies.update(bReadOnly);
-				multiclassproficiencies.update(bReadOnly);
+				nonweaponproficiencies.update(bReadOnly);
 				features.update(bReadOnly);
 				specializations.update(bReadOnly);
                 
@@ -154,8 +268,8 @@
                 </anchored>
 			</class_cycler_do_as>
             
-			<header_column name="proficiencies_header">
-				<static textres="class_header_proficiencies"/>
+			<header_column name="proficiencies_header"> <!--Weapon Prof-->
+				<static textres="class_header_weaponproficiencies"/>
 				<center />
 			</header_column>
 			<button_iedit name="proficiencies_iedit">
@@ -173,21 +287,21 @@
 				<!-- <class>ref_class_proficiency</class> -->
 			</list_column>
 			
-			<header_column name="multiclassproficiencies_header">
-				<static textres="class_header_multiclassproficiencies"/>
+			<header_column name="nonweaponproficiencies_header">
+				<static textres="class_header_nonweaponproficiencies"/>
 				<center />
 			</header_column>
-			<button_iedit name="multiclassproficiencies_iedit">
-				<anchored to="multiclassproficiencies_header" position="righthigh" offset="-20,0" />
-				<target>multiclassproficiencies</target>
+			<button_iedit name="nonweaponproficiencies_iedit">
+				<anchored to="nonweaponproficiencies_header" position="righthigh" offset="-20,0" />
+				<target>nonweaponprof</target>
 			</button_iedit>
-			<button_iadd name="multiclassproficiencies_iadd">
-				<anchored to="multiclassproficiencies_iedit" position="lefthigh" offset="5,0" />
-				<target>multiclassproficiencies</target>
+			<button_iadd name="nonweaponproficiencies_iadd">
+				<anchored to="nonweaponproficiencies_iedit" position="lefthigh" offset="5,0" />
+				<target>nonweaponprof</target>
 			</button_iadd>
-			<list_column name="multiclassproficiencies">
-				<datasource>.multiclassproficiencies</datasource>
-				<class>ref_class_proficiency</class>
+			<list_column name="nonweaponproficiencies">
+				<datasource>.nonweaponprof</datasource>
+				<class>ref_nonweapon_proficiency</class>
 			</list_column>
 			
 			<header_column name="features_header">
@@ -238,6 +352,20 @@
 
 			<string_listitem_column_name name="name">
 				<empty textres="library_recordtype_empty_classproficiency" />
+			</string_listitem_column_name>
+		</sheetdata>
+	</windowclass>
+	<windowclass name="ref_nonweapon_proficiency">
+		<margins control="0,0,0,2" />
+		<sheetdata>
+			<anchor_listitem_column_right name="rightanchor" />
+			<link_listitem_column name="shortcut">
+				<class>reference_skill</class>
+			</link_listitem_column>
+			<button_listitem_column_delete name="idelete" />
+
+			<string_listitem_column_name name="name">
+				<empty textres="library_recordtype_empty_nonweaponproficiency" />
 			</string_listitem_column_name>
 		</sheetdata>
 	</windowclass>
@@ -320,32 +448,44 @@
 			<close_recordsheet />
 		</sheetdata>
 	</windowclass>
-	<windowclass name="ref_classproficiency_header">
-		<margins control="0,0,0,2" />
+	<windowclass name="reference_nonweaponproficiency">
+		<frame>recordsheet</frame>
+		<placement>
+			<size width="350" height="200" />
+		</placement>
+		<sizelimits>
+			<minimum width="300" height="300" />
+			<dynamic />
+		</sizelimits>
+		<minimize>minimized_reference</minimize>
+		<tooltip field="name" />
 		<script>
-			function onInit()
-				update();
-			end
-			function update()
+			function onLockChanged()
+				if header.subwindow then
+					header.subwindow.update();
+				end
+				
 				local bReadOnly = WindowManager.getReadOnlyState(getDatabaseNode());
-				name.setReadOnly(bReadOnly);
+				text.setReadOnly(bReadOnly);
 			end
 		</script>
 		<sheetdata>
-			<link_record_header>
-				<class>reference_classproficiency</class>
-			</link_record_header>
+			<sub_record_header name="header">
+				<class>nonweaponproficiencies_header</class>
+			</sub_record_header>
 
-			<anchor_record_header_right />
-			<icon_record_locked />
-			<button_record_locked />
-
-			<string_record_name name="name">
-				<empty textres="library_recordtype_empty_classproficiency" />
-			</string_record_name>
-			<label_reftype name="reftype">
-				<static textres="ref_type_classproficiency" />
-			</label_reftype>	
+			<frame_record_content name="contentframe" />
+			<stringfield name="text">
+				<anchored to="contentframe" position="over" />
+				<multilinespacing>20</multilinespacing>
+			</stringfield>
+			<scrollbar>
+				<anchored to="text" />
+				<target>text</target>
+			</scrollbar>
+			
+			<resize_recordsheet />
+			<close_recordsheet />
 		</sheetdata>
 	</windowclass>
 
@@ -383,34 +523,6 @@
 			
 			<resize_recordsheet />
 			<close_recordsheet />
-		</sheetdata>
-	</windowclass>
-	<windowclass name="ref_classfeature_header">
-		<margins control="0,0,0,2" />
-		<script>
-			function onInit()
-				update();
-			end
-			function update()
-				local bReadOnly = WindowManager.getReadOnlyState(getDatabaseNode());
-				name.setReadOnly(bReadOnly);
-			end
-		</script>
-		<sheetdata>
-			<link_record_header>
-				<class>reference_classfeature</class>
-			</link_record_header>
-
-			<anchor_record_header_right />
-			<icon_record_locked />
-			<button_record_locked />
-
-			<string_record_name name="name">
-				<empty textres="library_recordtype_empty_classfeature" />
-			</string_record_name>
-			<label_reftype name="reftype">
-				<static textres="ref_type_feature" />
-			</label_reftype>	
 		</sheetdata>
 	</windowclass>
 	<windowclass name="ref_classfeature_stats">
@@ -491,32 +603,5 @@
 			<close_recordsheet />
 		</sheetdata>
 	</windowclass>
-	<windowclass name="ref_classability_header">
-		<margins control="0,0,0,2" />
-		<script>
-			function onInit()
-				update();
-			end
-			function update()
-				local bReadOnly = WindowManager.getReadOnlyState(getDatabaseNode());
-				name.setReadOnly(bReadOnly);
-			end
-		</script>
-		<sheetdata>
-			<link_record_header>
-				<class>reference_classability</class>
-			</link_record_header>
-
-			<anchor_record_header_right />
-			<icon_record_locked />
-			<button_record_locked />
-
-			<string_record_name name="name">
-				<empty textres="library_recordtype_empty_classspecialization" />
-			</string_record_name>
-			<label_reftype name="reftype">
-				<static textres="ref_type_classability" />
-			</label_reftype>	
-		</sheetdata>
-	</windowclass>
+	
 </root>

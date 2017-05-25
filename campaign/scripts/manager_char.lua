@@ -849,7 +849,7 @@ function addClassProficiencyDB(nodeChar, sClass, sRecord)
 
 	-- Armor, Weapon or Tool Proficiencies
 --	if StringManager.contains({"armor", "weapons", "tools"}, sType) then
-    if sType == "weapon" then		-- celestian
+    if sType == "weapon" or sType == "racial" then		-- celestian
         local sText = DB.getText(nodeSource, "name");                       -- get name name of the weapon prof
 		addProficiencyDB(nodeChar, sType, sText, nodeSource);
 	-- Saving Throw Proficiencies
@@ -963,7 +963,9 @@ function addProficiencyDB(nodeChar, sType, sText, nodeSource)
 		sValue = Interface.getString("char_label_addprof_armor");
 --	elseif sType == "weapons" then
 	elseif sType == "weapon" then
-		sValue = Interface.getString("char_label_addprof_weapon");
+		sValue = Interface.getString("char_label_addprof_weapon");	
+	elseif sType == "racial" then
+		sValue = Interface.getString("char_label_addprof_racial");	
 	else
 		sValue = Interface.getString("char_label_addprof_tool");
 	end
@@ -971,7 +973,7 @@ function addProficiencyDB(nodeChar, sType, sText, nodeSource)
 	DB.setValue(nodeEntry, "name", "string", sValue);
 
 	-- need these values --celestian
-    if nodeSource and sType == "weapon" then
+    if nodeSource and ( sType == "weapon" or sType == "racial" ) then
         local nHitADJ = DB.getValue(nodeSource,"hitadj",0);
         local nDMGADJ = DB.getValue(nodeSource,"dmgadj",0);
         DB.setValue(nodeEntry, "hitadj", "number", nHitADJ);

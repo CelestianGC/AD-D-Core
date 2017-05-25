@@ -344,5 +344,10 @@
 	<string name="ref_label_wtdkd">KnockDown</string>
 	<string name="item_label_damage_sm">Damage Vs S/M</string>
 	<string name="item_label_damage_l">Damage Vs L</string>
+	<string name="char_label_addprof_racial">Racial</string>
+    <string name="class_header_nonweaponproficiencies">NON-WEAPON PROFICIENCIES</string>
+    <string name="class_header_weaponproficiencies">WEAPON PROFICIENCIES</string>
+    <string name="ref_type_nonweaponproficiency">Non-Weapon Proficiency</string>
+    <string name="library_recordtype_empty_nonweaponproficiency">&#171; New Non-Weapon Proficiency &#187;</string>
     
 </root>
