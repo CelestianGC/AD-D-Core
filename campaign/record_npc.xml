@@ -25,6 +25,12 @@
 			</sub_record_header>
 
 			<frame_record_content_tabbed name="contentframe" />
+            <anchor_title_charsheet name="contentanchor" />
+			
+            <stringu name="name">
+				<invisible />
+				<anchored to="contentanchor" position="insidetop" offset="0,25" height="20" />
+			</stringu>
 
 			<subwindow_record name="main_creature">
 				<class>npc_combat</class>
@@ -33,6 +39,9 @@
 				<anchored to="contentframe" position="over" />
 				<invisible />
 			</ft_record>
+			<sub_charsheet name="combat">
+				<class>charsheet_combat</class>
+			</sub_charsheet>
 
 			<scrollbar_record>
 				<target>main_creature</target>
@@ -46,6 +55,10 @@
 					<icon>tab_main</icon>
 					<subwindow>main_creature</subwindow>
 				</tab>
+                <tab>
+                    <icon>tab_actions</icon>
+                    <subwindow>combat</subwindow>
+                </tab>
 				<tab>
 					<icon>tab_other</icon>
 					<subwindow>text</subwindow>

@@ -179,6 +179,11 @@
 
 	<windowclass name="charsheet_actions_powers">
 		<script>
+            function onInit()
+                node = getDatabaseNode();
+				DB.setValue(node, "powermode", "string", "preparation");
+            end
+            
 			function onDrop(x, y, draginfo)
 				if contents.subwindow.actions.subwindow.onDrop(x, y, draginfo) then
 					return true;
@@ -201,7 +206,7 @@
 						window.powerdisplay_label.setVisible(not bEditMode);
 						window.powerdisplaymode.setVisible(not bEditMode);
 						if bEditMode then
-							DB.setValue(window.getDatabaseNode(), "powermode", "string", "standard");
+							DB.setValue(window.getDatabaseNode(), "powermode", "string", "preparation");
 							DB.setValue(window.getDatabaseNode(), "powerdisplaymode", "string", "");
 						end
 
@@ -243,7 +248,7 @@
 				<parameters>
 					<labelsres>power_label_modeprep|power_label_modecombat</labelsres>
 					<values>preparation|combat</values>
-					<defaultlabelres>power_label_modestd</defaultlabelres>
+ 					<defaultlabelres>power_label_modestd</defaultlabelres> 
 				</parameters>
 				<script>
 					function onValueChanged()
