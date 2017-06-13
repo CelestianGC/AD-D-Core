@@ -128,8 +128,10 @@
                     local node = getDatabaseNode();
                     if not ActorManager.isPC(node) then
                         local sClass, sRecord = draginfo.getShortcutData();
+                        Debug.console("record_char_actions.xml","charsheet_actions_weapons","sClass",sClass);
+                        Debug.console("record_char_actions.xml","charsheet_actions_weapons","sRecord",sRecord);
                         if sClass == "item" then
-                            processNPCWeapon(draginfo,node);
+                            processNPCWeapon(draginfo,sRecord, node);
                         end
                     end
 					return true;
@@ -137,12 +139,12 @@
 				return false;
 			end
 
-            function processNPCWeapon(draginfo,nodeNPC)
+            function processNPCWeapon(draginfo,sItemShortCutRecord, nodeNPC)
                 local nodeWeapon = draginfo.getDatabaseNode();
                 if not draginfo.isType("shortcut") then
                     return false;
                 end
-                CharManager.addToWeaponDB(nodeWeapon,nodeNPC);
+                CharManager.addToWeaponDB(nodeWeapon,nodeNPC, sItemShortCutRecord);
             end
 		</script>
 		<sheetdata>

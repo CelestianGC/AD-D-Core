@@ -363,7 +363,7 @@ function removeFromWeaponDB(nodeItem)
 	return bFound;
 end
 
-function addToWeaponDB(nodeItem,nodeNPC)
+function addToWeaponDB(nodeItem,nodeNPC, sItemShortCutRecord)
 	-- Parameter validation
 	if not ItemManager2.isWeapon(nodeItem) then
 		return;
@@ -374,6 +374,7 @@ function addToWeaponDB(nodeItem,nodeNPC)
     if nodeNPC then
         nodeChar = nodeNPC;
     end
+
 	local nodeWeapons = nodeChar.createChild("weaponlist");
 	if not nodeWeapons then
 		return;
@@ -480,7 +481,11 @@ function addToWeaponDB(nodeItem,nodeNPC)
 		local nodeWeapon = nodeWeapons.createChild();
 		if nodeWeapon then
 			DB.setValue(nodeWeapon, "isidentified", "number", nItemID);
-			DB.setValue(nodeWeapon, "shortcut", "windowreference", "item", "....inventorylist." .. nodeItem.getName());
+            if sItemShortCutRecord == nil then
+                DB.setValue(nodeWeapon, "shortcut", "windowreference", "item", "....inventorylist." .. nodeItem.getName());
+            else
+                DB.setValue(nodeWeapon, "shortcut", "windowreference", "item", sItemShortCutRecord);
+            end
 			
 			local sAttackAbility = "";
 			local sDamageAbility = "base";
@@ -523,7 +528,11 @@ function addToWeaponDB(nodeItem,nodeNPC)
 		local nodeWeapon = nodeWeapons.createChild();
 		if nodeWeapon then
 			DB.setValue(nodeWeapon, "isidentified", "number", nItemID);
-			DB.setValue(nodeWeapon, "shortcut", "windowreference", "item", "....inventorylist." .. nodeItem.getName());
+            if sItemShortCutRecord == nil then
+                DB.setValue(nodeWeapon, "shortcut", "windowreference", "item", "....inventorylist." .. nodeItem.getName());
+            else
+                DB.setValue(nodeWeapon, "shortcut", "windowreference", "item", sItemShortCutRecord);
+            end
 			
 			local sAttackAbility = "";
 			local sDamageAbility = "base";
@@ -560,7 +569,11 @@ function addToWeaponDB(nodeItem,nodeNPC)
 		local nodeWeapon = nodeWeapons.createChild();
 		if nodeWeapon then	
 			DB.setValue(nodeWeapon, "isidentified", "number", nItemID);
-			DB.setValue(nodeWeapon, "shortcut", "windowreference", "item", "....inventorylist." .. nodeItem.getName());
+            if sItemShortCutRecord == nil then
+                DB.setValue(nodeWeapon, "shortcut", "windowreference", "item", "....inventorylist." .. nodeItem.getName());
+            else
+                DB.setValue(nodeWeapon, "shortcut", "windowreference", "item", sItemShortCutRecord);
+            end
 			
 			local sAttackAbility = "";
 			local sDamageAbility = "base";
