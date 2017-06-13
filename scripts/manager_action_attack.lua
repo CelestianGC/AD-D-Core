@@ -574,14 +574,13 @@ function getTHACO(rActor)
 	end
 	
 	-- get pc thaco value
-	if sActorType == "pc" then
+	if ActorManager.isPC(nodeActor) then
 		nTHACO = DB.getValue(nodeActor, "combat.thaco.score", 20);
 	else
 	-- npc thaco calcs
 		nTHACO = DB.getValue(nodeActor, "thaco", 20);
 	end
 
-    --print ("manager_action_attack.lua: getTHACO :" .. nTHACO);
 	return nTHACO
 end
 

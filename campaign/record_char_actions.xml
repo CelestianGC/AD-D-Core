@@ -10,11 +10,9 @@
 		<script>
 			function onDrop(x, y, draginfo)
 				if contents.subwindow.actions.subwindow.onDrop(x, y, draginfo) then
-                Debug.console("record_char_actions.xml","charsheet_actions","------------->TRUE");
 					return true;
 				end
 				if contents.subwindow.weapons.onDrop(x, y, draginfo) then
-                Debug.console("record_char_actions.xml","charsheet_actions->weapons","------------->TRUE");
 					return true;
 				end
 				return false;
@@ -128,8 +126,6 @@
                     local node = getDatabaseNode();
                     if not ActorManager.isPC(node) then
                         local sClass, sRecord = draginfo.getShortcutData();
-                        Debug.console("record_char_actions.xml","charsheet_actions_weapons","sClass",sClass);
-                        Debug.console("record_char_actions.xml","charsheet_actions_weapons","sRecord",sRecord);
                         if sClass == "item" then
                             processNPCWeapon(draginfo,sRecord, node);
                         end
