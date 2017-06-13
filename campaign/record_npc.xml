@@ -29,7 +29,7 @@
 			
             <stringu name="name">
 				<invisible />
-				<anchored to="contentanchor" position="insidetop" offset="0,25" height="20" />
+				<anchored to="contentanchor" position="insidetop" offset="0,0" height="0" />
 			</stringu>
 
 			<subwindow_record name="main_creature">
@@ -45,6 +45,9 @@
 
 			<scrollbar_record>
 				<target>main_creature</target>
+			</scrollbar_record>
+			<scrollbar_record>
+				<target>combat</target>
 			</scrollbar_record>
 			<scrollbar_record>
 				<target>text</target>

@@ -10,9 +10,11 @@
 		<script>
 			function onDrop(x, y, draginfo)
 				if contents.subwindow.actions.subwindow.onDrop(x, y, draginfo) then
+                Debug.console("record_char_actions.xml","charsheet_actions","------------->TRUE");
 					return true;
 				end
 				if contents.subwindow.weapons.onDrop(x, y, draginfo) then
+                Debug.console("record_char_actions.xml","charsheet_actions->weapons","------------->TRUE");
 					return true;
 				end
 				return false;
@@ -123,10 +125,25 @@
 		<script>
 			function onDrop(x, y, draginfo)
 				if contents.subwindow.weapons.onDrop(x, y, draginfo) then
+                    local node = getDatabaseNode();
+                    if not ActorManager.isPC(node) then
+                        local sClass, sRecord = draginfo.getShortcutData();
+                        if sClass == "item" then
+                            processNPCWeapon(draginfo,node);
+                        end
+                    end
 					return true;
 				end
 				return false;
 			end
+
+            function processNPCWeapon(draginfo,nodeNPC)
+                local nodeWeapon = draginfo.getDatabaseNode();
+                if not draginfo.isType("shortcut") then
+                    return false;
+                end
+                CharManager.addToWeaponDB(nodeWeapon,nodeNPC);
+            end
 		</script>
 		<sheetdata>
 			<button_iedit name="actions_iedit">

@@ -126,6 +126,10 @@
 	<script name="ActorManager2" file="scripts/manager_actor2.lua" />
 	<script name="CombatManager2" file="scripts/manager_combat2.lua" />
 	<script name="EffectManager" file="scripts/manager_effect.lua" />
+    <!-- TEST -->
+	<!-- <script name="ItemManager" file="scripts/manager_item.lua" /> -->
+    <!-- TEST -->
+    
 	<script name="ItemManager2" file="scripts/manager_item2.lua" />
 	<script name="PowerManager" file="scripts/manager_power.lua" />
 	<script name="TokenManager2" file="scripts/manager_token2.lua" />

@@ -363,7 +363,7 @@ function removeFromWeaponDB(nodeItem)
 	return bFound;
 end
 
-function addToWeaponDB(nodeItem)
+function addToWeaponDB(nodeItem,nodeNPC)
 	-- Parameter validation
 	if not ItemManager2.isWeapon(nodeItem) then
 		return;
@@ -371,6 +371,9 @@ function addToWeaponDB(nodeItem)
 	
 	-- Get the weapon list we are going to add to
 	local nodeChar = nodeItem.getChild("...");
+    if nodeNPC then
+        nodeChar = nodeNPC;
+    end
 	local nodeWeapons = nodeChar.createChild("weaponlist");
 	if not nodeWeapons then
 		return;
