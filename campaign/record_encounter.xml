@@ -74,6 +74,7 @@
 				<icon normal="button_arrowdown" pressed="button_arrowdown_down" />
 				<tooltip textres="battle_tooltip_addct" />
 				<gmvisibleonly />
+                <!-- ADDED COUNTER HERE TO NUMBER OF TIMES SPAWNED --celestian -->
 				<script>
 					function onButtonPress()
 						if User.isHost() then
@@ -83,12 +84,25 @@
 								end
 							end
 							
+                            local node = window.getDatabaseNode();
+                            local nSpawncount = DB.getValue(node,"spawncount",0);
+                            nSpawncount = nSpawncount + 1;
+                            DB.setValue(node,"spawncount","number",nSpawncount)
+                            
 							CombatManager.addBattle(window.getDatabaseNode());
 						end
 					end
 				</script>
 			</buttoncontrol>
-			
+                <!-- Add label "Times spawned ", add label spawncount -->
+                <label name="label_spawn">
+                    <anchored to="addct" position="righthigh" offset="10,3" />
+                    <static text="Times spawned" />
+                </label>
+                <basicnumber name="spawncount">
+                    <anchored to="label_spawn" position="righthigh" offset="10,0"  width="20" height="20" />
+                </basicnumber>
+                
 			<resize_recordsheet />
 			<close_recordsheet />
 		</sheetdata>

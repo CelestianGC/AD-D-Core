@@ -371,6 +371,8 @@ function addToWeaponDB(nodeItem,nodeNPC, sItemShortCutRecord)
 	
 	-- Get the weapon list we are going to add to
 	local nodeChar = nodeItem.getChild("...");
+
+    -- if nodeNPC is passed we need to change to a nodeChar to it --celestian
     if nodeNPC then
         nodeChar = nodeNPC;
     end
@@ -481,6 +483,7 @@ function addToWeaponDB(nodeItem,nodeNPC, sItemShortCutRecord)
 		local nodeWeapon = nodeWeapons.createChild();
 		if nodeWeapon then
 			DB.setValue(nodeWeapon, "isidentified", "number", nItemID);
+            -- if sItemShortCutRecord exists this is a npc, so use a different shortcut link --celestian
             if sItemShortCutRecord == nil then
                 DB.setValue(nodeWeapon, "shortcut", "windowreference", "item", "....inventorylist." .. nodeItem.getName());
             else
@@ -528,6 +531,7 @@ function addToWeaponDB(nodeItem,nodeNPC, sItemShortCutRecord)
 		local nodeWeapon = nodeWeapons.createChild();
 		if nodeWeapon then
 			DB.setValue(nodeWeapon, "isidentified", "number", nItemID);
+            -- if sItemShortCutRecord exists this is a npc, so use a different shortcut link --celestian
             if sItemShortCutRecord == nil then
                 DB.setValue(nodeWeapon, "shortcut", "windowreference", "item", "....inventorylist." .. nodeItem.getName());
             else
@@ -569,6 +573,7 @@ function addToWeaponDB(nodeItem,nodeNPC, sItemShortCutRecord)
 		local nodeWeapon = nodeWeapons.createChild();
 		if nodeWeapon then	
 			DB.setValue(nodeWeapon, "isidentified", "number", nItemID);
+            -- if sItemShortCutRecord exists this is a npc, so use a different shortcut link --celestian
             if sItemShortCutRecord == nil then
                 DB.setValue(nodeWeapon, "shortcut", "windowreference", "item", "....inventorylist." .. nodeItem.getName());
             else
