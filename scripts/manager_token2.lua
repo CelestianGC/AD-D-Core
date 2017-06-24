@@ -199,11 +199,16 @@ function updateHealthHelper(tokenCT, nodeCT)
     -- this should let someone add randomness to the token
     -- sDeathTokenName = sDeathTokenName .. tostring(math.random(5)); -- creates token_dead0,token_dead1,token_dead2,token_dead3,token_dead4,token_dead5 string
 
-    -- this would make a PC token look different.
-    -- need a node file that's valid?
-    -- if somesortaPCcheckAgainst nodeCT then
-        -- sDeathTokenName = "token_dead_pc";
-    -- end
+    -- this makes a PC token different than NPC
+    local rActor = ActorManager.getActorFromCT(nodeCT);
+    local sActorType, nodeActor = ActorManager.getTypeAndNode(rActor);    
+-- Debug.console("manager_token2.lua","updateHealthHelper","rActor",rActor);
+-- Debug.console("manager_token2.lua","updateHealthHelper","sActorType",sActorType);
+-- Debug.console("manager_token2.lua","updateHealthHelper","nodeActor",nodeActor);
+    if sActorType == "pc" then
+        sDeathTokenName = "token_dead_pc";
+    end
+    
     if not widgetDeathIndicator then
         widgetDeathIndicator = tokenCT.addBitmapWidget(sDeathTokenName);
         widgetDeathIndicator.setBitmap(sDeathTokenName);
