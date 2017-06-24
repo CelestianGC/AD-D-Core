@@ -103,7 +103,7 @@ function getRoll(rActor, rAction)
 		rRoll.sDesc = rRoll.sDesc .. " (" .. rAction.range .. ")";
 	end
 	rRoll.sDesc = rRoll.sDesc .. "] " .. rAction.label;
-	
+
 	-- Add crit range
 	if rAction.nCritRange then
 		rRoll.sDesc = rRoll.sDesc .. " [CRIT " .. rAction.nCritRange .. "]";
@@ -136,13 +136,11 @@ function getRoll(rActor, rAction)
 		rRoll.sDesc = rRoll.sDesc .. " [DIS]";
 	end
 
-	
 	return rRoll;
 end
 
 function performRoll(draginfo, rActor, rAction)
 	local rRoll = getRoll(rActor, rAction);
-
 	ActionsManager.performAction(draginfo, rActor, rRoll);
 end
 
@@ -186,6 +184,13 @@ function modAttack(rSource, rTarget, rRoll)
 	end
 
 	local aAttackFilter = {};
+
+-- Debug.console("manager_action_attack.lua","modAttack","rSource",rSource);
+-- Debug.console("manager_action_attack.lua","modAttack","rTarget",rTarget);
+-- Debug.console("manager_action_attack.lua","modAttack","rRoll",rRoll);
+    local nBaseAttack = 0;
+    rRoll.nBaseAttack = nBaseAttack;
+
 	if rSource then
 		-- Determine attack type
 		local sAttackType = string.match(rRoll.sDesc, "%[ATTACK.*%((%w+)%)%]");
@@ -281,7 +286,7 @@ function modAttack(rSource, rTarget, rRoll)
 		end
 
 		-- Get Base Attack modifier
-		local nBaseAttack = getBaseAttack(rSource);
+		nBaseAttack = getBaseAttack(rSource);
         rRoll.nBaseAttack = nBaseAttack;
 		
 		-- Get ability modifiers
@@ -335,7 +340,23 @@ function modAttack(rSource, rTarget, rRoll)
 			table.insert(aAddDesc, sEffects);
 		end
 
-	end
+    -- add THACO for this attack so drag/drop will be able to get it --celestian
+    local nTHACO = 20 - rRoll.nBaseAttack;	
+	rRoll.sDesc = rRoll.sDesc .. " [THACO(" ..nTHACO.. ")] ";
+
+	else
+        -- no rSource, they are drag/dropping the roll
+        -- this will grab the THACO from the roll and use it at least --celestian
+        local sTHACO = string.match(rRoll.sDesc, "%[THACO.*%((%d+)%)%]") or "20";
+        if not sTHACO then
+            sTHACO = "20";
+        end
+        local nTHACO = tonumber(sTHACO) or 20;
+        if nTHACO < 1 then
+            nTHACO = 20;
+        end
+        rRoll.nBaseAttack = 20 - nTHACO;
+    end
 	
 	if bSuperiorCover then
 		nAddMod = nAddMod - 5;
@@ -396,9 +417,10 @@ function onAttack(rSource, rTarget, rRoll)
 	end
 
 	-- insert AC hit
-	local nACHit = (20 - rAction.nTotal);
-	rMessage.text = rMessage.text .. "[AC: " .. nACHit .. " ]" .. table.concat(rAction.aMessages, " ");
-
+    if rSource ~= nil then
+        local nACHit = (20 - rAction.nTotal);
+        rMessage.text = rMessage.text .. "[AC: " .. nACHit .. " ]" .. table.concat(rAction.aMessages, " ");
+    end
 	if nDefEffectsBonus ~= 0 then
 		nDefenseVal = nDefenseVal + nDefEffectsBonus;
 		local sFormat = "[" .. Interface.getString("effects_def_tag") .. " %+d]"

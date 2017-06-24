@@ -54,6 +54,9 @@
     aCharisma = {};
     aIntelligence = {};
     
+    -- distance per unit grid, this is for reach? --celestian
+    nDefaultDistancePerUnitGrid = 10;
+    
 function onInit()
     -- default initiative dice size 
 	nDefaultInitiativeDice = 10;

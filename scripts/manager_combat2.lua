@@ -90,7 +90,7 @@ end
 --
 
 function getNPCSpaceReach(nodeNPC)
-	local nSpace = GameSystem.GameSystem.getDistanceUnitsPerGrid();
+	local nSpace = GameSystem.getDistanceUnitsPerGrid();
 	local nReach = nSpace;
 	
 	local sSize = StringManager.trim(DB.getValue(nodeNPC, "size", ""):lower());

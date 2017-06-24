@@ -102,5 +102,6 @@ function getPregenCharSelectDetail(nodePregenChar)
 end
 
 function getDistanceUnitsPerGrid()
-	return 5;
+	return DataCommonADND.nDefaultDistancePerUnitGrid;
+--	return 5;
 end
