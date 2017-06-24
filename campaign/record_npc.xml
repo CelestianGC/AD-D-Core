@@ -25,8 +25,11 @@
 			</sub_record_header>
 
 			<frame_record_content_tabbed name="contentframe" />
+
+            <!-- this is so some parts of the bits we include from character sheets -->
+            <!-- do not complain, that's why invisible. Revisit and remove/fix? test subwindow_record instead -->
+            <!-- --celestian -->
             <anchor_title_charsheet name="contentanchor" />
-			
             <stringu name="name">
 				<invisible />
 				<anchored to="contentanchor" position="insidetop" offset="0,0" height="0" />
@@ -35,10 +38,12 @@
 			<subwindow_record name="main_creature">
 				<class>npc_combat</class>
 			</subwindow_record>
+            
 			<ft_record name="text">
 				<anchored to="contentframe" position="over" />
 				<invisible />
 			</ft_record>
+            
 			<sub_charsheet name="combat">
 				<class>charsheet_combat</class>
 			</sub_charsheet>

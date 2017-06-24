@@ -12,7 +12,14 @@ end
 --end
 
 function onInit()
-	if not windowlist.isReadOnly() then
+local nodeTest = getDatabaseNode();
+Debug.console("power_item.lua","onInit","nodeTest",nodeTest);
+Debug.console("power_item.lua","onInit","window",window);
+Debug.console("power_item.lua","onInit","windowlist",windowlist);
+
+-- tweak here for testing --celestian
+    if windowlist == nil or not windowlist.isReadOnly() then
+--    if not windowlist.isReadOnly() then
 		registerMenuItem(Interface.getString("list_menu_deleteitem"), "delete", 6);
 		registerMenuItem(Interface.getString("list_menu_deleteconfirm"), "delete", 6, 7);
 
@@ -34,7 +41,16 @@ function onInit()
 	end
 	
 	onDisplayChanged();
-	windowlist.onChildWindowAdded(self);
+	-- window list can be nil when using this for spell records (not PC/NPCs) --celestian
+    if windowlist ~= nil then 
+        windowlist.onChildWindowAdded(self);
+    else
+    -- windowlist == nil then we're in a spell record and do
+    -- not need to see these
+        header.subwindow.group.setVisible(false);
+        header.subwindow.shortdescription.setVisible(false);
+        header.subwindow.name.setVisible(false);
+    end
 end
 
 -- filters out non-memorized spells when in "combat" mode.
@@ -75,20 +91,23 @@ end
 
 function onDisplayChanged()
     local sDisplayMode = DB.getValue(getDatabaseNode(), "...powerdisplaymode", "");
-    
-    if sDisplayMode == "summary" then
-        header.subwindow.group.setVisible(false);
-        header.subwindow.shortdescription.setVisible(true);
-        header.subwindow.actionsmini.setVisible(false);
-    elseif sDisplayMode == "action" then
-        header.subwindow.group.setVisible(false);
-        header.subwindow.shortdescription.setVisible(false);
-        header.subwindow.actionsmini.setVisible(true);
-    else
-        header.subwindow.group.setVisible(true);
-        header.subwindow.shortdescription.setVisible(false);
-        header.subwindow.actionsmini.setVisible(false);
-    end
+
+    -- header nil when we're using this for spell records --celestian
+    --if header ~= nil then
+        if sDisplayMode == "summary" then
+            header.subwindow.group.setVisible(false);
+            header.subwindow.shortdescription.setVisible(true);
+            header.subwindow.actionsmini.setVisible(false);
+        elseif sDisplayMode == "action" then
+            header.subwindow.group.setVisible(false);
+            header.subwindow.shortdescription.setVisible(false);
+            header.subwindow.actionsmini.setVisible(true);
+        else
+            header.subwindow.group.setVisible(true);
+            header.subwindow.shortdescription.setVisible(false);
+            header.subwindow.actionsmini.setVisible(false);
+        end
+    --end
 end
 
 -- add action for spell/item
@@ -162,11 +181,14 @@ end
 function toggleDetail()
 	local status = (activatedetail.getValue() == 1);
 	
-	actions.setVisible(status);
+    -- actions can be nil when using this in spell records --celestian
+	--if actions ~= nil then 
+        actions.setVisible(status);
 
-	for _,v in pairs(actions.getWindows()) do
-		v.updateDisplay();
-	end
+        for _,v in pairs(actions.getWindows()) do
+            v.updateDisplay();
+        end
+    --end
 end
 
 function getDescription(bShowFull)
