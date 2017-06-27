@@ -6,6 +6,7 @@
 function onInit()
 
 Debug.console("char_weapon.lua","onInit","RAN");
+Debug.console("char_weapon.lua","onInit","name",name);
 
 local node = getDatabaseNode();
  DB.addHandler(node.getNodeName(), "onChildUpdate", onDataChanged);

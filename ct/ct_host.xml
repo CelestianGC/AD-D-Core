@@ -650,6 +650,17 @@
 				<disabled />
 			</genericcontrol>
 			
+             <subwindow name="sub_actions">
+                <anchored>
+                    <top parent="name" anchor="bottom" relation="relative" offset="10" />
+                    <left parent="activeicon" anchor="right" offset="10" />
+                    <right offset="-20" />
+                    <sizelimits><minimum height="24" /></sizelimits>
+                </anchored>
+                <class>charsheet_actions_contents</class>
+				<activate />
+            </subwindow>
+
             <!-- display actions with weapons/powers in one window  --celestian -->
 <!--             <subwindow name="actions_weapons">
                 <anchored>
@@ -672,16 +683,6 @@
 				<activate />
             </subwindow>
  -->
-            <subwindow name="sub_actions">
-                <anchored>
-                    <top parent="name" anchor="bottom" relation="relative" offset="-15" />
-                    <left parent="activeicon" anchor="right" offset="-15" />
-                    <right offset="0" />
-                    <sizelimits><minimum height="24" /></sizelimits>
-                </anchored>
-                <class>ct_charsheet_actions</class>
-				<activate />
-            </subwindow>
             
 <!--
 			<list_ct_actions name="traits">
@@ -1331,6 +1332,7 @@
 				</script>
 			</buttoncontrol>
 
+            
 			<subwindow name="contents">
 				<anchored position="insidetopleft" offset="10,10" />
                 <!-- <anchored>
@@ -1343,6 +1345,7 @@
 				<activate />
 				<fastinit />
 			</subwindow>
+            
 			<scrollbar_charcontents />
 	
 			<label name="powermode_label">
@@ -1399,5 +1402,4 @@
          </sheetdata>
 	</windowclass>
 
-    
 </root>
