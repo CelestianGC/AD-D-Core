@@ -295,9 +295,6 @@ function setActiveVisible()
 		-- traits_label.setVisible(false);
 	-- end
 
-Debug.console("ct_entry.lua","setActiveVisible","-->bNPC",bNPC);
-Debug.console("ct_entry.lua","setActiveVisible","-->v",v);
-
 	if bNPC then
 sub_actions.setVisible(v);
         --actions.setVisible(v);

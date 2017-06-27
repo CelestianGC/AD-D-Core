@@ -84,6 +84,7 @@
 	
     <!-- action tab, spell prep mode -->
 	<windowclass name="power_slots_prep">
+        <margins control="0,4,0,2" />
 		<script>
 			function onInit()
 				onModeChanged();
@@ -466,7 +467,7 @@
 	</windowclass>
 	
 	<windowclass name="power_group_header">
-		<margins control="0,0,0,5" />
+		<margins control="0,2,0,5" />
 		<script file="campaign/scripts/power_group.lua" />
 		<sheetdata>
 			<hsc name="group" />

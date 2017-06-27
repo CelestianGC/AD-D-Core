@@ -4,28 +4,24 @@
 --
 
 function onInit()
-
-Debug.console("char_weapon.lua","onInit","RAN");
-Debug.console("char_weapon.lua","onInit","name",name);
-
-local node = getDatabaseNode();
- DB.addHandler(node.getNodeName(), "onChildUpdate", onDataChanged);
- -- DB.addHandler(DB.getPath(DB.getChild(node, "..."), "abilities.*.score"), "onUpdate", onDataChanged);
- DB.addHandler(DB.getPath(DB.getChild(node, "..."), "abilities.strength.hitadj"), "onUpdate", onDataChanged);
- DB.addHandler(DB.getPath(DB.getChild(node, "..."), "abilities.strength.dmgadj"), "onUpdate", onDataChanged);
- DB.addHandler(DB.getPath(DB.getChild(node, "..."), "abilities.dexterity.hitadj"), "onUpdate", onDataChanged);
- DB.addHandler(DB.getPath(DB.getChild(node, "..."), "abilities.dexterity.defenseadj"), "onUpdate", onDataChanged);
- onDataChanged();
+    local node = getDatabaseNode();
+     DB.addHandler(node.getNodeName(), "onChildUpdate", onDataChanged);
+     -- DB.addHandler(DB.getPath(DB.getChild(node, "..."), "abilities.*.score"), "onUpdate", onDataChanged);
+     DB.addHandler(DB.getPath(DB.getChild(node, "..."), "abilities.strength.hitadj"), "onUpdate", onDataChanged);
+     DB.addHandler(DB.getPath(DB.getChild(node, "..."), "abilities.strength.dmgadj"), "onUpdate", onDataChanged);
+     DB.addHandler(DB.getPath(DB.getChild(node, "..."), "abilities.dexterity.hitadj"), "onUpdate", onDataChanged);
+     DB.addHandler(DB.getPath(DB.getChild(node, "..."), "abilities.dexterity.defenseadj"), "onUpdate", onDataChanged);
+     onDataChanged();
 end
 
 function onClose()
- local node = getDatabaseNode();
- DB.removeHandler(node.getNodeName(), "onChildUpdate", onDataChanged);
- --DB.removeHandler(DB.getPath(DB.getChild(node, "..."), "abilities.*.score"), "onUpdate", onDataChanged);
- DB.removeHandler(DB.getPath(DB.getChild(node, "..."), "abilities.strength.hitadj"), "onUpdate", onDataChanged);
- DB.removeHandler(DB.getPath(DB.getChild(node, "..."), "abilities.strength.dmgadj"), "onUpdate", onDataChanged);
- DB.removeHandler(DB.getPath(DB.getChild(node, "..."), "abilities.dexterity.hitadj"), "onUpdate", onDataChanged);
- DB.removeHandler(DB.getPath(DB.getChild(node, "..."), "abilities.dexterity.defenseadj"), "onUpdate", onDataChanged);
+     local node = getDatabaseNode();
+     DB.removeHandler(node.getNodeName(), "onChildUpdate", onDataChanged);
+     --DB.removeHandler(DB.getPath(DB.getChild(node, "..."), "abilities.*.score"), "onUpdate", onDataChanged);
+     DB.removeHandler(DB.getPath(DB.getChild(node, "..."), "abilities.strength.hitadj"), "onUpdate", onDataChanged);
+     DB.removeHandler(DB.getPath(DB.getChild(node, "..."), "abilities.strength.dmgadj"), "onUpdate", onDataChanged);
+     DB.removeHandler(DB.getPath(DB.getChild(node, "..."), "abilities.dexterity.hitadj"), "onUpdate", onDataChanged);
+     DB.removeHandler(DB.getPath(DB.getChild(node, "..."), "abilities.dexterity.defenseadj"), "onUpdate", onDataChanged);
 end
 
 local m_sClass = "";

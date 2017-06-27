@@ -657,7 +657,8 @@
                     <right offset="-20" />
                     <sizelimits><minimum height="24" /></sizelimits>
                 </anchored>
-                <class>charsheet_actions_contents</class>
+                <!-- <class>charsheet_actions_contents</class> -->
+                <class>ct_charsheet_actions</class>
 				<activate />
             </subwindow>
 
@@ -1268,12 +1269,25 @@
 	</windowclass>
 
 
+<!-- 	<windowclass name="ct_charsheet_actions">
+        <margins control="0,0,0,2" />
+		<sheetdata>
+        <anchor_column name="columnanchor" />            
+			<subwindow name="ct_contents">
+				<anchored>
+					<top parent="columnanchor" anchor="bottom" relation="relative" offset="0" />
+					<left />
+					<right />
+				</anchored>
+				<class>charsheet_actions_contents</class>
+				<activate />
+			</subwindow>
+         </sheetdata>
+	</windowclass>
+ -->
 	<windowclass name="ct_charsheet_actions">
+        <margins control="0,0,0,2" />
 		<script>
-            function onInit()
-                Debug.console("ct_host.xml","charsheet_actions","onInit","RAN");
-            end
-            
 			function onDrop(x, y, draginfo)
 				if contents.subwindow.actions.subwindow.onDrop(x, y, draginfo) then
 					return true;
@@ -1285,71 +1299,23 @@
 			end
 		</script>
 		<sheetdata>
-			<button_iedit name="actions_iedit">
-				<anchored position="insidebottomright" offset="10,10" />
-				<tooltip textres="char_tooltip_actionedit" />
-				<script>
-					function onValueChanged()
-						local bEditMode = (getValue() == 1);
-						
-						window.powers_iadd.setVisible(bEditMode);
-						window.weapons_iadd.setVisible(bEditMode);
+            <anchor_column name="columnanchor" />            
 
-						window.powermode_label.setVisible(not bEditMode);
-						window.powermode.setVisible(not bEditMode);
-						window.powerdisplay_label.setVisible(not bEditMode);
-						window.powerdisplaymode.setVisible(not bEditMode);
-						if bEditMode then
-							DB.setValue(window.getDatabaseNode(), "powermode", "string", "standard");
-							DB.setValue(window.getDatabaseNode(), "powerdisplaymode", "string", "");
-						end
-
-						window.contents.subwindow.weapons.update();
-						window.contents.subwindow.actions.subwindow.updateDisplay(bEditMode);
-					end
-				</script>
-			</button_iedit>
-			<buttoncontrol name="powers_iadd">
-				<anchored to="actions_iedit" position="lefthigh" offset="5,0" width="20" height="20" />
-				<icon normal="button_star" pressed="button_star_down" />
-				<tooltip textres="char_tooltip_actionaddpower" />
-				<invisible />
-				<script>
-					function onButtonPress()
-						window.contents.subwindow.actions.subwindow.addPower(true);
-					end
-				</script>
-			</buttoncontrol>
-			<buttoncontrol name="weapons_iadd">
-				<anchored to="powers_iadd" position="lefthigh" offset="5,0" width="20" height="20" />
-				<icon normal="button_weapon" pressed="button_weapon_down" />
-				<tooltip textres="char_tooltip_actionaddweapon" />
-				<invisible />
-				<script>
-					function onButtonPress()
-						window.contents.subwindow.weapons.addEntry(true);
-					end
-				</script>
-			</buttoncontrol>
-
-            
 			<subwindow name="contents">
-				<anchored position="insidetopleft" offset="10,10" />
-                <!-- <anchored>
-					<bottom offset="-40" />
-					<top offset="0" />
-					<left offset="0" />
-					<right offset="-15" />
-				</anchored> -->
+				<anchored>
+					<top parent="columnanchor" anchor="bottom" relation="relative" offset="0" />
+					<left />
+					<right />
+				</anchored>
 				<class>charsheet_actions_contents</class>
 				<activate />
 				<fastinit />
 			</subwindow>
-            
 			<scrollbar_charcontents />
-	
+
+            
 			<label name="powermode_label">
-				<anchored position="insidebottomleft" offset="10,10" />
+				<anchored to="contents" position="insidebottomleft" offset="10,-15" />
 				<static textres="power_label_mode" />
 			</label>
 			<button_stringcycler name="powermode">
@@ -1384,21 +1350,55 @@
 				</script>
 			</button_stringcycler>
 
-         </sheetdata>
-	</windowclass>
+			<button_iedit name="actions_iedit">
+				<anchored to="contents" position="insidebottomright" offset="10,-15"/>
+				<!-- <anchored position="insidebottomright" offset="10,10" /> -->
+				<tooltip textres="char_tooltip_actionedit" />
+				<script>
+					function onValueChanged()
+						local bEditMode = (getValue() == 1);
+						
+						window.powers_iadd.setVisible(bEditMode);
+						window.weapons_iadd.setVisible(bEditMode);
 
+						window.powermode_label.setVisible(not bEditMode);
+						window.powermode.setVisible(not bEditMode);
+						window.powerdisplay_label.setVisible(not bEditMode);
+						window.powerdisplaymode.setVisible(not bEditMode);
+						if bEditMode then
+							DB.setValue(window.getDatabaseNode(), "powermode", "string", "preparation");
+							DB.setValue(window.getDatabaseNode(), "powerdisplaymode", "string", "action");
+						end
 
-	<windowclass name="ct_TEST_SUBWINDOW">
-		<script>
-            function onInit()
-                Debug.console("ct_host.xml","ct_TEST_SUBWINDOW","onInit","RAN");
-            end
-		</script>
-		<sheetdata>
-			<label name="TESTTEST_label">
-				<anchored position="insidetopleft" offset="10,10" />
-				<static text="TEST TEST TEST TEST" />
-			</label>
+						window.contents.subwindow.weapons.update();
+						window.contents.subwindow.actions.subwindow.updateDisplay(bEditMode);
+					end
+				</script>
+			</button_iedit>
+			<buttoncontrol name="powers_iadd">
+                <anchored to="actions_iedit" position="lefthigh" offset="5,0" width="20" height="20" />
+				<icon normal="button_star" pressed="button_star_down" />
+				<tooltip textres="char_tooltip_actionaddpower" />
+				<invisible />
+				<script>
+					function onButtonPress()
+						window.contents.subwindow.actions.subwindow.addPower(true);
+					end
+				</script>
+			</buttoncontrol>
+			<buttoncontrol name="weapons_iadd">
+				<anchored to="powers_iadd" position="lefthigh" offset="5,0" width="20" height="20" />
+				<icon normal="button_weapon" pressed="button_weapon_down" />
+				<tooltip textres="char_tooltip_actionaddweapon" />
+				<invisible />
+				<script>
+					function onButtonPress()
+						window.contents.subwindow.weapons.addEntry(true);
+					end
+				</script>
+			</buttoncontrol>
+
+            
          </sheetdata>
 	</windowclass>
 

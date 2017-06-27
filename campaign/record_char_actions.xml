@@ -8,10 +8,6 @@
 <root>
 	<windowclass name="charsheet_actions">
 		<script>
-            function onInit()
-                Debug.console("record_char_actions.xml","charsheet_actions","onInit","RAN");
-            end
-            
 			function onDrop(x, y, draginfo)
 				if contents.subwindow.actions.subwindow.onDrop(x, y, draginfo) then
 					return true;
@@ -300,10 +296,9 @@
     
     
 	<windowclass name="charsheet_actions_contents">
-		<margins control="0,0,0,2" />
+		<margins control="0,4,0,2" />
 		<script>
             function onInit()
-                Debug.console("record_char_actions.xml","charsheet_actions_contents","onInit",">>>>>RAN");
                 onModeChanged();
             end
             
