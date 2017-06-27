@@ -4,6 +4,12 @@
 --
 
 function onInit()
+Debug.console("char_weaponlist.lua","onInit","RAN");
+local node = getDatabaseNode();
+local nodeWindow = window.getDatabaseNode();
+Debug.console("char_weaponlist.lua","onInit","node",node);
+Debug.console("char_weaponlist.lua","onInit","nodeWindow",nodeWindow);
+
 	DB.addHandler(DB.getPath(getDatabaseNode()), "onChildAdded", onChildAdded);
 	DB.addHandler(DB.getPath(window.getDatabaseNode(), "profbonus"), "onUpdate", onProfChanged);
 	

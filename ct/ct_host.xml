@@ -650,6 +650,40 @@
 				<disabled />
 			</genericcontrol>
 			
+            <!-- display actions with weapons/powers in one window  --celestian -->
+<!--             <subwindow name="actions_weapons">
+                <anchored>
+                    <top parent="name" anchor="bottom" relation="relative" offset="3" />
+                    <left parent="activeicon" anchor="right" offset="8" />
+                    <right offset="-12" />
+                    <sizelimits><minimum height="24" /></sizelimits>
+                </anchored>
+                <class>charsheet_actions_weapons</class>
+				<activate />
+            </subwindow>
+            <subwindow name="actions_powers">
+                <anchored>
+                    <top parent="name" anchor="bottom" relation="relative" offset="3" />
+                    <left parent="activeicon" anchor="right" offset="8" />
+                    <right offset="-12" />
+                    <sizelimits><minimum height="24" /></sizelimits>
+                </anchored>
+                <class>charsheet_actions_powers</class>
+				<activate />
+            </subwindow>
+ -->
+            <subwindow name="sub_actions">
+                <anchored>
+                    <top parent="name" anchor="bottom" relation="relative" offset="-15" />
+                    <left parent="activeicon" anchor="right" offset="-15" />
+                    <right offset="0" />
+                    <sizelimits><minimum height="24" /></sizelimits>
+                </anchored>
+                <class>ct_charsheet_actions</class>
+				<activate />
+            </subwindow>
+            
+<!--
 			<list_ct_actions name="traits">
 				<datasource>.traits</datasource>
 			</list_ct_actions>
@@ -658,7 +692,7 @@
 				<static textres="ct_label_traits" />
 			</label_ct_actions>
 
-			<list_ct_actions name="actions">
+ 			<list_ct_actions name="actions">
 				<datasource>.actions</datasource>
 			</list_ct_actions>
 			<label_ct_actions name="actions_label">
@@ -669,8 +703,10 @@
 				<anchored to="actions" />
 				<target>actions</target>
 			</button_ct_actions_emptyadd>
+ -->            
 
-<!-- 			<list_ct_actions name="reactions">
+ 
+ <!-- 			<list_ct_actions name="reactions">
 				<datasource>.reactions</datasource>
 			</list_ct_actions>
 			<label_ct_actions name="reactions_label">
@@ -678,7 +714,8 @@
 				<static textres="ct_label_reactions" />
 			</label_ct_actions>
  -->			
-			<list_ct_actions name="legendaryactions">
+ 
+<!-- 			<list_ct_actions name="legendaryactions">
 				<datasource>.legendaryactions</datasource>
 			</list_ct_actions>
 			<label_ct_actions name="legendaryactions_label">
@@ -709,7 +746,7 @@
 				<anchored to="spells" />
 				<static textres="ct_label_spells" />
 			</label_ct_actions>
-			
+ -->			
 			<genericcontrol name="spacer_action2">
 				<anchored height="0">
 					<top parent="name" anchor="bottom" relation="relative" offset="3" />
@@ -1228,5 +1265,139 @@
 
 		</sheetdata>
 	</windowclass>
+
+
+	<windowclass name="ct_charsheet_actions">
+		<script>
+            function onInit()
+                Debug.console("ct_host.xml","charsheet_actions","onInit","RAN");
+            end
+            
+			function onDrop(x, y, draginfo)
+				if contents.subwindow.actions.subwindow.onDrop(x, y, draginfo) then
+					return true;
+				end
+				if contents.subwindow.weapons.onDrop(x, y, draginfo) then
+					return true;
+				end
+				return false;
+			end
+		</script>
+		<sheetdata>
+			<button_iedit name="actions_iedit">
+				<anchored position="insidebottomright" offset="10,10" />
+				<tooltip textres="char_tooltip_actionedit" />
+				<script>
+					function onValueChanged()
+						local bEditMode = (getValue() == 1);
+						
+						window.powers_iadd.setVisible(bEditMode);
+						window.weapons_iadd.setVisible(bEditMode);
+
+						window.powermode_label.setVisible(not bEditMode);
+						window.powermode.setVisible(not bEditMode);
+						window.powerdisplay_label.setVisible(not bEditMode);
+						window.powerdisplaymode.setVisible(not bEditMode);
+						if bEditMode then
+							DB.setValue(window.getDatabaseNode(), "powermode", "string", "standard");
+							DB.setValue(window.getDatabaseNode(), "powerdisplaymode", "string", "");
+						end
+
+						window.contents.subwindow.weapons.update();
+						window.contents.subwindow.actions.subwindow.updateDisplay(bEditMode);
+					end
+				</script>
+			</button_iedit>
+			<buttoncontrol name="powers_iadd">
+				<anchored to="actions_iedit" position="lefthigh" offset="5,0" width="20" height="20" />
+				<icon normal="button_star" pressed="button_star_down" />
+				<tooltip textres="char_tooltip_actionaddpower" />
+				<invisible />
+				<script>
+					function onButtonPress()
+						window.contents.subwindow.actions.subwindow.addPower(true);
+					end
+				</script>
+			</buttoncontrol>
+			<buttoncontrol name="weapons_iadd">
+				<anchored to="powers_iadd" position="lefthigh" offset="5,0" width="20" height="20" />
+				<icon normal="button_weapon" pressed="button_weapon_down" />
+				<tooltip textres="char_tooltip_actionaddweapon" />
+				<invisible />
+				<script>
+					function onButtonPress()
+						window.contents.subwindow.weapons.addEntry(true);
+					end
+				</script>
+			</buttoncontrol>
+
+			<subwindow name="contents">
+				<anchored position="insidetopleft" offset="10,10" />
+                <!-- <anchored>
+					<bottom offset="-40" />
+					<top offset="0" />
+					<left offset="0" />
+					<right offset="-15" />
+				</anchored> -->
+				<class>charsheet_actions_contents</class>
+				<activate />
+				<fastinit />
+			</subwindow>
+			<scrollbar_charcontents />
+	
+			<label name="powermode_label">
+				<anchored position="insidebottomleft" offset="10,10" />
+				<static textres="power_label_mode" />
+			</label>
+			<button_stringcycler name="powermode">
+				<anchored to="powermode_label" position="righthigh" offset="10,0" width="80" />
+				<parameters>
+					<labelsres>power_label_modeprep|power_label_modecombat</labelsres>
+					<values>preparation|combat</values>
+					<defaultlabelres>power_label_modestd</defaultlabelres>
+				</parameters>
+				<script>
+					function onValueChanged()
+						window.contents.subwindow.onModeChanged();
+					end
+				</script>
+			</button_stringcycler>
+
+			<label name="powerdisplay_label">
+				<anchored to="powermode" position="righthigh" offset="15,0" />
+				<static textres="power_label_display" />
+			</label>
+			<button_stringcycler name="powerdisplaymode">
+				<anchored to="powerdisplay_label" position="righthigh" offset="10,0" width="80" />
+				<parameters>
+					<labelsres>power_label_displaysummary|power_label_displayaction</labelsres>
+					<values>summary|action</values>
+					<defaultlabelres>power_label_displaygroup</defaultlabelres>
+				</parameters>
+				<script>
+					function onValueChanged()
+						window.contents.subwindow.actions.subwindow.onDisplayChanged();
+					end
+				</script>
+			</button_stringcycler>
+
+         </sheetdata>
+	</windowclass>
+
+
+	<windowclass name="ct_TEST_SUBWINDOW">
+		<script>
+            function onInit()
+                Debug.console("ct_host.xml","ct_TEST_SUBWINDOW","onInit","RAN");
+            end
+		</script>
+		<sheetdata>
+			<label name="TESTTEST_label">
+				<anchored position="insidetopleft" offset="10,10" />
+				<static text="TEST TEST TEST TEST" />
+			</label>
+         </sheetdata>
+	</windowclass>
+
     
 </root>

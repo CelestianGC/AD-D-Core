@@ -10,6 +10,8 @@ local bCheckingUsage = false;
 local bUpdatingGroups = false;
 
 function onInit()
+Debug.console("power_page.lua","onInit","RAN");
+
 	updatePowerGroups();
 
 	local node = getDatabaseNode();

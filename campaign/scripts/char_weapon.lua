@@ -4,7 +4,10 @@
 --
 
 function onInit()
- local node = getDatabaseNode();
+
+Debug.console("char_weapon.lua","onInit","RAN");
+
+local node = getDatabaseNode();
  DB.addHandler(node.getNodeName(), "onChildUpdate", onDataChanged);
  -- DB.addHandler(DB.getPath(DB.getChild(node, "..."), "abilities.*.score"), "onUpdate", onDataChanged);
  DB.addHandler(DB.getPath(DB.getChild(node, "..."), "abilities.strength.hitadj"), "onUpdate", onDataChanged);

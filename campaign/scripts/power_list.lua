@@ -6,6 +6,12 @@
 local aFilters = {};
 
 function onInit()
+Debug.console("power_list.lua","onInit","RAN");
+local node = getDatabaseNode();
+local nodeWindow = window.getDatabaseNode();
+Debug.console("power_list.lua","onInit","node",node);
+Debug.console("power_list.lua","onInit","nodeWindow",nodeWindow);
+
 	local sPath = getDatabaseNode().getPath();
 	DB.addHandler(sPath, "onChildAdded", onChildListChanged);
 	DB.addHandler(sPath, "onChildDeleted", onChildListChanged);

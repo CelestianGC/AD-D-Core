@@ -13,9 +13,9 @@ end
 
 function onInit()
 local nodeTest = getDatabaseNode();
-Debug.console("power_item.lua","onInit","nodeTest",nodeTest);
-Debug.console("power_item.lua","onInit","window",window);
-Debug.console("power_item.lua","onInit","windowlist",windowlist);
+-- Debug.console("power_item.lua","onInit","nodeTest",nodeTest);
+-- Debug.console("power_item.lua","onInit","window",window);
+-- Debug.console("power_item.lua","onInit","windowlist",windowlist);
 
 -- tweak here for testing --celestian
     if windowlist == nil or not windowlist.isReadOnly() then
