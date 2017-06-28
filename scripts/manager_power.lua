@@ -2048,7 +2048,7 @@ function removeMemorizedSpell(draginfo, nodeAction)
 	end
 
 	local nodeChar = nodeAction.getChild(".....");
-    
+    local bisNPC = (not ActorManager.isPC(nodeChar));
     local sName = DB.getValue(nodeAction, "...name", "");
     local nLevel = DB.getValue(nodeAction, "...level", 0);
     local sSpellType = DB.getValue(nodeAction, "...type", ""):lower();
@@ -2064,7 +2064,7 @@ function removeMemorizedSpell(draginfo, nodeAction)
         local nUsedDivine = DB.getValue(nodeChar, "powermeta.pactmagicslots" .. nLevel .. ".used", 0);
         local nMaxDivine = DB.getValue(nodeChar, "powermeta.pactmagicslots" .. nLevel .. ".max", 0);
 
-        if (nMemorized > 0 ) then
+        if (nMemorized > 0 or bisNPC) then
             DB.setValue(nodeAction,"...memorized","number",(nMemorized-1));
             if (isArcaneSpellType(sSpellType) or isArcaneSpellType(sSource)) then
                 local nLeftOver = (nUsedArcane - 1);

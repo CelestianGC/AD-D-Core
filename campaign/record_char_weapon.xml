@@ -9,7 +9,7 @@
 	<windowclass name="char_weapon">
 		<script file="campaign/scripts/char_weapon.lua"/>
         
-		<margins control="0,0,0,5" />
+		<margins control="0,0,0,2" />
 		<sheetdata>
 			<genericcontrol name="rightanchor">
 				<anchored width="0" height="0">
@@ -43,24 +43,93 @@
 				</script>
 			</buttoncontrol>
 
-            <!-- damage section -->
-            <windowlist name="damage_split_list">
-				<anchored to="rightanchor" width="91">
-					<top offset="6" />
- 					<right anchor="left" relation="relative" offset="-5" /> 
-				</anchored>
-                <child></child>
-                <child><backcolor>1A40301E</backcolor></child>
-                <noscroll />
-				<datasource>.damagelist</datasource>
-				<class>split_damage_entries</class>
-            </windowlist>
-            
-			<genericcontrol name="attackshade">
-				<anchored to="rightanchor" width="80" height="36">
+
+<!-- 			<button_weaponprof name="prof">
+				<anchored to="attackframe" />
+				<script>
+					function onValueChanged()
+						window.onAttackChanged();
+					end
+				</script>
+			</button_weaponprof> -->
+
+			<genericcontrol name="leftanchor">
+				<anchored width="0" height="0">
 					<top />
-					<right anchor="left" relation="relative" offset="-7" />
+					<left />
 				</anchored>
+				<invisible />
+			</genericcontrol>
+			<button_char_inv_carried name="carried">
+				<anchored to="leftanchor" width="20" height="20">
+					<top offset="5" />
+					<left anchor="right" relation="relative" offset="0" />
+				</anchored>
+				<script file="common/scripts/button_crosslink.lua" />
+			</button_char_inv_carried>
+			
+
+			<stringu name="name">
+                <anchored height="18">
+                    <top offset="5" />
+                    <left parent="leftanchor" anchor="right" relation="relative" offset="5" />
+                    <right parent="rightanchor" anchor="left" relation="relative" offset="-240" />
+                </anchored>
+<!-- 				<anchored height="20">
+					<top offset="8" />
+					<left parent="speedfactor" anchor="right" relation="relative" offset="5" />
+					<right parent="rightanchor" anchor="left" relation="relative" offset="0" />
+				</anchored> -->
+			</stringu>
+
+			<state_charweapontype name="type">
+                <anchored height="18" >
+                    <top offset="5" />
+                    <left parent="leftanchor" anchor="right" relation="relative" offset="1" />
+                </anchored>
+<!-- 				<anchored to="rightanchor">
+					<top offset="5" />
+					<right anchor="left" relation="relative" offset="0" />
+				</anchored> -->
+			</state_charweapontype>
+
+
+            <!-- init item roll -->
+            <label name="label_initiative">
+                <font>arial-regular-8</font>
+                <tooltip textres="char_label_initiative_tooltip" />
+                <anchored height="18" >
+                    <top offset="8" />
+                    <left parent="leftanchor" anchor="right" relation="relative" offset="1" />
+                </anchored>
+				<static textres="char_label_initiative" />
+            </label>
+            <number_actions_init name="speedfactor">
+                <tooltip textres="power_label_initiative_tooltip" />
+                <anchored height="18" width="25" >
+                    <top offset="8" />
+                    <left parent="leftanchor" anchor="right" relation="relative" offset="5" />
+                </anchored>
+            </number_actions_init>
+
+            <label name="label_attack">
+                <font>arial-regular-8</font>
+                <tooltip textres="char_label_attack_tooltip" />
+                <anchored height="18">
+                    <top offset="8" />
+                    <left parent="leftanchor" anchor="right" relation="relative" offset="8" />
+                </anchored>
+				<static textres="char_label_attack" />
+            </label>
+			<genericcontrol name="attackshade">
+                <anchored height="26" width="50" >
+                    <top offset="3" />
+                    <left parent="leftanchor" anchor="right" relation="relative" offset="0" />
+                </anchored>
+<!-- 				<anchored to="rightanchor" width="50" height="26">
+					<top offset="2"/>
+					<right anchor="left" relation="relative" offset="-1" />
+				</anchored> -->
 			</genericcontrol>
 			<genericcontrol name="attackframe">
 				<anchored to="attackshade" position="over" />
@@ -84,7 +153,7 @@
 				</script>
 			</genericcontrol>
 			<genericcontrol name="attackicon">
-				<anchored to="attackframe" position="insidetopleft" offset="5,0" width="30" height="35" />
+				<anchored to="attackframe" position="insidetopleft" offset="7,5" width="15" height="20" />
 				<icon>d20icon</icon>
 				<script>
 					function onInit()
@@ -105,7 +174,7 @@
 				</script>
 			</genericcontrol>
 			<simplenumberc name="attackview">
-				<anchored to="attackicon" position="righthigh" width="35" height="35" />
+				<anchored to="attackicon" position="righthigh" offset="2,-1" width="15" height="20" />
 				<displaysign />
 				<readonly />
 				<script>
@@ -126,56 +195,23 @@
 					end
 				</script>
 			</simplenumberc>
-
-<!-- 			<button_weaponprof name="prof">
-				<anchored to="attackframe" />
-				<script>
-					function onValueChanged()
-						window.onAttackChanged();
-					end
-				</script>
-			</button_weaponprof> -->
-
-			<state_charweapontype name="type">
-				<anchored to="rightanchor">
+            <!-- damage section -->
+            <windowlist name="damage_split_list">
+                <anchored width="85" >
+                    <top offset="5" />
+                    <left parent="leftanchor" anchor="right" relation="relative" offset="5" />
+                </anchored>
+<!-- 				<anchored to="rightanchor" width="91">
 					<top offset="5" />
-					<right anchor="left" relation="relative" offset="0" />
-				</anchored>
-			</state_charweapontype>
-
-			<genericcontrol name="leftanchor">
-				<anchored width="0" height="0">
-					<top />
-					<left />
-				</anchored>
-				<invisible />
-			</genericcontrol>
-			<button_char_inv_carried name="carried">
-				<anchored to="leftanchor" width="20" height="20">
-					<top offset="5" />
-					<left anchor="right" relation="relative" offset="0" />
-				</anchored>
-				<script file="common/scripts/button_crosslink.lua" />
-			</button_char_inv_carried>
-			
-            <!-- init item roll -->
-			<number_actions_init name="speedfactor">
-                <tooltip textres="power_label_initiative_tooltip" />
-				<anchored height="18" width="25" >
-					<top offset="8" />
-					<left parent="leftanchor" anchor="right" relation="relative" offset="5" />
-				</anchored>
-			</number_actions_init>
-
-			<stringu name="name">
-				<anchored height="20">
-					<top offset="8" />
-					<left parent="speedfactor" anchor="right" relation="relative" offset="5" />
-					<right parent="rightanchor" anchor="left" relation="relative" offset="0" />
-				</anchored>
-			</stringu>
-
-
+ 					<right anchor="left" relation="relative" offset="-5" /> 
+				</anchored> -->
+                <child></child>
+                <child><backcolor>1A40301E</backcolor></child>
+                <noscroll />
+				<datasource>.damagelist</datasource>
+				<class>split_damage_entries</class>
+            </windowlist>
+            
 			<label name="label_ammo">
 				<anchored width="50">
 					<!-- <top parent="damageview" anchor="bottom" relation="relative" offset="5" /> -->
@@ -222,7 +258,7 @@
                     end
                 </script>
                 <font>arial-regular-8</font>
-                <multilinespacing>20</multilinespacing>
+                <multilinespacing>12</multilinespacing>
                 <anchored to="rightanchor">
                     <top />
                     <left parent="" offset="4" />

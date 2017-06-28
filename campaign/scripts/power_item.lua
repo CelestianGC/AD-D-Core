@@ -58,11 +58,11 @@ function getFilter()
     local bShow = bFilter;
     local node = getDatabaseNode();
     local nodeChar = node.getChild("...");
-    
+    local bisNPC = (not ActorManager.isPC(nodeChar));    
 --    Debug.console("power_item.lua","getFilter","node",node);
 --    Debug.console("power_item.lua","getFilter","nodeChar",nodeChar);
 
-    local bMemorized = (DB.getValue(node,"memorized",0) > 0);
+    local bMemorized = ((DB.getValue(node,"memorized",0) > 0) or (bisNPC));
     local sMode = DB.getValue(nodeChar, "powermode", "");
     local nLevel = DB.getValue(node, "level",0);
     local sGroup = DB.getValue(node, "group",""):lower();
