@@ -297,6 +297,8 @@ function setActiveVisible()
 
 	if bNPC then
 sub_actions.setVisible(v);
+--sub_actions_weapons.setVisible(v);
+--sub_actions_powers.setVisible(v);
         --actions.setVisible(v);
 --actions_weapons.setVisible(v);
 --actions_powers.setVisible(v);
@@ -304,6 +306,8 @@ sub_actions.setVisible(v);
 		--actions_emptyadd.update();
 	else
 sub_actions.setVisible(false);
+--sub_actions_weapons.setVisible(false);
+--sub_actions_powers.setVisible(false);
         --actions.setVisible(false);
 --actions_weapons.setVisible(false);
 --actions_powers.setVisible(false);

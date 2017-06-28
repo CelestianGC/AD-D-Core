@@ -58,6 +58,7 @@ function addEntry(bFocus)
 	return w;
 end
 
+
 function onDrop(x, y, draginfo)
 	if draginfo.isType("shortcut") then
 		local sClass, sRecord = draginfo.getShortcutData();

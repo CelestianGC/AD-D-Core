@@ -609,7 +609,7 @@
  -->            
 
 			<number_ct name="thaco">
-				<anchored to="activeicon" position="righthigh" offset="55,8" width="12" height="20" />
+				<anchored to="activeicon" position="righthigh" offset="55,10" width="12" height="20" />
 			</number_ct>
 			<label name="thacolabel">
 				<anchored to="thaco" position="lefthigh" offset="10,0"/>
@@ -617,7 +617,7 @@
 			</label>
 
             <number_ct_init name="init">
-				<anchored to="activeicon" position="righthigh" offset="110,8" />
+				<anchored to="activeicon" position="righthigh" offset="110,10" />
 			</number_ct_init>
 			<label name="initlabel">
 				<anchored to="init" position="lefthigh" offset="10,0"/>
@@ -657,11 +657,30 @@
                     <right offset="-20" />
                     <sizelimits><minimum height="24" /></sizelimits>
                 </anchored>
-                <!-- <class>charsheet_actions_contents</class> -->
                 <class>ct_charsheet_actions</class>
 				<activate />
             </subwindow>
-
+<!--              <subwindow name="sub_actions_weapons">
+                <anchored>
+                    <top parent="name" anchor="bottom" relation="relative" offset="10" />
+                    <left parent="activeicon" anchor="right" offset="10" />
+                    <right offset="-20" />
+                    <sizelimits><minimum height="24" /></sizelimits>
+                </anchored>
+                <class>charsheet_actions_weapons</class>
+				<activate />
+            </subwindow>
+             <subwindow name="sub_actions_powers">
+                <anchored>
+                    <top parent="name" anchor="bottom" relation="relative" offset="10" />
+                    <left parent="activeicon" anchor="right" offset="10" />
+                    <right offset="-20" />
+                    <sizelimits><minimum height="24" /></sizelimits>
+                </anchored>
+                <class>charsheet_actions_powers</class>
+				<activate />
+            </subwindow>
+ -->
             <!-- display actions with weapons/powers in one window  --celestian -->
 <!--             <subwindow name="actions_weapons">
                 <anchored>
