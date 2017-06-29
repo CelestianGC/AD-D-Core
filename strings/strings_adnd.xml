@@ -177,6 +177,10 @@
     <string name="char_label_class_fight_tooltip">Fight as what type of combatant.</string>
     <string name="char_label_class_save">SAVE AS</string>
     <string name="char_label_class_save_tooltip">Save as what type of class.</string>
+    <string name="char_label_initiative">INIT</string>
+    <string name="char_label_initiative_tooltip">Roll initiative using this weapon.</string>
+    <string name="char_label_attack">ATK</string>
+    <string name="char_label_attack_tooltip">Roll an attack using this weapon.</string>
 
 	<string name="charsheet_abilities_detail_title">Ability Score Details</string>
 	<string name="charsheet_saves_detail_title">Save Score Details</string>
@@ -196,8 +200,8 @@
 	<string name="charsheet_saves_tempmod_tooltip">Manually set, temporary modifier applied to this save score.</string>
 
     <!-- Actions -->
-	<string name="power_label_spellcastingslots">Arcane Magic</string>
-	<string name="power_label_pactmagicslots">Divine Magic</string>
+	<string name="power_label_spellcastingslots">Arcane</string>
+	<string name="power_label_pactmagicslots">Divine</string>
     <string name="power_label_memorize">Mem</string>
     <string name="power_label_memorize_tooltip">Memorize Spell</string>
     <string name="power_label_memorizecount_tooltip">Number of times this spell is memorized.</string>
@@ -206,6 +210,7 @@
     <string name="power_label_hidespell_tooltip">Hide spell from combat listing since it is no longer memorized.</string>
     
    	<!-- Combat Tracker -->
+	<string name="ct_label_damage">Atks</string>
 	<string name="ct_label_speed">Mv</string>
 	<string name="ct_label_morale">Morale</string>
 	<string name="ct_label_hitdice">HD</string>

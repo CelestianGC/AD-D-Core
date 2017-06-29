@@ -609,7 +609,7 @@
  -->            
 
 			<number_ct name="thaco">
-				<anchored to="activeicon" position="righthigh" offset="55,8" width="12" height="20" />
+				<anchored to="activeicon" position="righthigh" offset="55,10" width="12" height="20" />
 			</number_ct>
 			<label name="thacolabel">
 				<anchored to="thaco" position="lefthigh" offset="10,0"/>
@@ -617,7 +617,7 @@
 			</label>
 
             <number_ct_init name="init">
-				<anchored to="activeicon" position="righthigh" offset="110,8" />
+				<anchored to="activeicon" position="righthigh" offset="110,10" />
 			</number_ct_init>
 			<label name="initlabel">
 				<anchored to="init" position="lefthigh" offset="10,0"/>
@@ -631,15 +631,26 @@
 				<anchored to="ac" position="lefthigh" offset="10,0"/>
 				<static textres="ac" />
 			</label>
-			<string_ct name="speed">
-				<anchored to="ac" position="righthigh" offset="45,0" height="20">
-					<right parent="" offset="-17" />
-				</anchored>
-			</string_ct>
+            
+			<basicstring name="speed" >
+				<anchored to="ac" position="righthigh" offset="45,0" height="20" />
+                <readonly />
+			</basicstring>
 			<label name="speedlabel">
 				<anchored to="speed" position="lefthigh" offset="5,0"/>
 				<static textres="ct_label_speed" />
 			</label>
+
+			<string_ct name="damage">
+				<anchored to="speed" position="righthigh" offset="45,0" height="20">
+					<right parent="" offset="-17" />
+				</anchored>
+			</string_ct>
+			<label name="damagelabel">
+				<anchored to="damage" position="lefthigh" offset="5,0"/>
+				<static textres="ct_label_damage" />
+			</label>
+
 
 			<genericcontrol name="spacer_action">
 				<anchored height="0">
@@ -650,6 +661,61 @@
 				<disabled />
 			</genericcontrol>
 			
+             <subwindow name="sub_actions">
+                <anchored>
+                    <top parent="name" anchor="bottom" relation="relative" offset="10" />
+                    <left parent="activeicon" anchor="right" offset="10" />
+                    <right offset="-20" />
+                    <sizelimits><minimum height="24" /></sizelimits>
+                </anchored>
+                <class>ct_charsheet_actions</class>
+				<activate />
+            </subwindow>
+<!--              <subwindow name="sub_actions_weapons">
+                <anchored>
+                    <top parent="name" anchor="bottom" relation="relative" offset="10" />
+                    <left parent="activeicon" anchor="right" offset="10" />
+                    <right offset="-20" />
+                    <sizelimits><minimum height="24" /></sizelimits>
+                </anchored>
+                <class>charsheet_actions_weapons</class>
+				<activate />
+            </subwindow>
+             <subwindow name="sub_actions_powers">
+                <anchored>
+                    <top parent="name" anchor="bottom" relation="relative" offset="10" />
+                    <left parent="activeicon" anchor="right" offset="10" />
+                    <right offset="-20" />
+                    <sizelimits><minimum height="24" /></sizelimits>
+                </anchored>
+                <class>charsheet_actions_powers</class>
+				<activate />
+            </subwindow>
+ -->
+            <!-- display actions with weapons/powers in one window  --celestian -->
+<!--             <subwindow name="actions_weapons">
+                <anchored>
+                    <top parent="name" anchor="bottom" relation="relative" offset="3" />
+                    <left parent="activeicon" anchor="right" offset="8" />
+                    <right offset="-12" />
+                    <sizelimits><minimum height="24" /></sizelimits>
+                </anchored>
+                <class>charsheet_actions_weapons</class>
+				<activate />
+            </subwindow>
+            <subwindow name="actions_powers">
+                <anchored>
+                    <top parent="name" anchor="bottom" relation="relative" offset="3" />
+                    <left parent="activeicon" anchor="right" offset="8" />
+                    <right offset="-12" />
+                    <sizelimits><minimum height="24" /></sizelimits>
+                </anchored>
+                <class>charsheet_actions_powers</class>
+				<activate />
+            </subwindow>
+ -->
+            
+<!--
 			<list_ct_actions name="traits">
 				<datasource>.traits</datasource>
 			</list_ct_actions>
@@ -658,7 +724,7 @@
 				<static textres="ct_label_traits" />
 			</label_ct_actions>
 
-			<list_ct_actions name="actions">
+ 			<list_ct_actions name="actions">
 				<datasource>.actions</datasource>
 			</list_ct_actions>
 			<label_ct_actions name="actions_label">
@@ -669,8 +735,10 @@
 				<anchored to="actions" />
 				<target>actions</target>
 			</button_ct_actions_emptyadd>
+ -->            
 
-<!-- 			<list_ct_actions name="reactions">
+ 
+ <!-- 			<list_ct_actions name="reactions">
 				<datasource>.reactions</datasource>
 			</list_ct_actions>
 			<label_ct_actions name="reactions_label">
@@ -678,7 +746,8 @@
 				<static textres="ct_label_reactions" />
 			</label_ct_actions>
  -->			
-			<list_ct_actions name="legendaryactions">
+ 
+<!-- 			<list_ct_actions name="legendaryactions">
 				<datasource>.legendaryactions</datasource>
 			</list_ct_actions>
 			<label_ct_actions name="legendaryactions_label">
@@ -709,7 +778,7 @@
 				<anchored to="spells" />
 				<static textres="ct_label_spells" />
 			</label_ct_actions>
-			
+ -->			
 			<genericcontrol name="spacer_action2">
 				<anchored height="0">
 					<top parent="name" anchor="bottom" relation="relative" offset="3" />
@@ -1228,5 +1297,139 @@
 
 		</sheetdata>
 	</windowclass>
-    
+
+
+<!-- 	<windowclass name="ct_charsheet_actions">
+        <margins control="0,0,0,2" />
+		<sheetdata>
+        <anchor_column name="columnanchor" />            
+			<subwindow name="ct_contents">
+				<anchored>
+					<top parent="columnanchor" anchor="bottom" relation="relative" offset="0" />
+					<left />
+					<right />
+				</anchored>
+				<class>charsheet_actions_contents</class>
+				<activate />
+			</subwindow>
+         </sheetdata>
+	</windowclass>
+ -->
+	<windowclass name="ct_charsheet_actions">
+        <margins control="0,0,0,2" />
+		<script>
+			function onDrop(x, y, draginfo)
+				if contents.subwindow.actions.subwindow.onDrop(x, y, draginfo) then
+					return true;
+				end
+				if contents.subwindow.weapons.onDrop(x, y, draginfo) then
+					return true;
+				end
+				return false;
+			end
+		</script>
+		<sheetdata>
+            <anchor_column name="columnanchor" />            
+
+			<subwindow name="contents">
+				<anchored>
+					<top parent="columnanchor" anchor="bottom" relation="relative" offset="0" />
+					<left />
+					<right />
+				</anchored>
+				<class>charsheet_actions_contents</class>
+				<activate />
+				<fastinit />
+			</subwindow>
+			<scrollbar_charcontents />
+
+            
+			<label name="powermode_label">
+				<anchored to="contents" position="insidebottomleft" offset="10,-15" />
+				<static textres="power_label_mode" />
+			</label>
+			<button_stringcycler name="powermode">
+				<anchored to="powermode_label" position="righthigh" offset="10,0" width="80" />
+				<parameters>
+					<labelsres>power_label_modeprep|power_label_modecombat</labelsres>
+					<values>preparation|combat</values>
+					<defaultlabelres>power_label_modestd</defaultlabelres>
+				</parameters>
+				<script>
+					function onValueChanged()
+						window.contents.subwindow.onModeChanged();
+					end
+				</script>
+			</button_stringcycler>
+
+			<label name="powerdisplay_label">
+				<anchored to="powermode" position="righthigh" offset="15,0" />
+				<static textres="power_label_display" />
+			</label>
+			<button_stringcycler name="powerdisplaymode">
+				<anchored to="powerdisplay_label" position="righthigh" offset="10,0" width="80" />
+				<parameters>
+					<labelsres>power_label_displaysummary|power_label_displayaction</labelsres>
+					<values>summary|action</values>
+					<defaultlabelres>power_label_displaygroup</defaultlabelres>
+				</parameters>
+				<script>
+					function onValueChanged()
+						window.contents.subwindow.actions.subwindow.onDisplayChanged();
+					end
+				</script>
+			</button_stringcycler>
+
+			<button_iedit name="actions_iedit">
+				<anchored to="contents" position="insidebottomright" offset="10,-15"/>
+				<!-- <anchored position="insidebottomright" offset="10,10" /> -->
+				<tooltip textres="char_tooltip_actionedit" />
+				<script>
+					function onValueChanged()
+						local bEditMode = (getValue() == 1);
+						
+						window.powers_iadd.setVisible(bEditMode);
+						window.weapons_iadd.setVisible(bEditMode);
+
+						window.powermode_label.setVisible(not bEditMode);
+						window.powermode.setVisible(not bEditMode);
+						window.powerdisplay_label.setVisible(not bEditMode);
+						window.powerdisplaymode.setVisible(not bEditMode);
+						if bEditMode then
+							DB.setValue(window.getDatabaseNode(), "powermode", "string", "preparation");
+							DB.setValue(window.getDatabaseNode(), "powerdisplaymode", "string", "action");
+						end
+
+						window.contents.subwindow.weapons.update();
+						window.contents.subwindow.actions.subwindow.updateDisplay(bEditMode);
+					end
+				</script>
+			</button_iedit>
+			<buttoncontrol name="powers_iadd">
+                <anchored to="actions_iedit" position="lefthigh" offset="5,0" width="20" height="20" />
+				<icon normal="button_star" pressed="button_star_down" />
+				<tooltip textres="char_tooltip_actionaddpower" />
+				<invisible />
+				<script>
+					function onButtonPress()
+						window.contents.subwindow.actions.subwindow.addPower(true);
+					end
+				</script>
+			</buttoncontrol>
+			<buttoncontrol name="weapons_iadd">
+				<anchored to="powers_iadd" position="lefthigh" offset="5,0" width="20" height="20" />
+				<icon normal="button_weapon" pressed="button_weapon_down" />
+				<tooltip textres="char_tooltip_actionaddweapon" />
+				<invisible />
+				<script>
+					function onButtonPress()
+						window.contents.subwindow.weapons.addEntry(true);
+					end
+				</script>
+			</buttoncontrol>
+
+            
+         </sheetdata>
+	</windowclass>
+
 </root>

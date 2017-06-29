@@ -309,6 +309,8 @@ function updatePowerWindowUses(nodeChar, w)
 	local sMode = DB.getValue(nodeChar, "powermode", "");
 	local bShow = true;
 
+    local bisNPC = (not ActorManager.isPC(nodeChar)); 
+    
 	-- Get power information
 	local sGroup = w.group.getValue();
 	local nLevel = w.level.getValue();
@@ -362,7 +364,7 @@ function updatePowerWindowUses(nodeChar, w)
 					-- if not bValidSlot then
 						-- bShow = false;
 					-- end
-                    if nMemorizedCount <= 0 and nWasMemorized == 0 then
+                    if (nMemorizedCount <= 0 and nWasMemorized == 0 and not bisNPC) then
                         bShow = false;
                     end
 				end

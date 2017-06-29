@@ -9,10 +9,10 @@
 	<windowclass name="npc" >
 		<frame>recordsheet</frame>
 		<placement>
-			<size width="460" height="550" />
+			<size width="480" height="550" />
 		</placement>
 		<sizelimits>
-			<minimum width="460" height="400" />
+			<minimum width="480" height="400" />
 			<dynamic />
 		</sizelimits>
 		<minimize>minimized_npc</minimize>
@@ -34,6 +34,7 @@
 				<invisible />
 				<anchored to="contentanchor" position="insidetop" offset="0,0" height="0" />
 			</stringu>
+            <!-- --celestian -->
 
 			<subwindow_record name="main_creature">
 				<class>npc_combat</class>

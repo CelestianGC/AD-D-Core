@@ -20,7 +20,7 @@ function onInit()
 	-- Update the displays
 	onFactionChanged();
 	onHealthChanged();
-	
+    	
 	-- Register the deletion menu item for the host
 	registerMenuItem(Interface.getString("list_menu_deleteitem"), "delete", 6);
 	registerMenuItem(Interface.getString("list_menu_deleteconfirm"), "delete", 6, 7);
@@ -284,25 +284,37 @@ function setActiveVisible()
 	aclabel.setVisible(v);
 	speed.setVisible(v);
 	speedlabel.setVisible(v);
+	damage.setVisible(v);
+	damagelabel.setVisible(v);
 	
 	spacer_action.setVisible(v);
 	
-	if bNPC and traits.getWindowCount() > 0 then
-		traits.setVisible(v);
-		traits_label.setVisible(v);
-	else
-		traits.setVisible(false);
-		traits_label.setVisible(false);
-	end
+	-- if bNPC and traits.getWindowCount() > 0 then
+		-- traits.setVisible(v);
+		-- traits_label.setVisible(v);
+	-- else
+		-- traits.setVisible(false);
+		-- traits_label.setVisible(false);
+	-- end
 
 	if bNPC then
-		actions.setVisible(v);
-		actions_label.setVisible(v);
-		actions_emptyadd.update();
+sub_actions.setVisible(v);
+--sub_actions_weapons.setVisible(v);
+--sub_actions_powers.setVisible(v);
+        --actions.setVisible(v);
+--actions_weapons.setVisible(v);
+--actions_powers.setVisible(v);
+		--actions_label.setVisible(v);
+		--actions_emptyadd.update();
 	else
-		actions.setVisible(false);
-		actions_label.setVisible(false);
-		actions_emptyadd.setVisible(false);
+sub_actions.setVisible(false);
+--sub_actions_weapons.setVisible(false);
+--sub_actions_powers.setVisible(false);
+        --actions.setVisible(false);
+--actions_weapons.setVisible(false);
+--actions_powers.setVisible(false);
+		--actions_label.setVisible(false);
+		--actions_emptyadd.setVisible(false);
 	end
 	
 	-- if bNPC and reactions.getWindowCount() > 0 then
@@ -313,37 +325,37 @@ function setActiveVisible()
 		-- reactions_label.setVisible(false);
 	-- end
 
-	if bNPC and legendaryactions.getWindowCount() > 0 then
-		legendaryactions.setVisible(v);
-		legendaryactions_label.setVisible(v);
-	else
-		legendaryactions.setVisible(false);
-		legendaryactions_label.setVisible(false);
-	end
+	-- if bNPC and legendaryactions.getWindowCount() > 0 then
+		-- legendaryactions.setVisible(v);
+		-- legendaryactions_label.setVisible(v);
+	-- else
+		-- legendaryactions.setVisible(false);
+		-- legendaryactions_label.setVisible(false);
+	-- end
 
-	if bNPC and lairactions.getWindowCount() > 0 then
-		lairactions.setVisible(v);
-		lairactions_label.setVisible(v);
-	else
-		lairactions.setVisible(false);
-		lairactions_label.setVisible(false);
-	end
+	-- if bNPC and lairactions.getWindowCount() > 0 then
+		-- lairactions.setVisible(v);
+		-- lairactions_label.setVisible(v);
+	-- else
+		-- lairactions.setVisible(false);
+		-- lairactions_label.setVisible(false);
+	-- end
 
-	if bNPC and innatespells.getWindowCount() > 0 then
-		innatespells.setVisible(v);
-		innatespells_label.setVisible(v);
-	else
-		innatespells.setVisible(false);
-		innatespells_label.setVisible(false);
-	end
+	-- if bNPC and innatespells.getWindowCount() > 0 then
+		-- innatespells.setVisible(v);
+		-- innatespells_label.setVisible(v);
+	-- else
+		-- innatespells.setVisible(false);
+		-- innatespells_label.setVisible(false);
+	-- end
 
-	if bNPC and spells.getWindowCount() > 0 then
-		spells.setVisible(v);
-		spells_label.setVisible(v);
-	else
-		spells.setVisible(false);
-		spells_label.setVisible(false);
-	end
+	-- if bNPC and spells.getWindowCount() > 0 then
+		-- spells.setVisible(v);
+		-- spells_label.setVisible(v);
+	-- else
+		-- spells.setVisible(false);
+		-- spells_label.setVisible(false);
+	-- end
 
 	spacer_action2.setVisible(v);
 	

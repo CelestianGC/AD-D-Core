@@ -4,6 +4,7 @@
 --
 
 function onInit()
+
 	DB.addHandler(DB.getPath(getDatabaseNode()), "onChildAdded", onChildAdded);
 	DB.addHandler(DB.getPath(window.getDatabaseNode(), "profbonus"), "onUpdate", onProfChanged);
 	
@@ -56,6 +57,7 @@ function addEntry(bFocus)
 	end
 	return w;
 end
+
 
 function onDrop(x, y, draginfo)
 	if draginfo.isType("shortcut") then

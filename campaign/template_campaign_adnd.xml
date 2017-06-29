@@ -59,4 +59,14 @@
 		</subwindow>
 	</template>
     
+	<template name="sub_ct_actions">
+		<subwindow>
+			<anchored>
+				<top parent="name" anchor="bottom" relation="relative" offset="3" />
+				<left parent="activeicon" anchor="right" offset="75" />
+				<right offset="-17" />
+				<sizelimits><minimum height="24" /></sizelimits>
+			</anchored>
+		</subwindow>
+	</template>
 </root>
