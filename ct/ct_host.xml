@@ -632,10 +632,10 @@
 				<static textres="ac" />
 			</label>
             
-			<basicstring name="speed" >
-				<anchored to="ac" position="righthigh" offset="45,0" height="20" />
+			<string_ct name="speed" >
+				<anchored to="ac" position="righthigh" offset="45,0" height="20"/>
                 <readonly />
-			</basicstring>
+			</string_ct>
 			<label name="speedlabel">
 				<anchored to="speed" position="lefthigh" offset="5,0"/>
 				<static textres="ct_label_speed" />
