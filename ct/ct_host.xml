@@ -631,15 +631,26 @@
 				<anchored to="ac" position="lefthigh" offset="10,0"/>
 				<static textres="ac" />
 			</label>
-			<string_ct name="speed">
-				<anchored to="ac" position="righthigh" offset="45,0" height="20">
-					<right parent="" offset="-17" />
-				</anchored>
-			</string_ct>
+            
+			<basicstring name="speed" >
+				<anchored to="ac" position="righthigh" offset="45,0" height="20" />
+                <readonly />
+			</basicstring>
 			<label name="speedlabel">
 				<anchored to="speed" position="lefthigh" offset="5,0"/>
 				<static textres="ct_label_speed" />
 			</label>
+
+			<string_ct name="damage">
+				<anchored to="speed" position="righthigh" offset="45,0" height="20">
+					<right parent="" offset="-17" />
+				</anchored>
+			</string_ct>
+			<label name="damagelabel">
+				<anchored to="damage" position="lefthigh" offset="5,0"/>
+				<static textres="ct_label_damage" />
+			</label>
+
 
 			<genericcontrol name="spacer_action">
 				<anchored height="0">

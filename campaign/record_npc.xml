@@ -9,10 +9,10 @@
 	<windowclass name="npc" >
 		<frame>recordsheet</frame>
 		<placement>
-			<size width="460" height="550" />
+			<size width="480" height="550" />
 		</placement>
 		<sizelimits>
-			<minimum width="460" height="400" />
+			<minimum width="480" height="400" />
 			<dynamic />
 		</sizelimits>
 		<minimize>minimized_npc</minimize>

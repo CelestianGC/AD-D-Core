@@ -284,6 +284,8 @@ function setActiveVisible()
 	aclabel.setVisible(v);
 	speed.setVisible(v);
 	speedlabel.setVisible(v);
+	damage.setVisible(v);
+	damagelabel.setVisible(v);
 	
 	spacer_action.setVisible(v);
 	
