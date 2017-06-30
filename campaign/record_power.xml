@@ -1016,6 +1016,23 @@
             </string_columnh>
 
 			<line_column name="divider" />
+
+			<label_column name="type_label">
+                <script>
+                        function onValueChanged()
+                            window.update();
+                        end
+                </script>
+				<static textres="ref_label_type" />
+			</label_column>
+			<string_columnh name="type">
+				<gmeditonly />
+                <script>
+                        function onValueChanged()
+                            window.update();
+                        end
+                </script>
+			</string_columnh>
 			
 			<label_column name="level_label">
 				<static textres="level" />
@@ -1129,7 +1146,7 @@
 		</sheetdata>
 	</windowclass>
     
-    	<!-- TESTING list actions for this spell in the spell record --celestian -->
+    	<!-- list actions for this spell in the spell record --celestian -->
 	<windowclass name="power_item_spellrecord">
 		<margins control="0,0,0,2" />
 		<script file="campaign/scripts/power_item.lua" />

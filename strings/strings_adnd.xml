@@ -178,10 +178,18 @@
     <string name="char_label_class_save">SAVE AS</string>
     <string name="char_label_class_save_tooltip">Save as what type of class.</string>
     <string name="char_label_initiative">INIT</string>
-    <string name="char_label_initiative_tooltip">Roll initiative using this weapon.</string>
+    <string name="char_label_initiative_tooltip">Roll initiative using listed weapon.</string>
     <string name="char_label_attack">ATK</string>
-    <string name="char_label_attack_tooltip">Roll an attack using this weapon.</string>
+    <string name="char_label_attack_tooltip">Roll an attack using listed weapon.</string>
 
+	<string name="char_label_weapon_tooltip">Weapons used.</string>
+	<string name="char_label_type">TYPE</string>
+	<string name="char_label_type_tooltip">Type of weapon listed. Melee, ranged, thrown.</string>
+	<string name="char_label_initiative">INIT</string>
+	<string name="char_label_initiative_tooltip">Initiative roll using listed weapon.</string>
+	<string name="char_label_damage">DMG</string>
+	<string name="char_label_damage_tooltip">Damage roll using listed weapon.</string>
+    
 	<string name="charsheet_abilities_detail_title">Ability Score Details</string>
 	<string name="charsheet_saves_detail_title">Save Score Details</string>
 
@@ -261,6 +269,7 @@
 	<string name="ref_type_backgroundproficiency">Kit Proficiency</string>
 	<string name="ref_type_characteristic">Kit Characteristic</string>
 	<string name="ref_label_sphere">Sphere</string>
+	<string name="ref_label_type">Type</string>
 	<string name="ref_label_save">Save</string>
 	<string name="ref_label_aoe">AoE</string>
 	<string name="ref_label_aoe_tooltip">Area of Effect</string>

@@ -313,6 +313,20 @@
 		</script>
 		<sheetdata>
 			<anchor_column name="columnanchor" />
+			<genericcontrol name="leftanchor">
+				<anchored width="0" height="0">
+					<top />
+					<left />
+				</anchored>
+				<invisible />
+			</genericcontrol>
+			<genericcontrol name="rightanchor">
+				<anchored width="0" height="0">
+					<top />
+					<right />
+				</anchored>
+				<invisible />
+			</genericcontrol>
 			
 			<label_charframetop name="weapontitle">
 				<anchored height="20">
@@ -321,7 +335,7 @@
 					<right offset="-10" />
 				</anchored>
 				<icons>char_attacks</icons>
-				<static textres="char_label_weapon" />
+				<!-- <static textres="char_label_weapon" /> -->
 				<script>
 					function onClickDown()
 						return true;
@@ -349,6 +363,51 @@
 					end
 				</script>
 			</buttoncontrol>
+            <label name="weapons_header_label">
+                <anchored height="18">
+                    <top offset="10" />
+                    <left parent="leftanchor" anchor="right" relation="relative" offset="35" />
+                    <right parent="rightanchor" anchor="left" relation="relative" offset="-298" />
+                </anchored>
+            
+<!--                 <anchored to="weapontitle" position="insidetopleft" offset="20,1" /> -->
+                <tooltip textres="char_label_weapon_tooltip" />
+                <static textres="char_label_weapon" />
+            </label>
+            <label name="type_header_label">
+                <anchored height="18" width="30" >
+                    <top offset="10" />
+                    <left parent="weapons_header_label" anchor="right" relation="relative" offset="5" />
+                </anchored>
+
+                <!-- <anchored to="weapontitle" position="insidetopleft" offset="100,1" /> -->
+                <tooltip textres="char_label_type_tooltip" />
+                <static textres="char_label_type" />
+            </label>
+            <label name="initiative_header_label">
+                <anchored height="18" width="25" >
+                    <top offset="10" />
+                    <left parent="weapons_header_label" anchor="right" relation="relative" offset="5" />
+                </anchored>
+                <tooltip textres="char_label_initiative_tooltip" />
+                <static textres="char_label_initiative" />
+            </label>
+            <label name="attack_header_label">
+                <anchored height="18" width="25" >
+                    <top offset="10" />
+                    <left parent="weapons_header_label" anchor="right" relation="relative" offset="13" />
+                </anchored>
+                <tooltip textres="char_label_attack_tooltip" />
+                <static textres="char_label_attack" />
+            </label>
+            <label name="damage_header_label">
+                <anchored height="18" width="35" >
+                    <top offset="10" />
+                    <left parent="weapons_header_label" anchor="right" relation="relative" offset="70" />
+                </anchored>
+                <tooltip textres="char_label_damage_tooltip" />
+                <static textres="char_label_damage" />
+            </label>
 
 			<list_charweapon name="weapons">
                 <script>
@@ -439,6 +498,20 @@
 		</script>
 		<sheetdata>
 			<anchor_column name="columnanchor" />
+			<genericcontrol name="leftanchor">
+				<anchored width="0" height="0">
+					<top />
+					<left />
+				</anchored>
+				<invisible />
+			</genericcontrol>
+			<genericcontrol name="rightanchor">
+				<anchored width="0" height="0">
+					<top />
+					<right />
+				</anchored>
+				<invisible />
+			</genericcontrol>
 			
 			<label_charframetop name="weapontitle">
 				<anchored height="20">
@@ -447,7 +520,7 @@
 					<right offset="-10" />
 				</anchored>
 				<icons>char_attacks</icons>
-				<static textres="char_label_weapon" />
+				<!-- <static textres="char_label_weapon" /> -->
 				<script>
 					function onClickDown()
 						return true;
@@ -467,7 +540,7 @@
 				</script>
 			</label_charframetop>
 			<buttoncontrol name="weapons_global_detail">
-				<anchored to="weapontitle" position="insidetopright" offset="20,1" width="20" height="20" />
+				<anchored to="weapontitle" position="insidetopright" offset="10,1" width="20" height="20" />
 				<state icon="details" pressed="details_down" />
 				<script>
 					function onButtonPress()
@@ -475,7 +548,52 @@
 					end
 				</script>
 			</buttoncontrol>
+            <label name="weapons_header_label">
+                <anchored height="18">
+                    <top offset="10" />
+                    <left parent="leftanchor" anchor="right" relation="relative" offset="35" />
+                    <right parent="rightanchor" anchor="left" relation="relative" offset="-298" />
+                </anchored>
+            
+<!--                 <anchored to="weapontitle" position="insidetopleft" offset="20,1" /> -->
+                <tooltip textres="char_label_weapon_tooltip" />
+                <static textres="char_label_weapon" />
+            </label>
+            <label name="type_header_label">
+                <anchored height="18" width="30" >
+                    <top offset="10" />
+                    <left parent="weapons_header_label" anchor="right" relation="relative" offset="5" />
+                </anchored>
 
+                <!-- <anchored to="weapontitle" position="insidetopleft" offset="100,1" /> -->
+                <tooltip textres="char_label_type_tooltip" />
+                <static textres="char_label_type" />
+            </label>
+            <label name="initiative_header_label">
+                <anchored height="18" width="25" >
+                    <top offset="10" />
+                    <left parent="weapons_header_label" anchor="right" relation="relative" offset="5" />
+                </anchored>
+                <tooltip textres="char_label_initiative_tooltip" />
+                <static textres="char_label_initiative" />
+            </label>
+            <label name="attack_header_label">
+                <anchored height="18" width="25" >
+                    <top offset="10" />
+                    <left parent="weapons_header_label" anchor="right" relation="relative" offset="13" />
+                </anchored>
+                <tooltip textres="char_label_attack_tooltip" />
+                <static textres="char_label_attack" />
+            </label>
+            <label name="damage_header_label">
+                <anchored height="18" width="35" >
+                    <top offset="10" />
+                    <left parent="weapons_header_label" anchor="right" relation="relative" offset="70" />
+                </anchored>
+                <tooltip textres="char_label_damage_tooltip" />
+                <static textres="char_label_damage" />
+            </label>
+            
 			<list_charweapon name="weapons">
 				<anchored>
 					<top parent="columnanchor" anchor="bottom" relation="relative" offset="2" />

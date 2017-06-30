@@ -63,6 +63,7 @@ function update()
 	if updateControl("aoe", bReadOnly) then bSection3 = true; end;
 	if updateControl("save", bReadOnly) then bSection3 = true; end;
 	if updateControl("sphere", bReadOnly) then bSection3 = true; end;
+    if updateControl("type", bReadOnly) then bSection3 = true; end;
 
 	local bSection4 = false;
 	if updateControl("source", bReadOnly) then bSection4 = true; end;
@@ -74,4 +75,8 @@ function update()
     local bSphere = (sphere.getValue() ~= "");
     sphere_label.setVisible(bSphere);
     sphere.setVisible(bSphere);
+
+    local bType = (type.getValue() ~= "");
+    type_label.setVisible(bType);
+    type.setVisible(bType);
 end

@@ -69,7 +69,7 @@
 			</button_char_inv_carried>
 			
 
-			<stringu name="name">
+			<stringu name="name"> 
                 <anchored height="18">
                     <top offset="5" />
                     <left parent="leftanchor" anchor="right" relation="relative" offset="5" />
@@ -95,7 +95,7 @@
 
 
             <!-- init item roll -->
-            <label name="label_initiative">
+<!--             <label name="label_initiative">
                 <font>arial-regular-8</font>
                 <tooltip textres="char_label_initiative_tooltip" />
                 <anchored height="18" >
@@ -103,25 +103,25 @@
                     <left parent="leftanchor" anchor="right" relation="relative" offset="1" />
                 </anchored>
 				<static textres="char_label_initiative" />
-            </label>
+            </label> --> 
             <number_actions_init name="speedfactor">
                 <tooltip textres="power_label_initiative_tooltip" />
                 <anchored height="18" width="25" >
                     <top offset="8" />
-                    <left parent="leftanchor" anchor="right" relation="relative" offset="5" />
+                    <left parent="leftanchor" anchor="right" relation="relative" offset="10" />
                 </anchored>
             </number_actions_init>
 
-            <label name="label_attack">
+<!--             <label name="label_attack">
                 <font>arial-bold-8</font>
-                <!-- <color>#9b0707</color> -->
+                
                 <tooltip textres="char_label_attack_tooltip" />
                 <anchored height="18">
                     <top offset="8" />
                     <left parent="leftanchor" anchor="right" relation="relative" offset="8" />
                 </anchored>
 				<static textres="char_label_attack" />
-            </label>
+            </label> -->
 			<genericcontrol name="attackshade">
                 <anchored height="26" width="50" >
                     <top offset="3" />
@@ -198,8 +198,8 @@
 			</simplenumberc>
             <!-- damage section -->
             <windowlist name="damage_split_list">
-                <anchored width="85" >
-                    <top offset="5" />
+                <anchored width="125" >
+                    <top offset="5" /> 
                     <left parent="leftanchor" anchor="right" relation="relative" offset="5" />
                 </anchored>
 <!-- 				<anchored to="rightanchor" width="91">
