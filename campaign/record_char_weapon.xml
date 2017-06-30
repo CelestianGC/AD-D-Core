@@ -113,7 +113,8 @@
             </number_actions_init>
 
             <label name="label_attack">
-                <font>arial-regular-8</font>
+                <font>arial-bold-8</font>
+                <!-- <color>#9b0707</color> -->
                 <tooltip textres="char_label_attack_tooltip" />
                 <anchored height="18">
                     <top offset="8" />
@@ -154,7 +155,7 @@
 			</genericcontrol>
 			<genericcontrol name="attackicon">
 				<anchored to="attackframe" position="insidetopleft" offset="7,5" width="15" height="20" />
-				<icon>d20icon</icon>
+				<icon>d20ricon</icon>
 				<script>
 					function onInit()
 						setHoverCursor("hand");

@@ -45,9 +45,9 @@
 				<invisible />
 			</ft_record>
             
-			<sub_charsheet name="combat">
+			<sub_npcsheet name="combat">
 				<class>charsheet_combat</class>
-			</sub_charsheet>
+			</sub_npcsheet>
 
 			<scrollbar_record>
 				<target>main_creature</target>

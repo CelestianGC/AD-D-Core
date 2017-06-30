@@ -8,6 +8,7 @@
 <root>
     <!-- Power slot cast? -->
 	<windowclass name="power_slot_cast">
+        
 		<sheetdata>
 			<label name="label">
 				<anchored position="insidetopleft" />
@@ -22,6 +23,7 @@
 	
     <!-- Power slot cast -->
 	<windowclass name="power_slots_cast">
+        <margins control="0,4,0,0" />
 		<script file="campaign/scripts/power_slots_cast.lua" />
 		<sheetdata>
 			<anchor_column name="columnanchor" />

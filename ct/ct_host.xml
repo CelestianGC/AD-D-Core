@@ -608,48 +608,62 @@
 			</label>
  -->            
 
-			<number_ct name="thaco">
-				<anchored to="activeicon" position="righthigh" offset="55,10" width="12" height="20" />
-			</number_ct>
 			<label name="thacolabel">
-				<anchored to="thaco" position="lefthigh" offset="10,0"/>
+				<!-- <anchored to="thaco" position="lefthigh" offset="10,0"/> -->
 				<static textres="thaco" />
+                <!-- <anchored>
+                    <top parent="name" anchor="bottom" relation="relative" offset="13" />
+                    <left parent="activeicon" anchor="righthigh" relation="relative" offset="10" />
+                    <right offset="-505,0"/>
+                </anchored> -->
+                <anchored to="activeicon" position="righthigh" offset="20,9" />
 			</label>
+			<number_ct name="thaco">
+                <anchored to="thacolabel" position="righthigh" offset="10" width="25" height="20" />           
+			</number_ct>
 
-            <number_ct_init name="init">
-				<anchored to="activeicon" position="righthigh" offset="110,10" />
-			</number_ct_init>
 			<label name="initlabel">
-				<anchored to="init" position="lefthigh" offset="10,0"/>
+				<!-- <anchored to="init" position="lefthigh" offset="10,0"/> -->
+				<anchored to="thaco" position="righthigh" offset="10"  />
 				<static textres="init" />
 			</label>
-			<number_ct name="ac">
-				<anchored to="init" position="righthigh" offset="40,0" />
-				<description textres="armorclass" />
-			</number_ct>
+            <number_ct_init name="init">
+				<anchored to="initlabel" position="righthigh" offset="10,0" width="25" />
+<!-- 				<anchored to="activeicon" position="righthigh" offset="110,10" width="25" /> -->
+			</number_ct_init>
+
 			<label name="aclabel">
-				<anchored to="ac" position="lefthigh" offset="10,0"/>
+				<anchored to="init" position="righthigh" offset="10,0"  />
+				<!-- <anchored to="ac" position="lefthigh" offset="10,0"/> -->
 				<static textres="ac" />
 			</label>
+			<number_ct name="ac">
+				<anchored to="aclabel" position="righthigh" offset="10,0" width="25" />
+				<!-- <anchored to="init" position="righthigh" offset="40,0" width="25" /> -->
+				<description textres="armorclass" />
+			</number_ct>
             
-			<string_ct name="speed" >
-				<anchored to="ac" position="righthigh" offset="45,0" height="20"/>
-                <readonly />
-			</string_ct>
 			<label name="speedlabel">
-				<anchored to="speed" position="lefthigh" offset="5,0"/>
+				<anchored to="ac" position="righthigh" offset="10,0"  />
+				<!-- <anchored to="speed" position="lefthigh" offset="5,0"/> -->
 				<static textres="ct_label_speed" />
 			</label>
+			<string_ct name="speed" >
+				<anchored to="speedlabel" position="righthigh" offset="5,0" height="20" />
+				<!-- <anchored to="ac" position="righthigh" offset="45,0" height="20"/> -->
+                <readonly />
+			</string_ct>
 
+			<label name="damagelabel">
+				<anchored to="speed" position="righthigh" offset="10,0"  />
+				<!-- <anchored to="damage" position="lefthigh" offset="5,0"/> -->
+				<static textres="ct_label_damage" />
+			</label>
 			<string_ct name="damage">
-				<anchored to="speed" position="righthigh" offset="45,0" height="20">
+				<anchored to="damagelabel" position="righthigh" offset="5,0" height="20">
 					<right parent="" offset="-17" />
 				</anchored>
 			</string_ct>
-			<label name="damagelabel">
-				<anchored to="damage" position="lefthigh" offset="5,0"/>
-				<static textres="ct_label_damage" />
-			</label>
 
 
 			<genericcontrol name="spacer_action">
@@ -663,10 +677,10 @@
 			
              <subwindow name="sub_actions">
                 <anchored>
-                    <top parent="name" anchor="bottom" relation="relative" offset="10" />
+                    <top parent="name" anchor="bottom" relation="relative" offset="5" />
                     <left parent="activeicon" anchor="right" offset="10" />
                     <right offset="-20" />
-                    <sizelimits><minimum height="24" /></sizelimits>
+<!--                     <sizelimits><minimum height="24" /></sizelimits> -->
                 </anchored>
                 <class>ct_charsheet_actions</class>
 				<activate />

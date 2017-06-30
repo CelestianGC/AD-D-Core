@@ -58,6 +58,29 @@
 			</anchored>
 		</subwindow>
 	</template>
+
+	<template name="sub_npcsheet_actions">
+		<subwindow>
+			<anchored to="contentanchor">
+				<!-- <top parent="name" anchor="bottom" offset="2" /> -->
+                <top />
+				<left />
+				<right parent="" offset="-15,0" />
+				<bottom parent="" offset="-10" />
+			</anchored>
+		</subwindow>
+	</template>
+
+	<template name="sub_npcsheet">
+		<subwindow>
+			<anchored to="contentanchor">
+				<top parent="name" anchor="bottom" offset="0" />
+				<left parent="" offset="1,0" />
+				<right parent="" offset="-10,0" />
+				<bottom parent="" offset="0" />
+			</anchored>
+		</subwindow>
+	</template>
     
 	<template name="sub_ct_actions">
 		<subwindow>

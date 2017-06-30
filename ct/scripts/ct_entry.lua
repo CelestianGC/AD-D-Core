@@ -107,7 +107,10 @@ function onLinkChanged()
 	if sClass == "charsheet" then
 		linkPCFields();
 		name.setLine(false);
-	end
+	else
+        --- NPC links.
+        linkNPCFields();
+    end
 end
 
 -- check here to add "RIP" token overlay? -celestian
@@ -142,6 +145,42 @@ end
 
 function onActiveChanged()
 	setActiveVisible();
+end
+function linkNPCFields()
+	local nodeChar = link.getTargetDatabaseNode();
+	if nodeChar then
+        name.setLink(nodeChar.createChild("name", "string"), true);
+        
+		hptotal.setLink(nodeChar.createChild("hptotal", "number"));
+		hptemp.setLink(nodeChar.createChild("hptemp", "number"));
+		wounds.setLink(nodeChar.createChild("wounds", "number"));
+
+        --- stats
+		strength.setLink(nodeChar.createChild("abilities.strength.score", "number"), true);
+		dexterity.setLink(nodeChar.createChild("abilities.dexterity.score", "number"), true);
+		constitution.setLink(nodeChar.createChild("abilities.constitution.score", "number"), true);
+		intelligence.setLink(nodeChar.createChild("abilities.intelligence.score", "number"), true);
+		wisdom.setLink(nodeChar.createChild("abilities.wisdom.score", "number"), true);
+		charisma.setLink(nodeChar.createChild("abilities.charisma.score", "number"), true);
+
+        --- saves
+		paralyzation.setLink(nodeChar.createChild("saves.paralyzation.score", "number"), true);
+		poison.setLink(nodeChar.createChild("saves.poison.score", "number"), true);
+		death.setLink(nodeChar.createChild("saves.death.score", "number"), true);
+        rod.setLink(nodeChar.createChild("saves.rod.score", "number"), true);
+		staff.setLink(nodeChar.createChild("saves.staff.score", "number"), true);
+		wand.setLink(nodeChar.createChild("saves.wand.score", "number"), true);
+        petrification.setLink(nodeChar.createChild("saves.petrification.score", "number"), true);
+		polymorph.setLink(nodeChar.createChild("saves.polymorph.score", "number"), true);
+        breath.setLink(nodeChar.createChild("saves.breath.score", "number"), true);
+		spell.setLink(nodeChar.createChild("saves.spell.score", "number"), true);
+
+        -- combat
+		init.setLink(nodeChar.createChild("init", "number"), true);
+		thaco.setLink(nodeChar.createChild("thaco", "number"), true);
+		ac.setLink(nodeChar.createChild("ac", "number"), true);
+		speed.setLink(nodeChar.createChild("speed", "number"), true);
+	end
 end
 
 function linkPCFields()
