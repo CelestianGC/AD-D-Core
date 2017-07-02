@@ -292,6 +292,33 @@
 				<anchored to="strength" />
 				<static textres="STR" />
 			</label_npc_abilityscore>
+
+			<number_npc_abilityscore name="strengthpercent" source="abilities.strength.percent">
+				<script>
+					function onValueChanged()
+                        local node = getDatabaseNode();
+                        local nodeNPC = node.getChild("....");
+                        local nScore = DB.getValue(nodeNPC, "abilities.strength.score", 0);
+                        AbilityScores.updateStrength(nodeNPC,nScore);
+					end
+				</script>
+                <default>0</default>
+                <min> 0 </min>
+                <max> 100 </max>
+				<font>arial-regular-7</font>
+                <tooltip textres="npc_label_strengthpercent_tooltip" />
+                <anchored merge="replace" to="strength" width="30" height="25">
+					<top />
+					<left anchor="right" relation="relative" offset="10" />
+				</anchored>
+				<target>strength</target>
+			</number_npc_abilityscore>
+			<label_npc_abilityscore>
+                <font>arial-regular-7</font>
+                <tooltip textres="npc_label_strengthpercent_tooltip" />
+				<anchored to="strengthpercent" />
+				<static textres="npc_label_strengthpercent" />
+			</label_npc_abilityscore>
 			
 			<number_npc_abilityscore name="dexterity" source="abilities.dexterity.score">
 				<anchored merge="replace" to="strength" width="40" height="30">

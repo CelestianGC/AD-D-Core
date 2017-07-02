@@ -293,6 +293,9 @@
 	<string name="npc_label_hitdice">Hit Dice</string>	
 	<string name="npc_label_thaco">THACO</string>	
 
+	<string name="npc_label_strengthpercent">%</string>	
+	<string name="npc_label_strengthpercent_tooltip">Percentile score of Strength.</string>	
+
 	<string name="npc_label_activity">Activity</string>	
 	<string name="npc_label_alignment">Alignment</string>	
 	<string name="npc_label_climate">Climate</string>	
