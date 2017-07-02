@@ -563,36 +563,7 @@
 			<font>reference-b-large</font>
 			<modifiersize>mini</modifiersize>
 			<description textres="char_tooltip_speed" />
-			<script>
-				function onInit()
-					super.onInit();
-                    local nodeChar = window.getDatabaseNode();
-					DB.addHandler(DB.getPath(nodeChar, "speed.base"), "onUpdate", onSourceUpdate);
-					DB.addHandler(DB.getPath(nodeChar, "speed.armor"), "onUpdate", onSourceUpdate);
-					DB.addHandler(DB.getPath(nodeChar, "speed.misc"), "onUpdate", onSourceUpdate);
-                    onSourceUpdate();
-				end
-				
-				function onClose()
-                    local nodeChar = window.getDatabaseNode();
-					DB.removeHandler(DB.getPath(nodeChar, "speed.base"), "onUpdate", onSourceUpdate);
-					DB.removeHandler(DB.getPath(nodeChar, "speed.armor"), "onUpdate", onSourceUpdate);
-					DB.removeHandler(DB.getPath(nodeChar, "speed.misc"), "onUpdate", onSourceUpdate);
-				end
-				
-				function onSourceUpdate()
-					local rActor = ActorManager.getActor("pc", window.getDatabaseNode());
-                    local node = getDatabaseNode();
-                    local nodeChar = node.getChild("....");
-
-					local nSpeedBase = DB.getValue(nodeChar, "speed.base",12);
-					local nSpeedArmor = DB.getValue(nodeChar, "speed.armor",0);
-					local nSpeedMisc = DB.getValue(nodeChar, "speed.misc",0);
-                    
-                    setValue(nSpeedBase + nSpeedArmor + nSpeedMisc );
-				end
-			</script>
-            
+            <script file="campaign/scripts/number_movement.lua"/>
 		</basicnumber>
 	</template>
 	

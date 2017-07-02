@@ -92,4 +92,24 @@
 			</anchored>
 		</subwindow>
 	</template>
+    
+    <template name ="anchor_left">
+        <genericcontrol name="leftanchor">
+            <anchored width="0" height="0">
+                <top />
+                <left />
+            </anchored>
+            <invisible />
+        </genericcontrol>
+    </template>
+    <template name ="anchor_right">
+    <genericcontrol name="rightanchor">
+        <anchored width="0" height="0">
+            <top />
+            <right />
+        </anchored>
+        <invisible />
+    </genericcontrol>
+    </template>
+    
 </root>

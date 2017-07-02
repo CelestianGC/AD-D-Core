@@ -74,7 +74,19 @@
    	<string name="char_label_adj">Adj.</string>
 	<string name="char_label_background">KIT</string>
 	<string name="char_label_speed">MOVE</string>
-	<string name="char_label_speeddetail">Move:</string>
+	<string name="char_label_speeddetail">Mv Base:</string>
+	<string name="char_label_speeddetail_tooltip">Base movement values. The lowest will be used.</string>
+	<string name="char_label_speeddetail_mods">Mv Mods:</string>
+	<string name="char_label_speeddetail_mods_tooltip">Modifiers applied to movement.</string>
+
+	<string name="char_label_speedbase_base">Base</string>
+	<string name="char_label_speedbase_base_tooltip">Base movement value.</string>
+	<string name="char_label_speedbase_enc">Enc</string>
+	<string name="char_label_speedbase_enc_tooltip">Encumbrance based movement value.</string>
+	<string name="char_label_speedbase_item">Item</string>
+	<string name="char_label_speedbase_item_tooltip">Item based movement value.</string>
+	<string name="char_label_speedbase_mod">Mod</string>
+	<string name="char_label_speedbase_mod_tooltip">Modifier based movement value.</string>
 	
     <string name="char_label_ability_percent">%</string>
     <string name="char_tooltip_percentile">Percentile score of this ability.</string>

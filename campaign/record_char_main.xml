@@ -1225,7 +1225,7 @@
 	<windowclass name="charsheet_combatcalc">
 		<frame>charsheethelper</frame>
 		<placement>
-			<size width="500" height="220" />
+			<size width="500" height="250" />
 		</placement>
 		<nodelete />
 		<playercontrol />
@@ -1238,7 +1238,9 @@
 			<anchor_column name="columnanchor">
 				<anchored to="contentanchor" position="below" offset="0,-5" />
 			</anchor_column>
-			
+			<anchor_left />
+            <anchor_right />
+            
 			<!-- Init Detail -->
 			<label name="label_initdetail">
 				<anchored width="60">
@@ -1257,21 +1259,129 @@
 			</label_fieldtop>
 			
 			<!-- Speed Detail -->
-			<label name="label_speeddetail">
+            <label name="label_speeddetail_base">
+                <anchored height="18">
+                    <top parent="columnanchor" anchor="bottom" relation="relative" offset="20" />
+                    <left parent="leftanchor" anchor="right" relation="relative" offset="30" />
+                    <right parent="rightanchor" anchor="left" relation="relative" offset="-410" />
+                </anchored>
+				<static textres="char_label_speeddetail" />
+                <tooltip textres="char_label_speeddetail_tooltip" />
+            </label>
+
+			<!-- <label name="label_speeddetail">
 				<anchored width="60">
 					<top parent="columnanchor" anchor="bottom" relation="relative" offset="20" />
 					<left offset="30" />
 				</anchored>
 				<static textres="char_label_speeddetail" />
-			</label>
-			<char_speed_details name="speedbase" source="speed.base">
+			</label> -->
+            
+            
+            <speed_number_base name="speedbase" source="speed.base">
+            </speed_number_base>
+
+			<!-- <char_speed_details name="speedbase" source="speed.base">
 				<anchored to="label_speeddetail" position="righthigh" offset="5,0" width="45" height="20" />
-			</char_speed_details>
+			</char_speed_details> -->
+            
 			<label_fieldtop name="label_speedbase">
 				<anchored to="speedbase" />
-				<static textres="char_label_speedbase" />
+				<static textres="char_label_speedbase_base" />
+                <tooltip textres="char_label_speedbase_base_tooltip" />
 			</label_fieldtop>
-			
+            <speed_number_base name="speed_basemodenc" source="speed.basemodenc">
+                <readonly />
+            </speed_number_base>
+			<label_fieldtop name="label_speedbasemodenc">
+				<anchored to="speed_basemodenc" />
+				<static textres="char_label_speedbase_enc" />
+                <tooltip textres="char_label_speedbase_enc_tooltip" />
+            </label_fieldtop>
+
+            <speed_number_base name="speed_basemoditem" source="speed.basemoditem">
+                <readonly />
+            </speed_number_base>
+			<label_fieldtop name="label_speedbasemoditem">
+				<anchored to="speed_basemoditem" />
+				<static textres="char_label_speedbase_item" />
+                <tooltip textres="char_label_speedbase_item_tooltip" />
+            </label_fieldtop>
+
+            <speed_number_base name="speed_basemod" source="speed.basemod">
+            </speed_number_base>
+			<label_fieldtop name="label_speedbasemod">
+				<anchored to="speed_basemod" />
+				<static textres="char_label_speedbase_mod" />
+                <tooltip textres="char_label_speedbase_mod_tooltip" />
+			</label_fieldtop>
+            
+            <label name="label_speeddetail_mods">
+                <anchored height="18">
+                    <top parent="columnanchor" anchor="bottom" relation="relative" offset="20" />
+                    <left parent="leftanchor" anchor="right" relation="relative" offset="-60" />
+                    <right parent="rightanchor" anchor="left" relation="relative" offset="60" />
+                </anchored>
+				<static textres="char_label_speeddetail_mods" />
+                <tooltip textres="char_label_speeddetail_mods_tooltip" />
+            </label>
+            
+
+            <speed_number_mod name="speed_itemmod" source="speed.itemmod">
+                <readonly />
+                <displaysign />
+            </speed_number_mod>
+			<label_fieldtop name="label_speeditemmod">
+				<anchored to="speed_itemmod" />
+				<static text="Item" />
+            </label_fieldtop>
+
+            <speed_mod_plus />
+            
+            <speed_number_mod name="speed_effectmod" source="speed.effectmod">
+                <readonly />
+                <displaysign />
+            </speed_number_mod>
+			<label_fieldtop name="label_speedeffectmod">
+				<anchored to="speed_effectmod" />
+				<static text="Effect" />
+            </label_fieldtop>
+
+            <speed_mod_plus />
+            
+            <speed_number_mod name="speed_mod" source="speed.mod">
+                <displaysign />
+            </speed_number_mod>
+			<label_fieldtop name="label_speedbasemoditem">
+				<anchored to="speed_mod" />
+				<static text="Mod" />
+            </label_fieldtop>
+            
+            <speed_mod_plus />
+
+            <speed_number_mod name="speed_tempmod" source="speed.tempmod">
+                <displaysign />
+            </speed_number_mod>
+			<label_fieldtop name="label_speedtempmod">
+				<anchored to="speed_tempmod" />
+				<static text="Temp" />
+            </label_fieldtop>
+            
+            <label>
+                <anchored >
+                    <top parent="label_speeddetail_mods" />
+                    <left parent="label_speeddetail_mods" anchor="right" relation="relative" offset="10" />
+                </anchored>
+                <static text="=" />
+            </label>
+
+            <speed_number_total name="speed_total" source="speed.total">
+            </speed_number_total>
+			<label_fieldtop name="label_speedtotal">
+				<anchored to="speed_total" />
+				<static text="Total" />
+            </label_fieldtop>
+
 			<!-- Armor Detail -->
 			<label name="label_armordetail">
 				<anchored width="60">
@@ -1283,61 +1393,61 @@
 			<basicnumber name="acbase" source="defenses.ac.base">
    				<gmeditonly />
 				<default>10</default>
-				<anchored to="label_armordetail" position="righthigh" offset="5,0" width="45" height="20" />
+				<anchored to="label_armordetail" position="righthigh" offset="10,0" width="30" height="18" />
 			</basicnumber>
 			<label_fieldtop name="label_acbase">
 				<anchored to="acbase" />
 				<static textres="char_label_armorbase" />
 			</label_fieldtop>
 			<label name="label_armorplus">
-				<anchored to="acbase" position="righthigh" offset="5,0" width="10" />
+				<anchored to="acbase" position="righthigh" offset="10,0"  />
 				<static>+</static>
 				<center />
 			</label>
 			<basicnumber name="acarmor" source="defenses.ac.armor">
    				<gmeditonly />
-				<anchored to="label_armorplus" position="righthigh" offset="5,0" width="45" height="20" />
+				<anchored to="label_armorplus" position="righthigh" offset="10,0" width="30" height="18" />
 			</basicnumber>
 			<label_fieldtop name="label_acarmor">
 				<anchored to="acarmor" />
 				<static textres="char_label_armormain" />
 			</label_fieldtop>
 			<label name="label_armorplus2">
-				<anchored to="acarmor" position="righthigh" offset="5,0" width="10" />
+				<anchored to="acarmor" position="righthigh" offset="10,0" width="10" />
 				<static>+</static>
 				<center />
 			</label>
             
 			<basicnumber name="acshield" source="defenses.ac.shield">
    				<gmeditonly />
-				<anchored to="label_armorplus2" position="righthigh" offset="5,0" width="45" height="20" />
+				<anchored to="label_armorplus2" position="righthigh" offset="10,0" width="30" height="18" />
 			</basicnumber>
 			<label_fieldtop name="label_acshield">
 				<anchored to="acshield" />
 				<static textres="char_label_armorshield" />
 			</label_fieldtop>
 			<label name="label_armorplus3">
-				<anchored to="acshield" position="righthigh" offset="5,0" width="10" />
+				<anchored to="acshield" position="righthigh" offset="10,0" />
 				<static>+</static>
 				<center />
 			</label>
 
 			<basicnumber name="acdexterity" source="abilities.dexterity.defenseadj">
    				<readonly />
-				<anchored to="label_armorplus3" position="righthigh" offset="5,0" width="45" height="20" />
+				<anchored to="label_armorplus3" position="righthigh" offset="10,0" width="30" height="18" />
 			</basicnumber>
 			<label_fieldtop name="label_acdexterity">
 				<anchored to="acdexterity" />
 				<static textres="char_label_armordexterity" />
 			</label_fieldtop>
 			<label name="label_armorplus5">
-				<anchored to="acdexterity" position="righthigh" offset="5,0" width="10" />
+				<anchored to="acdexterity" position="righthigh" offset="10,0"/>
 				<static>+</static>
 				<center />
 			</label>
             
 			<basicnumber name="acmisc" source="defenses.ac.misc">
-				<anchored to="label_armorplus5" position="righthigh" offset="5,0" width="45" height="20" />
+				<anchored to="label_armorplus5" position="righthigh" offset="8,0" width="30" height="18" />
 			</basicnumber>
 			<label_fieldtop name="label_acmisc">
 				<anchored to="acmisc" />

@@ -172,3 +172,5 @@ function onEffectChanged()
 	
 	button.setTooltipText(sTooltip);
 end
+
+

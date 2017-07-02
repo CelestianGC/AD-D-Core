@@ -603,22 +603,6 @@
             </basicnumber>
     </template>
     
-    <template name="char_speed_details">
-			<basicnumber name="speedbase" source="speed.base">
-				<default>12</default>
-                <script>
-                    function onInit()
-                        onUpdate();
-                    end
-                    function onUpdate()
-                        local node = getDatabaseNode();
-                        local nodeChar = node.getChild("...");
-                        DB.setValue(nodeChar,"speed.total","number",getValue());
-                    end
-                </script>
-			</basicnumber>
-    </template>
-
 	<template name="class_cycler_do_as">
 		<button_stringcycler>
 			<parameters>
@@ -636,4 +620,67 @@
 				<hideonvalue>0</hideonvalue>
 			</basicnumber>
     </template>
+    
+    <template name="speed_number_base">
+            <basicnumber>
+                <anchored height="18" width="30" >
+                    <top parent="label_speeddetail_base" />
+                    <left parent="label_speeddetail_base" anchor="right" relation="relative" offset="10" />
+                </anchored>
+            
+                <frame name="fielddark" offset="7,5,7,5" />
+                <stateframe>
+                    <hover name="rowshade" offset="7,5,7,5" />
+                </stateframe>
+                <cursor hover="hand" />
+                <font>arial-regular-8</font>
+                <hideonvalue>0</hideonvalue>
+                <default>0</default>
+            </basicnumber>
+    </template>
+    <template name="speed_number_mod">
+            <basicnumber>
+                <anchored height="18" width="30" >
+                    <top parent="label_speeddetail_mods" />
+                    <left parent="label_speeddetail_mods" anchor="right" relation="relative" offset="10" />
+                </anchored>
+            
+                <frame name="fielddark" offset="7,5,7,5" />
+                <stateframe>
+                    <hover name="rowshade" offset="7,5,7,5" />
+                </stateframe>
+                <cursor hover="hand" />
+                <font>arial-regular-8</font>
+                <hideonvalue>0</hideonvalue>
+                <default>0</default>
+            </basicnumber>
+    </template>
+    <template name="speed_mod_plus">
+            <label>
+                <anchored >
+                    <top parent="label_speeddetail_mods" />
+                    <left parent="label_speeddetail_mods" anchor="right" relation="relative" offset="10" />
+                </anchored>
+                <static text="+" />
+            </label>
+    </template>            
+    
+    <template name="speed_number_total">
+            <basicnumber>
+                <anchored height="18" width="30" >
+                    <top parent="label_speeddetail_mods" />
+                    <left parent="label_speeddetail_mods" anchor="right" relation="relative" offset="10" />
+                </anchored>
+                <script file="campaign/scripts/number_movement.lua"/>
+                <frame name="fielddark" offset="7,5,7,5" />
+                <stateframe>
+                    <hover name="rowshade" offset="7,5,7,5" />
+                </stateframe>
+                <cursor hover="hand" />
+                <readonly />
+                <font>arial-bold-8</font>
+                <readonly />
+            </basicnumber>
+    </template>
+     
     </root>
