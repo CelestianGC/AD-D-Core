@@ -77,7 +77,7 @@ function updateDisplay()
     local bShowSpellHide = false;
 --Debug.console("power_action.lua","updateDisplay","bShowSpellHide",bShowSpellHide);
     -- show the button to hide this spell since it was cast
-	if sMode == "combat" and bWasMemorized and not bMemorized then
+	if (sMode == "combat") and (sType == "cast") and bWasMemorized and not bMemorized then
         bShowSpellHide = true;
         bShowMemorize = false;
 --Debug.console("power_action.lua","updateDisplay","bShowSpellHide",bShowSpellHide);
