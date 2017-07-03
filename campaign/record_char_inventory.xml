@@ -231,6 +231,7 @@
 				<tooltip textres="char_label_encumbrancerank_tooltip" />
                 <center />
                 <readonly />
+                <font>reference-b-large</font>
 				<anchored to="encumbranceload" position="insidetopleft" offset="-70,5" width="55"/>
             </basicstring>
 			<label_fieldtop name="encumbrancerank_label">
