@@ -99,6 +99,7 @@ function onCharItemDelete(nodeItem)
 	removeFromWeaponDB(nodeItem);
 end
 
+-- weight carried
 function updateEncumbrance(nodeChar)
 	local nEncTotal = 0;
 
@@ -116,6 +117,76 @@ function updateEncumbrance(nodeChar)
 	end
 
 	DB.setValue(nodeChar, "encumbrance.load", "number", nEncTotal);
+    -- check encumbrance levels for movement adjustments --celestian
+    updateMoveFromEncumbrance(nodeChar);
+end
+
+-- update speed.basemodenc due to weight adjustments
+function updateMoveFromEncumbrance(nodeChar)
+
+    local nEncLight = 0.33;
+    local nEncModerate = 0.5;
+    local nEncHeavy = 0.67;
+    
+    local nStrength = DB.getValue(nodeChar, "abilities.strength.score", 0);
+    local nPercent = DB.getValue(nodeChar, "abilities.strength.percent", 0);
+    local nWeightCarried = DB.getValue(nodeChar, "encumbrance.load", 0);
+    local nBaseMove = DB.getValue(nodeChar, "speed.base", 0);
+    local nBaseEncOriginal = DB.getValue(nodeChar, "speed.basemodenc", 0);
+    local nBaseEnc = 0; 
+    local sEncRank = "Normal";
+    
+    -- Deal with 18 01-100 strength
+    if ((nStrength == 18) and (nPercent > 0)) then
+        local nPercentRank = 50;
+        if (nPercent == 100) then 
+            nPercentRank = 100
+        elseif (nPercent >= 91 and nPercent <= 99) then
+            nPercentRank = 99
+        elseif (nPercent >= 76 and nPercent <= 90) then
+            nPercentRank = 90
+        elseif (nPercent >= 51 and nPercent <= 75) then
+            nPercentRank = 75
+        elseif (nPercent >= 1 and nPercent <= 50) then
+            nPercentRank = 50
+        end
+        nStrength = nPercentRank;
+    end
+    
+    -- determine if wt carried is greater than a encumbrance rank for strength value
+    if (nWeightCarried >= DataCommonADND.aStrength[nStrength][11]) then
+        nBaseEnc = (nBaseMove - 1); -- greater than max, base is 1
+        sEncRank = "MAX";
+    elseif (nWeightCarried >= DataCommonADND.aStrength[nStrength][10]) then
+        nBaseEnc = (nBaseMove - 1); -- greater than severe, base is 1
+        sEncRank = "Severe";
+    elseif (nWeightCarried >= DataCommonADND.aStrength[nStrength][9]) then
+        nBaseEnc = nBaseMove * nEncHeavy; -- greater than heavy
+        sEncRank = "Heavy";
+    elseif (nWeightCarried >= DataCommonADND.aStrength[nStrength][8]) then
+        nBaseEnc = nBaseMove * nEncModerate; -- greater than moderate
+        sEncRank = "Moderate";
+    elseif (nWeightCarried >= DataCommonADND.aStrength[nStrength][7]) then
+        nBaseEnc = nBaseMove * nEncLight; -- greater than light
+        sEncRank = "Light";
+    end
+    
+    nBaseEnc = math.floor(nBaseEnc);
+    nBaseEnc = nBaseMove - nBaseEnc;
+    if (nBaseEnc < 1) then
+        nBaseEnc = 1;
+    end
+    DB.setValue(nodeChar,"speed.basemodenc","number",nBaseEnc);
+    DB.setValue(nodeChar,"speed.encumbrancerank","string",sEncRank);
+    -- Debug.console("number_abilityscore.lua","updateMoveFromEncumbrance","nodeChar",nodeChar);
+    -- Debug.console("number_abilityscore.lua","updateMoveFromEncumbrance","nWeightCarried",nWeightCarried);
+    -- Debug.console("number_abilityscore.lua","updateMoveFromEncumbrance","nStrength",nStrength);
+    -- Debug.console("number_abilityscore.lua","updateMoveFromEncumbrance","nBaseEnc",nBaseEnc);
+    if (nBaseEnc ~= nBaseEncOriginal) then
+		local sFormat = Interface.getString("message_encumbrance_changed");
+		local sMsg = string.format(sFormat, DB.getValue(nodeChar, "name", ""),sEncRank,nBaseEnc);
+		ChatManager.SystemMessage(sMsg);
+    end
 end
 
 function getEncumbranceMult(nodeChar)

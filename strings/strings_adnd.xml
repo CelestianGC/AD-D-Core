@@ -250,6 +250,11 @@
 	<string name="char_label_notes_bonds">RELATIONSHIPS</string>
 	<string name="char_label_notes_flaws">FAULTS</string>
 
+    <!-- char inventory -->
+	<string name="char_label_encumbrancerank">Load</string>
+	<string name="char_label_encumbrancerank_tooltip">Encumbrance with current weight carried.</string>
+    
+    
     <!-- class -->
 	<string name="class_label_saveas">Save As</string>
 	<string name="class_label_fightas">Fight As</string>
@@ -329,6 +334,7 @@
 	<string name="message_notmemorized">Tried to cast spell not memorized.</string>
 	<string name="message_nomoreslots">Tried to memorize a spell but had with no more spell slots left.</string>
 	<string name="message_youmemorize">Memorized </string>
+	<string name="message_encumbrance_changed">'%s' is at '%s' encumbrance. Movebase now %d.</string>
     
     <!-- Sidebar -->
    	<string name="library_recordtype_label_image">Images</string>

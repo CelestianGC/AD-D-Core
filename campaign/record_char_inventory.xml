@@ -230,7 +230,20 @@
 				<anchored to="encumbranceload" />
 				<static textres="char_label_totalweight" />
 			</label_fieldtop>
-
+            
+            <basicstring name="encumbrance_rank" source="speed.encumbrancerank">
+				<tooltip textres="char_label_encumbrancerank_tooltip" />
+                <center />
+                <readonly />
+				<anchored to="encumbranceload" position="insidetopleft" offset="-70,5" width="55"/>
+            </basicstring>
+			<label_fieldtop name="encumbrancerank_label">
+				<anchored to="encumbrance_rank" offset="0,6" />
+				<static textres="char_label_encumbrancerank" />
+				<tooltip textres="char_label_encumbrancerank_tooltip" />
+			</label_fieldtop>
+            
+            
 			<genericcontrol name="encumbranceanchor">
 				<anchored to="encumbrancetitle" position="belowleft" offset="0,20" width="0" height="30" />
 				<invisible />

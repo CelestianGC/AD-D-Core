@@ -63,7 +63,7 @@ end
 
 function updateStrength(nodeActor,nChanged)
 
-    nPercent = DB.getValue(nodeActor, "abilities.strength.percent", 0);
+    local nPercent = DB.getValue(nodeActor, "abilities.strength.percent", 0);
 
     -- Deal with 18 01-100 strength
     if ((nChanged == 18) and (nPercent > 0)) then
@@ -88,6 +88,9 @@ function updateStrength(nodeActor,nChanged)
     DB.setValue(nodeActor, "abilities.strength.maxpress", "number", DataCommonADND.aStrength[nChanged][4]);
     DB.setValue(nodeActor, "abilities.strength.opendoors", "string", DataCommonADND.aStrength[nChanged][5]);
     DB.setValue(nodeActor, "abilities.strength.bendbars", "number", DataCommonADND.aStrength[nChanged][6]);
+    
+    -- update encumbrance if we changed strength
+    CharManager.updateEncumbrance(nodeActor);
 end
 
 function updateDexterity(nodeActor,nChanged)
