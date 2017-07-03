@@ -253,6 +253,7 @@
     <!-- char inventory -->
 	<string name="char_label_encumbrancerank">Load</string>
 	<string name="char_label_encumbrancerank_tooltip">Encumbrance with current weight carried.</string>
+	<string name="char_label_weightallowance">Weight Allowance</string>
     
     
     <!-- class -->

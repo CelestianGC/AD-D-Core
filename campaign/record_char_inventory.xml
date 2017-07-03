@@ -51,10 +51,6 @@
 			function onOptionChanged()
 				local sOptionHREN = OptionsManager.getOption("HREN");
 				local bShowVariant = (sOptionHREN == "variant");
-				encumbrancebase_label.setVisible(bShowVariant);
-				encumbrancebase.setVisible(bShowVariant);
-				encumbranceheavy_label.setVisible(bShowVariant);
-				encumbranceheavy.setVisible(bShowVariant);
 			end
 			
 			function onDrop(x, y, draginfo)
@@ -248,127 +244,29 @@
 				<anchored to="encumbrancetitle" position="belowleft" offset="0,20" width="0" height="30" />
 				<invisible />
 			</genericcontrol>
-			<number_linked name="encumbrancebase" source="encumbrance.encumbered">
-				<anchored to="encumbranceanchor" width="60" height="30">
+
+			<number_linked name="encumbranceallow" source="abilities.strength.weightallow">
+				<anchored to="encumbranceanchor" width="70" height="30">
 					<top />
 					<left anchor="right" relation="relative" offset="10" />
 				</anchored>
 				<frame name="fieldlight" offset="7,5,7,5" />
-				<source>
-					<name>abilities.strength.score</name>
-					<op>+</op>
-				</source>
-				<source><string /><name>size</name></source>
-				<script>
-					function onInit()
-						super.onInit();
-						local nodeChar = window.getDatabaseNode();
-						DB.addHandler(DB.getPath(nodeChar, "traitlist.*"), "onAdd", onTraitsUpdated);
-						DB.addHandler(DB.getPath(nodeChar, "traitlist.*.name"), "onUpdate", onTraitsUpdated);
-					end
-					
-					function onClose()
-						local nodeChar = window.getDatabaseNode();
-						DB.removeHandler(DB.getPath(nodeChar, "traitlist.*"), "onAdd", onTraitsUpdated);
-						DB.removeHandler(DB.getPath(nodeChar, "traitlist.*.name"), "onUpdate", onTraitsUpdated);
-					end
-					
-					function onTraitsUpdated()
-						onSourceUpdate();
-					end
-					
-					function onSourceUpdate(source)
-						local nValue = calculateSources();
-						
-						nValue = nValue * CharManager.getEncumbranceMult(window.getDatabaseNode());
-						
-						setValue(nValue);
-					end
-
-					function onSourceValue(source, sourcename)
-						if sourcename == "abilities.strength.score" then
-							return source.getValue() * 5;
-						end
-
-						return super.onSourceValue(source, sourcename);
-					end
-				</script>
 			</number_linked>
-			<label_fieldtop name="encumbrancebase_label">
-				<anchored to="encumbrancebase" />
-				<static textres="char_label_encbase" />
+			<label_fieldtop>
+				<anchored to="encumbranceallow" offset="8,1" />
+				<static textres="char_label_weightallowance" />
 			</label_fieldtop>
-			<number_linked name="encumbranceheavy" source="encumbrance.encumberedheavy">
+            
+			<number_linked name="encumbrancemax" source="abilities.strength.maxpress">
 				<anchored to="encumbranceanchor" width="60" height="30">
 					<top />
 					<left anchor="right" relation="relative" offset="10" />
 				</anchored>
 				<frame name="fieldlight" offset="7,5,7,5" />
-				<source>
-					<name>encumbrance.encumbered</name>
-					<op>+</op>
-				</source>
-				<script>
-					function onSourceValue(source, sourcename)
-						if sourcename == "encumbrance.encumbered" then
-							return source.getValue() * 2;
-						end
-
-						return super.onSourceValue(source, sourcename);
-					end
-				</script>
-			</number_linked>
-			<label_fieldtop name="encumbranceheavy_label">
-				<anchored to="encumbranceheavy" />
-				<static textres="char_label_encheavy" />
-			</label_fieldtop>
-			<number_linked name="encumbrancemax" source="encumbrance.max">
-				<anchored to="encumbranceanchor" width="60" height="30">
-					<top />
-					<left anchor="right" relation="relative" offset="10" />
-				</anchored>
-				<frame name="fieldlight" offset="7,5,7,5" />
-				<source>
-					<name>encumbrance.encumbered</name>
-					<op>+</op>
-				</source>
-				<script>
-					function onSourceValue(source, sourcename)
-						if sourcename == "encumbrance.encumbered" then
-							return source.getValue() * 3;
-						end
-
-						return super.onSourceValue(source, sourcename);
-					end
-				</script>
 			</number_linked>
 			<label_fieldtop name="encumbrancemax_label">
 				<anchored to="encumbrancemax" />
 				<static textres="char_label_encmax" />
-			</label_fieldtop>
-			<number_linked name="encumbrancedrag" source="encumbrance.liftpushdrag">
-				<anchored to="encumbranceanchor" width="60" height="30">
-					<top />
-					<left anchor="right" relation="relative" offset="10" />
-				</anchored>
-				<frame name="fieldlight" offset="7,5,7,5" />
-				<source>
-					<name>encumbrance.encumbered</name>
-					<op>+</op>
-				</source>
-				<script>
-					function onSourceValue(source, sourcename)
-						if sourcename == "encumbrance.encumbered" then
-							return source.getValue() * 6;
-						end
-
-						return super.onSourceValue(source, sourcename);
-					end
-				</script>
-			</number_linked>
-			<label_fieldtop>
-				<anchored to="encumbrancedrag" offset="8,1" />
-				<static textres="char_label_encdrag" />
 			</label_fieldtop>
 		</sheetdata>
 	</windowclass>
