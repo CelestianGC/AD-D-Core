@@ -157,22 +157,22 @@
 				<static textres="char_label_strength_dmgadj" />
 			</label_ability_fields>
 
-			<number_abilityfield name="strength_weightallow" source="abilities.strength.weightallow">
+			<number_abilityfield_noplus name="strength_weightallow" source="abilities.strength.weightallow">
 				<anchored to="strength_dmgadj" />
 				<tooltip textres="char_tooltip_strength_weightallow" />
 				<labelres>char_label_strength_weightallow</labelres>
-			</number_abilityfield>
+			</number_abilityfield_noplus>
  			<label_ability_fields>
 				<anchored to="strength_weightallow" />
    				<tooltip textres="char_tooltip_strength_weightallow" />
 				<static textres="char_label_strength_weightallow" />
 			</label_ability_fields>
 
-			<number_abilityfield name="strength_maxpress" source="abilities.strength.maxpress">
+			<number_abilityfield_noplus name="strength_maxpress" source="abilities.strength.maxpress">
 				<anchored to="strength_weightallow"/>
 				<tooltip textres="char_tooltip_strength_maxpress" />
 				<labelres>char_label_strength_maxpress</labelres>
-			</number_abilityfield>
+			</number_abilityfield_noplus>
  			<label_ability_fields>
 				<anchored to="strength_maxpress" />
    				<tooltip textres="char_tooltip_strength_maxpress" />
@@ -190,11 +190,11 @@
 				<static textres="char_label_strength_opendoors" />
 			</label_ability_fields>
 
-			<number_abilityfield name="strength_bendbars" source="abilities.strength.bendbars">
+			<number_abilityfield_noplus name="strength_bendbars" source="abilities.strength.bendbars">
 				<anchored to="strength_opendoors"/>
 				<tooltip textres="char_tooltip_strength_bendbars" />
 				<labelres>char_label_strength_bendbars</labelres>
-			</number_abilityfield>
+			</number_abilityfield_noplus>
  			<label_ability_fields>
 				<anchored to="strength_bendbars" />
    				<tooltip textres="char_tooltip_strength_bendbars" />
@@ -322,22 +322,22 @@
 				<static textres="char_label_constitution_hitpointadj" />
 			</label_ability_fields>
 			
-			<number_abilityfield name="constitution_systemshock" source="abilities.constitution.systemshock">
+			<number_abilityfield_noplus name="constitution_systemshock" source="abilities.constitution.systemshock">
 				<anchored to="constitution_hitpointadj" />
 				<tooltip textres="char_tooltip_constitution_systemshock" />
 				<labelres>char_label_constitution_systemshock</labelres>
-			</number_abilityfield>
+			</number_abilityfield_noplus>
    			<label_ability_fields>
 				<anchored to="constitution_systemshock" />
    				<tooltip textres="char_tooltip_constitution_systemshock" />
 				<static textres="char_label_constitution_systemshock" />
 			</label_ability_fields>
 
-			<number_abilityfield name="constitution_resurrectionsurvival" source="abilities.constitution.resurrectionsurvival">
+			<number_abilityfield_noplus name="constitution_resurrectionsurvival" source="abilities.constitution.resurrectionsurvival">
 				<anchored to="constitution_systemshock" />
 				<tooltip textres="char_tooltip_constitution_resurrectionsurvival" />
 				<labelres>char_label_constitution_resurrectionsurvival</labelres>
-			</number_abilityfield>
+			</number_abilityfield_noplus>
    			<label_ability_fields>
 				<anchored to="constitution_resurrectionsurvival" />
    				<tooltip textres="char_tooltip_constitution_resurrectionsurvival" />
@@ -415,22 +415,22 @@
 				<static textres="char_label_intelligence_languages" />
 			</label_ability_fields>
 
-			<number_abilityfield name="intelligence_spelllevel" source="abilities.intelligence.spelllevel">
+			<number_abilityfield_noplus name="intelligence_spelllevel" source="abilities.intelligence.spelllevel">
 				<anchored to="intelligence_languages"/>
 				<tooltip textres="char_tooltip_intelligence_spelllevel" />
 				<labelres>char_label_intelligence_spelllevel</labelres>
-			</number_abilityfield>
+			</number_abilityfield_noplus>
  			<label_ability_fields>
 				<anchored to="intelligence_spelllevel" />
    				<tooltip textres="char_tooltip_intelligence_spelllevel" />
 				<static textres="char_label_intelligence_spelllevel" />
 			</label_ability_fields>
 
-			<number_abilityfield name="intelligence_learn" source="abilities.intelligence.learn">
+			<number_abilityfield_noplus name="intelligence_learn" source="abilities.intelligence.learn">
 				<anchored to="intelligence_spelllevel"/>
 				<tooltip textres="char_tooltip_intelligence_learn" />
 				<labelres>char_label_intelligence_learn</labelres>
-			</number_abilityfield>
+			</number_abilityfield_noplus>
  			<label_ability_fields>
 				<anchored to="intelligence_learn" />
    				<tooltip textres="char_tooltip_intelligence_learn" />
@@ -510,11 +510,11 @@
 				<static textres="char_label_wisdom_magicdefenseadj" />
 			</label_ability_fields>
 
-			<number_abilityfield name="wisdom_failure" source="abilities.wisdom.failure">
+			<number_abilityfield_noplus name="wisdom_failure" source="abilities.wisdom.failure">
 				<anchored to="wisdom_magicdefenseadj"/>
 				<tooltip textres="char_tooltip_wisdom_failure" />
 				<labelres>char_label_wisdom_failure</labelres>
-			</number_abilityfield>
+			</number_abilityfield_noplus>
  			<label_ability_fields>
 				<anchored to="wisdom_failure" />
    				<tooltip textres="char_tooltip_wisdom_failure" />

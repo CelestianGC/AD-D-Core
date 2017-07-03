@@ -168,6 +168,17 @@
 			</number>
 	</template>
 
+	<template name="number_abilityfield_noplus">
+			<number>
+				<frame name="abilityscore_box" />
+<!--                 <backcolor>#ff99cc</backcolor> -->
+				<anchored position="right" offset="0,0" width="40"/>
+   				<center />
+                <nokeyedit />
+				<font>regular8</font>
+			</number>
+	</template>
+
 	<template name="percentile_abilityfield">
 			<number>
                 <readonly />
