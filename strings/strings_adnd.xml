@@ -292,7 +292,7 @@
 	<string name="ref_label_aoe">AoE</string>
 	<string name="ref_label_aoe_tooltip">Area of Effect</string>
     
-	<string name="ref_label_source">TYPE</string>
+	<string name="ref_label_source">Source</string>
 	<string name="ref_label_source_tooltip">The type of skill. Ability test or percentile check.</string>
 	<string name="ref_label_mod">MOD</string>
 	<string name="ref_label_mod_tooltip">Base modifier for skill if any.</string>

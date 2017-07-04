@@ -1003,7 +1003,7 @@
 
 	<!-- Spells database view -->
 	<windowclass name="power_stats">
-		<margins control="0,0,0,7" />
+		<margins control="0,0,20,7" />
 		<script file="campaign/scripts/power_main.lua" />
 		<sheetdata>
 			<anchor_column name="columnanchor" />

@@ -72,11 +72,22 @@ function update()
 	divider2.setVisible((bSection1 or bSection2) and bSection3);
 	divider3.setVisible((bSection1 or bSection2 or bSection3) and bSection4);
     
-    local bSphere = (sphere.getValue() ~= "");
+    --local bSphere = bReadOnly?(sphere.getValue() ~= ""):true);
+    local bSphere = false;
+    if (bReadOnly and sphere.getValue() ~= "") then
+        bSphere = true;
+    elseif not bReadOnly then
+        bSphere = true;
+    end
     sphere_label.setVisible(bSphere);
     sphere.setVisible(bSphere);
 
-    local bType = (type.getValue() ~= "");
+    local bType = false;
+    if (bReadOnly and type.getValue() ~= "") then
+        bType = true;
+    elseif not bReadOnly then
+        bType = true;
+    end
     type_label.setVisible(bType);
     type.setVisible(bType);
 end

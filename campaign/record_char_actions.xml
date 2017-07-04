@@ -200,7 +200,6 @@
             end
             
 			function onDrop(x, y, draginfo)
-            Debug.console("record_char_actions.xml","charsheet_actions_powers","onDrop","draginfo",draginfo);
 				if contents.subwindow.actions.subwindow.onDrop(x, y, draginfo) then
 					return true;
 				end

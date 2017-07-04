@@ -29,7 +29,8 @@ local nodeTest = getDatabaseNode();
 		registerMenuItem(Interface.getString("power_menu_addheal"), "radial_heal", 3, 4);
 		registerMenuItem(Interface.getString("power_menu_addeffect"), "radial_effect", 3, 5);
 		
-		registerMenuItem(Interface.getString("power_menu_reparse"), "textlist", 4);
+		-- disabled, we don't reparse in AD&D Core right now --celestian
+        --registerMenuItem(Interface.getString("power_menu_reparse"), "textlist", 4);
 	end
 
 	--Check to see if we should automatically parse attack description
@@ -130,8 +131,9 @@ function onMenuSelection(selection, subselection)
 		getDatabaseNode().delete();
 
 	elseif selection == 4 then
-		PowerManager.parsePCPower(getDatabaseNode());
-		activatedetail.setValue(1);
+		-- disabled reparse here also --celestian
+        --PowerManager.parsePCPower(getDatabaseNode());
+		--activatedetail.setValue(1);
 	elseif selection == 3 then
 		if subselection == 2 then
 			createAction("cast");
