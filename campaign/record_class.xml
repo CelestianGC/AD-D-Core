@@ -123,7 +123,7 @@
 			</label_reftype>	
 		</sheetdata>
 	</windowclass>
-	<windowclass name="ref_nonweaponproficiency_header">
+	<windowclass name="ref_nonweaponprof_header">
 		<margins control="0,0,0,2" />
 		<script>
 			function onInit()
@@ -136,7 +136,7 @@
 		</script>
 		<sheetdata>
 			<link_record_header>
-				<class>reference_nonweaponproficiency</class>
+				<class>reference_nonweaponprof</class>
 			</link_record_header>
 
 			<anchor_record_header_right />
@@ -219,7 +219,7 @@
 				local bReadOnly = WindowManager.getReadOnlyState(getDatabaseNode());
 				hitdice.update(bReadOnly);
 				proficiencies.update(bReadOnly);
-				nonweaponproficiencies.update(bReadOnly);
+				nonweaponprof.update(bReadOnly);
 				features.update(bReadOnly);
 				specializations.update(bReadOnly);
 				saveas.setReadOnly(bReadOnly);
@@ -287,19 +287,19 @@
 				<!-- <class>ref_class_proficiency</class> -->
 			</list_column>
 			
-			<header_column name="nonweaponproficiencies_header">
+			<header_column name="nonweaponprof_header">
 				<static textres="class_header_nonweaponproficiencies"/>
 				<center />
 			</header_column>
-			<button_iedit name="nonweaponproficiencies_iedit">
-				<anchored to="nonweaponproficiencies_header" position="righthigh" offset="-20,0" />
+			<button_iedit name="nonweaponprof_iedit">
+				<anchored to="nonweaponprof_header" position="righthigh" offset="-20,0" />
 				<target>nonweaponprof</target>
 			</button_iedit>
-			<button_iadd name="nonweaponproficiencies_iadd">
-				<anchored to="nonweaponproficiencies_iedit" position="lefthigh" offset="5,0" />
+			<button_iadd name="nonweaponprof_iadd">
+				<anchored to="nonweaponprof_iedit" position="lefthigh" offset="5,0" />
 				<target>nonweaponprof</target>
 			</button_iadd>
-			<list_column name="nonweaponproficiencies">
+			<list_column name="nonweaponprof">
 				<datasource>.nonweaponprof</datasource>
 				<class>ref_nonweapon_proficiency</class>
 			</list_column>
@@ -471,7 +471,7 @@
 		</script>
 		<sheetdata>
 			<sub_record_header name="header">
-				<class>nonweaponproficiencies_header</class>
+				<class>nonweaponprof_header</class>
 			</sub_record_header>
 
 			<frame_record_content name="contentframe" />
