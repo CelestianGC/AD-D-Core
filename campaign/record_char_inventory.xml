@@ -40,17 +40,16 @@
 		<margins control="0,0,0,2" />
 		<script>
 			function onInit()
-				OptionsManager.registerCallback("HREN", onOptionChanged);
+				OptionsManager.registerCallback("HouseRule_Encumbrance_Coins", onOptionChanged);
 				onOptionChanged();
 			end
 
 			function onClose()
-				OptionsManager.unregisterCallback("HREN", onOptionChanged);
+				OptionsManager.unregisterCallback("HouseRule_Encumbrance_Coins", onOptionChanged);
 			end
 
 			function onOptionChanged()
-				local sOptionHREN = OptionsManager.getOption("HREN");
-				local bShowVariant = (sOptionHREN == "variant");
+                CharManager.updateEncumbrance(getDatabaseNode());
 			end
 			
 			function onDrop(x, y, draginfo)
@@ -232,7 +231,7 @@
                 <center />
                 <readonly />
                 <font>reference-b-large</font>
-				<anchored to="encumbranceload" position="insidetopleft" offset="-70,5" width="55"/>
+				<anchored to="encumbranceload" position="insidetopleft" offset="-80,5" width="75"/>
             </basicstring>
 			<label_fieldtop name="encumbrancerank_label">
 				<anchored to="encumbrance_rank" offset="0,6" />

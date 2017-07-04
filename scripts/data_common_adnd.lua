@@ -60,7 +60,9 @@
 function onInit()
     -- default initiative dice size 
 	nDefaultInitiativeDice = 10;
-
+    -- default coin weight, 50 coins = 1 pound
+    nDefaultCoinWeight = 0.02;
+    
     -- aStrength[abilityScore]={hit adj, dam adj, weight allow, max press, open doors, bend bars, light enc, moderate enc, heavy enc, severe enc, max enc}
     aStrength[1]  = {-5,-4,1,3,"1(0)",0 ,2,3,4,5,7};
     aStrength[2]  = {-3,-2,1,5,"1(0)",0 ,2,3,4,5,7};

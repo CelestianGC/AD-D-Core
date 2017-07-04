@@ -101,7 +101,9 @@ end
 
 -- weight carried
 function updateEncumbrance(nodeChar)
-	local nEncTotal = 0;
+    local sOptionHREC = OptionsManager.getOption("HouseRule_Encumbrance_Coins");
+	local bCoinWeight = (sOptionHREC == "enabled");	
+    local nEncTotal = 0;
 
 	local nCount, nWeight;
 	for _,vNode in pairs(DB.getChildren(nodeChar, "inventorylist")) do
@@ -116,6 +118,19 @@ function updateEncumbrance(nodeChar)
 		end
 	end
 
+    if bCoinWeight then
+        local nCoinWeight = 0;
+        nCoinWeight = nCoinWeight + DB.getValue(nodeChar,"coins.slot1.amount",0);
+        nCoinWeight = nCoinWeight + DB.getValue(nodeChar,"coins.slot2.amount",0);
+        nCoinWeight = nCoinWeight + DB.getValue(nodeChar,"coins.slot3.amount",0);
+        nCoinWeight = nCoinWeight + DB.getValue(nodeChar,"coins.slot4.amount",0);
+        nCoinWeight = nCoinWeight + DB.getValue(nodeChar,"coins.slot5.amount",0);
+        nCoinWeight = nCoinWeight + DB.getValue(nodeChar,"coins.slot6.amount",0);
+
+        nCoinWeight = nCoinWeight * DataCommonADND.nDefaultCoinWeight;
+        nEncTotal = nEncTotal + nCoinWeight;
+    end
+    
 	DB.setValue(nodeChar, "encumbrance.load", "number", nEncTotal);
     -- check encumbrance levels for movement adjustments --celestian
     updateMoveFromEncumbrance(nodeChar);
