@@ -716,7 +716,7 @@
 					<left anchor="right" relation="relative" offset="5" />
 				</anchored>
  				<hideonvalue>0</hideonvalue>
-                <nokeyedit />
+                <readonly />
                 <tooltip textres="power_label_memorizecount_tooltip" />
 			</basicnumber> 
 

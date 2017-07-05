@@ -2065,6 +2065,9 @@ function removeMemorizedSpell(draginfo, nodeAction)
         local nMaxDivine = DB.getValue(nodeChar, "powermeta.pactmagicslots" .. nLevel .. ".max", 0);
 
         if (nMemorized > 0 or bisNPC) then
+            if (nMemorized < 1) then -- sanity check, to make sure memorize never less than 0.
+                nMemorized = 1;
+            end
             DB.setValue(nodeAction,"...memorized","number",(nMemorized-1));
             if (isArcaneSpellType(sSpellType) or isArcaneSpellType(sSource)) then
                 local nLeftOver = (nUsedArcane - 1);
