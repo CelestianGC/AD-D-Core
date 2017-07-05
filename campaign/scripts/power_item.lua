@@ -114,10 +114,10 @@ function onDisplayChanged()
         -- if init value is < 0 then just keep it hidden.
         -- might want to enable this so things other than spells can have
         -- a initiative, like potion, scroll and wand use? --celelstian
-        local nInitMod = header.subwindow.spell_initiative.getValue();
-        if (nInitMod <= 0) then
-            header.subwindow.spell_initiative.setVisible(false);
-        end
+        -- local nInitMod = header.subwindow.spell_initiative.getValue();
+        -- if (nInitMod <= 0) then
+            -- header.subwindow.spell_initiative.setVisible(false);
+        -- end
         
     --end
 end

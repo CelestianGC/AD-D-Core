@@ -309,18 +309,23 @@
 			<font>arial-regular-8</font>
 			<rollable />
 			<displaysign />
-			<hideonvalue>0</hideonvalue>
 			<script>
 				function action(draginfo)
                     local nValue = getValue();
+                    local node = getDatabaseNode();
+                    local sPath = node.getPath();
                     local nodePower = getDatabaseNode();
                     local nodeSpell = nodePower.getChild("....");
+                    local nodeChar = nodePower.getChild("......");
+                    if (string.match(sPath,"spell_initiative")) then
+                            nodeSpell = node.getChild("..");
+                            nodeChar = node.getChild("....");
+                    end
+                    
                     local sName = DB.getValue(nodeSpell,"name","");
-                
                     local rItem = {};
                     rItem.sName = sName;
                     rItem.nInit = nValue;
-                    local nodeChar = nodePower.getChild("......");
 					local rActor = ActorManager.getActor("pc", nodeChar);
 					ActionInit.performRoll(draginfo, rActor, nil, rItem);
 

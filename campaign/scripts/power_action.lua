@@ -47,6 +47,7 @@ end
 
 function updateDisplay()
 	local node = getDatabaseNode();
+    local sNodePath = node.getPath();
     local nodeSpell = node.getChild("...");
     local nodeChar = node.getChild(".....");
     local bisNPC = (not ActorManager.isPC(nodeChar));
@@ -99,20 +100,37 @@ function updateDisplay()
 	castbutton.setVisible(bShowCast);
 
     
-	memorizebutton.setVisible(bShowMemorize);
-	memorizelabel.setVisible(bShowMemorize);
-	memorizebutton.setVisible(bShowMemorize);
-  	memorizedcount.setVisible(bShowMemorize);
-
+Debug.console("power_action.lua","","sNodePath",sNodePath);
+    if string.match(sNodePath,"^spell") then
+        memorizebutton.setVisible(false);
+        memorizelabel.setVisible(false);
+        memorizedcount.setVisible(false);
+    else
+        memorizebutton.setVisible(bShowMemorize);
+        memorizelabel.setVisible(bShowMemorize);
+        memorizedcount.setVisible(bShowMemorize);
+    end
+    
    	hidespellbutton.setVisible(bShowSpellHide);
    	hidespelllabel.setVisible(bShowSpellHide);
 
 	attackbutton.setVisible(bShowCast);
 	attackviewlabel.setVisible(bShowCast);
 	attackview.setVisible(bShowCast);
+    
+    -- hide if no attack view set.
+    if (bShowCast and attackview.getValue() == "") then
+        attackview.setVisible(false);
+    end
+    
 	savebutton.setVisible(bShowCast);
 	saveviewlabel.setVisible(bShowCast);
 	saveview.setVisible(bShowCast);
+    -- hide if no attack view set.
+    if (bShowCast and saveview.getValue() == "") then
+        saveview.setVisible(false);
+    end
+    
 	castdetail.setVisible(bShowCast);
 	
 	damagebutton.setVisible(bShowDamage);
@@ -231,7 +249,15 @@ function onCastChanged()
 		end
 
 --		sSave = StringManager.capitalize(sSaveType:sub(1,3)) .. " DC " .. nDC;
-		sSave = StringManager.capitalize(sSaveType) .. " ADJ " .. nDC;
+        local sModSign = "+";
+        if (nDC < 0) then 
+            sModSign = "";
+        end
+        if nDC ~= 0 then
+            sSave = StringManager.capitalize(sSaveType) .. " " .. sModSign .. nDC;
+        else
+            sSave = StringManager.capitalize(sSaveType);
+        end
 		
 		if DB.getValue(nodeAction, "onmissdamage", "") == "half" then
 			sSave = sSave .. " (H)";

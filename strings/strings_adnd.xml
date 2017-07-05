@@ -229,6 +229,9 @@
     <string name="power_label_initiative_tooltip">Roll initiative for this action.</string>
     <string name="power_label_hidespell">Hide</string>
     <string name="power_label_hidespell_tooltip">Hide spell from combat listing since it is no longer memorized.</string>
+    <string name="power_label_cast_tooltip">Cast this spell or use power.</string>
+    <string name="power_label_attack_tooltip">Attack using spell or power.</string>
+    <string name="power_label_save_tooltip">Force target(s) to save versus this spell or power.</string>
     
    	<!-- Combat Tracker -->
 	<string name="ct_label_damage">Atks</string>

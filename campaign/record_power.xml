@@ -588,15 +588,18 @@
             <number_power_init name="castinitiative">
                 <script>
                     function onInit()
-                        onValueChanged();
-                    end
-                    function onValueChanged()
                         local nodeAction = getDatabaseNode();
                         local nodeSpell = nodeAction.getChild("....");
                         local nInitMod = nodeAction.getValue();
                         if nInitMod > 0 then
                             DB.setValue(nodeSpell,"spell_initiative","number",nInitMod);
                         end
+                    end
+                    function onValueChanged()
+                        local nodeAction = getDatabaseNode();
+                        local nodeSpell = nodeAction.getChild("....");
+                        local nInitMod = nodeAction.getValue();
+                        DB.setValue(nodeSpell,"spell_initiative","number",nInitMod);
                     end
                 </script>
                 <tooltip textres="power_label_initiative_tooltip" />
@@ -618,6 +621,7 @@
 
 			<!-- CAST -->
 			<button_poweraction name="castbutton">
+                <tooltip textres="power_label_cast_tooltip" />
 <!-- 				<anchored to="castinitiative" position="righthigh" offset="5,0" /> -->
 <!--				<anchored position="insidetopleft" offset="2,2" /> -->
 				<anchored to="leftanchor" height="18">
@@ -627,6 +631,7 @@
 
 			</button_poweraction>
 			<label name="castlabel">
+                <tooltip textres="power_label_cast_tooltip" />
 				<anchored to="leftanchor" height="18">
 					<top offset="5"/>
 					<left anchor="right" relation="relative" offset="2" />
@@ -636,6 +641,7 @@
 			</label>
             
 			<button_poweraction name="attackbutton">
+                <tooltip textres="power_label_attack_tooltip" />
 				<!-- <anchored to="castlabel" position="righthigh" offset="10,0" /> -->
 				<anchored to="leftanchor" height="18">
 					<top offset="5"/>
@@ -645,6 +651,7 @@
 				<subroll>atk</subroll>
 			</button_poweraction>
 			<label name="attackviewlabel">
+                <tooltip textres="power_label_attack_tooltip" />
 				<!-- <anchored to="attackbutton" position="righthigh" offset="5,0" /> -->
 				<anchored to="leftanchor" height="18">
 					<top offset="5"/>
@@ -663,6 +670,7 @@
 
 			<button_poweraction name="savebutton">
 				<!-- <anchored to="attackview" position="righthigh" offset="5,0" /> -->
+                <tooltip textres="power_label_save_tooltip" />
 				<anchored to="leftanchor" height="18">
 					<top offset="5"/>
 					<left anchor="right" relation="relative" offset="2" />
@@ -670,6 +678,7 @@
 				<subroll>save</subroll>
 			</button_poweraction>
 			<label name="saveviewlabel">
+                <tooltip textres="power_label_save_tooltip" />
 				<!-- <anchored to="savebutton" position="righthigh" offset="5,0" /> -->
 				<anchored to="leftanchor" height="18">
 					<top offset="5"/>
