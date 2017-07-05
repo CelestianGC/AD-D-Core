@@ -237,8 +237,8 @@
 			<anchored width="65" height="20" />
 			<parameters>
 				<defaultlabelres>dash</defaultlabelres>
-				<labelsres>spell|paralyzation|poison|death|rod|staff|wand|petrify|polymorph|breath</labelsres>
-				<values>spell|paralyzation|poison|death|rod|staff|wand|petrify|polymorph|breath</values>
+				<labelsres>spell|paralyzation|poison|death|rod|staff|wand|petrification|polymorph|breath</labelsres>
+				<values>spell|paralyzation|poison|death|rod|staff|wand|petrification|polymorph|breath</values>
 			</parameters>
 		</button_stringcycler>
 	</template>
