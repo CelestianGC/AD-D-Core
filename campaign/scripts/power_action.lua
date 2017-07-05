@@ -82,8 +82,17 @@ function updateDisplay()
         bShowMemorize = false;
 --Debug.console("power_action.lua","updateDisplay","bShowSpellHide",bShowSpellHide);
     end
-    
-    castinitiative.setVisible(bShowCast);
+    local bShowInitiative = false;
+-- Debug.console("power_action.lua","updateDisplay","castinitiative.getValue(",castinitiative.getValue());    
+    if (sMode == "combat") and (sType == "cast") and (castinitiative.getValue() > 0) then
+        bShowInitiative = true;
+    elseif (sMode ~= "combat") and (sType == "cast") then
+        bShowInitiative = true;
+    else
+        bShowInitiative = false;
+    end
+    castinitiative.setVisible(bShowInitiative);
+    initiativelabel.setVisible(bShowInitiative);
 
 	castbutton.setVisible(bShowCast);
 	castlabel.setVisible(bShowCast);

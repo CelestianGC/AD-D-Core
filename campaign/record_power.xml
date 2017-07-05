@@ -551,6 +551,9 @@
 		<margins control="0,0,0,5" />
 		<script file="campaign/scripts/power_action.lua" />
 		<sheetdata>
+            <anchor_right />
+            <anchor_left />
+            
 			<hn name="order" />
 			<hs name="type">
 				<script>
@@ -572,49 +575,99 @@
  -->			
             <number_power_init name="castinitiative">
                 <tooltip textres="power_label_initiative_tooltip" />
-				<anchored position="insidetopleft" offset="5,2" height="18" width="25" />
+				<!-- <anchored position="insidetopleft" offset="5,2" height="18" width="25" /> -->
+				<anchored to="leftanchor" width="25" height="18">
+					<top offset="5"/>
+					<left anchor="right" relation="relative" offset="5" />
+				</anchored>
 			</number_power_init>
+			<label name="initiativelabel">
+                <tooltip textres="power_label_initiative_tooltip" />
+				<anchored to="leftanchor" height="18">
+					<top offset="5"/>
+					<left anchor="right" relation="relative" offset="5" />
+				</anchored>
+				<!-- <anchored to="castbutton" position="righthigh" offset="5,0" /> -->
+				<static textres="power_label_initiative" />
+			</label>
 
 			<!-- CAST -->
 			<button_poweraction name="castbutton">
-				<anchored to="castinitiative" position="righthigh" offset="5,0" />
+<!-- 				<anchored to="castinitiative" position="righthigh" offset="5,0" /> -->
 <!--				<anchored position="insidetopleft" offset="2,2" /> -->
+				<anchored to="leftanchor" height="18">
+					<top offset="5"/>
+					<left anchor="right" relation="relative" offset="5" />
+				</anchored>
+
 			</button_poweraction>
 			<label name="castlabel">
-				<anchored to="castbutton" position="righthigh" offset="5,0" />
+				<anchored to="leftanchor" height="18">
+					<top offset="5"/>
+					<left anchor="right" relation="relative" offset="2" />
+				</anchored>
+				<!-- <anchored to="castbutton" position="righthigh" offset="5,0" /> -->
 				<static textres="power_label_cast" />
 			</label>
             
 			<button_poweraction name="attackbutton">
-				<anchored to="castlabel" position="righthigh" offset="10,0" />
+				<!-- <anchored to="castlabel" position="righthigh" offset="10,0" /> -->
+				<anchored to="leftanchor" height="18">
+					<top offset="5"/>
+					<left anchor="right" relation="relative" offset="2" />
+				</anchored>
 				<icon normal="button_action_attack" pressed="button_action_attack_down" />
 				<subroll>atk</subroll>
 			</button_poweraction>
 			<label name="attackviewlabel">
-				<anchored to="attackbutton" position="righthigh" offset="5,0" />
+				<!-- <anchored to="attackbutton" position="righthigh" offset="5,0" /> -->
+				<anchored to="leftanchor" height="18">
+					<top offset="5"/>
+					<left anchor="right" relation="relative" offset="2" />
+				</anchored>
 				<static textres="power_label_atk" />
 			</label>
 			<string_poweractionview name="attackview">
-				<anchored to="attackviewlabel" position="righthigh" offset="10,0" width="70" />
+				<!-- <anchored to="attackviewlabel" position="righthigh" offset="10,0" width="70" /> -->
+				<anchored to="leftanchor" width="70" height="18">
+					<top offset="5"/>
+					<left anchor="right" relation="relative" offset="5" />
+				</anchored>
 				<subroll>atk</subroll>
 			</string_poweractionview>
 
 			<button_poweraction name="savebutton">
-				<anchored to="attackview" position="righthigh" offset="5,0" />
+				<!-- <anchored to="attackview" position="righthigh" offset="5,0" /> -->
+				<anchored to="leftanchor" height="18">
+					<top offset="5"/>
+					<left anchor="right" relation="relative" offset="2" />
+				</anchored>
 				<subroll>save</subroll>
 			</button_poweraction>
 			<label name="saveviewlabel">
-				<anchored to="savebutton" position="righthigh" offset="5,0" />
+				<!-- <anchored to="savebutton" position="righthigh" offset="5,0" /> -->
+				<anchored to="leftanchor" height="18">
+					<top offset="5"/>
+					<left anchor="right" relation="relative" offset="2" />
+				</anchored>
 				<static textres="power_label_save" />
 			</label>
 			<string_poweractionview name="saveview">
-				<anchored to="saveviewlabel" position="righthigh" offset="10,0" width="80" />
+				<!-- <anchored to="saveviewlabel" position="righthigh" offset="10,0" width="80" /> -->
+				<anchored to="leftanchor" width="70" height="18">
+					<top offset="5"/>
+					<left anchor="right" relation="relative" offset="5" />
+				</anchored>
 				<subroll>save</subroll>
 			</string_poweractionview>
             
 			<!-- memorize -->
             <button_powermemorize name="hidespellbutton">
-                <anchored to="saveview" position="righthigh" offset="5,0" />
+                <!-- <anchored to="saveview" position="righthigh" offset="5,0" /> -->
+				<anchored to="leftanchor" height="18">
+					<top offset="5"/>
+					<left anchor="right" relation="relative" offset="2" />
+				</anchored>
                 <tooltip textres="power_label_hidespell_tooltip" />
                 <icon normal="button_dialog_cancel" pressed="button_dialog_cancel_down" />
                 <script>
@@ -624,18 +677,30 @@
                 </script>
             </button_powermemorize>
 			<label name="hidespelllabel">
-				<anchored to="hidespellbutton" position="righthigh" offset="5,0" />
+				<!-- <anchored to="hidespellbutton" position="righthigh" offset="5,0" /> -->
+				<anchored to="leftanchor" height="18">
+					<top offset="5"/>
+					<left anchor="right" relation="relative" offset="2" />
+				</anchored>
 				<static textres="power_label_hidespell" />
                 <tooltip textres="power_label_hidespell_tooltip" />
 			</label>
 
 			<button_powermemorize name="memorizebutton">
-				<anchored to="saveview" position="righthigh" offset="5,0" />
+				<!-- <anchored to="saveview" position="righthigh" offset="5,0" /> -->
+				<anchored to="leftanchor" height="18">
+					<top offset="5"/>
+					<left anchor="right" relation="relative" offset="2" />
+				</anchored>
                 <tooltip textres="power_label_memorize_tooltip" />
 				<icon normal="button_action_memorize" pressed="button_action_memorize_down" />
 			</button_powermemorize>
 			<label name="memorizelabel">
-				<anchored to="memorizebutton" position="righthigh" offset="5,0" />
+				<!-- <anchored to="memorizebutton" position="righthigh" offset="5,0" /> -->
+				<anchored to="leftanchor"  height="18">
+					<top offset="5"/>
+					<left anchor="right" relation="relative" offset="2" />
+				</anchored>
 				<static textres="power_label_memorize" />
                 <tooltip textres="power_label_memorize_tooltip" />
 			</label>
@@ -645,7 +710,11 @@
 						window.updateDisplay();
 					end
                 </script>
-				<anchored to="memorizelabel" position="righthigh" offset="10,0" width="20" height="20"/>
+				<!-- <anchored to="memorizelabel" position="righthigh" offset="10,0" width="20" height="20"/> -->
+				<anchored to="leftanchor" width="25" height="18">
+					<top offset="5"/>
+					<left anchor="right" relation="relative" offset="5" />
+				</anchored>
  				<hideonvalue>0</hideonvalue>
                 <nokeyedit />
                 <tooltip textres="power_label_memorizecount_tooltip" />
