@@ -151,6 +151,7 @@ function addPower(sClass, nodeSource, nodeCreature, sGroup)
                     -- set "savetype" to "spell"
                     DB.setValue(nodeAction, "savetype", "string", "spell");      
                     -- initiative setting
+                    DB.setValue(nodeAction, "....spell_initiative", "number", nCastTime);
                     DB.setValue(nodeAction, "castinitiative", "number", nCastTime);
                 end
             end

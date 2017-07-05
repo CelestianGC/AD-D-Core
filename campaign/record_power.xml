@@ -349,11 +349,21 @@
 				<tooltip textres="power_tooltip_group" />
 				<delaykeyupdate />
 			</string_power>
+
+            
+            <number_power_init name="spell_initiative">
+                <tooltip textres="power_label_initiative_tooltip" />
+				<anchored to="name" width="23" height="18">
+					<top offset="2"/>
+					<left anchor="right" relation="relative" offset="10" />
+				</anchored>
+                <invisible />
+			</number_power_init>
             
 			<windowlist name="actionsmini">
 				<anchored>
 					<top offset="2" />
-					<left parent="name" anchor="right" offset="10" />
+					<left parent="spell_initiative" anchor="right" offset="5" />
 					<right parent="rightanchor" anchor="left" relation="relative" offset="-5" />
 				</anchored>
 				<datasource>.actions</datasource>
@@ -365,6 +375,8 @@
                 <child><backcolor>1A40301E</backcolor></child>
 				<invisible />
 			</windowlist>
+
+
 			<string_power name="shortdescription">
 				<anchored>
 					<top offset="2" />
@@ -574,6 +586,19 @@
             
  -->			
             <number_power_init name="castinitiative">
+                <script>
+                    function onInit()
+                        onValueChanged();
+                    end
+                    function onValueChanged()
+                        local nodeAction = getDatabaseNode();
+                        local nodeSpell = nodeAction.getChild("....");
+                        local nInitMod = nodeAction.getValue();
+                        if nInitMod > 0 then
+                            DB.setValue(nodeSpell,"spell_initiative","number",nInitMod);
+                        end
+                    end
+                </script>
                 <tooltip textres="power_label_initiative_tooltip" />
 				<!-- <anchored position="insidetopleft" offset="5,2" height="18" width="25" /> -->
 				<anchored to="leftanchor" width="25" height="18">
@@ -728,7 +753,11 @@
             
 			<!-- DAMAGE -->
 			<button_poweraction name="damagebutton">
-				<anchored position="insidetopleft" offset="2,2" />
+				<!-- <anchored position="insidetopleft" offset="2,2" /> -->
+				<anchored to="leftanchor" height="18">
+					<top offset="5"/>
+					<left anchor="right" relation="relative" offset="5" />
+				</anchored>
 				<icon normal="button_action_damage" pressed="button_action_damage_down" />
 			</button_poweraction>
 			<label name="damagelabel">
@@ -746,7 +775,11 @@
 
 			<!-- HEAL -->
 			<button_poweraction name="healbutton">
-				<anchored position="insidetopleft" offset="2,2" />
+				<!-- <anchored position="insidetopleft" offset="2,2" /> -->
+				<anchored to="leftanchor" height="18">
+					<top offset="5"/>
+					<left anchor="right" relation="relative" offset="5" />
+				</anchored>
 				<icon normal="button_action_heal" pressed="button_action_heal_down" />
 			</button_poweraction>
 			<label name="heallabel">
@@ -764,7 +797,11 @@
 
 			<!-- EFFECT -->
 			<button_poweraction name="effectbutton">
-				<anchored position="insidetopleft" offset="2,2" />
+				<!-- <anchored position="insidetopleft" offset="2,2" /> -->
+				<anchored to="leftanchor" height="18">
+					<top offset="5"/>
+					<left anchor="right" relation="relative" offset="5" />
+				</anchored>
 				<icon normal="button_action_effect" pressed="button_action_effect_down" />
 			</button_poweraction>
 			<label name="effectlabel">

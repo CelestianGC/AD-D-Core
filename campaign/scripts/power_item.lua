@@ -99,15 +99,26 @@ function onDisplayChanged()
             header.subwindow.group.setVisible(false);
             header.subwindow.shortdescription.setVisible(true);
             header.subwindow.actionsmini.setVisible(false);
+            header.subwindow.spell_initiative.setVisible(false);
         elseif sDisplayMode == "action" then
             header.subwindow.group.setVisible(false);
             header.subwindow.shortdescription.setVisible(false);
             header.subwindow.actionsmini.setVisible(true);
+            header.subwindow.spell_initiative.setVisible(true);
         else
             header.subwindow.group.setVisible(true);
             header.subwindow.shortdescription.setVisible(false);
             header.subwindow.actionsmini.setVisible(false);
+            header.subwindow.spell_initiative.setVisible(false);
         end
+        -- if init value is < 0 then just keep it hidden.
+        -- might want to enable this so things other than spells can have
+        -- a initiative, like potion, scroll and wand use? --celelstian
+        local nInitMod = header.subwindow.spell_initiative.getValue();
+        if (nInitMod <= 0) then
+            header.subwindow.spell_initiative.setVisible(false);
+        end
+        
     --end
 end
 
