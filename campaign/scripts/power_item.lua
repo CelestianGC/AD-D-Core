@@ -98,16 +98,19 @@ function onDisplayChanged()
         if sDisplayMode == "summary" then
             header.subwindow.group.setVisible(false);
             header.subwindow.shortdescription.setVisible(true);
+            --header.subwindow.actionsmini_pre.setVisible(false);
             header.subwindow.actionsmini.setVisible(false);
             header.subwindow.spell_initiative.setVisible(false);
         elseif sDisplayMode == "action" then
             header.subwindow.group.setVisible(false);
             header.subwindow.shortdescription.setVisible(false);
+            --header.subwindow.actionsmini_pre.setVisible(true);
             header.subwindow.actionsmini.setVisible(true);
             header.subwindow.spell_initiative.setVisible(true);
         else
             header.subwindow.group.setVisible(true);
             header.subwindow.shortdescription.setVisible(false);
+            --header.subwindow.actionsmini_pre.setVisible(false);
             header.subwindow.actionsmini.setVisible(false);
             header.subwindow.spell_initiative.setVisible(false);
         end

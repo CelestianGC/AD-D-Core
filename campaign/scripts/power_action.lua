@@ -99,8 +99,8 @@ function updateDisplay()
 	castlabel.setVisible(bShowCast);
 	castbutton.setVisible(bShowCast);
 
-    
-Debug.console("power_action.lua","","sNodePath",sNodePath);
+    -- if in spell record then we don't need to
+    -- display memorize buttons
     if string.match(sNodePath,"^spell") then
         memorizebutton.setVisible(false);
         memorizelabel.setVisible(false);
@@ -118,16 +118,20 @@ Debug.console("power_action.lua","","sNodePath",sNodePath);
 	attackviewlabel.setVisible(bShowCast);
 	attackview.setVisible(bShowCast);
     
-    -- hide if no attack view set.
+    -- hide if no attack set.
     if (bShowCast and attackview.getValue() == "") then
+        attackbutton.setVisible(false);
+        attackviewlabel.setVisible(false);
         attackview.setVisible(false);
     end
     
 	savebutton.setVisible(bShowCast);
 	saveviewlabel.setVisible(bShowCast);
 	saveview.setVisible(bShowCast);
-    -- hide if no attack view set.
+    -- hide if no save set.
     if (bShowCast and saveview.getValue() == "") then
+        savebutton.setVisible(false);
+        saveviewlabel.setVisible(false);
         saveview.setVisible(false);
     end
     
