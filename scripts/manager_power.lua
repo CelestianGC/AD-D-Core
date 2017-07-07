@@ -151,7 +151,7 @@ function addPower(sClass, nodeSource, nodeCreature, sGroup)
                     -- set "savetype" to "spell"
                     DB.setValue(nodeAction, "savetype", "string", "spell");      
                     -- initiative setting
-                    DB.setValue(nodeAction, "....spell_initiative", "number", nCastTime);
+                    DB.setValue(nodeAction, "....castinitiative", "number", nCastTime);
                     DB.setValue(nodeAction, "castinitiative", "number", nCastTime);
                 end
             end
@@ -1985,25 +1985,43 @@ function parsePCPower(nodePower)
 	end
 end
 
-function memorizeSpell(draginfo, nodeAction)
+-- return true if the spell can be memorized.
+function canMemorizeSpell(nodeSpell)
+    local nLevel = DB.getValue(nodeSpell, "level", 0);
+    local sSpellType = DB.getValue(nodeSpell, "type", ""):lower();
+    local sNodePath = nodeSpell.getPath();
+    
+    local bCanMemorize = 
+        (nLevel>0 and (isArcaneSpellType(sSpellType) or isDivineSpellType(sSpellType)))
+
+    -- if this is coming from spell record then no, nothing will memorize
+    if string.match(sNodePath,"^spell") then
+            bCanMemorize = false;
+    end
+       
+    return bCanMemorize;
+end
+
+-- commit a spell to memoriy --celestian
+function memorizeSpell(draginfo, nodeSpell)
+--Debug.console("manager_power.lua","memorizeSpell","nodeSpell",nodeSpell);
     local bSuccess = true;
-	if not nodeAction then
-		return;
+	if not nodeSpell then
+		return false;
 	end
-	local rActor = ActorManager.getActor("", nodeAction.getChild("....."));
-	if not rActor then
-		return;
+	local nodeChar = nodeSpell.getChild("...");
+	if not nodeChar then
+		return false;
 	end
 
-	local nodeChar = nodeAction.getChild(".....");
     
-    local sName = DB.getValue(nodeAction, "...name", "");
-    local nLevel = DB.getValue(nodeAction, "...level", 0);
-    local sSpellType = DB.getValue(nodeAction, "...type", ""):lower();
-    local sSource = DB.getValue(nodeAction, "...source", ""):lower();
-    local sCastTime = DB.getValue(nodeAction, "...castingtime", "");
-    local sDuration = DB.getValue(nodeAction, "...duration", "");
-    local nMemorized = DB.getValue(nodeAction, "...memorized", 0);
+    local sName = DB.getValue(nodeSpell, "name", "");
+    local nLevel = DB.getValue(nodeSpell, "level", 0);
+    local sSpellType = DB.getValue(nodeSpell, "type", ""):lower();
+    local sSource = DB.getValue(nodeSpell, "source", ""):lower();
+    local sCastTime = DB.getValue(nodeSpell, "castingtime", "");
+    local sDuration = DB.getValue(nodeSpell, "duration", "");
+    local nMemorized = DB.getValue(nodeSpell, "memorized", 0);
     
     if (nLevel>0 and (isArcaneSpellType(sSpellType) or isArcaneSpellType(sSource) or isDivineSpellType(sSpellType) or isDivineSpellType(sSource)) ) then
         local nUsedArcane = DB.getValue(nodeChar, "powermeta.spellslots" .. nLevel .. ".used", 0);
@@ -2014,7 +2032,7 @@ function memorizeSpell(draginfo, nodeAction)
         if (isArcaneSpellType(sSpellType) or isArcaneSpellType(sSource)) then
             if (nUsedArcane+1 <= nMaxArcane) then
                 DB.setValue(nodeChar,"powermeta.spellslots" .. nLevel .. ".used","number",(nUsedArcane+1));
-                DB.setValue(nodeAction,"...memorized","number",(nMemorized+1));
+                DB.setValue(nodeSpell,"memorized","number",(nMemorized+1));
                 ChatManager.Message(Interface.getString("message_youmemorize") .. " " .. sName .. ".", true, ActorManager.getActor("pc", nodeChar));
             else
                 -- not enough slots left
@@ -2024,7 +2042,7 @@ function memorizeSpell(draginfo, nodeAction)
         elseif (isDivineSpellType(sSpellType) or isDivineSpellType(sSource)) then
             if (nUsedDivine+1 <= nMaxDivine) then
                 DB.setValue(nodeChar,"powermeta.pactmagicslots" .. nLevel .. ".used","number",(nUsedDivine+1));
-                DB.setValue(nodeAction,"...memorized","number",(nMemorized+1));
+                DB.setValue(nodeSpell,"memorized","number",(nMemorized+1));
                 ChatManager.Message(Interface.getString("message_youmemorize") .. " " .. sName .. ".", true, ActorManager.getActor("pc", nodeChar));
             else
                 -- not enough slots left
@@ -2038,25 +2056,28 @@ function memorizeSpell(draginfo, nodeAction)
 end
 
 -- cast spell
-function removeMemorizedSpell(draginfo, nodeAction)
+function removeMemorizedSpell(draginfo, node)
+	local nodeSpell = node.getChild("...");
     local bSuccess = true;
-	if not nodeAction then
+	if not nodeSpell then
 		return;
 	end
-	local rActor = ActorManager.getActor("", nodeAction.getChild("....."));
-	if not rActor then
-		return;
+	local nodeChar = nodeSpell.getChild("...");
+	if not nodeChar then
+		return false;
 	end
+-- Debug.console("manager_power.lua","removeMemorizedSpell","node",node);
+-- Debug.console("manager_power.lua","removeMemorizedSpell","nodeSpell",nodeSpell);
+-- Debug.console("manager_power.lua","removeMemorizedSpell","nodeChar",nodeChar);
 
-	local nodeChar = nodeAction.getChild(".....");
     local bisNPC = (not ActorManager.isPC(nodeChar));
-    local sName = DB.getValue(nodeAction, "...name", "");
-    local nLevel = DB.getValue(nodeAction, "...level", 0);
-    local sSpellType = DB.getValue(nodeAction, "...type", ""):lower();
-    local sSource = DB.getValue(nodeAction, "...source", ""):lower();
-    local sCastTime = DB.getValue(nodeAction, "...castingtime", "");
-    local sDuration = DB.getValue(nodeAction, "...duration", "");
-    local nMemorized = DB.getValue(nodeAction, "...memorized", 0);
+    local sName = DB.getValue(nodeSpell, "name", "");
+    local nLevel = DB.getValue(nodeSpell, "level", 0);
+    local sSpellType = DB.getValue(nodeSpell, "type", ""):lower();
+    local sSource = DB.getValue(nodeSpell, "source", ""):lower();
+    local sCastTime = DB.getValue(nodeSpell, "castingtime", "");
+    local sDuration = DB.getValue(nodeSpell, "duration", "");
+    local nMemorized = DB.getValue(nodeSpell, "memorized", 0);
 
     -- this should let 5e spells work
     if (nLevel>0 and (isArcaneSpellType(sSpellType) or isArcaneSpellType(sSource) or isDivineSpellType(sSpellType) or isDivineSpellType(sSource)) ) then
@@ -2069,7 +2090,7 @@ function removeMemorizedSpell(draginfo, nodeAction)
             if (nMemorized < 1) then -- sanity check, to make sure memorize never less than 0.
                 nMemorized = 1;
             end
-            DB.setValue(nodeAction,"...memorized","number",(nMemorized-1));
+            DB.setValue(nodeSpell,"memorized","number",(nMemorized-1));
             if (isArcaneSpellType(sSpellType) or isArcaneSpellType(sSource)) then
                 local nLeftOver = (nUsedArcane - 1);
                 if nLeftOver < 0 then nLeftOver = 0; end

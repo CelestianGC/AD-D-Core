@@ -151,9 +151,9 @@ function linkNPCFields()
 	if nodeChar then
         name.setLink(nodeChar.createChild("name", "string"), true);
         
-		hptotal.setLink(nodeChar.createChild("hptotal", "number"));
-		hptemp.setLink(nodeChar.createChild("hptemp", "number"));
-		wounds.setLink(nodeChar.createChild("wounds", "number"));
+		-- hptotal.setLink(nodeChar.createChild("hptotal", "number"));
+		-- hptemp.setLink(nodeChar.createChild("hptemp", "number"));
+		-- wounds.setLink(nodeChar.createChild("wounds", "number"));
 
         --- stats
 		strength.setLink(nodeChar.createChild("abilities.strength.score", "number"), true);

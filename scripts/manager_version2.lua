@@ -4,7 +4,7 @@
 --
 
 local rsname = "AD&D Core";
-local rsmajorversion = 7;
+local rsmajorversion = 8;
 
 function onInit()
 	if User.isHost() or User.isLocal() then
@@ -77,6 +77,11 @@ function updateCampaign()
 		end
 		if major < 7 then
 			convertCharacters7();
+		end
+        -- migrate spell data 
+		if major < 8 then
+            --Debug.console("manager_version2.lua","updateCampaign","major",major);
+            convertSpellsInitiative();
 		end
 	end
 end
@@ -315,4 +320,64 @@ function convertCharacters2()
 	for _,nodeChar in pairs(DB.getChildren("charsheet")) do
 		migrateChar2(nodeChar);
 	end
+end
+
+-- move initiative from spell->action->cast to spell --celestian
+function convertSpellsInitiative()
+    -- fix all spell records
+	for _,nodeSpell in pairs(DB.getChildren("spell")) do
+        for _,nodeAction in pairs(DB.getChildren(nodeSpell, "actions")) do
+            migrateSpellInitiative(nodeSpell,nodeAction);
+        end
+	end
+    -- fix all combat tracker records
+	for _,nodeCharacters in pairs(DB.getChildren("combattracker.list")) do
+        for _,nodePowers in pairs(DB.getChildren(nodeCharacters, "powers")) do
+            for _,nodeAction in pairs(DB.getChildren(nodePowers, "actions")) do
+                migrateSpellInitiative(nodePowers,nodeAction);
+            end
+        end
+	end
+    -- fix all npc records
+	for _,nodeCharacters in pairs(DB.getChildren("npc")) do
+        for _,nodePowers in pairs(DB.getChildren(nodeCharacters, "powers")) do
+            for _,nodeAction in pairs(DB.getChildren(nodePowers, "actions")) do
+                migrateSpellInitiative(nodePowers,nodeAction);
+            end
+        end
+	end
+    -- fix all pc records
+	for _,nodeCharacters in pairs(DB.getChildren("charsheet")) do
+        for _,nodePowers in pairs(DB.getChildren(nodeCharacters, "powers")) do
+            for _,nodeAction in pairs(DB.getChildren(nodePowers, "actions")) do
+                migrateSpellInitiative(nodePowers,nodeAction);
+            end
+        end
+	end
+    
+end
+-- tweak actions/spell
+function migrateSpellInitiative(nodeSpell,nodeAction)
+    local sName =  DB.getValue(nodeSpell,"name","");
+    local sType =  DB.getValue(nodeAction,"type","");
+    local nOrder = DB.getValue(nodeAction,"order",0);
+    local nInit =  DB.getValue(nodeAction,"castinitiative",0);
+-- Debug.console("manager_version2.lua","migrateSpellInitiative","nodeSpell",nodeSpell);        
+-- Debug.console("manager_version2.lua","migrateSpellInitiative","nodeAction",nodeAction);        
+-- Debug.console("manager_version2.lua","migrateSpellInitiative","sName",sName);        
+-- Debug.console("manager_version2.lua","migrateSpellInitiative","sType",sType);        
+-- Debug.console("manager_version2.lua","migrateSpellInitiative","nOrder",nOrder);        
+-- Debug.console("manager_version2.lua","migrateSpellInitiative","nInit",nInit);        
+    if (sType == "cast") then
+        DB.deleteChild(nodeAction, "castinitiative");
+        if (nInit ~= 0) then
+            DB.setValue(nodeSpell,"castinitiative","number",nInit);
+        end
+        -- Move memorizedcount also?
+        local nMemCount = DB.getValue(nodeAction,"memorizedcount",0);
+        DB.deleteChild(nodeAction, "memorizedcount");
+        if (nMemCount > 0) then
+            DB.setValue(nodeSpell,"memorizedcount","number",nMemCount);                
+        end
+    end
 end

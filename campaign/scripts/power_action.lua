@@ -83,17 +83,17 @@ function updateDisplay()
         bShowMemorize = false;
 --Debug.console("power_action.lua","updateDisplay","bShowSpellHide",bShowSpellHide);
     end
-    local bShowInitiative = false;
+    --local bShowInitiative = false;
 -- Debug.console("power_action.lua","updateDisplay","castinitiative.getValue(",castinitiative.getValue());    
-    if (sMode == "combat") and (sType == "cast") and (castinitiative.getValue() > 0) then
-        bShowInitiative = true;
-    elseif (sMode ~= "combat") and (sType == "cast") then
-        bShowInitiative = true;
-    else
-        bShowInitiative = false;
-    end
-    castinitiative.setVisible(bShowInitiative);
-    initiativelabel.setVisible(bShowInitiative);
+    -- if (sMode == "combat") and (sType == "cast") and (castinitiative.getValue() > 0) then
+        -- bShowInitiative = true;
+    -- elseif (sMode ~= "combat") and (sType == "cast") then
+        -- bShowInitiative = true;
+    -- else
+        -- bShowInitiative = false;
+    -- end
+    --castinitiative.setVisible(bShowInitiative);
+    --initiativelabel.setVisible(bShowInitiative);
 
 	castbutton.setVisible(bShowCast);
 	castlabel.setVisible(bShowCast);
@@ -101,15 +101,15 @@ function updateDisplay()
 
     -- if in spell record then we don't need to
     -- display memorize buttons
-    if string.match(sNodePath,"^spell") then
-        memorizebutton.setVisible(false);
-        memorizelabel.setVisible(false);
-        memorizedcount.setVisible(false);
-    else
-        memorizebutton.setVisible(bShowMemorize);
-        memorizelabel.setVisible(bShowMemorize);
-        memorizedcount.setVisible(bShowMemorize);
-    end
+    -- if string.match(sNodePath,"^spell") then
+        -- memorizebutton.setVisible(false);
+        -- memorizelabel.setVisible(false);
+        -- memorizedcount.setVisible(false);
+    -- else
+        -- memorizebutton.setVisible(bShowMemorize);
+        -- memorizelabel.setVisible(bShowMemorize);
+        -- memorizedcount.setVisible(bShowMemorize);
+    -- end
     
    	hidespellbutton.setVisible(bShowSpellHide);
    	hidespelllabel.setVisible(bShowSpellHide);

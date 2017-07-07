@@ -12,7 +12,6 @@ end
 --end
 
 function onInit()
-local nodeTest = getDatabaseNode();
 -- Debug.console("power_item.lua","onInit","nodeTest",nodeTest);
 -- Debug.console("power_item.lua","onInit","window",window);
 -- Debug.console("power_item.lua","onInit","windowlist",windowlist);
@@ -52,6 +51,20 @@ local nodeTest = getDatabaseNode();
         header.subwindow.shortdescription.setVisible(false);
         header.subwindow.name.setVisible(false);
     end
+
+        -- this should default to invis but it's not so this will check and 
+        -- make sure it's set properly --celestian
+        local status = (activatedetail.getValue() == 1);   
+        initiative.setVisible(status);
+        local node = getDatabaseNode();
+        local sNodePath = node.getPath();
+--Debug.console("power_item.lua","onInit","node",node);
+        if PowerManager.canMemorizeSpell(node) then
+            memorization.setVisible(status);
+        else
+            memorization.setVisible(false);
+        end
+    
 end
 
 -- filters out non-memorized spells when in "combat" mode.
@@ -100,26 +113,26 @@ function onDisplayChanged()
             header.subwindow.shortdescription.setVisible(true);
             --header.subwindow.actionsmini_pre.setVisible(false);
             header.subwindow.actionsmini.setVisible(false);
-            header.subwindow.spell_initiative.setVisible(false);
+            header.subwindow.castinitiative.setVisible(false);
         elseif sDisplayMode == "action" then
             header.subwindow.group.setVisible(false);
             header.subwindow.shortdescription.setVisible(false);
             --header.subwindow.actionsmini_pre.setVisible(true);
             header.subwindow.actionsmini.setVisible(true);
-            header.subwindow.spell_initiative.setVisible(true);
+            header.subwindow.castinitiative.setVisible(true);
         else
             header.subwindow.group.setVisible(true);
             header.subwindow.shortdescription.setVisible(false);
             --header.subwindow.actionsmini_pre.setVisible(false);
             header.subwindow.actionsmini.setVisible(false);
-            header.subwindow.spell_initiative.setVisible(false);
+            header.subwindow.castinitiative.setVisible(false);
         end
         -- if init value is < 0 then just keep it hidden.
         -- might want to enable this so things other than spells can have
         -- a initiative, like potion, scroll and wand use? --celelstian
-        -- local nInitMod = header.subwindow.spell_initiative.getValue();
+        -- local nInitMod = header.subwindow.castinitiative.getValue();
         -- if (nInitMod <= 0) then
-            -- header.subwindow.spell_initiative.setVisible(false);
+            -- header.subwindow.castinitiative.setVisible(false);
         -- end
         
     --end
@@ -200,7 +213,14 @@ function toggleDetail()
     -- actions can be nil when using this in spell records --celestian
 	--if actions ~= nil then 
         actions.setVisible(status);
-
+        initiative.setVisible(status);
+        local node = getDatabaseNode();
+        if PowerManager.canMemorizeSpell(node) then
+            memorization.setVisible(status);
+        else
+            memorization.setVisible(false);
+        end
+        
         for _,v in pairs(actions.getWindows()) do
             v.updateDisplay();
         end
