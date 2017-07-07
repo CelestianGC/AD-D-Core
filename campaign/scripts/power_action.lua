@@ -15,7 +15,8 @@ function onInit()
 
     local nodeSpell = DB.getChild(node, "...");
     -- this is so when wasmemorized is changed we update display
-    DB.addHandler(DB.getPath(nodeSpell, "wasmemorized"),"onUpdate", updateDisplay);
+    DB.addHandler(DB.getPath(nodeSpell, "memorized"),"onUpdate", updateDisplay);
+    --DB.addHandler(DB.getPath(nodeSpell, "wasmemorized"),"onUpdate", updateDisplay);
     
 	local sNode = getDatabaseNode().getNodeName();
 	DB.addHandler(sNode, "onChildUpdate", onDataChanged);
@@ -28,7 +29,8 @@ function onClose()
 
 	local node = getDatabaseNode();
     local nodeSpell = DB.getChild(node, "...");
-    DB.addHandler(DB.getPath(nodeSpell, "wasmemorized"),"onUpdate", updateDisplay);
+    DB.addHandler(DB.getPath(nodeSpell, "memorized"),"onUpdate", updateDisplay);
+    --DB.addHandler(DB.getPath(nodeSpell, "wasmemorized"),"onUpdate", updateDisplay);
 end
 
 function onMenuSelection(selection, subselection)
@@ -113,7 +115,7 @@ function updateDisplay()
     
    	hidespellbutton.setVisible(bShowSpellHide);
    	hidespelllabel.setVisible(bShowSpellHide);
-
+    
 	attackbutton.setVisible(bShowCast);
 	attackviewlabel.setVisible(bShowCast);
 	attackview.setVisible(bShowCast);

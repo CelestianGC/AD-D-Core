@@ -434,14 +434,12 @@
 					<right anchor="left" relation="relative" offset="0" />
 				</anchored>
 				<invisible />
-                <!-- bSpellRecordAction means that we're doing some work in a spell record -->
-                <!-- which means some windows will be different --celestian -->
 				<script>
 					function onInit()
 						local node = window.getDatabaseNode();
+                        Debug.console("record_power.xml","power_item","onInit","node",node);
 						DB.addHandler(DB.getPath(node, "actions"), "onChildAdded", update);
 						DB.addHandler(DB.getPath(node, "actions"), "onChildDeleted", update);
-						
 						local bShow = (DB.getChildCount(window.getDatabaseNode(), "actions") > 0);
 						setVisible(bShow);
 					end
@@ -630,11 +628,6 @@
                 <tooltip textres="power_label_memorize_tooltip" />
 			</label>
  			<basicnumber name="memorizedcount" source="memorized">
-                <!-- <script>
-					function onValueChanged()
-						window.updateDisplay();
-					end
-                </script> -->
 				<anchored to="leftanchor" width="25" height="18">
 					<top offset="5"/>
 					<left anchor="right" relation="relative" offset="10" />
