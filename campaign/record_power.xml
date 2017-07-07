@@ -351,7 +351,7 @@
 			</string_power>
 
             
-              <number_power_init name="castinitiative">
+            <number_power_init name="castinitiative">
                 <tooltip textres="power_label_initiative_tooltip" />
 				<anchored to="name" width="23" height="18">
 					<top offset="2"/>
@@ -359,6 +359,15 @@
 				</anchored>
                 <invisible />
 			</number_power_init>
+ 			<basicnumber name="memorizedcount" source="memorized">
+				<anchored to="name" width="23" height="18">
+					<top offset="2"/>
+					<left anchor="right" relation="relative" offset="10" />
+				</anchored>
+                <readonly />
+                <invisible />
+                <tooltip textres="power_label_memorizecount_tooltip" />
+			</basicnumber> 
  
 			<windowlist name="actionsmini">
 				<anchored to="name" >
@@ -437,7 +446,6 @@
 				<script>
 					function onInit()
 						local node = window.getDatabaseNode();
-                        Debug.console("record_power.xml","power_item","onInit","node",node);
 						DB.addHandler(DB.getPath(node, "actions"), "onChildAdded", update);
 						DB.addHandler(DB.getPath(node, "actions"), "onChildDeleted", update);
 						local bShow = (DB.getChildCount(window.getDatabaseNode(), "actions") > 0);

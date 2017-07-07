@@ -114,19 +114,28 @@ function onDisplayChanged()
             --header.subwindow.actionsmini_pre.setVisible(false);
             header.subwindow.actionsmini.setVisible(false);
             header.subwindow.castinitiative.setVisible(false);
+            header.subwindow.memorizedcount.setVisible(false);
         elseif sDisplayMode == "action" then
             header.subwindow.group.setVisible(false);
             header.subwindow.shortdescription.setVisible(false);
             --header.subwindow.actionsmini_pre.setVisible(true);
             header.subwindow.actionsmini.setVisible(true);
             header.subwindow.castinitiative.setVisible(true);
+            header.subwindow.memorizedcount.setVisible(true);
         else
             header.subwindow.group.setVisible(true);
             header.subwindow.shortdescription.setVisible(false);
             --header.subwindow.actionsmini_pre.setVisible(false);
             header.subwindow.actionsmini.setVisible(false);
             header.subwindow.castinitiative.setVisible(false);
+            header.subwindow.memorizedcount.setVisible(false);
         end
+
+        -- if the spell can not be memorized, hide it
+        if not PowerManager.canMemorizeSpell(getDatabaseNode()) then
+            header.subwindow.memorizedcount.setVisible(false);
+        end
+        
         -- if init value is < 0 then just keep it hidden.
         -- might want to enable this so things other than spells can have
         -- a initiative, like potion, scroll and wand use? --celelstian
