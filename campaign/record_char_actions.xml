@@ -122,26 +122,8 @@
 	<windowclass name="charsheet_actions_weapons">
 		<script>
 			function onDrop(x, y, draginfo)
-				if contents.subwindow.weapons.onDrop(x, y, draginfo) then
-                    local node = getDatabaseNode();
-                    if not ActorManager.isPC(node) then
-                        local sClass, sRecord = draginfo.getShortcutData();
-                        if sClass == "item" then
-                            processNPCWeapon(draginfo,sRecord, node);
-                        end
-                    end
-					return true;
-				end
-				return false;
+                return true;
 			end
-
-            function processNPCWeapon(draginfo,sItemShortCutRecord, nodeNPC)
-                local nodeWeapon = draginfo.getDatabaseNode();
-                if not draginfo.isType("shortcut") then
-                    return false;
-                end
-                CharManager.addToWeaponDB(nodeWeapon,nodeNPC, sItemShortCutRecord);
-            end
 		</script>
 		<sheetdata>
 			<button_iedit name="actions_iedit">
@@ -412,9 +394,6 @@
                 <script>
                     function onInit()
                         registerMenuItem(Interface.getString("list_menu_createitem"), "insert", 5);
-                    end
-                    function onDrop(x, y, draginfo)
-                        return true;
                     end
                     function onMenuSelection(selection, subselection)
                         if selection == 5 then
