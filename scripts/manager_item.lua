@@ -104,8 +104,8 @@ function getSortName(nodeItem)
 end
 
 function handleAnyDrop(vTarget, draginfo)
-Debug.console("manager_item.lua","onDrop","vTarget",vTarget );
-Debug.console("manager_item.lua","onDrop","draginfo",draginfo );
+--Debug.console("manager_item.lua","onDrop","vTarget",vTarget );
+--Debug.console("manager_item.lua","onDrop","draginfo",draginfo );
 
 	local sDragType = draginfo.getType();
 	
@@ -143,23 +143,23 @@ Debug.console("manager_item.lua","onDrop","draginfo",draginfo );
 		return true;
 
 	elseif sDragType == "shortcut" then
-Debug.console("manager_item.lua","onDrop","draginfoSHORT",draginfo );
+--Debug.console("manager_item.lua","onDrop","draginfoSHORT",draginfo );
 		local sClass,sRecord = draginfo.getShortcutData();
-Debug.console("manager_item.lua","onDrop","sClass",sClass );
-Debug.console("manager_item.lua","onDrop","sRecord",sRecord );
+--Debug.console("manager_item.lua","onDrop","sClass",sClass );
+--Debug.console("manager_item.lua","onDrop","sRecord",sRecord );
 		if LibraryData.isRecordDisplayClass("item", sClass) then
 			local bTransferAll = false;
 			local sSourceType = getItemSourceType(sRecord);
 			local sTargetType = getItemSourceType(vTarget);
-Debug.console("manager_item.lua","onDrop","sSourceType",sSourceType );
-Debug.console("manager_item.lua","onDrop","sTargetType",sTargetType );
+--Debug.console("manager_item.lua","onDrop","sSourceType",sSourceType );
+--Debug.console("manager_item.lua","onDrop","sTargetType",sTargetType );
 			if StringManager.contains({"charsheet", "partysheet"}, sSourceType) and StringManager.contains({"charsheet", "partysheet"}, sTargetType) then
 				bTransferAll = Input.isShiftPressed();
 			end
 			
-Debug.console("manager_item.lua","onDrop","PING1");
+--Debug.console("manager_item.lua","onDrop","PING1");
 			handleItem(vTarget, nil, sClass, sRecord, bTransferAll);
-Debug.console("manager_item.lua","onDrop","PING2");
+--Debug.console("manager_item.lua","onDrop","PING2");
 			return true;
 		elseif sClass == "treasureparcel" or sClass == "npc" then
 			handleParcel(vTarget, sRecord);
@@ -291,10 +291,10 @@ function addLinkToParcel(nodeParcel, sLinkClass, sLinkRecord, nCount)
 end
 
 function handleItem(vTargetRecord, sTargetList, sClass, sRecord, bTransferAll)
-Debug.console("manager_item.lua","handleItem","vTargetRecord",vTargetRecord );
-Debug.console("manager_item.lua","handleItem","sTargetList",sTargetList );
-Debug.console("manager_item.lua","handleItem","sClass",sClass );
-Debug.console("manager_item.lua","handleItem","sRecord",sRecord );
+--Debug.console("manager_item.lua","handleItem","vTargetRecord",vTargetRecord );
+--Debug.console("manager_item.lua","handleItem","sTargetList",sTargetList );
+--Debug.console("manager_item.lua","handleItem","sClass",sClass );
+--Debug.console("manager_item.lua","handleItem","sRecord",sRecord );
 	local nodeTargetRecord = nil;
 	if type(vTargetRecord) == "databasenode" then
 		nodeTargetRecord = vTargetRecord;
@@ -308,7 +308,7 @@ Debug.console("manager_item.lua","handleItem","sRecord",sRecord );
 	if not sTargetList then
 		local sTargetRecordType = getItemSourceType(nodeTargetRecord);
         -- added or sTargetRecordType == "npc" so that npcs could have inventory dropped
-Debug.console("manager_item.lua","handleItem","sTargetRecordType",sTargetRecordType );
+--Debug.console("manager_item.lua","handleItem","sTargetRecordType",sTargetRecordType );
 		if sTargetRecordType == "charsheet" or sTargetRecordType == "npc" or sTargetRecordType == "combattracker" then
 			sTargetList = "inventorylist";
 			if ItemManager2 and ItemManager2.getCharItemListPath then

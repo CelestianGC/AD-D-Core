@@ -83,7 +83,7 @@ end
 --
 
 function onCharItemAdd(nodeItem)
-Debug.console("manager_char.lua","onCharItemAdd","nodeItem",nodeItem);
+--Debug.console("manager_char.lua","onCharItemAdd","nodeItem",nodeItem);
 
 	local sTypeLower = StringManager.trim(DB.getValue(DB.getPath(nodeItem, "type"), ""):lower());
 	if StringManager.contains({"mounts and other animals", "waterborne vehicles", "tack, harness, and drawn vehicles" }, sTypeLower) then

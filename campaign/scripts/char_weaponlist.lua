@@ -60,7 +60,7 @@ end
 
 
 function onDrop(x, y, draginfo)
-Debug.console("char_weaponslist.lua","onDrop","draginfo",draginfo );
+--Debug.console("char_weaponslist.lua","onDrop","draginfo",draginfo );
 
 	if draginfo.isType("shortcut") then
 		local sClass, sRecord = draginfo.getShortcutData();
