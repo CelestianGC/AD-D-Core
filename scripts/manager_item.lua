@@ -162,6 +162,7 @@ function handleAnyDrop(vTarget, draginfo)
 --Debug.console("manager_item.lua","onDrop","PING2");
 			return true;
 		elseif sClass == "treasureparcel" or sClass == "npc" then
+--Debug.console("manager_item.lua","onDrop","PARCEL1");
 			handleParcel(vTarget, sRecord);
 			return true;
 		elseif sClass == "battle" then
@@ -311,6 +312,7 @@ function handleItem(vTargetRecord, sTargetList, sClass, sRecord, bTransferAll)
 --Debug.console("manager_item.lua","handleItem","sTargetRecordType",sTargetRecordType );
 		if sTargetRecordType == "charsheet" or sTargetRecordType == "npc" or sTargetRecordType == "combattracker" then
 			sTargetList = "inventorylist";
+--Debug.console("manager_item.lua","handleItem","sTargetList",sTargetList );
 			if ItemManager2 and ItemManager2.getCharItemListPath then
 				sTargetList = ItemManager2.getCharItemListPath(vTargetRecord, sClass);
 			end
@@ -322,15 +324,21 @@ function handleItem(vTargetRecord, sTargetList, sClass, sRecord, bTransferAll)
 			sTargetList = "";
 		end
 
+--Debug.console("manager_item.lua","handleItem","sTargetList",sTargetList );
 		if not sTargetList then
 			return;
 		end
 	end
+
+--Debug.console("manager_item.lua","handleItem","sTargetList",sTargetList );
 	
 	ItemManager.sendItemTransfer(nodeTargetRecord.getPath(), sTargetList, sClass, sRecord, bTransferAll);
 end
 
 function handleCurrency(vTargetRecord, sCurrency, nCurrency)
+--Debug.console("manager_item.lua","handleCurrency","vTargetRecord",vTargetRecord );
+--Debug.console("manager_item.lua","handleCurrency","sCurrency",sCurrency );
+--Debug.console("manager_item.lua","handleCurrency","nCurrency",nCurrency );
 	local sTargetRecord = nil;
 	if type(vTargetRecord) == "databasenode" then
 		sTargetRecord = vTargetRecord.getPath();
@@ -341,10 +349,14 @@ function handleCurrency(vTargetRecord, sCurrency, nCurrency)
 		return;
 	end
 
+--Debug.console("manager_item.lua","handleCurrency","sTargetRecord",sTargetRecord );
+    
 	sendCurrencyTransfer(sTargetRecord, sCurrency, nCurrency);
 end
 
 function handleParcel(vTargetRecord, sRecord)
+--Debug.console("manager_item.lua","handleParcel","vTargetRecord",vTargetRecord);
+--Debug.console("manager_item.lua","handleParcel","sRecord",sRecord);
     local sTargetRecord = nil;
 	if type(vTargetRecord) == "databasenode" then
 		sTargetRecord = vTargetRecord.getPath();
@@ -352,14 +364,18 @@ function handleParcel(vTargetRecord, sRecord)
 		sTargetRecord = vTargetRecord;
 	end
 
+--Debug.console("manager_item.lua","handleParcel","sTargetRecord",sTargetRecord);
+
 	if not sTargetRecord then
 		return;
 	end
 	
 	local sTargetRecordType = getItemSourceType(vTargetRecord);
+--Debug.console("manager_item.lua","handleParcel","sTargetRecordType",sTargetRecordType);
 	if sTargetRecordType == "item" then
 		return;
 	end
+--Debug.console("manager_item.lua","handleParcel","sTargetRecordType2",sTargetRecordType);
 
 	sendParcelTransfer(sTargetRecord, sRecord);
 end
@@ -440,6 +456,7 @@ function notifyTransfer(sTargetInvRecord, sClass, sRecord, bTransferAll)
 end
 
 function sendItemTransfer (sTargetRecord, sTargetList, sClass, sRecord, bTransferAll)
+--Debug.console("manager_item.lua","sendItemTransfer","sTargetRecord",sTargetRecord);
 	for _,fHandler in ipairs(aCustomTransferNotifyHandlers) do
 		if fHandler(DB.getPath(sTargetRecord, sTargetList), sClass, sRecord, bTransferAll) then
 			return;
@@ -470,12 +487,15 @@ function sendItemTransfer (sTargetRecord, sTargetList, sClass, sRecord, bTransfe
 end
 
 function handleItemTransfer(msgOOB)
+--Debug.console("manager_item.lua","handleItemTransfer","msgOOB",msgOOB);
 	addItemToList(DB.getPath(msgOOB.sTarget, msgOOB.sTargetList), msgOOB.sClass, msgOOB.sRecord, ((msgOOB.sTransferAll or "") == "true"));
 end
 
 -- NOTE: Assumed target and source base nodes 
 -- (item = campaign, charsheet = char inventory, partysheet = party inventory, treasureparcels = parcel inventory)
 function addItemToList(vList, sClass, vSource, bTransferAll, nTransferCount)
+--Debug.console("manager_item.lua","addItemToList","vList",vList);
+
 	-- Get the source item database node object
 	local nodeSource = nil;
 	if type(vSource) == "databasenode" then
@@ -572,6 +592,7 @@ function addItemToList(vList, sClass, vSource, bTransferAll, nTransferCount)
 		local bCountN = false;
 		if (sSourceRecordType == "treasureparcels" and sTargetRecordType == "partysheet") or
 				(sSourceRecordType == "treasureparcels" and sTargetRecordType == "charsheet") or 
+                (sSourceRecordType == "treasureparcels" and sTargetRecordType == "npc") or 
 				(sSourceRecordType == "partysheet" and sTargetRecordType == "treasureparcels") or 
 				(sSourceRecordType == "treasureparcels" and sTargetRecordType == "treasureparcels") then
 			bCountN = true;
@@ -653,6 +674,7 @@ end
 --
 
 function sendCurrencyTransfer (sTargetRecord, sCurrency, nCurrency)
+--Debug.console("manager_item.lua","sendCurrencyTransfer","sTargetRecord",sTargetRecord);
 	local msgOOB = {};
 	msgOOB.type = OOB_MSGTYPE_TRANSFERCURRENCY;
 	
@@ -665,17 +687,19 @@ end
 
 -- NOTE: Assume that we are running on host
 function handleCurrencyTransfer (msgOOB)
+--Debug.console("manager_item.lua","handleCurrencyTransfer","msgOOB",msgOOB);
 	local nodeTargetRecord = DB.findNode(msgOOB.sTarget);
 	if not nodeTargetRecord then
 		return;
 	end
+--Debug.console("manager_item.lua","handleCurrencyTransfer","nodeTargetRecord",nodeTargetRecord);
 	
 	local nCurrency = tonumber(msgOOB.nCurrency) or 0;
 	local sCurrency = msgOOB.sCurrency;
 	local sCurrencyUpper = sCurrency:upper();
 	
 	local sTargetRecordType = getItemSourceType(nodeTargetRecord);
-	if sTargetRecordType == "charsheet" then
+	if sTargetRecordType == "charsheet" or sTargetRecordType == "npc" then
 		local nodeTargetCoinSlot = nil;
 		
 		-- Check for existing coin match, or find first empty slot
@@ -740,6 +764,7 @@ end
 --
 
 function sendParcelTransfer (sTargetRecord, sSource)
+--Debug.console("manager_item.lua","sendParcelTransfer","sTargetRecord",sTargetRecord);
 	local msgOOB = {};
 	msgOOB.type = OOB_MSGTYPE_TRANSFERPARCEL;
 	
@@ -751,6 +776,7 @@ end
 
 -- NOTE: Assume that we are running on host
 function handleParcelTransfer (msgOOB)
+--Debug.console("manager_item.lua","handleParcelTransfer","msgOOB",msgOOB);
 	local nodeTargetRecord = DB.findNode(msgOOB.sTarget);
 	if not nodeTargetRecord then
 		return;
@@ -771,29 +797,14 @@ function handleParcelTransfer (msgOOB)
     end
 								
     if bNPC then
-        local sCurrency = DB.getValue(nodeParcel, "coins.slot1.name", "");
-        local nCurrency = DB.getValue(nodeParcel, "coins.slot1.amount", 0);
-        handleCurrency(nodeTargetRecord, sCurrency, nCurrency);
-        
-        sCurrency = DB.getValue(nodeParcel, "coins.slot2.name", "");
-        nCurrency = DB.getValue(nodeParcel, "coins.slot2.amount", 0);
-        handleCurrency(nodeTargetRecord, sCurrency, nCurrency);
-        
-        sCurrency = DB.getValue(nodeParcel, "coins.slot3.name", "");
-        nCurrency = DB.getValue(nodeParcel, "coins.slot3.amount", 0);
-        handleCurrency(nodeTargetRecord, sCurrency, nCurrency);
-        
-        sCurrency = DB.getValue(nodeParcel, "coins.slot4.name", "");
-        nCurrency = DB.getValue(nodeParcel, "coins.slot4.amount", 0);
-        handleCurrency(nodeTargetRecord, sCurrency, nCurrency);
-        
-        sCurrency = DB.getValue(nodeParcel, "coins.slot5.name", "");
-        nCurrency = DB.getValue(nodeParcel, "coins.slot5.amount", 0);
-        handleCurrency(nodeTargetRecord, sCurrency, nCurrency);
-        
-        sCurrency = DB.getValue(nodeParcel, "coins.slot6.name", "");
-        nCurrency = DB.getValue(nodeParcel, "coins.slot6.amount", 0);
-        handleCurrency(nodeTargetRecord, sCurrency, nCurrency);
+        local sCurrency = "";
+        local nCurrency = 0;
+
+		for i = 1,6 do
+            sCurrency = DB.getValue(nodeParcel, "coins.slot" .. i .. ".name",""):upper();
+            nCurrency = DB.getValue(nodeParcel, "coins.slot" .. i .. ".amount",0);
+            handleCurrency(nodeTargetRecord, sCurrency, nCurrency);
+        end
     else
         for _,vParcelCoin in pairs(DB.getChildren(nodeParcel, "coinlist")) do
             local sCurrency = DB.getValue(vParcelCoin, "description", "");
