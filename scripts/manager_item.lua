@@ -154,6 +154,23 @@ function handleAnyDrop(vTarget, draginfo)
 		elseif sClass == "treasureparcel" or sClass == "npc" then
 			handleParcel(vTarget, sRecord);
 			return true;
+		elseif sClass == "battle" then
+            -- flip through each encounter, get the npc and apply inventory
+            -- battle.id-X.npclist.id-X.link.class = npc
+            -- battle.id-X.npclist.id-X.link.recordname = npc.id-00006
+            -- s'sRecord' | s'battle.id-00001'
+            local nodeBattle = DB.findNode(sRecord);
+            for _,vNPC in pairs(DB.getChildren(nodeBattle, "npclist")) do
+                local nCount = DB.getValue(vNPC,"count",1);
+                local _, sNPCRecord = DB.getValue(vNPC, "link", "", "");
+                if (sNPCRecord ~= "") then
+                    -- run for each # of them appearing
+                    for i=1,nCount do
+                        handleParcel(vTarget, sNPCRecord);
+                    end
+                end
+            end
+			return true;
 		end
 	end
 	
