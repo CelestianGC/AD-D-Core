@@ -140,9 +140,9 @@ end
 function updateMoveFromEncumbrance(nodeChar)
 
     if ActorManager.isPC(nodeChar) then -- only need this is the node is a PC
-        local nEncLight = 0.33;
-        local nEncModerate = 0.5;
-        local nEncHeavy = 0.67;
+        local nEncLight = 0.33;   -- 1/3
+        local nEncModerate = 0.5; -- 1/2
+        local nEncHeavy = 0.67;   -- 2/3
         
         local nStrength = DB.getValue(nodeChar, "abilities.strength.score", 0);
         local nPercent = DB.getValue(nodeChar, "abilities.strength.percent", 0);

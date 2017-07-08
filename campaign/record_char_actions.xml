@@ -414,22 +414,7 @@
                         registerMenuItem(Interface.getString("list_menu_createitem"), "insert", 5);
                     end
                     function onDrop(x, y, draginfo)
-                        local node = getDatabaseNode();
-                        local nodeChar = node.getChild("..");
-                        if not ActorManager.isPC(nodeChar) then
-                            local sClass, sRecord = draginfo.getShortcutData();
-                            if sClass == "item" then
-                                processNPCWeapon(draginfo,sRecord, nodeChar);
-                            end
-                        end                        
                         return true;
-                    end
-                    function processNPCWeapon(draginfo,sItemShortCutRecord, nodeNPC)
-                        local nodeWeapon = draginfo.getDatabaseNode();
-                        if not draginfo.isType("shortcut") then
-                            return false;
-                        end
-                        CharManager.addToWeaponDB(nodeWeapon,nodeNPC, sItemShortCutRecord);
                     end
                     function onMenuSelection(selection, subselection)
                         if selection == 5 then

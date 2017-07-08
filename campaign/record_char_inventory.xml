@@ -53,6 +53,7 @@
 			end
 			
 			function onDrop(x, y, draginfo)
+Debug.console("record_char_inventory.xml","charsheet_inventory_contents","onDrop","draginfo",draginfo );
 				return ItemManager.handleAnyDrop(getDatabaseNode(), draginfo);
 			end
 		</script>
