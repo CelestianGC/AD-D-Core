@@ -122,7 +122,10 @@
 	<windowclass name="charsheet_actions_weapons">
 		<script>
 			function onDrop(x, y, draginfo)
-                return true;
+				if contents.subwindow.weapons.onDrop(x, y, draginfo) then
+					return true;
+				end
+				return false;
 			end
 		</script>
 		<sheetdata>

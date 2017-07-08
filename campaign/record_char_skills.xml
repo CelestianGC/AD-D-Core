@@ -167,7 +167,7 @@
 			</number_charskilltotal_nosign>
 
             <!-- armor widget? -->
-			<genericcontrol name="armorwidget">
+<!-- 			<genericcontrol name="armorwidget">
 				<anchored to="rightanchor" width="8" height="9">
 					<top offset="5" />
 					<right anchor="left" relation="relative" offset="-5" />
@@ -180,7 +180,7 @@
 				<anchored position="insidetopleft" offset="2,6" />
 				<tabtarget next="name" />
 			</button_skillprof>
-
+ -->
             <!-- skill name -->
 			<string_textlistitem name="name">
 				<anchored to="rightanchor">
