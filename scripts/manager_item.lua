@@ -61,7 +61,7 @@ end
 --
 
 function isItemClass(sClass)
-	Debug.console('DEPRECATED (v3.2.2) (ItemManager.isItemClass): Use LibraryData.isRecordDisplayClass("item", sClass)');
+	--Debug.console('DEPRECATED (v3.2.2) (ItemManager.isItemClass): Use LibraryData.isRecordDisplayClass("item", sClass)');
 	if sClass == "item" then
 		return true;
 	elseif ItemManager2 and ItemManager2.isItemClass then
@@ -104,8 +104,8 @@ function getSortName(nodeItem)
 end
 
 function handleAnyDrop(vTarget, draginfo)
-Debug.console("manager_item.lua","onDrop","vTarget",vTarget );
-Debug.console("manager_item.lua","onDrop","draginfo",draginfo );
+--Debug.console("manager_item.lua","onDrop","vTarget",vTarget );
+--Debug.console("manager_item.lua","onDrop","draginfo",draginfo );
 
 	local sDragType = draginfo.getType();
 	
@@ -143,26 +143,26 @@ Debug.console("manager_item.lua","onDrop","draginfo",draginfo );
 		return true;
 
 	elseif sDragType == "shortcut" then
-Debug.console("manager_item.lua","onDrop","draginfoSHORT",draginfo );
+--Debug.console("manager_item.lua","onDrop","draginfoSHORT",draginfo );
 		local sClass,sRecord = draginfo.getShortcutData();
-Debug.console("manager_item.lua","onDrop","sClass",sClass );
-Debug.console("manager_item.lua","onDrop","sRecord",sRecord );
+--Debug.console("manager_item.lua","onDrop","sClass",sClass );
+--Debug.console("manager_item.lua","onDrop","sRecord",sRecord );
 		if LibraryData.isRecordDisplayClass("item", sClass) then
 			local bTransferAll = false;
 			local sSourceType = getItemSourceType(sRecord);
 			local sTargetType = getItemSourceType(vTarget);
-Debug.console("manager_item.lua","onDrop","sSourceType",sSourceType );
-Debug.console("manager_item.lua","onDrop","sTargetType",sTargetType );
+--Debug.console("manager_item.lua","onDrop","sSourceType",sSourceType );
+--Debug.console("manager_item.lua","onDrop","sTargetType",sTargetType );
 			if StringManager.contains({"charsheet", "partysheet"}, sSourceType) and StringManager.contains({"charsheet", "partysheet"}, sTargetType) then
 				bTransferAll = Input.isShiftPressed();
 			end
 			
-Debug.console("manager_item.lua","onDrop","PING1");
+--Debug.console("manager_item.lua","onDrop","PING1");
 			handleItem(vTarget, nil, sClass, sRecord, bTransferAll);
-Debug.console("manager_item.lua","onDrop","PING2");
+--Debug.console("manager_item.lua","onDrop","PING2");
 			return true;
 		elseif sClass == "treasureparcel" or sClass == "npc" then
-Debug.console("manager_item.lua","onDrop","PARCEL1");
+--Debug.console("manager_item.lua","onDrop","PARCEL1");
 			handleParcel(vTarget, sRecord);
 			return true;
 		elseif sClass == "battle" then
@@ -292,10 +292,10 @@ function addLinkToParcel(nodeParcel, sLinkClass, sLinkRecord, nCount)
 end
 
 function handleItem(vTargetRecord, sTargetList, sClass, sRecord, bTransferAll)
-Debug.console("manager_item.lua","handleItem","vTargetRecord",vTargetRecord );
-Debug.console("manager_item.lua","handleItem","sTargetList",sTargetList );
-Debug.console("manager_item.lua","handleItem","sClass",sClass );
-Debug.console("manager_item.lua","handleItem","sRecord",sRecord );
+--Debug.console("manager_item.lua","handleItem","vTargetRecord",vTargetRecord );
+--Debug.console("manager_item.lua","handleItem","sTargetList",sTargetList );
+--Debug.console("manager_item.lua","handleItem","sClass",sClass );
+--Debug.console("manager_item.lua","handleItem","sRecord",sRecord );
 	local nodeTargetRecord = nil;
 	if type(vTargetRecord) == "databasenode" then
 		nodeTargetRecord = vTargetRecord;
@@ -309,10 +309,10 @@ Debug.console("manager_item.lua","handleItem","sRecord",sRecord );
 	if not sTargetList then
 		local sTargetRecordType = getItemSourceType(nodeTargetRecord);
         -- added or sTargetRecordType == "npc" so that npcs could have inventory dropped
-Debug.console("manager_item.lua","handleItem","sTargetRecordType",sTargetRecordType );
+--Debug.console("manager_item.lua","handleItem","sTargetRecordType",sTargetRecordType );
 		if sTargetRecordType == "charsheet" or sTargetRecordType == "npc" or sTargetRecordType == "combattracker" then
 			sTargetList = "inventorylist";
-Debug.console("manager_item.lua","handleItem","sTargetList",sTargetList );
+--Debug.console("manager_item.lua","handleItem","sTargetList",sTargetList );
 			if ItemManager2 and ItemManager2.getCharItemListPath then
 				sTargetList = ItemManager2.getCharItemListPath(vTargetRecord, sClass);
 			end
@@ -324,21 +324,21 @@ Debug.console("manager_item.lua","handleItem","sTargetList",sTargetList );
 			sTargetList = "";
 		end
 
-Debug.console("manager_item.lua","handleItem","sTargetList",sTargetList );
+--Debug.console("manager_item.lua","handleItem","sTargetList",sTargetList );
 		if not sTargetList then
 			return;
 		end
 	end
 
-Debug.console("manager_item.lua","handleItem","sTargetList",sTargetList );
+--Debug.console("manager_item.lua","handleItem","sTargetList",sTargetList );
 	
 	ItemManager.sendItemTransfer(nodeTargetRecord.getPath(), sTargetList, sClass, sRecord, bTransferAll);
 end
 
 function handleCurrency(vTargetRecord, sCurrency, nCurrency)
-Debug.console("manager_item.lua","handleCurrency","vTargetRecord",vTargetRecord );
-Debug.console("manager_item.lua","handleCurrency","sCurrency",sCurrency );
-Debug.console("manager_item.lua","handleCurrency","nCurrency",nCurrency );
+--Debug.console("manager_item.lua","handleCurrency","vTargetRecord",vTargetRecord );
+--Debug.console("manager_item.lua","handleCurrency","sCurrency",sCurrency );
+--Debug.console("manager_item.lua","handleCurrency","nCurrency",nCurrency );
 	local sTargetRecord = nil;
 	if type(vTargetRecord) == "databasenode" then
 		sTargetRecord = vTargetRecord.getPath();
@@ -349,14 +349,14 @@ Debug.console("manager_item.lua","handleCurrency","nCurrency",nCurrency );
 		return;
 	end
 
-Debug.console("manager_item.lua","handleCurrency","sTargetRecord",sTargetRecord );
+--Debug.console("manager_item.lua","handleCurrency","sTargetRecord",sTargetRecord );
     
 	sendCurrencyTransfer(sTargetRecord, sCurrency, nCurrency);
 end
 
 function handleParcel(vTargetRecord, sRecord)
-Debug.console("manager_item.lua","handleParcel","vTargetRecord",vTargetRecord);
-Debug.console("manager_item.lua","handleParcel","sRecord",sRecord);
+--Debug.console("manager_item.lua","handleParcel","vTargetRecord",vTargetRecord);
+--Debug.console("manager_item.lua","handleParcel","sRecord",sRecord);
     local sTargetRecord = nil;
 	if type(vTargetRecord) == "databasenode" then
 		sTargetRecord = vTargetRecord.getPath();
@@ -364,18 +364,18 @@ Debug.console("manager_item.lua","handleParcel","sRecord",sRecord);
 		sTargetRecord = vTargetRecord;
 	end
 
-Debug.console("manager_item.lua","handleParcel","sTargetRecord",sTargetRecord);
+--Debug.console("manager_item.lua","handleParcel","sTargetRecord",sTargetRecord);
 
 	if not sTargetRecord then
 		return;
 	end
 	
 	local sTargetRecordType = getItemSourceType(vTargetRecord);
-Debug.console("manager_item.lua","handleParcel","sTargetRecordType",sTargetRecordType);
+--Debug.console("manager_item.lua","handleParcel","sTargetRecordType",sTargetRecordType);
 	if sTargetRecordType == "item" then
 		return;
 	end
-Debug.console("manager_item.lua","handleParcel","sTargetRecordType2",sTargetRecordType);
+--Debug.console("manager_item.lua","handleParcel","sTargetRecordType2",sTargetRecordType);
 
 	sendParcelTransfer(sTargetRecord, sRecord);
 end
@@ -456,7 +456,7 @@ function notifyTransfer(sTargetInvRecord, sClass, sRecord, bTransferAll)
 end
 
 function sendItemTransfer (sTargetRecord, sTargetList, sClass, sRecord, bTransferAll)
-Debug.console("manager_item.lua","sendItemTransfer","sTargetRecord",sTargetRecord);
+--Debug.console("manager_item.lua","sendItemTransfer","sTargetRecord",sTargetRecord);
 	for _,fHandler in ipairs(aCustomTransferNotifyHandlers) do
 		if fHandler(DB.getPath(sTargetRecord, sTargetList), sClass, sRecord, bTransferAll) then
 			return;
@@ -487,14 +487,14 @@ Debug.console("manager_item.lua","sendItemTransfer","sTargetRecord",sTargetRecor
 end
 
 function handleItemTransfer(msgOOB)
-Debug.console("manager_item.lua","handleItemTransfer","msgOOB",msgOOB);
+--Debug.console("manager_item.lua","handleItemTransfer","msgOOB",msgOOB);
 	addItemToList(DB.getPath(msgOOB.sTarget, msgOOB.sTargetList), msgOOB.sClass, msgOOB.sRecord, ((msgOOB.sTransferAll or "") == "true"));
 end
 
 -- NOTE: Assumed target and source base nodes 
 -- (item = campaign, charsheet = char inventory, partysheet = party inventory, treasureparcels = parcel inventory)
 function addItemToList(vList, sClass, vSource, bTransferAll, nTransferCount)
-Debug.console("manager_item.lua","addItemToList","vList",vList);
+--Debug.console("manager_item.lua","addItemToList","vList",vList);
 
 	-- Get the source item database node object
 	local nodeSource = nil;
@@ -674,7 +674,7 @@ end
 --
 
 function sendCurrencyTransfer (sTargetRecord, sCurrency, nCurrency)
-Debug.console("manager_item.lua","sendCurrencyTransfer","sTargetRecord",sTargetRecord);
+--Debug.console("manager_item.lua","sendCurrencyTransfer","sTargetRecord",sTargetRecord);
 	local msgOOB = {};
 	msgOOB.type = OOB_MSGTYPE_TRANSFERCURRENCY;
 	
@@ -687,12 +687,12 @@ end
 
 -- NOTE: Assume that we are running on host
 function handleCurrencyTransfer (msgOOB)
-Debug.console("manager_item.lua","handleCurrencyTransfer","msgOOB",msgOOB);
+--Debug.console("manager_item.lua","handleCurrencyTransfer","msgOOB",msgOOB);
 	local nodeTargetRecord = DB.findNode(msgOOB.sTarget);
 	if not nodeTargetRecord then
 		return;
 	end
-Debug.console("manager_item.lua","handleCurrencyTransfer","nodeTargetRecord",nodeTargetRecord);
+--Debug.console("manager_item.lua","handleCurrencyTransfer","nodeTargetRecord",nodeTargetRecord);
 	
 	local nCurrency = tonumber(msgOOB.nCurrency) or 0;
 	local sCurrency = msgOOB.sCurrency;
@@ -764,7 +764,7 @@ end
 --
 
 function sendParcelTransfer (sTargetRecord, sSource)
-Debug.console("manager_item.lua","sendParcelTransfer","sTargetRecord",sTargetRecord);
+--Debug.console("manager_item.lua","sendParcelTransfer","sTargetRecord",sTargetRecord);
 	local msgOOB = {};
 	msgOOB.type = OOB_MSGTYPE_TRANSFERPARCEL;
 	
@@ -776,7 +776,7 @@ end
 
 -- NOTE: Assume that we are running on host
 function handleParcelTransfer (msgOOB)
-Debug.console("manager_item.lua","handleParcelTransfer","msgOOB",msgOOB);
+--Debug.console("manager_item.lua","handleParcelTransfer","msgOOB",msgOOB);
 	local nodeTargetRecord = DB.findNode(msgOOB.sTarget);
 	if not nodeTargetRecord then
 		return;

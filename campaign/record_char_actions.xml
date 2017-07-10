@@ -13,6 +13,7 @@
 					return true;
 				end
 				if contents.subwindow.weapons.onDrop(x, y, draginfo) then
+                    contents.subwindow.weapons.onDataChanged();
 					return true;
 				end
 				return false;

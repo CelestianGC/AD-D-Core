@@ -203,6 +203,22 @@
 			</simplenumberc>
             <!-- damage section -->
             <windowlist name="damage_split_list">
+<!--                 <script>
+                    function onInit()
+                        local node = getDatabaseNode();
+                        Debug.console("record_char_weapon.xml","onInit","node",node);
+                        DB.addHandler(node.getNodeName(), "onChildUpdate", window.onDataChanged);
+                        DB.addHandler(node.getNodeName(), "onAdd", window.onDataChanged);
+                        fixVisuals();
+                    end
+                    function onClose()
+                        DB.removeHandler(node.getNodeName(), "onChildUpdate", window.onDataChanged);
+                        DB.removeHandler(node.getNodeName(), "onAdd", window.onDataChanged);
+                    end
+                    function fixVisuals()
+                        window.onDataChanged();
+                    end
+                </script> -->
                 <anchored width="125" >
                     <top offset="5" /> 
                     <left parent="leftanchor" anchor="right" relation="relative" offset="5" />
