@@ -777,6 +777,7 @@ function getDamageStrings(clauses)
 	return aOrderedTypes;
 end
 
+-- check this for split command/damage types on comma and ;
 function getDamageTypesFromString(sDamageTypes)
 	local sLower = string.lower(sDamageTypes);
 	local aSplit = StringManager.split(sLower, ",", true);

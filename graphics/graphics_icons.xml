@@ -211,6 +211,7 @@
     <!-- tabs -->
  	<icon name="tab_weapons" file="graphics/tabs/tab_weapons.png" />
  	<icon name="tab_proficiency" file="graphics/tabs/tab_proficiency.png" />
+ 	<icon name="tab_details" file="graphics/tabs/tab_details.png" />
 
     
 </root>

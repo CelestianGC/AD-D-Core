@@ -80,7 +80,7 @@
 					<subwindow>inventory</subwindow>
 				</tab>
 				<tab>
-					<icon>tab_other</icon>
+					<icon>tab_details</icon>
 					<subwindow>text</subwindow>
 				</tab>
 			</tabs_recordsheet>
