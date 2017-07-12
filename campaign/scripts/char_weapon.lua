@@ -192,9 +192,6 @@ function onAttackAction(draginfo)
 	end
 	rAction.modifier = DB.getValue(nodeWeapon, "attackbonus", 0) + ActorManager2.getAbilityBonus(rActor, rAction.stat, "hitadj");
 	
-	-- if prof.getValue() == 1 then
-		-- rAction.modifier = rAction.modifier + DB.getValue(nodeChar, "profbonus", 0);
-	-- end
     rAction.modifier = rAction.modifier + getToHitProfs(nodeWeapon);
     
 	rAction.bWeapon = true;
@@ -288,57 +285,3 @@ function onDamageActionSingle(nodeDamage, draginfo)
 	return true;
 end
 
--- this was used in the 5e ruleset to allow multiple dice types and 
--- bonuses for a single roll, not needed, switched to onDamageActionSingle to support AD&D-celestian
-function onDamageAction(draginfo)
-	local nodeWeapon = getDatabaseNode();
-	local nodeChar = nodeWeapon.getChild("...")
-	local rActor = ActorManager.getActor("pc", nodeChar);
-
-	local aWeaponProps = StringManager.split(DB.getValue(nodeWeapon, "properties", ""):lower(), ",", true);
-	
-	local rAction = {};
-	rAction.bWeapon = true;
-	rAction.label = DB.getValue(nodeWeapon, "name", "");
-	if type.getValue() == 0 then
-		rAction.range = "M";
-	else
-		rAction.range = "R";
-	end
-
-	local sBaseAbility = "strength";
-	if type.getValue() == 1 then
-		sBaseAbility = "dexterity";
-	end
-	
-	rAction.clauses = {};
-	local aDamageNodes = UtilityManager.getSortedTable(DB.getChildren(nodeWeapon, "damagelist"));
-	for _,v in ipairs(aDamageNodes) do
-		local sDmgAbility = DB.getValue(v, "stat", "");
-		if sDmgAbility == "base" then
-			sDmgAbility = sBaseAbility;
-		end
-		local aDmgDice = DB.getValue(v, "dice", {});
-		local nDmgMod = DB.getValue(v, "bonus", 0) + ActorManager2.getAbilityBonus(rActor, sDmgAbility, "damageadj");
-		local sDmgType = DB.getValue(v, "type", "");
-		
-        nDmgMod = nDmgMod + getToDamageProfs(nodeWeapon);
-
-    table.insert(rAction.clauses, { dice = aDmgDice, stat = sDmgAbility, modifier = nDmgMod, dmgtype = sDmgType });
-	end
-	
-	-- Check for reroll tag
-	local nReroll = 0;
-	for _,vProperty in ipairs(aWeaponProps) do
-		local nPropReroll = tonumber(vProperty:match("reroll (%d+)")) or 0;
-		if nPropReroll > nReroll then
-			nReroll = nPropReroll;
-		end
-	end
-	if nReroll > 0 then
-		rAction.label = rAction.label .. " [REROLL " .. nReroll .. "]";
-	end
-	
-	ActionDamage.performRoll(draginfo, rActor, rAction);
-	return true;
-end
