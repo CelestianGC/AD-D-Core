@@ -23,6 +23,12 @@
 					<top offset="8" />
 					<right anchor="left" relation="relative" offset="-2" />
 				</anchored>
+				<readonly />
+				<script>
+					function onValueChanged()
+						window.onLinkChanged();
+					end
+				</script>
 			</linkfield>
 			<button_idelete name="idelete">
 				<anchored to="rightanchor">
@@ -96,6 +102,11 @@
 					<top offset="5" />
 					<right anchor="left" relation="relative" offset="0" />
 				</anchored> -->
+				<script>
+					function onValueChanged()
+						window.onTypeChanged();
+					end
+				</script>
 			</state_charweapontype>
 
 

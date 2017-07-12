@@ -4,47 +4,22 @@
 --
 
 function onInit()
+    local node = getDatabaseNode();
+
     registerMenuItem(Interface.getString("list_menu_deleteitem"), "delete", 6);
     registerMenuItem(Interface.getString("list_menu_deleteconfirm"), "delete", 6, 7);
 
-	onLinkChanged();
-	onTypeChanged();
-	onAttackChanged();
-	onDamageChanged();
+Debug.console("char_weapon.lua","onInit","node.getNodeName()",node.getNodeName());
 
-    local node = getDatabaseNode();
-    local sCreaturePath = DB.getChild(node, "...").getPath();
-	local sWeaponPath = node.getPath();
+    DB.addHandler(node.getNodeName(), "onChildUpdate", onDataChanged);
+DB.addHandler(node.getNodeName(), "onAdd", onDataChanged);
+     -- DB.addHandler(DB.getPath(DB.getChild(node, "..."), "abilities.*.score"), "onUpdate", onDataChanged);
+     DB.addHandler(DB.getPath(DB.getChild(node, "..."), "abilities.strength.hitadj"), "onUpdate", onDataChanged);
+     DB.addHandler(DB.getPath(DB.getChild(node, "..."), "abilities.strength.dmgadj"), "onUpdate", onDataChanged);
+     DB.addHandler(DB.getPath(DB.getChild(node, "..."), "abilities.dexterity.hitadj"), "onUpdate", onDataChanged);
+     DB.addHandler(DB.getPath(DB.getChild(node, "..."), "abilities.dexterity.defenseadj"), "onUpdate", onDataChanged);
 
-	DB.addHandler(DB.getPath(sWeaponPath, "attackstat"), "onUpdate", onAttackChanged);
-	DB.addHandler(DB.getPath(sWeaponPath, "attackbonus"), "onUpdate", onAttackChanged);
-	DB.addHandler(DB.getPath(sWeaponPath, "proflist.*.hitadj"), "onUpdate", onAttackChanged);
-	DB.addHandler(DB.getPath(sCreaturePath, "abilities.*.hitadj"), "onUpdate", onAttackChanged);
-
-	DB.addHandler(DB.getPath(sWeaponPath, "damagelist.*.type"), "onUpdate", onDamageChanged);
-	DB.addHandler(DB.getPath(sWeaponPath, "damagelist.*.dice"), "onUpdate", onDamageChanged);
-	DB.addHandler(DB.getPath(sWeaponPath, "damagelist.*.stat"), "onUpdate", onDamageChanged);
-	DB.addHandler(DB.getPath(sWeaponPath, "damagelist.*.bonus"), "onUpdate", onDamageChanged);
-	DB.addHandler(DB.getPath(sWeaponPath, "proflist.*.dmgadj"), "onUpdate", onAttackChanged);
-	DB.addHandler(DB.getPath(sCreaturePath, "abilities.*.dmgadj"), "onUpdate", onDamageChanged);
-end
-
-function onClose()
-	local node = getDatabaseNode();
-    local sCreaturePath = DB.getChild(node, "...").getPath();
-	local sWeaponPath = node.getPath();
-	
-	DB.removeHandler(DB.getPath(sWeaponPath, "attackstat"), "onUpdate", onAttackChanged);
-	DB.removeHandler(DB.getPath(sWeaponPath, "attackbonus"), "onUpdate", onAttackChanged);
-	DB.removeHandler(DB.getPath(sWeaponPath, "proflist.*.hitadj"), "onUpdate", onAttackChanged);
-	DB.removeHandler(DB.getPath(sCreaturePath, "abilities.*.hitadj"), "onUpdate", onAttackChanged);
-
-	DB.removeHandler(DB.getPath(sWeaponPath, "damagelist.*.type"), "onUpdate", onDamageChanged);
-	DB.removeHandler(DB.getPath(sWeaponPath, "damagelist.*.dice"), "onUpdate", onDamageChanged);
-	DB.removeHandler(DB.getPath(sWeaponPath, "damagelist.*.stat"), "onUpdate", onDamageChanged);
-	DB.removeHandler(DB.getPath(sWeaponPath, "damagelist.*.bonus"), "onUpdate", onDamageChanged);
-	DB.removeHandler(DB.getPath(sWeaponPath, "proflist.*.dmgadj"), "onUpdate", onAttackChanged);
-	DB.removeHandler(DB.getPath(sCreaturePath, "abilities.*.dmgadj"), "onUpdate", onDamageChanged);
+     onDataChanged();
 end
 
 -- the create is handled in record_char_actions.xml, charsheet_actions_contents->weapons
@@ -59,9 +34,21 @@ function onMenuSelection(selection, subselection)
     end
 end                    
 
+function onClose()
+     local node = getDatabaseNode();
+DB.removeHandler(node.getNodeName(), "onAdd", onDataChanged);
+     DB.removeHandler(node.getNodeName(), "onChildUpdate", onDataChanged);
+     --DB.removeHandler(DB.getPath(DB.getChild(node, "..."), "abilities.*.score"), "onUpdate", onDataChanged);
+     DB.removeHandler(DB.getPath(DB.getChild(node, "..."), "abilities.strength.hitadj"), "onUpdate", onDataChanged);
+     DB.removeHandler(DB.getPath(DB.getChild(node, "..."), "abilities.strength.dmgadj"), "onUpdate", onDataChanged);
+     DB.removeHandler(DB.getPath(DB.getChild(node, "..."), "abilities.dexterity.hitadj"), "onUpdate", onDataChanged);
+     DB.removeHandler(DB.getPath(DB.getChild(node, "..."), "abilities.dexterity.defenseadj"), "onUpdate", onDataChanged);
+end
+
 local m_sClass = "";
 local m_sRecord = "";
 function onLinkChanged()
+
 	local node = getDatabaseNode();
 	local sClass, sRecord = DB.getValue(node, "shortcut", "", "");
 	if sClass ~= m_sClass or sRecord ~= m_sRecord then
@@ -75,85 +62,15 @@ function onLinkChanged()
 	end
 end
 
-function onTypeChanged()
+function onDataChanged()
+	onLinkChanged();
+	onAttackChanged();
+	onDamageChanged();
+	
 	local bRanged = (type.getValue() ~= 0);
 	label_ammo.setVisible(bRanged);
 	maxammo.setVisible(bRanged);
 	ammocounter.setVisible(bRanged);
-end
-
-function onAttackChanged(p1, p2)
-	local nodeWeapon = getDatabaseNode();
-	local nodeChar = nodeWeapon.getChild("...");
-	local rActor = ActorManager.getActor("", nodeChar);
-
-	local sAbility = DB.getValue(nodeWeapon, "attackstat", "");
-	if sAbility == "" then
-		if type.getValue() == 1 then
-			sAbility = "dexterity";
-		else
-			sAbility = "strength";
-		end
-	end
-
-	local nMod = DB.getValue(nodeWeapon, "attackbonus", 0) + ActorManager2.getAbilityBonus(rActor, sAbility, "hitadj");
-    nMod = nMod + getToHitProfs(nodeWeapon);
-    
-	attackview.setValue(nMod);
-end
-
--- get all the +hit modifiers from the profs 
--- attached to this weapon
-function getToHitProfs(nodeWeapon)
-    local nMod = 0;
-    for _,v in pairs(DB.getChildren(nodeWeapon, "proflist")) do
-        nMod = nMod + DB.getValue(v, "hitadj", 0)
-    end
-    return nMod;
-end
-
-function onDamageChanged(p1, p2)
-	local nodeWeapon = getDatabaseNode();
-	local nodeChar = nodeWeapon.getChild("...")
-	local rActor = ActorManager.getActor("pc", nodeChar);
-	
-	local sBaseAbility = "strength";
-	if type.getValue() == 1 then
-		sBaseAbility = "dexterity";
-	end
-	
-	local aDamage = {};
-	local aDamageNodes = UtilityManager.getSortedTable(DB.getChildren(nodeWeapon, "damagelist"));
-	for _,v in ipairs(aDamageNodes) do
-		local nMod = DB.getValue(v, "bonus", 0);
-		local sAbility = DB.getValue(v, "stat", "");
-		if sAbility == "base" then
-			sAbility = sBaseAbility;
-		end
-		if sAbility ~= "" then
-			nMod = nMod + ActorManager2.getAbilityBonus(rActor, sAbility, "damageadj");
-		end
-        nMod = nMod + getToDamageProfs(nodeWeapon);
-        
-		local aDice = DB.getValue(v, "dice", {});
-		if #aDice > 0 or nMod ~= 0 then
-			local sDamage = StringManager.convertDiceToString(DB.getValue(v, "dice", {}), nMod);
-			local sType = DB.getValue(v, "type", "");
-			if sType ~= "" then
-				sDamage = sDamage .. " " .. sType;
-			end
-            DB.setValue(v, "damageasstring","string",sDamage);
-		end
-	end
-end
-
--- return dmgadj values for all profs attached to weapon
-function getToDamageProfs(nodeWeapon)
-    local nMod = 0;
-    for _,v in pairs(DB.getChildren(nodeWeapon, "proflist")) do
-        nMod = nMod + DB.getValue(v, "dmgadj", 0)
-    end
-    return nMod;
 end
 
 function highlightAttack(bOnControl)
@@ -342,3 +259,114 @@ function onDamageAction(draginfo)
 	ActionDamage.performRoll(draginfo, rActor, rAction);
 	return true;
 end
+
+function onAttackChanged()
+	local nodeWeapon = getDatabaseNode();
+	local nodeChar = nodeWeapon.getChild("...");
+	local rActor = ActorManager.getActor("pc", nodeChar);
+
+	local sAbility = DB.getValue(nodeWeapon, "attackstat", "");
+	if sAbility == "" then
+		if type.getValue() == 1 then
+			sAbility = "dexterity";
+		else
+			sAbility = "strength";
+		end
+	end
+	local nMod = DB.getValue(nodeWeapon, "attackbonus", 0) + ActorManager2.getAbilityBonus(rActor, sAbility, "hitadj");
+
+	-- if prof.getValue() ~= 0 then
+		-- nMod = nMod + DB.getValue(nodeChar, "profbonus", 0);
+	-- end
+	
+    nMod = nMod + getToHitProfs(nodeWeapon);
+    
+	attackview.setValue(nMod);
+end
+
+-- get all the +hit modifiers from the profs 
+-- attached to this weapon
+function getToHitProfs(nodeWeapon)
+    local nMod = 0;
+    
+    for _,v in pairs(DB.getChildren(nodeWeapon, "proflist")) do
+        nMod = nMod + DB.getValue(v, "hitadj", 0)
+        local svName = DB.getValue(v,"profselected","Unnamed");
+    end
+
+    return nMod;
+end
+
+function onDamageChanged()
+Debug.console("char_weapon.lua","onDamageChanged","DAMAGE1");
+	local nodeWeapon = getDatabaseNode();
+	local nodeChar = nodeWeapon.getChild("...")
+	local rActor = ActorManager.getActor("pc", nodeChar);
+Debug.console("char_weapon.lua","onDamageChanged","nodeWeapon",nodeWeapon);
+Debug.console("char_weapon.lua","onDamageChanged","nodeChar",nodeChar);
+Debug.console("char_weapon.lua","onDamageChanged","rActor",rActor);
+	
+	local sBaseAbility = "strength";
+	if type.getValue() == 1 then
+		sBaseAbility = "dexterity";
+	end
+Debug.console("char_weapon.lua","onDamageChanged","DAMAGE2");
+	
+	local aDamage = {};
+	local aDamageNodes = UtilityManager.getSortedTable(DB.getChildren(nodeWeapon, "damagelist"));
+Debug.console("char_weapon.lua","onDamageChanged","DamageList Value=",DB.getChildren(nodeWeapon, "damagelist"));
+    
+Debug.console("char_weapon.lua","onDamageChanged","aDamage",aDamage);
+Debug.console("char_weapon.lua","onDamageChanged","aDamageNodes",aDamageNodes);
+	for _,v in ipairs(aDamageNodes) do
+Debug.console("char_weapon.lua","onDamageChanged","DAMAGE3");
+		local nMod = DB.getValue(v, "bonus", 0);
+		local sAbility = DB.getValue(v, "stat", "");
+		if sAbility == "base" then
+			sAbility = sBaseAbility;
+		end
+		if sAbility ~= "" then
+			nMod = nMod + ActorManager2.getAbilityBonus(rActor, sAbility, "damageadj");
+		end
+		
+        -- add in prof modifiers
+        nMod = nMod + getToDamageProfs(nodeWeapon);
+        
+		local aDice = DB.getValue(v, "dice", {});
+Debug.console("char_weapon.lua","onDamageChanged","aDice",aDice);
+		if #aDice > 0 or nMod ~= 0 then
+			local sDamage = StringManager.convertDiceToString(DB.getValue(v, "dice", {}), nMod);
+			local sType = DB.getValue(v, "type", "");
+			if sType ~= "" then
+				sDamage = sDamage .. " " .. sType;
+			end
+            -- do this to make splitting up damage rolls, 
+            -- for small/medium and large type damage style of AD&D viable -celestian
+Debug.console("char_weapon.lua","onDamageChanged","sDamage1",sDamage);
+            DB.removeHandler(nodeWeapon.getNodeName(), "onChildUpdate", onDataChanged);
+                DB.setValue(v, "damageasstring","string",sDamage);
+            DB.addHandler(nodeWeapon.getNodeName(), "onChildUpdate", onDataChanged);
+Debug.console("char_weapon.lua","onDamageChanged","sDamage2",sDamage);
+            --
+    
+        --table.insert(aDamage, sDamage);
+		end
+	end
+
+	--damageview.setValue(table.concat(aDamage, "\n"));
+    
+Debug.console("char_weapon.lua","onDamageChanged","FINAL");
+end
+
+-- return dmgadj values for all profs attached to weapon
+function getToDamageProfs(nodeWeapon)
+    local nMod = 0;
+    
+    for _,v in pairs(DB.getChildren(nodeWeapon, "proflist")) do
+        nMod = nMod + DB.getValue(v, "dmgadj", 0)
+        local svName = DB.getValue(v,"profselected","Unnamed");
+    end
+
+    return nMod;
+end
+
