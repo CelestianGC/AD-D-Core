@@ -164,6 +164,8 @@ function getNPCLevelFromHitDice(nodeEntry, nodeNPC)
     local bWoops = false;
     local nLevel = 1;
     local sHitDice = DB.getValue(nodeNPC, "hitDice", "1");
+    
+    
     if (sHitDice) then
         DB.setValue(nodeEntry,"hitDice","string", sHitDice);
         -- Match #-#, #+# or just #

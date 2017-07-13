@@ -6,6 +6,30 @@
 function onInit()
 
     local nodeNPC = getDatabaseNode();
+
+    -- this is if someone uses a 5e npc with just "HD" and not "HITDICE" value set. 
+    -- we do best guess on what the HD should be....BEST GUESS! --celestian
+    local sHitDice = DB.getValue(nodeNPC, "hitDice", "1");
+    local sHDother = DB.getValue(nodeNPC, "hd", "");
+    if sHitDice == "" and sHDother ~= "" then
+        local sRawHD = string.gsub(sHDother,"[Dd]%d+","");
+        -- remove spaces and () 
+        sRawHD = string.gsub(sRawHD,"%s","");
+        sRawHD = string.gsub(sRawHD,"%(","");
+        sRawHD = string.gsub(sRawHD,"%)","");
+        -- match \d+[+-]\d+
+        local sM1, sM2 = sRawHD:match("(%d+)([%-+]%d+)");
+        -- just using the first number, 5e has large +/- which scale off the charts for AD&D style
+        if sM1 ~= "" then
+            sHitDice = sM1;
+            local nHD = tonumber(sHitDice) or 0;
+            local nTHACO = 21 - nHD;
+            thaco.setValue(nTHACO);
+        end
+        hitDice.setValue(sHitDice);
+    end
+    -- end kludge around npc hd/hitdice
+    
     local nCount = DB.getChildCount(nodeNPC, "saves");
     local nPoison = DB.getValue(nodeNPC, "saves.poison.score",0);
     -- if set to default -20, then we build the saves from 

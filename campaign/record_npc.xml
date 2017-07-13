@@ -179,7 +179,9 @@
 			<label_column name="thaco_label">
 				<static textres="npc_label_thaco" />
 			</label_column>
-			<number_column name="thaco" />
+			<number_column name="thaco">
+                <default>20</default>
+            </number_column>
 
 			<label_npc name="speed_label">
 				<anchored to="thaco" position="right" offset="10,0"/>
