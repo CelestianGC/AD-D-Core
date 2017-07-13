@@ -104,7 +104,7 @@ end
 -- weight carried
 function updateEncumbrance(nodeChar)
     local sOptionHREC = OptionsManager.getOption("HouseRule_Encumbrance_Coins");
-	local bCoinWeight = (sOptionHREC == "enabled");	
+	local bCoinWeight = (sOptionHREC == "on");	
     local nEncTotal = 0;
 
 	local nCount, nWeight;

@@ -55,8 +55,12 @@ function registerOptions()
 	OptionsManager.registerOption2("HRFC", false, "option_header_houserule", "option_label_HRFC", "option_entry_cycler", 
 			{ labels = "option_val_fumbleandcrit|option_val_fumble|option_val_crit", values = "both|fumble|criticalhit", baselabel = "option_val_off", baseval = "", default = "" });
 	
+    OptionsManager.registerOption2("HouseRule_InitEachRound", false, "option_header_houserule", "option_label_HOUSE_RULE_INIT_EACH_ROUND", "option_entry_cycler", 
+			{ labels = "option_val_on", values = "on", baselabel = "option_val_off", baseval = "off", default = "off" });
+    
+    
     OptionsManager.registerOption2("HouseRule_Encumbrance_Coins", false, "option_header_houserule", "option_label_HREC", "option_entry_cycler", 
-			{ labels = "Enabled", values = "enabled", baselabel = "option_val_disabled", baseval = "", default = "" });
+			{ labels = "option_val_on", values = "on", baselabel = "option_val_off", baseval = "off", default = "off" });
             
 --	OptionsManager.registerOption2("HRHV", false, "option_header_houserule", "option_label_HRHV", "option_entry_cycler", 
 --			{ labels = "option_val_HRHV_fast|option_val_HRHV_slow", values = "fast|slow", baselabel = "option_val_standard", baseval = "", default = "" });

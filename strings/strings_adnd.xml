@@ -362,6 +362,7 @@
 	<string name="option_label_TPCH">Token: PC:Show Ally health</string>
     <string name="option_label_HREC">PC: Encumbrance: Include Coin</string>
     <string name="option_val_disabled">Disabled</string>
+    <string name="option_label_HOUSE_RULE_INIT_EACH_ROUND">CT: Auto-Roll Init Each Round</string>
     
 	<!-- Armor Table (Samarex CnT Ext ) -->
 	<string name="ref_label_list_weight">Wt.</string>

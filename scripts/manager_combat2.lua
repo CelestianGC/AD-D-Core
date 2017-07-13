@@ -10,7 +10,8 @@ function onInit()
 	CombatManager.setCustomAddNPC(addNPC);
 	CombatManager.setCustomNPCSpaceReach(getNPCSpaceReach);
 
-	CombatManager.setCustomTurnStart(onTurnStart);
+	CombatManager.setCustomRoundStart(onRoundStart);
+    CombatManager.setCustomTurnStart(onTurnStart);
 	CombatManager.setCustomCombatReset(resetInit);
 
 	OptionsManager.registerCallback("HRDD", onHRDistanceChanged);
@@ -28,6 +29,12 @@ end
 --
 -- TURN FUNCTIONS
 --
+function onRoundStart(nCurrent)
+Debug.console("manager_combat2.lua","onRoundStart","OptionsManager.getOption(HRIS)",OptionsManager.getOption("HouseRule_InitEachRound"));
+	if OptionsManager.isOption("HouseRule_InitEachRound", "on") then
+		rollInit();
+	end
+end
 
 function onTurnStart(nodeEntry)
 	if not nodeEntry then
