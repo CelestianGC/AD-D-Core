@@ -9,7 +9,7 @@
 	<windowclass name="item" >
 		<frame>recordsheet</frame>
 		<placement>
-			<size width="350" height="350" />
+			<size width="400" height="350" />
 		</placement>
 		<sizelimits>
 			<minimum width="300" height="300" />

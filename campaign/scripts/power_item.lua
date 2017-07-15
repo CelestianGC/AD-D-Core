@@ -65,6 +65,18 @@ function onInit()
             memorization.setVisible(false);
         end
     
+    -- item record first time tweaks
+    -- give it a name of the item
+    -- set group start to whatever item type is
+    -- set usesperiod to "once", default to charged item
+    -- set default charges to 25
+    if string.match(nodeAttack.getPath(),"^item") then
+        local nodeItem = DB.getChild(nodeAttack, "...");
+        name.setValue(DB.getValue(nodeItem,"name",""));
+        group.setValue(DB.getValue(nodeItem,"type","Item"));
+        usesperiod.setValue("once");
+        prepared.setValue(25);
+    end
 end
 
 -- filters out non-memorized spells when in "combat" mode.

@@ -95,7 +95,12 @@
 			function onModeChanged()
 				local nodeChar = getDatabaseNode();
 				local sMode = DB.getValue(nodeChar, "powermode", "");
-				if sMode == "preparation" then
+                local bIsItem = false;
+                if string.match(nodeChar.getPath(),"^item") then
+                    bIsItem = true;
+                end
+    
+				if sMode == "preparation" and not bIsItem then
 					parentcontrol.setVisible(true);
 				else
 					parentcontrol.setVisible(false);

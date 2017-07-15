@@ -295,6 +295,7 @@
 				spellslots_cast.subwindow.onModeChanged();
 				actions.subwindow.onModeChanged();
 			end
+            
 		</script>
 		<sheetdata>
 			<anchor_column name="columnanchor" />
@@ -456,13 +457,20 @@
 		<margins control="0,0,0,2" />
 		<script>
             function onInit()
+                registerMenuItem(Interface.getString("list_menu_createitem"), "insert", 5);
                 onModeChanged();
             end
             
 			function onModeChanged()
 				weapons.onModeChanged();
 			end
-		</script>
+            function onMenuSelection(selection, subselection)
+                if selection == 5 then
+                    weapons.addEntry(true);
+                end
+            end                    
+
+        </script>
 		<sheetdata>
 			<anchor_column name="columnanchor" />
 			<genericcontrol name="leftanchor">
@@ -579,6 +587,7 @@
 		<margins control="0,0,0,2" />
 		<script>
             function onInit()
+                registerMenuItem(Interface.getString("list_menu_createitem"), "insert", 5);
                 onModeChanged();
             end
             
@@ -587,6 +596,12 @@
 				spellslots_cast.subwindow.onModeChanged();
 				actions.subwindow.onModeChanged();
 			end
+            function onMenuSelection(selection, subselection)
+                if selection == 5 then
+                    actions.subwindow.powers.addEntry(true);
+                end
+            end                    
+            
 		</script>
 		<sheetdata>
 			<anchor_column name="columnanchor" />

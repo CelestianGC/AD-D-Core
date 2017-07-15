@@ -16,6 +16,10 @@ function onInit()
     local sCreaturePath = DB.getChild(node, "...").getPath();
 	local sWeaponPath = node.getPath();
 
+-- Debug.console("char_weapon.lua","onInit","node",node);
+-- Debug.console("char_weapon.lua","onInit","sCreaturePath",sCreaturePath);
+-- Debug.console("char_weapon.lua","onInit","sWeaponPath",sWeaponPath);
+
 	DB.addHandler(DB.getPath(sWeaponPath, "attackstat"), "onUpdate", onAttackChanged);
 	DB.addHandler(DB.getPath(sWeaponPath, "attackbonus"), "onUpdate", onAttackChanged);
 	DB.addHandler(DB.getPath(sWeaponPath, "proflist.*.hitadj"), "onUpdate", onAttackChanged);
@@ -27,6 +31,17 @@ function onInit()
 	DB.addHandler(DB.getPath(sWeaponPath, "damagelist.*.bonus"), "onUpdate", onDamageChanged);
 	DB.addHandler(DB.getPath(sWeaponPath, "proflist.*.dmgadj"), "onUpdate", onAttackChanged);
 	DB.addHandler(DB.getPath(sCreaturePath, "abilities.*.dmgadj"), "onUpdate", onDamageChanged);
+
+    -- item record first time tweaks
+    -- give it a name of the item
+    -- set speedfactor start to whatever weapon was set to
+    -- hide carried state, doesn't need it here
+    if string.match(sCreaturePath,"^item") then
+        local nodeItem = DB.getChild(node, "...");
+        name.setValue(DB.getValue(nodeItem,"name",""));
+        speedfactor.setValue(DB.getValue(nodeItem,"speedfactor",""));
+        carried.setVisible(false);
+    end
 end
 
 function onClose()

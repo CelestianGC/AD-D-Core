@@ -32,8 +32,16 @@ function onListChanged()
 end
 
 function onModeChanged()
-	local bPrepMode = (DB.getValue(window.getDatabaseNode(), "powermode", "") == "preparation");
-    bPrepMode = true; -- I wanna have equipped/carried item view always, so set this to always true --celestian
+    local node = window.getDatabaseNode();
+	local bPrepMode = (DB.getValue(node, "powermode", "") == "preparation");
+    bPrepMode = true; -- I wanna have equipped/carried item view always, so set this to always true 
+    --celestian
+    
+    -- if this is a item record, we don't go into prepmode for carried
+    if string.match(node.getPath(),"^item") then
+        bPrepMode = false;
+    end
+    
 	for _,w in ipairs(getWindows()) do
 		w.carried.setVisible(bPrepMode);
 	end

@@ -101,6 +101,7 @@ end
 function onCharItemDelete(nodeItem)
 	removeFromArmorDB(nodeItem);
 	removeFromWeaponDB(nodeItem);
+    removeFromPowerDB(nodeItem);
 end
 
 -- weight carried
@@ -432,6 +433,55 @@ function calcItemArmorClass(nodeChar)
 	DB.setValue(nodeChar, "speed.total", "number", nSpeedTotal);
 end
 
+---
+--- Power Management
+---
+
+-- if the item has powers configured place them into the action->powers
+function addToPowerDB(nodeItem)
+    local bItemHasPowers = (DB.getChildCount(nodeItem, "powers") > 0);
+    if not bItemHasPowers then
+        return;
+    end
+    
+	local nodeChar = nodeItem.getChild("...");
+
+	local nodePowers = nodeChar.createChild("powers");
+	if not nodePowers then
+		return;
+	end
+    
+        for _,v in pairs(DB.getChildren(nodeItem, "powers")) do
+            local nodePower = nodePowers.createChild();
+            DB.copyNode(v,nodePower);
+            DB.setValue(nodePower, "shortcut", "windowreference", "item", "....inventorylist." .. nodeItem.getName());
+        end
+
+end
+function removeFromPowerDB(nodeItem)
+	if not nodeItem then
+		return false;
+	end
+    local bItemHasPowers = (DB.getChildCount(nodeItem, "powers") > 0);
+    if not bItemHasPowers then
+        return;
+    end
+	
+	-- Check to see if any of the power nodes linked to this item node should be deleted
+	local sItemNode = nodeItem.getNodeName();
+	local sItemNode2 = "....inventorylist." .. nodeItem.getName();
+	local bFound = false;
+	for _,v in pairs(DB.getChildren(nodeItem, "...weaponlist")) do
+		local sClass, sRecord = DB.getValue(v, "shortcut", "", "");
+		if sRecord == sItemNode or sRecord == sItemNode2 then
+			bFound = true;
+			v.delete();
+		end
+	end
+
+	return bFound;
+end
+
 --
 -- WEAPON MANAGEMENT
 --
@@ -456,29 +506,6 @@ function removeFromWeaponDB(nodeItem)
 	return bFound;
 end
 
--- if the item has powers configured place them into the action->powers
-function addToPowerDB(nodeItem)
-    local bItemHasPowers = (DB.getChildCount(nodeItem, "powers") > 0);
-    if not bItemHasPowers then
-        return;
-    end
-    
-	local nodeChar = nodeItem.getChild("...");
-
-	local nodePowers = nodeChar.createChild("powers");
-	if not nodePowers then
-		return;
-	end
-    
-        for _,v in pairs(DB.getChildren(nodeItem, "powers")) do
-Debug.console("manager_char.lua","addToPowerDB","v",v);    
-            local nodePower = nodePowers.createChild();
-            DB.copyNode(v,nodePower);
-            DB.setValue(nodePower, "shortcut", "windowreference", "item", "....inventorylist." .. nodeItem.getName());
-        end
-
-end
-
 function addToWeaponDB(nodeItem)
 	-- Parameter validation
 	if not ItemManager2.isWeapon(nodeItem) then
@@ -487,9 +514,6 @@ function addToWeaponDB(nodeItem)
 	
 	-- Get the weapon list we are going to add to
 	local nodeChar = nodeItem.getChild("...");
-
-Debug.console("manager_char.lua","addToWeaponDB","nodeChar",nodeChar);    
-Debug.console("manager_char.lua","addToWeaponDB","nodeItem",nodeItem);    
 
 	local nodeWeapons = nodeChar.createChild("weaponlist");
 	if not nodeWeapons then
@@ -500,10 +524,8 @@ Debug.console("manager_char.lua","addToWeaponDB","nodeItem",nodeItem);
 	DB.setValue(nodeItem, "carried", "number", 2);
     
     local bItemHasWeapons = (DB.getChildCount(nodeItem, "weaponlist") > 0);
-Debug.console("manager_char.lua","addToWeaponDB","bItemHasWeapons",bItemHasWeapons);    
     if (bItemHasWeapons) then
         for _,v in pairs(DB.getChildren(nodeItem, "weaponlist")) do
-Debug.console("manager_char.lua","addToWeaponDB","v",v);    
             local nodeWeapon = nodeWeapons.createChild();
             DB.copyNode(v,nodeWeapon);
             DB.setValue(nodeWeapon, "shortcut", "windowreference", "item", "....inventorylist." .. nodeItem.getName());
