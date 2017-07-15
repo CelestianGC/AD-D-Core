@@ -38,8 +38,10 @@ function onInit()
     -- hide carried state, doesn't need it here
     if string.match(sCreaturePath,"^item") then
         local nodeItem = DB.getChild(node, "...");
-        name.setValue(DB.getValue(nodeItem,"name",""));
-        speedfactor.setValue(DB.getValue(nodeItem,"speedfactor",""));
+        if ( name.getValue() == "") then
+            name.setValue(DB.getValue(nodeItem,"name",""));
+            speedfactor.setValue(DB.getValue(nodeItem,"speedfactor",""));
+        end
         carried.setVisible(false);
     end
 end

@@ -9,10 +9,10 @@
 	<windowclass name="item" >
 		<frame>recordsheet</frame>
 		<placement>
-			<size width="400" height="350" />
+			<size width="450" height="350" />
 		</placement>
 		<sizelimits>
-			<minimum width="300" height="300" />
+			<minimum width="450" height="300" />
 			<dynamic />
 		</sizelimits>
 		<minimize>minimized_item</minimize>
@@ -31,13 +31,11 @@
 			</subwindow_record>
 
 			<subwindow_record name="weaponactions">
-<!-- 				<class>weapon_item_weaponrecord</class> -->
 				<class>charsheet_actions_weapons</class>
                 
 			</subwindow_record>
 
 			<subwindow_record name="spellactions">
-<!-- 				<class>power_item_spellrecord</class> -->
 				<class>charsheet_actions_powers</class>
 			</subwindow_record>
             
@@ -243,192 +241,5 @@
 		</sheetdata>
 	</windowclass>
     
-	<!-- copy of char_weapon windowclass with tweaks specific to items -->
-    <windowclass name="weapon_item_weaponrecord">
-		<script file="campaign/scripts/char_weapon.lua"/>
-        
-		<margins control="0,0,0,2" />
-		<sheetdata>
-			<genericcontrol name="rightanchor">
-				<anchored width="0" height="0">
-					<top />
-					<right />
-				</anchored>
-				<invisible />
-			</genericcontrol>
-			<linkfield name="shortcut">
-				<anchored to="rightanchor" width="20" height="20">
-					<top offset="8" />
-					<right anchor="left" relation="relative" offset="-2" />
-				</anchored>
-				<readonly />
-				<script>
-					function onValueChanged()
-						window.onLinkChanged();
-					end
-				</script>
-			</linkfield>
-			<button_idelete name="idelete">
-				<anchored to="rightanchor">
-					<top offset="8" />
-					<right anchor="left" offset="-2" />
-				</anchored>
-			</button_idelete>
-			<buttoncontrol name="activatedetail">
-				<anchored to="rightanchor" width="20" height="20">
-					<top offset="8" />
-					<right anchor="left" relation="relative" offset="-3" />
-				</anchored>
-				<state icon="details" pressed="details_down" />
-				<script>
-					function onButtonPress()
-						Interface.openWindow("char_weapon_editor", window.getDatabaseNode());
-					end
-				</script>
-			</buttoncontrol>
-			<genericcontrol name="leftanchor">
-				<anchored width="0" height="0">
-					<top />
-					<left />
-				</anchored>
-				<invisible />
-			</genericcontrol>
-
-			<stringu name="name"> 
-                <script>
-					function onDoubleClick(x,y)
-						return window.onAttackAction();
-					end			
-                </script>
-                <anchored height="18">
-                    <top offset="5" />
-                    <left parent="leftanchor" anchor="right" relation="relative" offset="5" />
-                    <right parent="rightanchor" anchor="left" relation="relative" offset="-240" />
-                </anchored>
-			</stringu>
-
-
-			<state_charweapontype name="type">
-                <anchored height="18" >
-                    <top offset="5" />
-                    <left parent="leftanchor" anchor="right" relation="relative" offset="1" />
-                </anchored>
-				<script>
-					function onValueChanged()
-						window.onTypeChanged();
-					end
-				</script>
-			</state_charweapontype>
-
-
-            <number_actions_init name="speedfactor">
-                <tooltip textres="power_label_initiative_tooltip" />
-                <anchored height="18" width="25" >
-                    <top offset="8" />
-                    <left parent="leftanchor" anchor="right" relation="relative" offset="10" />
-                </anchored>
-            </number_actions_init>
-
-			<genericcontrol name="attackshade">
-                <anchored height="26" width="50" >
-                    <top offset="3" />
-                    <left parent="leftanchor" anchor="right" relation="relative" offset="0" />
-                </anchored>
-			</genericcontrol>
-			<genericcontrol name="attackframe">
-				<anchored to="attackshade" position="over" />
-				<frame name="fielddark" />
-				<script>
-					function onInit()
-						setHoverCursor("hand");
-					end
-					
-					function onHover(bOnControl)
-						window.highlightAttack(bOnControl);
-					end
-
-					function onDoubleClick(x,y)
-						return window.onAttackAction();
-					end			
-
-					function onDragStart(button, x, y, draginfo)
-						return window.onAttackAction(draginfo);
-					end
-				</script>
-			</genericcontrol>
-			<genericcontrol name="attackicon">
-				<anchored to="attackframe" position="insidetopleft" offset="7,5" width="15" height="20" />
-				<icon>d20ricon</icon>
-				<script>
-					function onInit()
-						setHoverCursor("hand");
-					end
-					
-					function onHover(bOnControl)
-						window.highlightAttack(bOnControl);
-					end
-
-					function onDoubleClick(x,y)
-						return window.onAttackAction();
-					end			
-
-					function onDragStart(button, x, y, draginfo)
-						return window.onAttackAction(draginfo);
-					end
-				</script>
-			</genericcontrol>
-			<simplenumberc name="attackview">
-				<anchored to="attackicon" position="righthigh" offset="2,-1" width="15" height="20" />
-				<displaysign />
-				<readonly />
-				<script>
-					function onInit()
-						setHoverCursor("hand");
-					end
-					
-					function onHover(bOnControl)
-						window.highlightAttack(bOnControl);
-					end
-
-					function onDoubleClick(x,y)
-						return window.onAttackAction();
-					end			
-
-					function onDragStart(button, x, y, draginfo)
-						return window.onAttackAction(draginfo);
-					end
-				</script>
-			</simplenumberc>
-            <!-- damage section -->
-            <windowlist name="damage_split_list">
-                <anchored width="125" >
-                    <top offset="5" /> 
-                    <left parent="leftanchor" anchor="right" relation="relative" offset="5" />
-                </anchored>
-                <child></child>
-                <child><backcolor>1A40301E</backcolor></child>
-                <noscroll />
-				<datasource>.damagelist</datasource>
-				<class>split_damage_entries</class>
-            </windowlist>
-            
-			<label name="label_ammo">
-				<anchored width="50">
-                    <top parent="name" anchor="bottom" relation="relative" offset="5" />
-					<left offset="15" />
-				</anchored>
-				<static textres="char_label_weaponammo" />
-			</label>
-			<basicnumber name="maxammo">
-				<anchored to="label_ammo" position="righthigh" width="30" height="20" />
-				<min>0</min>
-				<max>100</max>
-			</basicnumber>
-			<state_charammocounter name="ammocounter">
-				<anchored to="maxammo" position="righthigh" offset="8,0" />
-			</state_charammocounter>
-		</sheetdata>
-	</windowclass>
-<!-- END char_weapon class -->
     
 </root>

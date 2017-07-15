@@ -72,10 +72,12 @@ function onInit()
     -- set default charges to 25
     if string.match(nodeAttack.getPath(),"^item") then
         local nodeItem = DB.getChild(nodeAttack, "...");
-        name.setValue(DB.getValue(nodeItem,"name",""));
-        group.setValue(DB.getValue(nodeItem,"type","Item"));
-        usesperiod.setValue("once");
-        prepared.setValue(25);
+        if (name.getValue() == "") then
+            name.setValue(DB.getValue(nodeItem,"name",""));
+            group.setValue(DB.getValue(nodeItem,"type","Item"));
+            usesperiod.setValue("once");
+            prepared.setValue(25);
+        end
     end
 end
 

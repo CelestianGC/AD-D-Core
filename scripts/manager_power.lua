@@ -1995,7 +1995,7 @@ function canMemorizeSpell(nodeSpell)
         (nLevel>0 and (isArcaneSpellType(sSpellType) or isDivineSpellType(sSpellType)))
 
     -- if this is coming from spell record then no, nothing will memorize
-    if string.match(sNodePath,"^spell") then
+    if string.match(sNodePath,"^spell") or string.match(sNodePath,"^item") then
             bCanMemorize = false;
     end
        
