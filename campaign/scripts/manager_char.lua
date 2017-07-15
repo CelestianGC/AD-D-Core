@@ -94,6 +94,8 @@ function onCharItemAdd(nodeItem)
 	
 	addToArmorDB(nodeItem);
 	addToWeaponDB(nodeItem);
+    addToPowerDB(nodeItem);
+    
 end
 
 function onCharItemDelete(nodeItem)
@@ -454,7 +456,30 @@ function removeFromWeaponDB(nodeItem)
 	return bFound;
 end
 
-function addToWeaponDB(nodeItem,nodeNPC, sItemShortCutRecord)
+-- if the item has powers configured place them into the action->powers
+function addToPowerDB(nodeItem)
+    local bItemHasPowers = (DB.getChildCount(nodeItem, "powers") > 0);
+    if not bItemHasPowers then
+        return;
+    end
+    
+	local nodeChar = nodeItem.getChild("...");
+
+	local nodePowers = nodeChar.createChild("powers");
+	if not nodePowers then
+		return;
+	end
+    
+        for _,v in pairs(DB.getChildren(nodeItem, "powers")) do
+Debug.console("manager_char.lua","addToPowerDB","v",v);    
+            local nodePower = nodePowers.createChild();
+            DB.copyNode(v,nodePower);
+            DB.setValue(nodePower, "shortcut", "windowreference", "item", "....inventorylist." .. nodeItem.getName());
+        end
+
+end
+
+function addToWeaponDB(nodeItem)
 	-- Parameter validation
 	if not ItemManager2.isWeapon(nodeItem) then
 		return;
@@ -463,10 +488,8 @@ function addToWeaponDB(nodeItem,nodeNPC, sItemShortCutRecord)
 	-- Get the weapon list we are going to add to
 	local nodeChar = nodeItem.getChild("...");
 
-    -- if nodeNPC is passed we need to change to a nodeChar to it --celestian
-    if nodeNPC then
-        nodeChar = nodeNPC;
-    end
+Debug.console("manager_char.lua","addToWeaponDB","nodeChar",nodeChar);    
+Debug.console("manager_char.lua","addToWeaponDB","nodeItem",nodeItem);    
 
 	local nodeWeapons = nodeChar.createChild("weaponlist");
 	if not nodeWeapons then
@@ -476,237 +499,243 @@ function addToWeaponDB(nodeItem,nodeNPC, sItemShortCutRecord)
 	-- Set new weapons as equipped
 	DB.setValue(nodeItem, "carried", "number", 2);
     
-    local nSpeedFactor = DB.getValue(nodeItem, "speedfactor", 0);
-    
-	-- Determine identification
-	local nItemID = 0;
-	if LibraryData.getIDState("item", nodeItem, true) then
-		nItemID = 1;
-	end
-	
-	-- Grab some information from the source node to populate the new weapon entries
-	local sName;
-	if nItemID == 1 then
-		sName = DB.getValue(nodeItem, "name", "");
-	else
-		sName = DB.getValue(nodeItem, "nonid_name", "");
-		if sName == "" then
-			sName = Interface.getString("item_unidentified");
-		end
-		sName = "** " .. sName .. " **";
-	end
-	local nBonus = 0;
-	if nItemID == 1 then
-		nBonus = DB.getValue(nodeItem, "bonus", 0);
-	end
-
-	-- Handle special weapon properties
-	local aWeaponProps = StringManager.split(DB.getValue(nodeItem, "properties", ""):lower(), ",", true);
-	
-	local bThrown = false;
-	local bMissile = false;
-	local bFinesse = false;
-	local bMagic = false;
-	local bSpecial = false;
-	for _,vProperty in ipairs(aWeaponProps) do
-		if vProperty:match("^thrown %(?range ") then
-			bThrown = true;
-		elseif vProperty:match("^missile %(?range ") or vProperty:match("^ammunition %(?range ") then
-			bMissile = true;
-		elseif vProperty:match("^special$") then
-			bSpecial = true;
-		elseif vProperty:match("^finesse$") then
-			bFinesse = true;
-		elseif vProperty:match("^magic$") then
-			bMagic = true;
-		end
-	end
-	
-	local bMelee = true;
-	local bRanged = false;
-	if bThrown then
-		if bSpecial then
-			bMelee = false;
-		end
-	elseif bMissile then
-		bRanged = true;
-		bMelee = false;
-	end
-	
-	-- Parse damage field
-	local sDamage = DB.getValue(nodeItem, "damage", "");
-	
-	local aDmgClauses = {};
-	local aWords = StringManager.parseWords(sDamage);
-	local i = 1;
-	while aWords[i] do
-		local aDiceString = {};
-		
-		while StringManager.isDiceString(aWords[i]) do
-			table.insert(aDiceString, aWords[i]);
-			i = i + 1;
-		end
-		if #aDiceString == 0 then
-			break;
-		end
-		
-		local aDamageTypes = {};
-		while StringManager.contains(DataCommon.dmgtypes, aWords[i]) do
-			table.insert(aDamageTypes, aWords[i]);
-			i = i + 1;
-		end
-		if bMagic then
-			table.insert(aDamageTypes, "magic");
-		end
-		
-		local rDmgClause = {};
-		rDmgClause.aDice, rDmgClause.nMod = StringManager.convertStringToDice(table.concat(aDiceString, " "));
-		rDmgClause.dmgtype = table.concat(aDamageTypes, ",");
-		table.insert(aDmgClauses, rDmgClause);
-		
-		if StringManager.contains({ "+", "plus" }, aWords[i]) then
-			i = i + 1;
-		end
-	end
-	
-	-- Create weapon entries
-	if bMelee then
-		local nodeWeapon = nodeWeapons.createChild();
-		if nodeWeapon then
-			DB.setValue(nodeWeapon, "isidentified", "number", nItemID);
-            -- if sItemShortCutRecord exists this is a npc, so use a different shortcut link --celestian
-            if sItemShortCutRecord == nil then
-                DB.setValue(nodeWeapon, "shortcut", "windowreference", "item", "....inventorylist." .. nodeItem.getName());
-            else
-                DB.setValue(nodeWeapon, "shortcut", "windowreference", "item", sItemShortCutRecord);
+    local bItemHasWeapons = (DB.getChildCount(nodeItem, "weaponlist") > 0);
+Debug.console("manager_char.lua","addToWeaponDB","bItemHasWeapons",bItemHasWeapons);    
+    if (bItemHasWeapons) then
+        for _,v in pairs(DB.getChildren(nodeItem, "weaponlist")) do
+Debug.console("manager_char.lua","addToWeaponDB","v",v);    
+            local nodeWeapon = nodeWeapons.createChild();
+            DB.copyNode(v,nodeWeapon);
+            DB.setValue(nodeWeapon, "shortcut", "windowreference", "item", "....inventorylist." .. nodeItem.getName());
+        end
+    else
+        local nSpeedFactor = DB.getValue(nodeItem, "speedfactor", 0);
+        
+        -- Determine identification
+        local nItemID = 0;
+        if LibraryData.getIDState("item", nodeItem, true) then
+            nItemID = 1;
+        end
+        
+        -- Grab some information from the source node to populate the new weapon entries
+        local sName;
+        if nItemID == 1 then
+            sName = DB.getValue(nodeItem, "name", "");
+        else
+            sName = DB.getValue(nodeItem, "nonid_name", "");
+            if sName == "" then
+                sName = Interface.getString("item_unidentified");
             end
-			
-			local sAttackAbility = "";
-			local sDamageAbility = "base";
-			if bFinesse then
-				if DB.getValue(nodeChar, "abilities.strength.score", 10) < DB.getValue(nodeChar, "abilities.dexterity.score", 10) then
-					sAttackAbility = "dexterity";
-					sDamageAbility = "dexterity";
-				end
-			end
-			
-			DB.setValue(nodeWeapon, "name", "string", sName);
-			DB.setValue(nodeWeapon, "type", "number", 0);
-			DB.setValue(nodeWeapon, "properties", "string", sProps);
+            sName = "** " .. sName .. " **";
+        end
+        local nBonus = 0;
+        if nItemID == 1 then
+            nBonus = DB.getValue(nodeItem, "bonus", 0);
+        end
 
-			DB.setValue(nodeWeapon, "attackstat", "string", sAttackAbility);
-			DB.setValue(nodeWeapon, "attackbonus", "number", nBonus);
-
-			DB.setValue(nodeWeapon, "speedfactor", "number", nSpeedFactor);
-
-			local nodeDmgList = DB.createChild(nodeWeapon, "damagelist");
-			if nodeDmgList then
-				for kClause,rClause in ipairs(aDmgClauses) do
-					local nodeDmg = DB.createChild(nodeDmgList);
-					if nodeDmg then
-						DB.setValue(nodeDmg, "dice", "dice", rClause.aDice);
-						if kClause == 1 then
-							DB.setValue(nodeDmg, "stat", "string", sDamageAbility);
-							DB.setValue(nodeDmg, "bonus", "number", nBonus + rClause.nMod);
-						else
-							DB.setValue(nodeDmg, "bonus", "number", rClause.nMod);
-						end
-						DB.setValue(nodeDmg, "type", "string", rClause.dmgtype);
-					end
-				end
-			end
-		end
-	end
-
-	if bRanged then
-		local nodeWeapon = nodeWeapons.createChild();
-		if nodeWeapon then
-			DB.setValue(nodeWeapon, "isidentified", "number", nItemID);
-            -- if sItemShortCutRecord exists this is a npc, so use a different shortcut link --celestian
-            if sItemShortCutRecord == nil then
-                DB.setValue(nodeWeapon, "shortcut", "windowreference", "item", "....inventorylist." .. nodeItem.getName());
-            else
-                DB.setValue(nodeWeapon, "shortcut", "windowreference", "item", sItemShortCutRecord);
+        -- Handle special weapon properties
+        local aWeaponProps = StringManager.split(DB.getValue(nodeItem, "properties", ""):lower(), ",", true);
+        
+        local bThrown = false;
+        local bMissile = false;
+        local bFinesse = false;
+        local bMagic = false;
+        local bSpecial = false;
+        for _,vProperty in ipairs(aWeaponProps) do
+            if vProperty:match("^thrown %(?range ") then
+                bThrown = true;
+            elseif vProperty:match("^missile %(?range ") or vProperty:match("^ammunition %(?range ") then
+                bMissile = true;
+            elseif vProperty:match("^special$") then
+                bSpecial = true;
+            elseif vProperty:match("^finesse$") then
+                bFinesse = true;
+            elseif vProperty:match("^magic$") then
+                bMagic = true;
             end
-			
-			local sAttackAbility = "";
-			local sDamageAbility = "base";
-				
-			DB.setValue(nodeWeapon, "name", "string", sName);
-			DB.setValue(nodeWeapon, "type", "number", 1);
-			DB.setValue(nodeWeapon, "properties", "string", sProps);
-
-			DB.setValue(nodeWeapon, "attackstat", "string", sAttackAbility);
-			DB.setValue(nodeWeapon, "attackbonus", "number", nBonus);
-
-			DB.setValue(nodeWeapon, "speedfactor", "number", nSpeedFactor);
-
-			local nodeDmgList = DB.createChild(nodeWeapon, "damagelist");
-			if nodeDmgList then
-				for kClause,rClause in ipairs(aDmgClauses) do
-					local nodeDmg = DB.createChild(nodeDmgList);
-					if nodeDmg then
-						DB.setValue(nodeDmg, "dice", "dice", rClause.aDice);
-						if kClause == 1 then
-							DB.setValue(nodeDmg, "stat", "string", sDamageAbility);
-							DB.setValue(nodeDmg, "bonus", "number", nBonus + rClause.nMod);
-						else
-							DB.setValue(nodeDmg, "bonus", "number", rClause.nMod);
-						end
-						DB.setValue(nodeDmg, "type", "string", rClause.dmgtype);
-					end
-				end
-			end
-		end
-	end
-	
-	if bThrown then
-		local nodeWeapon = nodeWeapons.createChild();
-		if nodeWeapon then	
-			DB.setValue(nodeWeapon, "isidentified", "number", nItemID);
-            -- if sItemShortCutRecord exists this is a npc, so use a different shortcut link --celestian
-            if sItemShortCutRecord == nil then
-                DB.setValue(nodeWeapon, "shortcut", "windowreference", "item", "....inventorylist." .. nodeItem.getName());
-            else
-                DB.setValue(nodeWeapon, "shortcut", "windowreference", "item", sItemShortCutRecord);
+        end
+        
+        local bMelee = true;
+        local bRanged = false;
+        if bThrown then
+            if bSpecial then
+                bMelee = false;
             end
-			
-			local sAttackAbility = "";
-			local sDamageAbility = "base";
-			if bFinesse then
-				if DB.getValue(nodeChar, "abilities.strength.score", 10) < DB.getValue(nodeChar, "abilities.dexterity.score", 10) then
-					sAttackAbility = "dexterity";
-					sDamageAbility = "dexterity";
-				end
-			end
-				
-			DB.setValue(nodeWeapon, "name", "string", sName);
-			DB.setValue(nodeWeapon, "type", "number", 2);
-			DB.setValue(nodeWeapon, "properties", "string", sProps);
+        elseif bMissile then
+            bRanged = true;
+            bMelee = false;
+        end
+        
+        -- Parse damage field
+        local sDamage = DB.getValue(nodeItem, "damage", "");
+        
+        local aDmgClauses = {};
+        local aWords = StringManager.parseWords(sDamage);
+        local i = 1;
+        while aWords[i] do
+            local aDiceString = {};
+            
+            while StringManager.isDiceString(aWords[i]) do
+                table.insert(aDiceString, aWords[i]);
+                i = i + 1;
+            end
+            if #aDiceString == 0 then
+                break;
+            end
+            
+            local aDamageTypes = {};
+            while StringManager.contains(DataCommon.dmgtypes, aWords[i]) do
+                table.insert(aDamageTypes, aWords[i]);
+                i = i + 1;
+            end
+            if bMagic then
+                table.insert(aDamageTypes, "magic");
+            end
+            
+            local rDmgClause = {};
+            rDmgClause.aDice, rDmgClause.nMod = StringManager.convertStringToDice(table.concat(aDiceString, " "));
+            rDmgClause.dmgtype = table.concat(aDamageTypes, ",");
+            table.insert(aDmgClauses, rDmgClause);
+            
+            if StringManager.contains({ "+", "plus" }, aWords[i]) then
+                i = i + 1;
+            end
+        end
+        
+        -- Create weapon entries
+        if bMelee then
+            local nodeWeapon = nodeWeapons.createChild();
+            if nodeWeapon then
+                DB.setValue(nodeWeapon, "isidentified", "number", nItemID);
+                DB.setValue(nodeWeapon, "shortcut", "windowreference", "item", "....inventorylist." .. nodeItem.getName());
+                
+                local sAttackAbility = "";
+                local sDamageAbility = "base";
+                if bFinesse then
+                    if DB.getValue(nodeChar, "abilities.strength.score", 10) < DB.getValue(nodeChar, "abilities.dexterity.score", 10) then
+                        sAttackAbility = "dexterity";
+                        sDamageAbility = "dexterity";
+                    end
+                end
+                
+                DB.setValue(nodeWeapon, "name", "string", sName);
+                DB.setValue(nodeWeapon, "type", "number", 0);
+                DB.setValue(nodeWeapon, "properties", "string", sProps);
 
-			DB.setValue(nodeWeapon, "attackstat", "string", sAttackAbility);
-			DB.setValue(nodeWeapon, "attackbonus", "number", nBonus);
+                DB.setValue(nodeWeapon, "attackstat", "string", sAttackAbility);
+                DB.setValue(nodeWeapon, "attackbonus", "number", nBonus);
 
-			DB.setValue(nodeWeapon, "speedfactor", "number", nSpeedFactor);
+                DB.setValue(nodeWeapon, "speedfactor", "number", nSpeedFactor);
 
-			local nodeDmgList = DB.createChild(nodeWeapon, "damagelist");
-			if nodeDmgList then
-				for kClause,rClause in ipairs(aDmgClauses) do
-					local nodeDmg = DB.createChild(nodeDmgList);
-					if nodeDmg then
-						DB.setValue(nodeDmg, "dice", "dice", rClause.aDice);
-						if kClause == 1 then
-							DB.setValue(nodeDmg, "stat", "string", sDamageAbility);
-							DB.setValue(nodeDmg, "bonus", "number", nBonus + rClause.nMod);
-						else
-							DB.setValue(nodeDmg, "bonus", "number", rClause.nMod);
-						end
-						DB.setValue(nodeDmg, "type", "string", rClause.dmgtype);
-					end
-				end
-			end
-		end
-	end
+                local nodeDmgList = DB.createChild(nodeWeapon, "damagelist");
+                if nodeDmgList then
+                    for kClause,rClause in ipairs(aDmgClauses) do
+                        local nodeDmg = DB.createChild(nodeDmgList);
+                        if nodeDmg then
+                            DB.setValue(nodeDmg, "dice", "dice", rClause.aDice);
+                            if kClause == 1 then
+                                DB.setValue(nodeDmg, "stat", "string", sDamageAbility);
+                                DB.setValue(nodeDmg, "bonus", "number", nBonus + rClause.nMod);
+                            else
+                                DB.setValue(nodeDmg, "bonus", "number", rClause.nMod);
+                            end
+                            DB.setValue(nodeDmg, "type", "string", rClause.dmgtype);
+                        end
+                    end
+                end
+            end
+        end
+
+        if bRanged then
+            local nodeWeapon = nodeWeapons.createChild();
+            if nodeWeapon then
+                DB.setValue(nodeWeapon, "isidentified", "number", nItemID);
+                -- if sItemShortCutRecord exists this is a npc, so use a different shortcut link --celestian
+                if sItemShortCutRecord == nil then
+                    DB.setValue(nodeWeapon, "shortcut", "windowreference", "item", "....inventorylist." .. nodeItem.getName());
+                else
+                    DB.setValue(nodeWeapon, "shortcut", "windowreference", "item", sItemShortCutRecord);
+                end
+                
+                local sAttackAbility = "";
+                local sDamageAbility = "base";
+                    
+                DB.setValue(nodeWeapon, "name", "string", sName);
+                DB.setValue(nodeWeapon, "type", "number", 1);
+                DB.setValue(nodeWeapon, "properties", "string", sProps);
+
+                DB.setValue(nodeWeapon, "attackstat", "string", sAttackAbility);
+                DB.setValue(nodeWeapon, "attackbonus", "number", nBonus);
+
+                DB.setValue(nodeWeapon, "speedfactor", "number", nSpeedFactor);
+
+                local nodeDmgList = DB.createChild(nodeWeapon, "damagelist");
+                if nodeDmgList then
+                    for kClause,rClause in ipairs(aDmgClauses) do
+                        local nodeDmg = DB.createChild(nodeDmgList);
+                        if nodeDmg then
+                            DB.setValue(nodeDmg, "dice", "dice", rClause.aDice);
+                            if kClause == 1 then
+                                DB.setValue(nodeDmg, "stat", "string", sDamageAbility);
+                                DB.setValue(nodeDmg, "bonus", "number", nBonus + rClause.nMod);
+                            else
+                                DB.setValue(nodeDmg, "bonus", "number", rClause.nMod);
+                            end
+                            DB.setValue(nodeDmg, "type", "string", rClause.dmgtype);
+                        end
+                    end
+                end
+            end
+        end
+        
+        if bThrown then
+            local nodeWeapon = nodeWeapons.createChild();
+            if nodeWeapon then	
+                DB.setValue(nodeWeapon, "isidentified", "number", nItemID);
+                -- if sItemShortCutRecord exists this is a npc, so use a different shortcut link --celestian
+                if sItemShortCutRecord == nil then
+                    DB.setValue(nodeWeapon, "shortcut", "windowreference", "item", "....inventorylist." .. nodeItem.getName());
+                else
+                    DB.setValue(nodeWeapon, "shortcut", "windowreference", "item", sItemShortCutRecord);
+                end
+                
+                local sAttackAbility = "";
+                local sDamageAbility = "base";
+                if bFinesse then
+                    if DB.getValue(nodeChar, "abilities.strength.score", 10) < DB.getValue(nodeChar, "abilities.dexterity.score", 10) then
+                        sAttackAbility = "dexterity";
+                        sDamageAbility = "dexterity";
+                    end
+                end
+                    
+                DB.setValue(nodeWeapon, "name", "string", sName);
+                DB.setValue(nodeWeapon, "type", "number", 2);
+                DB.setValue(nodeWeapon, "properties", "string", sProps);
+
+                DB.setValue(nodeWeapon, "attackstat", "string", sAttackAbility);
+                DB.setValue(nodeWeapon, "attackbonus", "number", nBonus);
+
+                DB.setValue(nodeWeapon, "speedfactor", "number", nSpeedFactor);
+
+                local nodeDmgList = DB.createChild(nodeWeapon, "damagelist");
+                if nodeDmgList then
+                    for kClause,rClause in ipairs(aDmgClauses) do
+                        local nodeDmg = DB.createChild(nodeDmgList);
+                        if nodeDmg then
+                            DB.setValue(nodeDmg, "dice", "dice", rClause.aDice);
+                            if kClause == 1 then
+                                DB.setValue(nodeDmg, "stat", "string", sDamageAbility);
+                                DB.setValue(nodeDmg, "bonus", "number", nBonus + rClause.nMod);
+                            else
+                                DB.setValue(nodeDmg, "bonus", "number", rClause.nMod);
+                            end
+                            DB.setValue(nodeDmg, "type", "string", rClause.dmgtype);
+                        end
+                    end
+                end
+            end
+        end
+    end
 end
 
 function initWeaponIDTracking()
