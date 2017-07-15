@@ -4,7 +4,7 @@
 --
 
 local rsname = "AD&D Core";
-local rsmajorversion = 8;
+local rsmajorversion = 12;
 
 function onInit()
 	if User.isHost() or User.isLocal() then
@@ -83,6 +83,18 @@ function updateCampaign()
             --Debug.console("manager_version2.lua","updateCampaign","major",major);
             convertSpellsInitiative();
 		end
+        -- -- migrate item data 
+		-- if major < 10 then
+            -- convertItemsType();
+		-- end
+        -- -- migrate spell data 
+		-- if major < 11 then
+            -- convertSpellType();
+		-- end
+        -- -- migrate item data 
+		-- if major < 12 then
+            -- convertItemsType();
+		-- end
 	end
 end
 
@@ -322,6 +334,7 @@ function convertCharacters2()
 	end
 end
 
+
 -- move initiative from spell->action->cast to spell --celestian
 function convertSpellsInitiative()
     -- fix all spell records
@@ -381,3 +394,34 @@ function migrateSpellInitiative(nodeSpell,nodeAction)
         end
     end
 end
+
+-- not needed in the end --celestian
+-- -- convert type to weapon_type on items
+-- function convertItemsType()
+    -- -- -- fix all item records
+	-- -- for _,nodeItem in pairs(DB.getChildren("item")) do
+        -- -- local sType =  DB.getValue(nodeItem,"type","");
+        -- -- DB.setValue(nodeItem,"weapon_type","string",sType);
+        -- -- DB.deleteChild(nodeItem, "type");
+	-- -- end
+-- end
+
+-- -- convert type to spell_type on spells
+-- function convertSpellType()
+    -- -- -- fix all item records
+	-- -- for _,nodeSpell in pairs(DB.getChildren("spell")) do
+        -- -- local sType =  DB.getValue(nodeSpell,"type","");
+        -- -- DB.setValue(nodeSpell,"type","string",sType);
+        -- -- DB.deleteChild(nodeSpell, "type");
+	-- -- end
+-- end
+
+-- -- convert type to weapon_type on items
+-- function convertItemsType()
+    -- -- -- fix all item records
+	-- -- for _,nodeItem in pairs(DB.getChildren("item")) do
+        -- -- local sType =  DB.getValue(nodeItem,"weapon_type","");
+        -- -- DB.setValue(nodeItem,"type","string",sType);
+        -- -- DB.deleteChild(nodeItem, "weapon_type");
+	-- -- end
+-- end

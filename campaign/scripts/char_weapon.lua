@@ -86,7 +86,6 @@ function onAttackChanged(p1, p2)
 	local nodeWeapon = getDatabaseNode();
 	local nodeChar = nodeWeapon.getChild("...");
 	local rActor = ActorManager.getActor("", nodeChar);
-
 	local sAbility = DB.getValue(nodeWeapon, "attackstat", "");
 	if sAbility == "" then
 		if type.getValue() == 1 then
@@ -116,7 +115,7 @@ function onDamageChanged(p1, p2)
 	local nodeWeapon = getDatabaseNode();
 	local nodeChar = nodeWeapon.getChild("...")
 	local rActor = ActorManager.getActor("pc", nodeChar);
-	
+
 	local sBaseAbility = "strength";
 	if type.getValue() == 1 then
 		sBaseAbility = "dexterity";

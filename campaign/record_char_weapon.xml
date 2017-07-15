@@ -48,17 +48,6 @@
 					end
 				</script>
 			</buttoncontrol>
-
-
-<!-- 			<button_weaponprof name="prof">
-				<anchored to="attackframe" />
-				<script>
-					function onValueChanged()
-						window.onAttackChanged();
-					end
-				</script>
-			</button_weaponprof> -->
-
 			<genericcontrol name="leftanchor">
 				<anchored width="0" height="0">
 					<top />
@@ -86,11 +75,6 @@
                     <left parent="leftanchor" anchor="right" relation="relative" offset="5" />
                     <right parent="rightanchor" anchor="left" relation="relative" offset="-240" />
                 </anchored>
-<!-- 				<anchored height="20">
-					<top offset="8" />
-					<left parent="speedfactor" anchor="right" relation="relative" offset="5" />
-					<right parent="rightanchor" anchor="left" relation="relative" offset="0" />
-				</anchored> -->
 			</stringu>
 
 			<state_charweapontype name="type">
@@ -98,10 +82,6 @@
                     <top offset="5" />
                     <left parent="leftanchor" anchor="right" relation="relative" offset="1" />
                 </anchored>
-<!-- 				<anchored to="rightanchor">
-					<top offset="5" />
-					<right anchor="left" relation="relative" offset="0" />
-				</anchored> -->
 				<script>
 					function onValueChanged()
 						window.onTypeChanged();
@@ -110,16 +90,6 @@
 			</state_charweapontype>
 
 
-            <!-- init item roll -->
-<!--             <label name="label_initiative">
-                <font>arial-regular-8</font>
-                <tooltip textres="char_label_initiative_tooltip" />
-                <anchored height="18" >
-                    <top offset="8" />
-                    <left parent="leftanchor" anchor="right" relation="relative" offset="1" />
-                </anchored>
-				<static textres="char_label_initiative" />
-            </label> --> 
             <number_actions_init name="speedfactor">
                 <tooltip textres="power_label_initiative_tooltip" />
                 <anchored height="18" width="25" >
@@ -128,25 +98,11 @@
                 </anchored>
             </number_actions_init>
 
-<!--             <label name="label_attack">
-                <font>arial-bold-8</font>
-                
-                <tooltip textres="char_label_attack_tooltip" />
-                <anchored height="18">
-                    <top offset="8" />
-                    <left parent="leftanchor" anchor="right" relation="relative" offset="8" />
-                </anchored>
-				<static textres="char_label_attack" />
-            </label> -->
 			<genericcontrol name="attackshade">
                 <anchored height="26" width="50" >
                     <top offset="3" />
                     <left parent="leftanchor" anchor="right" relation="relative" offset="0" />
                 </anchored>
-<!-- 				<anchored to="rightanchor" width="50" height="26">
-					<top offset="2"/>
-					<right anchor="left" relation="relative" offset="-1" />
-				</anchored> -->
 			</genericcontrol>
 			<genericcontrol name="attackframe">
 				<anchored to="attackshade" position="over" />
@@ -214,30 +170,10 @@
 			</simplenumberc>
             <!-- damage section -->
             <windowlist name="damage_split_list">
-<!--                 <script>
-                    function onInit()
-                        local node = getDatabaseNode();
-                        Debug.console("record_char_weapon.xml","onInit","node",node);
-                        DB.addHandler(node.getNodeName(), "onChildUpdate", window.onDataChanged);
-                        DB.addHandler(node.getNodeName(), "onAdd", window.onDataChanged);
-                        fixVisuals();
-                    end
-                    function onClose()
-                        DB.removeHandler(node.getNodeName(), "onChildUpdate", window.onDataChanged);
-                        DB.removeHandler(node.getNodeName(), "onAdd", window.onDataChanged);
-                    end
-                    function fixVisuals()
-                        window.onDataChanged();
-                    end
-                </script> -->
                 <anchored width="125" >
                     <top offset="5" /> 
                     <left parent="leftanchor" anchor="right" relation="relative" offset="5" />
                 </anchored>
-<!-- 				<anchored to="rightanchor" width="91">
-					<top offset="5" />
- 					<right anchor="left" relation="relative" offset="-5" /> 
-				</anchored> -->
                 <child></child>
                 <child><backcolor>1A40301E</backcolor></child>
                 <noscroll />
@@ -247,7 +183,6 @@
             
 			<label name="label_ammo">
 				<anchored width="50">
-					<!-- <top parent="damageview" anchor="bottom" relation="relative" offset="5" /> -->
                     <top parent="name" anchor="bottom" relation="relative" offset="5" />
 					<left offset="15" />
 				</anchored>

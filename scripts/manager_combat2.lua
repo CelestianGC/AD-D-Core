@@ -30,7 +30,6 @@ end
 -- TURN FUNCTIONS
 --
 function onRoundStart(nCurrent)
-Debug.console("manager_combat2.lua","onRoundStart","OptionsManager.getOption(HRIS)",OptionsManager.getOption("HouseRule_InitEachRound"));
 	if OptionsManager.isOption("HouseRule_InitEachRound", "on") then
 		rollInit();
 	end
@@ -161,7 +160,6 @@ end
 -- calculate npc level from HD and return it -celestian
 -- move to manager_action_save.lua?
 function getNPCLevelFromHitDice(nodeEntry, nodeNPC) 
-    local bWoops = false;
     local nLevel = 1;
     local sHitDice = DB.getValue(nodeNPC, "hitDice", "1");
     
@@ -206,7 +204,6 @@ function getNPCLevelFromHitDice(nodeEntry, nodeNPC)
             else
                 -- pop up menu and ask them for a decent value? -celestian
                 ChatManager.SystemMessage("Unable to find a working hitDice [" .. sHitDice .. "] for " .. DB.getValue(nodeNPC, "name", "") .." to calculate saves. It should be # or #+# or #-#."); 
-                bWoops = true;
                 nAdjustment = 0;
                 nHitDice = 0;
             end

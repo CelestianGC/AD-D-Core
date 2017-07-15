@@ -1107,7 +1107,6 @@
 			</subwindow_record>
 
 			<subwindow_record name="spellactions">
-				<!-- <class>power_item</class> -->
 				<class>power_item_spellrecord</class>
 			</subwindow_record>
             

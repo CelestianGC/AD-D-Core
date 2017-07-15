@@ -4,9 +4,14 @@
 --
 
 function onInit()
+    checkNPCForSanity(getDatabaseNode());
+    
+	onSummaryChanged();
+	update();
+end
 
-    local nodeNPC = getDatabaseNode();
-
+-- check hitdice and saves for sane values.
+function checkNPCForSanity(nodeNPC)
     -- this is if someone uses a 5e npc with just "HD" and not "HITDICE" value set. 
     -- we do best guess on what the HD should be....BEST GUESS! --celestian
     local sHitDice = DB.getValue(nodeNPC, "hitDice", "1");
@@ -37,9 +42,6 @@ function onInit()
     if nPoison == -20 then
         CombatManager2.updateNPCSaves(nodeNPC, nodeNPC, true);
     end
-
-	onSummaryChanged();
-	update();
 end
 
 function onSummaryChanged()
