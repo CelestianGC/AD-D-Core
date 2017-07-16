@@ -50,43 +50,11 @@ function onInit()
 	-- window list can be nil when using this for spell records (not PC/NPCs) --celestian
     if windowlist ~= nil then 
         windowlist.onChildWindowAdded(self);
-    else
-    -- windowlist == nil then we're in a spell record and do
-    -- not need to see these
-        header.subwindow.group.setVisible(false);
-        header.subwindow.shortdescription.setVisible(false);
-        header.subwindow.name.setVisible(false);
     end
 
-    
-        toggleDetail();
-        -- this should default to invis but it's not so this will check and 
-        -- make sure it's set properly --celestian
-        -- local status = (activatedetail.getValue() == 1);   
-        -- initiative.setVisible(status);
-        -- local node = getDatabaseNode();
--- Debug.console("power_item.lua","onInit","node",node);
-        -- if PowerManager.canMemorizeSpell(node) then
--- Debug.console("power_item.lua","onInit","status1",status);
-            -- memorization.setVisible(status);
-        -- else
--- Debug.console("power_item.lua","onInit","status2",status);
-            -- memorization.setVisible(false);
-        -- end
-    -- item record first time tweaks
-    -- give it a name of the item
-    -- set group start to whatever item type is
-    -- set usesperiod to "once", default to charged item
-    -- set default charges to 25
-    if string.match(nodeAttack.getPath(),"^item") then
-        local nodeItem = DB.getChild(nodeAttack, "...");
-        if (name.getValue() == "") then
-            name.setValue(DB.getValue(nodeItem,"name",""));
-            group.setValue(DB.getValue(nodeItem,"type","Item"));
-            usesperiod.setValue("once");
-            prepared.setValue(25);
-        end
-    end
+    toggleDetail();
+    firstTimeSpellRecord();
+    firstTimeItemRecord();
 end
 
 function onClose()
@@ -95,6 +63,7 @@ function onClose()
 	DB.removeHandler(DB.getPath(node, "group"), "onUpdate", toggleDetail);
 	DB.removeHandler(DB.getPath(node, "type"), "onUpdate", toggleDetail);
 end
+
 -- filters out non-memorized spells when in "combat" mode.
 function getFilter()
     local bShow = bFilter;
@@ -131,48 +100,61 @@ function getFilter()
     return bShow;
 end
 
+-- if we're in a spell record and do
+-- not need to see these
+function firstTimeSpellRecord()
+    if (string.match(getDatabaseNode().getPath(),"^spell")) then
+        header.subwindow.group.setVisible(false);
+        header.subwindow.shortdescription.setVisible(false);
+        header.subwindow.name.setVisible(false);
+    end
+end
+
+-- item record first time tweaks, otherwise we don't set.
+-- give it a name of the item
+-- set group start to whatever item type is
+-- set usesperiod to "once", default to charged item
+-- set default charges to 25
+function firstTimeItemRecord()
+	local nodeAttack = getDatabaseNode();
+    if string.match(nodeAttack.getPath(),"^item") then
+        local nodeItem = DB.getChild(nodeAttack, "...");
+        if (name.getValue() == "") then
+            name.setValue(DB.getValue(nodeItem,"name",""));
+            group.setValue(DB.getValue(nodeItem,"type","Item"));
+            usesperiod.setValue("once");
+            prepared.setValue(25);
+        end
+    end
+end
+
 function onDisplayChanged()
     local sDisplayMode = DB.getValue(getDatabaseNode(), "...powerdisplaymode", "");
 
-    -- header nil when we're using this for spell records --celestian
-    --if header ~= nil then
-        if sDisplayMode == "summary" then
-            header.subwindow.group.setVisible(false);
-            header.subwindow.shortdescription.setVisible(true);
-            --header.subwindow.actionsmini_pre.setVisible(false);
-            header.subwindow.actionsmini.setVisible(false);
-            header.subwindow.castinitiative.setVisible(false);
-            header.subwindow.memorizedcount.setVisible(false);
-        elseif sDisplayMode == "action" then
-            header.subwindow.group.setVisible(false);
-            header.subwindow.shortdescription.setVisible(false);
-            --header.subwindow.actionsmini_pre.setVisible(true);
-            header.subwindow.actionsmini.setVisible(true);
-            header.subwindow.castinitiative.setVisible(true);
-            header.subwindow.memorizedcount.setVisible(true);
-        else
-            header.subwindow.group.setVisible(true);
-            header.subwindow.shortdescription.setVisible(false);
-            --header.subwindow.actionsmini_pre.setVisible(false);
-            header.subwindow.actionsmini.setVisible(false);
-            header.subwindow.castinitiative.setVisible(false);
-            header.subwindow.memorizedcount.setVisible(false);
-        end
+    if sDisplayMode == "summary" then
+        header.subwindow.group.setVisible(false);
+        header.subwindow.shortdescription.setVisible(true);
+        header.subwindow.actionsmini.setVisible(false);
+        header.subwindow.castinitiative.setVisible(false);
+        header.subwindow.memorizedcount.setVisible(false);
+    elseif sDisplayMode == "action" then
+        header.subwindow.group.setVisible(false);
+        header.subwindow.shortdescription.setVisible(false);
+        header.subwindow.actionsmini.setVisible(true);
+        header.subwindow.castinitiative.setVisible(true);
+        header.subwindow.memorizedcount.setVisible(true);
+    else
+        header.subwindow.group.setVisible(true);
+        header.subwindow.shortdescription.setVisible(false);
+        header.subwindow.actionsmini.setVisible(false);
+        header.subwindow.castinitiative.setVisible(false);
+        header.subwindow.memorizedcount.setVisible(false);
+    end
 
-        -- if the spell can not be memorized, hide it
-        if not PowerManager.canMemorizeSpell(getDatabaseNode()) then
-            header.subwindow.memorizedcount.setVisible(false);
-        end
-        
-        -- if init value is < 0 then just keep it hidden.
-        -- might want to enable this so things other than spells can have
-        -- a initiative, like potion, scroll and wand use? --celelstian
-        -- local nInitMod = header.subwindow.castinitiative.getValue();
-        -- if (nInitMod <= 0) then
-            -- header.subwindow.castinitiative.setVisible(false);
-        -- end
-        
-    --end
+    -- if the spell can not be memorized, hide it
+    if not PowerManager.canMemorizeSpell(getDatabaseNode()) then
+        header.subwindow.memorizedcount.setVisible(false);
+    end
 end
 
 -- add action for spell/item

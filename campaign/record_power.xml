@@ -993,7 +993,7 @@
 				<static>+</static>
 				<center />
 			</label>
-			<button_prof name="atkprof">
+<!-- 			<button_prof name="atkprof">
 				<anchored to="label_atkplus" position="righthigh" offset="0,0" height="20" width="20" />
 				<default>1</default>
 			</button_prof>
@@ -1001,13 +1001,13 @@
 				<anchored to="atkprof" position="righthigh" offset="0,0" width="10" />
 				<static>+</static>
 				<center />
-			</label>
+			</label> -->
 			<basicnumber name="atkmod">
-				<anchored to="label_atkplus2" position="righthigh" offset="5,0" width="25" height="20" />
+				<anchored to="label_atkplus" position="righthigh" offset="5,0" width="25" height="20" />
 				<hideonvalue value="0" />
 			</basicnumber>
 
-			<label_column name="groupsave_label">
+<!-- 			<label_column name="groupsave_label">
 				<static textres="power_label_groupsave" />
 			</label_column>
 			<label name="groupsavebase_label">
@@ -1038,7 +1038,7 @@
 				<anchored to="label_saveplus2" position="righthigh" offset="5,0" width="25" height="20" />
 				<hideonvalue value="0" />
 			</basicnumber>
-
+ -->
 			<line_column>
 				<anchored>
 					<right offset="-30" />
