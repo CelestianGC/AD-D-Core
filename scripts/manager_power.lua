@@ -339,6 +339,13 @@ function onPowerAction(draginfo, nodeAction, sSubRoll)
         end
     end
     
+    
+    -- mark one use of this used
+    if not incrementUse(draginfo, nodeAction) then
+        -- no uses left, stop
+        return;
+    end
+    
     local rAction = getPowerRoll(rActor, nodeAction, sSubRoll);
     
     local sRollType = nil;
@@ -1989,6 +1996,7 @@ end
 function canMemorizeSpell(nodeSpell)
     local nLevel = DB.getValue(nodeSpell, "level", 0);
     local sSpellType = DB.getValue(nodeSpell, "type", ""):lower();
+    local sGroup = DB.getValue(nodeSpell, "group", ""):lower();
     local sNodePath = nodeSpell.getPath();
     
     local bCanMemorize = 
@@ -1998,7 +2006,12 @@ function canMemorizeSpell(nodeSpell)
     if string.match(sNodePath,"^spell") or string.match(sNodePath,"^item") then
             bCanMemorize = false;
     end
-       
+    
+    -- if the group the action is in, is NOT a spell then no, no memorization
+    if not string.match(sGroup,"^spell") then
+            bCanMemorize = false;
+    end
+    
     return bCanMemorize;
 end
 
@@ -2055,6 +2068,36 @@ function memorizeSpell(draginfo, nodeSpell)
     return bSuccess;
 end
 
+-- increment the cast count, on any group BUT "Spells"
+function incrementUse(draginfo, node)
+	local nodeSpell = node.getChild("...");
+	if not nodeSpell then
+		return false;
+	end
+	local nodeChar = nodeSpell.getChild("...");
+	if not nodeChar then
+		return false;
+	end
+
+    local bHadCharge = true;
+    local nPrepared = DB.getValue(nodeSpell, "prepared", 0);
+    local sGroup = DB.getValue(nodeSpell, "group", ""):lower();
+    if not string.match(sGroup,"^spells") then
+        local nCast = DB.getValue(nodeSpell, "cast", 0);
+        if (nPrepared >= (nCast+1)) then
+            DB.setValue(nodeSpell, "cast","number", (nCast+1));
+            bHadCharge = true;
+        else
+            bHadCharge = false;
+            local sFormat = Interface.getString("message_nouseleft");
+            local sMsg = string.format(sFormat, DB.getValue(nodeSpell, "name", ""));
+            ChatManager.Message(sMsg, true, ActorManager.getActor("pc", nodeChar));            
+        end
+    end
+
+    return bHadCharge;
+end
+
 -- cast spell
 function removeMemorizedSpell(draginfo, node)
 	local nodeSpell = node.getChild("...");
@@ -2071,16 +2114,17 @@ function removeMemorizedSpell(draginfo, node)
 -- Debug.console("manager_power.lua","removeMemorizedSpell","nodeChar",nodeChar);
 
     local bisNPC = (not ActorManager.isPC(nodeChar));
-    local sName = DB.getValue(nodeSpell, "name", "");
+    --local sName = DB.getValue(nodeSpell, "name", "");
     local nLevel = DB.getValue(nodeSpell, "level", 0);
     local sSpellType = DB.getValue(nodeSpell, "type", ""):lower();
     local sSource = DB.getValue(nodeSpell, "source", ""):lower();
-    local sCastTime = DB.getValue(nodeSpell, "castingtime", "");
-    local sDuration = DB.getValue(nodeSpell, "duration", "");
+    --local sCastTime = DB.getValue(nodeSpell, "castingtime", "");
+    --local sDuration = DB.getValue(nodeSpell, "duration", "");
     local nMemorized = DB.getValue(nodeSpell, "memorized", 0);
-
+    
     -- this should let 5e spells work
-    if (nLevel>0 and (isArcaneSpellType(sSpellType) or isArcaneSpellType(sSource) or isDivineSpellType(sSpellType) or isDivineSpellType(sSource)) ) then
+    if canMemorizeSpell(nodeSpell) then
+    --if (nLevel>0 and (isArcaneSpellType(sSpellType) or isArcaneSpellType(sSource) or isDivineSpellType(sSpellType) or isDivineSpellType(sSource)) ) then
         local nUsedArcane = DB.getValue(nodeChar, "powermeta.spellslots" .. nLevel .. ".used", 0);
         local nMaxArcane = DB.getValue(nodeChar, "powermeta.spellslots" .. nLevel .. ".max", 0);
         local nUsedDivine = DB.getValue(nodeChar, "powermeta.pactmagicslots" .. nLevel .. ".used", 0);

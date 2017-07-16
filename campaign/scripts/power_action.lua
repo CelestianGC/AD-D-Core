@@ -65,11 +65,13 @@ function updateDisplay()
     
     local sSpellType = DB.getValue(nodeSpell, "type", ""):lower();
     local sSource = DB.getValue(nodeSpell, "source", ""):lower();
-    local bShowMemorize = ( ( PowerManager.isArcaneSpellType(sSpellType) or 
-                              PowerManager.isArcaneSpellType(sSource) or 
-                              PowerManager.isDivineSpellType(sSpellType) or 
-                              PowerManager.isDivineSpellType(sSource) )  and 
-                              (sType == "cast")   );
+
+    local bShowMemorize = ( PowerManager.canMemorizeSpell(nodeSpell) );
+    -- local bShowMemorize = ( ( PowerManager.isArcaneSpellType(sSpellType) or 
+                              -- PowerManager.isArcaneSpellType(sSource) or 
+                              -- PowerManager.isDivineSpellType(sSpellType) or 
+                              -- PowerManager.isDivineSpellType(sSource) )  and 
+                              -- (sType == "cast")   );
     
     local sMode = DB.getValue(nodeChar, "powermode", "");
 --Debug.console("power_action.lua","updateDisplay","sMode",sMode);

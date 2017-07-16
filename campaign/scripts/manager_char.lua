@@ -197,7 +197,11 @@ function updateMoveFromEncumbrance(nodeChar)
         if (nBaseEnc < 1) then
             nBaseEnc = 1;
         end
-        DB.setValue(nodeChar,"speed.basemodenc","number",nBaseEnc);
+        if nBaseMove == nBaseEnc then
+            DB.setValue(nodeChar,"speed.basemodenc","number",0);
+        else
+            DB.setValue(nodeChar,"speed.basemodenc","number",nBaseEnc);
+        end
         DB.setValue(nodeChar,"speed.encumbrancerank","string",sEncRank);
         -- Debug.console("number_abilityscore.lua","updateMoveFromEncumbrance","nodeChar",nodeChar);
         -- Debug.console("number_abilityscore.lua","updateMoveFromEncumbrance","nWeightCarried",nWeightCarried);
@@ -507,8 +511,9 @@ function removeFromWeaponDB(nodeItem)
 end
 
 function addToWeaponDB(nodeItem)
+    local bItemHasWeapons = (DB.getChildCount(nodeItem, "weaponlist") > 0);
 	-- Parameter validation
-	if not ItemManager2.isWeapon(nodeItem) then
+	if not ItemManager2.isWeapon(nodeItem) and not bItemHasWeapons then
 		return;
 	end
 	
@@ -523,7 +528,6 @@ function addToWeaponDB(nodeItem)
 	-- Set new weapons as equipped
 	DB.setValue(nodeItem, "carried", "number", 2);
     
-    local bItemHasWeapons = (DB.getChildCount(nodeItem, "weaponlist") > 0);
     if (bItemHasWeapons) then
         for _,v in pairs(DB.getChildren(nodeItem, "weaponlist")) do
             local nodeWeapon = nodeWeapons.createChild();
