@@ -305,9 +305,6 @@ function setActiveVisible()
 
 	local sClass, sRecord = link.getValue();
 	local bNPC = (sClass ~= "charsheet");
-	if bNPC and active.getValue() == 1 then
-		v = true;
-	end
 	
 	activeicon.setVisible(v);
 

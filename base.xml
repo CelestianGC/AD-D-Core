@@ -6,7 +6,7 @@
 -->
 
 <root version="3.0" release="12" logo="logo.png">
-	<announcement text="AD&amp;D Core v2017.07.07\rFor Fantasy Grounds" font="emotefont" icon="rulesetlogo_ADnD" />
+	<announcement text="AD&amp;D Core v2017.07.17 For Fantasy Grounds\r--by Celestian 2017" font="emotefont" icon="rulesetlogo_ADnD" />
 
 	<!-- Attributes -->
 	<description>
@@ -127,8 +127,10 @@
 	<script name="CombatManager2" file="scripts/manager_combat2.lua" />
 	<script name="EffectManager" file="scripts/manager_effect.lua" />
 
-	<!-- Override CoreRPG item manager for npc inventory requirements -->
+	<!-- Override CoreRPG item manager for npc inventory requirements, items for npcs/etc -->
     <script name="ItemManager" file="scripts/manager_item.lua" />
+    <!-- We have to have a custom version of this from CoreRPG so it sorts reverse for the low to high initiative -->
+	<!-- <script name="CombatManager" file="scripts/manager_combat.lua" /> -->
 	<!-- END -->
     
 	<script name="ItemManager2" file="scripts/manager_item2.lua" />
@@ -156,32 +158,7 @@
    	<!-- Strings -->
 	<includefile source="strings/strings_adnd.xml" />
 
-<!-- 	
-	<includefile source="graphics/graphics_fonts.xml" />
-	<includefile source="graphics/graphics_frames.xml" />
-
-	
-	<includefile source="campaign/record_char_main.xml" />
- -->	
 	<includefile source="campaign/template_char_adnd.xml" />
-<!-- 	<includefile source="campaign/record_char.xml" />
-	<includefile source="campaign/record_char_weapon.xml" />
-	<includefile source="campaign/record_npc.xml" />
-	
-	<includefile source="ps/template_ps.xml" />
-	<includefile source="ps/ps_main.xml" />
-
-	<script name="DataCommon" file="scripts/data_common.lua" />
-   	<script name="ActorManager2" file="scripts/manager_actor2.lua" />
-	<script name="ActionsManager2" file="scripts/manager_actions2.lua" />
-	<script name="ActionSave" file="scripts/manager_action_save.lua" />
-	<script name="ActionCheck" file="scripts/manager_action_check.lua" />
-	<script name="ActionAttack" file="scripts/manager_action_attack.lua" />
-	<script name="CombatManager2" file="scripts/manager_combat2.lua" />
--->
-
-    <!-- We have to have a custom version of this from CoreRPG so it sorts reverse for the low to high initiative -->
-	<script name="CombatManager" file="scripts/manager_combat.lua" />
     <!-- AD&D specific settings -->
  	<script name="LibraryDataADNDCORE" file="scripts/data_library_core.lua" />
 

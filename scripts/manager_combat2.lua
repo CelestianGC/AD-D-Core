@@ -4,7 +4,10 @@
 --
 
 function onInit()
-	CombatManager.setCustomSort(CombatManager.sortfuncDnD);
+	--CombatManager.setCustomSort(CombatManager.sortfuncDnD);
+    -- use our AD&D sort function --celestian
+    CombatManager.setCustomSort(sortfuncADnD);
+
 	CombatManager.setCustomDrop(onDrop);
 
 	CombatManager.setCustomAddNPC(addNPC);
@@ -24,6 +27,59 @@ function onHRDistanceChanged()
 	else
 		Interface.setDistanceDiagMult(1);
 	end
+end
+
+--
+--
+-- AD&D Style storing (low to high initiative)
+--
+function sortfuncADnD(node2, node1)
+	local bHost = User.isHost();
+	local sOptCTSI = OptionsManager.getOption("CTSI");
+	
+	local sFaction1 = DB.getValue(node1, "friendfoe", "");
+	local sFaction2 = DB.getValue(node2, "friendfoe", "");
+	
+	local bShowInit1 = bHost or ((sOptCTSI == "friend") and (sFaction1 == "friend")) or (sOptCTSI == "on");
+	local bShowInit2 = bHost or ((sOptCTSI == "friend") and (sFaction2 == "friend")) or (sOptCTSI == "on");
+	
+	if bShowInit1 ~= bShowInit2 then
+		if bShowInit1 then
+			return true;
+		elseif bShowInit2 then
+			return false;
+		end
+	else
+		if bShowInit1 then
+			local nValue1 = DB.getValue(node1, "initresult", 0);
+			local nValue2 = DB.getValue(node2, "initresult", 0);
+			if nValue1 ~= nValue2 then
+				return nValue1 > nValue2;
+			end
+			
+			nValue1 = DB.getValue(node1, "init", 0);
+			nValue2 = DB.getValue(node2, "init", 0);
+			if nValue1 ~= nValue2 then
+				return nValue1 > nValue2;
+			end
+		else
+			if sFaction1 ~= sFaction2 then
+				if sFaction1 == "friend" then
+					return true;
+				elseif sFaction2 == "friend" then
+					return false;
+				end
+			end
+		end
+	end
+	
+	local sValue1 = DB.getValue(node1, "name", "");
+	local sValue2 = DB.getValue(node2, "name", "");
+	if sValue1 ~= sValue2 then
+		return sValue1 < sValue2;
+	end
+
+	return node1.getNodeName() < node2.getNodeName();
 end
 
 --
