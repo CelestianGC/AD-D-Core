@@ -22,6 +22,6 @@ end
 function onSubwindowInstantiated()
 	for _,v in pairs(list.getWindows()) do
 		v.onHPChanged();
-		v.onHDChanged();
+		--v.onHDChanged();
 	end
 end

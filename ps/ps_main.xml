@@ -27,17 +27,19 @@
 				<center />
 			</label_ps>			
 			<label_ps name="hplabel">
-				<anchored to="headeranchor" position="insidetopleft" offset="234,0" width="45" />
+				<anchored to="headeranchor" position="insidetopleft" offset="228,0" width="45" />
 				<static textres="hp" />
 				<center />
 			</label_ps>
-			<label_ps name="hdlabel">
+<!-- 			<label_ps name="hdlabel">
+                <invisible />
 				<anchored to="headeranchor" position="insidetopleft" offset="234,17" width="45" />
 				<static textres="hd" />
 				<center />
 			</label_ps>		
-			<label_ps name="abilitieslabel">
-				<anchored to="headeranchor" position="insidetopleft" offset="279,0" width="190" />
+ -->
+            <label_ps name="abilitieslabel">
+				<anchored to="headeranchor" position="insidetopleft" offset="265,0" width="190" />
 				<static textres="ps_label_abilities" />
 				<center />
 			</label_ps>
@@ -72,15 +74,17 @@
 				<center />
 			</label_ps>
 			<label_ps name="aclabel">
-				<anchored to="abilitieslabel" position="righthigh" offset="15,0" width="25" />
+				<anchored to="abilitieslabel" position="righthigh" offset="15,0" width="26" />
 				<static textres="ps_label_ac" />
 				<center />
 			</label_ps>
-			<label_ps name="perclabel">
+<!-- 			<label_ps name="surpriselabel">
 				<anchored to="aclabel" position="below" offset="0,-3" />
-				<static textres="ps_label_perc" />
+				<static textres="ps_label_surprise" />
+                <tooltip textre="ps_label_surprise_tooltip" />
 				<center />
 			</label_ps>
+ -->
 			<label_ps name="defenseslabel">
 				<anchored to="abilitieslabel" position="righthigh" offset="10,0">
 					<right parent="" offset="-30" />
@@ -110,7 +114,7 @@
 				<disabled />
 			</genericcontrol>
 			
-			<buttonfield name="hiderollresults">
+ 			<buttonfield name="hiderollresults">
 				<anchored to="leftanchor" height="20" width="20">
 					<top />
 					<left anchor="right" relation="relative" offset="15" />
@@ -120,7 +124,7 @@
 				<state icon="visibilityoff" tooltipres="ps_tooltip_showrolloff" />
 				<gmvisibleonly />
 			</buttonfield>
-
+<!--
 			<genericcontrol name="checkframe">
 				<anchored to="leftanchor" height="20" width="245">
 					<top />
@@ -254,7 +258,8 @@
 				<displaysign />
 				<gmvisibleonly />
 			</basicnumber>
-		</sheetdata>
+ -->
+        </sheetdata>
 	</windowclass>
 
 	<windowclass name="ps_mainitem">
@@ -284,21 +289,21 @@
 					end
 				</script>
 			</hnx>
-			<hnx name="hd">
+<!-- 			<hnx name="hd">
 				<script>
 					function onValueChanged()
 						window.onHDChanged();
 					end
 				</script>
 			</hnx>
-			<hnx name="hdused">
+ --><!-- 			<hnx name="hdused">
 				<script>
 					function onValueChanged()
 						window.onHDChanged();
 					end
 				</script>
 			</hnx>
-		
+ -->		
 			<portrait_base>
 				<bounds>10,10,40,40</bounds>
 			</portrait_base>
@@ -322,33 +327,41 @@
 				<frame name="border" />
 				<barback>006600</barback>
 			</statusbar>
-			<statusbar name="hdbar">
+<!-- 			<statusbar name="hdbar">
+                <invisible />
 				<anchored position="insidetopleft" offset="258,10" width="10" height="40" />
 				<frame name="border" />
 				<barback>0F0B0B</barback>
 			</statusbar>
-
-			<number_ps_ability name="strength">
-				<anchored to="hdbar">
+ -->
+			<number_ps_ability_adnd name="strength">
+				<anchored to="hpbar">
 					<left offset="10" />
 				</anchored>
-			</number_ps_ability>			
-			<number_ps_ability name="dexterity">
+                <target>strength</target>
+			</number_ps_ability_adnd>			
+			<number_ps_ability_adnd name="dexterity">
 				<anchored to="strength" />
-			</number_ps_ability>			
-			<number_ps_ability name="constitution">
+                <target>dexterity</target>
+			</number_ps_ability_adnd>			
+			<number_ps_ability_adnd name="constitution">
 				<anchored to="dexterity" />
-			</number_ps_ability>			
-			<number_ps_ability name="intelligence">
+                <target>constitution</target>
+			</number_ps_ability_adnd>			
+			<number_ps_ability_adnd name="intelligence">
 				<anchored to="constitution" />
-			</number_ps_ability>			
-			<number_ps_ability name="wisdom">
+                <target>intelligence</target>
+			</number_ps_ability_adnd>			
+			<number_ps_ability_adnd name="wisdom">
 				<anchored to="intelligence" />
-			</number_ps_ability>		
-			<number_ps_ability name="charisma">
+                <target>wisdom</target>
+			</number_ps_ability_adnd>		
+			<number_ps_ability_adnd name="charisma">
 				<anchored to="wisdom" />
-			</number_ps_ability>	
-			<number_ps_abilitybonus name="strbonus">
+                <target>charisma</target>
+			</number_ps_ability_adnd>	
+
+<!-- 			<number_ps_abilitybonus name="strbonus">
 				<anchored to="strength" />
 				<target>strength</target>
 			</number_ps_abilitybonus>
@@ -372,15 +385,16 @@
 				<anchored to="charisma" />
 				<target>charisma</target>
 			</number_ps_abilitybonus>			
-			
+ -->			
 			<number_ps_defense name="ac">
 				<anchored to="charisma">
 					<left offset="15" />
 				</anchored>
 			</number_ps_defense>				
-			<number_ps_senses name="perception">
+<!-- 			<number_ps_senses name="perception">
 				<anchored to="ac" position="belowleft" offset="0,1" />
 			</number_ps_senses>				
+ -->
 			<string_ps name="specialdefense">
 				<anchored height="20">
 					<top parent="ac" />

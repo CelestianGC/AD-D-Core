@@ -5,7 +5,7 @@
 
 function onInit()
 	onHPChanged();
-	onHDChanged();
+	--onHDChanged();
 end
 
 function onHPChanged()
@@ -34,9 +34,9 @@ function onHDChanged()
 	end
 	
 	local sColor = ColorManager.getUsageColor(nPercentUsed, true);
-	hdbar.updateBackColor(sColor);
-	
-	hdbar.setMax(nHD);
-	hdbar.setValue(nHD - nHDUsed);
-	hdbar.updateText(Interface.getString("hd") .. ": " .. (nHD - nHDUsed) .. " / " .. nHD);
+    hdbar.updateBackColor(sColor);
+    
+    hdbar.setMax(nHD);
+    hdbar.setValue(nHD - nHDUsed);
+    hdbar.updateText(Interface.getString("hd") .. ": " .. (nHD - nHDUsed) .. " / " .. nHD);
 end

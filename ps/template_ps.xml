@@ -293,4 +293,43 @@
 			</script>
 		</genericcontrol>
 	</template>
+
+	<template name="number_ps_ability_adnd">
+		<number_ps_linked>
+			<anchored width="25" height="20">
+				<top parent="" offset="10" />
+				<left anchor="right" offset="8" />
+			</anchored>
+			<gmrollable2 />
+			<script>
+				function onInit()
+					super.onInit();
+					if not User.isHost() then
+						setEnabled(false);
+					end
+				end
+				
+				function action(draginfo)
+					if not User.isHost() then
+						return false;
+					end
+					local bSecretRoll = (DB.getValue("partysheet.hiderollresults", 0) == 1);
+					local rActor = ActorManager.getActor("pc", window.link.getTargetDatabaseNode());
+					local nodeChar = window.link.getTargetDatabaseNode();
+					local nTargetDC = DB.getValue(nodeChar, "abilities.".. target[1] .. ".score", 0);
+					ActionCheck.performRoll(draginfo, rActor, target[1], nTargetDC, bSecretRoll);
+					return true;
+				end
+				
+				function onDragStart(button, x, y, draginfo)
+					return action(draginfo);
+				end
+					
+				function onDoubleClick(x,y)
+					return action();
+				end
+			</script>
+		</number_ps_linked>
+	</template>
+    
 </root>
