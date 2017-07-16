@@ -78,87 +78,107 @@ function addPower(sClass, nodeSource, nodeCreature, sGroup)
 	if not nodeSource or not nodeCreature then
 		return nil;
 	end
+--Debug.console("manager_power.lua","addPower","nodeSource",nodeSource);    
+--Debug.console("manager_power.lua","addPower","nodeCreature",nodeCreature);    
 
 	-- Create the powers list entry
 	local nodePowers = nodeCreature.createChild("powers");
+--Debug.console("manager_power.lua","addPower","nodePowers",nodePowers);    
 	if not nodePowers then
 		return nil;
 	end
 	
-	-- Create the new power entry
-	local nodeNewPower = nodePowers.createChild();
-	if not nodeNewPower then
-		return nil;
-	end
-	
-    -- add these so that spells copied from other players/sources
-    -- get setup immediately --celestian
-    local sTypeSource = DB.getValue(nodeSource,"type","");
-    DB.setValue(nodeNewPower,"type","string",sTypeSource);
-    local sCastingTimeSource = DB.getValue(nodeSource,"castingtime","");
-    DB.setValue(nodeNewPower,"castingtime","string",sCastingTimeSource);
-    local nLevelSource = DB.getValue(nodeSource,"level",0);
-    DB.setValue(nodeNewPower,"level","number",nLevelSource);
-    --
-    
-	-- Copy the power details over
-	DB.copyNode(nodeSource, nodeNewPower);
-	
-	-- Determine group setting
-	if sGroup then
-		DB.setValue(nodeNewPower, "group", "string", sGroup);
-	end
-	
-    -- Class specific handling
-	if sClass == "reference_spell" or sClass == "power" then
-		-- DEPRECATED: Used to add spell slot of matching spell level, but deprecated since handled by class drops and doesn't work for warlock
-	else
-		-- Remove level data
-		DB.deleteChild(nodeNewPower, "level");
-		
-		-- Copy text to description
-		local nodeText = nodeNewPower.getChild("text");
-		if nodeText then
-			local nodeDesc = nodeNewPower.createChild("description", "formattedtext");
-			DB.copyNode(nodeText, nodeDesc);
-			nodeText.delete();
-		end
-	end
-	
-	-- Set locked state for editing detailed record
-	DB.setValue(nodeNewPower, "locked", "number", 1);
-	
-	-- Parse power details to create actions
-    local bNeedsActions = false; -- does this power already have actions?
-	if DB.getChildCount(nodeNewPower, "actions") == 0 then
-		parsePCPower(nodeNewPower);
-        bNeedsActions = true;
-	end
-	
-    -- add cast bar for spells with level and type -celestian
-    -- also setup vars for castinitiative 
-	local nLevel = nodeNewPower.getChild("level").getValue();
-	local sSpellType = nodeNewPower.getChild("type").getValue():lower();
-	local sCastingTime = nodeNewPower.getChild("castingtime").getValue():lower();
-    local nCastTime = getCastingTime(sCastingTime,nLevel);
-    if bNeedsActions then
-        if (nLevel > 0 and (sSpellType == "arcane" or sSpellType == "divine")) then
-            local nodeActions = nodeNewPower.createChild("actions");
-            if nodeActions then
-                local nodeAction = nodeActions.createChild();
-                if nodeAction then
-                    DB.setValue(nodeAction, "type", "string", "cast");
-                    -- set "savetype" to "spell"
-                    DB.setValue(nodeAction, "savetype", "string", "spell");      
-                    -- initiative setting
-                    DB.setValue(nodeAction, "....castinitiative", "number", nCastTime);
-                    DB.setValue(nodeAction, "castinitiative", "number", nCastTime);
-                end
-            end
-        end
+    -- Create the new power entry
+    local nodeNewPower = nodePowers.createChild();
+    if not nodeNewPower then
+        return nil;
     end
+    DB.copyNode(nodeSource, nodeNewPower);
     
-	return nodeNewPower;
+    -- -- Determine group setting
+    if sGroup then
+        DB.setValue(nodeNewPower, "group", "string", sGroup);
+    end
+
+    local bHasActions = (DB.getChildCount(nodeNewPower, "actions") > 0);
+--Debug.console("manager_power.lua","addPower","bHasActions",bHasActions);    
+        
+    -- add "cast" action, set to group "Spells" if nothing found
+    if (not bHasActions) then
+--Debug.console("manager_power.lua","addPower","nodeNewPower",nodeNewPower);    
+        -- setup at least cast
+        local nodeActions = nodeNewPower.createChild("actions");
+        local nodeAction = nodeActions.createChild();        
+        DB.setValue(nodeAction, "type", "string", "cast");
+        DB.setValue(nodeAction, "savetype", "string", "spell");      
+        
+        -- -- add these so that spells copied from other players/sources
+        -- -- get setup immediately --celestian
+        -- local sTypeSource = DB.getValue(nodeSource,"type","");
+        -- DB.setValue(nodeNewPower,"type","string",sTypeSource);
+        -- local sCastingTimeSource = DB.getValue(nodeSource,"castingtime","");
+        -- DB.setValue(nodeNewPower,"castingtime","string",sCastingTimeSource);
+        -- local nLevelSource = DB.getValue(nodeSource,"level",0);
+        -- DB.setValue(nodeNewPower,"level","number",nLevelSource);
+        -- --
+        
+        -- -- Copy the power details over
+        -- DB.copyNode(nodeSource, nodeNewPower);
+        
+        -- -- Determine group setting
+        -- if sGroup then
+            -- DB.setValue(nodeNewPower, "group", "string", sGroup);
+        -- end
+        
+        -- -- Class specific handling
+        -- if sClass == "reference_spell" or sClass == "power" then
+            -- -- DEPRECATED: Used to add spell slot of matching spell level, but deprecated since handled by class drops and doesn't work for warlock
+        -- else
+            -- -- Remove level data
+            -- DB.deleteChild(nodeNewPower, "level");
+            
+            -- -- Copy text to description
+            -- local nodeText = nodeNewPower.getChild("text");
+            -- if nodeText then
+                -- local nodeDesc = nodeNewPower.createChild("description", "formattedtext");
+                -- DB.copyNode(nodeText, nodeDesc);
+                -- nodeText.delete();
+            -- end
+        -- end
+        
+        -- -- Set locked state for editing detailed record
+        -- DB.setValue(nodeNewPower, "locked", "number", 1);
+        
+        -- -- Parse power details to create actions
+        -- local bNeedsActions = false; -- does this power already have actions?
+        -- if DB.getChildCount(nodeNewPower, "actions") == 0 then
+            -- parsePCPower(nodeNewPower);
+            -- bNeedsActions = true;
+        -- end
+        
+        -- -- add cast bar for spells with level and type -celestian
+        -- -- also setup vars for castinitiative 
+        -- local nLevel = nodeNewPower.getChild("level").getValue();
+        -- local sSpellType = nodeNewPower.getChild("type").getValue():lower();
+        -- local sCastingTime = nodeNewPower.getChild("castingtime").getValue():lower();
+        -- local nCastTime = getCastingTime(sCastingTime,nLevel);
+        -- if bNeedsActions then
+            -- if (nLevel > 0 and (sSpellType == "arcane" or sSpellType == "divine")) then
+                -- local nodeActions = nodeNewPower.createChild("actions");
+                -- if nodeActions then
+                    -- local nodeAction = nodeActions.createChild();
+                    -- if nodeAction then
+                        -- DB.setValue(nodeAction, "type", "string", "cast");
+                        -- -- set "savetype" to "spell"
+                        -- DB.setValue(nodeAction, "savetype", "string", "spell");      
+                        -- -- initiative setting
+                        -- DB.setValue(nodeAction, "....castinitiative", "number", nCastTime);
+                    -- end
+                -- end
+            -- end
+        -- end
+    end
+    return nodeNewPower;
 end
 
 -- parse the castingtime of a spell and turn into "init modifier" -celestian
@@ -1994,23 +2014,32 @@ end
 
 -- return true if the spell can be memorized.
 function canMemorizeSpell(nodeSpell)
+--Debug.console("manager_power.lua","canMemorizeSpell","nodeSpell",nodeSpell);
     local nLevel = DB.getValue(nodeSpell, "level", 0);
     local sSpellType = DB.getValue(nodeSpell, "type", ""):lower();
     local sGroup = DB.getValue(nodeSpell, "group", ""):lower();
     local sNodePath = nodeSpell.getPath();
-    
+--Debug.console("manager_power.lua","canMemorizeSpell","nLevel",nLevel);
+--Debug.console("manager_power.lua","canMemorizeSpell","sSpellType",sSpellType);
+--Debug.console("manager_power.lua","canMemorizeSpell","sGroup",sGroup);
+--Debug.console("manager_power.lua","canMemorizeSpell","sNodePath",sNodePath);    
+
     local bCanMemorize = 
         (nLevel>0 and (isArcaneSpellType(sSpellType) or isDivineSpellType(sSpellType)))
 
+--Debug.console("manager_power.lua","canMemorizeSpell","bCanMemorize1",bCanMemorize);    
+        
     -- if this is coming from spell record then no, nothing will memorize
     if string.match(sNodePath,"^spell") or string.match(sNodePath,"^item") then
             bCanMemorize = false;
     end
+--Debug.console("manager_power.lua","canMemorizeSpell","bCanMemorize2",bCanMemorize);    
     
     -- if the group the action is in, is NOT a spell then no, no memorization
     if not string.match(sGroup,"^spell") then
             bCanMemorize = false;
     end
+--Debug.console("manager_power.lua","canMemorizeSpell","bCanMemorize3",bCanMemorize);    
     
     return bCanMemorize;
 end
@@ -2078,13 +2107,14 @@ function incrementUse(draginfo, node)
 	if not nodeChar then
 		return false;
 	end
-
+    
+    local bisNPC = (not ActorManager.isPC(nodeChar));
     local bHadCharge = true;
     local nPrepared = DB.getValue(nodeSpell, "prepared", 0);
     local sGroup = DB.getValue(nodeSpell, "group", ""):lower();
     if not string.match(sGroup,"^spells") then
         local nCast = DB.getValue(nodeSpell, "cast", 0);
-        if (nPrepared >= (nCast+1)) then
+        if (nPrepared >= (nCast+1) or bisNPC) then -- ignore check for npcs
             DB.setValue(nodeSpell, "cast","number", (nCast+1));
             bHadCharge = true;
         else

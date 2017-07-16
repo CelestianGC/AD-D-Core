@@ -16,6 +16,12 @@ function onInit()
 -- Debug.console("power_item.lua","onInit","window",window);
 -- Debug.console("power_item.lua","onInit","windowlist",windowlist);
 
+    local node = getDatabaseNode();
+    -- these are so memorization sections show up properly if level/type/group are updated
+    DB.addHandler(DB.getPath(node, "level"), "onUpdate", toggleDetail);
+    DB.addHandler(DB.getPath(node, "group"), "onUpdate", toggleDetail);
+    DB.addHandler(DB.getPath(node, "type"), "onUpdate", toggleDetail);
+    
 -- tweak here for testing --celestian
     if windowlist == nil or not windowlist.isReadOnly() then
 --    if not windowlist.isReadOnly() then
@@ -52,19 +58,21 @@ function onInit()
         header.subwindow.name.setVisible(false);
     end
 
+    
+        toggleDetail();
         -- this should default to invis but it's not so this will check and 
         -- make sure it's set properly --celestian
-        local status = (activatedetail.getValue() == 1);   
-        initiative.setVisible(status);
-        local node = getDatabaseNode();
-        local sNodePath = node.getPath();
---Debug.console("power_item.lua","onInit","node",node);
-        if PowerManager.canMemorizeSpell(node) then
-            memorization.setVisible(status);
-        else
-            memorization.setVisible(false);
-        end
-    
+        -- local status = (activatedetail.getValue() == 1);   
+        -- initiative.setVisible(status);
+        -- local node = getDatabaseNode();
+-- Debug.console("power_item.lua","onInit","node",node);
+        -- if PowerManager.canMemorizeSpell(node) then
+-- Debug.console("power_item.lua","onInit","status1",status);
+            -- memorization.setVisible(status);
+        -- else
+-- Debug.console("power_item.lua","onInit","status2",status);
+            -- memorization.setVisible(false);
+        -- end
     -- item record first time tweaks
     -- give it a name of the item
     -- set group start to whatever item type is
@@ -81,6 +89,12 @@ function onInit()
     end
 end
 
+function onClose()
+	local node = getDatabaseNode();
+	DB.removeHandler(DB.getPath(node, "level"), "onUpdate", toggleDetail);
+	DB.removeHandler(DB.getPath(node, "group"), "onUpdate", toggleDetail);
+	DB.removeHandler(DB.getPath(node, "type"), "onUpdate", toggleDetail);
+end
 -- filters out non-memorized spells when in "combat" mode.
 function getFilter()
     local bShow = bFilter;
@@ -232,15 +246,19 @@ end
 
 function toggleDetail()
 	local status = (activatedetail.getValue() == 1);
+--Debug.console("power_item.lua","toggleDetail","status",status);    
 	
     -- actions can be nil when using this in spell records --celestian
 	--if actions ~= nil then 
         actions.setVisible(status);
         initiative.setVisible(status);
         local node = getDatabaseNode();
+--Debug.console("power_item.lua","toggleDetail","node1",node);    
         if PowerManager.canMemorizeSpell(node) then
+--Debug.console("power_item.lua","toggleDetail","node2",node);    
             memorization.setVisible(status);
         else
+--Debug.console("power_item.lua","toggleDetail","node3",node);    
             memorization.setVisible(false);
         end
         
@@ -248,6 +266,7 @@ function toggleDetail()
             v.updateDisplay();
         end
     --end
+--Debug.console("power_item.lua","toggleDetail","END");    
 end
 
 function getDescription(bShowFull)

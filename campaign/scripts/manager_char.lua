@@ -443,7 +443,7 @@ end
 
 -- if the item has powers configured place them into the action->powers
 function addToPowerDB(nodeItem)
-    local bItemHasPowers = (DB.getChildCount(nodeItem, "powers") > 0);
+    local bItemHasPowers = (DB.getChildCount(nodeItem, "powers") > 0); 
     if not bItemHasPowers then
         return;
     end
