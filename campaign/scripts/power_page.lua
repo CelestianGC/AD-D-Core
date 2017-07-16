@@ -364,7 +364,7 @@ function updatePowerWindowUses(nodeChar, w)
 					-- if not bValidSlot then
 						-- bShow = false;
 					-- end
-                    if (nMemorizedCount <= 0 and nWasMemorized == 0 and not bisNPC) then
+                    if (nMemorizedCount <= 0 and nWasMemorized == 0) then
                         bShow = false;
                     end
 				end

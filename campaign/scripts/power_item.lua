@@ -69,11 +69,11 @@ function getFilter()
     local bShow = bFilter;
     local node = getDatabaseNode();
     local nodeChar = node.getChild("...");
-    local bisNPC = (not ActorManager.isPC(nodeChar));    
+    --local bisNPC = (not ActorManager.isPC(nodeChar));    
 --    Debug.console("power_item.lua","getFilter","node",node);
 --    Debug.console("power_item.lua","getFilter","nodeChar",nodeChar);
 
-    local bMemorized = ((DB.getValue(node,"memorized",0) > 0) or (bisNPC));
+    local bMemorized = ((DB.getValue(node,"memorized",0) > 0) );
     local sMode = DB.getValue(nodeChar, "powermode", "");
     local nLevel = DB.getValue(node, "level",0);
     local sGroup = DB.getValue(node, "group",""):lower();
@@ -120,10 +120,20 @@ function firstTimeItemRecord()
     if string.match(nodeAttack.getPath(),"^item") then
         local nodeItem = DB.getChild(nodeAttack, "...");
         if (name.getValue() == "") then
-            name.setValue(DB.getValue(nodeItem,"name",""));
-            group.setValue(DB.getValue(nodeItem,"type","Item"));
+            local sName = DB.getValue(nodeItem,"name","");
+            local sGroup = DB.getValue(nodeItem,"type","Item");
+            name.setValue(sName);
+            group.setValue(sGroup);
             usesperiod.setValue("once");
-            prepared.setValue(25);
+            local nCharges = 25;
+            local sNameLower = sName:lower();
+            local sGroupLower = sGroup:lower();
+            if string.match(sNameLower,"rod") or string.match(sGroupLower,"rod") then
+                nCharges = 50;
+            elseif string.match(sNameLower,"wand") or string.match(sGroupLower,"wand") then
+                nCharges = 100;
+            end
+            prepared.setValue(nCharges);
         end
     end
 end

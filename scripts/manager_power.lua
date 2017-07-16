@@ -2107,12 +2107,12 @@ function incrementUse(draginfo, node)
 	if not nodeChar then
 		return false;
 	end
-    
+    local sActionType = DB.getValue(node,"type","");
     local bisNPC = (not ActorManager.isPC(nodeChar));
     local bHadCharge = true;
     local nPrepared = DB.getValue(nodeSpell, "prepared", 0);
     local sGroup = DB.getValue(nodeSpell, "group", ""):lower();
-    if not string.match(sGroup,"^spells") then
+    if not string.match(sGroup,"^spells") and sActionType == "cast" then
         local nCast = DB.getValue(nodeSpell, "cast", 0);
         if (nPrepared >= (nCast+1) or bisNPC) then -- ignore check for npcs
             DB.setValue(nodeSpell, "cast","number", (nCast+1));

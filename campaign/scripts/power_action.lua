@@ -52,7 +52,7 @@ function updateDisplay()
     local sNodePath = node.getPath();
     local nodeSpell = node.getChild("...");
     local nodeChar = node.getChild(".....");
-    local bisNPC = (not ActorManager.isPC(nodeChar));
+    --local bisNPC = (not ActorManager.isPC(nodeChar));
 	local sType = DB.getValue(node, "type", "");
 	
 	local bShowCast = (sType == "cast");
@@ -75,7 +75,7 @@ function updateDisplay()
     
     local sMode = DB.getValue(nodeChar, "powermode", "");
 --Debug.console("power_action.lua","updateDisplay","sMode",sMode);
-    local bMemorized = ((DB.getValue(nodeSpell,"memorized",0) > 0) or (bisNPC));
+    local bMemorized = ((DB.getValue(nodeSpell,"memorized",0) > 0));
 --Debug.console("power_action.lua","updateDisplay","bMemorized",bMemorized);
     local bWasMemorized = (DB.getValue(nodeSpell,"wasmemorized",0) == 1);
 --Debug.console("power_action.lua","updateDisplay","bWasMemorized",bWasMemorized);
