@@ -597,25 +597,8 @@
                 <icon>button_sword_down</icon>
 			</icon_ctsection>
 
-<!-- 			<buttonfield name="reaction">
-				<anchored to="activeicon" position="righthigh" offset="55,8" width="12" height="20" />
-				<state icon="button_checkoff" tooltipres="ct_tooltip_reactionoff" />
-				<state icon="button_checkon" tooltipres="ct_tooltip_reactionon" />
-			</buttonfield>
-			<label name="reaction_label">
-				<anchored to="reaction" position="lefthigh" offset="5,0"/>
-				<static textres="ct_label_reaction" />
-			</label>
- -->            
-
 			<label name="thacolabel">
-				<!-- <anchored to="thaco" position="lefthigh" offset="10,0"/> -->
 				<static textres="thaco" />
-                <!-- <anchored>
-                    <top parent="name" anchor="bottom" relation="relative" offset="13" />
-                    <left parent="activeicon" anchor="righthigh" relation="relative" offset="10" />
-                    <right offset="-505,0"/>
-                </anchored> -->
                 <anchored to="activeicon" position="righthigh" offset="20,9" />
 			</label>
 			<number_ct name="thaco">
@@ -623,40 +606,33 @@
 			</number_ct>
 
 			<label name="initlabel">
-				<!-- <anchored to="init" position="lefthigh" offset="10,0"/> -->
 				<anchored to="thaco" position="righthigh" offset="10"  />
 				<static textres="init" />
 			</label>
             <number_ct_init name="init">
 				<anchored to="initlabel" position="righthigh" offset="10,0" width="25" />
-<!-- 				<anchored to="activeicon" position="righthigh" offset="110,10" width="25" /> -->
 			</number_ct_init>
 
 			<label name="aclabel">
 				<anchored to="init" position="righthigh" offset="10,0"  />
-				<!-- <anchored to="ac" position="lefthigh" offset="10,0"/> -->
 				<static textres="ac" />
 			</label>
 			<number_ct name="ac">
 				<anchored to="aclabel" position="righthigh" offset="10,0" width="25" />
-				<!-- <anchored to="init" position="righthigh" offset="40,0" width="25" /> -->
 				<description textres="armorclass" />
 			</number_ct>
             
 			<label name="speedlabel">
 				<anchored to="ac" position="righthigh" offset="10,0"  />
-				<!-- <anchored to="speed" position="lefthigh" offset="5,0"/> -->
 				<static textres="ct_label_speed" />
 			</label>
 			<string_ct name="speed" >
 				<anchored to="speedlabel" position="righthigh" offset="5,0" height="20" />
-				<!-- <anchored to="ac" position="righthigh" offset="45,0" height="20"/> -->
                 <readonly />
 			</string_ct>
 
 			<label name="damagelabel">
 				<anchored to="speed" position="righthigh" offset="10,0"  />
-				<!-- <anchored to="damage" position="lefthigh" offset="5,0"/> -->
 				<static textres="ct_label_damage" />
 			</label>
 			<string_ct name="damage">
@@ -665,7 +641,29 @@
 				</anchored>
 			</string_ct>
 
-
+            <label name="specialdefenselabel">
+                <anchored to="activeicon" position="righthigh" offset="20,9">
+                    <top parent="thacolabel" anchor="bottom" relation="relative" offset="0" />
+                </anchored>
+                <static text="SD:" />
+            </label>
+			<string_ct name="specialDefense">
+				<anchored to="specialdefenselabel" position="righthigh" offset="5,0" height="20">
+					<right parent="damagelabel" offset="-20" />
+				</anchored>
+			</string_ct>
+            <label name="specialattackslabel">
+                <anchored to="specialDefense" position="righthigh" offset="0,0">
+                    <top parent="damagelabel" anchor="bottom" relation="relative" offset="0" />
+                </anchored>
+                <static text="SA:" />
+            </label>
+			<string_ct name="specialAttacks">
+				<anchored to="specialattackslabel" position="righthigh" offset="5,0" height="20">
+					<right parent="" offset="-17" />
+				</anchored>
+			</string_ct>
+            
 			<genericcontrol name="spacer_action">
 				<anchored height="0">
 					<top parent="name" anchor="bottom" relation="relative" offset="30" />
@@ -677,122 +675,14 @@
 			
              <subwindow name="sub_actions">
                 <anchored>
-                    <top parent="name" anchor="bottom" relation="relative" offset="5" />
+                    <top parent="name" anchor="bottom" relation="relative" offset="20" />
                     <left parent="activeicon" anchor="right" offset="10" />
                     <right offset="-20" />
-<!--                     <sizelimits><minimum height="24" /></sizelimits> -->
                 </anchored>
                 <class>ct_charsheet_actions</class>
 				<activate />
             </subwindow>
-<!--              <subwindow name="sub_actions_weapons">
-                <anchored>
-                    <top parent="name" anchor="bottom" relation="relative" offset="10" />
-                    <left parent="activeicon" anchor="right" offset="10" />
-                    <right offset="-20" />
-                    <sizelimits><minimum height="24" /></sizelimits>
-                </anchored>
-                <class>charsheet_actions_weapons</class>
-				<activate />
-            </subwindow>
-             <subwindow name="sub_actions_powers">
-                <anchored>
-                    <top parent="name" anchor="bottom" relation="relative" offset="10" />
-                    <left parent="activeicon" anchor="right" offset="10" />
-                    <right offset="-20" />
-                    <sizelimits><minimum height="24" /></sizelimits>
-                </anchored>
-                <class>charsheet_actions_powers</class>
-				<activate />
-            </subwindow>
- -->
-            <!-- display actions with weapons/powers in one window  --celestian -->
-<!--             <subwindow name="actions_weapons">
-                <anchored>
-                    <top parent="name" anchor="bottom" relation="relative" offset="3" />
-                    <left parent="activeicon" anchor="right" offset="8" />
-                    <right offset="-12" />
-                    <sizelimits><minimum height="24" /></sizelimits>
-                </anchored>
-                <class>charsheet_actions_weapons</class>
-				<activate />
-            </subwindow>
-            <subwindow name="actions_powers">
-                <anchored>
-                    <top parent="name" anchor="bottom" relation="relative" offset="3" />
-                    <left parent="activeicon" anchor="right" offset="8" />
-                    <right offset="-12" />
-                    <sizelimits><minimum height="24" /></sizelimits>
-                </anchored>
-                <class>charsheet_actions_powers</class>
-				<activate />
-            </subwindow>
- -->
-            
-<!--
-			<list_ct_actions name="traits">
-				<datasource>.traits</datasource>
-			</list_ct_actions>
-			<label_ct_actions name="traits_label">
-				<anchored to="traits" />
-				<static textres="ct_label_traits" />
-			</label_ct_actions>
 
- 			<list_ct_actions name="actions">
-				<datasource>.actions</datasource>
-			</list_ct_actions>
-			<label_ct_actions name="actions_label">
-				<anchored to="actions" />
-				<static textres="ct_label_actions" />
-			</label_ct_actions>
-			<button_ct_actions_emptyadd name="actions_emptyadd">
-				<anchored to="actions" />
-				<target>actions</target>
-			</button_ct_actions_emptyadd>
- -->            
-
- 
- <!-- 			<list_ct_actions name="reactions">
-				<datasource>.reactions</datasource>
-			</list_ct_actions>
-			<label_ct_actions name="reactions_label">
-				<anchored to="reactions" />
-				<static textres="ct_label_reactions" />
-			</label_ct_actions>
- -->			
- 
-<!-- 			<list_ct_actions name="legendaryactions">
-				<datasource>.legendaryactions</datasource>
-			</list_ct_actions>
-			<label_ct_actions name="legendaryactions_label">
-				<anchored to="legendaryactions" />
-				<static textres="ct_label_legendaryactions" />
-			</label_ct_actions>
-			
-			<list_ct_actions name="lairactions">
-				<datasource>.lairactions</datasource>
-			</list_ct_actions>
-			<label_ct_actions name="lairactions_label">
-				<anchored to="lairactions" />
-				<static textres="ct_label_lairactions" />
-			</label_ct_actions>
-			
-			<list_ct_actions name="innatespells">
-				<datasource>.innatespells</datasource>
-			</list_ct_actions>
-			<label_ct_actions name="innatespells_label">
-				<anchored to="innatespells" />
-				<static textres="ct_label_innatespells" />
-			</label_ct_actions>
-			
-			<list_ct_actions name="spells">
-				<datasource>.spells</datasource>
-			</list_ct_actions>
-			<label_ct_actions name="spells_label">
-				<anchored to="spells" />
-				<static textres="ct_label_spells" />
-			</label_ct_actions>
- -->			
 			<genericcontrol name="spacer_action2">
 				<anchored height="0">
 					<top parent="name" anchor="bottom" relation="relative" offset="3" />

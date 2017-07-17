@@ -441,6 +441,9 @@ function addNPC(sClass, nodeNPC, sName)
 		DB.setValue(nodeEntry, "initresult", "number", nInitiativeRoll);
 	end
 
+    -- sanitize special defense/attack string
+    setSpecialDefenseAttack(nodeEntry);
+    
 	return nodeEntry;
 end
 
@@ -1033,4 +1036,22 @@ function calcBattleCR(nodeBattle)
 	end
 
 	DB.setValue(nodeBattle, "cr", "string", sCR);
+end
+
+-- clean up and create special attack and defense strings.
+function setSpecialDefenseAttack(node)
+    local sSD = DB.getValue(node,"specialDefense",""):lower();
+    local sSA = DB.getValue(node,"specialAttacks",""):lower();
+
+    local sDefense = "";
+    local sAttacks = "";
+    if (not string.match(sSD,"nil") and not string.match(sSD,"see desc") and sSD ~= "") then
+        sDefense = DB.getValue(node,"specialDefense","");
+    end
+    if (not string.match(sSA,"nil") and not string.match(sSA,"see desc") and sSA ~= "") then
+        sAttacks = DB.getValue(node,"specialAttacks","");
+    end
+    
+    DB.setValue(node,"specialDefense","string",sDefense);
+    DB.setValue(node,"specialAttacks","string",sAttacks);
 end

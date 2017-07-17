@@ -98,3 +98,4 @@ function updateHealthDisplay()
 		status.setVisible(false);
 	end
 end
+
