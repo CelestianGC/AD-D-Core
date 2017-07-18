@@ -1530,6 +1530,11 @@
 
 
 			<basicnumber name="surprisebase" source="surprise.base">
+                <script>
+                    function onValueChanged()
+                        window.surpriseTotal();
+                    end
+                </script>
                 <anchored to="surprisedice" position="righthigh" offset="28,0" width="30" height="18" /> 
 				<default>3</default>
 				<tooltip textres="char_label_surprisebase_tooltip" />

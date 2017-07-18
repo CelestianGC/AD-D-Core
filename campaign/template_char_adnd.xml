@@ -752,7 +752,6 @@
                 </stateframe>
                 <cursor hover="hand" />
                 <readonly />
-                <readonly />
             </basicnumber>
     </template>
 

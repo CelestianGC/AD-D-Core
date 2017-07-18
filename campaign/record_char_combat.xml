@@ -10,11 +10,84 @@
 		<sheetdata>
             <anchor_title_charsheet name="contentanchor" />
             
-			<basicnumber name="turnlevel" source="turn.level.total">
+            <!-- SURPRISE -->            
+            <basicnumber name="surprise_total_roll" source="surprise.total">
+            	<anchored width="30" height="18"> 
+					<top offset="18" />
+					<left offset="55" />
+				</anchored>
+                <rollable />
 				<script>
                     function action(draginfo)
                         local node = getDatabaseNode();
-                        local nodeChar = node.getChild("....");
+                        local nodeChar = node.getChild("...");
+                        ActionSurprise.performRoll(draginfo, rActor, nodeChar);
+                        return true;
+                    end
+                    
+                    function onDragStart(button, x, y, draginfo)
+                        return action(draginfo);
+                    end
+                        
+                    function onDoubleClick(x,y)
+                        return action();
+                    end                    
+				</script>
+                <cursor hover="hand" />
+                <readonly />
+                <tooltip textres="char_label_surpriseroll_tooltip" />
+            </basicnumber>
+            <stringcontrol  name="label_surprisetotal">
+                <anchored to="surprise_total_roll"  position="aboveleft" offset="-5,1" />
+                <font>sheetlabelmini</font>
+                <center />
+				<static textres="char_label_surpriseroll" />
+                <tooltip textres="char_label_surpriseroll_tooltip" />
+            </stringcontrol>
+            <!-- END SURPRISE -->
+
+            <!-- INIT -->
+            <basicnumber name="initiative" source="initiative.total">
+                <anchored height="18" width="30" >
+                    <top parent="surprise_total_roll" />
+                    <left parent="surprise_total_roll" anchor="right" relation="relative" offset="15" />
+                </anchored>
+                <rollable />
+                <displaysign />
+				<script>
+                    function action(draginfo)
+                        local rActor = ActorManager.getActor("pc", window.getDatabaseNode());
+                        ActionInit.performRoll(draginfo, rActor);
+                        return true;
+                    end
+                    
+                    function onDragStart(button, x, y, draginfo)
+                        return action(draginfo);
+                    end
+                        
+                    function onDoubleClick(x,y)
+                        return action();
+                    end                    
+				</script>
+                <cursor hover="hand" />
+                <readonly />
+                <tooltip textres="char_label_initiativeroll_tooltip" />
+            </basicnumber>
+            <stringcontrol>
+                <anchored to="initiative"  position="aboveleft" offset="-5,1" />
+                <font>sheetlabelmini</font>
+                <center />
+				<static textres="char_label_initiativeroll" />
+                <tooltip textres="char_label_initiativeroll_tooltip" />
+            </stringcontrol>
+            <!-- END INIT -->
+            
+            <!-- TURN UNDEAD -->            
+			<basicnumber name="turnlevel" source="turn.total">
+				<script>
+                    function action(draginfo)
+                        local node = getDatabaseNode();
+                        local nodeChar = node.getChild("...");
                         ActionTurn.performRoll(draginfo, rActor, nodeChar);
                         return true;
                     end
@@ -27,25 +100,26 @@
                         return action();
                     end                    
 				</script>
-				<anchored width="30" height="18"> 
-					<top offset="15" />
-					<left offset="90" />
-				</anchored>
+                <frame name="fielddark" offset="7,5,7,5" />
+                <stateframe>
+                    <hover name="rowshade" offset="7,5,7,5" />
+                </stateframe>
+                <cursor hover="hand" />
+                <anchored height="18" width="30" >
+                    <top parent="surprise_total_roll" />
+                    <left parent="surprise_total_roll" anchor="right" relation="relative" offset="15" />
+                </anchored>
                 <rollable />
 				<default>1</default>
 				<tooltip textres="char_label_turnlevel_tooltip" />
 			</basicnumber>
 			<label_fieldtop name="label_turnlevel">
 				<anchored to="turnlevel" />
-				<static textres="char_label_turnlevel" />
-				<tooltip textres="char_label_turnlevel_tooltip" />
+				<static textres="char_label_turn" />
+				<tooltip textres="char_label_turn_tooltip" />
 			</label_fieldtop>
-            <label name="turnundead_label">
-                <anchored to="turnlevel" position="insidetopleft" offset="-43,0" />
-                <static textres="char_label_turn" />
-                <tooltip textres="char_label_turn_tooltip" />
-            </label>
-
+            <!-- END TURN -->
+            
              <sub_npcsheet_actions name="weapons">
 				<class>charsheet_actions_weapons</class>
 			</sub_npcsheet_actions>

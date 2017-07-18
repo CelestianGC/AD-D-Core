@@ -20,7 +20,8 @@ function getRoll(rActor,nodeChar,nTargetDC, bSecretRoll)
     end
     rRoll.aDice = aDice;
 	if (nTargetDC == nil) then
-        nTargetDC = DB.getValue(nodeChar,"turn.level.total",1);
+        -- turn.total is the total levels of cleric to turn as
+        nTargetDC = DB.getValue(nodeChar,"turn.total",1);
     end
 	rRoll.sDesc = "[TURN] ";
 
@@ -56,6 +57,8 @@ function onRoll(rSource, rTarget, rRoll)
             nClericLevel = DataCommonADND.nDefaultTurnUndeadMaxLevel;
         end
 
+        rMessage.text = rMessage.text .. " (as Level " .. nClericLevel .. ")";
+        
         local sTurn = "";
         local bTurnedSome = false;
         local bTurnedExtra = false;
@@ -84,7 +87,7 @@ function onRoll(rSource, rTarget, rRoll)
         local sTurnHeader = "";
         if (bTurnedSome) then
             sTurnAmountRoll = "\r\n(roll 2d6 for number affected, lowest HD first)";
-            sTurnHeader = " ->Turn can affect:";
+            sTurnHeader = "\r\nTurn can affect:";
         else
             sTurn = "[NOTHING TURNED!]";
         end
