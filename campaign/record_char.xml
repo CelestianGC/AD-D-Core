@@ -105,10 +105,6 @@
 				<class>charsheet_logs</class>
 			</sub_charsheet>
 
-<!--             <sub_charsheet name="actions">
-				<class>charsheet_actions</class>
-			</sub_charsheet> -->
-            
 			<sub_charsheet name="combat">
 				<class>charsheet_combat</class>
 			</sub_charsheet>
@@ -120,7 +116,6 @@
 				</tab>
 				<tab>
 					<icon>tab_actions</icon>
-					<!-- <subwindow>actions</subwindow> -->
                     <subwindow>combat</subwindow>
 				</tab>
 				<tab>

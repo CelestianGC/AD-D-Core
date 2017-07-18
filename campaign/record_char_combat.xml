@@ -9,9 +9,44 @@
 	<windowclass name="charsheet_combat">
 		<sheetdata>
             <anchor_title_charsheet name="contentanchor" />
+            
+			<basicnumber name="turnlevel" source="turn.level.total">
+				<script>
+                    function action(draginfo)
+                        local node = getDatabaseNode();
+                        local nodeChar = node.getChild("....");
+                        ActionTurn.performRoll(draginfo, rActor, nodeChar);
+                        return true;
+                    end
+                    
+                    function onDragStart(button, x, y, draginfo)
+                        return action(draginfo);
+                    end
+                        
+                    function onDoubleClick(x,y)
+                        return action();
+                    end                    
+				</script>
+				<anchored width="30" height="18"> 
+					<top offset="15" />
+					<left offset="90" />
+				</anchored>
+                <rollable />
+				<default>1</default>
+				<tooltip textres="char_label_turnlevel_tooltip" />
+			</basicnumber>
+			<label_fieldtop name="label_turnlevel">
+				<anchored to="turnlevel" />
+				<static textres="char_label_turnlevel" />
+				<tooltip textres="char_label_turnlevel_tooltip" />
+			</label_fieldtop>
+            <label name="turnundead_label">
+                <anchored to="turnlevel" position="insidetopleft" offset="-43,0" />
+                <static textres="char_label_turn" />
+                <tooltip textres="char_label_turn_tooltip" />
+            </label>
 
              <sub_npcsheet_actions name="weapons">
-<!-- 				<class>charsheet_actions_weapons</class> -->
 				<class>charsheet_actions_weapons</class>
 			</sub_npcsheet_actions>
 			<sub_npcsheet_actions name="powers">

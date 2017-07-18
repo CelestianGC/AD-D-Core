@@ -98,6 +98,10 @@
 	<string name="char_label_surprisetotal">Total</string>
 	<string name="char_label_surprisetotal_tooltip">Total surprise. A check rolled of this or lesser value indicates surprise.</string>
 
+	<string name="char_label_turnlevel">Level</string>
+	<string name="char_label_turnlevel_tooltip">Turn attempts made as this level of Cleric/Priest.</string>
+	<string name="char_label_turn">TURN</string>
+	<string name="char_label_turn_tooltip">Turn undead as Cleric/Priest at this level.</string>
 
 	<string name="char_label_mod_item">Item</string>
 	<string name="char_label_mod_item_tooltip">Item equipped modifier.</string>

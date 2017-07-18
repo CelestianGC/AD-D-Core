@@ -155,6 +155,7 @@
 
 	<script name="AbilityScores" file="campaign/scripts/number_abilityscore.lua" />
     <script name="ActionSurprise" file="scripts/manager_action_surprise.lua" />
+    <script name="ActionTurn" file="scripts/manager_action_turnundead.lua" />
 
    	<!-- Strings -->
 	<includefile source="strings/strings_adnd.xml" />
