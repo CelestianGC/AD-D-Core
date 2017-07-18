@@ -66,34 +66,32 @@ function onRoll(rSource, rTarget, rRoll)
             -- -2 = Destroy
             -- -3 = Additional 2d4 creatures effected.
             if nTurnValue ~= 0 and nTotal >= nTurnValue then
-                local sBonus = "";
-                local sAutoTurn = "";
-                local sDestroyed = "";
+                local sTurnedResult = "(TURN)";
                 if (nTurnValue == -1) then
-                    sAutoTurn = "(AUTO-TURN)";
-                end
-                if (nTurnValue == -2) then
-                    sDestroyed = "(DESTROYED)";
-                end
-                if (nTurnValue == -3) then
-                    sBonus = "(DESTROYED!)";
+                    sTurnedResult = "(TURN!)";
+                elseif (nTurnValue == -2) then
+                    sTurnedResult = "(DESTROY)";
+                elseif (nTurnValue == -3) then
+                    sTurnedResult = "(DESTROY!)";
                     bTurnedExtra = true;
                 end
-                local sTurnedType = " [" .. DataCommonADND.turn_name_index[i];
-                sTurn = sTurn .. sTurnedType .. sAutoTurn .. sDestroyed .. sBonus .. "]";
+                local sTurnedType = "\r\n[" .. DataCommonADND.turn_name_index[i];
+                sTurn = sTurn .. sTurnedType .. sTurnedResult .. "]";
                 bTurnedSome = true;
             end
         end
         local sTurnAmountRoll = "";
+        local sTurnHeader = "";
         if (bTurnedSome) then
-            sTurnAmountRoll = "(roll 2d6 for number affected)";
+            sTurnAmountRoll = "\r\n(roll 2d6 for number affected, lowest HD first)";
+            sTurnHeader = " ->Turn can affect:";
         else
             sTurn = "[NOTHING TURNED!]";
         end
         if (bTurnedExtra) then
             sTurnAmountRoll = sTurnAmountRoll .. "(add 2d4 more extra)";
         end
-        rMessage.text = rMessage.text .. sTurn .. sTurnAmountRoll;
+        rMessage.text = rMessage.text .. sTurnHeader .. sTurn .. sTurnAmountRoll;
 	end
 	
 	Comm.deliverChatMessage(rMessage);
