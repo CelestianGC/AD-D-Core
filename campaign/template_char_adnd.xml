@@ -695,4 +695,65 @@
             </basicnumber>
     </template>
      
-    </root>
+    <template name="surprise_number_mod">
+            <basicnumber>
+                <script>
+                    function onValueChanged()
+                        window.surpriseTotal();
+                    end
+                </script>
+                <anchored height="18" width="30" >
+                    <top parent="surprisebase" />
+                    <left parent="surprisebase" anchor="right" relation="relative" offset="10" />
+                </anchored>
+            
+                <frame name="fielddark" offset="7,5,7,5" />
+                <stateframe>
+                    <hover name="rowshade" offset="7,5,7,5" />
+                </stateframe>
+                <cursor hover="hand" />
+                <font>arial-regular-8</font>
+                <hideonvalue>0</hideonvalue>
+                <default>0</default>
+            </basicnumber>
+    </template>
+    <template name="surprise_mod_plus">
+            <label>
+                <anchored >
+                    <top parent="surprisebase" />
+                    <left parent="surprisebase" anchor="right" relation="relative" offset="10" />
+                </anchored>
+                <static text="+" />
+            </label>
+    </template>            
+
+    <template name="surprise_number_total">
+            <basicnumber>
+                <rollable />
+				<script>
+                    function action(draginfo)
+                        local node = getDatabaseNode();
+                        local nodeChar = node.getChild("...");
+                        ActionSurprise.performRoll(draginfo, rActor, nodeChar);
+                        return true;
+                    end
+                    
+                    function onDragStart(button, x, y, draginfo)
+                        return action(draginfo);
+                    end
+                        
+                    function onDoubleClick(x,y)
+                        return action();
+                    end                    
+				</script>
+                <frame name="fielddark" offset="7,5,7,5" />
+                <stateframe>
+                    <hover name="rowshade" offset="7,5,7,5" />
+                </stateframe>
+                <cursor hover="hand" />
+                <readonly />
+                <readonly />
+            </basicnumber>
+    </template>
+
+     </root>

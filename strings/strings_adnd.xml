@@ -74,6 +74,9 @@
    	<string name="char_label_adj">Adj.</string>
 	<string name="char_label_background">KIT</string>
 	<string name="char_label_speed">MOVE</string>
+  	<string name="char_label_surprise">SUP</string>
+  	<string name="char_label_surprise_tooltip">Surprise check value. A check rolled of this or lesser value indicates surprise.</string>
+
 	<string name="char_label_speeddetail">Mv Base:</string>
 	<string name="char_label_speeddetail_tooltip">Base movement values. The lowest will be used.</string>
 	<string name="char_label_speeddetail_mods">Mv Mods:</string>
@@ -87,7 +90,24 @@
 	<string name="char_label_speedbase_item_tooltip">Item based movement value.</string>
 	<string name="char_label_speedbase_mod">Mod</string>
 	<string name="char_label_speedbase_mod_tooltip">Modifier based movement value.</string>
-	
+    <string name="char_label_surprisedetail">Surprise:</string>
+    <string name="char_label_surprisedetail_tooltip">Surprise value and dice.</string>
+    <string name="char_label_surprisedice">Dice</string>
+    <string name="char_label_surprisebase">Base</string>
+    <string name="char_label_surprisebase_tooltip">Base surprise value.</string>
+	<string name="char_label_surprisetotal">Total</string>
+	<string name="char_label_surprisetotal_tooltip">Total surprise. A check rolled of this or lesser value indicates surprise.</string>
+
+
+	<string name="char_label_mod_item">Item</string>
+	<string name="char_label_mod_item_tooltip">Item equipped modifier.</string>
+	<string name="char_label_mod_effect">Effect</string>
+	<string name="char_label_mod_effect_tooltip">Effect modifier.</string>
+	<string name="char_label_mod_mod">Mod</string>
+	<string name="char_label_mod_mod_tooltip">Custom Modifier applied.</string>
+	<string name="char_label_mod_temp">Temp</string>
+	<string name="char_label_mod_temp_tooltip">Temporary modifier.</string>
+    
     <string name="char_label_ability_percent">%</string>
     <string name="char_tooltip_percentile">Percentile score of this ability.</string>
    	<string name="CHR">CHR</string>

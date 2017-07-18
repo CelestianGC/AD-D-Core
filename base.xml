@@ -154,7 +154,8 @@
 	<script name="ActionSkill" file="scripts/manager_action_skill.lua" />
 
 	<script name="AbilityScores" file="campaign/scripts/number_abilityscore.lua" />
-	
+    <script name="ActionSurprise" file="scripts/manager_action_surprise.lua" />
+
    	<!-- Strings -->
 	<includefile source="strings/strings_adnd.xml" />
 

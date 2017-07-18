@@ -744,59 +744,73 @@
 <!-- 			THACO -->
 			<number_charthaco name="thaco" source="combat.thaco.score">
 				<anchored to="combattitle" width="40" height="30">
-					<top anchor="bottom" offset="15" />
+					<top anchor="bottom" offset="10" />
 					<left anchor="left" offset="20" />
 				</anchored>
 			</number_charthaco>
-			<label_charfieldtop>
-				<anchored to="thaco" offset="0,15" />
+			<label_charfieldtop name="combattitlethaco">
+				<anchored to="thaco" offset="0,10" />
 				<static textres="thaco" />
 			</label_charfieldtop>
 
 			<number_chartotalac_defaults name="ac2" source="defenses.ac.total">
 				<readonly />
-				<anchored to="combattitle" width="30" height="40">
-					<top anchor="bottom" offset="10" />
-					<left anchor="center" offset="-55" />
-				</anchored>
+				<anchored to="combattitle" width="30" height="30">
+ 					<top anchor="bottom" offset="7" />
+                    <left parent="combattitlethaco" anchor="right" relation="relative" offset="10" />
+              </anchored>
 				<frame name="acicon" offset="2,0,2,4" />
 			</number_chartotalac_defaults>
-			<!-- hidden, not used in AD&D -->
-            <button_armorprof name="armorprof" source="defenses.ac.prof">
-                <invisible />
-				<anchored to="ac2" />
-			</button_armorprof>
-            
 			<label_charfieldtop>
-				<anchored to="ac2" offset="0,10" />
+				<anchored to="ac2" offset="0,7" />
 				<static textres="ac" />
 			</label_charfieldtop>
 			
 			<number_charinit name="initiative" source="initiative.total">
 				<readonly />
-				<anchored to="combattitle" width="40" height="30">
-					<top anchor="bottom" relation="relative" offset="15" />
-					<left anchor="center" offset="-10" />
-				</anchored>
+				<anchored to="combattitle" width="30" height="30">
+ 					<top anchor="bottom" offset="10" />
+                    <left parent="combattitlethaco" anchor="right" relation="relative" offset="10" />
+              </anchored>
 			</number_charinit>
 			<label_charfieldtop>
-				<anchored to="initiative" offset="0,15" />
+				<anchored to="initiative" offset="0,10" />
 				<static textres="char_label_initiative" />
 			</label_charfieldtop>
 			
 			<number_charspeed_defaults name="speed" source="speed.total">
 				<readonly />
-				<anchored to="initiative" position="righthigh" offset="15,0" width="40" height="30" />
+				<anchored to="combattitle" width="40" height="30">
+ 					<top anchor="bottom" offset="10" />
+                    <left parent="combattitlethaco" anchor="right" relation="relative" offset="13" />
+              </anchored>
+				<static textres="char_label_speed" />
 			</number_charspeed_defaults>
 			<label_charfieldtop>
-				<anchored to="speed" offset="0,15" />
+				<anchored to="speed" offset="0,10" />
 				<static textres="char_label_speed" />
 			</label_charfieldtop>
 
+            <surprise_number_total name="sheet_surprise_total" source="surprise.total">
+				<anchored to="combattitle" width="40" height="30">
+ 					<top anchor="bottom" offset="10" />
+                    <left parent="combattitlethaco" anchor="right" relation="relative" offset="15" />
+              </anchored>
+                <tooltip textres="char_label_surprisetotal_tooltip" />
+                <font>reference-b-large</font>
+                <tooltip textres="char_label_surprise_tooltip" />
+            </surprise_number_total>
+			<label_charfieldtop>
+				<anchored to="sheet_surprise_total" offset="0,10" />
+				<static textres="char_label_surprise" />
+                <tooltip textres="char_label_surprise_tooltip" />
+			</label_charfieldtop>
+
+            <!-- special move/defense string -->
 			<string_labeled name="speedspecial" source="speed.special">
 				<readonly />
 				<anchored to="combattitle">
-					<top anchor="bottom" relation="relative" offset="5" />
+					<top anchor="bottom" relation="relative" offset="55" />
 					<left offset="-5" />
 					<right offset="5" />
 				</anchored>
@@ -816,7 +830,7 @@
 			
 			<!-- 	Magnify button -->
 			<button_charcombatcalc name="button_combatcalc">
-				<anchored to="speed" position="righthigh" offset="10,5" />
+				<anchored to="combattitle" position="insidetopright" offset="-10,0" />
 			</button_charcombatcalc>
             
         <!-- Health/Wounds -->
@@ -1225,10 +1239,25 @@
 	<windowclass name="charsheet_combatcalc">
 		<frame>charsheethelper</frame>
 		<placement>
-			<size width="500" height="250" />
+			<size width="520" height="330" />
 		</placement>
 		<nodelete />
 		<playercontrol />
+        <script>
+            function onInit()
+                surpriseTotal();
+            end
+            function surpriseTotal()
+                local nBase = surprisebase.getValue();
+                local nItem = surprise_itemmod.getValue();
+                local nEffect = surprise_effectmod.getValue();
+                local nMod = surprise_mod.getValue();
+                local nTmp = surprise_tempmod.getValue();
+                local nTotal = nBase + nItem + nEffect + nMod + nTmp;
+                surprise_total.setValue(nTotal);
+            end
+        </script>
+        
 		<sheetdata>
 			<windowtitlebar_char name="title">
 				<prefix>char_combatcalc_title</prefix>
@@ -1260,11 +1289,15 @@
 			
 			<!-- Speed Detail -->
             <label name="label_speeddetail_base">
-                <anchored height="18">
+				<anchored width="60">
+					<top parent="columnanchor" anchor="bottom" relation="relative" offset="20" />
+					<left offset="30" />
+				</anchored>
+<!--                 <anchored height="18" width="30">
                     <top parent="columnanchor" anchor="bottom" relation="relative" offset="20" />
                     <left parent="leftanchor" anchor="right" relation="relative" offset="30" />
                     <right parent="rightanchor" anchor="left" relation="relative" offset="-410" />
-                </anchored>
+                </anchored> -->
 				<static textres="char_label_speeddetail" />
                 <tooltip textres="char_label_speeddetail_tooltip" />
             </label>
@@ -1317,11 +1350,15 @@
 			</label_fieldtop>
             
             <label name="label_speeddetail_mods">
-                <anchored height="18">
+				<anchored width="60">
+					<top parent="columnanchor" anchor="bottom" relation="relative" offset="20" />
+					<left offset="30" />
+				</anchored>
+<!--                 <anchored height="18">
                     <top parent="columnanchor" anchor="bottom" relation="relative" offset="20" />
                     <left parent="leftanchor" anchor="right" relation="relative" offset="-60" />
                     <right parent="rightanchor" anchor="left" relation="relative" offset="60" />
-                </anchored>
+                </anchored> -->
 				<static textres="char_label_speeddetail_mods" />
                 <tooltip textres="char_label_speeddetail_mods_tooltip" />
             </label>
@@ -1453,6 +1490,130 @@
 				<anchored to="acmisc" />
 				<static textres="char_label_armormisc" />
 			</label_fieldtop>
+
+            <!-- surprise section -->
+			<label name="label_surprisedetail">
+				<anchored width="60">
+					<top parent="columnanchor" anchor="bottom" relation="relative" offset="20" />
+					<left offset="30" />
+				</anchored>
+				<static textres="char_label_surprisedetail" />
+                <tooltip textres="char_label_surprisedetail_tooltip" />
+			</label>
+
+            <!-- dice rolled for surprise check -->
+			<basicdice name="surprisedice" source="surprise.dice">
+				<anchored to="label_surprisedetail" position="righthigh" offset="10,0" width="30" height="18" />
+                <rollable />
+				<script>
+                    function action()
+                        local node = getDatabaseNode();
+                        local nodeChar = node.getChild("...");
+                        Debug.console("record_char_main.xml","onDragStart","nodeChar",nodeChar);
+                        ActionSurprise.performRoll(draginfo, rActor, nodeChar);
+                        return true;
+                    end
+                    
+                    function onDragStart(button, x, y, draginfo)
+                        return action(draginfo);
+                    end
+                        
+                    function onDoubleClick(x,y)
+                        return action();
+                    end                    
+				</script>
+			</basicdice>
+			<label_fieldtop name="label_surprisedice">
+				<anchored to="surprisedice" />
+				<static textres="char_label_surprisedice" />
+			</label_fieldtop>
+
+
+			<basicnumber name="surprisebase" source="surprise.base">
+                <anchored to="surprisedice" position="righthigh" offset="28,0" width="30" height="18" /> 
+				<default>3</default>
+				<tooltip textres="char_label_surprisebase_tooltip" />
+			</basicnumber>
+			<label_fieldtop name="label_surprisebase">
+				<anchored to="surprisebase" />
+				<static textres="char_label_surprisebase" />
+				<tooltip textres="char_label_surprisebase_tooltip" />
+			</label_fieldtop>
+
+            <surprise_mod_plus />
+
+            <surprise_number_mod name="surprise_itemmod" source="surprise.itemmod">
+                <anchored height="18" width="30" >
+                    <top parent="surprisebase" />
+                    <left parent="surprisebase" anchor="right" relation="relative" offset="13" />
+                </anchored>
+                <readonly />
+                <displaysign />
+            </surprise_number_mod>
+			<label_fieldtop name="label_surpriseitemmod">
+				<anchored to="surprise_itemmod" />
+				<static textres="char_label_mod_item" />
+                <tooltip textres="char_label_mod_item_tooltip" />
+            </label_fieldtop>
+
+            <surprise_mod_plus />
+            
+            <surprise_number_mod name="surprise_effectmod" source="surprise.effectmod">
+                <readonly />
+                <displaysign />
+                <tooltip textres="char_label_mod_effect_tooltip" />
+            </surprise_number_mod>
+			<label_fieldtop name="label_speedeffectmod">
+				<anchored to="surprise_effectmod" />
+				<static textres="char_label_mod_effect" />
+                <tooltip textres="char_label_mod_effect_tooltip" />
+            </label_fieldtop>
+
+            <surprise_mod_plus />
+            
+            <surprise_number_mod name="surprise_mod" source="surprise.mod">
+                <displaysign />
+                <tooltip textres="char_label_mod_mod_tooltip" />
+            </surprise_number_mod>
+			<label_fieldtop name="label_speedbasemoditem">
+				<anchored to="surprise_mod" />
+				<static textres="char_label_mod_mod" />
+                <tooltip textres="char_label_mod_mod_tooltip" />
+            </label_fieldtop>
+            
+            <surprise_mod_plus />
+
+            <surprise_number_mod name="surprise_tempmod" source="surprise.tempmod">
+                <displaysign />
+                <tooltip textres="char_label_mod_temp_tooltip" />
+            </surprise_number_mod>
+			<label_fieldtop name="label_surprisetempmod">
+				<anchored to="surprise_tempmod" />
+				<static textres="char_label_mod_temp" />
+                <tooltip textres="char_label_mod_temp_tooltip" />
+            </label_fieldtop>
+            
+            <label>
+                <anchored >
+                    <top parent="surprisebase" />
+                    <left parent="surprisebase" anchor="right" relation="relative" offset="10" />
+                </anchored>
+                <static text="=" />
+            </label>
+
+            <surprise_number_total name="surprise_total" source="surprise.total">
+                <anchored height="18" width="30" >
+                    <top parent="surprisebase" />
+                    <left parent="surprisebase" anchor="right" relation="relative" offset="10" />
+                </anchored>
+                <tooltip textres="char_label_surprisetotal_tooltip" />
+                <font>arial-bold-8</font>
+            </surprise_number_total>
+			<label_fieldtop name="label_surprisetotal">
+				<anchored to="surprise_total" />
+				<static textres="char_label_surprisetotal" />
+                <tooltip textres="char_label_surprisetotal_tooltip" />
+            </label_fieldtop>
 
 			<close_charsheethelper />
 		</sheetdata>
