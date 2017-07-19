@@ -207,6 +207,10 @@
     
     <string name="char_label_class_exp">XP</string>
     <string name="char_label_class_exp_tooltip">Experince Earned for Each Class</string>
+
+    <string name="char_label_class_applyexp">Apply</string>
+    <string name="char_label_class_applyexp_tooltip">Apply experience you have earned to classes marked active.</string>
+
     <string name="char_tooltip_classactivity">Class active or not.</string>
     <string name="char_tooltip_xp">Total Experience Earned</string>
     <string name="char_tooltip_xpneeded">Experience needed for Next Level</string>
@@ -372,6 +376,8 @@
 	<string name="message_youmemorize">Memorized </string>
 	<string name="message_encumbrance_changed">'%s' is at '%s' encumbrance. Movebase now %d.</string>
 	<string name="message_nouseleft">Tried to use '%s' but has no uses left.</string>
+
+	<string name="message_exp_applied">'%s' applied '%d' experience to %s.</string>
     
     <!-- Sidebar -->
    	<string name="library_recordtype_label_image">Images</string>

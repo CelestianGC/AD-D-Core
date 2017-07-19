@@ -141,6 +141,11 @@
 			</label_charframetop>
 
 			<number_dropadd name="coinamount1" source="coins.slot1.amount">
+                <script>
+                    function onValueChanged()
+                        window.onOptionChanged();
+                    end
+                </script>
 				<anchored to="moneytitle" width="30" height="20">
 					<top anchor="bottom" relation="relative" offset="10" />
 					<left anchor="center" offset="-160" />
@@ -152,6 +157,11 @@
 				<anchored to="coinamount1" position="righthigh" offset="10,0" width="60" height="20" />
 			</stringu>
 			<number_dropadd name="coinamount2" source="coins.slot2.amount">
+                <script>
+                    function onValueChanged()
+                        window.onOptionChanged();
+                    end
+                </script>
 				<anchored to="moneytitle" width="30" height="20">
 					<top anchor="bottom" relation="relative" offset="10" />
 					<left anchor="center" offset="-160" />
@@ -163,6 +173,11 @@
 				<anchored to="coinamount2" position="righthigh" offset="10,0" width="60" height="20" />
 			</stringu>
 			<number_dropadd name="coinamount3" source="coins.slot3.amount">
+                <script>
+                    function onValueChanged()
+                        window.onOptionChanged();
+                    end
+                </script>
 				<anchored to="coinname1" position="righthigh" offset="10,0" width="30" height="20" />
 				<hideonvalue>0</hideonvalue>
 				<description field="name" />
@@ -171,6 +186,11 @@
 				<anchored to="coinamount3" position="righthigh" offset="10,0" width="60" height="20" />
 			</stringu>
 			<number_dropadd name="coinamount4" source="coins.slot4.amount">
+                <script>
+                    function onValueChanged()
+                        window.onOptionChanged();
+                    end
+                </script>
 				<anchored to="coinname2" position="righthigh" offset="10,0" width="30" height="20" />
 				<hideonvalue>0</hideonvalue>
 				<description field="name" />
@@ -179,6 +199,11 @@
 				<anchored to="coinamount4" position="righthigh" offset="10,0" width="60" height="20" />
 			</stringu>
 			<number_dropadd name="coinamount5" source="coins.slot5.amount">
+                <script>
+                    function onValueChanged()
+                        window.onOptionChanged();
+                    end
+                </script>
 				<anchored to="coinname3" position="righthigh" offset="10,0" width="30" height="20" />
 				<hideonvalue>0</hideonvalue>
 				<description field="name" />
@@ -187,6 +212,11 @@
 				<anchored to="coinamount5" position="righthigh" offset="10,0" width="60" height="20" />
 			</stringu>
 			<number_dropadd name="coinamount6" source="coins.slot6.amount">
+                <script>
+                    function onValueChanged()
+                        window.onOptionChanged();
+                    end
+                </script>
 				<anchored to="coinname4" position="righthigh" offset="10,0" width="30" height="20" />
 				<hideonvalue>0</hideonvalue>
 				<description field="name" />

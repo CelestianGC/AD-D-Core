@@ -940,6 +940,33 @@
 
             <!-- exp -->
 			<number_dropadd name="exp">
+                <script>
+                    function onInit()
+                        onValueChanged();
+                    end
+                    function action(draginfo)
+                        local node = getDatabaseNode();
+                        local nodeChar = node.getChild("..");
+                        CharManager.applyEXPToActiveClasses(nodeChar);
+                        onValueChanged();
+                        return true;
+                    end
+                    function onDoubleClick(x,y)
+                        return action();
+                    end    
+                    function onValueChanged()
+                        local node = getDatabaseNode();
+                        local nodeChar = node.getChild("..");
+                        local nApplyEXP = CharManager.getEXPNotApplied(nodeChar);
+                        if (nApplyEXP > 1) then
+                            window.apply_button.setVisible(true);
+                            window.apply_button_label.setVisible(true);
+                        else
+                            window.apply_button.setVisible(false);
+                            window.apply_button_label.setVisible(false);
+                        end
+                    end
+                </script>
                 <gmeditonly />
 				<tooltip textres="char_tooltip_xp" />
 				<anchored to="exptitle" height="20" width="100">
@@ -952,6 +979,23 @@
 				<anchored to="exp" offset="0,10" />
 				<static textres="class_label_total_xp_earned" />
 				<tooltip textres="class_label_total_xp_earned_tooltip" />
+			</label_charfieldtop>
+			<buttoncontrol name="apply_button">
+				<anchored to="exp" position="righthigh" offset="2,0" width="35" height="20" />
+                <icon normal="button_dialog_check_green" pressed="button_dialog_ok" />
+				<invisible />
+				<script>
+					function onButtonPress()
+                        return window.exp.action();
+					end
+				</script>
+                <static textres="char_label_class_applyexp" />
+                <tooltip textres="char_label_class_applyexp_tooltip" />
+			</buttoncontrol>
+			<label_charfieldtop name="apply_button_label">
+				<anchored to="apply_button" offset="0,10" />
+				<static textres="char_label_class_applyexp" />
+				<tooltip textres="char_label_class_applyexp_tooltip" />
 			</label_charfieldtop>
 
             
@@ -1207,6 +1251,7 @@
 
             <!-- exp -->
  			<basicnumber name="exp">
+                <gmeditonly />
 				<anchored to="expneeded" position="left" offset="20,0" width="60" />
 				<tooltip textres="char_label_class_exp_tooltip" />
 			</basicnumber>

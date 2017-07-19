@@ -70,7 +70,6 @@
                     end                    
 				</script>
                 <cursor hover="hand" />
-                <readonly />
                 <tooltip textres="char_label_initiativeroll_tooltip" />
             </basicnumber>
             <stringcontrol>

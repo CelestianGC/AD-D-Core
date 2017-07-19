@@ -154,6 +154,7 @@ function updateMoveFromEncumbrance(nodeChar)
         local nWeightCarried = DB.getValue(nodeChar, "encumbrance.load", 0);
         local nBaseMove = DB.getValue(nodeChar, "speed.base", 0);
         local nBaseEncOriginal = DB.getValue(nodeChar, "speed.basemodenc", 0);
+        local sEncRankOriginal = DB.getValue(nodeChar, "speed.encumbrancerank", "");
         local nBaseEnc = 0; 
         local sEncRank = "Normal";
         
@@ -207,7 +208,9 @@ function updateMoveFromEncumbrance(nodeChar)
         -- Debug.console("number_abilityscore.lua","updateMoveFromEncumbrance","nWeightCarried",nWeightCarried);
         -- Debug.console("number_abilityscore.lua","updateMoveFromEncumbrance","nStrength",nStrength);
         -- Debug.console("number_abilityscore.lua","updateMoveFromEncumbrance","nBaseEnc",nBaseEnc);
-        if (nBaseEnc ~= nBaseEncOriginal) then
+        -- Debug.console("number_abilityscore.lua","updateMoveFromEncumbrance","nBaseEncOriginal",nBaseEncOriginal);
+        -- Debug.console("number_abilityscore.lua","updateMoveFromEncumbrance","nBaseMove",nBaseMove);
+        if (sEncRankOriginal ~= sEncRank ) then
             local sFormat = Interface.getString("message_encumbrance_changed");
             local sMsg = string.format(sFormat, DB.getValue(nodeChar, "name", ""),sEncRank,nBaseEnc);
             ChatManager.SystemMessage(sMsg);
@@ -462,6 +465,8 @@ function addToPowerDB(nodeItem)
         end
 
 end
+
+-- this doesn't seem to work. FIX THIS --celestian
 function removeFromPowerDB(nodeItem)
 	if not nodeItem then
 		return false;
@@ -2048,8 +2053,10 @@ function addClassRef(nodeChar, sClass, sRecord)
 	end
 	
 	-- Calculate current spell slots before levelling up
-	local nCasterLevel = calcSpellcastingLevel(nodeChar);
-	local nPactMagicLevel = calcPactMagicLevel(nodeChar);
+	--local nCasterLevel = calcSpellcastingLevel(nodeChar);
+	--local nPactMagicLevel = calcPactMagicLevel(nodeChar);
+	local nCasterLevel = 0;
+	local nPactMagicLevel = 0;
 	
 	-- If class already exists, then add a level; otherwise, create a new class entry
 	local nLevel = 1;
@@ -2068,6 +2075,7 @@ function addClassRef(nodeChar, sClass, sRecord)
 	DB.setValue(nodeClass, "level", "number", nLevel);
 	if not bExistingClass then
 		DB.setValue(nodeClass, "name", "string", sClassName);
+        DB.setValue(nodeClass, "classactive", "number",1);
 
 		local aDice = {};
 		for i = 1, nHDMult do
@@ -2210,106 +2218,185 @@ function addClassFeatureHelper(aSelection, rClassAdd)
 		end
 	end
 	
-	-- Increment spell slots for spellcasting level
-	local nNewCasterLevel = calcSpellcastingLevel(nodeChar);
-	if nNewCasterLevel > rClassAdd.nCasterLevel then
-		for i = rClassAdd.nCasterLevel + 1, nNewCasterLevel do
-			if i == 1 then
-				DB.setValue(nodeChar, "powermeta.spellslots1.max", "number", DB.getValue(nodeChar, "powermeta.spellslots1.max", 0) + 2);
-			elseif i == 2 then
-				DB.setValue(nodeChar, "powermeta.spellslots1.max", "number", DB.getValue(nodeChar, "powermeta.spellslots1.max", 0) + 1);
-			elseif i == 3 then
-				DB.setValue(nodeChar, "powermeta.spellslots1.max", "number", DB.getValue(nodeChar, "powermeta.spellslots1.max", 0) + 1);
-				DB.setValue(nodeChar, "powermeta.spellslots2.max", "number", DB.getValue(nodeChar, "powermeta.spellslots2.max", 0) + 2);
-			elseif i == 4 then
-				DB.setValue(nodeChar, "powermeta.spellslots2.max", "number", DB.getValue(nodeChar, "powermeta.spellslots2.max", 0) + 1);
-			elseif i == 5 then
-				DB.setValue(nodeChar, "powermeta.spellslots3.max", "number", DB.getValue(nodeChar, "powermeta.spellslots3.max", 0) + 2);
-			elseif i == 6 then
-				DB.setValue(nodeChar, "powermeta.spellslots3.max", "number", DB.getValue(nodeChar, "powermeta.spellslots3.max", 0) + 1);
-			elseif i == 7 then
-				DB.setValue(nodeChar, "powermeta.spellslots4.max", "number", DB.getValue(nodeChar, "powermeta.spellslots4.max", 0) + 1);
-			elseif i == 8 then
-				DB.setValue(nodeChar, "powermeta.spellslots4.max", "number", DB.getValue(nodeChar, "powermeta.spellslots4.max", 0) + 1);
-			elseif i == 9 then
-				DB.setValue(nodeChar, "powermeta.spellslots4.max", "number", DB.getValue(nodeChar, "powermeta.spellslots4.max", 0) + 1);
-				DB.setValue(nodeChar, "powermeta.spellslots5.max", "number", DB.getValue(nodeChar, "powermeta.spellslots5.max", 0) + 1);
-			elseif i == 10 then
-				DB.setValue(nodeChar, "powermeta.spellslots5.max", "number", DB.getValue(nodeChar, "powermeta.spellslots5.max", 0) + 1);
-			elseif i == 11 then
-				DB.setValue(nodeChar, "powermeta.spellslots6.max", "number", DB.getValue(nodeChar, "powermeta.spellslots6.max", 0) + 1);
-			elseif i == 12 then
-				-- No change
-			elseif i == 13 then
-				DB.setValue(nodeChar, "powermeta.spellslots7.max", "number", DB.getValue(nodeChar, "powermeta.spellslots7.max", 0) + 1);
-			elseif i == 14 then
-				-- No change
-			elseif i == 15 then
-				DB.setValue(nodeChar, "powermeta.spellslots8.max", "number", DB.getValue(nodeChar, "powermeta.spellslots8.max", 0) + 1);
-			elseif i == 16 then
-				-- No change
-			elseif i == 17 then
-				DB.setValue(nodeChar, "powermeta.spellslots9.max", "number", DB.getValue(nodeChar, "powermeta.spellslots9.max", 0) + 1);
-			elseif i == 18 then
-				DB.setValue(nodeChar, "powermeta.spellslots5.max", "number", DB.getValue(nodeChar, "powermeta.spellslots5.max", 0) + 1);
-			elseif i == 19 then
-				DB.setValue(nodeChar, "powermeta.spellslots6.max", "number", DB.getValue(nodeChar, "powermeta.spellslots6.max", 0) + 1);
-			elseif i == 20 then
-				DB.setValue(nodeChar, "powermeta.spellslots7.max", "number", DB.getValue(nodeChar, "powermeta.spellslots7.max", 0) + 1);
-			end
-		end
-	end
+	-- -- Increment spell slots for spellcasting level
+	-- local nNewCasterLevel = calcSpellcastingLevel(nodeChar);
+	-- if nNewCasterLevel > rClassAdd.nCasterLevel then
+		-- for i = rClassAdd.nCasterLevel + 1, nNewCasterLevel do
+			-- if i == 1 then
+				-- DB.setValue(nodeChar, "powermeta.spellslots1.max", "number", DB.getValue(nodeChar, "powermeta.spellslots1.max", 0) + 2);
+			-- elseif i == 2 then
+				-- DB.setValue(nodeChar, "powermeta.spellslots1.max", "number", DB.getValue(nodeChar, "powermeta.spellslots1.max", 0) + 1);
+			-- elseif i == 3 then
+				-- DB.setValue(nodeChar, "powermeta.spellslots1.max", "number", DB.getValue(nodeChar, "powermeta.spellslots1.max", 0) + 1);
+				-- DB.setValue(nodeChar, "powermeta.spellslots2.max", "number", DB.getValue(nodeChar, "powermeta.spellslots2.max", 0) + 2);
+			-- elseif i == 4 then
+				-- DB.setValue(nodeChar, "powermeta.spellslots2.max", "number", DB.getValue(nodeChar, "powermeta.spellslots2.max", 0) + 1);
+			-- elseif i == 5 then
+				-- DB.setValue(nodeChar, "powermeta.spellslots3.max", "number", DB.getValue(nodeChar, "powermeta.spellslots3.max", 0) + 2);
+			-- elseif i == 6 then
+				-- DB.setValue(nodeChar, "powermeta.spellslots3.max", "number", DB.getValue(nodeChar, "powermeta.spellslots3.max", 0) + 1);
+			-- elseif i == 7 then
+				-- DB.setValue(nodeChar, "powermeta.spellslots4.max", "number", DB.getValue(nodeChar, "powermeta.spellslots4.max", 0) + 1);
+			-- elseif i == 8 then
+				-- DB.setValue(nodeChar, "powermeta.spellslots4.max", "number", DB.getValue(nodeChar, "powermeta.spellslots4.max", 0) + 1);
+			-- elseif i == 9 then
+				-- DB.setValue(nodeChar, "powermeta.spellslots4.max", "number", DB.getValue(nodeChar, "powermeta.spellslots4.max", 0) + 1);
+				-- DB.setValue(nodeChar, "powermeta.spellslots5.max", "number", DB.getValue(nodeChar, "powermeta.spellslots5.max", 0) + 1);
+			-- elseif i == 10 then
+				-- DB.setValue(nodeChar, "powermeta.spellslots5.max", "number", DB.getValue(nodeChar, "powermeta.spellslots5.max", 0) + 1);
+			-- elseif i == 11 then
+				-- DB.setValue(nodeChar, "powermeta.spellslots6.max", "number", DB.getValue(nodeChar, "powermeta.spellslots6.max", 0) + 1);
+			-- elseif i == 12 then
+				-- -- No change
+			-- elseif i == 13 then
+				-- DB.setValue(nodeChar, "powermeta.spellslots7.max", "number", DB.getValue(nodeChar, "powermeta.spellslots7.max", 0) + 1);
+			-- elseif i == 14 then
+				-- -- No change
+			-- elseif i == 15 then
+				-- DB.setValue(nodeChar, "powermeta.spellslots8.max", "number", DB.getValue(nodeChar, "powermeta.spellslots8.max", 0) + 1);
+			-- elseif i == 16 then
+				-- -- No change
+			-- elseif i == 17 then
+				-- DB.setValue(nodeChar, "powermeta.spellslots9.max", "number", DB.getValue(nodeChar, "powermeta.spellslots9.max", 0) + 1);
+			-- elseif i == 18 then
+				-- DB.setValue(nodeChar, "powermeta.spellslots5.max", "number", DB.getValue(nodeChar, "powermeta.spellslots5.max", 0) + 1);
+			-- elseif i == 19 then
+				-- DB.setValue(nodeChar, "powermeta.spellslots6.max", "number", DB.getValue(nodeChar, "powermeta.spellslots6.max", 0) + 1);
+			-- elseif i == 20 then
+				-- DB.setValue(nodeChar, "powermeta.spellslots7.max", "number", DB.getValue(nodeChar, "powermeta.spellslots7.max", 0) + 1);
+			-- end
+		-- end
+	-- end
 	
-	-- Adjust spell slots for pact magic level increase
-	local nNewPactMagicLevel = calcPactMagicLevel(nodeChar);
-	if nNewPactMagicLevel > rClassAdd.nPactMagicLevel then
-		for i = rClassAdd.nPactMagicLevel + 1, nNewPactMagicLevel do
-			if i == 1 then
-				DB.setValue(nodeChar, "powermeta.pactmagicslots1.max", "number", DB.getValue(nodeChar, "powermeta.pactmagicslots1.max", 0) + 1);
-			elseif i == 2 then
-				DB.setValue(nodeChar, "powermeta.pactmagicslots1.max", "number", DB.getValue(nodeChar, "powermeta.pactmagicslots1.max", 0) + 1);
-			elseif i == 3 then
-				DB.setValue(nodeChar, "powermeta.pactmagicslots1.max", "number", math.max(DB.getValue(nodeChar, "powermeta.pactmagicslots1.max", 0) - 2, 0));
-				DB.setValue(nodeChar, "powermeta.pactmagicslots2.max", "number", DB.getValue(nodeChar, "powermeta.pactmagicslots2.max", 0) + 2);
-			elseif i == 4 then
-				-- No change
-			elseif i == 5 then
-				DB.setValue(nodeChar, "powermeta.pactmagicslots2.max", "number", math.max(DB.getValue(nodeChar, "powermeta.pactmagicslots2.max", 0) - 2, 0));
-				DB.setValue(nodeChar, "powermeta.pactmagicslots3.max", "number", DB.getValue(nodeChar, "powermeta.pactmagicslots3.max", 0) + 2);
-			elseif i == 6 then
-				-- No change
-			elseif i == 7 then
-				DB.setValue(nodeChar, "powermeta.pactmagicslots3.max", "number", math.max(DB.getValue(nodeChar, "powermeta.pactmagicslots3.max", 0) - 2, 0));
-				DB.setValue(nodeChar, "powermeta.pactmagicslots4.max", "number", DB.getValue(nodeChar, "powermeta.pactmagicslots4.max", 0) + 2);
-			elseif i == 8 then
-				-- No change
-			elseif i == 9 then
-				DB.setValue(nodeChar, "powermeta.pactmagicslots4.max", "number", math.max(DB.getValue(nodeChar, "powermeta.pactmagicslots4.max", 0) - 2, 0));
-				DB.setValue(nodeChar, "powermeta.pactmagicslots5.max", "number", DB.getValue(nodeChar, "powermeta.pactmagicslots5.max", 0) + 2);
-			elseif i == 10 then
-				-- No change
-			elseif i == 11 then
-				DB.setValue(nodeChar, "powermeta.pactmagicslots5.max", "number", DB.getValue(nodeChar, "powermeta.pactmagicslots5.max", 0) + 1);
-			elseif i == 12 then
-				-- No change
-			elseif i == 13 then
-				-- No change
-			elseif i == 14 then
-				-- No change
-			elseif i == 15 then
-				-- No change
-			elseif i == 16 then
-				-- No change
-			elseif i == 17 then
-				DB.setValue(nodeChar, "powermeta.pactmagicslots5.max", "number", DB.getValue(nodeChar, "powermeta.pactmagicslots5.max", 0) + 1);
-			elseif i == 18 then
-				-- No change
-			elseif i == 19 then
-				-- No change
-			elseif i == 20 then
-				-- No change
-			end
-		end
+	-- -- Adjust spell slots for pact magic level increase
+	-- local nNewPactMagicLevel = calcPactMagicLevel(nodeChar);
+	-- if nNewPactMagicLevel > rClassAdd.nPactMagicLevel then
+		-- for i = rClassAdd.nPactMagicLevel + 1, nNewPactMagicLevel do
+			-- if i == 1 then
+				-- DB.setValue(nodeChar, "powermeta.pactmagicslots1.max", "number", DB.getValue(nodeChar, "powermeta.pactmagicslots1.max", 0) + 1);
+			-- elseif i == 2 then
+				-- DB.setValue(nodeChar, "powermeta.pactmagicslots1.max", "number", DB.getValue(nodeChar, "powermeta.pactmagicslots1.max", 0) + 1);
+			-- elseif i == 3 then
+				-- DB.setValue(nodeChar, "powermeta.pactmagicslots1.max", "number", math.max(DB.getValue(nodeChar, "powermeta.pactmagicslots1.max", 0) - 2, 0));
+				-- DB.setValue(nodeChar, "powermeta.pactmagicslots2.max", "number", DB.getValue(nodeChar, "powermeta.pactmagicslots2.max", 0) + 2);
+			-- elseif i == 4 then
+				-- -- No change
+			-- elseif i == 5 then
+				-- DB.setValue(nodeChar, "powermeta.pactmagicslots2.max", "number", math.max(DB.getValue(nodeChar, "powermeta.pactmagicslots2.max", 0) - 2, 0));
+				-- DB.setValue(nodeChar, "powermeta.pactmagicslots3.max", "number", DB.getValue(nodeChar, "powermeta.pactmagicslots3.max", 0) + 2);
+			-- elseif i == 6 then
+				-- -- No change
+			-- elseif i == 7 then
+				-- DB.setValue(nodeChar, "powermeta.pactmagicslots3.max", "number", math.max(DB.getValue(nodeChar, "powermeta.pactmagicslots3.max", 0) - 2, 0));
+				-- DB.setValue(nodeChar, "powermeta.pactmagicslots4.max", "number", DB.getValue(nodeChar, "powermeta.pactmagicslots4.max", 0) + 2);
+			-- elseif i == 8 then
+				-- -- No change
+			-- elseif i == 9 then
+				-- DB.setValue(nodeChar, "powermeta.pactmagicslots4.max", "number", math.max(DB.getValue(nodeChar, "powermeta.pactmagicslots4.max", 0) - 2, 0));
+				-- DB.setValue(nodeChar, "powermeta.pactmagicslots5.max", "number", DB.getValue(nodeChar, "powermeta.pactmagicslots5.max", 0) + 2);
+			-- elseif i == 10 then
+				-- -- No change
+			-- elseif i == 11 then
+				-- DB.setValue(nodeChar, "powermeta.pactmagicslots5.max", "number", DB.getValue(nodeChar, "powermeta.pactmagicslots5.max", 0) + 1);
+			-- elseif i == 12 then
+				-- -- No change
+			-- elseif i == 13 then
+				-- -- No change
+			-- elseif i == 14 then
+				-- -- No change
+			-- elseif i == 15 then
+				-- -- No change
+			-- elseif i == 16 then
+				-- -- No change
+			-- elseif i == 17 then
+				-- DB.setValue(nodeChar, "powermeta.pactmagicslots5.max", "number", DB.getValue(nodeChar, "powermeta.pactmagicslots5.max", 0) + 1);
+			-- elseif i == 18 then
+				-- -- No change
+			-- elseif i == 19 then
+				-- -- No change
+			-- elseif i == 20 then
+				-- -- No change
+			-- end
+		-- end
+	-- end
+end
+-- count active Classes
+function getClassCount(nodeChar)
+    if not nodeChar then
+        return 0;
+    end
+    local nCount = 0;
+	for _,vClass in pairs(DB.getChildren(nodeChar, "classes")) do
+        local bActive = (DB.getValue(vClass, "classactive",0) == 1);
+        if (bActive) then
+            nCount = nCount + 1;
+        end
+	end
+    return nCount;
+end
+
+-- return total exp on all classes (active or not)
+function getTotalEXP(nodeChar)
+    if not nodeChar then
+        return 0;
+    end
+    local nCount = 0;
+	for _,vClass in pairs(DB.getChildren(nodeChar, "classes")) do
+        local bActive = (DB.getValue(vClass, "classactive",0) == 1);
+        local nEXP = DB.getValue(vClass, "exp",0);
+        nCount = nCount + nEXP;
+	end
+    return nCount;
+end
+
+-- return experience that we have not applied yet.
+function getEXPNotApplied(nodeChar)
+    if not nodeChar then
+        return;
+    end
+    local nCurrentTotal = getTotalEXP(nodeChar);        -- EXP on all classes currently
+    local nActiveClasses = getClassCount(nodeChar);     -- 
+    local nGrantedEXP = DB.getValue(nodeChar, "exp",0); -- all exp ever earned
+    local nApplyAmount = nGrantedEXP - nCurrentTotal;   -- remove current total from the granted to figure out what we need to add.
+    if nApplyAmount <= 0 then
+        return 0;
+    end
+
+    return nApplyAmount;
+end
+-- apply experience to active classes.
+function applyEXPToActiveClasses(nodeChar)
+    if not nodeChar then
+        return;
+    end
+    local nCurrentTotal = getTotalEXP(nodeChar);        -- EXP on all classes currently
+    local nActiveClasses = getClassCount(nodeChar);     -- 
+    local nGrantedEXP = DB.getValue(nodeChar, "exp",0); -- all exp ever earned
+    local nApplyAmount = nGrantedEXP - nCurrentTotal;   -- remove current total from the granted to figure out what we need to add.
+    -- nothing to give
+    if nGrantedEXP <= 0 or nApplyAmount <= 0 then
+        return;
+    end
+    local nApplyPerClass = math.ceil(nApplyAmount/nActiveClasses);
+
+-- Debug.console("manager_char.lua","applyEXPToActiveClasses","nodeChar",nodeChar);
+-- Debug.console("manager_char.lua","applyEXPToActiveClasses","nCurrentTotal",nCurrentTotal);
+-- Debug.console("manager_char.lua","applyEXPToActiveClasses","nActiveClasses",nActiveClasses);
+-- Debug.console("manager_char.lua","applyEXPToActiveClasses","nGrantedEXP",nGrantedEXP);
+-- Debug.console("manager_char.lua","applyEXPToActiveClasses","nApplyAmount",nApplyAmount);
+
+	for _,vClass in pairs(DB.getChildren(nodeChar, "classes")) do
+        local sName = DB.getValue(vClass, "name","UNKNOWN");
+        local nEXP = DB.getValue(vClass, "exp",0);
+        local bActive = (DB.getValue(vClass, "classactive",0) == 1);
+        local sClass = DB.getValue(vClass, "name", "")
+        if (bActive) then
+            local nTotalAmount = nEXP+nApplyPerClass;
+            DB.setValue(vClass, "exp","number", nTotalAmount);
+            local sFormat = Interface.getString("message_exp_applied");
+            local sMsg = string.format(sFormat, DB.getValue(nodeChar, "name", ""),nApplyPerClass,sClass);
+            ChatManager.SystemMessage(sMsg);
+        end
 	end
 end
 
