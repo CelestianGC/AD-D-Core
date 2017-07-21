@@ -2374,7 +2374,7 @@ function applyEXPToActiveClasses(nodeChar)
     local nGrantedEXP = DB.getValue(nodeChar, "exp",0); -- all exp ever earned
     local nApplyAmount = nGrantedEXP - nCurrentTotal;   -- remove current total from the granted to figure out what we need to add.
     -- nothing to give
-    if nGrantedEXP <= 0 or nApplyAmount <= 0 then
+    if nGrantedEXP <= 0 or nApplyAmount <= 0 or nActiveClasses < 1 then
         return;
     end
     local nApplyPerClass = math.ceil(nApplyAmount/nActiveClasses);

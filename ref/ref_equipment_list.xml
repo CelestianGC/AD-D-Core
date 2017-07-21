@@ -125,10 +125,10 @@
 			<string_reftable name="cost">
 				<center />
 			</string_reftable>
-			<string_reftable name="ac">
+			<number_reftable name="ac">
 				<anchored width="40" />
 				<center />
-			</string_reftable>
+			</number_reftable>
 			<string_reftable name="dexbonus">
 				<anchored width="70" />
 				<center />
@@ -515,9 +515,9 @@
 			<string_reftable name="cost">							<anchored width="60" />
 				<center />
 			</string_reftable>					
-			<string_reftable name="ac"><anchored width="50" />				
+			<number_reftable name="ac"><anchored width="50" />				
 				<center />
-			</string_reftable>
+			</number_reftable>
 			<number_ref_weightwithsuffix name="weight" />
 			<stringc_reftable name="weightwithsuffix">
 				<anchored width="50" />
@@ -617,9 +617,9 @@
 			<string_reftable name="cost"><anchored width="60" />
 				<center />
 			</string_reftable>					
-			<string_reftable name="ac"><anchored width="50" />				
+			<number_reftable name="ac"><anchored width="50" />				
 				<center />
-			</string_reftable>
+			</number_reftable>
 			<number_ref_weightwithsuffix name="weight" />
 			<stringc_reftable name="weightwithsuffix">
 				<anchored width="40" />

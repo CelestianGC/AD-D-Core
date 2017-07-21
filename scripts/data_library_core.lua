@@ -8,4 +8,3 @@ function onInit()
     DesktopManager.setDockIconSizeAndSpacing(100, 24, 0, 6);
     DesktopManager.setLowerDockOffset(2, 0, 2, 0);
 end
-

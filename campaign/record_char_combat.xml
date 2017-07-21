@@ -17,6 +17,7 @@
 					<left offset="55" />
 				</anchored>
                 <rollable />
+                <default>3</default>
 				<script>
                     function action(draginfo)
                         local node = getDatabaseNode();
