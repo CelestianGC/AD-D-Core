@@ -48,7 +48,7 @@
             <!-- END SURPRISE -->
 
             <!-- INIT -->
-            <basicnumber name="initiative" source="initiative.total">
+            <!-- <basicnumber name="initiative" source="initiative.total">
                 <anchored height="18" width="30" >
                     <top parent="surprise_total_roll" />
                     <left parent="surprise_total_roll" anchor="right" relation="relative" offset="15" />
@@ -72,7 +72,16 @@
 				</script>
                 <cursor hover="hand" />
                 <tooltip textres="char_label_initiativeroll_tooltip" />
-            </basicnumber>
+            </basicnumber> -->
+			<number_charinit name="initiative" source="initiative.total">
+                <font>sheetlabelmini</font>
+				<readonly />
+                <anchored height="18" width="30" >
+                    <top parent="surprise_total_roll" />
+                    <left parent="surprise_total_roll" anchor="right" relation="relative" offset="15" />
+                </anchored>
+			</number_charinit>
+            
             <stringcontrol>
                 <anchored to="initiative"  position="aboveleft" offset="-5,1" />
                 <font>sheetlabelmini</font>

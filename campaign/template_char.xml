@@ -527,7 +527,7 @@
 			<modifiersize>mini</modifiersize>
 			<modifierfield>initiative.temporary</modifierfield>
 			<source><name>initiative.misc</name><op>+</op></source>
-			<source><name>abilities.dexterity.bonus</name><op>+</op></source>
+			<!-- <source><name>abilities.dexterity.bonus</name><op>+</op></source> -->
 			<script>
 				function action(draginfo)
 					local rActor = ActorManager.getActor("pc", window.getDatabaseNode());
@@ -554,7 +554,7 @@
 			<modifiersize>mini</modifiersize>
 			<description textres="char_tooltip_speed" />
 			<source><name>speed.base</name><op>+</op></source>
-			<source><name>speed.armor</name><op>+</op></source>
+			<!-- <source><name>speed.armor</name><op>+</op></source> -->
 			<source><name>speed.misc</name><op>+</op></source>
 		</number_chartotal>
 	</template>
@@ -705,7 +705,6 @@
 			</script>
 		</stringu>
 	</template>
-	
 	
 
 </root>

@@ -494,7 +494,11 @@ end
 -- NOTE: Assumed target and source base nodes 
 -- (item = campaign, charsheet = char inventory, partysheet = party inventory, treasureparcels = parcel inventory)
 function addItemToList(vList, sClass, vSource, bTransferAll, nTransferCount)
---Debug.console("manager_item.lua","addItemToList","vList",vList);
+-- Debug.console("manager_item.lua","addItemToList","vList",vList);
+-- Debug.console("manager_item.lua","addItemToList","sClass",sClass);
+-- Debug.console("manager_item.lua","addItemToList","vSource",vSource);
+-- Debug.console("manager_item.lua","addItemToList","bTransferAll",bTransferAll);
+-- Debug.console("manager_item.lua","addItemToList","nTransferCount",nTransferCount);
 
 	-- Get the source item database node object
 	local nodeSource = nil;
