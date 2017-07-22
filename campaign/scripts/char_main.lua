@@ -1,3 +1,9 @@
+--
+--
+-- Functions for the character sheet.
+--
+--
+
 function onInit()
     local nodeChar = getDatabaseNode();
     DB.addHandler(DB.getPath(nodeChar, "abilities.*.percentbase"),      "onUpdate", detailsPercentUpdate);

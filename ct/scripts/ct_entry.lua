@@ -440,12 +440,12 @@ Debug.console("ct_entry.lua","persistentEffectsUpdate","sEffName",sEffName);
 --Debug.console("ct_entry.lua","persistentEffectsUpdate","rEffectComp",rEffectComp);
 Debug.console("ct_entry.lua","persistentEffectsUpdate","rEffectComp.type",rEffectComp.type);
 Debug.console("ct_entry.lua","persistentEffectsUpdate","rEffectComp.mod",rEffectComp.mod);
-
+            -- if effect is a ability score modifier
             local sAbility = DataCommon.ability_stol[rEffectComp.type:upper()] or "";
             if (sAbility ~= "") then
                 persistantAbilityUpdate(nodeChar,sAbility,rEffectComp.mod);
             end
-
+            -- if effect is a save modifier
              local sSave = DataCommon.saves_stol[rEffectComp.type:lower()] or "";
             if (sSave ~= "") then
                 persistantSaveUpdate(nodeChar,rEffectComp.type:lower(),rEffectComp.mod);
@@ -458,10 +458,6 @@ end
 
 -- adjust abilities.*.effectmod
 function persistantAbilityUpdate(nodeChar,sAbility,nAdjustment)
-Debug.console("ct_entry.lua","persistantAbilityUpdate","nodeChar",nodeChar);
-Debug.console("ct_entry.lua","persistantAbilityUpdate","sAbility",sAbility);
-Debug.console("ct_entry.lua","persistantAbilityUpdate","nAdjustment",nAdjustment);
-
     local nCurrentAdjustment = DB.getValue(nodeChar,"abilities." .. sAbility .. ".effectmod",0);
     local nTotal = nCurrentAdjustment + nAdjustment;
     DB.setValue(nodeChar,"abilities." .. sAbility .. ".effectmod","number",nTotal);
@@ -469,10 +465,6 @@ end
 
 -- adjust saves.*.effectmod
 function persistantSaveUpdate(nodeChar,sSave,nAdjustment)
-Debug.console("ct_entry.lua","persistantSaveUpdate","nodeChar",nodeChar);
-Debug.console("ct_entry.lua","persistantSaveUpdate","sAbility",sAbility);
-Debug.console("ct_entry.lua","persistantSaveUpdate","nAdjustment",nAdjustment);
-    
     local nCurrentAdjustment = DB.getValue(nodeChar,"saves." .. sSave .. ".effectmod",0);
     local nTotal = nCurrentAdjustment + nAdjustment;
     DB.setValue(nodeChar,"saves." .. sSave .. ".effectmod","number",nTotal);
@@ -480,8 +472,6 @@ end
 
 -- removes all persistant ability/save modifiers
 function removeAllPersistanteffects(nodeChar)
-Debug.console("ct_entry.lua","removeAllPersistanteffects","nodeChar",nodeChar);
-
     for i = 1,6,1 do
         DB.setValue(nodeChar,"abilities." .. DataCommon.abilities[i] .. ".effectmod","number",0);    
     end
