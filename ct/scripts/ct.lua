@@ -19,6 +19,7 @@ function onInit()
 	local node = getDatabaseNode();
 	DB.addHandler(DB.getPath(node, "*.name"), "onUpdate", onNameOrTokenUpdated);
 	DB.addHandler(DB.getPath(node, "*.token"), "onUpdate", onNameOrTokenUpdated);
+    
 end
 
 function onClose()

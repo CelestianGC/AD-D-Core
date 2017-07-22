@@ -129,12 +129,13 @@ function getAbilityEffectsBonus(rActor, sAbility, sType)
 	-- end
 
 	-- return nAbilityMod, nAbilityEffects;
-	if (sType) then
-		nBonus = getAbilityBonus(rActor, sAbility, sType);
-		sEffect = sAbility .. sType;
-	end
+	-- if (sType) then
+		-- nBonus = getAbilityBonus(rActor, sAbility, sType);
+		-- sEffect = sAbility .. sType;
+	-- end
 	
-	--print ("in manager_ctor2.lua, getAbilityEffectsBonus");
+	Debug.console("manager_ctor2.lua","getAbilityEffectsBonus","nBonus", nBonus);
+	Debug.console("manager_ctor2.lua","getAbilityEffectsBonus","nAbilityEffects", nAbilityEffects);
 	return nBonus, nAbilityEffects;
 end
 

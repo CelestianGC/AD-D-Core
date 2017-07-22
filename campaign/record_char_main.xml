@@ -7,26 +7,7 @@
 
 <root>
 	<windowclass name="charsheet_main" >
-		<script>
-			function onDrop(x, y, draginfo)
-				if draginfo.isType("shortcut") then
-					local sClass, sRecord = draginfo.getShortcutData();
-
-					if StringManager.contains({"reference_class", "reference_race", "reference_subrace", "reference_background"}, sClass) then
-						CharManager.addInfoDB(getDatabaseNode(), sClass, sRecord);
-                        if StringManager.contains({"reference_class"}, sClass) then
-                            Interface.openWindow("charsheet_classes", getDatabaseNode());
-                        end
-						return true;
-					end
-				end
-			end
-			
-			function onHealthChanged()
-				local sColor = ActorManager2.getWoundColor("pc", getDatabaseNode());
-				wounds.setColor(sColor);
-			end
-		</script>
+        <script file="campaign/scripts/char_main.lua" />
 		<sheetdata>
 			<number_charlevel name="level">
 				<bounds>0,0,0,0</bounds>
@@ -1897,7 +1878,7 @@
 			</label_fieldtop>
 
             <!-- strength total -->
-            <ability_details_total name="strength_total">
+            <ability_details_total name="strength_total" source="abilities.strength.score">
 				<target>strength</target>
                 <anchored to="strength_label"/>
             </ability_details_total>
@@ -1966,7 +1947,7 @@
             </ability_number_mod>
 
             <!-- strength percent total -->
-            <ability_details_percent_total name="strength_percent_total">
+            <ability_details_percent_total name="strength_percent_total"  source="abilities.strength.percent">
 				<target>strength</target>
                 <anchored to="strength_percent_label"/>
             </ability_details_percent_total>
@@ -2030,7 +2011,7 @@
             </ability_number_mod>
 
             <!-- dex  total -->
-            <ability_details_total name="dexterity_total">
+            <ability_details_total name="dexterity_total"  source="abilities.dexterity.score">
 				<target>dexterity</target>
                 <anchored to="dexterity_label"/>
             </ability_details_total>
@@ -2094,7 +2075,7 @@
             </ability_number_mod>
 
             <!-- dexterity percent total -->
-            <ability_details_percent_total name="dexterity_percent_total">
+            <ability_details_percent_total name="dexterity_percent_total" source="abilities.dexterity.percent">
 				<target>dexterity</target>
                 <anchored to="dexterity_percent_label"/>
             </ability_details_percent_total>
@@ -2160,7 +2141,7 @@
             </ability_number_mod>
 
             <!-- constitution  total -->
-            <ability_details_total name="constitution_total">
+            <ability_details_total name="constitution_total" source="abilities.constitution.score">
 				<target>constitution</target>
                 <anchored to="constitution_label"/>
             </ability_details_total>
@@ -2224,7 +2205,7 @@
             </ability_number_mod>
 
             <!-- constitution percent total -->
-            <ability_details_percent_total name="constitution_percent_total">
+            <ability_details_percent_total name="constitution_percent_total" source="abilities.constitution.percent">
 				<target>constitution</target>
                 <anchored to="constitution_percent_label"/>
             </ability_details_percent_total>
@@ -2288,7 +2269,7 @@
             </ability_number_mod>
 
             <!-- intelligence  total -->
-            <ability_details_total name="intelligence_total">
+            <ability_details_total name="intelligence_total" source="abilities.intelligence.score">
 				<target>intelligence</target>
                 <anchored to="intelligence_label"/>
             </ability_details_total>
@@ -2352,7 +2333,7 @@
             </ability_number_mod>
 
             <!-- intelligence percent total -->
-            <ability_details_percent_total name="intelligence_percent_total">
+            <ability_details_percent_total name="intelligence_percent_total" source="abilities.intelligence.percent">
 				<target>intelligence</target>
                 <anchored to="intelligence_percent_label"/>
             </ability_details_percent_total>
@@ -2416,7 +2397,7 @@
             </ability_number_mod>
 
             <!-- wisdom  total -->
-            <ability_details_total name="wisdom_total">
+            <ability_details_total name="wisdom_total" source="abilities.wisdom.score">
 				<target>wisdom</target>
                 <anchored to="wisdom_label"/>
             </ability_details_total>
@@ -2480,7 +2461,7 @@
             </ability_number_mod>
 
             <!-- wisdom percent total -->
-            <ability_details_percent_total name="wisdom_percent_total">
+            <ability_details_percent_total name="wisdom_percent_total" source="abilities.wisdom.percent">
 				<target>wisdom</target>
                 <anchored to="wisdom_percent_label"/>
             </ability_details_percent_total>
@@ -2544,7 +2525,7 @@
             </ability_number_mod>
 
             <!-- charisma  total -->
-            <ability_details_total name="charisma_total">
+            <ability_details_total name="charisma_total" source="abilities.charisma.score">
 				<target>charisma</target>
                 <anchored to="charisma_label"/>
             </ability_details_total>
@@ -2608,7 +2589,7 @@
             </ability_number_mod>
 
             <!-- charisma percent total -->
-            <ability_details_percent_total name="charisma_percent_total">
+            <ability_details_percent_total name="charisma_percent_total" source="abilities.charisma.percent">
 				<target>charisma</target>
                 <anchored to="charisma_percent_label"/>
             </ability_details_percent_total>

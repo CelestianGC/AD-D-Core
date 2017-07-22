@@ -598,9 +598,7 @@ function expireEffect(nodeActor, nodeEffect, nExpireComponent, bOverride)
 			return true;
 		end
 	end
-	
-    -- add remove/delete mods from abilities here? -celestian
-    
+
 	-- DELETE THE EFFECT
 	sMsg = "Effect ['" .. sEffect .. "'] -> [EXPIRED]";
 	nodeEffect.delete();
@@ -763,50 +761,55 @@ function processEffects(nodeCurrentActor, nodeNewActor)
 end
 
 function evalAbilityHelper(rActor, sEffectAbility)
-	-- PARSE EFFECT ABILITY TAG
-	local sSign, sModifier, sShortAbility = string.match(sEffectAbility, "^%[([%+%-]?)([H2]?)([A-Z][A-Z][A-Z])%]$");
+    -- AD&D doesn't adjust ability scores like this, we went with persistant --celestian
+    
+	-- -- PARSE EFFECT ABILITY TAG
+	-- local sSign, sModifier, sShortAbility = string.match(sEffectAbility, "^%[([%+%-]?)([H2]?)([A-Z][A-Z][A-Z])%]$");
 	
-	-- FIGURE OUT WHICH ABILITY
-	local nAbility = nil;
-	if sShortAbility == "STR" then
-		nAbility = ActorManager2.getAbilityBonus(rActor, "strength");
-	elseif sShortAbility == "DEX" then
-		nAbility = ActorManager2.getAbilityBonus(rActor, "dexterity");
-	elseif sShortAbility == "CON" then
-		nAbility = ActorManager2.getAbilityBonus(rActor, "constitution");
-	elseif sShortAbility == "INT" then
-		nAbility = ActorManager2.getAbilityBonus(rActor, "intelligence");
-	elseif sShortAbility == "WIS" then
-		nAbility = ActorManager2.getAbilityBonus(rActor, "wisdom");
-	elseif sShortAbility == "CHA" then
-		nAbility = ActorManager2.getAbilityBonus(rActor, "charisma");
-	elseif sShortAbility == "LVL" then
-		nAbility = ActorManager2.getAbilityBonus(rActor, "level");
-	elseif sShortAbility == "PRF" then
-		nAbility = ActorManager2.getAbilityBonus(rActor, "prf");
-	end
+	-- -- FIGURE OUT WHICH ABILITY
+	-- local nAbility = nil;
+	-- if sShortAbility == "STR" then
+		-- nAbility = ActorManager2.getAbilityBonus(rActor, "strength");
+	-- elseif sShortAbility == "DEX" then
+		-- nAbility = ActorManager2.getAbilityBonus(rActor, "dexterity");
+	-- elseif sShortAbility == "CON" then
+		-- nAbility = ActorManager2.getAbilityBonus(rActor, "constitution");
+	-- elseif sShortAbility == "INT" then
+		-- nAbility = ActorManager2.getAbilityBonus(rActor, "intelligence");
+	-- elseif sShortAbility == "WIS" then
+		-- nAbility = ActorManager2.getAbilityBonus(rActor, "wisdom");
+	-- elseif sShortAbility == "CHA" then
+		-- nAbility = ActorManager2.getAbilityBonus(rActor, "charisma");
+	-- elseif sShortAbility == "LVL" then
+		-- nAbility = ActorManager2.getAbilityBonus(rActor, "level");
+	-- elseif sShortAbility == "PRF" then
+		-- nAbility = ActorManager2.getAbilityBonus(rActor, "prf");
+	-- end
 	
-	-- IF VALID SHORT ABILITY, THEN APPLY SIGN AND MODIFIERS
-	if nAbility then
-		if sSign == "-" then
-			nAbility = 0 - nAbility;
-		end
-		if sModifier == "H" then
-			if nAbility > 0 then
-				nAbility = math.floor(nAbility / 2);
-			else
-				nAbility = math.ceil(nAbility / 2);
-			end
-		elseif sModifier == "2" then
-			nAbility = nAbility * 2;
-		end
-	end
+	-- -- IF VALID SHORT ABILITY, THEN APPLY SIGN AND MODIFIERS
+	-- if nAbility then
+		-- if sSign == "-" then
+			-- nAbility = 0 - nAbility;
+		-- end
+		-- if sModifier == "H" then
+			-- if nAbility > 0 then
+				-- nAbility = math.floor(nAbility / 2);
+			-- else
+				-- nAbility = math.ceil(nAbility / 2);
+			-- end
+		-- elseif sModifier == "2" then
+			-- nAbility = nAbility * 2;
+		-- end
+	-- end
 	
-    --- this might be a good place to SET the ability/ability_base to abilities.type.{itemmod,baseitem}?
-    --- so that we can +add ability scores and they adjust damage/hit -celestian
+    -- --- this might be a good place to SET the ability/ability_base to abilities.type.{itemmod,baseitem}?
+    -- --- so that we can +add ability scores and they adjust damage/hit --celestian
+    -- -- nope, this is just eval, need it on add/remove of effect.
+
         
-	-- RESULTS
-	return nAbility;
+	-- -- RESULTS
+	-- return nAbility;
+    return 0;
 end
 
 function evalEffect(rActor, s)

@@ -24,7 +24,20 @@ function onInit()
 	-- Register the deletion menu item for the host
 	registerMenuItem(Interface.getString("list_menu_deleteitem"), "delete", 6);
 	registerMenuItem(Interface.getString("list_menu_deleteconfirm"), "delete", 6, 7);
-    
+
+    local node = getDatabaseNode();
+    Debug.console("ct_entry.lua","onInit","node",node);
+    --DB.addHandler(DB.getPath(node, "effects"), "onChildAdded", effectUpdate1);
+    DB.addHandler(DB.getPath(node, "effects"), "onChildUpdate", persistentEffectsUpdate);
+    --DB.addHandler(DB.getPath(node, "effects"), "onChildDeleted", effectUpdate3);
+    persistentEffectsUpdate();
+end
+
+function onClose()
+    local node = getDatabaseNode();
+    --DB.removeHandler(DB.getPath(node, "effects"), "onChildAdded", effectUpdate1);
+    DB.removeHandler(DB.getPath(node, "effects"), "onChildUpdate", persistentEffectsUpdate);
+    --DB.removeHandler(DB.getPath(node, "effects"), "onChildDeleted", effectUpdate3);
 end
 
 function updateDisplay()
@@ -205,18 +218,15 @@ function linkPCFields()
 		paralyzation.setLink(nodeChar.createChild("saves.paralyzation.score", "number"), true);
 		poison.setLink(nodeChar.createChild("saves.poison.score", "number"), true);
 		death.setLink(nodeChar.createChild("saves.death.score", "number"), true);
-		
         rod.setLink(nodeChar.createChild("saves.rod.score", "number"), true);
 		staff.setLink(nodeChar.createChild("saves.staff.score", "number"), true);
 		wand.setLink(nodeChar.createChild("saves.wand.score", "number"), true);
-		
         petrification.setLink(nodeChar.createChild("saves.petrification.score", "number"), true);
 		polymorph.setLink(nodeChar.createChild("saves.polymorph.score", "number"), true);
-		
         breath.setLink(nodeChar.createChild("saves.breath.score", "number"), true);
 		spell.setLink(nodeChar.createChild("saves.spell.score", "number"), true);
 
-
+        
 		init.setLink(nodeChar.createChild("initiative.total", "number"), true);
 		thaco.setLink(nodeChar.createChild("combat.thaco.score", "number"), true);
 		ac.setLink(nodeChar.createChild("defenses.ac.total", "number"), true);
@@ -399,3 +409,83 @@ function setEffectsVisible(v)
 	effect_summary.onEffectsChanged();
 end
 
+-- flip through effects and setup ability score/other persistant effects
+function persistentEffectsUpdate()
+    local node = getDatabaseNode();
+Debug.console("ct_entry.lua","persistentEffectsUpdate","node",node);
+    
+    local rActor = ActorManager.getActorFromCT(node);
+Debug.console("ct_entry.lua","persistentEffectsUpdate","rActor",rActor);
+    local nodeChar = node;
+    if rActor.sType == "pc" then
+        nodeChar = DB.findNode(rActor.sCreatureNode);
+Debug.console("ct_entry.lua","persistentEffectsUpdate","--------------------->nodeChar",nodeChar);
+    end
+    -- we do this because the code afterwards will add them back
+    removeAllPersistanteffects(nodeChar);
+    
+    -- Check each effect
+    for _,nodeEffect in pairs(DB.getChildren(node, "effects")) do
+Debug.console("ct_entry.lua","persistentEffectsUpdate","nodeEffect",nodeEffect);
+        -- Make sure effect is active
+        local nActive = DB.getValue(nodeEffect, "isactive", 0);
+--Debug.console("ct_entry.lua","persistentEffectsUpdate","nActive",nActive);
+        if (nActive ~= 0) then
+            -- Handle start of turn special effects
+            local sEffName = DB.getValue(nodeEffect, "label", "");
+Debug.console("ct_entry.lua","persistentEffectsUpdate","sEffName",sEffName);
+            local listEffectComp = EffectManager.parseEffect(sEffName);
+--Debug.console("ct_entry.lua","persistentEffectsUpdate","listEffectComp",listEffectComp);
+            for _,rEffectComp in ipairs(listEffectComp) do
+--Debug.console("ct_entry.lua","persistentEffectsUpdate","rEffectComp",rEffectComp);
+Debug.console("ct_entry.lua","persistentEffectsUpdate","rEffectComp.type",rEffectComp.type);
+Debug.console("ct_entry.lua","persistentEffectsUpdate","rEffectComp.mod",rEffectComp.mod);
+
+            local sAbility = DataCommon.ability_stol[rEffectComp.type:upper()] or "";
+            if (sAbility ~= "") then
+                persistantAbilityUpdate(nodeChar,sAbility,rEffectComp.mod);
+            end
+
+             local sSave = DataCommon.saves_stol[rEffectComp.type:lower()] or "";
+            if (sSave ~= "") then
+                persistantSaveUpdate(nodeChar,rEffectComp.type:lower(),rEffectComp.mod);
+            end
+
+            end
+        end -- END ACTIVE EFFECT CHECK
+    end -- END EFFECT LOOP
+end
+
+-- adjust abilities.*.effectmod
+function persistantAbilityUpdate(nodeChar,sAbility,nAdjustment)
+Debug.console("ct_entry.lua","persistantAbilityUpdate","nodeChar",nodeChar);
+Debug.console("ct_entry.lua","persistantAbilityUpdate","sAbility",sAbility);
+Debug.console("ct_entry.lua","persistantAbilityUpdate","nAdjustment",nAdjustment);
+
+    local nCurrentAdjustment = DB.getValue(nodeChar,"abilities." .. sAbility .. ".effectmod",0);
+    local nTotal = nCurrentAdjustment + nAdjustment;
+    DB.setValue(nodeChar,"abilities." .. sAbility .. ".effectmod","number",nTotal);
+end
+
+-- adjust saves.*.effectmod
+function persistantSaveUpdate(nodeChar,sSave,nAdjustment)
+Debug.console("ct_entry.lua","persistantSaveUpdate","nodeChar",nodeChar);
+Debug.console("ct_entry.lua","persistantSaveUpdate","sAbility",sAbility);
+Debug.console("ct_entry.lua","persistantSaveUpdate","nAdjustment",nAdjustment);
+    
+    local nCurrentAdjustment = DB.getValue(nodeChar,"saves." .. sSave .. ".effectmod",0);
+    local nTotal = nCurrentAdjustment + nAdjustment;
+    DB.setValue(nodeChar,"saves." .. sSave .. ".effectmod","number",nTotal);
+end
+
+-- removes all persistant ability/save modifiers
+function removeAllPersistanteffects(nodeChar)
+Debug.console("ct_entry.lua","removeAllPersistanteffects","nodeChar",nodeChar);
+
+    for i = 1,6,1 do
+        DB.setValue(nodeChar,"abilities." .. DataCommon.abilities[i] .. ".effectmod","number",0);    
+    end
+    for i = 1,10,1 do
+        DB.setValue(nodeChar,"saves." .. DataCommon.saves[i] .. ".effectmod","number",0);
+    end
+end
