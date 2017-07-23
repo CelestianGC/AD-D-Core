@@ -225,6 +225,33 @@ function getItemSourceType(vNode)
 	return sType;
 end
 
+function compareNames(node1, node2, bTop)
+	if node1 == node2 then
+		return false;
+	end
+	
+	local bOptionID = OptionsManager.isOption("MIID", "on");
+	
+    local sName1 = DB.getValue(node1,"name","");
+    local bisIdentified1 = (DB.getValue(node1,"isidentified",0)==1);
+    
+    local sName2 = DB.getValue(node2,"name","");
+    local bisIdentified2 = (DB.getValue(node2,"isidentified",0)==1);
+
+    -- no match if either is no identified
+    if (bOptionID) and (not bisIdentified1 or not bisIdentified2) then
+        return false;
+    end
+    if (sName1 == "") or (sName2 == "") then
+        return false;
+    end
+    if sName1 ~= sName2 then
+        return false;
+    end
+    
+	return true;
+end
+
 function compareFields(node1, node2, bTop)
 	if node1 == node2 then
 		return false;
@@ -494,11 +521,11 @@ end
 -- NOTE: Assumed target and source base nodes 
 -- (item = campaign, charsheet = char inventory, partysheet = party inventory, treasureparcels = parcel inventory)
 function addItemToList(vList, sClass, vSource, bTransferAll, nTransferCount)
--- Debug.console("manager_item.lua","addItemToList","vList",vList);
--- Debug.console("manager_item.lua","addItemToList","sClass",sClass);
--- Debug.console("manager_item.lua","addItemToList","vSource",vSource);
--- Debug.console("manager_item.lua","addItemToList","bTransferAll",bTransferAll);
--- Debug.console("manager_item.lua","addItemToList","nTransferCount",nTransferCount);
+Debug.console("manager_item.lua","addItemToList","vList",vList);
+Debug.console("manager_item.lua","addItemToList","sClass",sClass);
+Debug.console("manager_item.lua","addItemToList","vSource",vSource);
+Debug.console("manager_item.lua","addItemToList","bTransferAll",bTransferAll);
+Debug.console("manager_item.lua","addItemToList","nTransferCount",nTransferCount);
 
 	-- Get the source item database node object
 	local nodeSource = nil;
@@ -559,6 +586,7 @@ function addItemToList(vList, sClass, vSource, bTransferAll, nTransferCount)
 		-- Determine target node for source item data.  
 		-- If we already have an item with the same fields, then just append the item count.  
 		-- Otherwise, create a new item and copy from the source item.
+--Debug.console("manager_item.lua","addItemToList","sTargetRecordType",sTargetRecordType);
 		local bAppend = false;
 		if sTargetRecordType ~= "item" then
 			for _,vItem in pairs(DB.getChildren(nodeList, "")) do
@@ -569,6 +597,16 @@ function addItemToList(vList, sClass, vSource, bTransferAll, nTransferCount)
 				end
 			end
 		end
+		if sTargetRecordType == "partysheet" then
+			for _,vItem in pairs(DB.getChildren(nodeList, "")) do
+				if compareNames(vItem, nodeTemp, true) then
+					nodeNew = vItem;
+					bAppend = true;
+					break;
+				end
+			end
+		end
+
 		if not nodeNew then
 			nodeNew = DB.createChild(nodeList);
 			DB.copyNode(nodeTemp, nodeNew);
@@ -595,6 +633,7 @@ function addItemToList(vList, sClass, vSource, bTransferAll, nTransferCount)
 		-- Determine whether to copy all items at once or just one item at a time (based on source and target)
 		local bCountN = false;
 		if (sSourceRecordType == "treasureparcels" and sTargetRecordType == "partysheet") or
+                (sSourceRecordType == "npc" and sTargetRecordType == "partysheet") or 
 				(sSourceRecordType == "treasureparcels" and sTargetRecordType == "charsheet") or 
                 (sSourceRecordType == "treasureparcels" and sTargetRecordType == "npc") or 
 				(sSourceRecordType == "partysheet" and sTargetRecordType == "treasureparcels") or 
@@ -612,6 +651,11 @@ function addItemToList(vList, sClass, vSource, bTransferAll, nTransferCount)
 			bCountN = true;
 		end
 		local nCount = 1;
+Debug.console("manager_item.lua","addItemToList","sSourceRecordType",sSourceRecordType);
+Debug.console("manager_item.lua","addItemToList","sTargetRecordType",sTargetRecordType);
+Debug.console("manager_item.lua","addItemToList","bTransferAll",bTransferAll);
+Debug.console("manager_item.lua","addItemToList","bCountN",bCountN);
+Debug.console("manager_item.lua","addItemToList","bAppend",bAppend);
 		if bCountN or sTargetRecordType ~= "item" then
 			if bCountN then
 				nCount = DB.getValue(nodeSource, "count", 1);
@@ -619,7 +663,9 @@ function addItemToList(vList, sClass, vSource, bTransferAll, nTransferCount)
 				nCount = math.min(DB.getValue(nodeSource, "count", 1), nTransferCount);
 			end
 			if bAppend then
+Debug.console("manager_item.lua","addItemToList","bAppend",bAppend);
 				local nAppendCount = math.max(DB.getValue(nodeNew, "count", 1), 1);
+Debug.console("manager_item.lua","addItemToList","nAppendCount",nAppendCount);
 				DB.setValue(nodeNew, "count", "number", nCount + nAppendCount);
 			else
 				DB.setValue(nodeNew, "count", "number", nCount);
