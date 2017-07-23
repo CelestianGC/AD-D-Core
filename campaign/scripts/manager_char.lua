@@ -581,6 +581,16 @@ function addToWeaponDB(nodeItem)
                 bSpecial = true;
             elseif vProperty:match("^finesse$") then
                 bFinesse = true;
+            elseif vProperty:match("^magic +5$") then
+                bMagic = true;
+            elseif vProperty:match("^magic +4$") then
+                bMagic = true;
+            elseif vProperty:match("^magic +3$") then
+                bMagic = true;
+            elseif vProperty:match("^magic +2$") then
+                bMagic = true;
+            elseif vProperty:match("^magic +1$") then
+                bMagic = true;
             elseif vProperty:match("^magic$") then
                 bMagic = true;
             end

@@ -376,6 +376,11 @@ dmgtypes = {
 	"silver",
 	"slashing",
 	"critical", -- SPECIAL DAMAGE TYPES
+    "magic +1", --+1 weapons
+    "magic +2", --+2 weapons
+    "magic +3", --+3 weapons
+    "magic +4", --+4 weapons
+    "magic +5", --+5 weapons
 };
 
 specialdmgtypes = {
