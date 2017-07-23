@@ -1492,49 +1492,59 @@ Debug.console("manager_effect.lua","persistentEffectsUpdate","sEffName",sEffName
             local listEffectComp = EffectManager.parseEffect(sEffName);
 --Debug.console("manager_effect.lua","persistentEffectsUpdate","listEffectComp",listEffectComp);
             for _,rEffectComp in ipairs(listEffectComp) do
---Debug.console("manager_effect.lua","persistentEffectsUpdate","rEffectComp",rEffectComp);
-Debug.console("manager_effect.lua","persistentEffectsUpdate","rEffectComp.type",rEffectComp.type);
-Debug.console("manager_effect.lua","persistentEffectsUpdate","rEffectComp.mod",rEffectComp.mod);
-            local nAdjustment = rEffectComp.mod;
-            local sAbility = DataCommon.ability_stol[rEffectComp.type:upper()] or "";
-            local sSave = DataCommon.saves_stol[rEffectComp.type:lower()] or "";
-            if (sAbility ~= "") then
-                -- if effect is a ability score modifier
-                persistantAbilityUpdate(nodeChar,sAbility,nAdjustment);
-            elseif (sSave ~= "") then
-                -- if effect is a save modifier
-                persistantSaveUpdate(nodeChar,rEffectComp.type:lower(),nAdjustment);
-            else
-            local sBase, sPercent, sShortAbility = string.match(rEffectComp.type:lower(), "^([b]?)([p]?)([a-z][a-z][a-z])$");
-Debug.console("manager_effect.lua","persistentEffectsUpdate","sPercent",sPercent);
-Debug.console("manager_effect.lua","persistentEffectsUpdate","sBase",sBase);
-Debug.console("manager_effect.lua","persistentEffectsUpdate","sShortAbility",sShortAbility);
-            if (sShortAbility ~= "" and sShortAbility ~= nil) then
-                -- not standard ability or save, check special
-                sAbility = DataCommon.ability_stol[sShortAbility:upper()] or "";
-                local bPercent = (sPercent == "p");
-                local bBase = (sBase == "b");
-Debug.console("manager_effect.lua","persistentEffectsUpdate","sAbility",sAbility);
-Debug.console("manager_effect.lua","persistentEffectsUpdate","bPercent",bPercent);
-Debug.console("manager_effect.lua","persistentEffectsUpdate","bBase",bBase);
+    --Debug.console("manager_effect.lua","persistentEffectsUpdate","rEffectComp",rEffectComp);
+    Debug.console("manager_effect.lua","persistentEffectsUpdate","rEffectComp.type",rEffectComp.type);
+    Debug.console("manager_effect.lua","persistentEffectsUpdate","rEffectComp.mod",rEffectComp.mod);
+                local nAdjustment = rEffectComp.mod;
+                local sAbility = DataCommon.ability_stol[rEffectComp.type:upper()] or "";
+                local sSave = DataCommon.saves_stol[rEffectComp.type:lower()] or "";
                 if (sAbility ~= "") then
-                    if bBase and bPercent then
-Debug.console("manager_effect.lua","persistentEffectsUpdate","B and P");
-                        -- BPSTR is percent/base strength value ".percentbasemod"
-                        persistantAbilityBaseUpdate(nodeChar,sAbility,nAdjustment,"percentbasemod")
-                    elseif (bBase) then
-Debug.console("manager_effect.lua","persistentEffectsUpdate","B");
-                        -- BSTR is base strength ".basemod"
-                        persistantAbilityBaseUpdate(nodeChar,sAbility,nAdjustment,"basemod")
-                    elseif (bPercent) then
-Debug.console("manager_effect.lua","persistentEffectsUpdate","P");
-                        -- PSTR is percentil strength ".percenteffectmod"
-                        persistantAbilityBaseUpdate(nodeChar,sAbility,nAdjustment,"percenteffectmod")
+                    -- if effect is a ability score modifier
+                    persistantAbilityUpdate(nodeChar,sAbility,nAdjustment);
+                elseif (sSave ~= "") then
+                    -- if effect is a save modifier
+                    persistantSaveUpdate(nodeChar,rEffectComp.type:lower(),nAdjustment);
+                else
+                    local sBase, sPercent, sShortAbility = string.match(rEffectComp.type:lower(), "^([b]?)([p]?)([a-z][a-z][a-z])$");
+    Debug.console("manager_effect.lua","persistentEffectsUpdate","sPercent",sPercent);
+    Debug.console("manager_effect.lua","persistentEffectsUpdate","sBase",sBase);
+    Debug.console("manager_effect.lua","persistentEffectsUpdate","sShortAbility",sShortAbility);
+                    if (sShortAbility ~= "" and sShortAbility ~= nil) then
+                        -- not standard ability or save, check special
+                        sAbility = DataCommon.ability_stol[sShortAbility:upper()] or "";
+                        local bPercent = (sPercent == "p");
+                        local bBase = (sBase == "b");
+        Debug.console("manager_effect.lua","persistentEffectsUpdate","sAbility",sAbility);
+        Debug.console("manager_effect.lua","persistentEffectsUpdate","bPercent",bPercent);
+        Debug.console("manager_effect.lua","persistentEffectsUpdate","bBase",bBase);
+                        if (sAbility ~= "") then
+                            if bBase and bPercent then
+        Debug.console("manager_effect.lua","persistentEffectsUpdate","B and P");
+                                -- BPSTR is percent/base strength value ".percentbasemod"
+                                persistantAbilityBaseUpdate(nodeChar,sAbility,nAdjustment,"percentbasemod")
+                            elseif (bBase) then
+        Debug.console("manager_effect.lua","persistentEffectsUpdate","B");
+                                -- BSTR is base strength ".basemod"
+                                persistantAbilityBaseUpdate(nodeChar,sAbility,nAdjustment,"basemod")
+                            elseif (bPercent) then
+        Debug.console("manager_effect.lua","persistentEffectsUpdate","P");
+                                -- PSTR is percentil strength ".percenteffectmod"
+                                persistantAbilityBaseUpdate(nodeChar,sAbility,nAdjustment,"percenteffectmod")
+                            end
+                        end -- sAbility
+                    end
+                        sShortAbility = string.match(rEffectComp.type:lower(), "^b([a-z]+)$");
+                        sSave    = DataCommon.saves_stol[sShortAbility] or "";
+        Debug.console("manager_effect.lua","persistentEffectsUpdate","sShortAbility",sShortAbility);
+        Debug.console("manager_effect.lua","persistentEffectsUpdate","sSave",sSave);
+                    if (sShortAbility ~= "" and sShortAbility ~= nil) then
+                        if (sSave ~= "") then
+    Debug.console("manager_effect.lua","persistentEffectsUpdateSAVE","B");
+                            -- BSAVENAME base save ".basemod"
+                            persistantSaveBaseUpdate(nodeChar,sShortAbility,nAdjustment,"basemod")
+                        end
                     end
                 end
-            end
-            end
-
             end
         end -- END ACTIVE EFFECT CHECK
     end -- END EFFECT LOOP
@@ -1563,6 +1573,16 @@ function persistantSaveUpdate(nodeChar,sSave,nAdjustment)
     local nTotal = nCurrentAdjustment + nAdjustment;
     DB.setValue(nodeChar,"saves." .. sSave .. ".effectmod","number",nTotal);
 end
+-- adjust saves.*.sModifier
+function persistantSaveBaseUpdate(nodeChar,sSave,nAdjustment,sModifier)
+    local nCurrentAdjustment = DB.getValue(nodeChar,"saves." .. sSave .. "." .. sModifier,0);
+    local nTotal = nCurrentAdjustment;
+    -- only replace the value if the total is > than what we have already
+    if (nTotal < nAdjustment) then
+        nTotal = nAdjustment;
+    end
+    DB.setValue(nodeChar,"saves." .. sSave .. "." .. sModifier,"number",nTotal);
+end
 
 -- removes all persistant ability/save modifiers
 function removeAllPersistanteffects(nodeChar)
@@ -1576,5 +1596,6 @@ function removeAllPersistanteffects(nodeChar)
     -- saves
     for i = 1,10,1 do
         DB.setValue(nodeChar,"saves." .. DataCommon.saves[i] .. ".effectmod","number",0);
+        DB.setValue(nodeChar,"saves." .. DataCommon.saves[i] .. ".basemod","number",0);
     end
 end
