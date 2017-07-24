@@ -181,19 +181,19 @@
 				<displaysign />
 			</number_columnh>
 			
-			<label_column name="damage_label">
+<!-- 			<label_column name="damage_label">
 				<static textres="item_label_damage" />
 			</label_column>
 			<string_columnh name="damage">
 				<gmeditonly />
 			</string_columnh>
-
+ 
 			<label_column name="speedfactor_label">
 				<static textres="item_label_speedfactor" />
 			</label_column>
 			<number_columnh name="speedfactor">
 				<gmeditonly />
-			</number_columnh>
+			</number_columnh> -->
 			
 			<label_column name="ac_label">
 				<static textres="item_label_ac" />
@@ -203,7 +203,7 @@
 				<delaykeyupdate />
 			</number_columnh>
 			
-			<label_column name="dexbonus_label">
+<!-- 			<label_column name="dexbonus_label">
 				<static textres="item_label_dexbonus" />
 			</label_column>
 			<string_columnh name="dexbonus">
@@ -226,7 +226,16 @@
 				<delaykeyupdate />
 			</string_columnh>
 			
-			<label_column name="properties_label">
+ -->			
+			<label_column name="effect_label">
+				<static textres="item_label_effect" />
+                <tooltip textres="item_label_effect_tooltip" />
+			</label_column>
+			<string_columnh name="effect">
+				<gmeditonly />
+			</string_columnh>
+
+            <label_column name="properties_label">
 				<static textres="item_label_properties" />
 			</label_column>
 			<string_columnh name="properties">

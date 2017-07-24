@@ -12,21 +12,6 @@
 		<offset>18,18,17,17</offset>
 	</framedef>
 
-	<framedef name="character_sheet_abilityscores">
-		<bitmap file="graphics/frames/character_sheet_abilityscores.png" />
-		<offset>18,18,17,17</offset>
-	</framedef>
-
-	<framedef name="character_sheet_saves">
-		<bitmap file="graphics/frames/character_sheet_saves.png" />
-		<offset>18,18,17,17</offset>
-	</framedef>
-
-	<framedef name="character_sheet_adnd_image">
-		<bitmap file="graphics/frames/character_sheet_adnd_image.png" />
-		<offset>18,18,17,17</offset>
-	</framedef>
-	
 	<framedef name="abilityfields">
 		<bitmap file="graphics/frames/abilityscore_dark.png" />
 		<offset>7,7,7,7</offset>

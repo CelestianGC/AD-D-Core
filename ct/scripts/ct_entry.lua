@@ -26,18 +26,13 @@ function onInit()
 	registerMenuItem(Interface.getString("list_menu_deleteconfirm"), "delete", 6, 7);
 
     local node = getDatabaseNode();
-    Debug.console("ct_entry.lua","onInit","node",node);
-    --DB.addHandler(DB.getPath(node, "effects"), "onChildAdded", effectUpdate1);
     DB.addHandler(DB.getPath(node, "effects"), "onChildUpdate", persistentEffectsUpdate);
-    --DB.addHandler(DB.getPath(node, "effects"), "onChildDeleted", effectUpdate3);
     persistentEffectsUpdate();
 end
 
 function onClose()
     local node = getDatabaseNode();
-    --DB.removeHandler(DB.getPath(node, "effects"), "onChildAdded", effectUpdate1);
     DB.removeHandler(DB.getPath(node, "effects"), "onChildUpdate", persistentEffectsUpdate);
-    --DB.removeHandler(DB.getPath(node, "effects"), "onChildDeleted", effectUpdate3);
 end
 
 function updateDisplay()

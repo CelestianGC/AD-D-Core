@@ -35,6 +35,11 @@ function update()
 	local bWeapon, sTypeLower, sSubtypeLower = ItemManager2.isWeapon(nodeRecord);
 	local bArmor = ItemManager2.isArmor(nodeRecord);
 	local bArcaneFocus = (sTypeLower == "rod") or (sTypeLower == "staff") or (sTypeLower == "wand");
+    -- this is so all the options show when 
+    -- editing an item. Allows weapons to have AC/etc.
+    bWeapon = true;
+    bArmor = true;
+    bArcaneFocus = true;
 	
 	local bSection1 = false;
 	if bOptionID and User.isHost() then
@@ -58,18 +63,19 @@ function update()
 	if updateControl("rarity", bReadOnly, bID) then bSection2 = true; end
 	
 	local bSection3 = false;
+	if updateControl("effect", bReadOnly, bID) then bSection3 = true; end
 	if updateControl("cost", bReadOnly, bID) then bSection3 = true; end
 	if updateControl("weight", bReadOnly, bID) then bSection3 = true; end
 	
 	local bSection4 = false;
 	if updateControl("bonus", bReadOnly, bID and (bWeapon or bArmor or bArcaneFocus)) then bSection4 = true; end
-	if updateControl("damage", bReadOnly, bID and bWeapon) then bSection4 = true; end
-	if updateControl("speedfactor", bReadOnly, bID and bWeapon) then bSection4 = true; end
+	--if updateControl("damage", bReadOnly, bID and bWeapon) then bSection4 = true; end
+	--if updateControl("speedfactor", bReadOnly, bID and bWeapon) then bSection4 = true; end
 	
 	if updateControl("ac", bReadOnly, bID and bArmor) then bSection4 = true; end
-	if updateControl("dexbonus", bReadOnly, bID and bArmor) then bSection4 = true; end
-	if updateControl("strength", bReadOnly, bID and bArmor) then bSection4 = true; end
-	if updateControl("stealth", bReadOnly, bID and bArmor) then bSection4 = true; end
+	--if updateControl("dexbonus", bReadOnly, bID and bArmor) then bSection4 = true; end
+	--if updateControl("strength", bReadOnly, bID and bArmor) then bSection4 = true; end
+	--if updateControl("stealth", bReadOnly, bID and bArmor) then bSection4 = true; end
 
 	if updateControl("properties", bReadOnly, bID and (bWeapon or bArmor)) then bSection4 = true; end
 	

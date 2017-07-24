@@ -102,6 +102,7 @@ aRecords = {
 		fRecordDisplayClass = getItemRecordDisplayClass,
 		aRecordDisplayClasses = { "item", "reference_magicitem", "reference_armor", "reference_weapon", "reference_equipment", "reference_mountsandotheranimals", "reference_waterbornevehicles" },
 		aCustomFilters = {
+			["Cost"] = { sField = "cost", sType = "string" },
 			["Type"] = { sField = "type" },
 			["Template"] = { sField = "istemplate", sType = "boolean" },
 		},
@@ -158,7 +159,7 @@ aRecords = {
 };
 
 aDefaultSidebarState = {
-	["create"] = "charsheet,background,class,item,race,skill,spell",
+	["create"] = "charsheet,class,background,item,race,skill,spell",
 };
 
 function onInit()
