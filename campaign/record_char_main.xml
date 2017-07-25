@@ -923,15 +923,7 @@
 			<number_dropadd name="exp">
                 <script>
                     function onInit()
-                        local node = getDatabaseNode();
-                        local nodeChar = node.getChild("..");
-                        DB.addHandler(DB.getPath(nodeChar, "classes"),"onChildUpdate", onValueChanged);
                         onValueChanged();
-                    end
-                    function onClose()
-                        local node = getDatabaseNode();
-                        local nodeChar = node.getChild("..");
-                        DB.addHandler(DB.getPath(nodeChar, "classes"),"onChildUpdate", onValueChanged);
                     end
                     function action(draginfo)
                         local node = getDatabaseNode();
