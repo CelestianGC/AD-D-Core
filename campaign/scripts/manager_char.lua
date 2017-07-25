@@ -2376,16 +2376,6 @@ function getEXPNotApplied(nodeChar)
         DB.setValue(nodeChar, "xpgranted","number",0);
         nDiffEXP = 0;
     end
-
-    -- local nCurrentTotal = getTotalEXP(nodeChar);        -- EXP on all classes currently
-    -- local nActiveClasses = getClassCount(nodeChar);     -- 
-    -- local nGrantedEXP = DB.getValue(nodeChar, "exp",0); -- all exp ever earned
-    -- local nApplyAmount = nGrantedEXP - nCurrentTotal;   -- remove current total from the granted to figure out what we need to add.
-    -- if nApplyAmount <= 0 then
-        -- return 0;
-    -- end
-
-    -- return nApplyAmount;
     return nDiffEXP;
 end
 -- apply experience to active classes.
@@ -2393,11 +2383,8 @@ function applyEXPToActiveClasses(nodeChar)
     if not nodeChar then
         return;
     end
-    --local nCurrentTotal = getTotalEXP(nodeChar);        -- EXP on all classes currently
     local nActiveClasses = getClassCount(nodeChar);     -- 
     local nTotalEXPEarned = DB.getValue(nodeChar, "exp",0); -- all exp ever earned
-    --local nApplyAmount = DB.getValue(nodeChar, "xpgained",0);
-    --local nApplyAmount = nTotalEXPEarned - nCurrentTotal;   -- remove current total from the granted to figure out what we need to add.
     local nApplyAmount = getEXPNotApplied(nodeChar);
     -- nothing to give
     if nActiveClasses < 1 then
