@@ -923,7 +923,15 @@
 			<number_dropadd name="exp">
                 <script>
                     function onInit()
+                        local node = getDatabaseNode();
+                        local nodeChar = node.getChild("..");
+                        DB.addHandler(DB.getPath(nodeChar, "classes"),"onChildUpdate", onValueChanged);
                         onValueChanged();
+                    end
+                    function onClose()
+                        local node = getDatabaseNode();
+                        local nodeChar = node.getChild("..");
+                        DB.addHandler(DB.getPath(nodeChar, "classes"),"onChildUpdate", onValueChanged);
                     end
                     function action(draginfo)
                         local node = getDatabaseNode();
@@ -939,7 +947,7 @@
                         local node = getDatabaseNode();
                         local nodeChar = node.getChild("..");
                         local nApplyEXP = CharManager.getEXPNotApplied(nodeChar);
-                        if (nApplyEXP > 1) then
+                        if (nApplyEXP ~= 0) then
                             window.apply_button.setVisible(true);
                             window.apply_button_label.setVisible(true);
                         else

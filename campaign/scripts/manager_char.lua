@@ -2350,16 +2350,16 @@ function getTotalEXP(nodeChar)
     if not nodeChar then
         return 0;
     end
-    local nCount = 0;
-	for _,vClass in pairs(DB.getChildren(nodeChar, "classes")) do
-        local bActive = (DB.getValue(vClass, "classactive",0) == 1);
-        local bBonusEXP = (DB.getValue(vClass, "classbonus",0) == 1);
-        local nEXP = DB.getValue(vClass, "exp",0);
-        if (bBonusEXP) then -- give + 10% exp
-            nEXP = nEXP + (nEXP*0.10);
-        end
-        nCount = nCount + nEXP;
-	end
+    local nCount = DB.getValue(nodeChar, "exp",0); -- all exp ever earned
+	-- for _,vClass in pairs(DB.getChildren(nodeChar, "classes")) do
+        -- local bActive = (DB.getValue(vClass, "classactive",0) == 1);
+        -- --local bBonusEXP = (DB.getValue(vClass, "classbonus",0) == 1);
+        -- local nEXP = DB.getValue(vClass, "exp",0);
+        -- --if (bBonusEXP) then -- give + 10% exp
+        -- --    nEXP = nEXP - nEXP*0.10;
+        -- --end
+        -- nCount = nCount + nEXP;
+	-- end
     return nCount;
 end
 
@@ -2368,27 +2368,39 @@ function getEXPNotApplied(nodeChar)
     if not nodeChar then
         return;
     end
-    local nCurrentTotal = getTotalEXP(nodeChar);        -- EXP on all classes currently
-    local nActiveClasses = getClassCount(nodeChar);     -- 
-    local nGrantedEXP = DB.getValue(nodeChar, "exp",0); -- all exp ever earned
-    local nApplyAmount = nGrantedEXP - nCurrentTotal;   -- remove current total from the granted to figure out what we need to add.
-    if nApplyAmount <= 0 then
-        return 0;
+    local nGrantedEXP = DB.getValue(nodeChar, "xpgranted",0); -- exp that has been granted already
+    local nTotalEXP = getTotalEXP(nodeChar); -- all exp ever earned
+    local nDiffEXP = nTotalEXP - nGrantedEXP;
+    -- if total exp is reset to 0 then we flush everything.
+    if (nTotalEXP == 0) then 
+        DB.setValue(nodeChar, "xpgranted","number",0);
+        nDiffEXP = 0;
     end
 
-    return nApplyAmount;
+    -- local nCurrentTotal = getTotalEXP(nodeChar);        -- EXP on all classes currently
+    -- local nActiveClasses = getClassCount(nodeChar);     -- 
+    -- local nGrantedEXP = DB.getValue(nodeChar, "exp",0); -- all exp ever earned
+    -- local nApplyAmount = nGrantedEXP - nCurrentTotal;   -- remove current total from the granted to figure out what we need to add.
+    -- if nApplyAmount <= 0 then
+        -- return 0;
+    -- end
+
+    -- return nApplyAmount;
+    return nDiffEXP;
 end
 -- apply experience to active classes.
 function applyEXPToActiveClasses(nodeChar)
     if not nodeChar then
         return;
     end
-    local nCurrentTotal = getTotalEXP(nodeChar);        -- EXP on all classes currently
+    --local nCurrentTotal = getTotalEXP(nodeChar);        -- EXP on all classes currently
     local nActiveClasses = getClassCount(nodeChar);     -- 
-    local nGrantedEXP = DB.getValue(nodeChar, "exp",0); -- all exp ever earned
-    local nApplyAmount = nGrantedEXP - nCurrentTotal;   -- remove current total from the granted to figure out what we need to add.
+    local nTotalEXPEarned = DB.getValue(nodeChar, "exp",0); -- all exp ever earned
+    --local nApplyAmount = DB.getValue(nodeChar, "xpgained",0);
+    --local nApplyAmount = nTotalEXPEarned - nCurrentTotal;   -- remove current total from the granted to figure out what we need to add.
+    local nApplyAmount = getEXPNotApplied(nodeChar);
     -- nothing to give
-    if nGrantedEXP <= 0 or nApplyAmount <= 0 or nActiveClasses < 1 then
+    if nActiveClasses < 1 then
         return;
     end
     local nApplyPerClass = math.ceil(nApplyAmount/nActiveClasses);
@@ -2396,7 +2408,7 @@ function applyEXPToActiveClasses(nodeChar)
 -- Debug.console("manager_char.lua","applyEXPToActiveClasses","nodeChar",nodeChar);
 -- Debug.console("manager_char.lua","applyEXPToActiveClasses","nCurrentTotal",nCurrentTotal);
 -- Debug.console("manager_char.lua","applyEXPToActiveClasses","nActiveClasses",nActiveClasses);
--- Debug.console("manager_char.lua","applyEXPToActiveClasses","nGrantedEXP",nGrantedEXP);
+-- Debug.console("manager_char.lua","applyEXPToActiveClasses","nTotalEXPEarned",nTotalEXPEarned);
 -- Debug.console("manager_char.lua","applyEXPToActiveClasses","nApplyAmount",nApplyAmount);
 
 	for _,vClass in pairs(DB.getChildren(nodeChar, "classes")) do
@@ -2406,7 +2418,7 @@ function applyEXPToActiveClasses(nodeChar)
         local bBonusEXP = (DB.getValue(vClass, "classbonus",0) == 1);
         local sClass = DB.getValue(vClass, "name", "")
         if (bBonusEXP) then -- give + 10% exp
-            nApplyPerClass = nApplyPerClass + (nApplyPerClass*0.10);
+            nApplyPerClass = math.ceil(nApplyPerClass + (nApplyPerClass*0.10));
         end
         if (bActive) then
             local nTotalAmount = nEXP+nApplyPerClass;
@@ -2416,6 +2428,8 @@ function applyEXPToActiveClasses(nodeChar)
             ChatManager.SystemMessage(sMsg);
         end
 	end
+    -- exp applied, match exp to expgranted now
+    DB.setValue(nodeChar, "xpgranted","number",nTotalEXPEarned);
 end
 
 function addSkillRef(nodeChar, sClass, sRecord)
