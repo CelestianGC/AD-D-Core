@@ -407,5 +407,11 @@ end
 -- pass off the node to the effects manager 
 function persistentEffectsUpdate()
     local node = getDatabaseNode();
-    EffectManager.persistentEffectsUpdate(node);
+    local rActor = ActorManager.getActorFromCT(node);
+    local nodeChar = node;
+    if rActor.sType == "pc" then
+        nodeChar = DB.findNode(rActor.sCreatureNode);
+    end
+
+    EffectManager.persistentEffectsUpdate(node,nodeChar);
 end

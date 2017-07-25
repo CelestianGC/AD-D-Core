@@ -2612,3 +2612,4 @@ function applyTough(nodeChar, bInitialAdd)
 	local sMsg = string.format(sFormat, StringManager.capitalizeAll(FEAT_TOUGH), DB.getValue(nodeChar, "name", "")) .. " (" .. nAddHP .. ")";
 	ChatManager.SystemMessage(sMsg);
 end
+

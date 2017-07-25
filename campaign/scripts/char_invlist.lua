@@ -17,6 +17,8 @@ function onInit()
 	registerMenuItem(Interface.getString("list_menu_createitem"), "insert", 5);
 
 	local node = getDatabaseNode();
+Debug.console("char_invlist.lua","onInit","node",node);    
+
 	DB.addHandler(DB.getPath(node, "*.isidentified"), "onUpdate", onIDChanged);
 	DB.addHandler(DB.getPath(node, "*.bonus"), "onUpdate", onBonusChanged);
 	DB.addHandler(DB.getPath(node, "*.ac"), "onUpdate", onArmorChanged);
@@ -59,6 +61,7 @@ function StateChanged()
 end
 
 function onIDChanged(nodeField)
+Debug.console("char_invlist.lua","onIDChanged","nodeField",nodeField);    
 	local nodeItem = DB.getChild(nodeField, "..");
 	if (DB.getValue(nodeItem, "carried", 0) == 2) and ItemManager2.isArmor(nodeItem) then
 		CharManager.calcItemArmorClass(DB.getChild(nodeItem, "..."));
@@ -81,6 +84,7 @@ function onArmorChanged(nodeField)
 end
 
 function onCarriedChanged(nodeField)
+Debug.console("char_invlist.lua","onCarriedChanged","nodeField",nodeField);    
 	local nodeChar = DB.getChild(nodeField, "....");
 	if nodeChar then
 		local nodeItem = DB.getChild(nodeField, "..");
@@ -103,7 +107,16 @@ function onCarriedChanged(nodeField)
 		end
 	end
 	
+    updateItemEffects(nodeField);
 	onEncumbranceChanged();
+end
+
+
+function updateItemEffects(nodeField)
+Debug.console("char_invlist.lua","updateItemEffects","nodeField",nodeField);    
+	if EffectManager.updateItemEffects then
+		EffectManager.updateItemEffects(nodeField);
+	end
 end
 
 function onEncumbranceChanged()
