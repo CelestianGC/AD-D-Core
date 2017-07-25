@@ -2391,6 +2391,7 @@ function applyEXPToActiveClasses(nodeChar)
         return;
     end
     local nApplyPerClass = math.ceil(nApplyAmount/nActiveClasses);
+Debug.console("manager_char.lua","applyEXPToActiveClasses","nApplyPerClass",nApplyPerClass);
 
 -- Debug.console("manager_char.lua","applyEXPToActiveClasses","nodeChar",nodeChar);
 -- Debug.console("manager_char.lua","applyEXPToActiveClasses","nCurrentTotal",nCurrentTotal);
@@ -2399,19 +2400,22 @@ function applyEXPToActiveClasses(nodeChar)
 -- Debug.console("manager_char.lua","applyEXPToActiveClasses","nApplyAmount",nApplyAmount);
 
 	for _,vClass in pairs(DB.getChildren(nodeChar, "classes")) do
-        local sName = DB.getValue(vClass, "name","UNKNOWN");
+        local sClass = DB.getValue(vClass, "name","UNKNOWN");
+Debug.console("manager_char.lua","applyEXPToActiveClasses","sClass",sClass);
         local nEXP = DB.getValue(vClass, "exp",0);
         local bActive = (DB.getValue(vClass, "classactive",0) == 1);
         local bBonusEXP = (DB.getValue(vClass, "classbonus",0) == 1);
-        local sClass = DB.getValue(vClass, "name", "")
+        local nApplyEXP = nApplyPerClass;
         if (bBonusEXP) then -- give + 10% exp
-            nApplyPerClass = math.ceil(nApplyPerClass + (nApplyPerClass*0.10));
+            nApplyEXP = math.ceil(nApplyPerClass + (nApplyPerClass*0.10));
         end
         if (bActive) then
-            local nTotalAmount = nEXP+nApplyPerClass;
+Debug.console("manager_char.lua","applyEXPToActiveClasses","bBonusEXP",bBonusEXP);
+Debug.console("manager_char.lua","applyEXPToActiveClasses","nApplyEXP",nApplyEXP);
+            local nTotalAmount = nEXP+nApplyEXP;
             DB.setValue(vClass, "exp","number", nTotalAmount);
             local sFormat = Interface.getString("message_exp_applied");
-            local sMsg = string.format(sFormat, DB.getValue(nodeChar, "name", ""),nApplyPerClass,sClass);
+            local sMsg = string.format(sFormat, DB.getValue(nodeChar, "name", ""),nApplyEXP,sClass);
             ChatManager.SystemMessage(sMsg);
         end
 	end
