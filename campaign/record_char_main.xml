@@ -1786,6 +1786,24 @@
 				<static text="Base" />
 			</label_fieldtop>
             
+            <!-- strength base item mods -->
+            <ability_number_base name="strength_base_item" source="abilities.strength.baseitem">
+                <tooltip textres="charsheet_abilities_baseitem_tooltip" />
+                <gmeditonly />
+                <default>0</default>
+				<anchored to="strength_label" />
+            </ability_number_base>
+			<label_fieldtop name="label_ability_strbaseitem_top">
+                <tooltip textres="charsheet_abilities_baseitem_tooltip" />
+				<anchored to="strength_base_item" />
+				<static text="Base" />
+			</label_fieldtop>
+			<label_fieldtop name="label_ability_strbaseitem_top_top">
+                <tooltip textres="charsheet_abilities_baseitem_tooltip" />
+				<anchored to="label_ability_strbaseitem_top" />
+				<static text="Item" />
+			</label_fieldtop>
+
             <!-- strength basemod -->
             <ability_number_base name="strength_base_mod" source="abilities.strength.basemod">
                 <tooltip textres="charsheet_abilities_basemod_tooltip" />
@@ -1902,6 +1920,13 @@
                 <tooltip textres="charsheet_abilities_base_tooltip" />
 				<anchored to="strength_percent_label" />
             </ability_percent_number_base>
+
+            <!-- strength percent item base -->
+            <ability_percent_number_base name="strength_percent_base_item" source="abilities.strength.percentbaseitem">
+                <tooltip textres="charsheet_abilities_baseitem_tooltip" />
+                <gmeditonly />
+				<anchored to="strength_percent_label" />
+            </ability_percent_number_base>
             
             <!-- strength percent basemod -->
             <ability_percent_number_base name="strength_percent_base_mod" source="abilities.strength.percentbasemod">
@@ -1966,6 +1991,14 @@
 				<anchored to="dexterity_label" />
             </ability_number_base>
             
+            <!-- dex  base item -->
+            <ability_number_base name="dexterity_base_item" source="abilities.dexterity.baseitem">
+                <tooltip textres="charsheet_abilities_baseitem_tooltip" />
+                <gmeditonly />
+                <default>0</default>
+				<anchored to="dexterity_label" />
+            </ability_number_base>
+
             <!-- dex  basemod -->
             <ability_number_base name="dexterity_base_mod" source="abilities.dexterity.basemod">
                 <tooltip textres="charsheet_abilities_basemod_tooltip" />
@@ -2027,6 +2060,14 @@
 
             <ability_percent_number_base name="dexterity_percent_base" source="abilities.dexterity.percentbase">
                 <tooltip textres="charsheet_abilities_base_tooltip" />
+				<anchored to="dexterity_percent_label" />
+            </ability_percent_number_base>
+            
+            <!-- dexterity percent base item -->
+            <ability_percent_number_base name="dexterity_percent_base_item" source="abilities.dexterity.percentbaseitem">
+                <tooltip textres="charsheet_abilities_baseitem_tooltip" />
+                <gmeditonly />
+                <default>0</default>
 				<anchored to="dexterity_percent_label" />
             </ability_percent_number_base>
             
@@ -2096,6 +2137,14 @@
 				<anchored to="constitution_label" />
             </ability_number_base>
             
+            <!-- constitution  base item -->
+            <ability_number_base name="constitution_base_mod" source="abilities.constitution.baseitem">
+                <tooltip textres="charsheet_abilities_baseitem_tooltip" />
+                <gmeditonly />
+                <default>0</default>
+				<anchored to="constitution_label" />
+            </ability_number_base>
+
             <!-- constitution  basemod -->
             <ability_number_base name="constitution_base_mod" source="abilities.constitution.basemod">
                 <tooltip textres="charsheet_abilities_basemod_tooltip" />
@@ -2157,6 +2206,14 @@
 
             <ability_percent_number_base name="constitution_percent_base" source="abilities.constitution.percentbase">
                 <tooltip textres="charsheet_abilities_base_tooltip" />
+				<anchored to="constitution_percent_label" />
+            </ability_percent_number_base>
+            
+            <!-- constitution percent basemod -->
+            <ability_percent_number_base name="constitution_percent_base_item" source="abilities.constitution.percentbaseitem">
+                <tooltip textres="charsheet_abilities_baseitem_tooltip" />
+                <gmeditonly />
+                <default>0</default>
 				<anchored to="constitution_percent_label" />
             </ability_percent_number_base>
             
@@ -2224,6 +2281,13 @@
 				<anchored to="intelligence_label" />
             </ability_number_base>
             
+            <!-- intelligence  base item -->
+            <ability_number_base name="intelligence_base_mod" source="abilities.intelligence.baseitem">
+                <tooltip textres="charsheet_abilities_baseitem_tooltip" />
+                <gmeditonly />
+                <default>0</default>
+				<anchored to="intelligence_label" />
+            </ability_number_base>
             <!-- intelligence  basemod -->
             <ability_number_base name="intelligence_base_mod" source="abilities.intelligence.basemod">
                 <tooltip textres="charsheet_abilities_basemod_tooltip" />
@@ -2288,6 +2352,14 @@
 				<anchored to="intelligence_percent_label" />
             </ability_percent_number_base>
             
+            <!-- intelligence percent baseitem -->
+            <ability_percent_number_base name="intelligence_percent_base_item" source="abilities.intelligence.percentbaseitem">
+                <tooltip textres="charsheet_abilities_baseitem_tooltip" />
+                <gmeditonly />
+                <default>0</default>
+				<anchored to="intelligence_percent_label" />
+            </ability_percent_number_base>
+
             <!-- intelligence percent basemod -->
             <ability_percent_number_base name="intelligence_percent_base_mod" source="abilities.intelligence.percentbasemod">
                 <tooltip textres="charsheet_abilities_basemod_tooltip" />
@@ -2352,6 +2424,14 @@
 				<anchored to="wisdom_label" />
             </ability_number_base>
             
+            <!-- wisdom  baseitem -->
+            <ability_number_base name="wisdom_base_item" source="abilities.wisdom.baseitem">
+                <tooltip textres="charsheet_abilities_baseitem_tooltip" />
+                <gmeditonly />
+                <default>0</default>
+				<anchored to="wisdom_label" />
+            </ability_number_base>
+
             <!-- wisdom  basemod -->
             <ability_number_base name="wisdom_base_mod" source="abilities.wisdom.basemod">
                 <tooltip textres="charsheet_abilities_basemod_tooltip" />
@@ -2416,6 +2496,14 @@
 				<anchored to="wisdom_percent_label" />
             </ability_percent_number_base>
             
+            <!-- wisdom percent baseitem -->
+            <ability_percent_number_base name="wisdom_percent_base_item" source="abilities.wisdom.percentbaseitem">
+                <tooltip textres="charsheet_abilities_baseitem_tooltip" />
+                <gmeditonly />
+                <default>0</default>
+				<anchored to="wisdom_percent_label" />
+            </ability_percent_number_base>
+
             <!-- wisdom percent basemod -->
             <ability_percent_number_base name="wisdom_percent_base_mod" source="abilities.wisdom.percentbasemod">
                 <tooltip textres="charsheet_abilities_basemod_tooltip" />
@@ -2480,6 +2568,14 @@
 				<anchored to="charisma_label" />
             </ability_number_base>
             
+            <!-- charisma  baseitem -->
+            <ability_number_base name="charisma_base_item" source="abilities.charisma.baseitem">
+                <tooltip textres="charsheet_abilities_baseitem_tooltip" />
+                <gmeditonly />
+                <default>0</default>
+				<anchored to="charisma_label" />
+            </ability_number_base>
+
             <!-- charisma  basemod -->
             <ability_number_base name="charisma_base_mod" source="abilities.charisma.basemod">
                 <tooltip textres="charsheet_abilities_basemod_tooltip" />
@@ -2544,6 +2640,14 @@
 				<anchored to="charisma_percent_label" />
             </ability_percent_number_base>
             
+            <!-- charisma percent baseitem -->
+            <ability_percent_number_base name="charisma_percent_base_item" source="abilities.charisma.percentbaseitem">
+                <tooltip textres="charsheet_abilities_baseitem_tooltip" />
+                <gmeditonly />
+                <default>0</default>
+				<anchored to="charisma_percent_label" />
+            </ability_percent_number_base>
+
             <!-- charisma percent basemod -->
             <ability_percent_number_base name="charisma_percent_base_mod" source="abilities.charisma.percentbasemod">
                 <tooltip textres="charsheet_abilities_basemod_tooltip" />
@@ -2668,6 +2772,24 @@
 				<static text="Base" />
 			</label_fieldtop>
             
+            <!-- paralyzation baseitem -->
+            <save_number_base name="paralyzation_base_item" source="saves.paralyzation.baseitem">
+                <tooltip textres="charsheet_saves_baseitem_tooltip" />
+                <gmeditonly />
+                <default>0</default>
+				<anchored to="paralyzation_label" />
+            </save_number_base>
+			<label_fieldtop name="label_save_baseitem_top">
+                <tooltip textres="charsheet_saves_baseitem_tooltip" />
+				<anchored to="paralyzation_base_item" />
+				<static text="Base" />
+			</label_fieldtop>
+			<label_fieldtop>
+                <tooltip textres="charsheet_saves_baseitem_tooltip" />
+				<anchored to="label_save_baseitem_top" />
+				<static text="Mod" />
+			</label_fieldtop>
+
             <!-- paralyzation basemod -->
             <save_number_base name="paralyzation_base_mod" source="saves.paralyzation.basemod">
                 <tooltip textres="charsheet_saves_basemod_tooltip" />
@@ -2784,6 +2906,14 @@
 				<anchored to="poison_label" />
             </save_number_base>
             
+            <!-- poison baseitem -->
+            <save_number_base name="poison_base_item" source="saves.poison.baseitem">
+                <tooltip textres="charsheet_saves_baseitem_tooltip" />
+                <gmeditonly />
+                <default>0</default>
+				<anchored to="poison_label" />
+            </save_number_base>
+
             <!-- poison basemod -->
             <save_number_base name="poison_base_mod" source="saves.poison.basemod">
                 <tooltip textres="charsheet_saves_basemod_tooltip" />
@@ -2851,6 +2981,14 @@
 				<anchored to="death_label" />
             </save_number_base>
             
+            <!-- death baseitem -->
+            <save_number_base name="death_base_item" source="saves.death.baseitem">
+                <tooltip textres="charsheet_saves_baseitem_tooltip" />
+                <gmeditonly />
+                <default>0</default>
+				<anchored to="death_label" />
+            </save_number_base>
+
             <!-- death basemod -->
             <save_number_base name="death_base_mod" source="saves.death.basemod">
                 <tooltip textres="charsheet_saves_basemod_tooltip" />
@@ -2918,6 +3056,14 @@
 				<anchored to="rod_label" />
             </save_number_base>
             
+            <!-- rod baseitem -->
+            <save_number_base name="rod_base_item" source="saves.rod.baseitem">
+                <tooltip textres="charsheet_saves_baseitem_tooltip" />
+                <gmeditonly />
+                <default>0</default>
+				<anchored to="rod_label" />
+            </save_number_base>
+
             <!-- rod basemod -->
             <save_number_base name="rod_base_mod" source="saves.rod.basemod">
                 <tooltip textres="charsheet_saves_basemod_tooltip" />
@@ -2985,6 +3131,14 @@
 				<anchored to="staff_label" />
             </save_number_base>
             
+            <!-- staff baseitem -->
+            <save_number_base name="staff_base_item" source="saves.staff.baseitem">
+                <tooltip textres="charsheet_saves_baseitem_tooltip" />
+                <gmeditonly />
+                <default>0</default>
+				<anchored to="staff_label" />
+            </save_number_base>
+
             <!-- staff basemod -->
             <save_number_base name="staff_base_mod" source="saves.staff.basemod">
                 <tooltip textres="charsheet_saves_basemod_tooltip" />
@@ -3053,6 +3207,14 @@
 				<anchored to="wand_label" />
             </save_number_base>
             
+            <!-- wand baseitem -->
+            <save_number_base name="wand_base_item" source="saves.wand.baseitem">
+                <tooltip textres="charsheet_saves_base_tooltip" />
+                <gmeditonly />
+                <default>0</default>
+				<anchored to="wand_label" />
+            </save_number_base>
+
             <!-- wand basemod -->
             <save_number_base name="wand_base_mod" source="saves.wand.basemod">
                 <tooltip textres="charsheet_saves_basemod_tooltip" />
@@ -3114,12 +3276,20 @@
 				<static textres="petrification" />
             </label_save_details>
 
-                <!-- petrification base -->
+            <!-- petrification base -->
             <save_number_base name="petrification_base" source="saves.petrification.base">
                 <tooltip textres="charsheet_saves_base_tooltip" />
 				<anchored to="petrification_label" />
             </save_number_base>
             
+            <!-- petrification baseitem -->
+            <save_number_base name="petrification_base_item" source="saves.petrification.baseitem">
+                <tooltip textres="charsheet_saves_baseitem_tooltip" />
+                <gmeditonly />
+                <default>0</default>
+				<anchored to="petrification_label" />
+            </save_number_base>
+
             <!-- petrification basemod -->
             <save_number_base name="petrification_base_mod" source="saves.petrification.basemod">
                 <tooltip textres="charsheet_saves_basemod_tooltip" />
@@ -3187,6 +3357,14 @@
 				<anchored to="polymorph_label" />
             </save_number_base>
             
+            <!-- polymorph baseitem -->
+            <save_number_base name="polymorph_base_item" source="saves.polymorph.baseitem">
+                <tooltip textres="charsheet_saves_baseitem_tooltip" />
+                <gmeditonly />
+                <default>0</default>
+				<anchored to="polymorph_label" />
+            </save_number_base>
+
             <!-- polymorph basemod -->
             <save_number_base name="polymorph_base_mod" source="saves.polymorph.basemod">
                 <tooltip textres="charsheet_saves_basemod_tooltip" />
@@ -3255,6 +3433,14 @@
 				<anchored to="breath_label" />
             </save_number_base>
             
+            <!-- breath baseitem -->
+            <save_number_base name="breath_base_item" source="saves.breath.baseitem">
+                <tooltip textres="charsheet_saves_baseitem_tooltip" />
+                <gmeditonly />
+                <default>0</default>
+				<anchored to="breath_label" />
+            </save_number_base>
+
             <!-- breath basemod -->
             <save_number_base name="breath_base_mod" source="saves.breath.basemod">
                 <tooltip textres="charsheet_saves_basemod_tooltip" />
@@ -3323,6 +3509,14 @@
 				<anchored to="spell_label" />
             </save_number_base>
             
+            <!-- spell baseitem -->
+            <save_number_base name="spell_base_item" source="saves.spell.baseitem">
+                <tooltip textres="charsheet_saves_baseitem_tooltip" />
+                <gmeditonly />
+                <default>0</default>
+				<anchored to="spell_label" />
+            </save_number_base>
+
             <!-- spell basemod -->
             <save_number_base name="spell_base_mod" source="saves.spell.basemod">
                 <tooltip textres="charsheet_saves_basemod_tooltip" />

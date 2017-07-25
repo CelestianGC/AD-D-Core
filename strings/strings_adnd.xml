@@ -239,14 +239,17 @@
 	<string name="charsheet_saves_detail_title">Save Score Details</string>
 
 	<string name="charsheet_abilities_base_tooltip">Base Score of this ability.</string>
-	<string name="charsheet_abilities_basemod_tooltip">Items or Effects can set a NEW base score. System and GM Only set.</string>
+	<string name="charsheet_abilities_basemod_tooltip">Effects can set a NEW base score. System and GM Only set.</string>
+	<string name="charsheet_abilities_baseitem_tooltip">Items can set a NEW base score. System and GM Only set.</string>
 	<string name="charsheet_abilities_itemmod_tooltip">Item modifier applied to this ability score. System and GM Only set.</string>
+	<string name="charsheet_abilities_baseitem_tooltip">Item can set NEW base score. System and GM Only set.</string>
 	<string name="charsheet_abilities_effectmod_tooltip">Effect modifier applied to this ability score. System and GM Only set.</string>
 	<string name="charsheet_abilities_adjustment_tooltip">Manually set modifier applied to this ability score.</string>
 	<string name="charsheet_abilities_tempmod_tooltip">Manually set, temporary modifier applied to this ability score.</string>
 
 	<string name="charsheet_saves_base_tooltip">Base Score of this save.</string>
-	<string name="charsheet_saves_basemod_tooltip">Items or Effects can set a NEW base score. System and GM Only set.</string>
+	<string name="charsheet_saves_basemod_tooltip">Effects can set a NEW base score. System and GM Only set.</string>
+	<string name="charsheet_saves_baseitem_tooltip">Items can set a NEW base score. System and GM Only set.</string>
 	<string name="charsheet_saves_itemmod_tooltip">Item modifier applied to this save score. System and GM Only set.</string>
 	<string name="charsheet_saves_effectmod_tooltip">Effect modifier applied to this save score. System and GM Only set.</string>
 	<string name="charsheet_saves_adjustment_tooltip">Manually set modifier applied to this save score.</string>

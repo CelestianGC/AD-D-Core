@@ -7,6 +7,7 @@
 function onInit()
     local nodeChar = getDatabaseNode();
     DB.addHandler(DB.getPath(nodeChar, "abilities.*.percentbase"),      "onUpdate", detailsPercentUpdate);
+    DB.addHandler(DB.getPath(nodeChar, "abilities.*.percentbaseitem"),   "onUpdate", detailsPercentUpdate);
     DB.addHandler(DB.getPath(nodeChar, "abilities.*.percentbasemod"),   "onUpdate", detailsPercentUpdate);
     DB.addHandler(DB.getPath(nodeChar, "abilities.*.percentitemmod"),   "onUpdate", detailsPercentUpdate);
     DB.addHandler(DB.getPath(nodeChar, "abilities.*.percenteffectmod"), "onUpdate", detailsPercentUpdate);
@@ -14,6 +15,7 @@ function onInit()
     DB.addHandler(DB.getPath(nodeChar, "abilities.*.percenttempmod"),   "onUpdate", detailsPercentUpdate);
 
     DB.addHandler(DB.getPath(nodeChar, "abilities.*.base"),       "onUpdate", detailsUpdate);
+    DB.addHandler(DB.getPath(nodeChar, "abilities.*.baseitem"),    "onUpdate", detailsUpdate);
     DB.addHandler(DB.getPath(nodeChar, "abilities.*.basemod"),    "onUpdate", detailsUpdate);
     DB.addHandler(DB.getPath(nodeChar, "abilities.*.itemmod"),    "onUpdate", detailsUpdate);
     DB.addHandler(DB.getPath(nodeChar, "abilities.*.effectmod"),  "onUpdate", detailsUpdate);
@@ -27,6 +29,7 @@ end
 function onClose()
     local nodeChar = getDatabaseNode();
     DB.removeHandler(DB.getPath(nodeChar, "abilities.*.percentbase"),       "onUpdate", detailsPercentUpdate);
+    DB.removeHandler(DB.getPath(nodeChar, "abilities.*.percentbaseitem"),    "onUpdate", detailsPercentUpdate);
     DB.removeHandler(DB.getPath(nodeChar, "abilities.*.percentbasemod"),    "onUpdate", detailsPercentUpdate);
     DB.removeHandler(DB.getPath(nodeChar, "abilities.*.percentitemmod"),    "onUpdate", detailsPercentUpdate);
     DB.removeHandler(DB.getPath(nodeChar, "abilities.*.percenteffectmod"),  "onUpdate", detailsPercentUpdate);
@@ -34,6 +37,7 @@ function onClose()
     DB.removeHandler(DB.getPath(nodeChar, "abilities.*.percenttempmod"),    "onUpdate", detailsPercentUpdate);
 
     DB.removeHandler(DB.getPath(nodeChar, "abilities.*.base"),       "onUpdate", detailsUpdate);
+    DB.removeHandler(DB.getPath(nodeChar, "abilities.*.baseitem"),    "onUpdate", detailsUpdate);
     DB.removeHandler(DB.getPath(nodeChar, "abilities.*.basemod"),    "onUpdate", detailsUpdate);
     DB.removeHandler(DB.getPath(nodeChar, "abilities.*.itemmod"),    "onUpdate", detailsUpdate);
     DB.removeHandler(DB.getPath(nodeChar, "abilities.*.effectmod"),  "onUpdate", detailsUpdate);
@@ -55,6 +59,7 @@ function detailsUpdate()
     for i = 1,6,1 do
         local sTarget = DataCommon.abilities[i];
         local nBase =       DB.getValue(nodeChar, "abilities." .. sTarget .. ".base",9);
+        local nBaseItem  =   DB.getValue(nodeChar, "abilities." .. sTarget .. ".baseitem",0);
         local nBaseMod =    DB.getValue(nodeChar, "abilities." .. sTarget .. ".basemod",0);
         local nItemMod =    DB.getValue(nodeChar, "abilities." .. sTarget .. ".itemmod",0);
         local nEffectMod =  DB.getValue(nodeChar, "abilities." .. sTarget .. ".effectmod",0);
@@ -65,7 +70,9 @@ function detailsUpdate()
         if (nBaseMod ~= 0) then
             nFinalBase = nBaseMod;
         end
-        
+        if (nBaseItem > nBaseMod) then
+            nFinalBase = nBaseItem;
+        end
         local nTotal = (nFinalBase + nItemMod + nEffectMod + nAdjustment + nTempMod);
         if (nTotal < 1) then
             nTotal = 1;
@@ -84,6 +91,7 @@ function detailsPercentUpdate()
     for i = 1,6,1 do
         local sTarget = DataCommon.abilities[i];
         local nBase =       DB.getValue(nodeChar, "abilities." .. sTarget .. ".percentbase",0);
+        local nBaseItem =    DB.getValue(nodeChar, "abilities." .. sTarget .. ".percentbaseitem",0);
         local nBaseMod =    DB.getValue(nodeChar, "abilities." .. sTarget .. ".percentbasemod",0);
         local nItemMod =    DB.getValue(nodeChar, "abilities." .. sTarget .. ".percentitemmod",0);
         local nEffectMod =  DB.getValue(nodeChar, "abilities." .. sTarget .. ".percenteffectmod",0);
@@ -93,6 +101,9 @@ function detailsPercentUpdate()
 
         if (nBaseMod ~= 0) then
             nFinalBase = nBaseMod;
+        end
+        if (nBaseItem > nBaseMod) then
+            nFinalBase = nBaseItem;
         end
         
         local nTotal = (nFinalBase + nItemMod + nEffectMod + nAdjustment + nTempMod);
