@@ -2353,7 +2353,11 @@ function getTotalEXP(nodeChar)
     local nCount = 0;
 	for _,vClass in pairs(DB.getChildren(nodeChar, "classes")) do
         local bActive = (DB.getValue(vClass, "classactive",0) == 1);
+        local bBonusEXP = (DB.getValue(vClass, "classbonus",0) == 1);
         local nEXP = DB.getValue(vClass, "exp",0);
+        if (bBonusEXP) then -- give + 10% exp
+            nEXP = nEXP + (nEXP*0.10);
+        end
         nCount = nCount + nEXP;
 	end
     return nCount;
@@ -2399,7 +2403,11 @@ function applyEXPToActiveClasses(nodeChar)
         local sName = DB.getValue(vClass, "name","UNKNOWN");
         local nEXP = DB.getValue(vClass, "exp",0);
         local bActive = (DB.getValue(vClass, "classactive",0) == 1);
+        local bBonusEXP = (DB.getValue(vClass, "classbonus",0) == 1);
         local sClass = DB.getValue(vClass, "name", "")
+        if (bBonusEXP) then -- give + 10% exp
+            nApplyPerClass = nApplyPerClass + (nApplyPerClass*0.10);
+        end
         if (bActive) then
             local nTotalAmount = nEXP+nApplyPerClass;
             DB.setValue(vClass, "exp","number", nTotalAmount);

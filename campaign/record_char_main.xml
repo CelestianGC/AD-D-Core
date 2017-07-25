@@ -1229,6 +1229,10 @@
 				<tooltip textres="class_label_exp_needed_tooltip" />
 			</basicnumber>
 
+ 			<button_checkbox name="classbonus">
+				<anchored to="expneeded" position="left" offset="5,0" width="10" />
+				<tooltip textres="char_tooltip_classbonus" />
+			</button_checkbox>
 
             <!-- exp -->
  			<basicnumber name="exp">
