@@ -49,8 +49,12 @@ function onRoll(rSource, rTarget, rRoll)
 		
 		rMessage.text = rMessage.text .. " (vs. Target " .. nTargetDC .. ")";
 		if nTotal > nTargetDC then
+       		rMessage.font = "successfont";
+       		rMessage.icon = "chat_success";
 			rMessage.text = rMessage.text .. " [NOT-SURPRISED by " .. nDifference .. "]";
 		else
+       		rMessage.font = "failfont";
+       		rMessage.icon = "chat_fail";
 			rMessage.text = rMessage.text .. " [SURPRISED! by " .. nDifference .. "]";
 		end
 	end

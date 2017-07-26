@@ -212,6 +212,12 @@
  	<icon name="tab_weapons" file="graphics/tabs/tab_weapons.png" />
  	<icon name="tab_proficiency" file="graphics/tabs/tab_proficiency.png" />
  	<icon name="tab_details" file="graphics/tabs/tab_details.png" />
+    
+    <!-- chat -->
+   	<icon name="chat_hit" file="graphics/icons/roll_attack_hit.png" />
+   	<icon name="chat_miss" file="graphics/icons/roll_attack_miss.png" />
+   	<icon name="chat_success" file="graphics/icons/check_success.png" />
+   	<icon name="chat_fail" file="graphics/icons/check_fail.png" />
 
     
 </root>

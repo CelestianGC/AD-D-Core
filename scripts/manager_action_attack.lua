@@ -448,9 +448,13 @@ function onAttack(rSource, rTarget, rRoll)
 	    --print ("in manager_action_attack, onAttack nDefenseVal=" .. nDefenseVal);
 
 		if rAction.nTotal >= nDefenseVal then
+            rMessage.font = "hitfont";
+            rMessage.icon = "chat_hit";
 			rAction.sResult = "hit";
 			table.insert(rAction.aMessages, "[HIT]");
 		else
+            rMessage.font = "missfont";
+            rMessage.icon = "chat_miss";
 			rAction.sResult = "miss";
 			table.insert(rAction.aMessages, "[MISS]");
 		end
@@ -513,10 +517,13 @@ function applyAttack(rSource, rTarget, bSecret, sAttackType, sDesc, nTotal, sRes
 	
 	msgShort.icon = "roll_attack";
 	if string.match(sResults, "%[CRITICAL HIT%]") then
+        msgLong.font = "hitfont";
 		msgLong.icon = "roll_attack_crit";
 	elseif string.match(sResults, "HIT%]") then
+        msgLong.font = "hitfont";
 		msgLong.icon = "roll_attack_hit";
 	elseif string.match(sResults, "MISS%]") then
+        msgLong.font = "missfont";
 		msgLong.icon = "roll_attack_miss";
 	else
 		msgLong.icon = "roll_attack";

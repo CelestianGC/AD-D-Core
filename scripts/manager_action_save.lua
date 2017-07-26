@@ -485,7 +485,8 @@ function applySave(rSource, rOrigin, rAction, sUser)
 	
 	if rAction.nTotal >= rAction.nTarget then
 		msgLong.text = msgLong.text .. " [SUCCESS]";
-		
+		msgLong.icon = "chat_success";
+		msgLong.font = "successfont";
 		if rSource then
 			local bHalfDamage = bHalfMatch;
 			local bAvoidDamage = false;
@@ -519,6 +520,8 @@ function applySave(rSource, rOrigin, rAction, sUser)
 		end
 	else
 		msgLong.text = msgLong.text .. " [FAILURE]";
+		msgLong.icon = "chat_fail";
+		msgLong.font = "failfont";
 
 		if rSource then
 			local bHalfDamage = false;

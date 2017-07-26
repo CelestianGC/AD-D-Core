@@ -124,4 +124,22 @@
 		<ttf file="graphics/fonts/Primordial.ttf" name="Primordial" size="24" />
 		<color value="#000000" />
 	</font>
+    
+  	<font name="successfont">
+		<fgffile name="graphics/fonts/regular-10.fgf" />
+		<color value="#418c12" />
+	</font>
+  	<font name="failfont">
+		<fgffile name="graphics/fonts/regular-10.fgf" />
+		<color value="#6106d1" />
+	</font>
+  	<font name="hitfont">
+		<fgffile name="graphics/fonts/regular-10.fgf" />
+		<color value="#cc1d1d" />
+	</font>
+  	<font name="missfont">
+		<fgffile name="graphics/fonts/regular-10.fgf" />
+		<color value="#1d97cc" />
+	</font>
+
 </root>

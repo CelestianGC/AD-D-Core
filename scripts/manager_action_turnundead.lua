@@ -86,9 +86,14 @@ function onRoll(rSource, rTarget, rRoll)
         local sTurnAmountRoll = "";
         local sTurnHeader = "";
         if (bTurnedSome) then
+       		rMessage.font = "successfont";
+       		rMessage.icon = "chat_success";
+
             sTurnAmountRoll = "\r\n(roll 2d6 for number affected, lowest HD first)";
             sTurnHeader = "\r\nTurn can affect:";
         else
+       		rMessage.font = "failfont";
+       		rMessage.icon = "chat_fail";
             sTurn = "[NOTHING TURNED!]";
         end
         if (bTurnedExtra) then
