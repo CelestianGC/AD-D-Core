@@ -1667,46 +1667,47 @@ Debug.console("manager_effect.lua","updateItemEffects","nCarried",nCarried);
 Debug.console("manager_effect.lua","updateItemEffects","bEquipped",bEquipped);
 Debug.console("manager_effect.lua","updateItemEffects","sItemSource",sItemSource);
 Debug.console("manager_effect.lua","updateItemEffects","nIdentified",nIdentified);
-
-    local bFound = false;
-    for _,nodeEffect in pairs(DB.getChildren(nodeChar, "effects")) do
-        local nActive = DB.getValue(nodeEffect, "isactive", 0);
-Debug.console("manager_effect.lua","updateItemEffects","nActive",nActive);
-        if (nActive ~= 0) then
-            local sEffSource = DB.getValue(nodeEffect, "source_name", "");
-Debug.console("manager_effect.lua","updateItemEffects","sEffSource",sEffSource);
-            if (sEffSource == sItemSource) then
-                bFound = true;
-Debug.console("manager_effect.lua","updateItemEffects","bFound!!!",bFound);
-                if (not bEquipped) then
-Debug.console("manager_effect.lua","updateItemEffects","!!!bEquipped",bEquipped);
-                    nodeEffect.delete();
-                    break;
-                end -- not equipped
-            end -- effect source == item source
-        end -- was active
-    end -- nodeEffect for
-    
-Debug.console("manager_effect.lua","updateItemEffects","pre bEquipped",bEquipped);
-    if (not bFound and bEquipped) then
-Debug.console("manager_effect.lua","updateItemEffects","bFound and bEquipped",bEquipped);
-        local rEffect = {};
-        rEffect.sName = sLabel;
-        rEffect.sLabel = sLabel; -- need this here?
-        rEffect.nDuration = 0;
-        rEffect.sUnits = "day";
-        rEffect.nInit = 0;
-        rEffect.sSource = sItemSource;
-        rEffect.nGMOnly = nIdentified;
-        rEffect.sApply = "";        
-Debug.console("manager_effect.lua","updateItemEffects","rEffect",rEffect);
-        addEffect("", "", nodeChar, rEffect, true);
-    else
-        -- not sure how we'll get here
-    end
-    
-    if (bFound or bEquipped) then
-Debug.console("manager_effect.lua","updateItemEffects","persistentEffectsUpdate",1);
-        persistentEffectsUpdate(nodeChar,nodeChar,true);
+    if sLabel and sLabel ~= "" then -- if we have effect string
+        local bFound = false;
+        for _,nodeEffect in pairs(DB.getChildren(nodeChar, "effects")) do
+            local nActive = DB.getValue(nodeEffect, "isactive", 0);
+    Debug.console("manager_effect.lua","updateItemEffects","nActive",nActive);
+            if (nActive ~= 0) then
+                local sEffSource = DB.getValue(nodeEffect, "source_name", "");
+    Debug.console("manager_effect.lua","updateItemEffects","sEffSource",sEffSource);
+                if (sEffSource == sItemSource) then
+                    bFound = true;
+    Debug.console("manager_effect.lua","updateItemEffects","bFound!!!",bFound);
+                    if (not bEquipped) then
+    Debug.console("manager_effect.lua","updateItemEffects","!!!bEquipped",bEquipped);
+                        nodeEffect.delete();
+                        break;
+                    end -- not equipped
+                end -- effect source == item source
+            end -- was active
+        end -- nodeEffect for
+        
+    Debug.console("manager_effect.lua","updateItemEffects","pre bEquipped",bEquipped);
+        if (not bFound and bEquipped) then
+    Debug.console("manager_effect.lua","updateItemEffects","bFound and bEquipped",bEquipped);
+            local rEffect = {};
+            rEffect.sName = sLabel;
+            rEffect.sLabel = sLabel; -- need this here?
+            rEffect.nDuration = 0;
+            rEffect.sUnits = "day";
+            rEffect.nInit = 0;
+            rEffect.sSource = sItemSource;
+            rEffect.nGMOnly = nIdentified;
+            rEffect.sApply = "";        
+    Debug.console("manager_effect.lua","updateItemEffects","rEffect",rEffect);
+            addEffect("", "", nodeChar, rEffect, true);
+        else
+            -- not sure how we'll get here
+        end
+        
+        if (bFound or bEquipped) then
+    Debug.console("manager_effect.lua","updateItemEffects","persistentEffectsUpdate",1);
+            persistentEffectsUpdate(nodeChar,nodeChar,true);
+        end
     end
 end

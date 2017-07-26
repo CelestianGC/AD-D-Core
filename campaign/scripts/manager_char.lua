@@ -466,7 +466,7 @@ function addToPowerDB(nodeItem)
 
 end
 
--- this doesn't seem to work. FIX THIS --celestian
+-- remove link to powers if the object is deleted.
 function removeFromPowerDB(nodeItem)
 	if not nodeItem then
 		return false;
@@ -480,7 +480,7 @@ function removeFromPowerDB(nodeItem)
 	local sItemNode = nodeItem.getNodeName();
 	local sItemNode2 = "....inventorylist." .. nodeItem.getName();
 	local bFound = false;
-	for _,v in pairs(DB.getChildren(nodeItem, "...weaponlist")) do
+	for _,v in pairs(DB.getChildren(nodeItem, "...powers")) do
 		local sClass, sRecord = DB.getValue(v, "shortcut", "", "");
 		if sRecord == sItemNode or sRecord == sItemNode2 then
 			bFound = true;
