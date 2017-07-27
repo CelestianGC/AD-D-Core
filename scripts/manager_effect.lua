@@ -1650,6 +1650,7 @@ function updateItemEffects(node)
     if not nodeChar then
         return;
     end
+    local sUser = User.getUsername();
     local nodeItem = DB.getChild(node, "..");
     local sName = DB.getValue(nodeItem, "name", "");
     local sLabel = DB.getValue(nodeItem, "effect", "");
@@ -1657,7 +1658,7 @@ function updateItemEffects(node)
     local bEquipped = (nCarried == 2);
     local sItemSource = nodeItem.getPath();
     local nIdentified = DB.getValue(nodeItem, "isidentified", 0);
-
+    local sCharacterName = DB.getValue(nodeChar, "name", "");
 Debug.console("manager_effect.lua","updateItemEffects","node",node);
 Debug.console("manager_effect.lua","updateItemEffects","nodeChar",nodeChar);
 Debug.console("manager_effect.lua","updateItemEffects","nodeItem",nodeItem);
@@ -1679,6 +1680,29 @@ Debug.console("manager_effect.lua","updateItemEffects","nIdentified",nIdentified
                     bFound = true;
     Debug.console("manager_effect.lua","updateItemEffects","bFound!!!",bFound);
                     if (not bEquipped) then
+                        -- BUILD MESSAGE
+                        local msg = {font = "msgfont", icon = "roll_effect"};
+                        msg.text = "Effect ['" .. sLabel .. "'] ";
+                        msg.text = msg.text .. "removed [from " .. sCharacterName .. "]";
+                        -- HANDLE APPLIED BY SETTING
+                        if sEffSource and sEffSource ~= "" then
+                            msg.text = msg.text .. " [by " .. DB.getValue(DB.findNode(sEffSource), "name", "") .. "]";
+                        end
+                        -- SEND MESSAGE
+                        if nIdentified > 0 then
+                            if isGMEffect(nodeChar, nodeEffect) then
+                                if sUser == "" then
+                                    msg.secret = true;
+                                    Comm.addChatMessage(msg);
+                                elseif sUser ~= "" then
+                                    Comm.addChatMessage(msg);
+                                    Comm.deliverChatMessage(msg, sUser);
+                                end
+                            else
+                                Comm.deliverChatMessage(msg);
+                            end
+                        end
+                    
     Debug.console("manager_effect.lua","updateItemEffects","!!!bEquipped",bEquipped);
                         nodeEffect.delete();
                         break;
@@ -1700,7 +1724,7 @@ Debug.console("manager_effect.lua","updateItemEffects","nIdentified",nIdentified
             rEffect.nGMOnly = nIdentified;
             rEffect.sApply = "";        
     Debug.console("manager_effect.lua","updateItemEffects","rEffect",rEffect);
-            addEffect("", "", nodeChar, rEffect, true);
+            addEffect(sUser, "", nodeChar, rEffect, true);
         else
             -- not sure how we'll get here
         end

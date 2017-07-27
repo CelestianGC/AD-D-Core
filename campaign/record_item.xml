@@ -172,67 +172,13 @@
 
 			<line_column name="divider3" />
 
-			<label_column name="bonus_label">
-				<static textres="item_label_bonus" />
-			</label_column>
-			<number_columnh name="bonus">
-				<gmeditonly />
-				<delaykeyupdate />
-				<displaysign />
-			</number_columnh>
-			
-<!-- 			<label_column name="damage_label">
-				<static textres="item_label_damage" />
-			</label_column>
-			<string_columnh name="damage">
-				<gmeditonly />
-			</string_columnh>
- 
-			<label_column name="speedfactor_label">
-				<static textres="item_label_speedfactor" />
-			</label_column>
-			<number_columnh name="speedfactor">
-				<gmeditonly />
-			</number_columnh> -->
-			
-			<label_column name="ac_label">
-				<static textres="item_label_ac" />
-			</label_column>
-			<number_columnh name="ac">
-				<gmeditonly />
-				<delaykeyupdate />
-			</number_columnh>
-			
-<!-- 			<label_column name="dexbonus_label">
-				<static textres="item_label_dexbonus" />
-			</label_column>
-			<string_columnh name="dexbonus">
-				<gmeditonly />
-				<delaykeyupdate />
-			</string_columnh>
-			
-			<label_column name="strength_label">
-				<static textres="item_label_strength" />
-			</label_column>
-			<string_columnh name="strength">
-				<gmeditonly />
-			</string_columnh>
-			
-			<label_column name="stealth_label">
-				<static textres="item_label_stealth" />
-			</label_column>
-			<string_columnh name="stealth">
-				<gmeditonly />
-				<delaykeyupdate />
-			</string_columnh>
-			
- -->			
 			<label_column name="effect_label">
 				<static textres="item_label_effect" />
                 <tooltip textres="item_label_effect_tooltip" />
 			</label_column>
 			<string_columnh name="effect">
 				<gmeditonly />
+                <readonly />
 			</string_columnh>
 
             <label_column name="properties_label">
@@ -242,13 +188,163 @@
 				<gmeditonly />
 			</string_columnh>
 			
-			<line_column name="divider4" />
+			<header_column name="header_armorclass">
+				<static textres="header_armorclass" />
+				<center />
+			</header_column>
 
+			<!-- armor base -->
+            <label name="armor_base_label">
+				<anchored width="60" height="20">
+					<top parent="columnanchor" anchor="bottom" relation="relative" offset="20" />
+					<left offset="5" />
+				</anchored>
+                <static textres="item_label_ac_armor" />
+            </label>
+            <!-- type of armor -->
+			<cycler_armortypes name="armortype">
+				<anchored to="armor_base_label" position="righthigh" offset="55,0" width="40"  height="20"/>
+			</cycler_armortypes>
+			<label_fieldtop name="armortype_top_label">
+				<anchored to="armortype" />
+				<static textres="item_label_ac_type" />
+                <tooltip textres="item_label_ac_type_tooltip" />
+			</label_fieldtop>
+            <!-- armor base -->
+			<basicnumber name="acbase" source="ac">
+				<anchored to="armortype" position="righthigh" offset="15,0" width="40"  height="20"/>
+				<gmeditonly />
+                <default>0</default>
+                <hideonvalue>0</hideonvalue>
+			</basicnumber>
+			<label_fieldtop name="acbase_top_label">
+				<anchored to="acbase" />
+				<static textres="item_label_ac_base" />
+			</label_fieldtop>
+			<label name="label_armorplus">
+				<anchored to="acbase" position="righthigh" offset="5,0" width="10" />
+				<static>+</static>
+				<center />
+			</label>
+			<!-- armor bonus -->
+			<basicnumber name="acbonus" source="bonus">
+                <anchored to="label_armorplus" position="righthigh" offset="5,0" height="20" width="40" />
+				<gmeditonly />
+                <default>0</default>
+                <hideonvalue>0</hideonvalue>
+                <displaysign />
+			</basicnumber>
+			<label_fieldtop name="acbonus_top_label">
+				<anchored to="acbonus" />
+				<static textres="item_label_ac_bonus" />
+			</label_fieldtop>
+
+			<header_column name="header_abilities">
+				<static textres="header_abilities" />
+				<center />
+			</header_column>
+            <!-- global edit button -->
+			<button_iedit name="item_iedit">
+				<anchored to="header_abilities" position="insidetopright" offset="-5,0" />
+				<tooltip textres="char_abilities_tooltip_edit" />
+ 				<script>
+					function onValueChanged()
+						local bEditMode = (getValue() == 1);
+						
+						window.item_ability_list_iadd.setVisible(bEditMode);
+						window.ability_list.update();
+					end
+				</script>
+			</button_iedit>
+			<button_iadd name="item_ability_list_iadd">
+				<anchored to="item_iedit" position="belowright" />
+				<target>ability_list</target>
+			</button_iadd>
+
+			<label name="ability_type_label">
+				<anchored width="60" height="20">
+					<top parent="columnanchor" anchor="bottom" relation="relative" offset="0" />
+					<left offset="107" />
+				</anchored>
+				<static textres="item_label_ability_type" />
+                <tooltip textres="item_ability_type_tooltip" />
+			</label>
+			<label name="ability_ability_label">
+				<anchored to="ability_type_label" position="righthigh" width="60" height="20" offset="5"/>
+				<static textres="item_label_ability_name" />
+			</label>
+			<label name="ability_value_label">
+				<anchored to="ability_ability_label" position="righthigh"  width="60" height="20" offset="0" />
+				<static textres="item_label_ability_value" />
+			</label>
+            
+			<list_editor_item name="ability_list">
+				<datasource>.abilitylist</datasource>
+				<class>item_ability_entry</class>
+				<script>
+					function addEntry(bFocus)
+						local n = getWindowCount();
+						
+						local w = createWindow();
+						if w then
+							if bFocus then
+								w.value.setFocus();
+							end
+						end
+						
+						return w;
+					end
+				</script>
+			</list_editor_item>
+            
+			<line_column name="divider6" />
+            
 			<ft_columnh name="description">
 				<gmeditonly />
 			</ft_columnh>
 		</sheetdata>
 	</windowclass>
     
+
+    <!-- item ability settings -->
+	<windowclass name="item_ability_entry">
+		<margins control="0,0,0,5" />
+		<sheetdata>
+			<genericcontrol name="rightanchor">
+				<anchored width="0" height="0">
+					<top offset="2" />
+					<right />
+				</anchored>
+				<invisible />
+			</genericcontrol>
+
+			<button_idelete name="idelete">
+				<anchored to="rightanchor">
+					<top />
+					<right anchor="left" relation="relative" offset="-15" />
+				</anchored>
+			</button_idelete>
+            <label>
+                <anchored position="insidetopleft" offset="5,2" width="90" height="20" />
+                <static textres="item_label_abilityfeature" />
+            </label>
+			<cycler_abilitytypes name="type">
+                <anchored position="insidetopleft" offset="97,2" width="60" height="20" />
+                <tooltip textres="item_ability_type_tooltip" />
+			</cycler_abilitytypes>
+
+			<cycler_ability_short name="ability">
+                <anchored to="type" position="righthigh" offset="15,0" width="40"  height="20"/>
+			</cycler_ability_short>
+
+            <!-- ability modifier/score -->
+			<basicnumber name="value">
+				<anchored to="ability" position="righthigh" offset="15,0" width="40"  height="20"/>
+				<gmeditonly />
+                <default>0</default>
+                <hideonvalue>0</hideonvalue>
+			</basicnumber>
+        </sheetdata>
+	</windowclass>
     
 </root>

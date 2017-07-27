@@ -112,4 +112,91 @@
     </genericcontrol>
     </template>
     
-</root>
+	<template name="list_editor_item">
+		<windowlist name="list">
+			<anchored>
+				<top parent="columnanchor" anchor="bottom" relation="relative" offset="5" />
+				<left />
+				<right />
+			</anchored>
+			<allowdelete />
+			<child></child>
+			<child><backcolor>1A40301E</backcolor></child>
+			<noscroll />
+			<script>
+				function onInit()
+					registerMenuItem(Interface.getString("list_menu_createitem"), "insert", 5);
+				end
+				
+				function onMenuSelection(selection)
+					if selection == 5 then
+						self.addEntry(true);
+					end
+				end
+				
+				function onListChanged()
+					update();
+				end
+
+				function update()
+					local bEdit = (window.item_iedit.getValue() == 1);
+					for _,w in ipairs(getWindows()) do
+						w.idelete.setVisibility(bEdit);
+					end
+				end
+				
+				function addEntry(bFocus)
+					return createWindow();
+				end
+			</script>
+		</windowlist>
+	</template>
+	<template name="label_savescore_npc">
+		<label_fieldtop>
+			<anchored position="insidetopright" offset="-2,-6" width="35" />
+            <font>arial-regular-7</font>
+			<!-- <anchored offset="-2,-6" width="35"/> -->
+			<frame name="abilityscore" />
+		</label_fieldtop>
+	</template>
+	<template name="number_savescore">
+		<basicnumber>
+			<rollable />
+			<default>-20</default>
+			<script file="campaign/scripts/number_savescore.lua" />
+		</basicnumber>
+	</template>
+	<template name="label_npc_savescore">
+		<label_savescore_npc />
+	</template>
+	<template name="number_npc_savescore">
+		<number_savescore />
+	</template>
+    
+	<template name="cycler_armortypes">
+		<button_stringcycler>
+			<parameters>
+				<labelsres>armor|shield|other</labelsres>
+                <values>armor|shield|other</values>
+			</parameters>
+		</button_stringcycler>
+	</template>
+	<template name="cycler_abilitytypes">
+		<button_stringcycler>
+			<parameters>
+				<labelsres>modifier|percent_modifier|base|base_percent</labelsres>
+                <values>modifier|percent_modifier|base|base_percent</values>
+			</parameters>
+		</button_stringcycler>
+	</template>
+	<template name="cycler_ability_short">
+		<button_stringcycler>
+			<parameters>
+				<defaultlabelres mergerule="replace">dash</defaultlabelres>
+				<labelsres>str|dex|con|int|wis|cha</labelsres>
+				<values>str|dex|con|int|wis|cha</values>
+			</parameters>
+		</button_stringcycler>
+	</template>
+
+    </root>

@@ -4,7 +4,17 @@
 --
 
 function onInit()
+    local nodeRecord = getDatabaseNode();
+    DB.addHandler(DB.getPath(nodeRecord, "abilitylist"), "onChildUpdate", update);
+    --DB.addHandler(DB.getPath(nodeRecord, "abilitylist"), "onChildAdded", update);
+    --DB.addHandler(DB.getPath(nodeRecord, "abilitylist"), "onChildDeleted", update);
 	update();
+end
+function onClose()
+    local nodeRecord = getDatabaseNode();
+    DB.removeHandler(DB.getPath(nodeRecord, "abilitylist"), "onChildUpdate", update);
+    --DB.removeHandler(DB.getPath(nodeRecord, "abilitylist"), "onChildAdded", update);
+    --DB.removeHandler(DB.getPath(nodeRecord, "abilitylist"), "onChildDeleted", update);
 end
 
 function VisDataCleared()
@@ -86,5 +96,62 @@ function update()
 	divider.setVisible(bSection1 and bSection2);
 	divider2.setVisible((bSection1 or bSection2) and bSection3);
 	divider3.setVisible((bSection1 or bSection2 or bSection3) and bSection4);
-	divider4.setVisible((bSection1 or bSection2 or bSection3 or bSection4) and bSection5);
+    
+    header_armorclass.setVisible(not bReadOnly);
+    armor_base_label.setVisible(not bReadOnly);
+    armortype.setVisible(not bReadOnly);
+    --armortype_top_label.setVisible(not bReadOnly);
+    acbase.setVisible(not bReadOnly);
+    --acbase_top_label.setVisible(not bReadOnly);
+    label_armorplus.setVisible(not bReadOnly);
+    acbonus.setVisible(not bReadOnly);
+    --acbonus_top_label.setVisible(not bReadOnly);
+    
+    header_abilities.setVisible(not bReadOnly);
+    item_iedit.setVisible(not bReadOnly);
+    ability_list.setVisible(not bReadOnly);
+
+    local bHasAbilityFeatures = (DB.getChildCount(nodeRecord, "abilitylist") > 0);
+    if (not bReadOnly) then
+        ability_type_label.setVisible(bHasAbilityFeatures);
+        ability_ability_label.setVisible(bHasAbilityFeatures);
+        ability_value_label.setVisible(bHasAbilityFeatures);
+    else
+        ability_type_label.setVisible(false);
+        ability_ability_label.setVisible(false);
+        ability_value_label.setVisible(false);
+    end
+
+	divider6.setVisible((bSection1 or bSection2 or bSection3 or bSection4) and bSection5);
+    
+    updateAbilityEffects();
+end
+
+function updateAbilityEffects()
+    local nodeRecord = getDatabaseNode();
+Debug.console("item_main.lua","updateAbilityEffects","nodeRecord",nodeRecord);
+
+    local sEffectString = "";
+    for _,aEffect in pairs(DB.getChildren(nodeRecord, "abilitylist")) do
+        local sType = DB.getValue(aEffect,"type","");
+        local sAbility = DB.getValue(aEffect,"ability","");
+        local nModifier = DB.getValue(aEffect,"value",0);
+        local sTypeChar = "";
+        
+        if (sType == "modifier") then
+            sTypeChar = "";
+        elseif (sType == "percent_modifier") then
+            sTypeChar = "P";
+        elseif (sType == "base") then 
+            sTypeChar = "B";
+        elseif (sType == "base_percent") then
+            sTypeChar = "BP";
+        end
+        
+Debug.console("item_main.lua","updateAbilityEffects","sType",sType);
+Debug.console("item_main.lua","updateAbilityEffects","sAbility",sAbility);
+Debug.console("item_main.lua","updateAbilityEffects","nModifier",nModifier);
+        sEffectString = sEffectString .. sTypeChar .. sAbility:upper() .. ": " .. nModifier .. ";";
+    end -- end for
+    DB.setValue(nodeRecord,"effect","string",sEffectString);
 end

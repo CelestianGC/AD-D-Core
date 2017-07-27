@@ -273,27 +273,5 @@
 		</subwindow>
 	</template>
 
-	<template name="label_savescore_npc">
-		<label_fieldtop>
-			<anchored position="insidetopright" offset="-2,-6" width="35" />
-            <font>arial-regular-7</font>
-			<!-- <anchored offset="-2,-6" width="35"/> -->
-			<frame name="abilityscore" />
-		</label_fieldtop>
-	</template>
-	<template name="number_savescore">
-		<basicnumber>
-			<rollable />
-			<default>-20</default>
-			<script file="campaign/scripts/number_savescore.lua" />
-		</basicnumber>
-	</template>
-	<template name="label_npc_savescore">
-		<label_savescore_npc />
-	</template>
-	<template name="number_npc_savescore">
-		<number_savescore />
-	</template>
-    
     
 </root>

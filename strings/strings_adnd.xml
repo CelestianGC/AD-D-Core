@@ -310,7 +310,7 @@
 	<string name="race_header_proficiencies">RACE WEAPON PROFICIENCIES</string>
 	<string name="char_abilities_label_proficiencies">WEAPON PROFICIENCIES</string>
     
-	<!-- Editors -->
+	<!-- Weapon Editors -->
 	<string name="weapon_header_prof">Proficiencies Applied</string>
 	<string name="weapon_label_profdefault">Not-Proficient</string>
 	<string name="weapon_label_profname">PROF</string>
@@ -318,7 +318,31 @@
 	<string name="weapon_label_hitadj_tooltip">To hit adjustment applied.</string>
 	<string name="weapon_label_dmgadj">DMG</string>
 	<string name="weapon_label_dmgadj_tooltip">Damage adjustment applied.</string>
-
+    <!-- Item Editor -->
+	<string name="shield">Shield</string>
+	<string name="other">Other</string>
+    
+	<string name="modifier">Modifier</string>
+	<string name="percent_modifier">% Modifier</string>
+	<string name="base">Base</string>
+	<string name="base_percent">Base %</string>
+    
+	<string name="header_armorclass">Armor Class</string>
+	<string name="header_abilities">Ability Score Features</string>
+	<string name="item_label_ac_type">Type</string>
+	<string name="item_label_ability_type">Type</string>
+	<string name="item_ability_type_tooltip">Type of feature. Modifier of an ability score. Percent Modifier of an ability score. Base value of an ability score. Base Percent value of an ability score.</string>
+	<string name="item_label_ability_name">Ability</string>
+	<string name="item_label_ability_value">Value</string>
+	<string name="item_label_ac_type_tooltip">Type: Armor, Shield, Other (ring,cloak,boots,other)</string>
+	<string name="item_label_ac_armor">Protection</string>
+	<string name="item_label_ac_shield">Shield</string>
+	<string name="item_label_ac_other">Other</string>
+	<string name="item_label_ac_other_tooltip">Other types of armor such as rings, cloaks, helms, boots, NOT Shields or Armor.</string>
+	<string name="item_label_ac_base">Base</string>
+	<string name="item_label_ac_bonus">Modifier</string>
+	<string name="item_label_abilityfeature">Feature</string>
+    
    	<!-- Pregens -->
 	<string name="pregen_label_background">Kit</string>
     
