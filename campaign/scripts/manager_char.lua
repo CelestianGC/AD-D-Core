@@ -260,7 +260,11 @@ end
 
 function removeFromArmorDB(nodeItem)
 	-- Parameter validation
-	if not ItemManager2.isArmor(nodeItem) then
+    local bArmor = ItemManager2.isArmor(nodeItem);
+    local bShield = ItemManager2.isShield(nodeItem);
+    local bProtOther = ItemManager2.isProtectionOther(nodeItem);
+    
+	if not bArmor and not bShield and not bProtOther then
 		return;
 	end
 	
@@ -273,10 +277,15 @@ end
 function addToArmorDB(nodeItem)
 	-- Parameter validation
 	local bIsArmor, _, sSubtypeLower = ItemManager2.isArmor(nodeItem);
+    local bShield = ItemManager2.isShield(nodeItem);
+    local bProtOther = ItemManager2.isProtectionOther(nodeItem);
+    
 	if not bIsArmor then
 		return;
 	end
-	local bIsShield = (sSubtypeLower == "shield");
+	if not (bIsShield) then
+        bIsShield = (sSubtypeLower == "shield");
+    end
 	
 	-- Determine whether to auto-equip armor
 	local bArmorAllowed = true;
@@ -334,14 +343,22 @@ function calcItemArmorClass(nodeChar)
 	for _,vNode in pairs(DB.getChildren(nodeChar, "inventorylist")) do
 		if DB.getValue(vNode, "carried", 0) == 2 then
 			local bIsArmor, _, sSubtypeLower = ItemManager2.isArmor(vNode);
-			if bIsArmor then
+--Debug.console("manager_char.lua","calcItemArmorClass","bIsArmor",bIsArmor);
+            local bIsShield = (sSubtypeLower == "shield");
+            if (not bIsShield) then
+                bIsShield = ItemManager2.isShield(vNode);
+            end
+--Debug.console("manager_char.lua","calcItemArmorClass","bIsShield",bIsShield);
+            local bIsRingOrCloak = (sSubtypeLower == "ring" or sSubtypeLower == "cloak" or sSubtypeLower == "robe");
+            if (not bIsRingOrCloak) then
+                bIsRingOrCloak = ItemManager2.isProtectionOther(vNode);
+            end
+--Debug.console("manager_char.lua","calcItemArmorClass","bIsRingOrCloak",bIsRingOrCloak);
+			if bIsArmor or bIsShield or bIsRingOrCloak then
                 -- no clue what bID is for yet -celestian, need to look at getIDState
 				local bID = LibraryData.getIDState("item", vNode, true);
 				
                 -- we only want the "bonus" value for ring/cloaks/robes
-				local bIsRingOrCloak = (sSubtypeLower == "ring" or sSubtypeLower == "cloak" or sSubtypeLower == "robe");
-                
-				local bIsShield = (sSubtypeLower == "shield");
 
 				if bIsShield then
 					if bID then

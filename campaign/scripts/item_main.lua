@@ -5,9 +5,9 @@
 
 function onInit()
     local nodeRecord = getDatabaseNode();
-Debug.console("item_main.lua","onInit1","nodeRecord",nodeRecord);
-Debug.console("item_main.lua","onInit2","nodeRecord",DB.getPath(nodeRecord, "abilitylist"));
-Debug.console("item_main.lua","onInit3","nodeRecord",DB.getPath(nodeRecord, "savelist"));
+-- Debug.console("item_main.lua","onInit1","nodeRecord",nodeRecord);
+-- Debug.console("item_main.lua","onInit2","nodeRecord",DB.getPath(nodeRecord, "abilitylist"));
+-- Debug.console("item_main.lua","onInit3","nodeRecord",DB.getPath(nodeRecord, "savelist"));
     DB.addHandler(DB.getPath(nodeRecord, "abilitylist"), "onChildUpdate", updateAbilityEffects);
     DB.addHandler(DB.getPath(nodeRecord, "savelist"), "onChildUpdate", updateSaveEffects);
     --DB.addHandler(DB.getPath(nodeRecord, "abilitylist"), "onChildAdded", update);
@@ -182,9 +182,9 @@ Debug.console("item_main.lua","updateAbilityEffects","nodeRecord",nodeRecord);
             sTypeChar = "BP";
         end
         
-Debug.console("item_main.lua","updateAbilityEffects","sType",sType);
-Debug.console("item_main.lua","updateAbilityEffects","sAbility",sAbility);
-Debug.console("item_main.lua","updateAbilityEffects","nModifier",nModifier);
+--Debug.console("item_main.lua","updateAbilityEffects","sType",sType);
+--Debug.console("item_main.lua","updateAbilityEffects","sAbility",sAbility);
+--Debug.console("item_main.lua","updateAbilityEffects","nModifier",nModifier);
         if (sAbility ~= "" and sType ~= "") then
             sEffectString = sEffectString .. sTypeChar .. sAbility:upper() .. ": " .. nModifier .. ";";
         end
@@ -221,9 +221,9 @@ Debug.console("item_main.lua","updatesaveEffects","nodeRecord",nodeRecord);
             sTypeChar = "B";
         end
         
-Debug.console("item_main.lua","updatesaveEffects","sType",sType);
-Debug.console("item_main.lua","updatesaveEffects","sSave",sSave);
-Debug.console("item_main.lua","updatesaveEffects","nModifier",nModifier);
+--Debug.console("item_main.lua","updatesaveEffects","sType",sType);
+--Debug.console("item_main.lua","updatesaveEffects","sSave",sSave);
+--Debug.console("item_main.lua","updatesaveEffects","nModifier",nModifier);
         if (sSave ~= "" and sType ~= "") then
             sEffectString = sEffectString .. sTypeChar .. sSave:upper() .. ": " .. nModifier .. ";";
         end

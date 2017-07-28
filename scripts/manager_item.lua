@@ -521,11 +521,11 @@ end
 -- NOTE: Assumed target and source base nodes 
 -- (item = campaign, charsheet = char inventory, partysheet = party inventory, treasureparcels = parcel inventory)
 function addItemToList(vList, sClass, vSource, bTransferAll, nTransferCount)
-Debug.console("manager_item.lua","addItemToList","vList",vList);
-Debug.console("manager_item.lua","addItemToList","sClass",sClass);
-Debug.console("manager_item.lua","addItemToList","vSource",vSource);
-Debug.console("manager_item.lua","addItemToList","bTransferAll",bTransferAll);
-Debug.console("manager_item.lua","addItemToList","nTransferCount",nTransferCount);
+-- Debug.console("manager_item.lua","addItemToList","vList",vList);
+-- Debug.console("manager_item.lua","addItemToList","sClass",sClass);
+-- Debug.console("manager_item.lua","addItemToList","vSource",vSource);
+-- Debug.console("manager_item.lua","addItemToList","bTransferAll",bTransferAll);
+-- Debug.console("manager_item.lua","addItemToList","nTransferCount",nTransferCount);
 
 	-- Get the source item database node object
 	local nodeSource = nil;
@@ -651,11 +651,11 @@ Debug.console("manager_item.lua","addItemToList","nTransferCount",nTransferCount
 			bCountN = true;
 		end
 		local nCount = 1;
-Debug.console("manager_item.lua","addItemToList","sSourceRecordType",sSourceRecordType);
-Debug.console("manager_item.lua","addItemToList","sTargetRecordType",sTargetRecordType);
-Debug.console("manager_item.lua","addItemToList","bTransferAll",bTransferAll);
-Debug.console("manager_item.lua","addItemToList","bCountN",bCountN);
-Debug.console("manager_item.lua","addItemToList","bAppend",bAppend);
+-- Debug.console("manager_item.lua","addItemToList","sSourceRecordType",sSourceRecordType);
+-- Debug.console("manager_item.lua","addItemToList","sTargetRecordType",sTargetRecordType);
+-- Debug.console("manager_item.lua","addItemToList","bTransferAll",bTransferAll);
+-- Debug.console("manager_item.lua","addItemToList","bCountN",bCountN);
+-- Debug.console("manager_item.lua","addItemToList","bAppend",bAppend);
 		if bCountN or sTargetRecordType ~= "item" then
 			if bCountN then
 				nCount = DB.getValue(nodeSource, "count", 1);
@@ -663,9 +663,9 @@ Debug.console("manager_item.lua","addItemToList","bAppend",bAppend);
 				nCount = math.min(DB.getValue(nodeSource, "count", 1), nTransferCount);
 			end
 			if bAppend then
-Debug.console("manager_item.lua","addItemToList","bAppend",bAppend);
+--Debug.console("manager_item.lua","addItemToList","bAppend",bAppend);
 				local nAppendCount = math.max(DB.getValue(nodeNew, "count", 1), 1);
-Debug.console("manager_item.lua","addItemToList","nAppendCount",nAppendCount);
+--Debug.console("manager_item.lua","addItemToList","nAppendCount",nAppendCount);
 				DB.setValue(nodeNew, "count", "number", nCount + nAppendCount);
 			else
 				DB.setValue(nodeNew, "count", "number", nCount);

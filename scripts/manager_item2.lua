@@ -18,14 +18,84 @@ function isArmor(vRecord)
 	
 	local sTypeLower = StringManager.trim(DB.getValue(nodeItem, "type", "")):lower();
 	local sSubtypeLower = StringManager.trim(DB.getValue(nodeItem, "subtype", "")):lower();
+    local sArmorTypeLower = StringManager.trim(DB.getValue(nodeItem, "armortype", "")):lower();
 
 	if (sTypeLower == "armor") then
 		bIsArmor = true;
 	end
+    if (sArmorTypeLower == "armor") then
+		bIsArmor = true;
+    end
+    if isShield(vRecord) then
+		bIsArmor = true;
+    end
+    if isProtectionOther(vRecord) then
+		bIsArmor = true;
+    end
+--Debug.console("manager_item2.lua","isArmor","bIsArmor",bIsArmor);
+--Debug.console("manager_item2.lua","isArmor","sTypeLower",sTypeLower);
+--Debug.console("manager_item2.lua","isArmor","sArmorTypeLower",sArmorTypeLower);
 	
 	return bIsArmor, sTypeLower, sSubtypeLower;
 end
+function isShield(vRecord)
+	local bIsArmor = false;
 
+	local nodeItem;
+	if type(vRecord) == "string" then
+		nodeItem = DB.findNode(vRecord);
+	elseif type(vRecord) == "databasenode" then
+		nodeItem = vRecord;
+	end
+	if not nodeItem then
+		return false, "", "";
+	end
+	
+	local sTypeLower = StringManager.trim(DB.getValue(nodeItem, "type", "")):lower();
+	local sSubtypeLower = StringManager.trim(DB.getValue(nodeItem, "subtype", "")):lower();
+    local sArmorTypeLower = StringManager.trim(DB.getValue(nodeItem, "armortype", "")):lower();
+
+	if (sTypeLower == "shield") then
+		bIsArmor = true;
+	end
+    if (sArmorTypeLower == "shield") then
+		bIsArmor = true;
+    end
+	
+--Debug.console("manager_item2.lua","isShield","bIsArmor",bIsArmor);
+--Debug.console("manager_item2.lua","isShield","sTypeLower",sTypeLower);
+--Debug.console("manager_item2.lua","isShield","sArmorTypeLower",sArmorTypeLower);
+	return bIsArmor, sTypeLower, sSubtypeLower;
+end
+function isProtectionOther(vRecord)
+	local bIsArmor = false;
+
+	local nodeItem;
+	if type(vRecord) == "string" then
+		nodeItem = DB.findNode(vRecord);
+	elseif type(vRecord) == "databasenode" then
+		nodeItem = vRecord;
+	end
+	if not nodeItem then
+		return false, "", "";
+	end
+	
+	local sTypeLower = StringManager.trim(DB.getValue(nodeItem, "type", "")):lower();
+	local sSubtypeLower = StringManager.trim(DB.getValue(nodeItem, "subtype", "")):lower();
+    local sArmorTypeLower = StringManager.trim(DB.getValue(nodeItem, "armortype", "")):lower();
+
+	if (sTypeLower == "ring" or sTypeLower == "cloak" or sTypeLower == "robe") then
+		bIsArmor = true;
+	end
+    if (sArmorTypeLower == "other") then
+		bIsArmor = true;
+    end
+--Debug.console("manager_item2.lua","isProtectionOther","bIsArmor",bIsArmor);
+--Debug.console("manager_item2.lua","isProtectionOther","sTypeLower",sTypeLower);
+--Debug.console("manager_item2.lua","isProtectionOther","sArmorTypeLower",sArmorTypeLower);
+	
+	return bIsArmor, sTypeLower, sSubtypeLower;
+end
 function isWeapon(vRecord)
 	local bIsWeapon = false;
 

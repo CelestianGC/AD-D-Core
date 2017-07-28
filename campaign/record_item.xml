@@ -214,6 +214,7 @@
             <!-- type of armor -->
 			<cycler_armortypes name="armortype">
 				<anchored to="armor_base_label" position="righthigh" offset="35,0" width="60"  height="20"/>
+                <gmeditonly />
 			</cycler_armortypes>
 
             <!-- armor base -->
@@ -222,6 +223,7 @@
 				<gmeditonly />
                 <default>0</default>
                 <hideonvalue>0</hideonvalue>
+                <gmeditonly />
 			</basicnumber>
 
 			<label name="acbase_top_label">
@@ -241,6 +243,7 @@
                 <default>0</default>
                 <hideonvalue>0</hideonvalue>
                 <displaysign />
+                <gmeditonly />
 			</basicnumber>
 			<label name="acbonus_top_label">
 				<anchored to="acbase_top_label" position="righthigh"  width="60" height="20" offset="-10" />
@@ -399,6 +402,7 @@
 			<cycler_abilitytypes name="type">
                 <anchored position="insidetopleft" offset="97,2" width="60" height="20" />
                 <tooltip textres="item_ability_type_tooltip" />
+                <gmeditonly />
 			</cycler_abilitytypes>
 
 			<cycler_ability_short name="ability">
@@ -411,6 +415,7 @@
 				<gmeditonly />
                 <default>0</default>
                 <hideonvalue>0</hideonvalue>
+                <gmeditonly />
 			</basicnumber>
         </sheetdata>
 	</windowclass>
@@ -440,10 +445,12 @@
 			<cycler_savetypes name="type">
                 <anchored position="insidetopleft" offset="97,2" width="60" height="20" />
                 <tooltip textres="item_save_type_tooltip" />
+                <gmeditonly />
 			</cycler_savetypes>
 
 			<cycler_saveselect name="save">
                 <anchored to="type" position="righthigh" offset="15,0" width="70"  height="20"/>
+                <gmeditonly />
 			</cycler_saveselect>
 
             <!-- save modifier/score -->
@@ -452,6 +459,7 @@
 				<gmeditonly />
                 <default>0</default>
                 <hideonvalue>0</hideonvalue>
+                <gmeditonly />
 			</basicnumber>
         </sheetdata>
 	</windowclass>
