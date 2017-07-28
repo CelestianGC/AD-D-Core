@@ -5,14 +5,21 @@
 
 function onInit()
     local nodeRecord = getDatabaseNode();
-    DB.addHandler(DB.getPath(nodeRecord, "abilitylist"), "onChildUpdate", update);
+Debug.console("item_main.lua","onInit1","nodeRecord",nodeRecord);
+Debug.console("item_main.lua","onInit2","nodeRecord",DB.getPath(nodeRecord, "abilitylist"));
+Debug.console("item_main.lua","onInit3","nodeRecord",DB.getPath(nodeRecord, "savelist"));
+    DB.addHandler(DB.getPath(nodeRecord, "abilitylist"), "onChildUpdate", updateAbilityEffects);
+    DB.addHandler(DB.getPath(nodeRecord, "savelist"), "onChildUpdate", updateSaveEffects);
     --DB.addHandler(DB.getPath(nodeRecord, "abilitylist"), "onChildAdded", update);
     --DB.addHandler(DB.getPath(nodeRecord, "abilitylist"), "onChildDeleted", update);
 	update();
+    updateAbilityEffects();
+    updateSaveEffects();
 end
 function onClose()
     local nodeRecord = getDatabaseNode();
-    DB.removeHandler(DB.getPath(nodeRecord, "abilitylist"), "onChildUpdate", update);
+    DB.removeHandler(DB.getPath(nodeRecord, "abilitylist"), "onChildUpdate", updateAbilityEffects);
+    DB.removeHandler(DB.getPath(nodeRecord, "savelist"), "onChildUpdate", updateSaveEffects);
     --DB.removeHandler(DB.getPath(nodeRecord, "abilitylist"), "onChildAdded", update);
     --DB.removeHandler(DB.getPath(nodeRecord, "abilitylist"), "onChildDeleted", update);
 end
@@ -50,6 +57,9 @@ function update()
     bWeapon = true;
     bArmor = true;
     bArcaneFocus = true;
+    
+    local sEffectString = DB.getValue(nodeRecord,"abilityeffect","") .. DB.getValue(nodeRecord,"saveeffect","");
+    effect.setValue(sEffectString);
 	
 	local bSection1 = false;
 	if bOptionID and User.isHost() then
@@ -100,36 +110,60 @@ function update()
     header_armorclass.setVisible(not bReadOnly);
     armor_base_label.setVisible(not bReadOnly);
     armortype.setVisible(not bReadOnly);
-    --armortype_top_label.setVisible(not bReadOnly);
+    armortype_top_label.setVisible(not bReadOnly);
     acbase.setVisible(not bReadOnly);
-    --acbase_top_label.setVisible(not bReadOnly);
+    acbase_top_label.setVisible(not bReadOnly);
     label_armorplus.setVisible(not bReadOnly);
     acbonus.setVisible(not bReadOnly);
-    --acbonus_top_label.setVisible(not bReadOnly);
+    acbonus_top_label.setVisible(not bReadOnly);
     
     header_abilities.setVisible(not bReadOnly);
     item_iedit.setVisible(not bReadOnly);
     ability_list.setVisible(not bReadOnly);
+
+    header_saves.setVisible(not bReadOnly);
+    saves_iedit.setVisible(not bReadOnly);
+    save_list.setVisible(not bReadOnly);
+
+    local bHasAbilityFeatures = (DB.getChildCount(nodeRecord, "abilitylist") > 0);
+    local bHasSaveFeatures = (DB.getChildCount(nodeRecord, "savelist") > 0);
+    if (not bReadOnly) then
+        ability_type_label.setVisible(bHasAbilityFeatures);
+        ability_ability_label.setVisible(bHasAbilityFeatures);
+        ability_value_label.setVisible(bHasAbilityFeatures);
+
+        save_type_label.setVisible(bHasSaveFeatures);
+        save_save_label.setVisible(bHasSaveFeatures);
+        save_value_label.setVisible(bHasSaveFeatures);
+    else
+        ability_type_label.setVisible(false);
+        ability_ability_label.setVisible(false);
+        ability_value_label.setVisible(false);
+
+        save_type_label.setVisible(false);
+        save_save_label.setVisible(false);
+        save_value_label.setVisible(false);
+    end
+
+	divider6.setVisible((bSection1 or bSection2 or bSection3 or bSection4) and bSection5);
+end
+
+function updateAbilityEffects()
+    local nodeRecord = getDatabaseNode();
+    local bReadOnly = WindowManager.getReadOnlyState(nodeRecord);
+Debug.console("item_main.lua","updateAbilityEffects","nodeRecord",nodeRecord);
 
     local bHasAbilityFeatures = (DB.getChildCount(nodeRecord, "abilitylist") > 0);
     if (not bReadOnly) then
         ability_type_label.setVisible(bHasAbilityFeatures);
         ability_ability_label.setVisible(bHasAbilityFeatures);
         ability_value_label.setVisible(bHasAbilityFeatures);
+
     else
         ability_type_label.setVisible(false);
         ability_ability_label.setVisible(false);
         ability_value_label.setVisible(false);
     end
-
-	divider6.setVisible((bSection1 or bSection2 or bSection3 or bSection4) and bSection5);
-    
-    updateAbilityEffects();
-end
-
-function updateAbilityEffects()
-    local nodeRecord = getDatabaseNode();
-Debug.console("item_main.lua","updateAbilityEffects","nodeRecord",nodeRecord);
 
     local sEffectString = "";
     for _,aEffect in pairs(DB.getChildren(nodeRecord, "abilitylist")) do
@@ -151,7 +185,49 @@ Debug.console("item_main.lua","updateAbilityEffects","nodeRecord",nodeRecord);
 Debug.console("item_main.lua","updateAbilityEffects","sType",sType);
 Debug.console("item_main.lua","updateAbilityEffects","sAbility",sAbility);
 Debug.console("item_main.lua","updateAbilityEffects","nModifier",nModifier);
-        sEffectString = sEffectString .. sTypeChar .. sAbility:upper() .. ": " .. nModifier .. ";";
+        if (sAbility ~= "" and sType ~= "") then
+            sEffectString = sEffectString .. sTypeChar .. sAbility:upper() .. ": " .. nModifier .. ";";
+        end
     end -- end for
-    DB.setValue(nodeRecord,"effect","string",sEffectString);
+    DB.setValue(nodeRecord,"abilityeffect","string",sEffectString);
+    update();
+end
+
+function updateSaveEffects()
+    local nodeRecord = getDatabaseNode();
+    local bReadOnly = WindowManager.getReadOnlyState(nodeRecord);
+Debug.console("item_main.lua","updatesaveEffects","nodeRecord",nodeRecord);
+    local bHasSaveFeatures = (DB.getChildCount(nodeRecord, "savelist") > 0);
+    if (not bReadOnly) then
+        save_type_label.setVisible(bHasSaveFeatures);
+        save_save_label.setVisible(bHasSaveFeatures);
+        save_value_label.setVisible(bHasSaveFeatures);
+    else
+        save_type_label.setVisible(false);
+        save_save_label.setVisible(false);
+        save_value_label.setVisible(false);
+    end
+
+    local sEffectString = "";
+    for _,aEffect in pairs(DB.getChildren(nodeRecord, "savelist")) do
+        local sType = DB.getValue(aEffect,"type","");
+        local sSave = DB.getValue(aEffect,"save","");
+        local nModifier = DB.getValue(aEffect,"value",0);
+        local sTypeChar = "";
+        
+        if (sType == "modifier") then
+            sTypeChar = "";
+        elseif (sType == "base") then 
+            sTypeChar = "B";
+        end
+        
+Debug.console("item_main.lua","updatesaveEffects","sType",sType);
+Debug.console("item_main.lua","updatesaveEffects","sSave",sSave);
+Debug.console("item_main.lua","updatesaveEffects","nModifier",nModifier);
+        if (sSave ~= "" and sType ~= "") then
+            sEffectString = sEffectString .. sTypeChar .. sSave:upper() .. ": " .. nModifier .. ";";
+        end
+    end -- end for
+    DB.setValue(nodeRecord,"saveeffect","string",sEffectString);
+    update();
 end

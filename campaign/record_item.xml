@@ -127,11 +127,11 @@
 				<nohide />
 				<gmeditonly />
 				<delaykeyupdate />
-				<script>
+				<!-- <script>
 					function onValueChanged()
 						window.update();
 					end
-				</script>
+				</script> -->
 			</string_columnh>
 
 			<label_column name="subtype_label">
@@ -140,11 +140,11 @@
 			<string_columnh name="subtype">
 				<gmeditonly />
 				<delaykeyupdate />
-				<script>
+				<!-- <script>
 					function onValueChanged()
 						window.update();
 					end
-				</script>
+				</script> -->
 			</string_columnh>
 
 			<label_column name="rarity_label">
@@ -193,23 +193,29 @@
 				<center />
 			</header_column>
 
+            
+			<label name="armortype_top_label">
+				<anchored width="60" height="20">
+					<top parent="columnanchor" anchor="bottom" relation="relative" offset="0" />
+					<left offset="115" />
+				</anchored>
+				<static textres="item_label_ac_type" />
+                <tooltip textres="item_label_ac_type_tooltip" />
+			</label>
+
 			<!-- armor base -->
             <label name="armor_base_label">
 				<anchored width="60" height="20">
-					<top parent="columnanchor" anchor="bottom" relation="relative" offset="20" />
+					<top parent="columnanchor" anchor="bottom" relation="relative" offset="0" />
 					<left offset="5" />
 				</anchored>
                 <static textres="item_label_ac_armor" />
             </label>
             <!-- type of armor -->
 			<cycler_armortypes name="armortype">
-				<anchored to="armor_base_label" position="righthigh" offset="55,0" width="40"  height="20"/>
+				<anchored to="armor_base_label" position="righthigh" offset="35,0" width="60"  height="20"/>
 			</cycler_armortypes>
-			<label_fieldtop name="armortype_top_label">
-				<anchored to="armortype" />
-				<static textres="item_label_ac_type" />
-                <tooltip textres="item_label_ac_type_tooltip" />
-			</label_fieldtop>
+
             <!-- armor base -->
 			<basicnumber name="acbase" source="ac">
 				<anchored to="armortype" position="righthigh" offset="15,0" width="40"  height="20"/>
@@ -217,10 +223,12 @@
                 <default>0</default>
                 <hideonvalue>0</hideonvalue>
 			</basicnumber>
-			<label_fieldtop name="acbase_top_label">
-				<anchored to="acbase" />
+
+			<label name="acbase_top_label">
+				<anchored to="armortype_top_label" position="righthigh" width="60" height="20" offset="5"/>
 				<static textres="item_label_ac_base" />
-			</label_fieldtop>
+			</label>
+            
 			<label name="label_armorplus">
 				<anchored to="acbase" position="righthigh" offset="5,0" width="10" />
 				<static>+</static>
@@ -234,16 +242,17 @@
                 <hideonvalue>0</hideonvalue>
                 <displaysign />
 			</basicnumber>
-			<label_fieldtop name="acbonus_top_label">
-				<anchored to="acbonus" />
+			<label name="acbonus_top_label">
+				<anchored to="acbase_top_label" position="righthigh"  width="60" height="20" offset="-10" />
 				<static textres="item_label_ac_bonus" />
-			</label_fieldtop>
+			</label>
 
+
+            <!-- ability features -->
 			<header_column name="header_abilities">
 				<static textres="header_abilities" />
 				<center />
 			</header_column>
-            <!-- global edit button -->
 			<button_iedit name="item_iedit">
 				<anchored to="header_abilities" position="insidetopright" offset="-5,0" />
 				<tooltip textres="char_abilities_tooltip_edit" />
@@ -257,7 +266,7 @@
 				</script>
 			</button_iedit>
 			<button_iadd name="item_ability_list_iadd">
-				<anchored to="item_iedit" position="belowright" />
+				<anchored to="item_iedit" position="lefthigh" offset="5,0" />
 				<target>ability_list</target>
 			</button_iadd>
 
@@ -297,6 +306,65 @@
 				</script>
 			</list_editor_item>
             
+            <!-- saves features -->
+			<header_column name="header_saves">
+				<static textres="header_saves" />
+				<center />
+			</header_column>
+			<button_iedit name="saves_iedit">
+				<anchored to="header_saves" position="insidetopright" offset="-5,0" />
+				<tooltip textres="char_abilities_tooltip_edit" />
+ 				<script>
+					function onValueChanged()
+						local bEditMode = (getValue() == 1);
+						
+						window.save_list_iadd.setVisible(bEditMode);
+						window.save_list.update();
+					end
+				</script>
+			</button_iedit>
+			<button_iadd name="save_list_iadd">
+				<anchored to="saves_iedit" position="lefthigh"  offset="5,0" />
+				<target>save_list</target>
+			</button_iadd>
+
+			<label name="save_type_label">
+				<anchored width="60" height="20">
+					<top parent="columnanchor" anchor="bottom" relation="relative" offset="0" />
+					<left offset="112" />
+				</anchored>
+				<static textres="item_label_save_type" />
+                <tooltip textres="item_save_type_tooltip" />
+			</label>
+			<label name="save_save_label">
+				<anchored to="save_type_label" position="righthigh" width="60" height="20" offset="20"/>
+				<static textres="item_label_save_name" />
+			</label>
+			<label name="save_value_label">
+				<anchored to="save_save_label" position="righthigh"  width="60" height="20" offset="10" />
+				<static textres="item_label_save_value" />
+			</label>
+            
+			<list_editor_item_saves name="save_list">
+				<datasource>.savelist</datasource>
+				<class>item_save_entry</class>
+				<script>
+					function addEntry(bFocus)
+						local n = getWindowCount();
+						
+						local w = createWindow();
+						if w then
+							if bFocus then
+								w.value.setFocus();
+							end
+						end
+						
+						return w;
+					end
+				</script>
+			</list_editor_item_saves>
+
+
 			<line_column name="divider6" />
             
 			<ft_columnh name="description">
@@ -321,7 +389,7 @@
 			<button_idelete name="idelete">
 				<anchored to="rightanchor">
 					<top />
-					<right anchor="left" relation="relative" offset="-15" />
+					<right anchor="left" relation="relative" offset="-5" />
 				</anchored>
 			</button_idelete>
             <label>
@@ -340,6 +408,47 @@
             <!-- ability modifier/score -->
 			<basicnumber name="value">
 				<anchored to="ability" position="righthigh" offset="15,0" width="40"  height="20"/>
+				<gmeditonly />
+                <default>0</default>
+                <hideonvalue>0</hideonvalue>
+			</basicnumber>
+        </sheetdata>
+	</windowclass>
+    
+     <!-- item save settings -->
+	<windowclass name="item_save_entry">
+		<margins control="0,0,0,5" />
+		<sheetdata>
+			<genericcontrol name="rightanchor">
+				<anchored width="0" height="0">
+					<top offset="2" />
+					<right />
+				</anchored>
+				<invisible />
+			</genericcontrol>
+
+			<button_idelete name="idelete">
+				<anchored to="rightanchor">
+					<top />
+					<right anchor="left" relation="relative" offset="-5" />
+				</anchored>
+			</button_idelete>
+            <label>
+                <anchored position="insidetopleft" offset="5,2" width="90" height="20" />
+                <static textres="item_label_savefeature" />
+            </label>
+			<cycler_savetypes name="type">
+                <anchored position="insidetopleft" offset="97,2" width="60" height="20" />
+                <tooltip textres="item_save_type_tooltip" />
+			</cycler_savetypes>
+
+			<cycler_saveselect name="save">
+                <anchored to="type" position="righthigh" offset="15,0" width="70"  height="20"/>
+			</cycler_saveselect>
+
+            <!-- save modifier/score -->
+			<basicnumber name="value">
+				<anchored to="save" position="righthigh" offset="15,0" width="40"  height="20"/>
 				<gmeditonly />
                 <default>0</default>
                 <hideonvalue>0</hideonvalue>

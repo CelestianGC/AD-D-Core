@@ -334,11 +334,16 @@
 	<string name="item_ability_type_tooltip">Type of feature. Modifier of an ability score. Percent Modifier of an ability score. Base value of an ability score. Base Percent value of an ability score.</string>
 	<string name="item_label_ability_name">Ability</string>
 	<string name="item_label_ability_value">Value</string>
+
+	<string name="header_saves">Save Features</string>
+	<string name="item_save_type_tooltip">Modifier of a save score. Base value of a save score.</string>
+	<string name="item_label_save_type">Type</string>
+	<string name="item_label_save_name">Save</string>
+	<string name="item_label_save_value">Value</string>
+	<string name="item_label_savefeature">Feature</string>
+    
 	<string name="item_label_ac_type_tooltip">Type: Armor, Shield, Other (ring,cloak,boots,other)</string>
 	<string name="item_label_ac_armor">Protection</string>
-	<string name="item_label_ac_shield">Shield</string>
-	<string name="item_label_ac_other">Other</string>
-	<string name="item_label_ac_other_tooltip">Other types of armor such as rings, cloaks, helms, boots, NOT Shields or Armor.</string>
 	<string name="item_label_ac_base">Base</string>
 	<string name="item_label_ac_bonus">Modifier</string>
 	<string name="item_label_abilityfeature">Feature</string>
