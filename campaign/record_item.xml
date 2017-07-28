@@ -160,9 +160,20 @@
 				<static textres="item_label_cost" />
 			</label_column>
 			<string_columnh name="cost">
+                <anchored>
+                    <right offset="-200"/>
+                </anchored>
 				<gmeditonly />
 			</string_columnh>
+			<!-- xp value -->
+			<label_column name="exp_label">
+				<static textres="item_label_exp" />
+			</label_column>
+			<number_columnh name="exp">
+				<gmeditonly />
+			</number_columnh>
 
+            
 			<label_column name="weight_label">
 				<static textres="item_label_weight" />
 			</label_column>
@@ -170,23 +181,6 @@
 				<gmeditonly />
 			</number_columnh>
 
-			<line_column name="divider3" />
-
-			<label_column name="effect_label">
-				<static textres="item_label_effect" />
-                <tooltip textres="item_label_effect_tooltip" />
-			</label_column>
-			<string_columnh name="effect">
-				<gmeditonly />
-                <readonly />
-			</string_columnh>
-
-            <label_column name="properties_label">
-				<static textres="item_label_properties" />
-			</label_column>
-			<string_columnh name="properties">
-				<gmeditonly />
-			</string_columnh>
 			
 			<header_column name="header_armorclass">
 				<static textres="header_armorclass" />
@@ -368,7 +362,25 @@
 			</list_editor_item_saves>
 
 
-			<line_column name="divider6" />
+			<line_column name="divider3" />
+
+			<label_column name="effect_label">
+				<static textres="item_label_effect" />
+                <tooltip textres="item_label_effect_tooltip" />
+			</label_column>
+			<string_columnh name="effect">
+				<gmeditonly />
+                <readonly />
+			</string_columnh>
+
+            <label_column name="properties_label">
+				<static textres="item_label_properties" />
+			</label_column>
+			<string_columnh name="properties">
+				<gmeditonly />
+			</string_columnh>
+
+			<line_column name="divider4" />
             
 			<ft_columnh name="description">
 				<gmeditonly />

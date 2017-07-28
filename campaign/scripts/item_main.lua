@@ -85,6 +85,7 @@ function update()
 	local bSection3 = false;
 	if updateControl("effect", bReadOnly, bID) then bSection3 = true; end
 	if updateControl("cost", bReadOnly, bID) then bSection3 = true; end
+	if updateControl("exp", bReadOnly, bID) then bSection3 = true; end
 	if updateControl("weight", bReadOnly, bID) then bSection3 = true; end
 	
 	local bSection4 = false;
@@ -145,7 +146,7 @@ function update()
         save_value_label.setVisible(false);
     end
 
-	divider6.setVisible((bSection1 or bSection2 or bSection3 or bSection4) and bSection5);
+	--divider6.setVisible((bSection1 or bSection2 or bSection3 or bSection4) and bSection5);
 end
 
 function updateAbilityEffects()
