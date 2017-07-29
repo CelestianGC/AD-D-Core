@@ -355,31 +355,22 @@ function calcItemArmorClass(nodeChar)
             end
 --Debug.console("manager_char.lua","calcItemArmorClass","bIsRingOrCloak",bIsRingOrCloak);
 			if bIsArmor or bIsShield or bIsRingOrCloak then
-                -- no clue what bID is for yet -celestian, need to look at getIDState
 				local bID = LibraryData.getIDState("item", vNode, true);
-				
-                -- we only want the "bonus" value for ring/cloaks/robes
-
+                -- we could use bID to make the AC not apply until the item is ID'd? --celestian
 				if bIsShield then
 					if bID then
 						nMainShieldTotal = nMainShieldTotal + (DB.getValue(vNode, "ac", 0)) + (DB.getValue(vNode, "bonus", 0));
 					else
 						nMainShieldTotal = nMainShieldTotal + (DB.getValue(vNode, "ac", 0)) + (DB.getValue(vNode, "bonus", 0));
---						nMainShieldTotal = nMainShieldTotal - DB.getValue(vNode, "ac", 0);
 					end
+                -- we only want the "bonus" value for ring/cloaks/robes
 				elseif bIsRingOrCloak then 
 					if bID then
 						nMainShieldTotal = nMainShieldTotal + DB.getValue(vNode, "bonus", 0);
 					else
 						nMainShieldTotal = nMainShieldTotal + DB.getValue(vNode, "bonus", 0);
---						nMainShieldTotal = nMainShieldTotal - DB.getValue(vNode, "ac", 0);
 					end
 				else
---					if bID then
---						nMainArmorTotal = nMainArmorTotal + (DB.getValue(vNode, "ac", 0) - 10) + DB.getValue(vNode, "bonus", 0);
---					else
---						nMainArmorTotal = nMainArmorTotal + (DB.getValue(vNode, "ac", 0) - 10);
---					end
 					if bID then
 						nMainArmorBase = DB.getValue(vNode, "ac", 0);
 					else
@@ -392,32 +383,6 @@ function calcItemArmorClass(nodeChar)
 						nMainArmorTotal = nMainArmorTotal -(DB.getValue(vNode, "bonus", 0));
 					end
 					
-					-- local sItemDexBonus = DB.getValue(vNode, "dexbonus", ""):lower();
-					-- if sItemDexBonus:match("yes") then
-						-- local nMaxBonus = tonumber(sItemDexBonus:match("max (%d)")) or 0;
-						-- if nMaxBonus == 2 then
-							-- if sMainDexBonus == "" or sMainDexBonus == "max3" then
-								-- sMainDexBonus = "max2";
-							-- end
-						-- elseif nMaxBonus == 3 then
-							-- if sMainDexBonus == "" then
-								-- sMainDexBonus = "max3";
-							-- end
-						-- end
-					-- else
-						-- sMainDexBonus = "no";
-					-- end
-					
-					-- local sItemStealth = DB.getValue(vNode, "stealth", ""):lower();
-					-- if sItemStealth == "disadvantage" then
-						-- nMainStealthDis = 1;
-					-- end
-					
-					-- local sItemStrength = StringManager.trim(DB.getValue(vNode, "strength", "")):lower();
-					-- local nItemStrRequired = tonumber(sItemStrength:match("str (%d+)")) or 0;
-					-- if nItemStrRequired > 0 then
-						-- nMainStrRequired = math.max(nMainStrRequired, nItemStrRequired);
-					-- end
 				end
 			end
 		end
@@ -436,25 +401,16 @@ function calcItemArmorClass(nodeChar)
 	DB.setValue(nodeChar, "defenses.ac.dexbonus", "string", sMainDexBonus);
 	DB.setValue(nodeChar, "defenses.ac.disstealth", "number", nMainStealthDis);
 	
-	local bArmorSpeedPenalty = false;
-	-- if nMainStrRequired > 0 then
-		-- local nPCStr = ActorManager2.getAbilityScore(ActorManager.getActor("pc", nodeChar), "strength");
-		-- if nPCStr < nMainStrRequired then
-			-- bArmorSpeedPenalty = true;
-			
-			-- local sRace = DB.getValue(nodeChar, "race", ""):lower();
-			-- if sRace:match(RACE_DWARF) or sRace:match(RACE_DUERGAR) then
-				-- bArmorSpeedPenalty = false;
-			-- end
-		-- end
+    -- add speed penalty for armor type around here? --celestian
+    
+	-- local bArmorSpeedPenalty = false;
+	-- local nArmorSpeed = 0;
+	-- if bArmorSpeedPenalty then
+		-- nArmorSpeed = -10;
 	-- end
-	local nArmorSpeed = 0;
-	if bArmorSpeedPenalty then
-		nArmorSpeed = -10;
-	end
-	DB.setValue(nodeChar, "speed.armor", "number", nArmorSpeed);
-	local nSpeedTotal = DB.getValue(nodeChar, "speed.base", 12) + nArmorSpeed + DB.getValue(nodeChar, "speed.misc", 0) + DB.getValue(nodeChar, "speed.temporary", 0);
-	DB.setValue(nodeChar, "speed.total", "number", nSpeedTotal);
+	-- DB.setValue(nodeChar, "speed.armor", "number", nArmorSpeed);
+	-- local nSpeedTotal = DB.getValue(nodeChar, "speed.base", 12) + nArmorSpeed + DB.getValue(nodeChar, "speed.misc", 0) + DB.getValue(nodeChar, "speed.temporary", 0);
+	-- DB.setValue(nodeChar, "speed.total", "number", nSpeedTotal);
 end
 
 ---

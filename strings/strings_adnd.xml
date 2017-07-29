@@ -330,8 +330,8 @@
 	<string name="base">Base</string>
 	<string name="base_percent">Base %</string>
     
-	<string name="header_armorclass">Armor Class</string>
-	<string name="header_abilities">Ability Score Features</string>
+	<string name="header_armorclass">Protection Features</string>
+	<string name="header_abilities">Ability Features</string>
 	<string name="item_label_ac_type">Type</string>
 	<string name="item_label_ability_type">Type</string>
 	<string name="item_ability_type_tooltip">Type of feature. Modifier of an ability score. Percent Modifier of an ability score. Base value of an ability score. Base Percent value of an ability score.</string>

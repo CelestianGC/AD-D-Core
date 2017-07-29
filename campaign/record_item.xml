@@ -127,11 +127,11 @@
 				<nohide />
 				<gmeditonly />
 				<delaykeyupdate />
-				<!-- <script>
+				<script>
 					function onValueChanged()
 						window.update();
 					end
-				</script> -->
+				</script>
 			</string_columnh>
 
 			<label_column name="subtype_label">
@@ -140,11 +140,11 @@
 			<string_columnh name="subtype">
 				<gmeditonly />
 				<delaykeyupdate />
-				<!-- <script>
+				<script>
 					function onValueChanged()
 						window.update();
 					end
-				</script> -->
+				</script>
 			</string_columnh>
 
 			<label_column name="rarity_label">
@@ -160,9 +160,6 @@
 				<static textres="item_label_cost" />
 			</label_column>
 			<string_columnh name="cost">
-                <anchored>
-                    <right offset="-200"/>
-                </anchored>
 				<gmeditonly />
 			</string_columnh>
 			<!-- xp value -->
