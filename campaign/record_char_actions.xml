@@ -182,11 +182,13 @@
 		<script>
             function onInit()
                 local node = getDatabaseNode();
-                if string.match(node.getPath(),"^item") and not User.isHost() then
+                if not string.match(node.getPath(),"^charsheet") and not User.isHost() then
                     return;
                 end				
-                
-                DB.setValue(node, "powermode", "string", "preparation");
+                local sMode = DB.getValue(node, "powermode","");
+                if (sMode == "") then
+                    DB.setValue(node, "powermode", "string", "standard");
+                end
             end
             
 			function onDrop(x, y, draginfo)
@@ -403,7 +405,7 @@
                 <script>
                     function onInit()
                         local node = getDatabaseNode();
-                        if string.match(node.getPath(),"^item") and not User.isHost() then
+                        if not string.match(node.getPath(),"^charsheet") and not User.isHost() then
                             return;
                         end				
                         registerMenuItem(Interface.getString("list_menu_createitem"), "insert", 5);
@@ -466,7 +468,7 @@
 		<script>
             function onInit()
                 local node = getDatabaseNode();
-                if string.match(node.getPath(),"^item") and not User.isHost() then
+                if not string.match(node.getPath(),"^charsheet") and not User.isHost() then
                     return;
                 end				
                 registerMenuItem(Interface.getString("list_menu_createitem"), "insert", 5);
@@ -600,7 +602,7 @@
 		<script>
             function onInit()
                 local node = getDatabaseNode();
-                if string.match(node.getPath(),"^item") and not User.isHost() then
+                if not string.match(node.getPath(),"^charsheet") and not User.isHost() then
                     return;
                 end				
                 registerMenuItem(Interface.getString("list_menu_createitem"), "insert", 5);
