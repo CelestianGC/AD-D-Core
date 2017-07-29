@@ -9,10 +9,6 @@
 	<windowclass name="charsheet_actions">
 		<script>
 			function onDrop(x, y, draginfo)
-                local node = getDatabaseNode();
-                if string.match(node.getPath(),"^item") and not User.isHost() then
-                    return;
-                end
 				if contents.subwindow.actions.subwindow.onDrop(x, y, draginfo) then
 					return true;
 				end
@@ -127,10 +123,6 @@
 	<windowclass name="charsheet_actions_weapons">
 		<script>
 			function onDrop(x, y, draginfo)
-                local node = getDatabaseNode();
-                if string.match(node.getPath(),"^item") and not User.isHost() then
-                    return;
-                end
 				if contents.subwindow.weapons.onDrop(x, y, draginfo) then
 					return true;
 				end
@@ -143,10 +135,6 @@
 				<tooltip textres="char_tooltip_actionedit" />
 				<script>
 					function onValueChanged()
-                        local node = getDatabaseNode();
-                        if string.match(node.getPath(),"^item") and not User.isHost() then
-                            return;
-                        end
 						local bEditMode = (getValue() == 1);
 						
 						window.weapons_iadd.setVisible(bEditMode);
@@ -167,10 +155,6 @@
 				<invisible />
 				<script>
 					function onButtonPress()
-                        local node = getDatabaseNode();
-                        if string.match(node.getPath(),"^item") and not User.isHost() then
-                            return;
-                        end
 						window.contents.subwindow.weapons.addEntry(true);
 					end
 				</script>
@@ -197,13 +181,14 @@
 	<windowclass name="charsheet_actions_powers">
 		<script>
             function onInit()
+<<<<<<< HEAD
+=======
+                node = getDatabaseNode();
+				DB.setValue(node, "powermode", "string", "preparation");
+>>>>>>> parent of 149daa9... items
             end
             
 			function onDrop(x, y, draginfo)
-                local node = getDatabaseNode();
-                if string.match(node.getPath(),"^item") and not User.isHost() then
-                    return;
-                end
 				if contents.subwindow.actions.subwindow.onDrop(x, y, draginfo) then
 					return true;
 				end
@@ -216,10 +201,6 @@
 				<tooltip textres="char_tooltip_actionedit" />
 				<script>
 					function onValueChanged()
-                        local node = window.getDatabaseNode();
-                        if string.match(node.getPath(),"^item") and not User.isHost() then
-                            return;
-                        end
 						local bEditMode = (getValue() == 1);
 						
 						window.powers_iadd.setVisible(bEditMode);
@@ -244,10 +225,6 @@
 				<invisible />
 				<script>
 					function onButtonPress()
-                        local node = getDatabaseNode();
-                        if string.match(node.getPath(),"^item") and not User.isHost() then
-                            return;
-                        end
 						window.contents.subwindow.actions.subwindow.addPower(true);
 					end
 				</script>
@@ -279,10 +256,6 @@
 				</parameters>
 				<script>
 					function onValueChanged()
-                        local node = getDatabaseNode();
-                        if string.match(node.getPath(),"^item") and not User.isHost() then
-                            return;
-                        end
 						window.contents.subwindow.onModeChanged();
 					end
 				</script>
@@ -301,10 +274,6 @@
 				</parameters>
 				<script>
 					function onValueChanged()
-                        local node = getDatabaseNode();
-                        if string.match(node.getPath(),"^item") and not User.isHost() then
-                            return;
-                        end
 						window.contents.subwindow.actions.subwindow.onDisplayChanged();
 					end
 				</script>
@@ -432,10 +401,6 @@
 			<list_charweapon name="weapons">
                 <script>
                     function onInit()
-                        local node = getDatabaseNode();
-                        if string.match(node.getPath(),"^item") and not User.isHost() then
-                            return;
-                        end
                         registerMenuItem(Interface.getString("list_menu_createitem"), "insert", 5);
                     end
                     function onMenuSelection(selection, subselection)
@@ -495,10 +460,6 @@
 		<margins control="0,0,0,2" />
 		<script>
             function onInit()
-                local node = getDatabaseNode();
-                if string.match(node.getPath(),"^item") and not User.isHost() then
-                    return;
-                end
                 registerMenuItem(Interface.getString("list_menu_createitem"), "insert", 5);
                 onModeChanged();
             end
@@ -629,10 +590,6 @@
 		<margins control="0,0,0,2" />
 		<script>
             function onInit()
-                local node = getDatabaseNode();
-                if string.match(node.getPath(),"^item") and not User.isHost() then
-                    return;
-                end
                 registerMenuItem(Interface.getString("list_menu_createitem"), "insert", 5);
                 onModeChanged();
             end
