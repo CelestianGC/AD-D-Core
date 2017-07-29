@@ -181,11 +181,12 @@
 	<windowclass name="charsheet_actions_powers">
 		<script>
             function onInit()
-<<<<<<< HEAD
-=======
-                node = getDatabaseNode();
-				DB.setValue(node, "powermode", "string", "preparation");
->>>>>>> parent of 149daa9... items
+                local node = getDatabaseNode();
+                if string.match(node.getPath(),"^item") and not User.isHost() then
+                    return;
+                end				
+                
+                DB.setValue(node, "powermode", "string", "preparation");
             end
             
 			function onDrop(x, y, draginfo)
@@ -401,6 +402,10 @@
 			<list_charweapon name="weapons">
                 <script>
                     function onInit()
+                        local node = getDatabaseNode();
+                        if string.match(node.getPath(),"^item") and not User.isHost() then
+                            return;
+                        end				
                         registerMenuItem(Interface.getString("list_menu_createitem"), "insert", 5);
                     end
                     function onMenuSelection(selection, subselection)
@@ -460,6 +465,10 @@
 		<margins control="0,0,0,2" />
 		<script>
             function onInit()
+                local node = getDatabaseNode();
+                if string.match(node.getPath(),"^item") and not User.isHost() then
+                    return;
+                end				
                 registerMenuItem(Interface.getString("list_menu_createitem"), "insert", 5);
                 onModeChanged();
             end
@@ -590,6 +599,10 @@
 		<margins control="0,0,0,2" />
 		<script>
             function onInit()
+                local node = getDatabaseNode();
+                if string.match(node.getPath(),"^item") and not User.isHost() then
+                    return;
+                end				
                 registerMenuItem(Interface.getString("list_menu_createitem"), "insert", 5);
                 onModeChanged();
             end
