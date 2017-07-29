@@ -33,8 +33,8 @@ end
 
 function onModeChanged()
     local node = window.getDatabaseNode();
-	local bPrepMode = (DB.getValue(node, "powermode", "") == "preparation");
-    bPrepMode = true; -- I wanna have equipped/carried item view always, so set this to always true 
+	--local bPrepMode = (DB.getValue(node, "powermode", "") == "preparation");
+    local bPrepMode = true; -- I wanna have equipped/carried item view always, so set this to always true 
     --celestian
     
     -- if this is a item record, we don't go into prepmode for carried
