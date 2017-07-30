@@ -382,6 +382,14 @@
 			<ft_columnh name="description">
 				<gmeditonly />
 			</ft_columnh>
+
+			<header_column name="dmonly_label">
+				<static textres="header_dmonly" />
+				<center />
+			</header_column>
+			<ft_columnh name="dmonly">
+				<gmeditonly />
+			</ft_columnh>
 		</sheetdata>
 	</windowclass>
     

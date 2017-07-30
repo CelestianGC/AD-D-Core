@@ -79,9 +79,9 @@ function update()
 	local bSection2 = false;
 	if updateControl("type", bReadOnly, bID) then bSection2 = true; end
     bSection2 = (type.getValue() ~= "");
-Debug.console("item_main.lua","update","bSection2",bSection2);    
-Debug.console("item_main.lua","update","bReadOnly",bReadOnly);    
-Debug.console("item_main.lua","update","bID",bID);    
+--Debug.console("item_main.lua","update","bSection2",bSection2);    
+--Debug.console("item_main.lua","update","bReadOnly",bReadOnly);    
+--Debug.console("item_main.lua","update","bID",bID);    
 	if bHost then
 		istemplate.setVisible(bID);
 		istemplate.setReadOnly(bReadOnly);
@@ -112,9 +112,11 @@ Debug.console("item_main.lua","update","bID",bID);
 	--if updateControl("dexbonus", bReadOnly, bID and bArmor) then bSection4 = true; end
 	--if updateControl("strength", bReadOnly, bID and bArmor) then bSection4 = true; end
 	--if updateControl("stealth", bReadOnly, bID and bArmor) then bSection4 = true; end
-
 	if updateControl("properties", bReadOnly, bID and (bWeapon or bArmor)) then bSection4 = true; end
 	
+    local bSection6 = false;
+	if updateControl("dmonly", bReadOnly, bID and User.isHost()) then bSection6 = true; end
+
 	local bSection5 = bID;
 	description.setVisible(bID);
 	description.setReadOnly(bReadOnly);
@@ -162,6 +164,7 @@ Debug.console("item_main.lua","update","bID",bID);
     end
 
 	--divider4.setVisible((bSection1 or bSection2 or bSection3 or bSection4) and bSection5);
+	--divider6.setVisible(bSection6);
 end
 
 function updateAbilityEffects()
@@ -171,7 +174,7 @@ function updateAbilityEffects()
     
     local nodeRecord = getDatabaseNode();
     local bReadOnly = WindowManager.getReadOnlyState(nodeRecord);
-Debug.console("item_main.lua","updateAbilityEffects","nodeRecord",nodeRecord);
+--Debug.console("item_main.lua","updateAbilityEffects","nodeRecord",nodeRecord);
 
     local bHasAbilityFeatures = (DB.getChildCount(nodeRecord, "abilitylist") > 0);
     if (not bReadOnly) then
@@ -219,7 +222,7 @@ function updateSaveEffects()
     end
     local nodeRecord = getDatabaseNode();
     local bReadOnly = WindowManager.getReadOnlyState(nodeRecord);
-Debug.console("item_main.lua","updatesaveEffects","nodeRecord",nodeRecord);
+--Debug.console("item_main.lua","updatesaveEffects","nodeRecord",nodeRecord);
     local bHasSaveFeatures = (DB.getChildCount(nodeRecord, "savelist") > 0);
     if (not bReadOnly) then
         save_type_label.setVisible(bHasSaveFeatures);

@@ -350,6 +350,8 @@
 	<string name="item_label_ac_base">Base</string>
 	<string name="item_label_ac_bonus">Modifier</string>
 	<string name="item_label_abilityfeature">Feature</string>
+
+	<string name="header_dmonly">Dungeon Master Only</string>
     
    	<!-- Pregens -->
 	<string name="pregen_label_background">Kit</string>
