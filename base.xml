@@ -164,5 +164,4 @@
     <!-- AD&D specific settings -->
  	<script name="LibraryDataADNDCORE" file="scripts/data_library_core.lua" />
 
-    
 </root>

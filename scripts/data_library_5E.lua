@@ -76,6 +76,26 @@ function getSpellLevelValue(vNode)
 end
 
 aRecords = {
+	-- ["image"] = { 
+		-- bExport = true,
+		-- bID = true,
+		-- sIDOption = "IMID",
+		-- aDataMap = { "image", "reference.images" }, 
+		-- aDisplayIcon = { "button_maps", "button_maps_down" }, 
+		-- sListDisplayClass = "masterindexitem_id",
+		-- sRecordDisplayClass = "imagewindow",
+		-- aGMListButtons = { "button_folder_image", "button_store_image" },
+	-- },
+	-- ["image"] = { 
+		-- bExport = true,
+		-- bID = true,
+		-- sIDOption = "IMID",
+		-- aDataMap = { "image", "reference.images" }, 
+		-- aDisplayIcon = { "button_maps", "button_maps_down" }, 
+		-- sListDisplayClass = "imagelist",
+		-- sRecordDisplayClass = "image",
+		-- aGMListButtons = { "button_folder_image", "button_store_image" },
+	-- },
 	["npc"] = { 
 		bExport = true,
 		aDataMap = { "npc", "reference.npcdata" }, 

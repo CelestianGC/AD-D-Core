@@ -1731,7 +1731,7 @@
 	<windowclass name="charsheet_abilities_details">
 		<frame>charsheethelper</frame>
 		<placement>
-			<size width="550" height="475" />
+			<size width="530" height="475" />
 		</placement>
 		<nodelete />
 		<sheetdata>
@@ -1775,6 +1775,7 @@
             <label_ability_details_stat name="strength_label">
 				<anchored>
 					<top offset="5" />
+                    <left offset="30" />
 				</anchored>
 				<static text="Strength" />
             </label_ability_details_stat>
@@ -1915,7 +1916,7 @@
             <label_ability_details name="strength_percent_label">
 				<anchored>
 					<top offset="30" />
-					<left />
+                    <left offset="30" />
 				</anchored>
 				<static text="Str %" />
             </label_ability_details>
@@ -1986,6 +1987,7 @@
             <label_ability_details_stat name="dexterity_label">
 				<anchored>
 					<top offset="55" />
+                    <left offset="30" />
 				</anchored>
 				<static text="Dexterity" />
             </label_ability_details_stat>
@@ -2057,7 +2059,7 @@
             <label_ability_details name="dexterity_percent_label">
 				<anchored>
 					<top offset="80" />
-					<left />
+                    <left offset="30" />
 				</anchored>
 				<static text="Dex %" />
             </label_ability_details>
@@ -2132,6 +2134,7 @@
             <label_ability_details_stat name="constitution_label">
 				<anchored>
 					<top offset="105" />
+                    <left offset="30" />
 				</anchored>
 				<static text="Constitution" />
             </label_ability_details_stat>
@@ -2203,7 +2206,7 @@
             <label_ability_details name="constitution_percent_label">
 				<anchored>
 					<top  offset="130" />
-					<left />
+                    <left offset="30" />
 				</anchored>
 				<static text="Con %" />
             </label_ability_details>
@@ -2276,6 +2279,7 @@
             <label_ability_details_stat name="intelligence_label">
 				<anchored>
 					<top offset="155" />
+                    <left offset="30" />
 				</anchored>
 				<static text="Intelligence" />
             </label_ability_details_stat>
@@ -2346,7 +2350,7 @@
             <label_ability_details name="intelligence_percent_label">
 				<anchored >
 					<top  offset="180" />
-					<left />
+                    <left offset="30" />
 				</anchored>
 				<static text="Int %" />
             </label_ability_details>
@@ -2419,6 +2423,7 @@
             <label_ability_details_stat name="wisdom_label">
 				<anchored>
 					<top offset="205" />
+                    <left offset="30" />
 				</anchored>
 				<static text="Wisdom" />
             </label_ability_details_stat>
@@ -2490,7 +2495,7 @@
             <label_ability_details name="wisdom_percent_label">
 				<anchored >
 					<top offset="230" />
-					<left />
+                    <left offset="30" />
 				</anchored>
 				<static text="Wis %" />
             </label_ability_details>
@@ -2563,6 +2568,7 @@
             <label_ability_details_stat name="charisma_label">
 				<anchored>
 					<top offset="255" />
+                    <left offset="30" />
 				</anchored>
 				<static text="Charisma" />
             </label_ability_details_stat>
@@ -2634,7 +2640,7 @@
             <label_ability_details name="charisma_percent_label">
 				<anchored >
 					<top offset="280" />
-					<left />
+                    <left offset="30" />
 				</anchored>
 				<static text="Chr %" />
             </label_ability_details>

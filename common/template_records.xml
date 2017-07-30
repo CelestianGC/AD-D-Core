@@ -34,4 +34,182 @@
 			<multilinespacing merge="delete" />
 		</string_record_name>
 	</template>
+    
+    <!-- SW test --> 
+	<template name="sub_record_header">
+		<subwindow>
+			<anchored>
+				<top offset="23" />
+				<left offset="15" />
+				<right offset="-20" />
+			</anchored>
+			<activate />
+			<fastinit />
+		</subwindow>
+	</template>
+	<template name="frame_record_content">
+		<genericcontrol name="contentframe">
+			<anchored>
+				<top parent="header" anchor="bottom" offset="23" />
+				<left offset="35" />
+				<right offset="-35" />
+				<bottom offset="-32" />
+			</anchored>
+			<frame name="groupbox" offset="20,17,20,17" />
+			<disabled />
+		</genericcontrol>
+	</template>
+	<template name="frame_record_content_tabbed">
+		<genericcontrol name="contentframe">
+			<anchored>
+				<top parent="header" anchor="bottom" offset="23" />
+				<left offset="35" />
+				<right offset="-45" />
+				<bottom offset="-32" />
+			</anchored>
+			<frame name="groupbox" offset="20,17,24,17" />
+			<disabled />
+		</genericcontrol>
+	</template>
+	<template name="frame_record_content_full">
+		<genericcontrol name="contentframe">
+			<anchored>
+				<top />
+				<left />
+				<right />
+				<bottom />
+			</anchored>
+			<frame name="groupbox" />
+			<disabled />
+		</genericcontrol>
+	</template>
+	<template name="area_parcel_content">
+		<genericcontrol name="contentframe">
+			<anchored>
+				<top parent="header" anchor="bottom" offset="23" />
+				<left offset="35" />
+				<right offset="-35" />
+				<bottom offset="-32" />
+			</anchored>
+			<disabled />
+		</genericcontrol>
+	</template>
+
+	<template name="sub_record_header_image">
+		<sub_record_header_image_step>
+			<bounds>21,22,-27,49</bounds>
+		</sub_record_header_image_step>
+	</template>
+
+	<template name="sub_record_toolbar_image">
+		<sub_record_toolbar_image_step>
+			<bounds>21,67,-27,36</bounds>
+			<fastinit />
+		</sub_record_toolbar_image_step>
+	</template>
+
+	<template name="image_record">
+		<image_record_step>
+			<bounds>21,110,-27,-29</bounds>
+			<pointertypes>
+				<arrow>
+					<icon>pointer</icon>
+					<label>Draw Arrow</label>
+				</arrow>
+				<custom name="sw_cone">
+					<icon>pointer_cone</icon>
+					<label>Draw Cone</label>
+				</custom>
+				<custom name="sw_sb">
+					<icon>pointer_circle</icon>
+					<label>Draw Small Burst</label>
+				</custom>
+				<custom name="sw_mb">
+					<icon>pointer_circle</icon>
+					<label>Draw Medium Burst</label>
+				</custom>
+				<custom name="sw_lb">
+					<icon>pointer_circle</icon>
+					<label>Draw Large Burst</label>
+				</custom>
+			</pointertypes>
+			<script file="campaign/scripts/image_record.lua" />
+		</image_record_step>
+	</template>
+
+	<template name="anchor_record_header_right">
+		<genericcontrol name="rightanchor">
+			<anchored height="0" width="0">
+				<top offset="10" />
+				<right />
+			</anchored>
+		</genericcontrol>
+	</template>
+	<template name="anchor_record_image_header_right">
+		<genericcontrol name="rightanchor">
+			<anchored height="0" width="0">
+				<top offset="10" />
+				<right offset="-20" />
+			</anchored>
+		</genericcontrol>
+	</template>
+
+	<template name="link_record_header">
+		<link_control>
+			<bounds>6,12,20,20</bounds>
+			<readonly />
+		</link_control>
+	</template>
+	<template name="link_record_header_id">
+		<linkcontrol_id>
+			<bounds>6,12,20,20</bounds>
+			<readonly />
+		</linkcontrol_id>
+	</template>
+<!-- 	<template name="string_record_name">
+		<titlestringfield>
+			<anchored mergerule="replace">
+				<top offset="7" />
+				<left offset="40" />
+				<right parent="rightanchor" anchor="left" relation="relative" offset="-15" />
+			</anchored>
+			<frame name="groupbox" offset="10,7,10,5" />
+			<font>sheetlabelsw</font>
+			<multilinespacing>30</multilinespacing>
+			<nodrag />
+			<delaykeyupdate />
+		</titlestringfield>
+	</template> -->
+<!-- 	<template name="string_record_name_image">
+		<string_record_name>
+			<anchored height="23" merge="merge">
+				<top offset="9" />
+			</anchored>
+			<multilinespacing merge="delete" />
+		</string_record_name>
+	</template> -->
+
+	<template name="record_token">
+		<tokenfield name="token">
+			<anchored to="rightanchor" width="25" height="25">
+				<top offset="-2" />
+				<right parent="rightanchor" anchor="left" relation="relative" offset="-3" />
+			</anchored>
+			<empty>token_empty</empty>
+			<script>
+				function onDoubleClick(...)
+					CombatManager.openMap(window.getDatabaseNode())
+				end
+			</script>
+		</tokenfield>
+	</template>
+	<template name="record_hostility">
+		<hostility name="hostility">
+			<anchored to="rightanchor">
+				<top offset="1" />
+				<right parent="rightanchor" anchor="left" relation="relative" offset="-3" />
+			</anchored>
+		</hostility>
+	</template>
+    <!-- end SW -->
 </root>

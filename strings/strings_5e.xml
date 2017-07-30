@@ -795,6 +795,9 @@
 	<string name="forge_item_message_missing">Error, please add items before attempting to forge!</string>
 	
 	<!-- Library - Master Index -->
+	<string name="library_recordtype_label_map2">Map2</string>
+	<string name="library_recordtype_empty_map2">&#171; New Map &#187;</string>
+
 	<string name="library_recordtype_label_background">Backgrounds</string>
 	<string name="library_recordtype_empty_background">&#171; New Background &#187;</string>
 	<string name="library_recordtype_label_class">Classes</string>

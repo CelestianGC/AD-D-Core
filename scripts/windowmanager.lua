@@ -1,5 +1,8 @@
 function onInit()
-    Interface.onWindowOpened = ctOnTopAlways;
+    -- uncomment this and everytime a window is opened
+    -- the combat tracker will be moved ontop.
+    
+    --Interface.onWindowOpened = ctOnTopAlways;
 end
 
 -- keep the combat tracker on top all the time
