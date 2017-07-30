@@ -6,16 +6,35 @@
 -->
 
 <root>
-	<template name="sub_record_header_image">
-		<sub_record_header_image_step>
-			<bounds>21,23,-27,40</bounds>
-		</sub_record_header_image_step>
+	<template name="image_record">
+		<image_record_step>
+			<bounds>21,110,-27,-29</bounds>
+			<pointertypes>
+				<arrow>
+					<icon>pointer</icon>
+					<label>Draw Arrow</label>
+				</arrow>
+				<custom name="sw_cone">
+					<icon>pointer_cone</icon>
+					<label>Draw Cone</label>
+				</custom>
+				<custom name="sw_sb">
+					<icon>pointer_circle</icon>
+					<label>Draw Small Burst</label>
+				</custom>
+				<custom name="sw_mb">
+					<icon>pointer_circle</icon>
+					<label>Draw Medium Burst</label>
+				</custom>
+				<custom name="sw_lb">
+					<icon>pointer_circle</icon>
+					<label>Draw Large Burst</label>
+				</custom>
+			</pointertypes>
+			<script file="campaign/scripts/image_record.lua" />
+		</image_record_step>
 	</template>
-	<template name="sub_record_toolbar_image">
-		<sub_record_toolbar_image_step>
-			<bounds>21,63,-27,36</bounds>
-		</sub_record_toolbar_image_step>
-	</template>
+    
 	<windowclass name="imagewindow_header" merge="join">
 		<sheetdata>
 			<button_record_isidentified name="isidentified">
@@ -95,36 +114,6 @@
 					end
 				</script>
 			</stringfield>
-			<buttoncontrol name="clear_inactive_tokens">
-				<anchored to="toolbar_anchor" width="34" height="34">
-					<top />
-					<left anchor="right" relation="relative" />
-				</anchored>
-				<frame name="toolbar_30" />
-				<state icon="indicator_stop" />
-				<tooltip textres="image_tooltip_toolclearinactivetokens" />
-				<invisible />
-<!-- 				<script>
-					function onInit()
-						if User.isHost() then
-							Input.onAlt = onAlt
-							onAlt(Input.isAltPressed())
-						end
-					end
-					function onAlt(bState)
-						setVisible(bState and window.getImage().hasTokens())
-					end
-					function onButtonPress()
-						if User.isHost() then
-							for _,token in pairs(window.getImage().getTokens()) do
-								if TokenManager.isInactiveToken(token) then
-									token.delete()
-								end
-							end
-						end
-					end
-				</script> -->
-			</buttoncontrol>
 		</sheetdata>
 	</windowclass>
     
