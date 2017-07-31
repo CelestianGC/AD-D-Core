@@ -157,10 +157,13 @@
 				<anchored to="proficiencies_iedit" position="lefthigh" offset="5,0" />
 				<target>proficiencies</target>
 			</button_iadd>
+
 			<list_column name="proficiencies">
 				<datasource>.proficiencies</datasource>
 				<class>ref_racial_proficiencies</class>
-			</list_column>		
+			</list_column>	
+
+            
 		</sheetdata>
 	</windowclass>
 
@@ -592,11 +595,6 @@
 			</link_listitem_column>
 			<button_listitem_column_delete name="idelete" />
 
-			<string_listitem_column_name name="name">
-				<empty textres="library_recordtype_empty_racialtrait" />
-			</string_listitem_column_name>			
-			
-			
             
 			<number_adjustment name="dmgadj">
 				<anchored to="rightanchor">
@@ -642,7 +640,19 @@
 				<multilinespacing>20</multilinespacing>
 				<tabtarget next="hitadj" prev="dmgadj" />
 			</string_textlistitem>
-         </sheetdata>
+
+            <stringfield name="name">
+                <anchored>
+                    <top />
+                    <right parent="rightanchor" anchor="left" relation="relative" offset="-5" />
+                </anchored>
+                <font>sheetlabel</font>
+                <multilinespacing>20</multilinespacing>
+                <empty textres="library_recordtype_empty_racialtrait" />
+            </stringfield>
+			
+
+        </sheetdata>
 	</windowclass>
 	
 	
