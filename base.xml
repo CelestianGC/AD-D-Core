@@ -20,6 +20,7 @@
 	
     <importinfo>
         <acceptfrom ruleset="5E" />
+        <acceptfrom ruleset="CoreRPG" />
     </importinfo>
     
 	<!-- Tabletop settings -->

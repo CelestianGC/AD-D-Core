@@ -3,9 +3,25 @@
 -- attribution and copyright information.
 --
 
-function getScaleControl()
-	return window.toolbar.subwindow.scale
+-- this causes problems when the map is marked read only so I went another route --celestian
+-- function getScaleControl()
+    -- return window.toolbar.subwindow.scale;
+-- end
+function getScaleControlValue()
+    local node = getDatabaseNode().getChild("..");
+    local sValue = DB.getValue(node,"scale","10ft"); -- default to 10ft here but we should never see this.
+    return sValue;
 end
+function getScaleControlisValid()
+    return getScaleControlValue():find("^%d") ~= nil
+end
+function getScaleControlScaleValue()
+    return getScaleControlisValid() and tonumber(getScaleControlValue():match("^(%d+)")) or 0
+end
+function getScaleControlScaleLabel()
+    return StringManager.trim(getScaleControlValue():gsub("^%d+%s*", ""))
+end
+--
 
 function getClosestSnapPoint(x, y)
 	if hasGrid() then
@@ -189,8 +205,8 @@ function onMeasureVector(token, aVector)
 			end
 		end
 
-		if getScaleControl().isValid() then
-			return math.floor(nDistance * getScaleControl().getScaleValue()) .. getScaleControl().getScaleLabel()
+		if getScaleControlisValid() then
+			return math.floor(nDistance * getScaleControlScaleValue()) .. getScaleControlScaleLabel()
 		else
 			return ""
 		end
@@ -215,8 +231,8 @@ function onMeasurePointer(nLength, sPointerType, nStartX, nStartY, nEndX, nEndY)
 			nDistance = measureVector(nEndX - nStartX, nEndY - nStartY, sGridType, nGridSize)
 		end
 
-		if getScaleControl().isValid() then
-			return math.floor(nDistance * getScaleControl().getScaleValue()) .. getScaleControl().getScaleLabel()
+		if getScaleControlisValid() then
+			return math.floor(nDistance * getScaleControlScaleValue()) .. getScaleControlScaleLabel()
 		else
 			return ""
 		end
@@ -244,9 +260,9 @@ function onBuildCustomPointer(nStartX, nStartY, nEndX, nEndY, sType)
 	local aDistancePosition
 	local bDrawArrow
 
-	local u = 32 / getScaleControl().getScaleValue()
+	local u = 32 / getScaleControlScaleValue()
 	if hasGrid() then
-		u = getGridSize() / getScaleControl().getScaleValue()
+		u = getGridSize() / getScaleControlScaleValue()
 	end
 	local nAngle = math.atan2(nEndX - nStartX, - nEndY + nStartY)
 
