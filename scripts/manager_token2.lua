@@ -38,6 +38,8 @@ end
 function onScaleChanged(tokenCT, nodeCT)
 	updateHealthBarScale(tokenCT, nodeCT);
 	updateEffectsHelper(tokenCT, nodeCT);
+    -- testing
+    updateNameScale(tokenCT);
 end
 
 function onHover(tokenCT, nodeCT, bOver)
@@ -82,6 +84,8 @@ end
 
 function updateTooltip(tokenCT, nodeCT)
 	local sOptTNAM = OptionsManager.getOption("TNAM");
+Debug.console("manager_token2.lua","updateTooltip","sOptTNAM",sOptTNAM);
+
 	local sOptTH, sOptTE;
 	if DB.getValue(nodeCT, "friendfoe", "") == "friend" then
 		sOptTE = OptionsManager.getOption("TPCE");
@@ -95,9 +99,10 @@ function updateTooltip(tokenCT, nodeCT)
 		sOptTE = OptionsManager.getOption("DM_SHOW_NPC_EFFECTS");
 		sOptTH = OptionsManager.getOption("DM_SHOW_NPC_HEALTHBAR");
     end
-		
-	local aTooltip = {};
-	if sOptTNAM == "tooltip" then
+
+    local aTooltip = {};
+    -- changed this to include "on" also so that it's title+tooltip --celestian
+	if sOptTNAM == "tooltip" or sOptTNAM == "on" then
 		table.insert(aTooltip, DB.getValue(nodeCT, "name", ""));
 	end
 	if sOptTH == "tooltip" then

@@ -229,7 +229,7 @@
     <template name="number_charskill_nosign">
         <basicnumber>
             <anchored width="32" height="20" />
-            <delaykeyupdate />
+            <!-- <delaykeyupdate /> -->
             <hideonvalue>0</hideonvalue>
             <nodrag />
         </basicnumber>
