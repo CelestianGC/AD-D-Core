@@ -176,6 +176,14 @@ aRecords = {
 			["Level"] = { sField = "level", sType = "number" };
 		},
 	},
+	["table"] = { 
+		bExport = true,
+		aDataMap = { "tables", "reference.tables" }, 
+		aDisplayIcon = { "button_tables", "button_tables_down" },
+		-- sRecordDisplayClass = "table", 
+		aGMEditButtons = { "button_add_table_guided","button_import_table" };
+	},
+    
 };
 
 aDefaultSidebarState = {

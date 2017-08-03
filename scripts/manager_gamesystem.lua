@@ -102,7 +102,7 @@ function getPregenCharSelectDetail(nodePregenChar)
 end
 
 function getDistanceUnitsPerGrid()
-Debug.console("manager_gamesystem.lua","getDistanceUnitsPerGrid","DataCommonADND.nDefaultDistancePerUnitGrid",DataCommonADND.nDefaultDistancePerUnitGrid);
+--Debug.console("manager_gamesystem.lua","getDistanceUnitsPerGrid","DataCommonADND.nDefaultDistancePerUnitGrid",DataCommonADND.nDefaultDistancePerUnitGrid);
 	return DataCommonADND.nDefaultDistancePerUnitGrid;
 --	return 5;
 end

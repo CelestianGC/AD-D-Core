@@ -472,4 +472,10 @@
     <string name="ref_type_nonweaponproficiency">Non-Weapon Proficiency</string>
     <string name="library_recordtype_empty_nonweaponproficiency">&#171; New Non-Weapon Proficiency &#187;</string>
     
+    <string name="table_button_import_tooltip">Import text to table.</string>
+    <string name="table_import_window_title">IMPORT TABLE</string>
+    <string name="table_import_text_title">IMPORT TEXT</string>
+    <string name="table_import_text_button">Import</string>
+    
+    
 </root>

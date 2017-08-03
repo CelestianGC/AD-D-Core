@@ -1,0 +1,221 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<!-- 
+  Please see the license.html file included with this distribution for 
+  attribution and copyright information.
+-->
+
+<root>
+	<windowclass name="table_import_window">
+        <script>
+            function closeWindow()
+                window.close();
+            end
+        </script>
+		<frame>charsheethelper</frame>
+		<placement>
+			<size width="520" height="330" />
+		</placement>
+		<sizelimits>
+			<minimum width="520" height="330" />
+			<dynamic />
+		</sizelimits>
+		<sheetdata>
+            <windowtitlebar_char name="title">
+                <prefix>table_import_window_title</prefix>
+            </windowtitlebar_char>
+            <anchor_title_charsheethelper name="contentanchor" />
+			<subwindow name="contents">
+				<anchored>
+					<top offset="0" />
+					<bottom offset="-30" />
+					<left offset="0" />
+					<right offset="-15" />
+				</anchored>
+				<class>table_import_contents</class>
+				<activate />
+				<fastinit />
+			</subwindow>
+			<scrollbar_charcontents />
+            <buttoncontrol name="importbutton">
+				<anchored to="contents" position="below" offset="0,10"  height="20" />
+                <icon normal="button_dialog_check_red" pressed="button_dialog_ok" />
+                <script>
+                    function onButtonPress(x, y)
+                        window.contents.subwindow.importTextAsTable();
+                        window.contents.subwindow.tableimporttext.setValue("");
+                        window.close();
+                    end
+                </script>
+            </buttoncontrol>
+			<label_fieldtop name="label_importtext_button">
+				<anchored to="importbutton" />
+				<static textres="table_import_text_button" />
+			</label_fieldtop>
+            
+            <close>
+                <anchored>
+                    <top offset="24" />
+                    <right offset="0" />
+                </anchored>
+            </close>
+		</sheetdata>
+	</windowclass>
+
+	<windowclass name="table_import_contents">
+        <!-- <margins control="5,5,5,5" /> -->
+        <script file="campaign/scripts/table_import.lua" />         
+		<sheetdata>
+
+			<anchor_column name="columnanchor" />
+			<anchor_left />
+            <anchor_right />
+            
+
+            <label_charframetop name="importtabletitle">
+				<anchored height="20">
+					<top parent="columnanchor" anchor="bottom" relation="relative" offset="75" />
+					<left offset="15" />
+					<right offset="-10" />
+				</anchored>
+				<static textres="table_import_text_title" />
+			</label_charframetop>
+            <stringu name="tableimporttext">
+                <anchored>
+                    <top parent="columnanchor" anchor="bottom" relation="relative" offset="5" />
+                    <left offset="15" />
+                    <right offset="-10" />
+                </anchored>
+                <multilinespacing>20</multilinespacing>
+            </stringu>
+            <scrollbar>
+                <anchored to="tableimporttext" offset="-5,-10"/>
+                <target>tableimporttext</target>
+            </scrollbar>
+        </sheetdata>
+	</windowclass>
+
+    
+    	<windowclass name="ct_healthadjust">
+		<frame>charsheethelper</frame>
+		<placement>
+			<size width="400" height="220" />
+		</placement>
+		<nodelete />
+		<sheetdata>
+            <windowtitlebar name="title">
+                <prefix>ct_healthadjustment_title</prefix>
+                <bounds merge="replace">0,10,-1,120</bounds>
+                <field>name</field>
+                <font>subwindowtitle</font>
+                <script>
+                    function setValue(sTitle)
+                        if widgetTitle then
+                            if prefix then
+                                sTitle = Interface.getString(prefix[1]) .. " - " .. sTitle;
+                            end
+                            widgetTitle.setText(sTitle);
+                            updatePosition();
+                        end
+                    end
+                </script>
+            </windowtitlebar>
+            
+            <genericcontrol name="contentanchor" >
+                <anchored height="0">
+                    <top parent="title" anchor="bottom" offset="0" />
+                    <left parent="" anchor="left" offset="20" />
+                    <right parent="" anchor="right" offset="-20" />
+                </anchored>
+                <disabled />
+            </genericcontrol>
+
+			<anchor_column name="columnanchor">
+				<anchored to="contentanchor" position="below" offset="0,-5" />
+			</anchor_column>
+
+			<label name="label_healthadjust_amount">
+				<anchored to="columnanchor" position="belowleft" offset="20,15" width="300" height="45" />
+                <multilinespacing>20</multilinespacing>
+				<static textres="ct_healthadjustment_detail" />
+			</label>
+            
+			<basicnumber name="healthadjustment">
+				<anchored to="label_healthadjust_amount" position="belowleft" offset="120,15" width="55" height="20" />
+				<hideonvalue value="0" />
+                <script>
+                    function applyChange(sAdjustmentType)
+						local node = window.getDatabaseNode();
+						local rActor = ActorManager.getActorFromCT(node);
+                        local nAdjustment = self.getValue();
+                        if (sAdjustmentType == "heal") then
+                            nAdjustment = -(nAdjustment);
+                        end
+                        if (nAdjustment ~= 0) then
+                            ActionDamage.applyDamage(nil, rActor, CombatManager.isCTHidden(node), "DM manually applied adjustment-NOTSHOWN.", nAdjustment);
+                        end
+                        setValue(0);
+                        window.close();
+                    end
+                </script>
+			</basicnumber>
+			<label_fieldtop name="label_healthadj_top">
+				<anchored to="healthadjustment" />
+				<static textres="ct_healthadjustment_input" />
+			</label_fieldtop>
+
+            <buttoncontrol name="healthadjustdamage">
+				<anchored to="healthadjustment" position="belowleft" offset="-30,5" width="35" height="20" />
+                <icon normal="button_dialog_check_red" pressed="button_dialog_ok" />
+                <script>
+                    function onButtonPress(x, y)
+                        window.healthadjustment.applyChange("damage");
+                    end
+                </script>
+            </buttoncontrol>
+			<label_fieldbottom name="label_applydamage_button">
+				<anchored to="healthadjustdamage" />
+				<static textres="ct_healthadjustment_damagebutton" />
+			</label_fieldbottom>
+
+
+            <buttoncontrol name="healthadjustheal">
+				<anchored to="healthadjustment" position="belowright" offset="10,5" width="35" height="20" />
+                <icon normal="button_dialog_check_green" pressed="button_dialog_ok" />
+                <script>
+                    function onButtonPress(x, y)
+                        window.healthadjustment.applyChange("heal");
+                    end
+                </script>
+            </buttoncontrol>
+			<label_fieldbottom name="label_applyheal_button">
+				<anchored to="healthadjustheal" />
+				<static textres="ct_healthadjustment_healbutton" />
+			</label_fieldbottom>
+            
+            <buttoncontrol name="healthadjustcancel">
+				<anchored to="healthadjustheal" position="right" offset="5,0" width="35" />
+                <icon normal="button_dialog_cancel" pressed="button_dialog_cancel_down" />
+                <script>
+                    function onButtonPress(x, y)
+                        window.healthadjustment.setValue(0);
+                        window.close();
+                    end
+                </script>
+            </buttoncontrol>
+			<label_fieldbottom name="label_cancel_button">
+				<anchored to="healthadjustcancel" />
+				<static textres="ct_healthadjustment_cancelbutton" />
+			</label_fieldbottom>
+
+            <close>
+			<anchored>
+				<top offset="24" />
+				<right offset="-12" />
+			</anchored>
+		</close>
+
+		</sheetdata>
+	</windowclass>
+
+</root>
