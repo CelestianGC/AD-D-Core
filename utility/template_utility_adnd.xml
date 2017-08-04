@@ -17,7 +17,7 @@
 			<script>
                 function onButtonPress()
                     if User.isHost() then
-                        Interface.openWindow("table_import_window", window.getDatabaseNode());
+                        Interface.openWindow("table_import_window", "");
                     end
                 end
             </script>

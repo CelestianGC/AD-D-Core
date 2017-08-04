@@ -7,14 +7,9 @@
 
 <root>
 	<windowclass name="table_import_window">
-        <script>
-            function closeWindow()
-                window.close();
-            end
-        </script>
 		<frame>charsheethelper</frame>
 		<placement>
-			<size width="220" height="200" />
+			<size width="320" height="300" />
 		</placement>
 		<sizelimits>
 			<minimum width="220" height="200" />
