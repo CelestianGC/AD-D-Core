@@ -12,7 +12,7 @@
 				<top />
 				<right anchor="left" relation="relative" offset="-5" />
 			</anchored>
-			<icon normal="button_add_table_guided" pressed="button_add_table_guided_down" />
+			<icon normal="button_importtext_table" pressed="button_importtext_table_down" />
 			<tooltip textres="table_button_import_tooltip" />
 			<script>
                 function onButtonPress()
