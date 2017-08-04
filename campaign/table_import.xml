@@ -7,12 +7,13 @@
 
 <root>
 	<windowclass name="table_import_window">
+        <margins control="2,2,2,2" />
 		<frame>charsheethelper</frame>
 		<placement>
 			<size width="320" height="300" />
 		</placement>
 		<sizelimits>
-			<minimum width="220" height="200" />
+			<minimum width="220" height="300" />
 			<dynamic />
 		</sizelimits>
 		<sheetdata>
@@ -20,10 +21,32 @@
                 <prefix>table_import_window_title</prefix>
             </windowtitlebar_char>
             <anchor_title_charsheethelper name="contentanchor" />
+			<anchor_left />
+            <anchor_right />
+            <label_charframetop>
+				<anchored>
+					<top parent="contentanchor" anchor="bottom" relation="relative" offset="5" />
+					<left parent="leftanchor" anchor="right" relation="relative" offset="35" />
+					<!-- <right parent="rightanchor" anchor="left" relation="relative" offset="35" /> -->
+                    <right offset="-45"/>
+				</anchored>
+                <multilinespacing>20</multilinespacing>
+				<static textres="table_import_text_helptext" />
+			</label_charframetop>
+
+            <label_charframetop name="importtabletitle">
+				<anchored height="20">
+					<top parent="contentanchor" anchor="bottom" relation="relative" offset="5" />
+					<left offset="35"/>
+					<right offset="-45"/>
+				</anchored>
+				<static textres="table_import_text_title" />
+			</label_charframetop>
+            
 			<subwindow name="contents">
 				<anchored>
-					<top offset="0" />
-					<bottom offset="-30" />
+					<top parent="contentanchor" anchor="bottom" relation="relative" offset="0" />
+					<bottom offset="-40" />
 					<left offset="0" />
 					<right offset="-15" />
 				</anchored>
@@ -31,10 +54,9 @@
 				<activate />
 				<fastinit />
 			</subwindow>
-			<scrollbar_charcontents />
-            <buttoncontrol name="importbutton">
-				<anchored to="contents" position="below" offset="0,-10"  height="20" />
-                <icon normal="button_dialog_check_red" pressed="button_dialog_ok" />
+            <scrollbar_charcontents />
+            <!-- <buttoncontrol name="importbutton">
+				<anchored to="contents" position="below" offset="0,0"  height="20" />
                 <script>
                     function onButtonPress(x, y)
                         window.contents.subwindow.importTextAsTable();
@@ -42,11 +64,36 @@
                         window.close();
                     end
                 </script>
-            </buttoncontrol>
-			<label_fieldtop name="label_importtext_button">
+				<static textres="table_import_text_button" />
+            </buttoncontrol> -->
+            
+            <!-- -->
+			<stringfield>
+                <anchored to="contents" position="belowleft" offset="0,0"  height="20">
+                    <left parent="title" anchor="right" offset="-75" />
+                </anchored>
+                <script>
+                    function onClickDown()
+                        window.contents.subwindow.importTextAsTable();
+                        window.contents.subwindow.tableimporttext.setValue("");
+                        window.close();
+                    end
+                </script>
+                <font>arial-bold-8</font>
+                <frame name="fielddark" offset="7,8,7,8" />
+                <stateframe>
+                    <hover name="rowshade" offset="7,8,7,8" />
+                </stateframe>
+                <cursor hover="hand" />
+                <readonly />
+				<static textres="table_import_text_button" />
+			</stringfield>
+            <!-- -->
+            
+<!-- 			<label_fieldtop name="label_importtext_button">
 				<anchored to="importbutton" />
 				<static textres="table_import_text_button" />
-			</label_fieldtop>
+			</label_fieldtop> -->
             
             <close>
                 <anchored>
@@ -74,25 +121,6 @@
             <anchor_right />
             
 
-            <label_charframetop>
-				<anchored>
-					<top parent="columnanchor" anchor="bottom" relation="relative" offset="50" />
-					<left parent="leftanchor" anchor="right" relation="relative" offset="5" />
-					<!-- <right parent="rightanchor" anchor="left" relation="relative" offset="35" /> -->
-                    <right />
-				</anchored>
-                <multilinespacing>20</multilinespacing>
-				<static textres="table_import_text_helptext" />
-			</label_charframetop>
-
-            <label_charframetop name="importtabletitle">
-				<anchored height="20">
-					<top parent="columnanchor" anchor="bottom" relation="relative" offset="5" />
-					<left />
-					<right />
-				</anchored>
-				<static textres="table_import_text_title" />
-			</label_charframetop>
             <stringu name="tableimporttext">
                 <anchored>
                     <top parent="columnanchor" anchor="bottom" relation="relative" offset="5" />
@@ -101,10 +129,6 @@
                 </anchored>
                 <multilinespacing>20</multilinespacing>
             </stringu>
-            <scrollbar>
-                <anchored to="tableimporttext" offset="-5,-10"/>
-                <target>tableimporttext</target>
-            </scrollbar>
         </sheetdata>
 	</windowclass>
 </root>
