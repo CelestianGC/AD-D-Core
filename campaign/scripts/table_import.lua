@@ -5,7 +5,7 @@
 
 function onInit()
 --Debug.console("table_import.lua","onInit","window.getDatabaseNode",window.getDatabaseNode());    
---Debug.console("table_import.lua","onInit","getDatabaseNode",getDatabaseNode());    
+--Debug.console("table_import.lua","onInit","getDatabaseNode",getDatabaseNode());
 end
 
 
@@ -18,8 +18,8 @@ function createBlankTable()
 	if node then
 		local w = Interface.openWindow("table", node.getNodeName());
 		--TableManager.createRows(node, nRows, nStep, bSpecial);
-		if w and w.name then
-			w.name.setFocus();
+		if w and w.header.subwindow.name then
+			w.header.subwindow.name.setFocus();
 		end
 	end
     return node;

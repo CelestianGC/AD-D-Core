@@ -16,6 +16,11 @@
 			<minimum width="220" height="300" />
 			<dynamic />
 		</sizelimits>
+        <script>
+            function onInit()
+                contents.subwindow.tableimporttext.setFocus();
+            end
+        </script>
 		<sheetdata>
             <windowtitlebar_char name="title">
                 <prefix>table_import_window_title</prefix>
