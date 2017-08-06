@@ -5,7 +5,7 @@
 
 function onInit()
     local nodeRecord = getDatabaseNode();
--- Debug.console("item_main.lua","onInit1","nodeRecord",nodeRecord);
+Debug.console("item_main.lua","onInit1","nodeRecord",nodeRecord);
 -- Debug.console("item_main.lua","onInit2","nodeRecord",DB.getPath(nodeRecord, "abilitylist"));
 -- Debug.console("item_main.lua","onInit3","nodeRecord",DB.getPath(nodeRecord, "savelist"));
     DB.addHandler(DB.getPath(nodeRecord, "abilitylist"), "onChildUpdate", updateAbilityEffects);

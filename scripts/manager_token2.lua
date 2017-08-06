@@ -38,8 +38,6 @@ end
 function onScaleChanged(tokenCT, nodeCT)
 	updateHealthBarScale(tokenCT, nodeCT);
 	updateEffectsHelper(tokenCT, nodeCT);
-    -- testing
-    updateNameScale(tokenCT);
 end
 
 function onHover(tokenCT, nodeCT, bOver)
