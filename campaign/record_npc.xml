@@ -602,7 +602,7 @@
 				<anchored to="cr" />
 			</number_column_right>
 			
-			<header_column name="header_actions">
+<!-- 			<header_column name="header_actions">
 				<static textres="npc_header_actions" />
 			</header_column>
 			<button_iedit name="actions_iedit">
@@ -739,7 +739,7 @@
 				<datasource>.spells</datasource>
 				<class>npc_power</class>
 			</list_npcactions>
-		</sheetdata>
+ -->		</sheetdata>
 	</windowclass>
 
 	<windowclass name="npc_power">
