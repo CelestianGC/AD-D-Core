@@ -73,7 +73,21 @@
             </buttoncontrol> -->
             
             <!-- -->
-			<stringfield>
+			<button_text_sm>
+                <anchored to="contents" position="belowleft" offset="0,0"  height="20" width="70">
+                    <left parent="title" anchor="right" offset="-100" />
+                </anchored>
+                <script>
+                    function onButtonPress()
+                        window.contents.subwindow.importTextAsTable();
+                        window.contents.subwindow.tableimporttext.setValue("");
+                        window.close();
+                    end
+                </script>
+				<state textres="table_import_text_button" />
+			</button_text_sm>
+
+<!-- 			<stringfield>
                 <anchored to="contents" position="belowleft" offset="0,0"  height="20">
                     <left parent="title" anchor="right" offset="-75" />
                 </anchored>
@@ -93,6 +107,8 @@
                 <readonly />
 				<static textres="table_import_text_button" />
 			</stringfield>
+ -->
+
             <!-- -->
             
 <!-- 			<label_fieldtop name="label_importtext_button">
