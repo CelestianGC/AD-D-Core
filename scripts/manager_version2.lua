@@ -4,7 +4,7 @@
 --
 
 local rsname = "AD&D Core";
-local rsmajorversion = 12;
+local rsmajorversion = 14;
 
 function onInit()
 	if User.isHost() or User.isLocal() then
@@ -95,6 +95,9 @@ function updateCampaign()
 		-- if major < 12 then
             -- convertItemsType();
 		-- end
+		if major < 14 then
+           updateNPCs();
+		end
 	end
 end
 
@@ -425,3 +428,28 @@ end
         -- -- DB.deleteChild(nodeItem, "weapon_type");
 	-- -- end
 -- end
+
+-- update NPCs to have saves based on HD and set default ability scores.
+function updateNPCs()
+	for _,nodeNPC in pairs(DB.getChildren("npc")) do
+        -- set default saves for HDice.
+--Debug.console("manager_version2.lua","updateNPCs","nodeNPC",nodeNPC);
+        CombatManager2.updateNPCSaves(nodeNPC, nodeNPC, true);
+        
+        if DB.getChildCount(nodeNPC, "abilities") < 6 then
+--Debug.console("manager_version2.lua","updateNPCs","nodeNPC Add abilities",nodeNPC);
+            local nodeAbilites = nodeNPC.createChild("abilities");
+            for _,sAbility in pairs(DataCommon.abilities) do
+                local nodeAbility = nodeAbilites.createChild(sAbility);
+                DB.setValue(nodeAbility,"score","number",10);
+            end
+        end
+        AbilityScores.updateStrength(nodeNPC,DB.getValue(nodeNPC,"strength",10));
+        AbilityScores.updateDexterity(nodeNPC,DB.getValue(nodeNPC,"dexterity",10));
+        AbilityScores.updateWisdom(nodeNPC,DB.getValue(nodeNPC,"wisdom",10));
+        AbilityScores.updateConstitution(nodeNPC,DB.getValue(nodeNPC,"consitution",10));
+        AbilityScores.updateCharisma(nodeNPC,DB.getValue(nodeNPC,"charisma",10));
+        AbilityScores.updateIntelligence(nodeNPC,DB.getValue(nodeNPC,"intelligence",10));
+
+	end
+end
