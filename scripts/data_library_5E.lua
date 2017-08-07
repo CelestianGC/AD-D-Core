@@ -101,6 +101,7 @@ aRecords = {
 		aDataMap = { "npc", "reference.npcdata" }, 
 		aDisplayIcon = { "button_people", "button_people_down" },
 		-- sRecordDisplayClass = "npc", 
+		aGMListButtons = { "button_npc_letter", "button_npc_hd", "button_npc_type" };
 		aCustomFilters = {
 			["Type"] = { sField = "type", sType = "string" },
 			["Organization"] = { sField = "organization", sType = "string" },
@@ -119,6 +120,9 @@ aRecords = {
 		aDisplayIcon = { "button_items", "button_items_down" }, 
 		sListDisplayClass = "masterindexitem_id",
 		aGMListButtons = { "button_forge_item" },
+		aGMListButtons = { "button_item_armor", "button_item_weapons","button_item_list", "button_item_templates" };
+		-- when 3.3.2 goes live add these back??? --celestian
+        --aPlayerListButtons = { "button_item_armor_player", "button_item_weapons_player" };
 		fRecordDisplayClass = getItemRecordDisplayClass,
 		aRecordDisplayClasses = { "item", "reference_magicitem", "reference_armor", "reference_weapon", "reference_equipment", "reference_mountsandotheranimals", "reference_waterbornevehicles" },
 		aCustomFilters = {

@@ -478,5 +478,9 @@
     <string name="table_import_text_button">Import</string>
     <string name="table_import_text_helptext">Paste in the text of the table you want to create. Each line will be an entry on the table.</string>
     
-    
+   	<!-- Groulist buttons -->
+    <string name="npc_button_hd">By HD</string>
+    <string name="npc_groupedtitle_hd">NPC BY HitDice</string>
+    <string name="item_button_items">Items</string>
+
 </root>
