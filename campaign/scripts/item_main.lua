@@ -100,9 +100,11 @@ function update()
 	if updateControl("weight", bReadOnly, bID) then bSection3 = true; end
 	
 	local bSection4 = false;
+	if updateControl("effect_combat", bReadOnly, bID) then bSection4 = true; end
 	if updateControl("effect", bReadOnly, bID) then bSection4 = true; end
   	if not User.isHost() then
 		effect.setVisible(bID);
+		effect_combat.setVisible(bID);
 	end
 	if updateControl("bonus", bReadOnly, bID and (bWeapon or bArmor or bArcaneFocus)) then bSection4 = true; end
 	--if updateControl("damage", bReadOnly, bID and bWeapon) then bSection4 = true; end

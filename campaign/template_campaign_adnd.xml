@@ -532,7 +532,125 @@
 		</button_text_sm>
 	</template>
     
-    
+	<template name="button_spells_school_player">
+		<button_text_sm>
+			<anchored to="buttonanchor" width="80">
+				<top />
+				<left anchor="right" relation="relative" offset="5" />
+			</anchored>
+			<state textres="item_button_spell_school" />
+			<script>
+				function onButtonPress()
+					local w = Interface.openWindow("reference_groupedlist", "reference.spellschool");
+					local rList = {};
+					rList.sRecordType = "spell";
+					rList.sTitle = Interface.getString("item_button_spell_school");
+					rList.aColumns = {};
+					table.insert(rList.aColumns, { sName = "name", sType = "string", sHeading = "Name", nWidth=200 });
+					table.insert(rList.aColumns, { sName = "level", sType = "number", sHeading = "Level", bCentered=true });
+					table.insert(rList.aColumns, { sName = "castingtime", sType = "string", sHeading = "Cast Time", bCentered=true, nWidth=80 });
+					table.insert(rList.aColumns, { sName = "range", sType = "string", sHeading = "Range", bCentered=true, nWidth=120,  });
+					table.insert(rList.aColumns, { sName = "components", sType = "string", sHeading = "Components", bCentered=true, nWidth=80 });
+					table.insert(rList.aColumns, { sName = "save", sType = "string", sHeading = "Save", bCentered=true, nWidth=80 });
+					rList.aFilters = {};
+					table.insert(rList.aFilters, { sDBField = "type", vFilterValue = "Arcane" });
+					rList.aGroups = {};
+					table.insert(rList.aGroups, { sDBField = "school" });
+					rList.aGroupValueOrder = { };
+					w.init(rList);
+				end
+			</script>
+		</button_text_sm>
+	</template>
+	<template name="button_spells_sphere_player">
+		<button_text_sm>
+			<anchored to="buttonanchor" width="80">
+				<top />
+				<left anchor="right" relation="relative" offset="5" />
+			</anchored>
+			<state textres="item_button_spell_sphere" />
+			<script>
+				function onButtonPress()
+					local w = Interface.openWindow("reference_groupedlist", "reference.spellsphere");
+					local rList = {};
+					rList.sRecordType = "spell";
+					rList.sTitle = Interface.getString("item_button_spell_sphere");
+					rList.aColumns = {};
+					table.insert(rList.aColumns, { sName = "name", sType = "string", sHeading = "Name", nWidth=200 });
+					table.insert(rList.aColumns, { sName = "level", sType = "number", sHeading = "Level", bCentered=true });
+					table.insert(rList.aColumns, { sName = "castingtime", sType = "string", sHeading = "Cast Time", bCentered=true, nWidth=80 });
+					table.insert(rList.aColumns, { sName = "range", sType = "string", sHeading = "Range", bCentered=true, nWidth=120,  });
+					table.insert(rList.aColumns, { sName = "components", sType = "string", sHeading = "Components", bCentered=true, nWidth=80 });
+					table.insert(rList.aColumns, { sName = "save", sType = "string", sHeading = "Save", bCentered=true, nWidth=80 });
+					rList.aFilters = {};
+					table.insert(rList.aFilters, { sDBField = "type", vFilterValue = "Divine" });
+					rList.aGroups = {};
+					table.insert(rList.aGroups, { sDBField = "sphere" });
+					rList.aGroupValueOrder = { };
+					w.init(rList);
+				end
+			</script>
+		</button_text_sm>
+	</template>
+
+	<template name="button_spells_arcane_player">
+		<button_text_sm>
+			<anchored to="buttonanchor" width="80">
+				<top />
+				<left anchor="right" relation="relative" offset="5" />
+			</anchored>
+			<state textres="item_button_spell_arcane" />
+			<script>
+				function onButtonPress()
+					local w = Interface.openWindow("reference_groupedlist", "reference.spellsarcane");
+					local rList = {};
+					rList.sRecordType = "spell";
+					rList.sTitle = Interface.getString("item_button_spell_arcane");
+					rList.aColumns = {};
+					table.insert(rList.aColumns, { sName = "name", sType = "string", sHeading = "Name", nWidth=200 });
+					table.insert(rList.aColumns, { sName = "level", sType = "number", sHeading = "Level", bCentered=true });
+					table.insert(rList.aColumns, { sName = "castingtime", sType = "string", sHeading = "Cast Time", bCentered=true, nWidth=80 });
+					table.insert(rList.aColumns, { sName = "range", sType = "string", sHeading = "Range", bCentered=true, nWidth=120,  });
+					table.insert(rList.aColumns, { sName = "components", sType = "string", sHeading = "Components", bCentered=true, nWidth=80 });
+					table.insert(rList.aColumns, { sName = "save", sType = "string", sHeading = "Save", bCentered=true, nWidth=80 });
+					rList.aFilters = {};
+					table.insert(rList.aFilters, { sDBField = "type", vFilterValue = "Arcane" });
+					rList.aGroups = {};
+					rList.aGroupValueOrder = { };
+					w.init(rList);
+				end
+			</script>
+		</button_text_sm>
+	</template>    
+	<template name="button_spells_divine_player">
+		<button_text_sm>
+			<anchored to="buttonanchor" width="80">
+				<top />
+				<left anchor="right" relation="relative" offset="5" />
+			</anchored>
+			<state textres="item_button_spell_divine" />
+			<script>
+				function onButtonPress()
+					local w = Interface.openWindow("reference_groupedlist", "reference.spellsdivine");
+					local rList = {};
+					rList.sRecordType = "spell";
+					rList.sTitle = Interface.getString("item_button_spell_divine");
+					rList.aColumns = {};
+					table.insert(rList.aColumns, { sName = "name", sType = "string", sHeading = "Name", nWidth=200 });
+					table.insert(rList.aColumns, { sName = "level", sType = "number", sHeading = "Level", bCentered=true });
+					table.insert(rList.aColumns, { sName = "castingtime", sType = "string", sHeading = "Cast Time", bCentered=true, nWidth=80 });
+					table.insert(rList.aColumns, { sName = "range", sType = "string", sHeading = "Range", bCentered=true, nWidth=120,  });
+					table.insert(rList.aColumns, { sName = "components", sType = "string", sHeading = "Components", bCentered=true, nWidth=80 });
+					table.insert(rList.aColumns, { sName = "save", sType = "string", sHeading = "Save", bCentered=true, nWidth=80 });
+					rList.aFilters = {};
+					table.insert(rList.aFilters, { sDBField = "type", vFilterValue = "Divine" });
+					rList.aGroups = {};
+					rList.aGroupValueOrder = { };
+					w.init(rList);
+				end
+			</script>
+		</button_text_sm>
+	</template>    
     
     
 </root>

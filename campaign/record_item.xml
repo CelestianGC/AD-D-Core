@@ -370,7 +370,7 @@
                 <readonly />
 			</string_columnh>
 
-			<label_column name="combat_effect_label">
+			<label_column name="effect_combat_label">
 				<static textres="item_label_effect_combat" />
                 <tooltip textres="item_label_effect_tooltip_combat" />
 			</label_column>

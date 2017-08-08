@@ -173,6 +173,9 @@ aRecords = {
 		aDataMap = { "spell", "reference.spelldata" }, 
 		aDisplayIcon = { "button_spells", "button_spells_down" },
 		sRecordDisplayClass = "power", 
+		aGMListButtons = { "button_spells_arcane_player", "button_spells_school_player","button_spells_divine_player","button_spells_sphere_player" };
+		-- when 3.3.2 goes live add these back??? --celestian
+        --aPlayerListButtons = { "button_spells_school_player", "button_spells_sphere_player" };
 		aCustomFilters = {
 			["Sphere"] = { sField = "sphere", sType = "string" },
 			["School"] = { sField = "school", sType = "string" },

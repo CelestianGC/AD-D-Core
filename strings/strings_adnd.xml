@@ -486,5 +486,9 @@
     <string name="npc_button_hd">By HD</string>
     <string name="npc_groupedtitle_hd">NPC BY HitDice</string>
     <string name="item_button_items">Items</string>
+    <string name="item_button_spell_school">School</string>
+    <string name="item_button_spell_sphere">Sphere</string>
+    <string name="item_button_spell_arcane">Arcane</string>
+    <string name="item_button_spell_divine">Divine</string>
 
 </root>
