@@ -253,6 +253,8 @@ function setAttributesVisible()
 	if activateattributes.getValue() == 1 then
 		v = true;
 	end
+	local sClass, sRecord = link.getValue();
+	local bNPC = (sClass ~= "charsheet");
 	
 	attributesicon.setVisible(v);
 
@@ -298,7 +300,13 @@ function setAttributesVisible()
     spell.setVisible(v);
 	spell_label.setVisible(v);
 
-	--spacer_attribute.setVisible(v);
+	spacer_attribute.setVisible(v);
+
+    if bNPC then
+        sub_skills.setVisible(v);
+    else
+        sub_skills.setVisible(false);
+    end
 	
 	frame_attributes.setVisible(v);
 end
@@ -350,8 +358,6 @@ function setActiveVisible()
 
         sub_actions.setVisible(false);
 	end
-
-	spacer_action2.setVisible(v);
 	
 	frame_active.setVisible(v);
 end

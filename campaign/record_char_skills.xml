@@ -59,8 +59,17 @@
 					<right offset="-15" />
 				</anchored>
 				<icons>char_abilities_purple</icons>
-				<static textres="char_label_skills" />
+				<!-- <static textres="char_label_skills" /> -->
 			</label_charframetop>
+
+			<label name="title_label">
+				<anchored>
+					<top parent="skillstitle" />
+					<left position="insidetopleft" offset="45" />
+				</anchored>
+				<static textres="char_label_skills" />
+				<center />
+			</label>
 
 			<genericcontrol name="rightanchor">
 				<anchored width="0" height="20">
@@ -78,7 +87,7 @@
             
 			<label name="total_label">
 				<anchored to="rightanchor" width="40">
-					<top />
+					<top parent="skillstitle" />
 					<right anchor="left" relation="relative" offset="-25" />
 				</anchored>
 				<center />
@@ -87,7 +96,7 @@
 
 			<label name="name_label">
 				<anchored>
-					<top parent="rightanchor" />
+					<top parent="skillstitle" />
 					<left offset="35" />
 					<right parent="rightanchor" anchor="left" relation="relative" offset="-15" />
 				</anchored>
@@ -101,7 +110,7 @@
 			</button_iadd>
 			<windowlist name="skills">
 				<anchored>
-					<top parent="columnanchor" anchor="bottom" relation="relative" offset="0" />
+					<top parent="skillstitle" anchor="bottom" relation="relative" offset="2" />
 					<left offset="15" />
 					<right offset="-15" />
 				</anchored>

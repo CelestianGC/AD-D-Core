@@ -15,4 +15,10 @@
 	<!-- Party Sheet -->
 	<icon name="all" file="graphics/radial/icon_all.png" />
 	<icon name="one" file="graphics/radial/icon_one.png" />
+    
+    <!-- CT new options -->
+    <icon name="extension_icon" file="graphics/radial/extension_icon.png" />
+    <icon name="remove_foes" file="graphics/radial/radial-remove-foes.png" />
+    <icon name="remove_nonally" file="graphics/radial/radial-remove-nonally.png" />
+
 </root>

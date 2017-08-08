@@ -491,4 +491,7 @@
     <string name="item_button_spell_arcane">Arcane</string>
     <string name="item_button_spell_divine">Divine</string>
 
+    <!-- CT Radial -->
+	<string name="ct_menu_itemdeletenonfriendly_with_0HP">Delete All Non-Friendly With 0 HP</string>
+	<string name="ct_menu_itemdeletefoe_with_0HP">Delete Only Foes With 0 HP</string>    
 </root>

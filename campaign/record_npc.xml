@@ -49,6 +49,10 @@
 				<class>charsheet_combat</class>
 			</sub_npcsheet>
 
+			<sub_npcsheet name="skills">
+				<class>charsheet_skills</class>
+			</sub_npcsheet>
+
 			<sub_npcsheet name="inventory">
 				<class>charsheet_inventory</class>
 			</sub_npcsheet>
@@ -58,6 +62,9 @@
 			</scrollbar_record>
 			<scrollbar_record>
 				<target>combat</target>
+			</scrollbar_record>
+			<scrollbar_record>
+				<target>skills</target>
 			</scrollbar_record>
 			<scrollbar_record>
 				<target>inventory</target>
@@ -75,6 +82,10 @@
                     <icon>tab_actions</icon>
                     <subwindow>combat</subwindow>
                 </tab>
+				<tab>
+					<icon>tab_skills</icon>
+					<subwindow>skills</subwindow>
+				</tab>
 				<tab>
 					<icon>tab_inventory</icon>
 					<subwindow>inventory</subwindow>
