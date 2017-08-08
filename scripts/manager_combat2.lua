@@ -401,33 +401,47 @@ function addNPC(sClass, nodeNPC, sName)
 			end
 		end
     end
-	for _,v in pairs(DB.getChildren(nodeEntry, "actions")) do
-		parseNPCPower(v, aEffects);
-	end
-	for _,v in pairs(DB.getChildren(nodeEntry, "legendaryactions")) do
-		parseNPCPower(v, aEffects);
-	end
-	for _,v in pairs(DB.getChildren(nodeEntry, "lairactions")) do
-		parseNPCPower(v, aEffects);
-	end
-	for _,v in pairs(DB.getChildren(nodeEntry, "reactions")) do
-		parseNPCPower(v, aEffects);
-	end
-	for _,v in pairs(DB.getChildren(nodeEntry, "traits")) do
-		parseNPCPower(v, aEffects);
-	end
-	for _,v in pairs(DB.getChildren(nodeEntry, "innatespells")) do
-		parseNPCPower(v, aEffects, true);
-	end
-	for _,v in pairs(DB.getChildren(nodeEntry, "spells")) do
-		parseNPCPower(v, aEffects, true);
-	end
+    -- this is no longer necessary for AD&D npcs.
+	-- for _,v in pairs(DB.getChildren(nodeEntry, "actions")) do
+		-- parseNPCPower(v, aEffects);
+	-- end
+	-- for _,v in pairs(DB.getChildren(nodeEntry, "legendaryactions")) do
+		-- parseNPCPower(v, aEffects);
+	-- end
+	-- for _,v in pairs(DB.getChildren(nodeEntry, "lairactions")) do
+		-- parseNPCPower(v, aEffects);
+	-- end
+	-- for _,v in pairs(DB.getChildren(nodeEntry, "reactions")) do
+		-- parseNPCPower(v, aEffects);
+	-- end
+	-- for _,v in pairs(DB.getChildren(nodeEntry, "traits")) do
+		-- parseNPCPower(v, aEffects);
+	-- end
+	-- for _,v in pairs(DB.getChildren(nodeEntry, "innatespells")) do
+		-- parseNPCPower(v, aEffects, true);
+	-- end
+	-- for _,v in pairs(DB.getChildren(nodeEntry, "spells")) do
+		-- parseNPCPower(v, aEffects, true);
+	-- end
 
-	-- Add special effects
-	if #aEffects > 0 then
-		EffectManager.addEffect("", "", nodeEntry, { sName = table.concat(aEffects, "; "), nDuration = 0, nGMOnly = 1 }, false);
-	end
+	-- -- Add special effects
+	-- if #aEffects > 0 then
+		-- EffectManager.addEffect("", "", nodeEntry, { sName = table.concat(aEffects, "; "), nDuration = 0, nGMOnly = 1 }, false);
+	-- end
 
+    -- check to see if npc effect string exists and if so apply
+    local sEffects = DB.getValue(nodeNPC,"effect_combat","");
+    if sEffects ~= "" then
+        EffectManager.addEffect("", "", nodeEntry, { sName = sEffects, label = sEffects, source_name = nodeEntry.getPath(), nDuration = 0, nGMOnly= 1 }, false);
+    end
+
+    -- now flip through inventory and pass each to updateEffects()
+    -- so that if they have a combat_effect it will be applied.
+    for _,nodeItem in pairs(DB.getChildren(nodeEntry, "inventorylist")) do
+        EffectManager.updateItemEffects(nodeItem,true);
+    end
+    -- end
+    
 	-- Roll initiative and sort
 	local sOptINIT = OptionsManager.getOption("INIT");
     local nInitiativeRoll = math.random(DataCommonADND.nDefaultInitiativeDice) + DB.getValue(nodeEntry, "init", 0);

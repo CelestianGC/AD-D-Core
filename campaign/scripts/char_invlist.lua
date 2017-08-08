@@ -26,7 +26,7 @@ function onInit()
 	DB.addHandler(DB.getPath(node, "*.carried"), "onUpdate", onCarriedChanged);
 	DB.addHandler(DB.getPath(node, "*.weight"), "onUpdate", onEncumbranceChanged);
 	DB.addHandler(DB.getPath(node, "*.count"), "onUpdate", onEncumbranceChanged);
-	DB.addHandler(DB.getPath(node), "onChildDeleted", onEncumbranceChanged);
+	DB.addHandler(DB.getPath(node), "onChildDeleted", updateFromDeletedInventory);
 end
 
 function onClose()
@@ -42,7 +42,7 @@ function onClose()
 	DB.removeHandler(DB.getPath(node, "*.carried"), "onUpdate", onCarriedChanged);
 	DB.removeHandler(DB.getPath(node, "*.weight"), "onUpdate", onEncumbranceChanged);
 	DB.removeHandler(DB.getPath(node, "*.count"), "onUpdate", onEncumbranceChanged);
-	DB.removeHandler(DB.getPath(node), "onChildDeleted", onEncumbranceChanged);
+	DB.removeHandler(DB.getPath(node), "onChildDeleted", updateFromDeletedInventory);
 end
 
 function onMenuSelection(selection)
@@ -56,6 +56,66 @@ function StateChanged()
 		w.onIDChanged();
 	end
 	applySort();
+end
+
+function updateFromDeletedInventory(node)
+    local nodeChar = DB.getChild(node, "..");
+    local bisNPC = (not ActorManager.isPC(nodeChar));
+    local nodeTarget = nodeChar;
+    local nodeCT = CharManager.getCTNodeByNodeChar(nodeChar);
+    -- if we're already in a combattracker situation (npcs)
+    if bisNPC and string.match(nodeChar.getPath(),"^combattracker") then
+        nodeCT = nodeChar;
+    end
+    if nodeCT then
+        -- check that we still have the combat effect source item
+        -- otherwise remove it
+        checkEffectsAfterDelete(nodeCT);
+    end
+    if not string.match(nodeChar.getPath(),"^combattracker") then
+        -- nuke persistant item effects
+        DB.deleteChildren(nodeChar,"effects");
+        EffectManager.removeAllPersistanteffects(nodeChar,true);
+        -- rebuild persistant item effects
+        for _,nodeItem in pairs(DB.getChildren(nodeChar, "inventorylist")) do
+         EffectManager.updateItemEffects(nodeItem,false);
+        end
+        -- end
+    end
+	onEncumbranceChanged();
+end
+
+function checkEffectsAfterDelete(nodeChar)
+    local sUser = User.getUsername();
+    for _,nodeEffect in pairs(DB.getChildren(nodeChar, "effects")) do
+        local sLabel = DB.getValue(nodeEffect, "label", "");
+        local sEffSource = DB.getValue(nodeEffect, "source_name", "");
+        -- see if the node exists and if it's ain inventory node
+        local nodeFound = DB.findNode(sEffSource);
+        local bDeleted = ((nodeFound == nil) and string.match(sEffSource,"inventorylist"));
+        if (bDeleted) then
+            local msg = {font = "msgfont", icon = "roll_effect"};
+            msg.text = "Effect ['" .. sLabel .. "'] ";
+            msg.text = msg.text .. "removed [from " .. DB.getValue(nodeChar, "name", "") .. "]";
+            -- HANDLE APPLIED BY SETTING
+            if sEffSource and sEffSource ~= "" then
+                msg.text = msg.text .. " [by Deletion]";
+            end
+            if EffectManager.isGMEffect(nodeChar, nodeEffect) then
+                if sUser == "" then
+                    msg.secret = true;
+                    Comm.addChatMessage(msg);
+                elseif sUser ~= "" then
+                    Comm.addChatMessage(msg);
+                    Comm.deliverChatMessage(msg, sUser);
+                end
+            else
+                Comm.deliverChatMessage(msg);
+            end
+            nodeEffect.delete();
+        end
+        
+    end
 end
 
 function onIDChanged(nodeField)

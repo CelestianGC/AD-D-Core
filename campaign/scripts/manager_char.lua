@@ -2587,7 +2587,7 @@ function applyTough(nodeChar, bInitialAdd)
 end
 
 -- return the CTnode by using character sheet node 
-function getCTNodeByNode(nodeChar)
+function getCTNodeByNodeChar(nodeChar)
     local nodeCT = nil;
 	for _,node in pairs(DB.getChildren("combattracker.list")) do
         local _, sRecord = DB.getValue(node, "link", "", "");

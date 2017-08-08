@@ -101,6 +101,7 @@ function update()
 	updateControl("senses", bReadOnly);
 	updateControl("languages", bReadOnly);
 	updateControl("challengerating", bReadOnly);
+	updateControl("effect_combat", bReadOnly);
 	
 	cr.setReadOnly(bReadOnly);
 	xp.setReadOnly(bReadOnly);

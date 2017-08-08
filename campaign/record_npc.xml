@@ -585,6 +585,14 @@
 			</label_column>
 			<string_columnh name="languages" />
 			
+			<label_column name="effect_combat_label">
+				<static textres="npc_label_effects" />
+                <tooltip textres="npc_label_effects_tooltip" />
+                </label_column>
+			<string_columnh name="effect_combat">
+                <tooltip textres="npc_label_effects_tooltip" />
+            </string_columnh>
+			
 			<label_column name="challenge_label">
 				<static textres="npc_label_challenge" />
 			</label_column>

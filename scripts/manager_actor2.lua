@@ -134,8 +134,8 @@ function getAbilityEffectsBonus(rActor, sAbility, sType)
 		-- sEffect = sAbility .. sType;
 	-- end
 	
-	Debug.console("manager_ctor2.lua","getAbilityEffectsBonus","nBonus", nBonus);
-	Debug.console("manager_ctor2.lua","getAbilityEffectsBonus","nAbilityEffects", nAbilityEffects);
+	--Debug.console("manager_ctor2.lua","getAbilityEffectsBonus","nBonus", nBonus);
+	--Debug.console("manager_ctor2.lua","getAbilityEffectsBonus","nAbilityEffects", nAbilityEffects);
 	return nBonus, nAbilityEffects;
 end
 

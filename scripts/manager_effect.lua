@@ -1616,12 +1616,12 @@ end
 
 -- add the effect if the item is equipped and doesn't exist already
 function updateItemEffects(nodeItem,bCombat)
-Debug.console("manager_effect.lua","updateItemEffects","node",nodeItem);
+--Debug.console("manager_effect.lua","updateItemEffects1","nodeItem",nodeItem);
     local nodeChar = DB.getChild(nodeItem, "...");
     if not nodeChar then
         return;
     end
-Debug.console("manager_effect.lua","updateItemEffects","nodeChar",nodeChar);
+--Debug.console("manager_effect.lua","updateItemEffects","nodeChar2",nodeChar);
     local sUser = User.getUsername();
 --    local nodeItem = DB.getChild(node, "..");
     --local nodeItem = node;
@@ -1638,7 +1638,9 @@ Debug.console("manager_effect.lua","updateItemEffects","nodeChar",nodeChar);
         sLabel = sLabelCombat;
         -- we swap the node to the combat tracker node
         -- so the "effect" is written to the right node
-        nodeChar = CharManager.getCTNodeByNode(nodeChar);
+        if not string.match(nodeChar.getPath(),"^combattracker") then
+            nodeChar = CharManager.getCTNodeByNodeChar(nodeChar);
+        end
         -- if not in the combat tracker bail
         if not nodeChar then
             return;
@@ -1652,14 +1654,15 @@ Debug.console("manager_effect.lua","updateItemEffects","nodeChar",nodeChar);
     local nIdentified = DB.getValue(nodeItem, "isidentified", 0);
     local sCharacterName = DB.getValue(nodeChar, "name", "");
 --Debug.console("manager_effect.lua","updateItemEffects","node",node);
---Debug.console("manager_effect.lua","updateItemEffects","nodeChar",nodeChar);
---Debug.console("manager_effect.lua","updateItemEffects","nodeItem",nodeItem);
---Debug.console("manager_effect.lua","updateItemEffects","sName",sName);
---Debug.console("manager_effect.lua","updateItemEffects","sLabel",sLabel);
---Debug.console("manager_effect.lua","updateItemEffects","nCarried",nCarried);
---Debug.console("manager_effect.lua","updateItemEffects","bEquipped",bEquipped);
---Debug.console("manager_effect.lua","updateItemEffects","sItemSource",sItemSource);
---Debug.console("manager_effect.lua","updateItemEffects","nIdentified",nIdentified);
+-- Debug.console("manager_effect.lua","updateItemEffects","nodeChar",nodeChar);
+-- Debug.console("manager_effect.lua","updateItemEffects","nodeItem",nodeItem);
+-- Debug.console("manager_effect.lua","updateItemEffects","bCombat",bCombat);
+-- Debug.console("manager_effect.lua","updateItemEffects","sName",sName);
+-- Debug.console("manager_effect.lua","updateItemEffects","sLabel",sLabel);
+-- Debug.console("manager_effect.lua","updateItemEffects","nCarried",nCarried);
+-- Debug.console("manager_effect.lua","updateItemEffects","bEquipped",bEquipped);
+-- Debug.console("manager_effect.lua","updateItemEffects","sItemSource",sItemSource);
+-- Debug.console("manager_effect.lua","updateItemEffects","nIdentified",nIdentified);
     if sLabel and sLabel ~= "" then -- if we have effect string
         local bFound = false;
         for _,nodeEffect in pairs(DB.getChildren(nodeChar, "effects")) do
