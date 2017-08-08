@@ -82,7 +82,7 @@ end
 
 function updateTooltip(tokenCT, nodeCT)
 	local sOptTNAM = OptionsManager.getOption("TNAM");
-Debug.console("manager_token2.lua","updateTooltip","sOptTNAM",sOptTNAM);
+--Debug.console("manager_token2.lua","updateTooltip","sOptTNAM",sOptTNAM);
 
 	local sOptTH, sOptTE;
 	if DB.getValue(nodeCT, "friendfoe", "") == "friend" then
@@ -193,7 +193,7 @@ function updateHealthHelper(tokenCT, nodeCT)
 		end
 	end
     -- new stuff, adds indicator for "DEAD" on the token. -celestian
-	local nPercentHealth = ActorManager2.getPercentWounded2("ct", nodeCT);
+	--local nPercentHealth = ActorManager2.getPercentWounded2("ct", nodeCT);
     local widgetDeathIndicator = tokenCT.findWidget("deathindicator");
     local nWidth, nHeight = tokenCT.getSize();
     local sName = DB.getValue(nodeCT,"name","Unknown");
@@ -208,10 +208,18 @@ function updateHealthHelper(tokenCT, nodeCT)
 -- Debug.console("manager_token2.lua","updateHealthHelper","rActor",rActor);
 -- Debug.console("manager_token2.lua","updateHealthHelper","sActorType",sActorType);
 -- Debug.console("manager_token2.lua","updateHealthHelper","nodeActor",nodeActor);
+    local nHPMax = DB.getValue(nodeActor,"hptotal",0);
+    local nWounds = DB.getValue(nodeActor,"wounds",0);
     if sActorType == "pc" then
         sDeathTokenName = "token_dead_pc";
+        nHPMax = DB.getValue(nodeActor,"hp.total",0);
+        nWounds = DB.getValue(nodeActor,"hp.wounds",0);
     end
-    
+    -- use this, should work for 5e
+    local bPlayDead = nWounds >= nHPMax;
+-- Debug.console("manager_token2.lua","updateHealthHelper","nHPMax",nHPMax);
+-- Debug.console("manager_token2.lua","updateHealthHelper","nWounds",nWounds);
+-- Debug.console("manager_token2.lua","updateHealthHelper","bPlayDead",bPlayDead);
     if not widgetDeathIndicator then
         widgetDeathIndicator = tokenCT.addBitmapWidget(sDeathTokenName);
         widgetDeathIndicator.setBitmap(sDeathTokenName);
@@ -220,7 +228,8 @@ function updateHealthHelper(tokenCT, nodeCT)
         widgetDeathIndicator.setSize(nWidth-20, nHeight-20);
     end
     -- nPercentHealth is the percent of damage, 1 = 100% or more so dead
-    widgetDeathIndicator.setVisible(nPercentHealth>=1);
+--    widgetDeathIndicator.setVisible(nPercentHealth>=1);
+    widgetDeathIndicator.setVisible(bPlayDead);
     -- end new stuff
 end
 

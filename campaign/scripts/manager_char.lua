@@ -2586,3 +2586,22 @@ function applyTough(nodeChar, bInitialAdd)
 	ChatManager.SystemMessage(sMsg);
 end
 
+-- return the CTnode by using character sheet node 
+function getCTNodeByNode(nodeChar)
+    local nodeCT = nil;
+	for _,node in pairs(DB.getChildren("combattracker.list")) do
+        local _, sRecord = DB.getValue(node, "link", "", "");
+        if sRecord ~= "" and sRecord == nodeChar.getPath() then
+            nodeCT = node;
+            break;
+        end
+    end
+    return nodeCT;
+end
+
+-- return the nodeChar by using the combattracker nodeCT
+function getNodeByCT(nodeCT)
+    local _, sRecord = DB.getValue(nodeCT, "link", "", "");
+    local nodeChar = DB.findNode(sRecord);
+    return nodeChar;
+end

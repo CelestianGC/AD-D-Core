@@ -434,7 +434,9 @@ function updateNPCs()
 	for _,nodeNPC in pairs(DB.getChildren("npc")) do
         -- set default saves for HDice.
 --Debug.console("manager_version2.lua","updateNPCs","nodeNPC",nodeNPC);
-        CombatManager2.updateNPCSaves(nodeNPC, nodeNPC, true);
+        if (DB.getValue(nodeNPC, "saves.poison.score",0) == 0) then
+            CombatManager2.updateNPCSaves(nodeNPC, nodeNPC, true);
+        end
         
         if DB.getChildCount(nodeNPC, "abilities") < 6 then
 --Debug.console("manager_version2.lua","updateNPCs","nodeNPC Add abilities",nodeNPC);

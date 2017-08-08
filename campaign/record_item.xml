@@ -370,6 +370,15 @@
                 <readonly />
 			</string_columnh>
 
+			<label_column name="combat_effect_label">
+				<static textres="item_label_effect_combat" />
+                <tooltip textres="item_label_effect_tooltip_combat" />
+			</label_column>
+			<string_columnh name="effect_combat">
+                <tooltip textres="item_label_effect_tooltip_combat" />
+				<gmeditonly />
+			</string_columnh>
+
             <label_column name="properties_label">
 				<static textres="item_label_properties" />
 			</label_column>

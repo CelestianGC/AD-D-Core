@@ -110,7 +110,7 @@ end
 
 function updateItemEffects(nodeField)
 	if EffectManager.updateItemEffects then
-		EffectManager.updateItemEffects(nodeField);
+		EffectManager.updateItemEffects(DB.getChild(nodeField, ".."));
 	end
 end
 

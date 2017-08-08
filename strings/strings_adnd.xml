@@ -425,7 +425,9 @@
 	<string name="item_label_speedfactor">Speedfactor</string>
 	<string name="item_label_speed">Move</string>
 	<string name="item_label_effect">Effect</string>
-	<string name="item_label_effect_tooltip">Effect string that will be applied when this item equipped. i.e. STR: +3;INT: -2;</string>
+	<string name="item_label_effect_tooltip">These are created by adding ability/save features. Effects that are applied with the item is equipped.</string>
+	<string name="item_label_effect_combat">Combat Effect</string>
+	<string name="item_label_effect_tooltip_combat">Effect string that will be applied when this item equipped on the character AND in combat(tracker). i.e. STR: +3;INT: -2;</string>
 
 	<string name="ref_label_listspeed">Move</string>
 

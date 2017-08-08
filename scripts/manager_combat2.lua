@@ -10,6 +10,7 @@ function onInit()
 
 	CombatManager.setCustomDrop(onDrop);
 
+	CombatManager.setCustomAddPC(addPC);
 	CombatManager.setCustomAddNPC(addNPC);
 	CombatManager.setCustomNPCSpaceReach(getNPCSpaceReach);
 
@@ -1058,4 +1059,36 @@ function setSpecialDefenseAttack(node)
     
     DB.setValue(node,"specialDefense","string",sDefense);
     DB.setValue(node,"specialAttacks","string",sAttacks);
+end
+
+-- custom version of the one in CoreRPG to deal with adding new 
+-- pcs to the combat tracker to deal with item effects. --celestian
+function addPC(nodePC)
+	-- Parameter validation
+	if not nodePC then
+		return;
+	end
+
+	-- Create a new combat tracker window
+	local nodeEntry = DB.createChild("combattracker.list");
+	if not nodeEntry then
+		return;
+	end
+	
+	-- Set up the CT specific information
+	DB.setValue(nodeEntry, "link", "windowreference", "charsheet", nodePC.getNodeName());
+	DB.setValue(nodeEntry, "friendfoe", "string", "friend");
+
+	local sToken = DB.getValue(nodePC, "token", nil);
+	if not sToken or sToken == "" then
+		sToken = "portrait_" .. nodePC.getName() .. "_token"
+	end
+	DB.setValue(nodeEntry, "token", "token", sToken);
+    
+    -- now flip through inventory and pass each to updateEffects()
+    -- so that if they have a combat_effect it will be applied.
+    for _,nodeItem in pairs(DB.getChildren(nodePC, "inventorylist")) do
+        EffectManager.updateItemEffects(nodeItem,true);
+    end
+    -- end
 end
