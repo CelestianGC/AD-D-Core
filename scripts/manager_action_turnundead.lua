@@ -23,7 +23,7 @@ function getRoll(rActor,nodeChar,nTargetDC, bSecretRoll)
         -- turn.total is the total levels of cleric to turn as
         nTargetDC = DB.getValue(nodeChar,"turn.total",1);
     end
-	rRoll.sDesc = "[TURN] ";
+	rRoll.sDesc = "[TURNUNDEAD] ";
 
 	rRoll.bSecret = bSecretRoll;
 

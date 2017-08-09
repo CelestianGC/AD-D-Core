@@ -75,7 +75,6 @@
             </basicnumber> -->
 			<number_charinit name="initiative" source="initiative.total">
                 <font>sheetlabelmini</font>
-				<readonly />
                 <anchored height="18" width="30" >
                     <top parent="surprise_total_roll" />
                     <left parent="surprise_total_roll" anchor="right" relation="relative" offset="15" />

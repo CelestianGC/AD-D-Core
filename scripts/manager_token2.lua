@@ -351,6 +351,10 @@ function updateEffectsHelper(tokenCT, nodeCT)
 				w = tokenCT.addBitmapWidget();
 				w.setPosition("bottomleft", TOKEN_EFFECT_OFFSETX + ((TOKEN_EFFECT_WIDTH + TOKEN_EFFECT_MARGIN) * (i - 1)), TOKEN_EFFECT_OFFSETY);
 				w.setName("effect" .. i);
+                -- this doesn't work, where is token effect size set???
+                -- local nEffW = math.min(wToken-(wToken*.8));
+                -- local nEffH = math.min(hToken-(hToken*.8));
+                -- w.setSize(nEffW,nEffH);
 			end
 			if w then
 				if i == nMaxLoop and nConds > nMaxLoop then

@@ -57,7 +57,11 @@ function getRoll(rActor, bSecretRoll, rItem)
             rRoll.nMod = DB.getValue(nodeActor, "initiative.total", 0);
 --			sAbility = "dexterity";
         else
-            rRoll.nMod = DB.getValue(nodeActor, "init", 0);
+            local nMod = DB.getValue(nodeActor, "initiative.total", 0);
+            if nMod == 0 then 
+                nMod = DB.getValue(nodeActor, "init", 0);
+            end
+            rRoll.nMod = nMod;
         end
     end
     

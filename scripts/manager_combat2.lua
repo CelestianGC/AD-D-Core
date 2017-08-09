@@ -329,7 +329,12 @@ function addNPC(sClass, nodeNPC, sName)
 		DB.setValue(nodeEntry, "space", "number", 20);
         DB.setValue(nodeEntry, "init", "number", 12);
 	end
-	
+    -- if the combat window initiative is set to something, use it instead --celestian
+    local nInitMod = DB.getValue(nodeNPC, "initiative.total", 0);
+    if nInitMod ~= 0 then
+        DB.setValue(nodeEntry, "init", "number", nInitMod);
+    end
+
 	-- Set current hit points
 	local sOptHRNH = OptionsManager.getOption("HRNH");
 	local nHP = DB.getValue(nodeNPC, "hp", 0);
@@ -444,7 +449,10 @@ function addNPC(sClass, nodeNPC, sName)
     
 	-- Roll initiative and sort
 	local sOptINIT = OptionsManager.getOption("INIT");
-    local nInitiativeRoll = math.random(DataCommonADND.nDefaultInitiativeDice) + DB.getValue(nodeEntry, "init", 0);
+    if (nInitMod == 0) then
+        nInitMod = DB.getValue(nodeEntry, "init", 0);
+    end
+    local nInitiativeRoll = math.random(DataCommonADND.nDefaultInitiativeDice) + nInitMod;
 	if sOptINIT == "group" then
 		if nodeLastMatch then
 			local nLastInit = DB.getValue(nodeLastMatch, "initresult", 0);
