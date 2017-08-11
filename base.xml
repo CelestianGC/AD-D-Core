@@ -126,7 +126,10 @@
 
 	<script name="ActorManager2" file="scripts/manager_actor2.lua" />
 	<script name="CombatManager2" file="scripts/manager_combat2.lua" />
-	<script name="EffectManager" file="scripts/manager_effect.lua" />
+	
+    <!-- DITCH THIS when 3.3.2 goes live -- celestian, it's in CoreRPG now -->
+    <!-- also remove the .lua file -->
+    <script name="EffectManager" file="scripts/manager_effect.lua" />
 
 	<!-- Override CoreRPG item manager for npc inventory requirements, items for npcs/etc -->
     <script name="ItemManager" file="scripts/manager_item.lua" />
@@ -158,12 +161,18 @@
     <script name="ActionSurprise" file="scripts/manager_action_surprise.lua" />
     <script name="ActionTurn" file="scripts/manager_action_turnundead.lua" />
     <script name="WindowManagerADND" file="scripts/windowmanager.lua" />
+
+    <!-- add back when 3.3.2 goes live -->
+	<!-- <script name="EffectManager5E" file="scripts/manager_effect_5E.lua" /> -->
+
    	<!-- Strings -->
 	<includefile source="strings/strings_adnd.xml" />
 
 	<includefile source="campaign/template_char_adnd.xml" />
     <!-- AD&D specific settings -->
  	<script name="LibraryDataADNDCORE" file="scripts/data_library_core.lua" />
+ 	<!-- <script name="ImageManagerADND" file="scripts/manage_image_adnd.lua" /> -->
+ 	<script name="EffectManagerADND" file="scripts/manager_effect_adnd.lua" />
 
   	<includefile source="utility/template_utility_adnd.xml" />
   	<includefile source="campaign/table_import.xml" />

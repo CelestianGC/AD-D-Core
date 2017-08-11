@@ -75,10 +75,10 @@ function updateFromDeletedInventory(node)
     if not string.match(nodeChar.getPath(),"^combattracker") then
         -- nuke persistant item effects
         DB.deleteChildren(nodeChar,"effects");
-        EffectManager.removeAllPersistanteffects(nodeChar,true);
+        EffectManagerADND.removeAllPersistanteffects(nodeChar,true);
         -- rebuild persistant item effects
         for _,nodeItem in pairs(DB.getChildren(nodeChar, "inventorylist")) do
-         EffectManager.updateItemEffects(nodeItem,false);
+         EffectManagerADND.updateItemEffects(nodeItem,false);
         end
         -- end
     end
@@ -169,8 +169,8 @@ end
 
 
 function updateItemEffects(nodeField)
-	if EffectManager.updateItemEffects then
-		EffectManager.updateItemEffects(DB.getChild(nodeField, ".."));
+	if EffectManagerADND.updateItemEffects then
+		EffectManagerADND.updateItemEffects(DB.getChild(nodeField, ".."));
 	end
 end
 

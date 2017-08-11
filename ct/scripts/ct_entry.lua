@@ -419,5 +419,5 @@ function persistentEffectsUpdate()
         nodeChar = DB.findNode(rActor.sCreatureNode);
     end
 
-    EffectManager.persistentEffectsUpdate(node,nodeChar);
+    EffectManagerADND.persistentEffectsUpdate(node,nodeChar);
 end

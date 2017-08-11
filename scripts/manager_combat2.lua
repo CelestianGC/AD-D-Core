@@ -153,9 +153,11 @@ end
 --
 
 function getNPCSpaceReach(nodeNPC)
-	local nSpace = GameSystem.getDistanceUnitsPerGrid();
+    -- old version, using map custom units now
+    local nSpace = GameSystem.getDistanceUnitsPerGrid();
+    --local nSpace = ImageManagerADND.getMapUnitsPerGrid(nodeNPC);
 	local nReach = nSpace;
-	
+
 	local sSize = StringManager.trim(DB.getValue(nodeNPC, "size", ""):lower());
 	if sSize == "large" then
 		nSpace = nSpace * 2;
@@ -164,7 +166,6 @@ function getNPCSpaceReach(nodeNPC)
 	elseif sSize == "gargantuan" then
 		nSpace = nSpace * 4;
 	end
-
 	return nSpace, nReach;
 end
 
@@ -443,7 +444,7 @@ function addNPC(sClass, nodeNPC, sName)
     -- now flip through inventory and pass each to updateEffects()
     -- so that if they have a combat_effect it will be applied.
     for _,nodeItem in pairs(DB.getChildren(nodeEntry, "inventorylist")) do
-        EffectManager.updateItemEffects(nodeItem,true);
+        EffectManagerADND.updateItemEffects(nodeItem,true);
     end
     -- end
     
@@ -1110,7 +1111,7 @@ function addPC(nodePC)
     -- now flip through inventory and pass each to updateEffects()
     -- so that if they have a combat_effect it will be applied.
     for _,nodeItem in pairs(DB.getChildren(nodePC, "inventorylist")) do
-        EffectManager.updateItemEffects(nodeItem,true);
+        EffectManagerADND.updateItemEffects(nodeItem,true);
     end
     -- end
 end

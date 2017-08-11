@@ -876,6 +876,13 @@
 		</sheetdata>
 	</windowclass>
 	
+    <!-- Apply this when 3.3.2 goes live as ct_effect --celestian -->
+	<!-- <windowclass name="ct_effect" merge="join">
+		<sheetdata>
+			<button_ct_effect_apply name="apply" insertbefore="rightanchor" />
+		</sheetdata>
+	</windowclass> -->
+    
 	<windowclass name="ct_effect">
 		<margins control="0,0,0,2" />
 		<script file="ct/scripts/ct_effect.lua" />
@@ -1082,13 +1089,6 @@
 			</string_ctentry_effect_targets>
 		</sheetdata>
 	</windowclass>
-    
-    <!-- Apply this when 3.3.2 goes live as ct_effect --celestian -->
-	<!-- <windowclass name="ct_effect" merge="join">
-		<sheetdata>
-			<button_ct_effect_apply name="apply" insertbefore="rightanchor" />
-		</sheetdata>
-	</windowclass> -->
     
 	<windowclass name="ct_healthadjust">
 		<frame>charsheethelper</frame>
