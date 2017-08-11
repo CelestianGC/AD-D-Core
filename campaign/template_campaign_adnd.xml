@@ -651,6 +651,60 @@
 			</script>
 		</button_text_sm>
 	</template>    
+	<template name="button_skills_type_player">
+		<button_text_sm>
+			<anchored to="buttonanchor" width="80">
+				<top />
+				<left anchor="right" relation="relative" offset="5" />
+			</anchored>
+			<state textres="item_button_skill_type" />
+			<script>
+				function onButtonPress()
+					local w = Interface.openWindow("reference_groupedlist", "reference.skills");
+					local rList = {};
+					rList.sRecordType = "skill";
+					rList.sTitle = Interface.getString("item_button_skill_type");
+					rList.aColumns = {};
+					table.insert(rList.aColumns, { sName = "name", sType = "string", sHeading = "Name", nWidth=200 });
+					table.insert(rList.aColumns, { sName = "stat", sType = "string", sHeading = "Type/Stat", bCentered=true });
+					table.insert(rList.aColumns, { sName = "base_check", sType = "number", sHeading = "Base/Check", bCentered=true, nWidth=80 });
+					table.insert(rList.aColumns, { sName = "adj_mod", sType = "number", sHeading = "Modifier", bCentered=true, nWidth=80,  });
+					rList.aFilters = {};
+					rList.aGroups = {};
+					table.insert(rList.aGroups, { sDBField = "stat" });
+					rList.aGroupValueOrder = {};
+					w.init(rList);
+				end
+			</script>
+		</button_text_sm>
+	</template>    
+	<template name="button_skills_type">
+		<button_text_sm>
+			<anchored to="buttonanchor" width="80">
+				<top />
+				<left anchor="right" relation="relative" offset="5" />
+			</anchored>
+			<state textres="item_button_skill_type" />
+			<script>
+				function onButtonPress()
+					local w = Interface.openWindow("reference_groupedlist", "reference.skills");
+					local rList = {};
+					rList.sRecordType = "skill";
+					rList.sTitle = Interface.getString("item_button_skill_type");
+					rList.aColumns = {};
+					table.insert(rList.aColumns, { sName = "name", sType = "string", sHeading = "Name", nWidth=200 });
+					table.insert(rList.aColumns, { sName = "stat", sType = "string", sHeading = "Type/Stat", bCentered=true });
+					table.insert(rList.aColumns, { sName = "base_check", sType = "number", sHeading = "Base/Check", bCentered=true, nWidth=80 });
+					table.insert(rList.aColumns, { sName = "adj_mod", sType = "number", sHeading = "Modifier", bCentered=true, nWidth=80,  });
+					rList.aFilters = {};
+					rList.aGroups = {};
+					table.insert(rList.aGroups, { sDBField = "stat" });
+					rList.aGroupValueOrder = {};
+					w.init(rList);
+				end
+			</script>
+		</button_text_sm>
+	</template>    
     
     
 </root>

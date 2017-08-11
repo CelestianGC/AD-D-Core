@@ -167,6 +167,9 @@ aRecords = {
 		aDataMap = { "skill", "reference.skilldata" }, 
 		aDisplayIcon = { "button_skills", "button_skills_down" },
 		sRecordDisplayClass = "reference_skill", 
+        aGMListButtons = { "button_skills_type" };
+		-- when 3.3.2 goes live add these back??? --celestian
+        --aPlayerListButtons = { "button_skills_type_player" };
 	},
 	["spell"] = {
 		bExport = true, 

@@ -486,11 +486,11 @@
     <string name="npc_button_hd">By HD</string>
     <string name="npc_groupedtitle_hd">NPC BY HitDice</string>
     <string name="item_button_items">Items</string>
-    <string name="item_button_spell_school">School</string>
-    <string name="item_button_spell_sphere">Sphere</string>
+    <string name="item_button_spell_school">by School</string>
+    <string name="item_button_spell_sphere">by Sphere</string>
     <string name="item_button_spell_arcane">Arcane</string>
     <string name="item_button_spell_divine">Divine</string>
-
+    <string name="item_button_skill_type">by Type</string>
     <!-- CT Radial -->
 	<string name="ct_menu_itemdeletenonfriendly_with_0HP">Delete All Non-Friendly With 0 HP</string>
 	<string name="ct_menu_itemdeletefoe_with_0HP">Delete Only Foes With 0 HP</string>    
