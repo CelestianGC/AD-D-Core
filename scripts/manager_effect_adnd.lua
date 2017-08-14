@@ -252,8 +252,8 @@ function updateItemEffects(nodeItem,bCombat)
         if (not bFound and bEquipped) then
     --Debug.console("manager_effect.lua","updateItemEffects","bFound and bEquipped",bEquipped);
             local rEffect = {};
-            rEffect.sName = sLabel;
-            rEffect.sLabel = sLabel; -- need this here?
+            rEffect.sName = sName .. ";" .. sLabel;
+            rEffect.sLabel = sLabel; 
             rEffect.nDuration = 0;
             rEffect.sUnits = "day";
             rEffect.nInit = 0;

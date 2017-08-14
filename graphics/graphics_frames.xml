@@ -47,8 +47,21 @@
 
 	<!-- Characters -->
 	<framedef name="acicon">
-		<bitmap file="graphics/frames/acicon.png" />
+		<!-- <bitmap file="graphics/frames/acicon.png" /> -->
+        <bitmap file="graphics/frames/adnd_acshield.png" />
 		<topleft rect="0,0,35,39" />
+	</framedef>
+	<framedef name="adnd_hpicon">
+		<bitmap file="graphics/frames/adnd_hpbox.png" />
+		<topleft rect="0,0,50,30" />
+	</framedef>
+	<framedef name="adnd_hpothericon">
+		<bitmap file="graphics/frames/adnd_hpbox_other.png" />
+		<topleft rect="0,0,50,30" />
+	</framedef>
+	<framedef name="adnd_moveicon">
+		<bitmap file="graphics/frames/adnd_move.png" />
+		<topleft rect="0,0,50,36" />
 	</framedef>
 
 	<!-- Die Cup (Local mode) -->

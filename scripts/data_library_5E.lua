@@ -21,6 +21,26 @@ function sortNPCCRValues(aFilterValues)
 	return aFilterValues;
 end
 
+-- get hitDice and get just the first number
+function getNPCHitDice(vNode)
+	local sHitDice = StringManager.trim(DB.getValue(vNode, "hitDice", ""));
+	local sHD = sHitDice:match("^%d+");
+	if sHD then
+		sHitDice = StringManager.trim(sHD);
+	end
+	return sHitDice;
+end
+
+-- see if this will sort HD better
+function sortNPCHitDice(aFilterValues)
+	local function fNPCSortValue(a)
+		local v = tonumber(a) or 0;
+		return v;
+    end
+	table.sort(aFilterValues, function(a,b) return fNPCSortValue(a) < fNPCSortValue(b); end);
+	return aFilterValues;
+end
+
 function getNPCTypeValue(vNode)
 	local v = StringManager.trim(DB.getValue(vNode, "type", ""));
 	local sType = v:match("^[^(%s]+");
@@ -30,6 +50,7 @@ function getNPCTypeValue(vNode)
 	v = StringManager.capitalize(v);
 	return v;
 end
+
 
 function getItemRecordDisplayClass(vNode)
 	local sRecordDisplayClass = "item";
@@ -63,6 +84,16 @@ end
 
 function getSpellSourceValue(vNode)
 	return StringManager.split(DB.getValue(vNode, "source", ""), ",", true);
+end
+function getSpellSphereValue(vNode)
+	return StringManager.split(DB.getValue(vNode, "sphere", ""), ",", true);
+end
+function getSpellSchoolValue(vNode)
+	return StringManager.split(DB.getValue(vNode, "school", ""), ",", true);
+end
+
+function getSkillTypeValue(vNode)
+	return StringManager.capitalize(DB.getValue(vNode, "stat", ""), ",", true);
 end
 
 function getSpellLevelValue(vNode)
@@ -103,11 +134,14 @@ aRecords = {
 		-- sRecordDisplayClass = "npc", 
 		aGMListButtons = { "button_npc_letter", "button_npc_hd", "button_npc_type" };
 		aCustomFilters = {
+--			["Type"] = { sField = "type", fGetValue = getNPCTypeValue },
+            ["HitDice"] = { sField = "hitDice", fGetValue = getNPCHitDice,fSort = sortNPCHitDice },
 			["Type"] = { sField = "type", sType = "string" },
 			["Organization"] = { sField = "organization", sType = "string" },
 			["Activity"] = { sField = "activity", sType = "string" },
 			["Diet"] = { sField = "diet", sType = "string" },
-			["Frequency"] = { sField = "frequency", sType = "string", fSort = sortNPCCRValues },
+--			["Frequency"] = { sField = "frequency", sType = "string", fSort = sortNPCCRValues },
+			["Frequency"] = { sField = "frequency", sType = "string"},
 			["Climate"] = { sField = "climate", sType = "string" },
 		},
 	},
@@ -168,6 +202,9 @@ aRecords = {
 		aDisplayIcon = { "button_skills", "button_skills_down" },
 		sRecordDisplayClass = "reference_skill", 
         aGMListButtons = { "button_skills_type" };
+		aCustomFilters = {
+			["Type"] = { sField = "stat", fGetValue = getSkillTypeValue},
+		},
 		-- when 3.3.2 goes live add these back??? --celestian
         --aPlayerListButtons = { "button_skills_type_player" };
 	},
@@ -180,8 +217,8 @@ aRecords = {
 		-- when 3.3.2 goes live add these back??? --celestian
         --aPlayerListButtons = { "button_spells_school_player", "button_spells_sphere_player" };
 		aCustomFilters = {
-			["Sphere"] = { sField = "sphere", sType = "string" },
-			["School"] = { sField = "school", sType = "string" },
+			["Sphere"] = { sField = "sphere", fGetValue = getSpellSphereValue },
+			["School"] = { sField = "school", fGetValue = getSpellSchoolValue },
 			["Type"] = { sField = "type", sType = "string" },
 			["Level"] = { sField = "level", sType = "number" };
 		},

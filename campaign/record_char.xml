@@ -8,6 +8,7 @@
 <root>
 	<windowclass name="charsheet">
 		<frame>charsheet</frame>
+        <margins control="15,0,0,0" />
 		<placement>
 			<size width="560" height="640" />
 		</placement>
@@ -142,7 +143,12 @@
 			</tabs_charsheet>
 
 			<close_charsheet />
-			<resize_charsheet />
+			<resize_charsheet >
+                <anchored>
+                    <right offset="-6" />
+                    <bottom offset="-10" />
+                </anchored>
+            </resize_charsheet>
 		</sheetdata>
 	</windowclass>
 </root>
