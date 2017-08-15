@@ -74,7 +74,7 @@
    	<string name="char_label_adj">Adj.</string>
 	<string name="char_label_background">KIT</string>
 	<string name="char_label_speed">MOVE</string>
-  	<string name="char_label_surprise">SUP</string>
+  	<string name="char_label_surprise">SUPRISE</string>
   	<string name="char_label_surprise_tooltip">Surprise check value. A check rolled of this or lesser value indicates surprise.</string>
 
 	<string name="char_label_speeddetail">Mv Base:</string>

@@ -23,9 +23,9 @@
 
 			<subwindow name="contents">
 				<anchored>
-					<top offset="0" />
+					<top offset="20" />
 					<bottom offset="-35" />
-					<left offset="0" />
+					<left offset="15" />
 					<right offset="-15" />
 				</anchored>
 				<class>charsheet_skills_contents</class>

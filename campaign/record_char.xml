@@ -10,10 +10,10 @@
 		<frame>charsheet</frame>
         <margins control="15,0,0,0" />
 		<placement>
-			<size width="560" height="640" />
+			<size width="570" height="640" />
 		</placement>
 		<sizelimits>
-			<minimum width="450" height="570" />
+			<minimum width="300" height="300" />
 			<dynamic />
 		</sizelimits>
 		<softclose />
@@ -23,15 +23,14 @@
 		<tooltip field="name" />
 		<script file="campaign/scripts/char.lua" />
 		<sheetdata>
-			<anchor_title_charsheet name="contentanchor" />
+			<anchor_title_charsheet name="contentanchor">
+               <anchored>
+                    <top offset="20" />
+                    <!-- <left parent="" anchor="left" offset="35" />
+                    <right parent="" anchor="right" offset="-30" /> -->
+                </anchored>
+            </anchor_title_charsheet>
 			
-			<button_charactivate>
-				<anchored to="contentanchor" position="belowright" offset="0,5" width="23" height="22" />
-			</button_charactivate>
-		
-			<token_char name="token">
-				<anchored to="contentanchor" position="belowright" offset="25,6" width="45" height="45" />
-			</token_char>
 			<genericcontrol>
 				<anchored to="contentanchor" position="belowleft" offset="5,5" width="45" height="45" />
 				<icon>charlist_base</icon>
@@ -44,20 +43,43 @@
 			<portrait_char name="portrait">
 				<anchored to="contentanchor" position="belowleft" offset="5,5" width="45" height="45" />
 			</portrait_char>
-			
-			<label_charframetop name="nametitle">
+			<!-- <label_charframetop name="nametitle">
 				<anchored to="contentanchor" height="20">
 					<top anchor="bottom" offset="7" />
 					<left offset="65" />
 					<right offset="-260" />
 				</anchored>
 				<static textres="char_label_name" />
-			</label_charframetop>
+			</label_charframetop> -->
 			<stringu name="name">
-				<anchored to="nametitle" position="insidetop" offset="0,25" height="20" />
+				<!-- <anchored to="nametitle" position="insidetop" offset="0,25" height="20" /> -->
+				<anchored to="contentanchor" height="20">
+					<top anchor="bottom" relation="relative" offset="7" />
+					<left anchor="portrait" postion="right" offset="50" />
+					<right offset="-310" />
+				</anchored>
 			</stringu>
+            <label name="name_label" >
+                <anchored to="name" >
+                    <top anchor="bottomleft" relation="relative" offset="0" />
+                    <left anchor="left" />
+                </anchored>
+                <static textres="char_label_name" />
+                <font>arial-bold-8</font>
+            </label>
 
-			<label_charframetop name="racetitle">
+		
+			<token_char name="token">
+				<!-- <anchored to="contentanchor" position="belowright" offset="25,6" width="45" height="45" /> -->
+                <anchored to="name" position="righthigh" offset="25,0" width="45" height="45" />
+			</token_char>
+			<button_charactivate>
+				<!-- <anchored to="contentanchor" position="belowright" offset="0,5" width="23" height="22" /> -->
+                <anchored to="token" position="righthigh" offset="0,5" width="23" height="22" />
+			</button_charactivate>
+            
+
+<!-- 			<label_charframetop name="racetitle">
 				<anchored to="nametitle" position="righthigh" offset="35,0" height="20" width="130">
 				</anchored>
 				<icons>char_race</icons>
@@ -86,7 +108,7 @@
 					<right parent="racelink" anchor="left" offset="-5" />
 				</anchored>
 			</stringu>
-            
+ -->            
 			<sub_charsheet name="main">
 				<class>charsheet_main</class>
 			</sub_charsheet>

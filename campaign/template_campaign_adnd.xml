@@ -63,7 +63,7 @@
 		<subwindow>
 			<anchored to="contentanchor">
 				<!-- <top parent="name" anchor="bottom" offset="2" /> -->
-                <top />
+                <top offset="14" />
 				<left />
 				<right parent="" offset="-15,0" />
 				<bottom parent="" offset="-10" />

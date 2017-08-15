@@ -12,7 +12,7 @@
 		<sheetdata>
 			<anchor_title_charsheet name="contentanchor" >
                 <anchored>
-                    <top offset="5" />
+                    <top offset="15" />
                     <!-- <left parent="" anchor="left" offset="35" />
                     <right parent="" anchor="right" offset="-30" /> -->
                 </anchored>
@@ -22,12 +22,7 @@
 				<invisible />
 			</number_charlevel> -->
 
-			<label_charframetop name="classleveltitle">
-				<!-- <anchored height="20">
-					<top offset="10" />
-					<left offset="15" />
-					<right offset="-260" />
-				</anchored> -->
+<!-- 			<label_charframetop name="classleveltitle">
 				<anchored to="contentanchor" height="20">
 					<top anchor="bottomleft" relation="relative" offset="7" />
 					<left offset="5" />
@@ -35,24 +30,100 @@
 				</anchored>
 				<icons>char_class</icons>
 				<static textres="char_label_classlevel" />
-			</label_charframetop>
-			<stringc_charclasslevel name="classlevel">
-				<anchored to="classleveltitle" position="insidetopleft" offset="-5,25">
-					<right offset="-10" />
+			</label_charframetop> -->
+            
+            <!-- <genericcontrol name="classleveltitle">
+				<anchored to="contentanchor" height="20">
+					<top anchor="bottomleft" relation="relative" offset="7" />
+					<left offset="5" />
+					<right offset="-210" />
 				</anchored>
+                <disabled />
+                <invisible />
+            </genericcontrol> -->
+            
+			<stringc_charclasslevel name="classlevel">
+				<anchored to="contentanchor" height="20">
+					<top anchor="bottomleft" relation="relative" offset="7" />
+					<left offset="5" />
+					<right offset="-250" />
+				</anchored>
+				<!-- <anchored to="classleveltitle" position="insidetopleft" offset="-5,25">
+					<right offset="-10" />
+				</anchored> -->
 			</stringc_charclasslevel>
+            <label name="class_level_label" >
+                <anchored to="classlevel" >
+                    <top anchor="bottomleft" relation="relative" offset="0" />
+                    <left anchor="left" />
+                </anchored>
+                <static textres="char_label_classlevel" />
+                <font>arial-bold-8</font>
+            </label>
 			<button_charclasslevel name="button_classlevel">
-				<anchored to="classlevel" position="righthigh" offset="0,0" />
+				<anchored to="classlevel" position="righthigh" relation="relative" offset="0,0" />
 			</button_charclasslevel>
 
-			<label_charframetop name="backgroundtitle">
+            
+			<!-- <label_charframetop name="racetitle">
+				<anchored to="nametitle" position="righthigh" offset="35,0" height="20" width="130">
+				</anchored>
+				<icons>char_race</icons>
+				<static textres="char_label_race" />
+			</label_charframetop> -->
+			<stringu name="race">
+				<anchored to="classlevel" position="right" relation="relative" offset="30,0" width="100" />
+				<!-- <anchored to="racetitle" position="belowleft" offset="-5,5" height="20">
+					<right parent="racelink" anchor="left" offset="-5" />
+				</anchored> -->
+			</stringu>
+            <label name="race_label" >
+                <anchored to="race" >
+                    <top anchor="bottomleft" relation="relative" offset="0" />
+                    <left anchor="left" />
+                </anchored>
+                <static textres="char_label_race" />
+                <font>arial-bold-8</font>
+            </label>
+			<linkfield name="racelink">
+                <anchored to="race" position="righthigh" relation="relative" offset="-5,-3" width="20" height="20" />
+				<!-- <anchored to="racetitle" position="belowright" offset="-10,5" width="20" height="20" /> -->
+				<description field="race" />
+				<closetoggle />
+				<invisible />
+				<script>
+					function onInit()
+						onValueChanged();
+					end
+					function onValueChanged()
+						if isEmpty() then
+							setVisible(false);
+						else
+							setVisible(true);
+						end
+					end
+				</script>
+			</linkfield>
+            
+			<!-- <label_charframetop name="backgroundtitle">
 				<anchored to="classleveltitle" position="righthigh" offset="35,0" height="20" width="130">
                 </anchored>
 				<icons>char_background</icons>
 				<static textres="char_label_background" />
-			</label_charframetop>
+			</label_charframetop> -->
+			<stringu name="background">
+				<anchored to="race" position="right" relation="relative" offset="30,0" width="80" />
+			</stringu>
+            <label name="kit_label" >
+                <anchored to="background" >
+                    <top anchor="bottomleft" relation="relative" offset="0" />
+                    <left anchor="left" />
+                </anchored>
+                <static textres="char_label_background" />
+                <font>arial-bold-8</font>
+            </label>
 			<linkfield name="backgroundlink">
-				<anchored to="backgroundtitle" position="belowright" offset="-10,5" width="20" height="20" />
+				<anchored to="background" position="righthigh" relation="relative" offset="-5,-3" width="20" height="20" />
 				<description field="background" />
 				<closetoggle />
 				<invisible />
@@ -69,38 +140,38 @@
 					end
 				</script>
 			</linkfield>
-			<stringu name="background">
-				<anchored to="backgroundtitle" position="belowleft" offset="-5,5" height="20">
-					<right parent="backgroundlink" anchor="left" offset="-5" />
-				</anchored>
-			</stringu>
 
 
 <!-- Ability Scores -->
-			<label_charframetop name="statstitle">
-				<!-- <anchored height="20" width="303">
-					<top offset="70" />
-					<left offset="15" />
-				</anchored> -->
+			<!-- <label_charframetop name="statstitle">
 				<anchored to="contentanchor" height="20" >
 					<top anchor="bottom" offset="35" relation="relative" />
 					<left offset="5" />
-					<right offset="-210" />
+					<right offset="-140" />
 				</anchored>
 				<icons>char_abilities</icons>
 				<static textres="char_label_stats" />
-			</label_charframetop>
+			</label_charframetop> -->
+			<label name="statstitle">
+				<anchored to="contentanchor" height="20" >
+					<top anchor="bottom" offset="25" relation="relative" />
+					<left offset="5" />
+					<right offset="-140" />
+				</anchored>
+                <center />
+				<static textres="char_label_stats" />
+			</label>
 			
             <button_charabiltiesdetail name="abilities_details">
                 <tooltip textres="ability_details_tooltip" />
-				<anchored to="statstitle" position="insidetopright" offset="0,0">
+				<anchored to="statstitle" position="insidetopright" offset="50,0">
 				</anchored>
             </button_charabiltiesdetail>
             
 			<!-- Ability STR -->
 			<number_charabilityscore2 name="strength" source="abilities.strength.score" >
 				<tooltip textres="char_tooltip_strength" />
-				<anchored offset="-10,35"  width="45" height="45"/>
+				<anchored offset="-10,25"  width="45" height="45"/>
 				<target>strength</target>
 			</number_charabilityscore2>
  			<label_abilityscore>
@@ -617,11 +688,16 @@
 			<!-- END Ability Scores -->
 			
 <!-- SAVES -->
-			<label_charframetop name="savestitle">
+			<!-- <label_charframetop name="savestitle">
 				<anchored to="statstitle" position="right" offset="40,0" width="90"/>
 				<icons>char_senses</icons>
                 <static textres="char_label_save" />
-			</label_charframetop>
+			</label_charframetop> -->
+            <label name="savestitle">
+				<anchored to="statstitle" position="righthigh" offset="40,0" width="90"/>
+                <static textres="char_label_save" />
+                <center />
+			</label>            
             <button_charasavesdetail name="saves_details">
                 <tooltip textres="save_details_tooltip" />
 				<anchored to="savestitle" position="insidetopright" offset="-5,0">
@@ -629,7 +705,7 @@
             </button_charasavesdetail>
 
 			<number_char_save name="paralyzation" source="saves.paralyzation.score">
-				<anchored to="savestitle" position="belowleft" offset="0,20"  height="25" width="25"/> 
+				<anchored to="savestitle" position="belowleft" offset="0,5"  height="25" width="25"/> 
 				<target>paralyzation</target>
 			</number_char_save>
 			<label_savescore>
@@ -730,98 +806,112 @@
             <!-- END SAVES -->
 
 			<!-- THACO/AC/Move -->
- 			<label_charframetop name="combattitle" >
+<!--  			<label_charframetop name="combattitle" >
 				<anchored to="charisma" position="belowleft" offset="15,15" height="20" width="250"/>
-<!--   				<anchored height="20" width="250">
-					<top anchor="bottom" offset="-110" />
-					<left offset="15" />
-				</anchored>
- -->				<icons>char_init</icons>
+				<icons>char_init</icons>
 			</label_charframetop>
-
+ -->
 			
-<!-- 			THACO -->
-			<number_charthaco name="thaco" source="combat.thaco.score">
-				<anchored to="combattitle" width="40" height="30">
-					<top anchor="bottom" offset="10" />
-					<left anchor="left" offset="20" />
+            <label>
+				<frame name="adnd_combaticon" />
+				<anchored to="charisma">
+					<top anchor="bottom" relation="relative" offset="2" />
+					<left offset="40" />
+					<right offset="300" />
 				</anchored>
-			</number_charthaco>
-			<label_charfieldtop name="combattitlethaco">
-				<anchored to="thaco" offset="0,10" />
-				<static textres="thaco" />
-			</label_charfieldtop>
+                <center />
+            </label>
+            <genericcontrol name="combatanchor">
+                <anchored to="charisma" position="belowleft" offset="0,35" width="45" height="40" />
+            </genericcontrol>
 
+            <!-- 			THACO/AC/INIT/MOVE  -->
 			<number_chartotalac_defaults name="ac2" source="defenses.ac.total">
 				<readonly />
-				<anchored to="combattitle" width="30" height="30">
- 					<top anchor="bottom" offset="7" />
-                    <left parent="combattitlethaco" anchor="right" relation="relative" offset="10" />
-              </anchored>
+                <anchored to="combatanchor" position="insidetopleft" offset="5,0" width="30" height="30" />
+<!-- 				<anchored to="combatanchor" width="30" height="30">
+					<top parent="combatanchor" />
+					<left anchor="right" relation="relative" offset="5" />
+				</anchored> -->
 				<frame name="acicon" offset="4,0,2,4" />
 			</number_chartotalac_defaults>
-			<label_charfieldtop>
-				<anchored to="ac2" offset="0,7" />
+			<label_combatscores>
+				<anchored to="ac2"/>
 				<static textres="ac" />
-			</label_charfieldtop>
+			</label_combatscores>
+
+			<number_charthaco name="thaco" source="combat.thaco.score">
+                <!-- <anchored to="combatanchor" position="insidetopleft" offset="0,0" width="45" height="40" /> -->
+				<anchored to="combatanchor" width="45" height="40">
+					<top parent="combatanchor" />
+					<left anchor="right" relation="relative" offset="0" />
+				</anchored>
+			</number_charthaco>
+			<label_combatscores>
+				<anchored to="thaco"/>
+				<static textres="thaco" />
+			</label_combatscores>
+
 			
 			<number_charinit name="initiative" source="initiative.total">
+                <frame name="adnd_square"/>
 				<readonly />
-				<anchored to="combattitle" width="30" height="30">
- 					<top anchor="bottom" offset="10" />
-                    <left parent="combattitlethaco" anchor="right" relation="relative" offset="10" />
-              </anchored>
+				<anchored to="combatanchor" width="30" height="30">
+					<top parent="combatanchor" offset="4" />
+					<left anchor="right" relation="relative" offset="15" />
+				</anchored>
 			</number_charinit>
-			<label_charfieldtop>
-				<anchored to="initiative" offset="0,10" />
+			<label_combatscores>
+                <anchored to="initiative" position="insidetopleft" offset="0,-10" width="30"/>
 				<static textres="char_label_initiative" />
-			</label_charfieldtop>
+			</label_combatscores>
 			
+
+            <surprise_number_total name="sheet_surprise_total" source="surprise.total">
+                <frame name="adnd_square"/>
+				<anchored to="combatanchor" width="30" height="30">
+					<top parent="combatanchor" offset="4" />
+					<left anchor="right" relation="relative" offset="23" />
+				</anchored>
+                <tooltip textres="char_label_surprisetotal_tooltip" />
+                <font>reference-b-large</font>
+            </surprise_number_total>
+			<label_combatscores>
+                <anchored to="sheet_surprise_total" position="insidetopleft" offset="-9,-10" width="50"/>
+				<static textres="char_label_surprise" />
+                <tooltip textres="char_label_surprise_tooltip" />
+			</label_combatscores>
+
 			<number_charspeed_defaults name="speed" source="speed.total">
 				<frame name="adnd_moveicon" offset="12,-2,0,0" />
 				<readonly />
-				<anchored to="combattitle" width="40" height="30">
- 					<top anchor="bottom" offset="5" />
-                    <left parent="combattitlethaco" anchor="right" relation="relative" offset="18" />
-              </anchored>
+				<anchored to="combatanchor" width="40" height="30">
+					<top parent="combatanchor" />
+					<left anchor="right" relation="relative" offset="25" />
+				</anchored>
 				<static textres="char_label_speed" />
 			</number_charspeed_defaults>
-			<label_charfieldtop>
-				<anchored to="speed" offset="0,5" />
+			<label_combatscores>
+				<anchored to="speed" />
 				<static textres="char_label_speed" />
-			</label_charfieldtop>
-
-            <surprise_number_total name="sheet_surprise_total" source="surprise.total">
-				<anchored to="combattitle" width="40" height="30">
- 					<top anchor="bottom" offset="10" />
-                    <left parent="combattitlethaco" anchor="right" relation="relative" offset="15" />
-              </anchored>
-                <tooltip textres="char_label_surprisetotal_tooltip" />
-                <font>reference-b-large</font>
-                <tooltip textres="char_label_surprise_tooltip" />
-            </surprise_number_total>
-			<label_charfieldtop>
-				<anchored to="sheet_surprise_total" offset="0,10" />
-				<static textres="char_label_surprise" />
-                <tooltip textres="char_label_surprise_tooltip" />
-			</label_charfieldtop>
+			</label_combatscores>
 
             <!-- special move/defense string -->
 			<string_labeled name="speedspecial" source="speed.special">
 				<readonly />
-				<anchored to="combattitle">
-					<top anchor="bottom" relation="relative" offset="55" />
-					<left offset="-5" />
-					<right offset="5" />
+				<anchored to="combatanchor">
+					<top anchor="bottom" relation="relative" offset="0" />
+					<left offset="0" />
+					<right offset="200" />
 				</anchored>
 				<labelres>char_label_speedspecial</labelres>
 				<multilinespacing>20</multilinespacing>
 			</string_labeled>
 			<string_labeled name="specialdef" source="defenses.special">
-				<anchored to="combattitle">
-					<top anchor="bottom" relation="relative" offset="5" />
-					<left offset="-5" />
-					<right offset="5" />
+				<anchored to="combatanchor">
+					<top anchor="bottom" relation="relative" offset="0" />
+					<left offset="0" />
+					<right offset="200" />
 				</anchored>
 				<labelres>char_label_specialdef</labelres>
 				<multilinespacing>20</multilinespacing>
@@ -830,32 +920,38 @@
 			
 			<!-- 	Magnify button -->
 			<button_charcombatcalc name="button_combatcalc">
-				<anchored to="combattitle" position="insidetopright" offset="-10,0" />
+				<anchored to="combatanchor" width="30" height="30">
+					<top parent="combatanchor" />
+					<left anchor="right" relation="relative" offset="5" />
+				</anchored>
 			</button_charcombatcalc>
             
         <!-- Health/Wounds -->
- 			<label_charframetop name="healthtitle">
+ 			<!-- <label_charframetop name="healthtitle">
 				<anchored to="combattitle" position="right" offset="35,0" width="180"/>
 				<icons>char_stats</icons>
-			</label_charframetop>
+			</label_charframetop> -->
 			
 			<number_charwounds name="wounds" source="hp.wounds">
 				<frame name="adnd_hpothericon" offset="5,1,1,1" />
-				<anchored to="healthtitle" width="40" height="30">
-					<top anchor="bottom" offset="15" />
-					<left anchor="center" offset="-60" />
+				<anchored to="combatanchor" width="40" height="30">
+					<top parent="combatanchor" />
+					<left anchor="right" relation="relative" offset="35" />
 				</anchored>
 				<font>reference-b-large</font>
 				<description textres="char_tooltip_wounds" />
 			</number_charwounds>
-			<label_charfieldtop>
-				<anchored to="wounds" offset="0,15" />
+			<label_combatscores>
+				<anchored to="wounds" />
 				<static textres="char_label_wounds" />
-			</label_charfieldtop>
+			</label_combatscores>
 			
 			<number_dropadd name="hp" source="hp.total">
 				<frame name="adnd_hpicon" offset="5,1,1,1" />
-				<anchored to="wounds" position="righthigh" offset="15,0" width="40" height="30" />
+				<anchored to="combatanchor" width="40" height="30">
+					<top parent="combatanchor" />
+					<left anchor="right" relation="relative" offset="5" />
+				</anchored>
 				<font>reference-b-large</font>
 				<description textres="hp" />
 				<min value="0" />
@@ -865,14 +961,17 @@
 					end
 				</script>
 			</number_dropadd>
-			<label_charfieldtop>
-				<anchored to="hp" offset="5,15" />
+			<label_combatscores>
+				<anchored to="hp" />
 				<static textres="char_label_hpmax" />
-			</label_charfieldtop>
+			</label_combatscores>
 			
 			<basicnumber name="temphp" source="hp.temporary">
 				<frame name="adnd_hpothericon" offset="5,1,1,1" />
-				<anchored to="hp" position="righthigh" offset="15,0" width="40" height="30" />
+				<anchored to="combatanchor" width="40" height="30">
+					<top parent="combatanchor" />
+					<left anchor="right" relation="relative" offset="5" />
+				</anchored>
 				<font>reference-b-large</font>
 				<color>0000AA</color>
 				<description textres="temphp" />
@@ -891,10 +990,10 @@
 					end
 				</script>
 			</basicnumber>
-			<label_charfieldtop>
-				<anchored to="temphp" offset="0,15" />
+			<label_combatscores>
+				<anchored to="temphp"  />
 				<static textres="char_label_hptemp" />
-			</label_charfieldtop>
+			</label_combatscores>
 			<label>
 				<anchored to="wounds" position="lefthigh" offset="15,5" />
 				<static textres="hp" />

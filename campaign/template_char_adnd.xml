@@ -70,6 +70,8 @@
 
 	<template name="number_charabilityscore2">
 		<basicnumber>
+			<frame name="adnd_square" />
+<!-- 			<frame name="abilityscore_box" /> -->
  			<anchored to="statstitle" position="insidetopleft"/> 
 			<rollable />
             <readonly />
@@ -77,7 +79,6 @@
             <max>25</max>
 			<default>9</default>
 			<font>arial-bold-12</font>
-			<frame name="abilityscore_box" />
 			<script file="campaign/scripts/number_abilityscore.lua" />
 		</basicnumber>
 	</template>
@@ -158,7 +159,8 @@
 
 	<template name="number_abilityfield">
 			<number>
-				<frame name="abilityscore_box" />
+   				<frame name="adnd_rectangle" />
+<!-- 				<frame name="abilityscore_box" /> -->
 <!--                 <backcolor>#ff99cc</backcolor> -->
 				<anchored position="right" offset="0,0" width="40"/>
                 <displaysign />
@@ -170,7 +172,8 @@
 
 	<template name="number_abilityfield_noplus">
 			<number>
-				<frame name="abilityscore_box" />
+				<frame name="adnd_rectangle" />
+<!-- 				<frame name="abilityscore_box" /> -->
 <!--                 <backcolor>#ff99cc</backcolor> -->
 				<anchored position="right" offset="0,0" width="40"/>
    				<center />
@@ -182,7 +185,8 @@
 	<template name="percentile_abilityfield">
 			<number>
                 <readonly />
-				<frame name="abilityscore_box" />
+				<frame name="adnd_rectangle" />
+                <!-- <frame name="abilityscore_box" /> -->
 				<anchored position="right" offset="0,0" width="40"/>
    				<center />
 				<font>regular8</font>
@@ -191,7 +195,8 @@
 	
 	<template name="string_abilityfield">
 			<stringfield>
-				<frame name="abilityscore_box" />
+				<frame name="adnd_rectangle" />
+				<!-- <frame name="abilityscore_box" /> -->
     <!--             <backcolor>#ff99cc</backcolor> -->
 				<!-- <multilinespacing>20</multilinespacing> -->
 				<anchored position="right" offset="0,0" width="40" />
@@ -204,7 +209,8 @@
 	<template name="ability_fields_container">
 			<frame_char>
 				<anchored position="right" offset="0,0" width="280"/>
-				<frame name="bonus_box" />
+                <frame name="adnd_rectangle"/>
+				<!-- <frame name="bonus_box" /> -->
 			</frame_char>			
 	</template>
 	
@@ -245,6 +251,7 @@
     
 	<template name="number_charthaco">
 		<basicnumber>
+            <frame name="adnd_square"/>
             <min>-10</min>
             <max>30</max>
             <default>20</default>
@@ -539,7 +546,8 @@
 
 	<template name="number_char_save">
 		<basicnumber>
-                <frame name="fielddark" offset="7,5,7,5" />
+				<frame name="adnd_saveicon" offset="0,0,0,0" />
+                <!-- <frame name="fielddark" offset="7,5,7,5" /> -->
                 <stateframe>
                     <hover name="rowshade" offset="7,5,7,5" />
                 </stateframe>

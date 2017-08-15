@@ -10,9 +10,9 @@
 		<sheetdata>
 			<subwindow name="contents">
 				<anchored>
-					<top offset="0" />
+					<top offset="20" />
 					<bottom offset="-30" />
-					<left offset="0" />
+					<left offset="15" />
 					<right offset="-15" />
 				</anchored>
 				<class>charsheet_notes_contents</class>

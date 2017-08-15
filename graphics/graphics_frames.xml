@@ -63,6 +63,14 @@
 		<bitmap file="graphics/frames/adnd_move.png" />
 		<topleft rect="0,0,50,36" />
 	</framedef>
+	<framedef name="adnd_saveicon">
+		<bitmap file="graphics/frames/adnd_savescore.png" />
+		<topleft rect="0,0,25,25" />
+	</framedef>
+	<framedef name="adnd_combaticon">
+		<bitmap file="graphics/frames/adnd_combatheader.png" />
+		<topleft rect="0,0,300,24" />
+	</framedef>
 
 	<!-- Die Cup (Local mode) -->
 	<framedef name="collector">

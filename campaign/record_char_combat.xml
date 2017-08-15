@@ -13,7 +13,7 @@
             <!-- SURPRISE -->            
             <basicnumber name="surprise_total_roll" source="surprise.total">
             	<anchored width="30" height="18"> 
-					<top offset="18" />
+					<top offset="35" />
 					<left offset="55" />
 				</anchored>
                 <rollable />

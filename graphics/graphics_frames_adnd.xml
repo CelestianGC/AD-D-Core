@@ -32,4 +32,14 @@
 		<offset>9,9,9,9</offset>
 	</framedef>
 
+	<framedef name="adnd_square">
+		<bitmap file="graphics/frames/adnd_squarebox.png" />
+		<offset>9,9,9,9</offset>
+	</framedef>
+
+	<framedef name="adnd_rectangle">
+		<bitmap file="graphics/frames/adnd_rectangle.png" />
+		<offset>9,9,9,9</offset>
+	</framedef>
+    
 </root>

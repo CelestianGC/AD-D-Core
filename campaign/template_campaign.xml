@@ -89,6 +89,13 @@
 		</buttoncontrol>
 	</template>
 	
+	<template name="label_combatscores">
+		<label_fieldtop>
+			<anchored offset="-2,-6" />
+			<frame name="abilityscore" />
+		</label_fieldtop>
+	</template>
+
 	<template name="label_abilityscore">
 		<label_fieldtop>
 			<anchored offset="-2,-6" />
