@@ -161,6 +161,7 @@
     <script name="ActionSurprise" file="scripts/manager_action_surprise.lua" />
     <script name="ActionTurn" file="scripts/manager_action_turnundead.lua" />
     <script name="WindowManagerADND" file="scripts/windowmanager.lua" />
+    <script name="AbilityScoreADND" file="scripts/manager_abilityscores.lua" />
 
     <!-- add back when 3.3.2 goes live -->
 	<!-- <script name="EffectManager5E" file="scripts/manager_effect_5E.lua" /> -->

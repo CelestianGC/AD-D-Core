@@ -63,49 +63,74 @@ end
 
 function updateStrength(nodeActor,nChanged)
 
-    local nPercent = DB.getValue(nodeActor, "abilities.strength.percent", 0);
+    -- local nPercent = DB.getValue(nodeActor, "abilities.strength.percent", 0);
 
-    -- Deal with 18 01-100 strength
-    if ((nChanged == 18) and (nPercent > 0)) then
-        local nPercentRank = 50;
-        if (nPercent == 100) then 
-            nPercentRank = 100
-        elseif (nPercent >= 91 and nPercent <= 99) then
-            nPercentRank = 99
-        elseif (nPercent >= 76 and nPercent <= 90) then
-            nPercentRank = 90
-        elseif (nPercent >= 51 and nPercent <= 75) then
-            nPercentRank = 75
-        elseif (nPercent >= 1 and nPercent <= 50) then
-            nPercentRank = 50
-        end
-        nChanged = nPercentRank;
-    end
+    -- -- Deal with 18 01-100 strength
+    -- if ((nChanged == 18) and (nPercent > 0)) then
+        -- local nPercentRank = 50;
+        -- if (nPercent == 100) then 
+            -- nPercentRank = 100
+        -- elseif (nPercent >= 91 and nPercent <= 99) then
+            -- nPercentRank = 99
+        -- elseif (nPercent >= 76 and nPercent <= 90) then
+            -- nPercentRank = 90
+        -- elseif (nPercent >= 51 and nPercent <= 75) then
+            -- nPercentRank = 75
+        -- elseif (nPercent >= 1 and nPercent <= 50) then
+            -- nPercentRank = 50
+        -- end
+        -- nChanged = nPercentRank;
+    -- end
     
-    DB.setValue(nodeActor, "abilities.strength.hitadj", "number", DataCommonADND.aStrength[nChanged][1]);
-    DB.setValue(nodeActor, "abilities.strength.dmgadj", "number", DataCommonADND.aStrength[nChanged][2]);
-    DB.setValue(nodeActor, "abilities.strength.weightallow", "number", DataCommonADND.aStrength[nChanged][3]);
-    DB.setValue(nodeActor, "abilities.strength.maxpress", "number", DataCommonADND.aStrength[nChanged][4]);
-    DB.setValue(nodeActor, "abilities.strength.opendoors", "string", DataCommonADND.aStrength[nChanged][5]);
-    DB.setValue(nodeActor, "abilities.strength.bendbars", "number", DataCommonADND.aStrength[nChanged][6]);
+    local dbAbility = AbilityScoreADND.getStrengthProperties(nodeActor);
+    local nScore = dbAbility.score;
+    local nPercent = dbAbility.scorepercent;
+    
+    DB.setValue(nodeActor, "abilities.strength.hitadj", "number", dbAbility.hitadj);
+    DB.setValue(nodeActor, "abilities.strength.dmgadj", "number", dbAbility.dmgadj);
+    DB.setValue(nodeActor, "abilities.strength.weightallow", "number", dbAbility.weightallow);
+    DB.setValue(nodeActor, "abilities.strength.maxpress", "number", dbAbility.maxpress);
+    DB.setValue(nodeActor, "abilities.strength.opendoors", "string", dbAbility.opendoors);
+    DB.setValue(nodeActor, "abilities.strength.bendbars", "number", dbAbility.bendbars);
+
+    -- DB.setValue(nodeActor, "abilities.strength.hitadj", "number", DataCommonADND.aStrength[nChanged][1]);
+    -- DB.setValue(nodeActor, "abilities.strength.dmgadj", "number", DataCommonADND.aStrength[nChanged][2]);
+    -- DB.setValue(nodeActor, "abilities.strength.weightallow", "number", DataCommonADND.aStrength[nChanged][3]);
+    -- DB.setValue(nodeActor, "abilities.strength.maxpress", "number", DataCommonADND.aStrength[nChanged][4]);
+    -- DB.setValue(nodeActor, "abilities.strength.opendoors", "string", DataCommonADND.aStrength[nChanged][5]);
+    -- DB.setValue(nodeActor, "abilities.strength.bendbars", "number", DataCommonADND.aStrength[nChanged][6]);
     
     -- update encumbrance if we changed strength
     CharManager.updateEncumbrance(nodeActor);
 end
 
 function updateDexterity(nodeActor,nChanged)
-    DB.setValue(nodeActor, "abilities.dexterity.reactionadj", "number", DataCommonADND.aDexterity[nChanged][1]);
-    DB.setValue(nodeActor, "abilities.dexterity.hitadj", "number", DataCommonADND.aDexterity[nChanged][2]);
-    DB.setValue(nodeActor, "abilities.dexterity.defenseadj", "number", DataCommonADND.aDexterity[nChanged][3]);
+    local dbAbility = AbilityScoreADND.getDexterityProperties(nodeActor);
+    local nScore = dbAbility.score;
+    
+    DB.setValue(nodeActor, "abilities.dexterity.reactionadj", "number", dbAbility.reactionadj);
+    DB.setValue(nodeActor, "abilities.dexterity.hitadj", "number", dbAbility.hitadj);
+    DB.setValue(nodeActor, "abilities.dexterity.defenseadj", "number", dbAbility.defenseadj);
+
+    -- DB.setValue(nodeActor, "abilities.dexterity.reactionadj", "number", DataCommonADND.aDexterity[nChanged][1]);
+    -- DB.setValue(nodeActor, "abilities.dexterity.hitadj", "number", DataCommonADND.aDexterity[nChanged][2]);
+    -- DB.setValue(nodeActor, "abilities.dexterity.defenseadj", "number", DataCommonADND.aDexterity[nChanged][3]);
+    
 end
 
 function updateWisdom(nodeActor,nChanged)
+    local dbAbility = AbilityScoreADND.getWisdomProperties(nodeActor);
+    local nScore = dbAbility.score;
     
-    DB.setValue(nodeActor, "abilities.wisdom.magicdefenseadj", "number", DataCommonADND.aWisdom[nChanged][1]);
-    DB.setValue(nodeActor, "abilities.wisdom.spellbonus", "string", DataCommonADND.aWisdom[nChanged][2]);
-    DB.setValue(nodeActor, "abilities.wisdom.failure", "number", DataCommonADND.aWisdom[nChanged][3]);
-    DB.setValue(nodeActor, "abilities.wisdom.immunity", "string", DataCommonADND.aWisdom[nChanged][4]);
+    DB.setValue(nodeActor, "abilities.wisdom.magicdefenseadj", "number", dbAbility.magicdefenseadj);
+    DB.setValue(nodeActor, "abilities.wisdom.spellbonus", "string", dbAbility.spellbonus);
+    DB.setValue(nodeActor, "abilities.wisdom.failure", "number", dbAbility.failure);
+    DB.setValue(nodeActor, "abilities.wisdom.immunity", "string", dbAbility.immunity);
 
+    -- DB.setValue(nodeActor, "abilities.wisdom.magicdefenseadj", "number", DataCommonADND.aWisdom[nChanged][1]);
+    -- DB.setValue(nodeActor, "abilities.wisdom.spellbonus", "string", DataCommonADND.aWisdom[nChanged][2]);
+    -- DB.setValue(nodeActor, "abilities.wisdom.failure", "number", DataCommonADND.aWisdom[nChanged][3]);
+    -- DB.setValue(nodeActor, "abilities.wisdom.immunity", "string", DataCommonADND.aWisdom[nChanged][4]);
 
     if (window and window.wisdom_immunity and window.wisdom_immunity_label 
         and window.wisdom_spellbonus and window.wisdom_spellbonus_label) then
@@ -113,9 +138,9 @@ function updateWisdom(nodeActor,nChanged)
         -- abilities pane
         local sBonus_TT = "Bonus spells granted by high wisdom. ";
         local sImmunity_TT = "Immunity to spells granted by high wisdom. ";
-        if (nChanged >= 18) then
-            sBonus_TT = sBonus_TT .. DataCommonADND.aWisdom[nChanged+100][2];
-            sImmunity_TT = sImmunity_TT .. DataCommonADND.aWisdom[nChanged+100][4];
+        if (nScore >= 18) then
+            sBonus_TT = sBonus_TT .. DataCommonADND.aWisdom[nScore+100][2];
+            sImmunity_TT = sImmunity_TT .. DataCommonADND.aWisdom[nScore+100][4];
             -- set the xml elements tooltip to data to large for display
         end
         window.wisdom_immunity.setTooltipText(sImmunity_TT);
@@ -128,33 +153,56 @@ function updateWisdom(nodeActor,nChanged)
 end
 
 function updateConstitution(nodeActor,nChanged)
-    DB.setValue(nodeActor, "abilities.constitution.hitpointadj", "string", DataCommonADND.aConstitution[nChanged][1]);
-    DB.setValue(nodeActor, "abilities.constitution.systemshock", "number", DataCommonADND.aConstitution[nChanged][2]);
-    DB.setValue(nodeActor, "abilities.constitution.resurrectionsurvival", "number", DataCommonADND.aConstitution[nChanged][3]);
-    DB.setValue(nodeActor, "abilities.constitution.poisonadj", "number", DataCommonADND.aConstitution[nChanged][4]);
-    DB.setValue(nodeActor, "abilities.constitution.regeneration", "string", DataCommonADND.aConstitution[nChanged][5]);
+    local dbAbility = AbilityScoreADND.getConstitutionProperties(nodeActor);
+    local nScore = dbAbility.score;
+
+    DB.setValue(nodeActor, "abilities.constitution.hitpointadj", "string", dbAbility.hitpointadj);
+    DB.setValue(nodeActor, "abilities.constitution.systemshock", "number", dbAbility.systemshock);
+    DB.setValue(nodeActor, "abilities.constitution.resurrectionsurvival", "number", dbAbility.resurrectionsurvival);
+    DB.setValue(nodeActor, "abilities.constitution.poisonadj", "number", dbAbility.poisonadj);
+    DB.setValue(nodeActor, "abilities.constitution.regeneration", "string", dbAbility.regeneration);
+    
+    -- DB.setValue(nodeActor, "abilities.constitution.hitpointadj", "string", DataCommonADND.aConstitution[nChanged][1]);
+    -- DB.setValue(nodeActor, "abilities.constitution.systemshock", "number", DataCommonADND.aConstitution[nChanged][2]);
+    -- DB.setValue(nodeActor, "abilities.constitution.resurrectionsurvival", "number", DataCommonADND.aConstitution[nChanged][3]);
+    -- DB.setValue(nodeActor, "abilities.constitution.poisonadj", "number", DataCommonADND.aConstitution[nChanged][4]);
+    -- DB.setValue(nodeActor, "abilities.constitution.regeneration", "string", DataCommonADND.aConstitution[nChanged][5]);
 end
 
 function updateCharisma(nodeActor,nChanged)
-    DB.setValue(nodeActor, "abilities.charisma.maxhench", "number", DataCommonADND.aCharisma[nChanged][1]);
-    DB.setValue(nodeActor, "abilities.charisma.loyalty", "number", DataCommonADND.aCharisma[nChanged][2]);
-    DB.setValue(nodeActor, "abilities.charisma.reaction", "number", DataCommonADND.aCharisma[nChanged][3]);
+    local dbAbility = AbilityScoreADND.getCharismaProperties(nodeActor);
+    local nScore = dbAbility.score;
+
+    DB.setValue(nodeActor, "abilities.charisma.maxhench", "number", dbAbility.maxhench);
+    DB.setValue(nodeActor, "abilities.charisma.loyalty", "number", dbAbility.loyalty);
+    DB.setValue(nodeActor, "abilities.charisma.reaction", "number", dbAbility.reaction);
 	
+    -- DB.setValue(nodeActor, "abilities.charisma.maxhench", "number", DataCommonADND.aCharisma[nChanged][1]);
+    -- DB.setValue(nodeActor, "abilities.charisma.loyalty", "number", DataCommonADND.aCharisma[nChanged][2]);
+    -- DB.setValue(nodeActor, "abilities.charisma.reaction", "number", DataCommonADND.aCharisma[nChanged][3]);
 end
 
 function updateIntelligence(nodeActor,nChanged)
-    DB.setValue(nodeActor, "abilities.intelligence.languages", "number", DataCommonADND.aIntelligence[nChanged][1]);
-    DB.setValue(nodeActor, "abilities.intelligence.spelllevel", "number", DataCommonADND.aIntelligence[nChanged][2]);
-    DB.setValue(nodeActor, "abilities.intelligence.learn", "number", DataCommonADND.aIntelligence[nChanged][3]);
-    DB.setValue(nodeActor, "abilities.intelligence.maxlevel", "string", DataCommonADND.aIntelligence[nChanged][4]);
-    DB.setValue(nodeActor, "abilities.intelligence.illusion", "string", DataCommonADND.aIntelligence[nChanged][5]);
+    local dbAbility = AbilityScoreADND.getIntelligenceProperties(nodeActor);
+    local nScore = dbAbility.score;
 
+    DB.setValue(nodeActor, "abilities.intelligence.languages", "number", dbAbility.languages);
+    DB.setValue(nodeActor, "abilities.intelligence.spelllevel", "number", dbAbility.spelllevel);
+    DB.setValue(nodeActor, "abilities.intelligence.learn", "number", dbAbility.learn);
+    DB.setValue(nodeActor, "abilities.intelligence.maxlevel", "string", dbAbility.maxlevel);
+    DB.setValue(nodeActor, "abilities.intelligence.illusion", "string", dbAbility.illusion);
+
+    -- DB.setValue(nodeActor, "abilities.intelligence.languages", "number", DataCommonADND.aIntelligence[nChanged][1]);
+    -- DB.setValue(nodeActor, "abilities.intelligence.spelllevel", "number", DataCommonADND.aIntelligence[nChanged][2]);
+    -- DB.setValue(nodeActor, "abilities.intelligence.learn", "number", DataCommonADND.aIntelligence[nChanged][3]);
+    -- DB.setValue(nodeActor, "abilities.intelligence.maxlevel", "string", DataCommonADND.aIntelligence[nChanged][4]);
+    -- DB.setValue(nodeActor, "abilities.intelligence.illusion", "string", DataCommonADND.aIntelligence[nChanged][5]);
     -- set tooltip for this because it's just to big for the
     -- abilities pane
     if (window and window.intelligence_illusion and window.intelligence_illusion_label) then
         local sImmunity_TT = "Immune these level of Illusion spells. ";
-        if (nChanged >= 19) then
-            sImmunity_TT = sImmunity_TT .. DataCommonADND.aIntelligence[nChanged+100][5];
+        if (nScore >= 19) then
+            sImmunity_TT = sImmunity_TT .. DataCommonADND.aIntelligence[nScore+100][5];
         end
         window.intelligence_illusion.setTooltipText(sImmunity_TT);
         window.intelligence_illusion_label.setTooltipText(sImmunity_TT);
