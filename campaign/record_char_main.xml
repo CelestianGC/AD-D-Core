@@ -194,8 +194,7 @@
 					function onValueChanged()
                         local rActor = ActorManager.getActor("pc", window.getDatabaseNode());
                         local sActorType, nodeActor = ActorManager.getTypeAndNode(rActor);
-                        local nScore = DB.getValue(nodeActor, "abilities.strength.score", 0);
-                        AbilityScores.updateStrength(nodeActor,nScore);
+                        AbilityScoreADND.updateStrength(nodeActor);
 					end
 				</script>
 			</percentile_abilityfield>
@@ -298,8 +297,7 @@
 					function onValueChanged()
                         local rActor = ActorManager.getActor("pc", window.getDatabaseNode());
                         local sActorType, nodeActor = ActorManager.getTypeAndNode(rActor);
-                        local nScore = DB.getValue(nodeActor, "abilities.dexterity.score", 0);
-                        AbilityScores.updateDexterity(nodeActor,nScore);
+                        AbilityScoreADND.updateDexterity(nodeActor);
 					end
 				</script>
 			</percentile_abilityfield>
@@ -369,8 +367,7 @@
 					function onValueChanged()
                         local rActor = ActorManager.getActor("pc", window.getDatabaseNode());
                         local sActorType, nodeActor = ActorManager.getTypeAndNode(rActor);
-                        local nScore = DB.getValue(nodeActor, "abilities.constitution.score", 0);
-                        AbilityScores.updateConstitution(nodeActor,nScore);
+                        AbilityScoreADND.updateConstitution(nodeActor);
 					end
 				</script>
 			</percentile_abilityfield>
@@ -462,8 +459,7 @@
 					function onValueChanged()
                         local rActor = ActorManager.getActor("pc", window.getDatabaseNode());
                         local sActorType, nodeActor = ActorManager.getTypeAndNode(rActor);
-                        local nScore = DB.getValue(nodeActor, "abilities.intelligence.score", 0);
-                        AbilityScores.updateIntelligence(nodeActor,nScore);
+                        AbilityScoreADND.updateIntelligence(nodeActor);
 					end
 				</script>
 			</percentile_abilityfield>
@@ -557,8 +553,7 @@
 					function onValueChanged()
                         local rActor = ActorManager.getActor("pc", window.getDatabaseNode());
                         local sActorType, nodeActor = ActorManager.getTypeAndNode(rActor);
-                        local nScore = DB.getValue(nodeActor, "abilities.wisdom.score", 0);
-                        AbilityScores.updateWisdom(nodeActor,nScore);
+                        AbilityScoreADND.updateWisdom(nodeActor);
 					end
 				</script>
 			</percentile_abilityfield>
@@ -641,8 +636,7 @@
 					function onValueChanged()
                         local rActor = ActorManager.getActor("pc", window.getDatabaseNode());
                         local sActorType, nodeActor = ActorManager.getTypeAndNode(rActor);
-                        local nScore = DB.getValue(nodeActor, "abilities.charisma.score", 0);
-                        AbilityScores.updateCharisma(nodeActor,nScore);
+                        AbilityScoreADND.updateCharisma(nodeActor);
 					end
 				</script>
 			</percentile_abilityfield>

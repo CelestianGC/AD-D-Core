@@ -286,7 +286,7 @@
 					rList.sRecordType = "item";
 					rList.sTitle = Interface.getString("item_button_armor");
 					rList.aColumns = {};
-					table.insert(rList.aColumns, { sName = "name", sType = "string", sHeading = "Name", nWidth=200 });
+					table.insert(rList.aColumns, { sName = "name", sType = "string", sHeading = "Name", nWidth=200, nSortOrder=1 });
 					table.insert(rList.aColumns, { sName = "cost", sType = "string", sHeading = "Cost", bCentered=true });
 					table.insert(rList.aColumns, { sName = "ac", sType = "number", sHeading = "AC", sTooltp = "Armor Class", nWidth=40, bCentered=true });
 					table.insert(rList.aColumns, { sName = "weight", sType = "number", sHeading = "Weight", bCentered=true });
@@ -314,7 +314,7 @@
 					rList.sRecordType = "item";
 					rList.sTitle = Interface.getString("item_button_weapons");
 					rList.aColumns = {};
-					table.insert(rList.aColumns, { sName = "name", sType = "string", sHeading = "Name", nWidth=200 });
+					table.insert(rList.aColumns, { sName = "name", sType = "string", sHeading = "Name", nWidth=200, nSortOrder=1 });
 					table.insert(rList.aColumns, { sName = "cost", sType = "string", sHeading = "Cost", bCentered=true });
 					table.insert(rList.aColumns, { sName = "damage", sType = "string", sHeading = "Damage", nWidth=150, bCentered=true });
 					table.insert(rList.aColumns, { sName = "weight", sType = "number", sHeading = "Weight", bCentered=true });
@@ -338,12 +338,12 @@
 			<state textres="item_button_items" />
 			<script>
 				function onButtonPress()
-					local w = Interface.openWindow("reference_groupedlist", "reference.armor");
+					local w = Interface.openWindow("reference_groupedlist", "reference.itemlist");
 					local rList = {};
 					rList.sRecordType = "item";
 					rList.sTitle = Interface.getString("item_button_items");
 					rList.aColumns = {};
-					table.insert(rList.aColumns, { sName = "name", sType = "string", sHeading = "Name", nWidth=200 });
+					table.insert(rList.aColumns, { sName = "name", sType = "string", sHeading = "Name", nWidth=200, nSortOrder=1 });
 					table.insert(rList.aColumns, { sName = "cost", sType = "string", sHeading = "Cost", bCentered=true });
 					table.insert(rList.aColumns, { sName = "ac", sType = "number", sHeading = "AC", sTooltp = "Armor Class", nWidth=40, bCentered=true });
 					table.insert(rList.aColumns, { sName = "weight", sType = "number", sHeading = "Weight", bCentered=true });
@@ -371,7 +371,7 @@
 					rList.sRecordType = "item";
 					rList.sTitle = Interface.getString("item_button_armor");
 					rList.aColumns = {};
-					table.insert(rList.aColumns, { sName = "name", sType = "string", sHeading = "Name", nWidth=200 });
+					table.insert(rList.aColumns, { sName = "name", sType = "string", sHeading = "Name", nWidth=200, nSortOrder=1 });
 					table.insert(rList.aColumns, { sName = "cost", sType = "string", sHeading = "Cost", bCentered=true });
 					table.insert(rList.aColumns, { sName = "ac", sType = "number", sHeading = "AC", sTooltp = "Armor Class", nWidth=40, bCentered=true });
 					table.insert(rList.aColumns, { sName = "weight", sType = "number", sHeading = "Weight", bCentered=true });
@@ -402,7 +402,7 @@
 					rList.sRecordType = "item";
 					rList.sTitle = Interface.getString("item_button_weapons");
 					rList.aColumns = {};
-					table.insert(rList.aColumns, { sName = "name", sType = "string", sHeading = "Name", nWidth=200 });
+					table.insert(rList.aColumns, { sName = "name", sType = "string", sHeading = "Name", nWidth=200, nSortOrder=1 });
 					table.insert(rList.aColumns, { sName = "cost", sType = "string", sHeading = "Cost", bCentered=true });
 					table.insert(rList.aColumns, { sName = "damage", sType = "string", sHeading = "Damage", nWidth=150, bCentered=true });
 					table.insert(rList.aColumns, { sName = "weight", sType = "number", sHeading = "Weight", bCentered=true });
@@ -434,7 +434,7 @@
 					rList.sRecordType = "item";
 					rList.sTitle = Interface.getString("item_button_items");
 					rList.aColumns = {};
-					table.insert(rList.aColumns, { sName = "name", sType = "string", sHeading = "Name", nWidth=200 });
+					table.insert(rList.aColumns, { sName = "name", sType = "string", sHeading = "Name", nWidth=200, nSortOrder=1 });
 					table.insert(rList.aColumns, { sName = "cost", sType = "string", sHeading = "Cost", bCentered=true });
 					table.insert(rList.aColumns, { sName = "weight", sType = "number", sHeading = "Weight", bCentered=true });
 					table.insert(rList.aColumns, { sName = "ac", sType = "number", sHeading = "AC", nWidth=50, bCentered=true });
@@ -466,7 +466,7 @@
 					rList.sRecordType = "npc";
 					rList.sTitle = Interface.getString("npc_groupedtitle_letter");
 					rList.aColumns = {};
-					table.insert(rList.aColumns, { sName = "name", sType = "string", sHeading = "Name", nWidth=300 });
+					table.insert(rList.aColumns, { sName = "name", sType = "string", sHeading = "Name", nWidth=300, nSortOrder=1 });
 					table.insert(rList.aColumns, { sName = "hitDice", sType = "string", sHeading = "HD", bCentered=true });
 					rList.aFilters = {};
 					rList.aGroups = {};
@@ -491,7 +491,7 @@
 					rList.sRecordType = "npc";
 					rList.sTitle = Interface.getString("npc_groupedtitle_hd");
 					rList.aColumns = {};
-					table.insert(rList.aColumns, { sName = "name", sType = "string", sHeading = "Name", nWidth=250 });
+					table.insert(rList.aColumns, { sName = "name", sType = "string", sHeading = "Name", nWidth=250, nSortOrder=1 });
 					table.insert(rList.aColumns, { sName = "hitDice", sType = "string", sHeading = "HD", bCentered=true });
 					rList.aFilters = {};
 					rList.aGroups = {};
@@ -520,7 +520,7 @@
 					rList.sRecordType = "npc";
 					rList.sTitle = Interface.getString("npc_groupedtitle_type");
 					rList.aColumns = {};
-					table.insert(rList.aColumns, { sName = "name", sType = "string", sHeading = "Name", nWidth=250 });
+					table.insert(rList.aColumns, { sName = "name", sType = "string", sHeading = "Name", nWidth=250, nSortOrder=1 });
 					table.insert(rList.aColumns, { sName = "hitDice", sType = "string", sHeading = "HD", bCentered=true });
 					rList.aFilters = {};
 					rList.aGroups = {};
@@ -546,7 +546,7 @@
 					rList.sRecordType = "spell";
 					rList.sTitle = Interface.getString("item_button_spell_school");
 					rList.aColumns = {};
-					table.insert(rList.aColumns, { sName = "name", sType = "string", sHeading = "Name", nWidth=200 });
+					table.insert(rList.aColumns, { sName = "name", sType = "string", sHeading = "Name", nWidth=200, nSortOrder=1 });
 					table.insert(rList.aColumns, { sName = "level", sType = "number", sHeading = "Level", bCentered=true });
 					table.insert(rList.aColumns, { sName = "castingtime", sType = "string", sHeading = "Cast Time", bCentered=true, nWidth=80 });
 					table.insert(rList.aColumns, { sName = "range", sType = "string", sHeading = "Range", bCentered=true, nWidth=120,  });
@@ -576,7 +576,7 @@
 					rList.sRecordType = "spell";
 					rList.sTitle = Interface.getString("item_button_spell_sphere");
 					rList.aColumns = {};
-					table.insert(rList.aColumns, { sName = "name", sType = "string", sHeading = "Name", nWidth=200 });
+					table.insert(rList.aColumns, { sName = "name", sType = "string", sHeading = "Name", nWidth=200, nSortOrder=1 });
 					table.insert(rList.aColumns, { sName = "level", sType = "number", sHeading = "Level", bCentered=true });
 					table.insert(rList.aColumns, { sName = "castingtime", sType = "string", sHeading = "Cast Time", bCentered=true, nWidth=80 });
 					table.insert(rList.aColumns, { sName = "range", sType = "string", sHeading = "Range", bCentered=true, nWidth=120,  });
@@ -607,7 +607,7 @@
 					rList.sRecordType = "spell";
 					rList.sTitle = Interface.getString("item_button_spell_arcane");
 					rList.aColumns = {};
-					table.insert(rList.aColumns, { sName = "name", sType = "string", sHeading = "Name", nWidth=200 });
+					table.insert(rList.aColumns, { sName = "name", sType = "string", sHeading = "Name", nWidth=200, nSortOrder=1 });
 					table.insert(rList.aColumns, { sName = "level", sType = "number", sHeading = "Level", bCentered=true });
 					table.insert(rList.aColumns, { sName = "castingtime", sType = "string", sHeading = "Cast Time", bCentered=true, nWidth=80 });
 					table.insert(rList.aColumns, { sName = "range", sType = "string", sHeading = "Range", bCentered=true, nWidth=120,  });
@@ -636,7 +636,7 @@
 					rList.sRecordType = "spell";
 					rList.sTitle = Interface.getString("item_button_spell_divine");
 					rList.aColumns = {};
-					table.insert(rList.aColumns, { sName = "name", sType = "string", sHeading = "Name", nWidth=200 });
+					table.insert(rList.aColumns, { sName = "name", sType = "string", sHeading = "Name", nWidth=200, nSortOrder=1 });
 					table.insert(rList.aColumns, { sName = "level", sType = "number", sHeading = "Level", bCentered=true });
 					table.insert(rList.aColumns, { sName = "castingtime", sType = "string", sHeading = "Cast Time", bCentered=true, nWidth=80 });
 					table.insert(rList.aColumns, { sName = "range", sType = "string", sHeading = "Range", bCentered=true, nWidth=120,  });
@@ -665,7 +665,7 @@
 					rList.sRecordType = "skill";
 					rList.sTitle = Interface.getString("item_button_skill_type");
 					rList.aColumns = {};
-					table.insert(rList.aColumns, { sName = "name", sType = "string", sHeading = "Name", nWidth=200 });
+					table.insert(rList.aColumns, { sName = "name", sType = "string", sHeading = "Name", nWidth=200, nSortOrder=1 });
 					table.insert(rList.aColumns, { sName = "stat", sType = "string", sHeading = "Type/Stat", bCentered=true });
 					table.insert(rList.aColumns, { sName = "base_check", sType = "number", sHeading = "Base/Check", bCentered=true, nWidth=80 });
 					table.insert(rList.aColumns, { sName = "adj_mod", sType = "number", sHeading = "Modifier", bCentered=true, nWidth=80,  });
@@ -692,7 +692,7 @@
 					rList.sRecordType = "skill";
 					rList.sTitle = Interface.getString("item_button_skill_type");
 					rList.aColumns = {};
-					table.insert(rList.aColumns, { sName = "name", sType = "string", sHeading = "Name", nWidth=200 });
+					table.insert(rList.aColumns, { sName = "name", sType = "string", sHeading = "Name", nWidth=200, nSortOrder=1 });
 					table.insert(rList.aColumns, { sName = "stat", sType = "string", sHeading = "Type/Stat", bCentered=true });
 					table.insert(rList.aColumns, { sName = "base_check", sType = "number", sHeading = "Base/Check", bCentered=true, nWidth=80 });
 					table.insert(rList.aColumns, { sName = "adj_mod", sType = "number", sHeading = "Modifier", bCentered=true, nWidth=80,  });

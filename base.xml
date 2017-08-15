@@ -157,7 +157,7 @@
 	<script name="ActionSave" file="scripts/manager_action_save.lua" />
 	<script name="ActionSkill" file="scripts/manager_action_skill.lua" />
 
-	<script name="AbilityScores" file="campaign/scripts/number_abilityscore.lua" />
+	<!-- <script name="AbilityScores" file="campaign/scripts/number_abilityscore.lua" /> -->
     <script name="ActionSurprise" file="scripts/manager_action_surprise.lua" />
     <script name="ActionTurn" file="scripts/manager_action_turnundead.lua" />
     <script name="WindowManagerADND" file="scripts/windowmanager.lua" />

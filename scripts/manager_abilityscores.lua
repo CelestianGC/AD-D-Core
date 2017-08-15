@@ -6,16 +6,33 @@
 function onInit()
 end
 
+--
+-- Get current ability properties
+--
 function getStrengthProperties(nodeChar)
 
     local nScore = DB.getValue(nodeChar, "abilities.strength.score", 0);
     local nPercent = DB.getValue(nodeChar, "abilities.strength.percent", 0);
 
     -- adjust ability scores from effects!
-    --local nScoreEff = something.getStrength();
-    -- adjust ability scores from items!
-    --local nScoreItem = something.getStrength();
+	-- local sAbilityEffect = "BSTR";
+	-- local nAbilityMod, nAbilityEffects = EffectManager.getEffectsBonus(nodeChar, sAbilityEffect, true);
+-- Debug.console("manager_abilityscores.lua","getStrengthProperties","nAbilityMod",nAbilityMod);
+-- Debug.console("manager_abilityscores.lua","getStrengthProperties","nAbilityEffects",nAbilityEffects);
     
+	-- sAbilityEffect = "BPSTR";
+	-- nAbilityMod, nAbilityEffects = EffectManager.getEffectsBonus(rActor, sAbilityEffect, true);
+    
+	-- sAbilityEffect = "STR";
+	-- nAbilityMod, nAbilityEffects = EffectManager.getEffectsBonus(nodeChar, sAbilityEffect, true);
+-- Debug.console("manager_abilityscores.lua","getStrengthProperties","nAbilityMod",nAbilityMod);
+-- Debug.console("manager_abilityscores.lua","getStrengthProperties","nAbilityEffects",nAbilityEffects);
+    
+	-- sAbilityEffect = "PSTR";
+	-- nAbilityMod, nAbilityEffects = EffectManager.getEffectsBonus(rActor, sAbilityEffect, true);
+    
+    -- adjust ability scores from items!
+
     -- Deal with 18 01-100 strength
     if ((nScore == 18) and (nPercent > 0)) then
         local nPercentRank = 50;
@@ -68,6 +85,15 @@ function getWisdomProperties(nodeChar)
     dbAbility.failure = DataCommonADND.aWisdom[nScore][3];
     dbAbility.immunity = DataCommonADND.aWisdom[nScore][4];
     
+    local sBonus_TT = "Bonus spells granted by high wisdom. ";
+    local sImmunity_TT = "Immunity to spells granted by high wisdom. ";
+    if (nScore >= 18) then
+        sBonus_TT = sBonus_TT .. DataCommonADND.aWisdom[nScore+100][2];
+        sImmunity_TT = sImmunity_TT .. DataCommonADND.aWisdom[nScore+100][4];
+    end
+    dbAbility.sBonus_TT = sBonus_TT;
+    dbAbility.sImmunity_TT = sImmunity_TT;
+    
 Debug.console("manager_abilityscores.lua","getWisdomProperties","dbAbility",dbAbility);
     return dbAbility;
 end
@@ -108,6 +134,82 @@ function getIntelligenceProperties(nodeChar)
     dbAbility.maxlevel = DataCommonADND.aIntelligence[nScore][4];
     dbAbility.illusion = DataCommonADND.aIntelligence[nScore][5];
 
+    local sImmunity_TT = "Immune to these level of Illusion spells. ";
+    if (nScore >= 19) then
+        sImmunity_TT = sImmunity_TT .. DataCommonADND.aIntelligence[nScore+100][5];
+    end
+    dbAbility.sImmunity_TT = sImmunity_TT;
+
 Debug.console("manager_abilityscores.lua","getIntelligenceProperties","dbAbility",dbAbility);
     return dbAbility;
+end
+
+--
+-- Update ability values
+--
+function updateStrength(nodeChar)
+    local dbAbility = AbilityScoreADND.getStrengthProperties(nodeChar);
+    local nScore = dbAbility.score;
+    local nPercent = dbAbility.scorepercent;
+    
+    DB.setValue(nodeChar, "abilities.strength.hitadj", "number", dbAbility.hitadj);
+    DB.setValue(nodeChar, "abilities.strength.dmgadj", "number", dbAbility.dmgadj);
+    DB.setValue(nodeChar, "abilities.strength.weightallow", "number", dbAbility.weightallow);
+    DB.setValue(nodeChar, "abilities.strength.maxpress", "number", dbAbility.maxpress);
+    DB.setValue(nodeChar, "abilities.strength.opendoors", "string", dbAbility.opendoors);
+    DB.setValue(nodeChar, "abilities.strength.bendbars", "number", dbAbility.bendbars);
+    -- update encumbrance if we changed strength
+    CharManager.updateEncumbrance(nodeChar);
+end
+
+function updateDexterity(nodeChar)
+    local dbAbility = AbilityScoreADND.getDexterityProperties(nodeChar);
+    local nScore = dbAbility.score;
+    
+    DB.setValue(nodeChar, "abilities.dexterity.reactionadj", "number", dbAbility.reactionadj);
+    DB.setValue(nodeChar, "abilities.dexterity.hitadj", "number", dbAbility.hitadj);
+    DB.setValue(nodeChar, "abilities.dexterity.defenseadj", "number", dbAbility.defenseadj);
+
+end
+
+function updateWisdom(nodeChar)
+    local dbAbility = AbilityScoreADND.getWisdomProperties(nodeChar);
+    local nScore = dbAbility.score;
+    
+    DB.setValue(nodeChar, "abilities.wisdom.magicdefenseadj", "number", dbAbility.magicdefenseadj);
+    DB.setValue(nodeChar, "abilities.wisdom.spellbonus", "string", dbAbility.spellbonus);
+    DB.setValue(nodeChar, "abilities.wisdom.failure", "number", dbAbility.failure);
+    DB.setValue(nodeChar, "abilities.wisdom.immunity", "string", dbAbility.immunity);
+end
+
+function updateConstitution(nodeChar)
+    local dbAbility = AbilityScoreADND.getConstitutionProperties(nodeChar);
+    local nScore = dbAbility.score;
+
+    DB.setValue(nodeChar, "abilities.constitution.hitpointadj", "string", dbAbility.hitpointadj);
+    DB.setValue(nodeChar, "abilities.constitution.systemshock", "number", dbAbility.systemshock);
+    DB.setValue(nodeChar, "abilities.constitution.resurrectionsurvival", "number", dbAbility.resurrectionsurvival);
+    DB.setValue(nodeChar, "abilities.constitution.poisonadj", "number", dbAbility.poisonadj);
+    DB.setValue(nodeChar, "abilities.constitution.regeneration", "string", dbAbility.regeneration);
+    
+end
+
+function updateCharisma(nodeChar)
+    local dbAbility = AbilityScoreADND.getCharismaProperties(nodeChar);
+    local nScore = dbAbility.score;
+
+    DB.setValue(nodeChar, "abilities.charisma.maxhench", "number", dbAbility.maxhench);
+    DB.setValue(nodeChar, "abilities.charisma.loyalty", "number", dbAbility.loyalty);
+    DB.setValue(nodeChar, "abilities.charisma.reaction", "number", dbAbility.reaction);
+end
+
+function updateIntelligence(nodeChar)
+    local dbAbility = AbilityScoreADND.getIntelligenceProperties(nodeChar);
+    local nScore = dbAbility.score;
+
+    DB.setValue(nodeChar, "abilities.intelligence.languages", "number", dbAbility.languages);
+    DB.setValue(nodeChar, "abilities.intelligence.spelllevel", "number", dbAbility.spelllevel);
+    DB.setValue(nodeChar, "abilities.intelligence.learn", "number", dbAbility.learn);
+    DB.setValue(nodeChar, "abilities.intelligence.maxlevel", "string", dbAbility.maxlevel);
+    DB.setValue(nodeChar, "abilities.intelligence.illusion", "string", dbAbility.illusion);
 end

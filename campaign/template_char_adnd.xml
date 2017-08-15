@@ -71,7 +71,6 @@
 	<template name="number_charabilityscore2">
 		<basicnumber>
 			<frame name="adnd_square" />
-<!-- 			<frame name="abilityscore_box" /> -->
  			<anchored to="statstitle" position="insidetopleft"/> 
 			<rollable />
             <readonly />
@@ -129,8 +128,7 @@
 				function onValueChanged()
 					local rActor = ActorManager.getActor("pc", window.getDatabaseNode());
 					local sActorType, nodeActor = ActorManager.getTypeAndNode(rActor);
-					local nScore = DB.getValue(nodeActor, "abilities.strength.score", 0);
-					AbilityScores.updateStrength(nodeActor,nScore);
+					AbilityScoreADND.updateStrength(nodeActor);
 				end
 			</script>
 		</numbercontrol>
@@ -150,8 +148,7 @@
 				function onValueChanged()
 					local rActor = ActorManager.getActor("pc", window.getDatabaseNode());
 					local sActorType, nodeActor = ActorManager.getTypeAndNode(rActor);
-					local nScore = DB.getValue(nodeActor, "abilities.strength.score", 0);
-					AbilityScores.updateStrength(nodeActor,nScore);
+					AbilityScoreADND.updateStrength(nodeActor);
 				end
 			</script>
 		</number>

@@ -195,52 +195,38 @@ end
 function getAbilityBonus(rActor, sAbility, sType)
 	local nAbilityAdj = 0;
 	
-    --print ("manager_actor2.lua: getAbilityBonus");
 	if sType then
-		--print ("manager_actor2.lua: getAbilityBonus, sType :" .. sType);
 	end
 
 	if not sAbility then
 		 return 0;
 	end
 
-    --print ("manager_actor2.lua: getAbilityBonus, sAbility :" .. sAbility);
-
 	local sActorType, nodeActor = ActorManager.getTypeAndNode(rActor);
 	if not nodeActor then
 		return 0;
 	end
 
-    --print ("manager_actor2.lua: getAbilityBonus 3");
-	
 	local nStatScore = getAbilityScore(rActor, sAbility);
 	if nStatScore < 0 then
 		return 0;
 	end
 
-    --print ("manager_actor2.lua: getAbilityBonus 4");
-
 	if sType then
 		if (sType == "hitadj") then
 			local nHitAdj = DB.getValue(nodeActor, "abilities.".. sAbility .. ".hitadj", 0);
-			--print ("manager_actor2.lua: getAbilityBonus, nHitAdj :" .. nHitAdj);
 			nAbilityAdj = nHitAdj;
 		elseif (sType == "damageadj") then
 			local nDamageAdj = 0;
 			if (sAbility == "strength") then
 				nDamageAdj = DB.getValue(nodeActor, "abilities.".. sAbility .. ".dmgadj", 0);
 			end
-			--print ("manager_actor2.lua: getAbilityBonus, nDamageAdj :" .. nDamageAdj);
 			nAbilityAdj = nDamageAdj;
 		elseif (sType == "defenseadj") then
 			local nDefAdj = DB.getValue(nodeActor, "abilities.".. sAbility .. ".defenseadj", 0);
-			--print ("manager_actor2.lua: getAbilityBonus, defenseadj :" .. nDefAdj);
 			nAbilityAdj = nDefAdj;
 		end
 	end
-
-    --print ("manager_actor2.lua: getAbilityBonus 5");
-	
 	return nAbilityAdj;
 end
 

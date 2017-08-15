@@ -161,7 +161,7 @@
 			</script>
 		</buttoncontrol>
 	</template>
-	<template name="number_charabilityscore">
+<!-- 	<template name="number_charabilityscore">
 		<number_abilityscore>
 			<anchored to="statstitle" width="40" height="30">
 				<top anchor="bottom" relation="relative" offset="18" />
@@ -170,7 +170,7 @@
 			<rollable />
 		</number_abilityscore>
 	</template>
-	<template name="label_chardefense">
+ -->	<template name="label_chardefense">
 		<label_fieldtop>
 			<anchored offset="-4,-6" />
 			<frame name="abilityscore" />

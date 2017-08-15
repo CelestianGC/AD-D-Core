@@ -446,12 +446,12 @@ function updateNPCs()
                 DB.setValue(nodeAbility,"score","number",10);
             end
         end
-        AbilityScores.updateStrength(nodeNPC,DB.getValue(nodeNPC,"strength",10));
-        AbilityScores.updateDexterity(nodeNPC,DB.getValue(nodeNPC,"dexterity",10));
-        AbilityScores.updateWisdom(nodeNPC,DB.getValue(nodeNPC,"wisdom",10));
-        AbilityScores.updateConstitution(nodeNPC,DB.getValue(nodeNPC,"consitution",10));
-        AbilityScores.updateCharisma(nodeNPC,DB.getValue(nodeNPC,"charisma",10));
-        AbilityScores.updateIntelligence(nodeNPC,DB.getValue(nodeNPC,"intelligence",10));
+        AbilityScoreADND.updateStrength(nodeNPC,DB.getValue(nodeNPC,"strength",10));
+        AbilityScoreADND.updateDexterity(nodeNPC,DB.getValue(nodeNPC,"dexterity",10));
+        AbilityScoreADND.updateWisdom(nodeNPC,DB.getValue(nodeNPC,"wisdom",10));
+        AbilityScoreADND.updateConstitution(nodeNPC,DB.getValue(nodeNPC,"consitution",10));
+        AbilityScoreADND.updateCharisma(nodeNPC,DB.getValue(nodeNPC,"charisma",10));
+        AbilityScoreADND.updateIntelligence(nodeNPC,DB.getValue(nodeNPC,"intelligence",10));
 
 	end
 end
