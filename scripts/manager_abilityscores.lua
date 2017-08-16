@@ -13,20 +13,22 @@ function getStrengthProperties(nodeChar)
 
     local nScore = DB.getValue(nodeChar, "abilities.strength.score", 0);
     local nPercent = DB.getValue(nodeChar, "abilities.strength.percent", 0);
-
+    
+    local rActor = ActorManager.getActor("", nodeChar);
     -- adjust ability scores from effects!
-	-- local sAbilityEffect = "BSTR";
-	-- local nAbilityMod, nAbilityEffects = EffectManager.getEffectsBonus(nodeChar, sAbilityEffect, true);
--- Debug.console("manager_abilityscores.lua","getStrengthProperties","nAbilityMod",nAbilityMod);
--- Debug.console("manager_abilityscores.lua","getStrengthProperties","nAbilityEffects",nAbilityEffects);
+	local sAbilityEffect = "BSTR";
+	local nAbilityMod, nAbilityEffects = EffectManager.getEffectsBonus(rActor, sAbilityEffect, true);
+Debug.console("manager_abilityscores.lua","getStrengthProperties","nAbilityMod",nAbilityMod);
+Debug.console("manager_abilityscores.lua","getStrengthProperties","nAbilityEffects",nAbilityEffects);
     
 	-- sAbilityEffect = "BPSTR";
 	-- nAbilityMod, nAbilityEffects = EffectManager.getEffectsBonus(rActor, sAbilityEffect, true);
     
-	-- sAbilityEffect = "STR";
-	-- nAbilityMod, nAbilityEffects = EffectManager.getEffectsBonus(nodeChar, sAbilityEffect, true);
--- Debug.console("manager_abilityscores.lua","getStrengthProperties","nAbilityMod",nAbilityMod);
--- Debug.console("manager_abilityscores.lua","getStrengthProperties","nAbilityEffects",nAbilityEffects);
+    sAbilityEffect = "STR";
+    nAbilityMod, nAbilityEffects = EffectManager.getEffectsBonus(rActor, sAbilityEffect, true);
+Debug.console("manager_abilityscores.lua","getStrengthProperties","nAbilityMod",nAbilityMod);
+Debug.console("manager_abilityscores.lua","getStrengthProperties","nAbilityEffects",nAbilityEffects);
+    -- nScore = nScore + nAbilityMod;
     
 	-- sAbilityEffect = "PSTR";
 	-- nAbilityMod, nAbilityEffects = EffectManager.getEffectsBonus(rActor, sAbilityEffect, true);
@@ -66,6 +68,20 @@ end
 
 function getDexterityProperties(nodeChar)
     local nScore = DB.getValue(nodeChar, "abilities.dexterity.score", 0);
+
+    local rActor = ActorManager.getActor("", nodeChar);
+    -- adjust ability scores from effects!
+	local sAbilityEffect = "BDEX";
+	local nAbilityMod, nAbilityEffects = EffectManager.getEffectsBonus(rActor, sAbilityEffect, true);
+Debug.console("manager_abilityscores.lua","getStrengthProperties","nAbilityMod",nAbilityMod);
+Debug.console("manager_abilityscores.lua","getStrengthProperties","nAbilityEffects",nAbilityEffects);
+    
+    sAbilityEffect = "DEX";
+    nAbilityMod, nAbilityEffects = EffectManager.getEffectsBonus(rActor, sAbilityEffect, true);
+Debug.console("manager_abilityscores.lua","getStrengthProperties","nAbilityMod",nAbilityMod);
+Debug.console("manager_abilityscores.lua","getStrengthProperties","nAbilityEffects",nAbilityEffects);
+    -- nScore = nScore + nAbilityMod;
+
     local dbAbility = {};
     dbAbility.score = nScore;
     dbAbility.reactionadj = DataCommonADND.aDexterity[nScore][1];
@@ -78,6 +94,20 @@ end
 
 function getWisdomProperties(nodeChar)
     local nScore = DB.getValue(nodeChar, "abilities.wisdom.score", 0);
+    
+    local rActor = ActorManager.getActor("", nodeChar);
+    -- adjust ability scores from effects!
+	local sAbilityEffect = "BWIS";
+	local nAbilityMod, nAbilityEffects = EffectManager.getEffectsBonus(rActor, sAbilityEffect, true);
+Debug.console("manager_abilityscores.lua","getStrengthProperties","nAbilityMod",nAbilityMod);
+Debug.console("manager_abilityscores.lua","getStrengthProperties","nAbilityEffects",nAbilityEffects);
+    
+    sAbilityEffect = "WIS";
+    nAbilityMod, nAbilityEffects = EffectManager.getEffectsBonus(rActor, sAbilityEffect, true);
+Debug.console("manager_abilityscores.lua","getStrengthProperties","nAbilityMod",nAbilityMod);
+Debug.console("manager_abilityscores.lua","getStrengthProperties","nAbilityEffects",nAbilityEffects);
+    -- nScore = nScore + nAbilityMod;
+    
     local dbAbility = {};
     dbAbility.score = nScore;
     dbAbility.magicdefenseadj = DataCommonADND.aWisdom[nScore][1];
@@ -100,6 +130,20 @@ end
 
 function getConstitutionProperties(nodeChar)
     local nScore = DB.getValue(nodeChar, "abilities.constitution.score", 0);
+    local rActor = ActorManager.getActor("", nodeChar);
+    -- adjust ability scores from effects!
+	local sAbilityEffect = "BCON";
+	local nAbilityMod, nAbilityEffects = EffectManager.getEffectsBonus(rActor, sAbilityEffect, true);
+Debug.console("manager_abilityscores.lua","getStrengthProperties","nAbilityMod",nAbilityMod);
+Debug.console("manager_abilityscores.lua","getStrengthProperties","nAbilityEffects",nAbilityEffects);
+    
+    sAbilityEffect = "CON";
+    nAbilityMod, nAbilityEffects = EffectManager.getEffectsBonus(rActor, sAbilityEffect, true);
+Debug.console("manager_abilityscores.lua","getStrengthProperties","nAbilityMod",nAbilityMod);
+Debug.console("manager_abilityscores.lua","getStrengthProperties","nAbilityEffects",nAbilityEffects);
+    -- nScore = nScore + nAbilityMod;
+
+    
     local dbAbility = {};
     dbAbility.score = nScore;
     dbAbility.hitpointadj = DataCommonADND.aConstitution[nScore][1];
@@ -114,6 +158,19 @@ end
 
 function getCharismaProperties(nodeChar)
     local nScore = DB.getValue(nodeChar, "abilities.charisma.score", 0);
+    local rActor = ActorManager.getActor("", nodeChar);
+    -- adjust ability scores from effects!
+	local sAbilityEffect = "BCHA";
+	local nAbilityMod, nAbilityEffects = EffectManager.getEffectsBonus(rActor, sAbilityEffect, true);
+Debug.console("manager_abilityscores.lua","getStrengthProperties","nAbilityMod",nAbilityMod);
+Debug.console("manager_abilityscores.lua","getStrengthProperties","nAbilityEffects",nAbilityEffects);
+    
+    sAbilityEffect = "CHA";
+    nAbilityMod, nAbilityEffects = EffectManager.getEffectsBonus(rActor, sAbilityEffect, true);
+Debug.console("manager_abilityscores.lua","getStrengthProperties","nAbilityMod",nAbilityMod);
+Debug.console("manager_abilityscores.lua","getStrengthProperties","nAbilityEffects",nAbilityEffects);
+    -- nScore = nScore + nAbilityMod;
+    
     local dbAbility = {};
     dbAbility.score = nScore;
     dbAbility.reactionadj = DataCommonADND.aCharisma[nScore][1];
@@ -126,6 +183,18 @@ end
 
 function getIntelligenceProperties(nodeChar)
     local nScore = DB.getValue(nodeChar, "abilities.intelligence.score", 0);
+    local rActor = ActorManager.getActor("", nodeChar);
+    -- adjust ability scores from effects!
+	local sAbilityEffect = "BINT";
+	local nAbilityMod, nAbilityEffects = EffectManager.getEffectsBonus(rActor, sAbilityEffect, true);
+Debug.console("manager_abilityscores.lua","getStrengthProperties","nAbilityMod",nAbilityMod);
+Debug.console("manager_abilityscores.lua","getStrengthProperties","nAbilityEffects",nAbilityEffects);
+    
+    sAbilityEffect = "INT";
+    nAbilityMod, nAbilityEffects = EffectManager.getEffectsBonus(rActor, sAbilityEffect, true);
+Debug.console("manager_abilityscores.lua","getStrengthProperties","nAbilityMod",nAbilityMod);
+Debug.console("manager_abilityscores.lua","getStrengthProperties","nAbilityEffects",nAbilityEffects);
+    -- nScore = nScore + nAbilityMod;
     local dbAbility = {};
     dbAbility.score = nScore;
     dbAbility.languages = DataCommonADND.aIntelligence[nScore][1];

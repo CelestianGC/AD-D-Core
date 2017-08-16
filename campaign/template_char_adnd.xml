@@ -98,7 +98,7 @@
 
    	<template name="label_ability_fields">
 		<label_fieldtop>
-			<anchored offset="-2,-10" />
+			<anchored offset="-2,-5" />
 			<frame name="abilityfields" />
 <!-- 			<frame name="abilityscore" /> -->
 		</label_fieldtop>
@@ -184,9 +184,11 @@
                 <readonly />
 				<frame name="adnd_rectangle" />
                 <!-- <frame name="abilityscore_box" /> -->
-				<anchored position="right" offset="0,0" width="40"/>
+				<anchored position="right" offset="0,0" width="30" height="25" />
    				<center />
 				<font>regular8</font>
+                <min> 0 </min>
+                <max> 100 </max>
 			</number>
 	</template>
 	

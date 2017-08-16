@@ -338,9 +338,11 @@
 	
 	<!-- Characters -->
 	<framedef name="charsheet">
-		<bitmap file="graphics/frames/charsheet.png" />
+		<bitmap file="graphics/frames/adnd_charsheet.png" />
+<!-- 		<offset>50,50,45,45</offset>
+		<insideoffset>0,5,12,14</insideoffset> -->
 		<offset>50,50,45,45</offset>
-		<insideoffset>0,5,12,14</insideoffset>
+		<insideoffset>0,0,0,0</insideoffset>
 	</framedef>
 	<framedef name="charsheethelper">
 		<bitmap file="graphics/frames/charsheet.png" />

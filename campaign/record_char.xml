@@ -10,7 +10,7 @@
 		<frame>charsheet</frame>
         <margins control="15,0,0,0" />
 		<placement>
-			<size width="570" height="640" />
+			<size width="510" height="540" />
 		</placement>
 		<sizelimits>
 			<minimum width="300" height="300" />
@@ -31,18 +31,14 @@
                 </anchored>
             </anchor_title_charsheet>
 			
-			<genericcontrol>
+			<token_char name="token">
+                <!-- <anchored to="name" position="righthigh" offset="25,0" width="45" height="45" /> -->
 				<anchored to="contentanchor" position="belowleft" offset="5,5" width="45" height="45" />
-				<icon>charlist_base</icon>
-				<disabled />
-			</genericcontrol>
-			<portrait_charlocal name="localportrait">
-				<anchored to="contentanchor" position="belowleft" offset="5,5" width="45" height="45" />
-				<invisible />
-			</portrait_charlocal>
-			<portrait_char name="portrait">
-				<anchored to="contentanchor" position="belowleft" offset="5,5" width="45" height="45" />
-			</portrait_char>
+			</token_char>
+			<button_charactivate>
+                <anchored to="token" position="lefthigh" offset="-8,-7" width="23" height="22" />
+			</button_charactivate>
+            
 			<!-- <label_charframetop name="nametitle">
 				<anchored to="contentanchor" height="20">
 					<top anchor="bottom" offset="7" />
@@ -55,28 +51,37 @@
 				<!-- <anchored to="nametitle" position="insidetop" offset="0,25" height="20" /> -->
 				<anchored to="contentanchor" height="20">
 					<top anchor="bottom" relation="relative" offset="7" />
-					<left anchor="portrait" postion="right" offset="50" />
-					<right offset="-310" />
+					<left anchor="token" postion="right" offset="50" />
+					<right offset="-160" />
 				</anchored>
 			</stringu>
             <label name="name_label" >
                 <anchored to="name" >
-                    <top anchor="bottomleft" relation="relative" offset="0" />
+                    <top anchor="bottomleft" relation="relative" offset="-3" />
                     <left anchor="left" />
+                    <right anchor="right" />
                 </anchored>
+                <!-- <center /> -->
                 <static textres="char_label_name" />
                 <font>arial-bold-8</font>
             </label>
 
 		
-			<token_char name="token">
-				<!-- <anchored to="contentanchor" position="belowright" offset="25,6" width="45" height="45" /> -->
+			<genericcontrol>
+				<!-- <anchored to="contentanchor" position="belowleft" offset="5,5" width="45" height="45" /> -->
                 <anchored to="name" position="righthigh" offset="25,0" width="45" height="45" />
-			</token_char>
-			<button_charactivate>
-				<!-- <anchored to="contentanchor" position="belowright" offset="0,5" width="23" height="22" /> -->
-                <anchored to="token" position="righthigh" offset="0,5" width="23" height="22" />
-			</button_charactivate>
+				<icon>charlist_base</icon>
+				<disabled />
+			</genericcontrol>
+			<portrait_charlocal name="localportrait">
+				<!-- <anchored to="contentanchor" position="belowleft" offset="5,5" width="45" height="45" /> -->
+                <anchored to="name" position="righthigh" offset="25,0" width="45" height="45" />
+				<invisible />
+			</portrait_charlocal>
+			<portrait_char name="portrait">
+				<!-- <anchored to="contentanchor" position="belowleft" offset="5,5" width="45" height="45" /> -->
+                <anchored to="name" position="righthigh" offset="25,0" width="45" height="45" />
+			</portrait_char>
             
 
 <!-- 			<label_charframetop name="racetitle">
@@ -164,11 +169,16 @@
 				<activate>1</activate>
 			</tabs_charsheet>
 
-			<close_charsheet />
+            <close>
+                <anchored>
+                    <top offset="5" />
+                    <right offset="-5" />
+                </anchored>
+            </close>
 			<resize_charsheet >
                 <anchored>
-                    <right offset="-6" />
-                    <bottom offset="-10" />
+                    <right offset="-3" />
+                    <bottom offset="-5" />
                 </anchored>
             </resize_charsheet>
 		</sheetdata>

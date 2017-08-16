@@ -863,7 +863,7 @@ function getEffectsByType(rActor, sEffectType, aFilter, rFilterActor, bTargetedO
 	
 	-- DETERMINE WHETHER EFFECT COMPONENT WE ARE LOOKING FOR SUPPORTS TARGETING
 	local bTargetSupport = StringManager.isWord(sEffectType, DataCommon.targetableeffectcomps);
-	
+
 	-- ITERATE THROUGH EFFECTS
 	for _,v in pairs(DB.getChildren(ActorManager.getCTNode(rActor), "effects")) do
 		-- MAKE SURE EFFECT IS ACTIVE
@@ -1022,7 +1022,7 @@ function getEffectsBonusByType(rActor, aEffectType, bAddEmptyBonus, aFilter, rFi
 	local bonuses = {};
 	local penalties = {};
 	local nEffectCount = 0;
-	
+
 	for k, v in pairs(aEffectType) do
 		-- LOOK FOR EFFECTS THAT MATCH BONUSTYPE
 		local aEffectsByType = getEffectsByType(rActor, v, aFilter, rFilterActor, bTargetedOnly);
@@ -1136,8 +1136,12 @@ function getEffectsBonus(rActor, aEffectType, bModOnly, aFilter, rFilterActor, b
 		-- GET THE MODIFIERS FOR THIS MODIFIER TYPE
 		local effbonusbytype, nEffectSubCount = getEffectsBonusByType(rActor, v, true, aFilter, rFilterActor, bTargetedOnly);
 		
+Debug.console("manager_effect.lua","getEffectsBonus","effbonusbytype",effbonusbytype);
+Debug.console("manager_effect.lua","getEffectsBonus","nEffectSubCount",nEffectSubCount);
 		-- ITERATE THROUGH THE MODIFIERS
 		for k2, v2 in pairs(effbonusbytype) do
+Debug.console("manager_effect.lua","getEffectsBonus","k2",k2);
+Debug.console("manager_effect.lua","getEffectsBonus","v2",v2);
 			-- IF MODIFIER TYPE IS UNTYPED, THEN APPEND TO TOTAL MODIFIER
 			-- (SUPPORTS DICE)
 			if k2 == "" or StringManager.contains(DataCommon.dmgtypes, k2) then
@@ -1145,10 +1149,12 @@ function getEffectsBonus(rActor, aEffectType, bModOnly, aFilter, rFilterActor, b
 					table.insert(aTotalDice, v3);
 				end
 				nTotalMod = nTotalMod + v2.mod;
+Debug.console("manager_effect.lua","getEffectsBonus","aTotalDice",aTotalDice);
 			
 			-- OTHERWISE, WE HAVE A NON-ENERGY MODIFIER TYPE, WHICH MEANS WE NEED TO INTEGRATE
 			-- (IGNORE DICE, ONLY TAKE BIGGEST BONUS AND/OR PENALTY FOR EACH MODIFIER TYPE)
 			else
+Debug.console("manager_effect.lua","getEffectsBonus","v2",v2);
 				if v2.mod >= 0 then
 					masterbonuses[k2] = math.max(v2.mod, masterbonuses[k2] or 0);
 				elseif v2.mod < 0 then

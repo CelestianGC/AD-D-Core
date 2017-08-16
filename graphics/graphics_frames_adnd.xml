@@ -41,5 +41,10 @@
 		<bitmap file="graphics/frames/adnd_rectangle.png" />
 		<offset>9,9,9,9</offset>
 	</framedef>
+
+	<framedef name="adnd_swordicon">
+		<bitmap file="graphics/frames/adnd_sword.png" />
+		<topleft rect="0,0,207,24" />
+	</framedef>
     
 </root>
