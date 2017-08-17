@@ -237,7 +237,7 @@
 		<number_chartotal>
 			<anchored width="30" height="20" />
 			<modifiersize>mini</modifiersize>
-			<script>
+			<!-- <script>
 				local nodeSkill = nil;
 				
 				function onInit()
@@ -299,7 +299,7 @@
 					
 					setValue(nValue);
 				end
-			</script>
+			</script> -->
 		</number_chartotal>
 	</template>
 	<template name="button_charhealthcalc">

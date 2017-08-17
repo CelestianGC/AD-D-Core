@@ -866,6 +866,7 @@ function getEffectsByType(rActor, sEffectType, aFilter, rFilterActor, bTargetedO
 
 	-- ITERATE THROUGH EFFECTS
 	for _,v in pairs(DB.getChildren(ActorManager.getCTNode(rActor), "effects")) do
+--Debug.console("manager_effect.lua","getEffectsByType","v",v);
 		-- MAKE SURE EFFECT IS ACTIVE
 		local nActive = DB.getValue(v, "isactive", 0);
 		if (nActive ~= 0) then
@@ -881,6 +882,8 @@ function getEffectsByType(rActor, sEffectType, aFilter, rFilterActor, bTargetedO
 			-- LOOK THROUGH EFFECT CLAUSES FOR A TYPE (or TYPE/SUBTYPE) MATCH
 				local nMatch = 0;
 				for kEffectComp, rEffectComp in ipairs(effect_list) do
+--Debug.console("manager_effect.lua","getEffectsByType","kEffectComp",kEffectComp);
+--Debug.console("manager_effect.lua","getEffectsByType","rEffectComp",rEffectComp);
 					-- CHECK CONDITIONALS
 					if rEffectComp.type == "IF" then
 						if not checkConditional(rActor, v, rEffectComp.remainder) then
@@ -1027,24 +1030,41 @@ function getEffectsBonusByType(rActor, aEffectType, bAddEmptyBonus, aFilter, rFi
 		-- LOOK FOR EFFECTS THAT MATCH BONUSTYPE
 		local aEffectsByType = getEffectsByType(rActor, v, aFilter, rFilterActor, bTargetedOnly);
 
+--Debug.console("manager_effect.lua","getEffectsBonusByType","aEffectsByType",aEffectsByType);
+
 		-- ITERATE THROUGH EFFECTS THAT MATCHED
 		for k2,v2 in pairs(aEffectsByType) do
-			-- LOOK FOR ENERGY OR BONUS TYPES
+--Debug.console("manager_effect.lua","getEffectsBonusByType","k2",k2);
+--Debug.console("manager_effect.lua","getEffectsBonusByType","v2",v2);
+        -- LOOK FOR ENERGY OR BONUS TYPES
 			local dmg_type = nil;
 			local mod_type = nil;
+--Debug.console("manager_effect.lua","getEffectsBonusByType","v2.type1",v2.type);
+            -- this handles the BSTR, BPSTR/etc style abilites settings --celestian
+            if (StringManager.contains(DataCommonADND.basetypes, v2.type)) then
+--Debug.console("manager_effect.lua","getEffectsBonusByType","v2.type2",v2.type);
+                mod_type = v2.type;
+            end
 			for _,v3 in pairs(v2.remainder) do
-				if StringManager.contains(DataCommon.dmgtypes, v3) or StringManager.contains(DataCommon.conditions, v3) or v3 == "all" then
+--Debug.console("manager_effect.lua","getEffectsBonusByType","v3",v3);
+				if StringManager.contains(DataCommon.dmgtypes, v3) or 
+                    StringManager.contains(DataCommon.conditions, v3) or v3 == "all" then
 					dmg_type = v3;
 					break;
 				elseif StringManager.contains(DataCommon.bonustypes, v3) then
 					mod_type = v3;
 					break;
-				end
+                end
 			end
+--Debug.console("manager_effect.lua","getEffectsBonusByType","dmg_type>>>",dmg_type);
+--Debug.console("manager_effect.lua","getEffectsBonusByType","mod_type>>>",mod_type);
+--Debug.console("manager_effect.lua","getEffectsBonusByType","base_type>>>",base_type);
 			
+            -- base stat?
+			if dmg_type or not mod_type then
 			-- IF MODIFIER TYPE IS UNTYPED, THEN APPEND MODIFIERS
 			-- (SUPPORTS DICE)
-			if dmg_type or not mod_type then
+--Debug.console("manager_effect.lua","getEffectsBonusByType","ADD EFFECT RESULTS");
 				-- ADD EFFECT RESULTS 
 				local new_key = dmg_type or "";
 				local new_results = results[new_key] or {dice = {}, mod = 0, remainder = {}};
@@ -1068,6 +1088,7 @@ function getEffectsBonusByType(rActor, aEffectType, bAddEmptyBonus, aFilter, rFi
 			-- OTHERWISE, TRACK BONUSES AND PENALTIES BY MODIFIER TYPE 
 			-- (IGNORE DICE, ONLY TAKE BIGGEST BONUS AND/OR PENALTY FOR EACH MODIFIER TYPE)
 			else
+--Debug.console("manager_effect.lua","getEffectsBonusByType","TRACK BONUSES AND PENALTIES BY MODIFIER TYPE ");
 				local bStackable = StringManager.contains(DataCommon.stackablebonustypes, mod_type);
 				if v2.mod >= 0 then
 					if bStackable then
@@ -1124,6 +1145,11 @@ function getEffectsBonus(rActor, aEffectType, bModOnly, aFilter, rFilterActor, b
 		aEffectType = { aEffectType };
 	end
 	
+--Debug.console("manager_effect.lua","getEffectsBonus","rActor",rActor);
+--Debug.console("manager_effect.lua","getEffectsBonus","aEffectType",aEffectType);
+--Debug.console("manager_effect.lua","getEffectsBonus","bModOnly",bModOnly);
+--Debug.console("manager_effect.lua","getEffectsBonus","aFilter===>",aFilter);
+
 	-- START WITH AN EMPTY MODIFIER TOTAL
 	local aTotalDice = {};
 	local nTotalMod = 0;
@@ -1136,12 +1162,12 @@ function getEffectsBonus(rActor, aEffectType, bModOnly, aFilter, rFilterActor, b
 		-- GET THE MODIFIERS FOR THIS MODIFIER TYPE
 		local effbonusbytype, nEffectSubCount = getEffectsBonusByType(rActor, v, true, aFilter, rFilterActor, bTargetedOnly);
 		
-Debug.console("manager_effect.lua","getEffectsBonus","effbonusbytype",effbonusbytype);
-Debug.console("manager_effect.lua","getEffectsBonus","nEffectSubCount",nEffectSubCount);
+--Debug.console("manager_effect.lua","getEffectsBonus","effbonusbytype----------->",effbonusbytype);
+--Debug.console("manager_effect.lua","getEffectsBonus","nEffectSubCount",nEffectSubCount);
 		-- ITERATE THROUGH THE MODIFIERS
 		for k2, v2 in pairs(effbonusbytype) do
-Debug.console("manager_effect.lua","getEffectsBonus","k2",k2);
-Debug.console("manager_effect.lua","getEffectsBonus","v2",v2);
+--Debug.console("manager_effect.lua","getEffectsBonus","k2",k2);
+--Debug.console("manager_effect.lua","getEffectsBonus","v2",v2);
 			-- IF MODIFIER TYPE IS UNTYPED, THEN APPEND TO TOTAL MODIFIER
 			-- (SUPPORTS DICE)
 			if k2 == "" or StringManager.contains(DataCommon.dmgtypes, k2) then
@@ -1149,12 +1175,12 @@ Debug.console("manager_effect.lua","getEffectsBonus","v2",v2);
 					table.insert(aTotalDice, v3);
 				end
 				nTotalMod = nTotalMod + v2.mod;
-Debug.console("manager_effect.lua","getEffectsBonus","aTotalDice",aTotalDice);
+--Debug.console("manager_effect.lua","getEffectsBonus","aTotalDice",aTotalDice);
 			
 			-- OTHERWISE, WE HAVE A NON-ENERGY MODIFIER TYPE, WHICH MEANS WE NEED TO INTEGRATE
 			-- (IGNORE DICE, ONLY TAKE BIGGEST BONUS AND/OR PENALTY FOR EACH MODIFIER TYPE)
 			else
-Debug.console("manager_effect.lua","getEffectsBonus","v2",v2);
+--Debug.console("manager_effect.lua","getEffectsBonus","v2",v2);
 				if v2.mod >= 0 then
 					masterbonuses[k2] = math.max(v2.mod, masterbonuses[k2] or 0);
 				elseif v2.mod < 0 then

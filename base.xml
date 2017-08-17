@@ -171,7 +171,7 @@
 
 	<includefile source="campaign/template_char_adnd.xml" />
     <!-- AD&D specific settings -->
- 	<script name="LibraryDataADNDCORE" file="scripts/data_library_core.lua" />
+ 	<script name="LibraryDataADND" file="scripts/data_library_adnd.lua" />
  	<!-- <script name="ImageManagerADND" file="scripts/manage_image_adnd.lua" /> -->
  	<script name="EffectManagerADND" file="scripts/manager_effect_adnd.lua" />
 

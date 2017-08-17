@@ -26,13 +26,13 @@ function onInit()
 	registerMenuItem(Interface.getString("list_menu_deleteconfirm"), "delete", 6, 7);
 
     local node = getDatabaseNode();
-    DB.addHandler(DB.getPath(node, "effects"), "onChildUpdate", persistentEffectsUpdate);
-    persistentEffectsUpdate();
+    DB.addHandler(DB.getPath(node, "effects"), "onChildUpdate", updateForEffects);
+    updateForEffects();
 end
 
 function onClose()
     local node = getDatabaseNode();
-    DB.removeHandler(DB.getPath(node, "effects"), "onChildUpdate", persistentEffectsUpdate);
+    DB.removeHandler(DB.getPath(node, "effects"), "onChildUpdate", updateForEffects);
 end
 
 function updateDisplay()
@@ -411,13 +411,16 @@ function setEffectsVisible(v)
 end
 
 -- pass off the node to the effects manager 
-function persistentEffectsUpdate()
-    local node = getDatabaseNode();
-    local rActor = ActorManager.getActorFromCT(node);
-    local nodeChar = node;
-    if rActor.sType == "pc" then
-        nodeChar = DB.findNode(rActor.sCreatureNode);
-    end
+function updateForEffects()
+--	local nodeChar = link.getTargetDatabaseNode();
+    local nodeChar = getDatabaseNode();
+Debug.console("ct_entry.lua","updateForEffects","nodeChar",nodeChar);
+     local rActor = ActorManager.getActorFromCT(nodeChar);
+     if rActor.sType == "pc" then
+         nodeChar = DB.findNode(rActor.sCreatureNode);
+     end
 
-    EffectManagerADND.persistentEffectsUpdate(node,nodeChar);
+    --EffectManagerADND.updateForEffects(node,nodeChar);
+    
+    AbilityScoreADND.updateForEffects(nodeChar);
 end

@@ -7,41 +7,41 @@ function onInit()
     if super then
         super.onInit();
     end
-	onValueChanged();
+	--onValueChanged();
 end
 
 function update(bReadOnly)
 	setReadOnly(bReadOnly);
 end
 
-function onValueChanged()
-    if self then
-        local sTarget = string.lower(self.target[1]);
-        local nChanged = getValue();
+-- function onValueChanged()
+    -- if self then
+        -- local sTarget = string.lower(self.target[1]);
+        -- local nChanged = getValue();
             
-        local rActor = ActorManager.getActor("pc", window.getDatabaseNode());
-        local sActorType, nodeActor = ActorManager.getTypeAndNode(rActor);
-        if sActorType == "pc" and (nChanged >= 1) and (nChanged <= 25) then
-            if (sTarget == "strength") then
-                AbilityScoreADND.updateStrength(nodeActor);
-            elseif (sTarget == "dexterity") then
-                AbilityScoreADND.updateDexterity(nodeActor);
-            elseif (sTarget == "wisdom") then
-                AbilityScoreADND.updateWisdom(nodeActor);
-                -- update tooltips
-                updateWisdom(nodeActor,nChanged);
-            elseif (sTarget == "constitution") then
-                AbilityScoreADND.updateConstitution(nodeActor);
-            elseif (sTarget == "charisma") then
-                AbilityScoreADND.updateCharisma(nodeActor);
-            elseif (sTarget == "intelligence") then
-                AbilityScoreADND.updateIntelligence(nodeActor);
-                --update tooltips
-                updateIntelligence(nodeActor,nChanged);
-            end
-        end -- was PC
-    end
-end
+        -- local rActor = ActorManager.getActor("pc", window.getDatabaseNode());
+        -- local sActorType, nodeActor = ActorManager.getTypeAndNode(rActor);
+        -- if sActorType == "pc" and (nChanged >= 1) and (nChanged <= 25) then
+            -- if (sTarget == "strength") then
+                -- AbilityScoreADND.updateStrength(nodeActor);
+            -- elseif (sTarget == "dexterity") then
+                -- AbilityScoreADND.updateDexterity(nodeActor);
+            -- elseif (sTarget == "wisdom") then
+                -- AbilityScoreADND.updateWisdom(nodeActor);
+                -- -- update tooltips
+                -- updateWisdom(nodeActor,nChanged);
+            -- elseif (sTarget == "constitution") then
+                -- AbilityScoreADND.updateConstitution(nodeActor);
+            -- elseif (sTarget == "charisma") then
+                -- AbilityScoreADND.updateCharisma(nodeActor);
+            -- elseif (sTarget == "intelligence") then
+                -- AbilityScoreADND.updateIntelligence(nodeActor);
+                -- --update tooltips
+                -- updateIntelligence(nodeActor,nChanged);
+            -- end
+        -- end -- was PC
+    -- end
+-- end
 
 function action(draginfo)
 	local rActor = ActorManager.getActor("", window.getDatabaseNode());
