@@ -27,12 +27,20 @@ function onInit()
 
     local node = getDatabaseNode();
     DB.addHandler(DB.getPath(node, "effects"), "onChildUpdate", updateForEffects);
+    -- DB.addHandler(DB.getPath(node, "effects.*.label"), "onChildUpdate", updateForEffects);
+    -- DB.addHandler(DB.getPath(node, "effects.*.isactive"), "onChildUpdate", updateForEffects);
+    -- DB.addHandler(DB.getPath(node, "effects"), "onChildAdded", updateForEffects);
+    -- DB.addHandler(DB.getPath(node, "effects"), "onChildDeleted", updateForEffects);
     updateForEffects();
 end
 
 function onClose()
     local node = getDatabaseNode();
     DB.removeHandler(DB.getPath(node, "effects"), "onChildUpdate", updateForEffects);
+    -- DB.removeHandler(DB.getPath(node, "effects.*.label"), "onChildUpdate", updateForEffects);
+    -- DB.removeHandler(DB.getPath(node, "effects.*.isactive"), "onChildUpdate", updateForEffects);
+    -- DB.removeHandler(DB.getPath(node, "effects"), "onChildAdded", updateForEffects);
+    -- DB.removeHandler(DB.getPath(node, "effects"), "onChildDeleted", updateForEffects);
 end
 
 function updateDisplay()
@@ -411,16 +419,11 @@ function setEffectsVisible(v)
 end
 
 -- pass off the node to the effects manager 
-function updateForEffects()
---	local nodeChar = link.getTargetDatabaseNode();
+function updateForEffects(effect)
     local nodeChar = getDatabaseNode();
-Debug.console("ct_entry.lua","updateForEffects","nodeChar",nodeChar);
      local rActor = ActorManager.getActorFromCT(nodeChar);
      if rActor.sType == "pc" then
          nodeChar = DB.findNode(rActor.sCreatureNode);
      end
-
-    --EffectManagerADND.updateForEffects(node,nodeChar);
-    
     AbilityScoreADND.updateForEffects(nodeChar);
 end

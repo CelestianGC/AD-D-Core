@@ -305,7 +305,7 @@
 
 			
 			<line_column />
-			<number_npc_abilityscore name="strength" source="abilities.strength.score">
+			<number_npc_abilityscore name="strength" source="abilities.strength.base">
 				<anchored merge="replace" width="40" height="30">
 					<top parent="columnanchor" anchor="bottom" relation="relative" offset="12" />
 					<left anchor="center" offset="-202" />
@@ -344,7 +344,7 @@
 				<static textres="npc_label_strengthpercent" />
 			</label_npc_abilityscore>
 			
-			<number_npc_abilityscore name="dexterity" source="abilities.dexterity.score">
+			<number_npc_abilityscore name="dexterity" source="abilities.dexterity.base">
 				<anchored merge="replace" to="strength" width="40" height="30">
 					<top />
 					<left anchor="right" relation="relative" offset="10" />
@@ -356,7 +356,7 @@
 				<static textres="DEX" />
 			</label_npc_abilityscore>
 
-			<number_npc_abilityscore name="constitution" source="abilities.constitution.score">
+			<number_npc_abilityscore name="constitution" source="abilities.constitution.base">
 				<anchored merge="replace" to="strength" width="40" height="30">
 					<top />
 					<left anchor="right" relation="relative" offset="10" />
@@ -368,7 +368,7 @@
 				<static textres="CON" />
 			</label_npc_abilityscore>
 
-			<number_npc_abilityscore name="intelligence" source="abilities.intelligence.score">
+			<number_npc_abilityscore name="intelligence" source="abilities.intelligence.base">
 				<anchored merge="replace" to="strength" width="40" height="30">
 					<top />
 					<left anchor="right" relation="relative" offset="10" />
@@ -380,7 +380,7 @@
 				<static textres="INT" />
 			</label_npc_abilityscore>
 
-			<number_npc_abilityscore name="wisdom" source="abilities.wisdom.score">
+			<number_npc_abilityscore name="wisdom" source="abilities.wisdom.base">
 				<anchored merge="replace" to="strength" width="40" height="30">
 					<top />
 					<left anchor="right" relation="relative" offset="10" />
@@ -392,7 +392,7 @@
 				<static textres="WIS" />
 			</label_npc_abilityscore>
 
-			<number_npc_abilityscore name="charisma" source="abilities.charisma.score">
+			<number_npc_abilityscore name="charisma" source="abilities.charisma.base">
 				<anchored merge="replace" to="strength" width="40" height="30">
 					<top />
 					<left anchor="right" relation="relative" offset="10" />

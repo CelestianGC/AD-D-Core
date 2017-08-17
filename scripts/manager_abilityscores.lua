@@ -19,8 +19,6 @@ function getStrengthProperties(nodeChar)
         -- adjust ability scores from effects!
         local sAbilityEffect = "BSTR";
         local nAbilityMod, nAbilityEffects = EffectManager.getEffectsBonus(rActor, sAbilityEffect, true);
-    Debug.console("manager_abilityscores.lua","getStrengthProperties","nAbilityMod",nAbilityMod);
-    Debug.console("manager_abilityscores.lua","getStrengthProperties","nAbilityEffects",nAbilityEffects);
         if (nAbilityMod ~= 0) then
          nScore = nAbilityMod;
         end
@@ -39,8 +37,6 @@ function getStrengthProperties(nodeChar)
         
         sAbilityEffect = "STR";
         nAbilityMod, nAbilityEffects = EffectManager.getEffectsBonus(rActor, sAbilityEffect, true);
-    Debug.console("manager_abilityscores.lua","getStrengthProperties","nAbilityMod",nAbilityMod);
-    Debug.console("manager_abilityscores.lua","getStrengthProperties","nAbilityEffects",nAbilityEffects);
         nScore = nScore + nAbilityMod;
         
         sAbilityEffect = "PSTR";
@@ -68,7 +64,6 @@ function getStrengthProperties(nodeChar)
         nScore = nPercentRank;
     end
     
-Debug.console("manager_abilityscores.lua","getStrengthProperties","nScore",nScore);
     local dbAbility = {};
     dbAbility.score = nScoreSaved;
     dbAbility.scorepercent = nPercent;
@@ -79,14 +74,17 @@ Debug.console("manager_abilityscores.lua","getStrengthProperties","nScore",nScor
     dbAbility.opendoors = DataCommonADND.aStrength[nScore][5];
     dbAbility.bendbars = DataCommonADND.aStrength[nScore][6];
 
-Debug.console("manager_abilityscores.lua","getStrengthProperties","dbAbility",dbAbility);
+--Debug.console("manager_abilityscores.lua","getStrengthProperties","dbAbility",dbAbility);
     return dbAbility;
 end
 
 function getDexterityProperties(nodeChar)
     local nScore = DB.getValue(nodeChar, "abilities.dexterity.total", DB.getValue(nodeChar, "abilities.dexterity.score", 0));
+--Debug.console("manager_abilityscores.lua","getDexterityProperties","nodeChar",nodeChar);
+--Debug.console("manager_abilityscores.lua","getDexterityProperties","nScore",nScore);
 
     local rActor = ActorManager.getActor("", nodeChar);
+--Debug.console("manager_abilityscores.lua","getDexterityProperties","rActor------>",rActor);
     if rActor then
         -- adjust ability scores from effects!
         local sAbilityEffect = "BDEX";
@@ -94,22 +92,24 @@ function getDexterityProperties(nodeChar)
         if (nAbilityMod ~= 0) then
          nScore = nAbilityMod;
         end
-    Debug.console("manager_abilityscores.lua","getDexterityProperties","nAbilityMod",nAbilityMod);
-    Debug.console("manager_abilityscores.lua","getDexterityProperties","nAbilityEffects",nAbilityEffects);
+--Debug.console("manager_abilityscores.lua","getDexterityProperties","nAbilityMod1------>",nAbilityMod);
+--Debug.console("manager_abilityscores.lua","getDexterityProperties","nAbilityEffects1------->",nAbilityEffects);
         
         sAbilityEffect = "DEX";
         nAbilityMod, nAbilityEffects = EffectManager.getEffectsBonus(rActor, sAbilityEffect, true);
-    Debug.console("manager_abilityscores.lua","getDexterityProperties","nAbilityMod",nAbilityMod);
-    Debug.console("manager_abilityscores.lua","getDexterityProperties","nAbilityEffects",nAbilityEffects);
         nScore = nScore + nAbilityMod;
+--Debug.console("manager_abilityscores.lua","getDexterityProperties","nAbilityMod2------>",nAbilityMod);
+--Debug.console("manager_abilityscores.lua","getDexterityProperties","nAbilityEffects2------->",nAbilityEffects);
+--Debug.console("manager_abilityscores.lua","getDexterityProperties","ONE",nScore);
     end
+--Debug.console("manager_abilityscores.lua","getDexterityProperties","TWO",nScore);
     local dbAbility = {};
     dbAbility.score = nScore;
     dbAbility.reactionadj = DataCommonADND.aDexterity[nScore][1];
     dbAbility.hitadj = DataCommonADND.aDexterity[nScore][2];
     dbAbility.defenseadj = DataCommonADND.aDexterity[nScore][3];
     
-Debug.console("manager_abilityscores.lua","getDexterityProperties","dbAbility",dbAbility);
+--Debug.console("manager_abilityscores.lua","getDexterityProperties","dbAbility",dbAbility);
     return dbAbility;
 end
 
@@ -124,13 +124,9 @@ function getWisdomProperties(nodeChar)
         if (nAbilityMod ~= 0) then
          nScore = nAbilityMod;
         end
-    Debug.console("manager_abilityscores.lua","getWisdomProperties","nAbilityMod",nAbilityMod);
-    Debug.console("manager_abilityscores.lua","getWisdomProperties","nAbilityEffects",nAbilityEffects);
         
         sAbilityEffect = "WIS";
         nAbilityMod, nAbilityEffects = EffectManager.getEffectsBonus(rActor, sAbilityEffect, true);
-    Debug.console("manager_abilityscores.lua","getWisdomProperties","nAbilityMod",nAbilityMod);
-    Debug.console("manager_abilityscores.lua","getWisdomProperties","nAbilityEffects",nAbilityEffects);
         nScore = nScore + nAbilityMod;
     end
     local dbAbility = {};
@@ -149,7 +145,7 @@ function getWisdomProperties(nodeChar)
     dbAbility.sBonus_TT = sBonus_TT;
     dbAbility.sImmunity_TT = sImmunity_TT;
     
-Debug.console("manager_abilityscores.lua","getWisdomProperties","dbAbility",dbAbility);
+--Debug.console("manager_abilityscores.lua","getWisdomProperties","dbAbility",dbAbility);
     return dbAbility;
 end
 
@@ -163,13 +159,9 @@ function getConstitutionProperties(nodeChar)
         if (nAbilityMod ~= 0) then
          nScore = nAbilityMod;
         end
-    Debug.console("manager_abilityscores.lua","getConstitutionProperties","nAbilityMod",nAbilityMod);
-    Debug.console("manager_abilityscores.lua","getStrengthProperties","nAbilityEffects",nAbilityEffects);
         
         sAbilityEffect = "CON";
         nAbilityMod, nAbilityEffects = EffectManager.getEffectsBonus(rActor, sAbilityEffect, true);
-    Debug.console("manager_abilityscores.lua","getConstitutionProperties","nAbilityMod",nAbilityMod);
-    Debug.console("manager_abilityscores.lua","getConstitutionProperties","nAbilityEffects",nAbilityEffects);
         nScore = nScore + nAbilityMod;
     end
     
@@ -181,7 +173,7 @@ function getConstitutionProperties(nodeChar)
     dbAbility.poisonadj = DataCommonADND.aConstitution[nScore][4];
     dbAbility.regeneration = DataCommonADND.aConstitution[nScore][5];
 
-Debug.console("manager_abilityscores.lua","getConstitutionProperties","dbAbility",dbAbility);
+--Debug.console("manager_abilityscores.lua","getConstitutionProperties","dbAbility",dbAbility);
     return dbAbility;
 end
 
@@ -195,23 +187,18 @@ function getCharismaProperties(nodeChar)
         if (nAbilityMod ~= 0) then
          nScore = nAbilityMod;
         end
-    Debug.console("manager_abilityscores.lua","getCharismaProperties","nAbilityMod",nAbilityMod);
-    Debug.console("manager_abilityscores.lua","getCharismaProperties","nAbilityEffects",nAbilityEffects);
         
         sAbilityEffect = "CHA";
         nAbilityMod, nAbilityEffects = EffectManager.getEffectsBonus(rActor, sAbilityEffect, true);
-    Debug.console("manager_abilityscores.lua","getCharismaProperties","nAbilityMod",nAbilityMod);
-    Debug.console("manager_abilityscores.lua","getCharismaProperties","nAbilityEffects",nAbilityEffects);
         nScore = nScore + nAbilityMod;
     end
-Debug.console("manager_abilityscores.lua","getCharismaProperties","nScore",nScore);
     local dbAbility = {};
     dbAbility.score = nScore;
     dbAbility.reactionadj = DataCommonADND.aCharisma[nScore][1];
     dbAbility.loyalty = DataCommonADND.aCharisma[nScore][2];
     dbAbility.reaction = DataCommonADND.aCharisma[nScore][3];
 
-Debug.console("manager_abilityscores.lua","getCharismaProperties","dbAbility",dbAbility);
+--Debug.console("manager_abilityscores.lua","getCharismaProperties","dbAbility",dbAbility);
     return dbAbility;
 end
 
@@ -222,16 +209,12 @@ function getIntelligenceProperties(nodeChar)
         -- adjust ability scores from effects!
         local sAbilityEffect = "BINT";
         local nAbilityMod, nAbilityEffects = EffectManager.getEffectsBonus(rActor, sAbilityEffect, true);
-    Debug.console("manager_abilityscores.lua","getIntelligenceProperties","nAbilityMod",nAbilityMod);
-    Debug.console("manager_abilityscores.lua","getIntelligenceProperties","nAbilityEffects",nAbilityEffects);
         if (nAbilityMod ~= 0) then
          nScore = nAbilityMod;
         end
         
         sAbilityEffect = "INT";
         nAbilityMod, nAbilityEffects = EffectManager.getEffectsBonus(rActor, sAbilityEffect, true);
-    Debug.console("manager_abilityscores.lua","getIntelligenceProperties","nAbilityMod",nAbilityMod);
-    Debug.console("manager_abilityscores.lua","getIntelligenceProperties","nAbilityEffects",nAbilityEffects);
         nScore = nScore + nAbilityMod;
     end
     local dbAbility = {};
@@ -248,7 +231,7 @@ function getIntelligenceProperties(nodeChar)
     end
     dbAbility.sImmunity_TT = sImmunity_TT;
 
-Debug.console("manager_abilityscores.lua","getIntelligenceProperties","dbAbility",dbAbility);
+--Debug.console("manager_abilityscores.lua","getIntelligenceProperties","dbAbility",dbAbility);
     return dbAbility;
 end
 
@@ -256,7 +239,7 @@ end
 -- Update ability values
 --
 function updateStrength(nodeChar)
-Debug.console("manager_abilityscores.lua","updateStrength","nodeChar",nodeChar);
+--Debug.console("manager_abilityscores.lua","updateStrength","nodeChar",nodeChar);
     local dbAbility = AbilityScoreADND.getStrengthProperties(nodeChar);
     local nScore = dbAbility.score;
     local nPercent = dbAbility.scorepercent;
@@ -270,8 +253,7 @@ Debug.console("manager_abilityscores.lua","updateStrength","nodeChar",nodeChar);
 
     DB.setValue(nodeChar, "abilities.strength.score", "number", nScore);
     DB.setValue(nodeChar, "abilities.strength.percent", "number", nPercent);
-    -- update encumbrance if we changed strength
-    CharManager.updateEncumbrance(nodeChar);
+    return dbAbility;
 end
 
 function updateDexterity(nodeChar)
@@ -282,6 +264,7 @@ function updateDexterity(nodeChar)
     DB.setValue(nodeChar, "abilities.dexterity.hitadj", "number", dbAbility.hitadj);
     DB.setValue(nodeChar, "abilities.dexterity.defenseadj", "number", dbAbility.defenseadj);
     DB.setValue(nodeChar, "abilities.dexterity.score", "number", nScore);
+    return dbAbility;
 end
 
 function updateWisdom(nodeChar)
@@ -292,7 +275,9 @@ function updateWisdom(nodeChar)
     DB.setValue(nodeChar, "abilities.wisdom.spellbonus", "string", dbAbility.spellbonus);
     DB.setValue(nodeChar, "abilities.wisdom.failure", "number", dbAbility.failure);
     DB.setValue(nodeChar, "abilities.wisdom.immunity", "string", dbAbility.immunity);
-    --DB.setValue(nodeChar, "abilities.wisdom.score", "number", nScore);
+    DB.setValue(nodeChar, "abilities.wisdom.score", "number", nScore);
+    
+    return dbAbility;
 end
 
 function updateConstitution(nodeChar)
@@ -304,7 +289,8 @@ function updateConstitution(nodeChar)
     DB.setValue(nodeChar, "abilities.constitution.resurrectionsurvival", "number", dbAbility.resurrectionsurvival);
     DB.setValue(nodeChar, "abilities.constitution.poisonadj", "number", dbAbility.poisonadj);
     DB.setValue(nodeChar, "abilities.constitution.regeneration", "string", dbAbility.regeneration);
-    --DB.setValue(nodeChar, "abilities.constitution.score", "number", nScore);
+    DB.setValue(nodeChar, "abilities.constitution.score", "number", nScore);
+    return dbAbility;
 end
 
 function updateCharisma(nodeChar)
@@ -314,7 +300,8 @@ function updateCharisma(nodeChar)
     DB.setValue(nodeChar, "abilities.charisma.maxhench", "number", dbAbility.maxhench);
     DB.setValue(nodeChar, "abilities.charisma.loyalty", "number", dbAbility.loyalty);
     DB.setValue(nodeChar, "abilities.charisma.reaction", "number", dbAbility.reaction);
-    --DB.setValue(nodeChar, "abilities.charisma.score", "number", nScore);
+    DB.setValue(nodeChar, "abilities.charisma.score", "number", nScore);
+    return dbAbility;
 end
 
 function updateIntelligence(nodeChar)
@@ -326,15 +313,71 @@ function updateIntelligence(nodeChar)
     DB.setValue(nodeChar, "abilities.intelligence.learn", "number", dbAbility.learn);
     DB.setValue(nodeChar, "abilities.intelligence.maxlevel", "string", dbAbility.maxlevel);
     DB.setValue(nodeChar, "abilities.intelligence.illusion", "string", dbAbility.illusion);
-    --DB.setValue(nodeChar, "abilities.intelligence.score", "number", nScore);
+    DB.setValue(nodeChar, "abilities.intelligence.score", "number", nScore);
+    
+    return dbAbility;
 end
 
 -- update all ability scores because effects were updated.
 function updateForEffects(nodeChar)
+--Debug.console("manager_abilityscores.lua","updateForEffects","nodeChar",nodeChar);
     updateCharisma(nodeChar);
     updateConstitution(nodeChar);
     updateDexterity(nodeChar);
     updateIntelligence(nodeChar);
     updateStrength(nodeChar);
     updateWisdom(nodeChar);
+end
+
+
+function detailsUpdate(nodeChar)
+    
+    ----Debug.console("char_abilities_details.lua","detailsUpdate","sTarget",sTarget);
+    for i = 1,6,1 do
+        local sTarget = DataCommon.abilities[i];
+        local nBase =       DB.getValue(nodeChar, "abilities." .. sTarget .. ".base",9);
+        local nBaseMod =    DB.getValue(nodeChar, "abilities." .. sTarget .. ".basemod",0);
+        local nAdjustment = DB.getValue(nodeChar, "abilities." .. sTarget .. ".adjustment",0);
+        local nTempMod =    DB.getValue(nodeChar, "abilities." .. sTarget .. ".tempmod",0);
+        local nFinalBase = nBase;
+
+        if (nBaseMod ~= 0) then
+            nFinalBase = nBaseMod;
+        end
+        local nTotal = (nFinalBase + nAdjustment + nTempMod);
+        if (nTotal < 1) then
+            nTotal = 1;
+        end
+        if (nTotal > 25) then
+            nTotal = 25;
+        end
+        DB.setValue(nodeChar, "abilities." .. sTarget .. ".score","number", nTotal);
+        DB.setValue(nodeChar, "abilities." .. sTarget .. ".total","number", nTotal);
+    end
+end
+
+function detailsPercentUpdate(nodeChar)
+    local nodeChar = getDatabaseNode();
+
+    for i = 1,6,1 do
+        local sTarget = DataCommon.abilities[i];
+        local nBase =       DB.getValue(nodeChar, "abilities." .. sTarget .. ".percentbase",0);
+        local nBaseMod =    DB.getValue(nodeChar, "abilities." .. sTarget .. ".percentbasemod",0);
+        local nAdjustment = DB.getValue(nodeChar, "abilities." .. sTarget .. ".percentadjustment",0);
+        local nTempMod =    DB.getValue(nodeChar, "abilities." .. sTarget .. ".percenttempmod",0);
+        local nFinalBase = nBase;
+
+        if (nBaseMod ~= 0) then
+            nFinalBase = nBaseMod;
+        end
+        local nTotal = (nFinalBase + nAdjustment + nTempMod);
+        if (nTotal < 1) then
+            nTotal = 0;
+        end
+        if (nTotal > 100) then
+            nTotal = 100;
+        end
+        DB.setValue(nodeChar, "abilities." .. sTarget .. ".percent","number", nTotal);
+        DB.setValue(nodeChar, "abilities." .. sTarget .. ".percenttotal","number", nTotal);
+    end
 end

@@ -51,75 +51,16 @@ end
 
 
 --
--- for AD&D Core, abilities menu
 --
 --
-
 function detailsUpdate()
     local nodeChar = getDatabaseNode();
-    
-    --Debug.console("char_abilities_details.lua","detailsUpdate","sTarget",sTarget);
-    for i = 1,6,1 do
-        local sTarget = DataCommon.abilities[i];
-        local nBase =       DB.getValue(nodeChar, "abilities." .. sTarget .. ".base",9);
-        local nBaseMod =    DB.getValue(nodeChar, "abilities." .. sTarget .. ".basemod",0);
-        -- local nBaseItem  =   DB.getValue(nodeChar, "abilities." .. sTarget .. ".baseitem",0);
-        -- local nItemMod =    DB.getValue(nodeChar, "abilities." .. sTarget .. ".itemmod",0);
-        -- local nEffectMod =  DB.getValue(nodeChar, "abilities." .. sTarget .. ".effectmod",0);
-        local nAdjustment = DB.getValue(nodeChar, "abilities." .. sTarget .. ".adjustment",0);
-        local nTempMod =    DB.getValue(nodeChar, "abilities." .. sTarget .. ".tempmod",0);
-        local nFinalBase = nBase;
-
-        if (nBaseMod ~= 0) then
-            nFinalBase = nBaseMod;
-        end
-        -- if (nBaseItem > nBaseMod) then
-            -- nFinalBase = nBaseItem;
-        -- end
---        local nTotal = (nFinalBase + nItemMod + nEffectMod + nAdjustment + nTempMod);
-        local nTotal = (nFinalBase + nAdjustment + nTempMod);
-        if (nTotal < 1) then
-            nTotal = 1;
-        end
-        if (nTotal > 25) then
-            nTotal = 25;
-        end
-        DB.setValue(nodeChar, "abilities." .. sTarget .. ".score","number", nTotal);
-        DB.setValue(nodeChar, "abilities." .. sTarget .. ".total","number", nTotal);
-        --setValue(nTotal);
-    end
+    AbilityScoreADND.detailsUpdate(nodeChar);
 end
 
 function detailsPercentUpdate()
     local nodeChar = getDatabaseNode();
-
-    for i = 1,6,1 do
-        local sTarget = DataCommon.abilities[i];
-        local nBase =       DB.getValue(nodeChar, "abilities." .. sTarget .. ".percentbase",0);
-        local nBaseMod =    DB.getValue(nodeChar, "abilities." .. sTarget .. ".percentbasemod",0);
-        local nAdjustment = DB.getValue(nodeChar, "abilities." .. sTarget .. ".percentadjustment",0);
-        local nTempMod =    DB.getValue(nodeChar, "abilities." .. sTarget .. ".percenttempmod",0);
-        local nFinalBase = nBase;
-
-        if (nBaseMod ~= 0) then
-            nFinalBase = nBaseMod;
-        end
-        -- if (nBaseItem > nBaseMod) then
-            -- nFinalBase = nBaseItem;
-        -- end
-        
---        local nTotal = (nFinalBase + nItemMod + nEffectMod + nAdjustment + nTempMod);
-        local nTotal = (nFinalBase + nAdjustment + nTempMod);
-        if (nTotal < 1) then
-            nTotal = 0;
-        end
-        if (nTotal > 100) then
-            nTotal = 100;
-        end
-        DB.setValue(nodeChar, "abilities." .. sTarget .. ".percent","number", nTotal);
-        DB.setValue(nodeChar, "abilities." .. sTarget .. ".percenttotal","number", nTotal);
-        --setValue(nTotal);
-    end
+    AbilityScoreADND.detailsUpdate(nodeChar);
 end
 
 -- allow drag/drop of class/race/backgrounds onto main sheet
@@ -149,6 +90,8 @@ end
 function updateStrength(node)
     local nodeChar = node.getChild("....");
     AbilityScoreADND.updateStrength(nodeChar);
+    -- update encumbrance if we changed strength
+    CharManager.updateEncumbrance(nodeChar);
 end
 function updateDexterity(node)
     local nodeChar = node.getChild("....");
@@ -158,15 +101,32 @@ function updateConstitution(node)
     local nodeChar = node.getChild("....");
     AbilityScoreADND.updateConstitution(nodeChar);
 end
-function updateIntelligence(node)
-    local nodeChar = node.getChild("....");
-    AbilityScoreADND.updateIntelligence(nodeChar);
-end
-function updateWisdom(node)
-    local nodeChar = node.getChild("....");
-    AbilityScoreADND.updateWisdom(nodeChar);
-end
 function updateCharisma(node)
     local nodeChar = node.getChild("....");
     AbilityScoreADND.updateCharisma(nodeChar);
+end
+function updateWisdom(node)
+    local nodeChar = node.getChild("....");
+    dbAbility = AbilityScoreADND.updateWisdom(nodeChar);
+    if (wisdom_immunity and wisdom_immunity_label 
+        and wisdom_spellbonus and wisdom_spellbonus_label) then
+        -- set tooltip for this because it's just to big for the
+        -- abilities pane
+        wisdom_immunity.setTooltipText(dbAbility.sImmunity_TT);
+        wisdom_immunity_label.setTooltipText(dbAbility.sImmunity_TT);
+
+        wisdom_spellbonus.setTooltipText(dbAbility.sBonus_TT);
+        wisdom_spellbonus_label.setTooltipText(dbAbility.sBonus_TT);
+    end
+    
+end
+function updateIntelligence(node)
+    local nodeChar = node.getChild("....");
+    dbAbility = AbilityScoreADND.updateIntelligence(nodeChar);
+    if (intelligence_illusion and intelligence_illusion_label) then
+        -- set tooltip for this because it's just to big for the
+        -- abilities pane
+        intelligence_illusion.setTooltipText(dbAbility.sImmunity_TT);
+        intelligence_illusion_label.setTooltipText(dbAbility.sImmunity_TT);
+    end
 end

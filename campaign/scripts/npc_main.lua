@@ -4,10 +4,95 @@
 --
 
 function onInit()
+    local nodeChar = getDatabaseNode();
+    DB.addHandler(DB.getPath(nodeChar, "abilities.*.percentbase"),      "onUpdate", detailsPercentUpdate);
+    DB.addHandler(DB.getPath(nodeChar, "abilities.*.percentbasemod"),   "onUpdate", detailsPercentUpdate);
+    DB.addHandler(DB.getPath(nodeChar, "abilities.*.percentadjustment"),"onUpdate", detailsPercentUpdate);
+    DB.addHandler(DB.getPath(nodeChar, "abilities.*.percenttempmod"),   "onUpdate", detailsPercentUpdate);
+
+    DB.addHandler(DB.getPath(nodeChar, "abilities.*.base"),       "onUpdate", detailsUpdate);
+    DB.addHandler(DB.getPath(nodeChar, "abilities.*.basemod"),    "onUpdate", detailsUpdate);
+    DB.addHandler(DB.getPath(nodeChar, "abilities.*.adjustment"), "onUpdate", detailsUpdate);
+    DB.addHandler(DB.getPath(nodeChar, "abilities.*.tempmod"),    "onUpdate", detailsUpdate);
+
+    DB.addHandler(DB.getPath(nodeChar, "abilities.strength.total"),    "onUpdate", updateStrength);
+    DB.addHandler(DB.getPath(nodeChar, "abilities.strength.percenttotal"),    "onUpdate", updateStrength);
+    DB.addHandler(DB.getPath(nodeChar, "abilities.constitution.total"),"onUpdate", updateConstitution);
+    DB.addHandler(DB.getPath(nodeChar, "abilities.intelligence.total"),"onUpdate", updateIntelligence);
+    DB.addHandler(DB.getPath(nodeChar, "abilities.wisdom.total"),       "onUpdate", updateWisdom);
+    DB.addHandler(DB.getPath(nodeChar, "abilities.dexterity.total"),    "onUpdate", updateDexterity);
+    DB.addHandler(DB.getPath(nodeChar, "abilities.charisma.total"),     "onUpdate", updateCharisma);
+    
+    detailsPercentUpdate();
+    detailsUpdate();
+
     checkNPCForSanity(getDatabaseNode());
     
 	onSummaryChanged();
 	update();
+end
+
+function onClose()
+    local nodeChar = getDatabaseNode();
+    DB.removeHandler(DB.getPath(nodeChar, "abilities.*.percentbase"),       "onUpdate", detailsPercentUpdate);
+    DB.removeHandler(DB.getPath(nodeChar, "abilities.*.percentbasemod"),    "onUpdate", detailsPercentUpdate);
+    DB.removeHandler(DB.getPath(nodeChar, "abilities.*.percentadjustment"), "onUpdate", detailsPercentUpdate);
+    DB.removeHandler(DB.getPath(nodeChar, "abilities.*.percenttempmod"),    "onUpdate", detailsPercentUpdate);
+
+    DB.removeHandler(DB.getPath(nodeChar, "abilities.*.base"),       "onUpdate", detailsUpdate);
+    DB.removeHandler(DB.getPath(nodeChar, "abilities.*.basemod"),    "onUpdate", detailsUpdate);
+    DB.removeHandler(DB.getPath(nodeChar, "abilities.*.adjustment"), "onUpdate", detailsUpdate);
+    DB.removeHandler(DB.getPath(nodeChar, "abilities.*.tempmod"),    "onUpdate", detailsUpdate);
+
+    DB.removeHandler(DB.getPath(nodeChar, "abilities.strength.total"),    "onUpdate", updateStrength);
+    DB.removeHandler(DB.getPath(nodeChar, "abilities.strength.percenttotal"),    "onUpdate", updateStrength);
+    DB.removeHandler(DB.getPath(nodeChar, "abilities.constitution.total"),"onUpdate", updateConstitution);
+    DB.removeHandler(DB.getPath(nodeChar, "abilities.intelligence.total"),"onUpdate", updateIntelligence);
+    DB.removeHandler(DB.getPath(nodeChar, "abilities.wisdom.total"),       "onUpdate", updateWisdom);
+    DB.removeHandler(DB.getPath(nodeChar, "abilities.dexterity.total"),    "onUpdate", updateDexterity);
+    DB.removeHandler(DB.getPath(nodeChar, "abilities.charisma.total"),     "onUpdate", updateCharisma);
+end
+
+--
+-- 
+--
+--
+function detailsUpdate()
+    local nodeChar = getDatabaseNode();
+    AbilityScoreADND.detailsUpdate(nodeChar);
+end
+
+function detailsPercentUpdate()
+    local nodeChar = getDatabaseNode();
+    AbilityScoreADND.detailsUpdate(nodeChar);
+end
+---
+--- Update ability score total
+---
+---
+function updateStrength(node)
+    local nodeChar = node.getChild("....");
+    AbilityScoreADND.updateStrength(nodeChar);
+end
+function updateDexterity(node)
+    local nodeChar = node.getChild("....");
+    AbilityScoreADND.updateDexterity(nodeChar);
+end
+function updateConstitution(node)
+    local nodeChar = node.getChild("....");
+    AbilityScoreADND.updateConstitution(nodeChar);
+end
+function updateIntelligence(node)
+    local nodeChar = node.getChild("....");
+    AbilityScoreADND.updateIntelligence(nodeChar);
+end
+function updateWisdom(node)
+    local nodeChar = node.getChild("....");
+    AbilityScoreADND.updateWisdom(nodeChar);
+end
+function updateCharisma(node)
+    local nodeChar = node.getChild("....");
+    AbilityScoreADND.updateCharisma(nodeChar);
 end
 
 -- check hitdice and saves for sane values.
