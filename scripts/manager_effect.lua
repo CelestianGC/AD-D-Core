@@ -871,6 +871,7 @@ function getEffectsByType(rActor, sEffectType, aFilter, rFilterActor, bTargetedO
 		local nActive = DB.getValue(v, "isactive", 0);
 		if (nActive ~= 0) then
 			-- PARSE EFFECT
+--			local sLabel = DB.getValue(v, "label", ""):lower();
 			local sLabel = DB.getValue(v, "label", "");
 			local sApply = DB.getValue(v, "apply", "");
 			local effect_list = parseEffect(sLabel);
@@ -1058,7 +1059,6 @@ function getEffectsBonusByType(rActor, aEffectType, bAddEmptyBonus, aFilter, rFi
 			end
 --Debug.console("manager_effect.lua","getEffectsBonusByType","dmg_type>>>",dmg_type);
 --Debug.console("manager_effect.lua","getEffectsBonusByType","mod_type>>>",mod_type);
---Debug.console("manager_effect.lua","getEffectsBonusByType","base_type>>>",base_type);
 			
             -- base stat?
 			if dmg_type or not mod_type then
@@ -1175,7 +1175,7 @@ function getEffectsBonus(rActor, aEffectType, bModOnly, aFilter, rFilterActor, b
 					table.insert(aTotalDice, v3);
 				end
 				nTotalMod = nTotalMod + v2.mod;
---Debug.console("manager_effect.lua","getEffectsBonus","aTotalDice",aTotalDice);
+--Debug.console("manager_effect.lua","getEffectsBonus","nTotalMod",nTotalMod);
 			
 			-- OTHERWISE, WE HAVE A NON-ENERGY MODIFIER TYPE, WHICH MEANS WE NEED TO INTEGRATE
 			-- (IGNORE DICE, ONLY TAKE BIGGEST BONUS AND/OR PENALTY FOR EACH MODIFIER TYPE)

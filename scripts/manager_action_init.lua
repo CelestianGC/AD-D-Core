@@ -122,7 +122,7 @@ function modRoll(rSource, rTarget, rRoll)
 		
 		-- Get ability effect modifiers
 		local nBonusStat, nBonusEffects = ActorManager2.getAbilityEffectsBonus(rSource, sActionStat);
-		if nBonusEffects > 0 then
+		if nBonusEffects > 0 and nBonusStat ~= 0 then
 			bEffects = true;
 			rRoll.nMod = rRoll.nMod + nBonusStat;
 		end

@@ -157,7 +157,7 @@ function modSave(rSource, rTarget, rRoll)
     -- Debug.console("manager_action_Save.lua","modSave","rRoll",rRoll);
 	local bAutoFail = false;
 
-	local sSave = string.match(rRoll.sDesc, "%[SAVE%] (%w+)");
+	local sSave = string.match(rRoll.sDesc, "%[SAVE%] vs. (%w+)");
 	if sSave then
 		sSave = sSave:lower();
 	end
@@ -177,18 +177,18 @@ function modSave(rSource, rTarget, rRoll)
 	local aAddDice = {};
 	local nAddMod = 0;
 	
-	local nCover = 0;
-	if sSave == "dexterity" then
-		if rRoll.sSaveDesc then
-			nCover = tonumber(rRoll.sSaveDesc:match("%[COVER %-(%d)%]")) or 0;
-		else
-			if ModifierStack.getModifierKey("DEF_SCOVER") then
-				nCover = 5;
-			elseif ModifierStack.getModifierKey("DEF_COVER") then
-				nCover = 2;
-			end
-		end
-	end
+	-- local nCover = 0;
+	-- if sSave == "dexterity" then
+		-- if rRoll.sSaveDesc then
+			-- nCover = tonumber(rRoll.sSaveDesc:match("%[COVER %-(%d)%]")) or 0;
+		-- else
+			-- if ModifierStack.getModifierKey("DEF_SCOVER") then
+				-- nCover = 5;
+			-- elseif ModifierStack.getModifierKey("DEF_COVER") then
+				-- nCover = 2;
+			-- end
+		-- end
+	-- end
 	
 	if rSource then
 		local bEffects = false;
@@ -204,10 +204,14 @@ function modSave(rSource, rTarget, rRoll)
 		if rRoll.sSource then
 			rSaveSource = ActorManager.getActor("ct", rRoll.sSource);
 		end
+    --Debug.console("manager_action_Save.lua","modSave","sSave",sSave);
 		local aAddDice, nAddMod, nEffectCount = EffectManager.getEffectsBonus(rSource, {"SAVE"}, false, aSaveFilter, rSaveSource);
 		if nEffectCount > 0 then
 			bEffects = true;
 		end
+    -- Debug.console("manager_action_Save.lua","modSave","aAddDice",aAddDice);
+    -- Debug.console("manager_action_Save.lua","modSave","nAddMod",nAddMod);
+    -- Debug.console("manager_action_Save.lua","modSave","nEffectCount",nEffectCount);
 		
 		-- Get condition modifiers
 		if EffectManager.hasEffect(rSource, "ADVSAV", rTarget) then
@@ -273,13 +277,26 @@ function modSave(rSource, rTarget, rRoll)
 		end
 
 		-- Get ability modifiers
-		local nBonusStat, nBonusEffects = ActorManager2.getAbilityEffectsBonus(rSource, sSave);
-		if nBonusEffects > 0 then
-			bEffects = true;
-			nAddMod = nAddMod + nBonusStat;
-		end
+    -- Debug.console("manager_action_Save.lua","modSave","rSource",rSource);
+		-- local nBonusStat, nBonusEffects = ActorManager2.getAbilityEffectsBonus(rSource, sSave);
+		-- if nBonusEffects > 0 then
+			-- bEffects = true;
+			-- nAddMod = nAddMod + nBonusStat;
+		-- end
+    -- Debug.console("manager_action_Save.lua","modSave","nBonusStat",nBonusStat);
+    -- Debug.console("manager_action_Save.lua","modSave","nBonusEffects",nBonusEffects);
 		
-		-- Get exhaustion modifiers
+        -- get Save modifier ADND style --celestian
+--    Debug.console("manager_action_Save.lua","modSave","rSource2",rSource);
+		local nBonusSave, nBonusSaveEffects = EffectManager.getEffectsBonus(rSource, sSave:upper(),true);
+		if nBonusSaveEffects > 0 then
+			bEffects = true;
+			nAddMod = nAddMod + nBonusSave;
+		end
+    --Debug.console("manager_action_Save.lua","modSave","nBonusStat2",nBonusStat);
+    --Debug.console("manager_action_Save.lua","modSave","nBonusEffects2",nBonusEffects);
+
+    -- Get exhaustion modifiers
 		local nExhaustMod, nExhaustCount = EffectManager.getEffectsBonus(rSource, {"EXHAUSTION"}, true);
 		if nExhaustCount > 0 then
 			bEffects = true;
@@ -310,10 +327,10 @@ function modSave(rSource, rTarget, rRoll)
 		end
 	end
 	
-	if nCover > 0 then
-		rRoll.nMod = rRoll.nMod + nCover;
-		rRoll.sDesc = rRoll.sDesc .. string.format(" [COVER +%d]", nCover);
-	end
+	-- if nCover > 0 then
+		-- rRoll.nMod = rRoll.nMod + nCover;
+		-- rRoll.sDesc = rRoll.sDesc .. string.format(" [COVER +%d]", nCover);
+	-- end
 	
 	ActionsManager2.encodeDesktopMods(rRoll);
 
