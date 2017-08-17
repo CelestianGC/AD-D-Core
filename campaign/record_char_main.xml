@@ -1861,7 +1861,7 @@
 	<windowclass name="charsheet_abilities_details">
 		<frame>charsheethelper</frame>
 		<placement>
-			<size width="530" height="475" />
+			<size width="400" height="445" />
 		</placement>
 		<nodelete />
 		<sheetdata>
@@ -2512,7 +2512,7 @@
 	<windowclass name="charsheet_saves_details">
 		<frame>charsheethelper</frame>
 		<placement>
-			<size width="550" height="400" />
+			<size width="420" height="400" />
 		</placement>
 		<nodelete />
 		<sheetdata>
@@ -2569,24 +2569,6 @@
 				<static text="Base" />
 			</label_fieldtop>
             
-            <!-- paralyzation baseitem -->
-            <save_number_base name="paralyzation_base_item" source="saves.paralyzation.baseitem">
-                <tooltip textres="charsheet_saves_baseitem_tooltip" />
-                <gmeditonly />
-                <default>0</default>
-				<anchored to="paralyzation_label" />
-            </save_number_base>
-			<label_fieldtop name="label_save_baseitem_top">
-                <tooltip textres="charsheet_saves_baseitem_tooltip" />
-				<anchored to="paralyzation_base_item" />
-				<static text="Base" />
-			</label_fieldtop>
-			<label_fieldtop>
-                <tooltip textres="charsheet_saves_baseitem_tooltip" />
-				<anchored to="label_save_baseitem_top" />
-				<static text="Mod" />
-			</label_fieldtop>
-
             <!-- paralyzation basemod -->
             <save_number_base name="paralyzation_base_mod" source="saves.paralyzation.basemod">
                 <tooltip textres="charsheet_saves_basemod_tooltip" />
@@ -2605,46 +2587,6 @@
 				<static text="Mod" />
 			</label_fieldtop>
 
-            <!-- paralyzation item mods -->
-            <label_plus>
-                <anchored to="paralyzation_label"/>
-            </label_plus>
-            <save_number_mod name="paralyzation_item_mod" source="saves.paralyzation.itemmod">
-                <tooltip textres="charsheet_saves_itemmod_tooltip" />
-                <gmeditonly />
-				<anchored to="paralyzation_label" />
-            </save_number_mod>
-			<label_fieldtop name="label_saves_itemmod_top">
-                <tooltip textres="charsheet_saves_itemmod_tooltip" />
-				<anchored to="paralyzation_item_mod" />
-				<static text="Mod" />
-			</label_fieldtop>
-			<label_fieldtop>
-                <tooltip textres="charsheet_saves_itemmod_tooltip" />
-				<anchored to="label_saves_itemmod_top" />
-				<static text="Item" />
-			</label_fieldtop>
-
-            <!-- paralyzation effect mods -->
-            <label_plus>
-                <anchored to="paralyzation_label"/>
-            </label_plus>
-            <save_number_mod name="paralyzation_effect_mod" source="saves.paralyzation.effectmod">
-                <tooltip textres="charsheet_saves_effectmod_tooltip" />
-                <gmeditonly />
-				<anchored to="paralyzation_label" />
-            </save_number_mod>
-			<label_fieldtop name="label_saves_effectmod_top">
-                <tooltip textres="charsheet_saves_effectmod_tooltip" />
-				<anchored to="paralyzation_effect_mod" />
-				<static text="Mod" />
-			</label_fieldtop>
-			<label_fieldtop>
-                <tooltip textres="charsheet_saves_effectmod_tooltip" />
-				<anchored to="label_saves_effectmod_top" />
-				<static text="Effect" />
-			</label_fieldtop>
-            
             <!-- paralyzation mods -->
             <label_plus>
                 <anchored to="paralyzation_label"/>
@@ -2703,14 +2645,6 @@
 				<anchored to="poison_label" />
             </save_number_base>
             
-            <!-- poison baseitem -->
-            <save_number_base name="poison_base_item" source="saves.poison.baseitem">
-                <tooltip textres="charsheet_saves_baseitem_tooltip" />
-                <gmeditonly />
-                <default>0</default>
-				<anchored to="poison_label" />
-            </save_number_base>
-
             <!-- poison basemod -->
             <save_number_base name="poison_base_mod" source="saves.poison.basemod">
                 <tooltip textres="charsheet_saves_basemod_tooltip" />
@@ -2719,26 +2653,6 @@
 				<anchored to="poison_label" />
             </save_number_base>
 
-            <!-- poison item mods -->
-            <label_plus>
-                <anchored to="poison_label"/>
-            </label_plus>
-            <save_number_mod name="poison_item_mod" source="saves.poison.itemmod">
-                <tooltip textres="charsheet_saves_itemmod_tooltip" />
-                <gmeditonly />
-				<anchored to="poison_label" />
-            </save_number_mod>
-
-            <!-- poison effect mods -->
-            <label_plus>
-                <anchored to="poison_label"/>
-            </label_plus>
-            <save_number_mod name="poison_effect_mod" source="saves.poison.effectmod">
-                <tooltip textres="charsheet_saves_effectmod_tooltip" />
-                <gmeditonly />
-				<anchored to="poison_label" />
-            </save_number_mod>
-            
             <!-- poison mods -->
             <label_plus>
                 <anchored to="poison_label"/>
@@ -2778,14 +2692,6 @@
 				<anchored to="death_label" />
             </save_number_base>
             
-            <!-- death baseitem -->
-            <save_number_base name="death_base_item" source="saves.death.baseitem">
-                <tooltip textres="charsheet_saves_baseitem_tooltip" />
-                <gmeditonly />
-                <default>0</default>
-				<anchored to="death_label" />
-            </save_number_base>
-
             <!-- death basemod -->
             <save_number_base name="death_base_mod" source="saves.death.basemod">
                 <tooltip textres="charsheet_saves_basemod_tooltip" />
@@ -2794,26 +2700,6 @@
 				<anchored to="death_label" />
             </save_number_base>
 
-            <!-- death item mods -->
-            <label_plus>
-                <anchored to="death_label"/>
-            </label_plus>
-            <save_number_mod name="death_item_mod" source="saves.death.itemmod">
-                <tooltip textres="charsheet_saves_itemmod_tooltip" />
-                <gmeditonly />
-				<anchored to="death_label" />
-            </save_number_mod>
-
-            <!-- death effect mods -->
-            <label_plus>
-                <anchored to="death_label"/>
-            </label_plus>
-            <save_number_mod name="death_effect_mod" source="saves.death.effectmod">
-                <tooltip textres="charsheet_saves_effectmod_tooltip" />
-                <gmeditonly />
-				<anchored to="death_label" />
-            </save_number_mod>
-            
             <!-- death mods -->
             <label_plus>
                 <anchored to="death_label"/>
@@ -2853,14 +2739,6 @@
 				<anchored to="rod_label" />
             </save_number_base>
             
-            <!-- rod baseitem -->
-            <save_number_base name="rod_base_item" source="saves.rod.baseitem">
-                <tooltip textres="charsheet_saves_baseitem_tooltip" />
-                <gmeditonly />
-                <default>0</default>
-				<anchored to="rod_label" />
-            </save_number_base>
-
             <!-- rod basemod -->
             <save_number_base name="rod_base_mod" source="saves.rod.basemod">
                 <tooltip textres="charsheet_saves_basemod_tooltip" />
@@ -2869,26 +2747,6 @@
 				<anchored to="rod_label" />
             </save_number_base>
 
-            <!-- rod item mods -->
-            <label_plus>
-                <anchored to="rod_label"/>
-            </label_plus>
-            <save_number_mod name="rod_item_mod" source="saves.rod.itemmod">
-                <tooltip textres="charsheet_saves_itemmod_tooltip" />
-                <gmeditonly />
-				<anchored to="rod_label" />
-            </save_number_mod>
-
-            <!-- rod effect mods -->
-            <label_plus>
-                <anchored to="rod_label"/>
-            </label_plus>
-            <save_number_mod name="rod_effect_mod" source="saves.rod.effectmod">
-                <tooltip textres="charsheet_saves_effectmod_tooltip" />
-                <gmeditonly />
-				<anchored to="rod_label" />
-            </save_number_mod>
-            
             <!-- rod mods -->
             <label_plus>
                 <anchored to="rod_label"/>
@@ -2928,14 +2786,6 @@
 				<anchored to="staff_label" />
             </save_number_base>
             
-            <!-- staff baseitem -->
-            <save_number_base name="staff_base_item" source="saves.staff.baseitem">
-                <tooltip textres="charsheet_saves_baseitem_tooltip" />
-                <gmeditonly />
-                <default>0</default>
-				<anchored to="staff_label" />
-            </save_number_base>
-
             <!-- staff basemod -->
             <save_number_base name="staff_base_mod" source="saves.staff.basemod">
                 <tooltip textres="charsheet_saves_basemod_tooltip" />
@@ -2944,26 +2794,6 @@
 				<anchored to="staff_label" />
             </save_number_base>
 
-            <!-- staff item mods -->
-            <label_plus>
-                <anchored to="staff_label"/>
-            </label_plus>
-            <save_number_mod name="staff_item_mod" source="saves.staff.itemmod">
-                <tooltip textres="charsheet_saves_itemmod_tooltip" />
-                <gmeditonly />
-				<anchored to="staff_label" />
-            </save_number_mod>
-
-            <!-- staff effect mods -->
-            <label_plus>
-                <anchored to="staff_label"/>
-            </label_plus>
-            <save_number_mod name="staff_effect_mod" source="saves.staff.effectmod">
-                <tooltip textres="charsheet_saves_effectmod_tooltip" />
-                <gmeditonly />
-				<anchored to="staff_label" />
-            </save_number_mod>
-            
             <!-- staff mods -->
             <label_plus>
                 <anchored to="staff_label"/>
@@ -3004,14 +2834,6 @@
 				<anchored to="wand_label" />
             </save_number_base>
             
-            <!-- wand baseitem -->
-            <save_number_base name="wand_base_item" source="saves.wand.baseitem">
-                <tooltip textres="charsheet_saves_base_tooltip" />
-                <gmeditonly />
-                <default>0</default>
-				<anchored to="wand_label" />
-            </save_number_base>
-
             <!-- wand basemod -->
             <save_number_base name="wand_base_mod" source="saves.wand.basemod">
                 <tooltip textres="charsheet_saves_basemod_tooltip" />
@@ -3020,26 +2842,6 @@
 				<anchored to="wand_label" />
             </save_number_base>
 
-            <!-- wand item mods -->
-            <label_plus>
-                <anchored to="wand_label"/>
-            </label_plus>
-            <save_number_mod name="wand_item_mod" source="saves.wand.itemmod">
-                <tooltip textres="charsheet_saves_itemmod_tooltip" />
-                <gmeditonly />
-				<anchored to="wand_label" />
-            </save_number_mod>
-
-            <!-- wand effect mods -->
-            <label_plus>
-                <anchored to="wand_label"/>
-            </label_plus>
-            <save_number_mod name="wand_effect_mod" source="saves.wand.effectmod">
-                <tooltip textres="charsheet_saves_effectmod_tooltip" />
-                <gmeditonly />
-				<anchored to="wand_label" />
-            </save_number_mod>
-            
             <!-- wand mods -->
             <label_plus>
                 <anchored to="wand_label"/>
@@ -3079,14 +2881,6 @@
 				<anchored to="petrification_label" />
             </save_number_base>
             
-            <!-- petrification baseitem -->
-            <save_number_base name="petrification_base_item" source="saves.petrification.baseitem">
-                <tooltip textres="charsheet_saves_baseitem_tooltip" />
-                <gmeditonly />
-                <default>0</default>
-				<anchored to="petrification_label" />
-            </save_number_base>
-
             <!-- petrification basemod -->
             <save_number_base name="petrification_base_mod" source="saves.petrification.basemod">
                 <tooltip textres="charsheet_saves_basemod_tooltip" />
@@ -3095,26 +2889,6 @@
 				<anchored to="petrification_label" />
             </save_number_base>
 
-            <!-- petrification item mods -->
-            <label_plus>
-                <anchored to="petrification_label"/>
-            </label_plus>
-            <save_number_mod name="petrification_item_mod" source="saves.petrification.itemmod">
-                <tooltip textres="charsheet_saves_itemmod_tooltip" />
-                <gmeditonly />
-				<anchored to="petrification_label" />
-            </save_number_mod>
-
-            <!-- petrification effect mods -->
-            <label_plus>
-                <anchored to="petrification_label"/>
-            </label_plus>
-            <save_number_mod name="petrification_effect_mod" source="saves.petrification.effectmod">
-                <tooltip textres="charsheet_saves_effectmod_tooltip" />
-                <gmeditonly />
-				<anchored to="petrification_label" />
-            </save_number_mod>
-            
             <!-- petrification mods -->
             <label_plus>
                 <anchored to="petrification_label"/>
@@ -3154,14 +2928,6 @@
 				<anchored to="polymorph_label" />
             </save_number_base>
             
-            <!-- polymorph baseitem -->
-            <save_number_base name="polymorph_base_item" source="saves.polymorph.baseitem">
-                <tooltip textres="charsheet_saves_baseitem_tooltip" />
-                <gmeditonly />
-                <default>0</default>
-				<anchored to="polymorph_label" />
-            </save_number_base>
-
             <!-- polymorph basemod -->
             <save_number_base name="polymorph_base_mod" source="saves.polymorph.basemod">
                 <tooltip textres="charsheet_saves_basemod_tooltip" />
@@ -3170,26 +2936,6 @@
 				<anchored to="polymorph_label" />
             </save_number_base>
 
-            <!-- polymorph item mods -->
-            <label_plus>
-                <anchored to="polymorph_label"/>
-            </label_plus>
-            <save_number_mod name="polymorph_item_mod" source="saves.polymorph.itemmod">
-                <tooltip textres="charsheet_saves_itemmod_tooltip" />
-                <gmeditonly />
-				<anchored to="polymorph_label" />
-            </save_number_mod>
-
-            <!-- polymorph effect mods -->
-            <label_plus>
-                <anchored to="polymorph_label"/>
-            </label_plus>
-            <save_number_mod name="polymorph_effect_mod" source="saves.polymorph.effectmod">
-                <tooltip textres="charsheet_saves_effectmod_tooltip" />
-                <gmeditonly />
-				<anchored to="polymorph_label" />
-            </save_number_mod>
-            
             <!-- polymorph mods -->
             <label_plus>
                 <anchored to="polymorph_label"/>
@@ -3230,14 +2976,6 @@
 				<anchored to="breath_label" />
             </save_number_base>
             
-            <!-- breath baseitem -->
-            <save_number_base name="breath_base_item" source="saves.breath.baseitem">
-                <tooltip textres="charsheet_saves_baseitem_tooltip" />
-                <gmeditonly />
-                <default>0</default>
-				<anchored to="breath_label" />
-            </save_number_base>
-
             <!-- breath basemod -->
             <save_number_base name="breath_base_mod" source="saves.breath.basemod">
                 <tooltip textres="charsheet_saves_basemod_tooltip" />
@@ -3246,26 +2984,6 @@
 				<anchored to="breath_label" />
             </save_number_base>
 
-            <!-- breath item mods -->
-            <label_plus>
-                <anchored to="breath_label"/>
-            </label_plus>
-            <save_number_mod name="breath_item_mod" source="saves.breath.itemmod">
-                <tooltip textres="charsheet_saves_itemmod_tooltip" />
-                <gmeditonly />
-				<anchored to="breath_label" />
-            </save_number_mod>
-
-            <!-- breath effect mods -->
-            <label_plus>
-                <anchored to="breath_label"/>
-            </label_plus>
-            <save_number_mod name="breath_effect_mod" source="saves.breath.effectmod">
-                <tooltip textres="charsheet_saves_effectmod_tooltip" />
-                <gmeditonly />
-				<anchored to="breath_label" />
-            </save_number_mod>
-            
             <!-- breath mods -->
             <label_plus>
                 <anchored to="breath_label"/>
@@ -3306,14 +3024,6 @@
 				<anchored to="spell_label" />
             </save_number_base>
             
-            <!-- spell baseitem -->
-            <save_number_base name="spell_base_item" source="saves.spell.baseitem">
-                <tooltip textres="charsheet_saves_baseitem_tooltip" />
-                <gmeditonly />
-                <default>0</default>
-				<anchored to="spell_label" />
-            </save_number_base>
-
             <!-- spell basemod -->
             <save_number_base name="spell_base_mod" source="saves.spell.basemod">
                 <tooltip textres="charsheet_saves_basemod_tooltip" />
@@ -3322,26 +3032,6 @@
 				<anchored to="spell_label" />
             </save_number_base>
 
-            <!-- spell item mods -->
-            <label_plus>
-                <anchored to="spell_label"/>
-            </label_plus>
-            <save_number_mod name="spell_item_mod" source="saves.spell.itemmod">
-                <tooltip textres="charsheet_saves_itemmod_tooltip" />
-                <gmeditonly />
-				<anchored to="spell_label" />
-            </save_number_mod>
-
-            <!-- spell effect mods -->
-            <label_plus>
-                <anchored to="spell_label"/>
-            </label_plus>
-            <save_number_mod name="spell_effect_mod" source="saves.spell.effectmod">
-                <tooltip textres="charsheet_saves_effectmod_tooltip" />
-                <gmeditonly />
-				<anchored to="spell_label" />
-            </save_number_mod>
-            
             <!-- spell mods -->
             <label_plus>
                 <anchored to="spell_label"/>
