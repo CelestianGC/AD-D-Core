@@ -4,7 +4,7 @@
 --
 
 local rsname = "AD&D Core";
-local rsmajorversion = 14;
+local rsmajorversion = 16;
 
 function onInit()
 	if User.isHost() or User.isLocal() then
@@ -97,6 +97,9 @@ function updateCampaign()
 		-- end
 		if major < 14 then
            updateNPCs();
+		end
+		if major < 16 then
+           updateNPCs16();
 		end
 	end
 end
@@ -431,27 +434,79 @@ end
 
 -- update NPCs to have saves based on HD and set default ability scores.
 function updateNPCs()
-	for _,nodeNPC in pairs(DB.getChildren("npc")) do
-        -- set default saves for HDice.
---Debug.console("manager_version2.lua","updateNPCs","nodeNPC",nodeNPC);
-        if (DB.getValue(nodeNPC, "saves.poison.score",0) == 0) then
-            CombatManager2.updateNPCSaves(nodeNPC, nodeNPC, true);
-        end
+	-- for _,nodeNPC in pairs(DB.getChildren("npc")) do
+        -- -- set default saves for HDice.
+-- --Debug.console("manager_version2.lua","updateNPCs","nodeNPC",nodeNPC);
+        -- if (DB.getValue(nodeNPC, "saves.poison.score",0) == 0) then
+            -- CombatManager2.updateNPCSaves(nodeNPC, nodeNPC, true);
+        -- end
         
-        if DB.getChildCount(nodeNPC, "abilities") < 6 then
---Debug.console("manager_version2.lua","updateNPCs","nodeNPC Add abilities",nodeNPC);
-            local nodeAbilites = nodeNPC.createChild("abilities");
-            for _,sAbility in pairs(DataCommon.abilities) do
-                local nodeAbility = nodeAbilites.createChild(sAbility);
-                DB.setValue(nodeAbility,"score","number",10);
-            end
-        end
-        AbilityScoreADND.updateStrength(nodeNPC,DB.getValue(nodeNPC,"strength",10));
-        AbilityScoreADND.updateDexterity(nodeNPC,DB.getValue(nodeNPC,"dexterity",10));
-        AbilityScoreADND.updateWisdom(nodeNPC,DB.getValue(nodeNPC,"wisdom",10));
-        AbilityScoreADND.updateConstitution(nodeNPC,DB.getValue(nodeNPC,"consitution",10));
-        AbilityScoreADND.updateCharisma(nodeNPC,DB.getValue(nodeNPC,"charisma",10));
-        AbilityScoreADND.updateIntelligence(nodeNPC,DB.getValue(nodeNPC,"intelligence",10));
+        -- if DB.getChildCount(nodeNPC, "abilities") < 6 then
+-- --Debug.console("manager_version2.lua","updateNPCs","nodeNPC Add abilities",nodeNPC);
+            -- local nodeAbilites = nodeNPC.createChild("abilities");
+            -- for _,sAbility in pairs(DataCommon.abilities) do
+                -- local nodeAbility = nodeAbilites.createChild(sAbility);
+                -- DB.setValue(nodeAbility,"score","number",10);
+            -- end
+        -- end
+        -- AbilityScoreADND.updateStrength(nodeNPC,DB.getValue(nodeNPC,"strength",10));
+        -- AbilityScoreADND.updateDexterity(nodeNPC,DB.getValue(nodeNPC,"dexterity",10));
+        -- AbilityScoreADND.updateWisdom(nodeNPC,DB.getValue(nodeNPC,"wisdom",10));
+        -- AbilityScoreADND.updateConstitution(nodeNPC,DB.getValue(nodeNPC,"consitution",10));
+        -- AbilityScoreADND.updateCharisma(nodeNPC,DB.getValue(nodeNPC,"charisma",10));
+        -- AbilityScoreADND.updateIntelligence(nodeNPC,DB.getValue(nodeNPC,"intelligence",10));
 
+	-- end
+end
+
+function updateNPCs16()
+    -- fix all combat tracker records
+	for _,nodeNPC in pairs(DB.getChildren("combattracker.list")) do
+        local sClass, sRecord = DB.getValue(nodeNPC, "link", "", "");
+        if (sClass == "npc") then
+            fixNPCAbilitySaves(nodeNPC);
+        end
 	end
+    -- fix all npc records
+	for _,nodeNPC in pairs(DB.getChildren("npc")) do
+        fixNPCAbilitySaves(nodeNPC);
+	end
+end
+
+function fixNPCAbilitySaves(nodeNPC)    
+    -- set default saves for HDice.
+--Debug.console("manager_version2.lua","updateNPCs","nodeNPC",nodeNPC);
+    if (DB.getValue(nodeNPC, "saves.poison.score",0) == 0) then
+        CombatManager2.updateNPCSaves(nodeNPC, nodeNPC, true);
+    end
+    
+    if DB.getChildCount(nodeNPC, "abilities") < 6 then
+--Debug.console("manager_version2.lua","updateNPCs","nodeNPC Add abilities",nodeNPC);
+        local nodeAbilites = nodeNPC.createChild("abilities");
+        for _,sAbility in pairs(DataCommon.abilities) do
+            local nodeAbility = nodeAbilites.createChild(sAbility);
+            DB.setValue(nodeAbility,"score","number",10);
+            DB.setValue(nodeAbility,"base","number",10);
+            DB.setValue(nodeAbility,"total","number",10);
+        end
+    end
+    DB.setValue(nodeNPC,"abilities.strength.base","number",DB.getValue(nodeNPC,"abilities.strength.base",10));
+    DB.setValue(nodeNPC,"abilities.dexterity.base","number",DB.getValue(nodeNPC,"abilities.dexterity.base",10));
+    DB.setValue(nodeNPC,"abilities.wisdom.base","number",DB.getValue(nodeNPC,"abilities.wisdom.base",10));
+    DB.setValue(nodeNPC,"abilities.consitution.base","number",DB.getValue(nodeNPC,"abilities.consitution.base",10));
+    DB.setValue(nodeNPC,"abilities.charisma.base","number",DB.getValue(nodeNPC,"abilities.charisma.base",10));
+    DB.setValue(nodeNPC,"abilities.intelligence.base","number",DB.getValue(nodeNPC,"abilities.intelligence.base",10));
+
+    DB.setValue(nodeNPC,"abilities.strength.total","number",DB.getValue(nodeNPC,"abilities.strength.total",10));
+    DB.setValue(nodeNPC,"abilities.dexterity.total","number",DB.getValue(nodeNPC,"abilities.dexterity.total",10));
+    DB.setValue(nodeNPC,"abilities.wisdom.total","number",DB.getValue(nodeNPC,"abilities.wisdom.total",10));
+    DB.setValue(nodeNPC,"abilities.consitution.total","number",DB.getValue(nodeNPC,"abilities.consitution.total",10));
+    DB.setValue(nodeNPC,"abilities.charisma.total","number",DB.getValue(nodeNPC,"abilities.charisma.total",10));
+    DB.setValue(nodeNPC,"abilities.intelligence.total","number",DB.getValue(nodeNPC,"abilities.intelligence.total",10));
+    AbilityScoreADND.updateStrength(nodeNPC);
+    AbilityScoreADND.updateDexterity(nodeNPC);
+    AbilityScoreADND.updateWisdom(nodeNPC);
+    AbilityScoreADND.updateConstitution(nodeNPC);
+    AbilityScoreADND.updateCharisma(nodeNPC);
+    AbilityScoreADND.updateIntelligence(nodeNPC);
 end
