@@ -161,27 +161,18 @@ function updateItemEffects(nodeItem,bCombat)
     end
 --Debug.console("manager_effect.lua","updateItemEffects","nodeChar2",nodeChar);
     local sUser = User.getUsername();
---    local nodeItem = DB.getChild(node, "..");
-    --local nodeItem = node;
     local sName = DB.getValue(nodeItem, "name", "");
     local sLabel = DB.getValue(nodeItem, "effect", "");
-    
-    -- this allows us to manage the combat_effects with the same code
     local sLabelCombat = DB.getValue(nodeItem, "effect_combat", "");
-    if (not bCombat and sLabelCombat ~= "") then
-        updateItemEffects(nodeItem,true);
+    if (sLabelCombat ~= "") then
+        sLabel = sLabel .. ";" .. sLabelCombat;
     end
-    if bCombat then
-        -- use the combat effect string
-        sLabel = sLabelCombat;
-    end
-    -- end combat_effects triggers
-
     -- we swap the node to the combat tracker node
     -- so the "effect" is written to the right node
     if not string.match(nodeChar.getPath(),"^combattracker") then
         nodeChar = CharManager.getCTNodeByNodeChar(nodeChar);
     end
+--Debug.console("manager_effect.lua","updateItemEffects","nodeChar3",nodeChar);
     -- if not in the combat tracker bail
     if not nodeChar then
         return;
