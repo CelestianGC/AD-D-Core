@@ -15,6 +15,8 @@ function getStrengthProperties(nodeChar)
     local nPercent = DB.getValue(nodeChar, "abilities.strength.percenttotal", DB.getValue(nodeChar, "abilities.strength.percenttotal", 0));
     
     local rActor = ActorManager.getActor("", nodeChar);
+-- Debug.console("manager_abilityscores.lua","getStrengthProperties","nodeChar",nodeChar);
+-- Debug.console("manager_abilityscores.lua","getStrengthProperties","rActor",rActor);
     if rActor then
         -- adjust ability scores from effects!
         local sAbilityEffect = "BSTR";

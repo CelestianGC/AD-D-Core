@@ -26,6 +26,7 @@ function onInit()
     
     detailsPercentUpdate();
     detailsUpdate();
+    AbilityScoreADND.updateForEffects(nodeChar);
 end
 
 function onClose()

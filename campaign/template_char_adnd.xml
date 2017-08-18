@@ -68,6 +68,50 @@
 		</numberfield>
 	</template>
 
+    <template name="label_abilityscore_actual">
+        <label>
+            <font>arial-regular-6</font>
+            <anchored position="insidebottomright" offset="8,3" width="17" height="10" />
+            <tooltip textres="char_abilityscore_actual_tooltip" />
+            <invisible />
+             <script>
+                function onInit()
+                    local nodeChar = window.getDatabaseNode();
+                    local sTarget = self.target[1];
+                    if (sTarget ~= "") then
+                        DB.addHandler(DB.getPath(nodeChar, "abilities." .. sTarget .. ".score"),    "onUpdate", updateActual);
+                        DB.addHandler(DB.getPath(nodeChar, "abilities." .. sTarget .. ".total"),    "onUpdate", updateActual);
+                        updateActual();
+                    end
+                end
+                function onClose()
+                    local nodeChar = window.getDatabaseNode();
+                    local sTarget = self.target[1];
+                    if (sTarget ~= "") then
+                        DB.removeHandler(DB.getPath(nodeChar, "abilities." .. sTarget .. ".score"),    "onUpdate", updateActual);
+                        DB.removeHandler(DB.getPath(nodeChar, "abilities." .. sTarget .. ".total"),    "onUpdate", updateActual);
+                    end
+                end
+                
+                function updateActual()
+                    local nodeChar = window.getDatabaseNode();
+                    local sTarget = self.target[1];
+                    if (sTarget ~= "") then
+                        local nTotal = DB.getValue(nodeChar,"abilities." .. sTarget .. ".total",0);
+                        local nScore = DB.getValue(nodeChar,"abilities." .. sTarget .. ".score",0);
+                        if (nTotal ~= nScore) then
+                            self.setValue("(" .. nTotal .. ")");
+                            self.setVisible(true);
+                        else
+                            self.setVisible(false);
+                        end
+                    end
+                end
+                
+            </script>
+        </label>
+    </template>
+    
 	<template name="number_charabilityscore2">
 		<basicnumber>
 			<frame name="adnd_square" />
@@ -434,33 +478,6 @@
     </template>
     <template name="ability_details_total">
             <basicnumber>
-       			<!-- <script file="campaign/scripts/char_abilities_details.lua" /> -->
-               <!--  <script>
-                    function onInit()
-                        super.onInit();
-                        local nodeChar = window.getDatabaseNode();
-                        local sTarget = string.lower(self.target[1]);
-                        DB.addHandler(DB.getPath(nodeChar, "abilities." .. sTarget .. ".base"),       "onUpdate", detailsUpdate);
-                        DB.addHandler(DB.getPath(nodeChar, "abilities." .. sTarget .. ".basemod"),    "onUpdate", detailsUpdate);
-                        DB.addHandler(DB.getPath(nodeChar, "abilities." .. sTarget .. ".itemmod"),    "onUpdate", detailsUpdate);
-                        DB.addHandler(DB.getPath(nodeChar, "abilities." .. sTarget .. ".effectmod"),  "onUpdate", detailsUpdate);
-                        DB.addHandler(DB.getPath(nodeChar, "abilities." .. sTarget .. ".adjustment"), "onUpdate", detailsUpdate);
-                        DB.addHandler(DB.getPath(nodeChar, "abilities." .. sTarget .. ".tempmod"),    "onUpdate", detailsUpdate);
-                        detailsUpdate();
-                    end
-                    
-                    function onClose()
-                        local nodeChar = window.getDatabaseNode();
-                        local sTarget = string.lower(self.target[1]);
-                        DB.removeHandler(DB.getPath(nodeChar, "abilities." .. sTarget .. ".base"),       "onUpdate", detailsUpdate);
-                        DB.removeHandler(DB.getPath(nodeChar, "abilities." .. sTarget .. ".basemod"),    "onUpdate", detailsUpdate);
-                        DB.removeHandler(DB.getPath(nodeChar, "abilities." .. sTarget .. ".itemmod"),    "onUpdate", detailsUpdate);
-                        DB.removeHandler(DB.getPath(nodeChar, "abilities." .. sTarget .. ".effectmod"),  "onUpdate", detailsUpdate);
-                        DB.removeHandler(DB.getPath(nodeChar, "abilities." .. sTarget .. ".adjustment"), "onUpdate", detailsUpdate);
-                        DB.removeHandler(DB.getPath(nodeChar, "abilities." .. sTarget .. ".tempmod"),    "onUpdate", detailsUpdate);
-                    end
-                    
-                </script> -->
                 <anchored width="30" height="20">
                     <top  />
                     <left anchor="right" relation="relative" offset="10" />
@@ -660,8 +677,8 @@
     <template name="speed_number_mod">
             <basicnumber>
                 <anchored height="18" width="30" >
-                    <top parent="label_speeddetail_mods" />
-                    <left parent="label_speeddetail_mods" anchor="right" relation="relative" offset="10" />
+                    <top parent="label_speeddetail_base" />
+                    <left parent="label_speeddetail_base" anchor="right" relation="relative" offset="10" />
                 </anchored>
             
                 <frame name="fielddark" offset="7,5,7,5" />
@@ -677,8 +694,8 @@
     <template name="speed_mod_plus">
             <label>
                 <anchored >
-                    <top parent="label_speeddetail_mods" />
-                    <left parent="label_speeddetail_mods" anchor="right" relation="relative" offset="10" />
+                    <top parent="label_speeddetail_base" />
+                    <left parent="label_speeddetail_base" anchor="right" relation="relative" offset="10" />
                 </anchored>
                 <static text="+" />
             </label>
@@ -687,8 +704,8 @@
     <template name="speed_number_total">
             <basicnumber>
                 <anchored height="18" width="30" >
-                    <top parent="label_speeddetail_mods" />
-                    <left parent="label_speeddetail_mods" anchor="right" relation="relative" offset="10" />
+                    <top parent="label_speeddetail_base" />
+                    <left parent="label_speeddetail_base" anchor="right" relation="relative" offset="10" />
                 </anchored>
                 <script file="campaign/scripts/number_movement.lua"/>
                 <frame name="fielddark" offset="7,5,7,5" />
@@ -701,7 +718,43 @@
                 <readonly />
             </basicnumber>
     </template>
+    <template name="surprise_dice_roll">
+        <basicdice>
+            <anchored to="label_surprisedetail" position="righthigh" offset="10,0" width="30" height="18" />
+            <rollable />
+            <tooltip textres="char_label_surprisedice_tooltip" />
+            <script>
+                function action()
+                    local node = getDatabaseNode();
+                    local nodeChar = node.getChild("...");
+                    Debug.console("record_char_main.xml","onDragStart","nodeChar",nodeChar);
+                    ActionSurprise.performRoll(draginfo, rActor, nodeChar);
+                    return true;
+                end
+                
+                function onDragStart(button, x, y, draginfo)
+                    return action(draginfo);
+                end
+                    
+                function onDoubleClick(x,y)
+                    return action();
+                end                    
+            </script>
+        </basicdice>
+    </template>
      
+    <template name="surprise_base">
+        <basicnumber name="surprisebase" source="surprise.base">
+            <script>
+                function onValueChanged()
+                    window.surpriseTotal();
+                end
+            </script>
+            <anchored to="surprisedice" position="righthigh" offset="28,0" width="30" height="18" /> 
+            <default>3</default>
+            <tooltip textres="char_label_surprisebase_tooltip" />
+        </basicnumber>
+    </template>
     <template name="surprise_number_mod">
             <basicnumber>
                 <script>

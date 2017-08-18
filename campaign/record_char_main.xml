@@ -184,6 +184,11 @@
 				<static textres="STR" />
 			</label_abilityscore>
 
+            <label_abilityscore_actual name="str_label_actual">
+                <anchored to="strength"/>
+                <target>strength</target>
+            </label_abilityscore_actual>
+            
 			<ability_fields_container name="strdetailframe">
 				<anchored to="strength" />
 			</ability_fields_container>			
@@ -286,6 +291,10 @@
 				<anchored to="dexterity" />
 				<static textres="DEX" />
 			</label_abilityscore>
+            <label_abilityscore_actual name="dex_label_actual">
+                <anchored to="dexterity"/>
+                <target>dexterity</target>
+            </label_abilityscore_actual>
 			
 			<ability_fields_container name="dexdetailframe">
 				<anchored to="dexterity" />
@@ -356,6 +365,10 @@
 				<anchored to="constitution" />
 				<static textres="CON" />
 			</label_abilityscore>
+            <label_abilityscore_actual name="con_label_actual">
+                <anchored to="constitution"/>
+                <target>constitution</target>
+            </label_abilityscore_actual>
 			
 			<ability_fields_container name="condetailframe">
 				<anchored to="constitution" />
@@ -448,6 +461,10 @@
 				<anchored to="intelligence" />
 				<static textres="INT" />
 			</label_abilityscore>
+            <label_abilityscore_actual name="int_label_actual">
+                <anchored to="intelligence"/>
+                <target>intelligence</target>
+            </label_abilityscore_actual>
 			
 			<ability_fields_container name="intdetailframe">
 				<anchored to="intelligence" />
@@ -542,6 +559,10 @@
 				<anchored to="wisdom" />
 				<static textres="WIS" />
 			</label_abilityscore>
+            <label_abilityscore_actual name="wis_label_actual">
+                <anchored to="wisdom"/>
+                <target>wisdom</target>
+            </label_abilityscore_actual>
 			
 			<ability_fields_container name="wisdetailframe">
 				<anchored to="wisdom" />
@@ -625,6 +646,10 @@
 				<anchored to="charisma" />
 				<static textres="CHR" />
 			</label_abilityscore>
+            <label_abilityscore_actual name="cha_label_actual">
+                <anchored to="charisma"/>
+                <target>charisma</target>
+            </label_abilityscore_actual>
 			
 			<ability_fields_container name="chrdetailframe">
 				<anchored to="charisma" />
@@ -1399,7 +1424,7 @@
 	<windowclass name="charsheet_combatcalc">
 		<frame>charsheethelper</frame>
 		<placement>
-			<size width="520" height="330" />
+			<size width="440" height="280" />
 		</placement>
 		<nodelete />
 		<playercontrol />
@@ -1409,11 +1434,9 @@
             end
             function surpriseTotal()
                 local nBase = surprisebase.getValue();
-                local nItem = surprise_itemmod.getValue();
-                local nEffect = surprise_effectmod.getValue();
                 local nMod = surprise_mod.getValue();
                 local nTmp = surprise_tempmod.getValue();
-                local nTotal = nBase + nItem + nEffect + nMod + nTmp;
+                local nTotal = nBase + nMod + nTmp;
                 surprise_total.setValue(nTotal);
             end
         </script>
@@ -1439,145 +1462,16 @@
 				<static textres="char_label_initdetail" />
 			</label>
 			<basicnumber name="initmiscbonus" source="initiative.misc">
-				<anchored to="label_initdetail" position="right" offset="5,0" width="45" />
+				<anchored to="label_initdetail" position="righthigh" offset="10,0" height="18" width="30" />
 				<hideonvalue>0</hideonvalue>
+				<tooltip textres="char_label_mod_tooltip" />
 			</basicnumber>
 			<label_fieldtop name="label_initmiscbonus">
 				<anchored to="initmiscbonus" />
-				<static textres="char_label_adj" />
+				<static textres="char_label_mod" />
+				<tooltip textres="char_label_mod_tooltip" />
 			</label_fieldtop>
 			
-			<!-- Speed Detail -->
-            <label name="label_speeddetail_base">
-				<anchored width="60">
-					<top parent="columnanchor" anchor="bottom" relation="relative" offset="20" />
-					<left offset="30" />
-				</anchored>
-<!--                 <anchored height="18" width="30">
-                    <top parent="columnanchor" anchor="bottom" relation="relative" offset="20" />
-                    <left parent="leftanchor" anchor="right" relation="relative" offset="30" />
-                    <right parent="rightanchor" anchor="left" relation="relative" offset="-410" />
-                </anchored> -->
-				<static textres="char_label_speeddetail" />
-                <tooltip textres="char_label_speeddetail_tooltip" />
-            </label>
-
-			<!-- <label name="label_speeddetail">
-				<anchored width="60">
-					<top parent="columnanchor" anchor="bottom" relation="relative" offset="20" />
-					<left offset="30" />
-				</anchored>
-				<static textres="char_label_speeddetail" />
-			</label> -->
-            
-            
-            <speed_number_base name="speedbase" source="speed.base">
-            </speed_number_base>
-
-			<!-- <char_speed_details name="speedbase" source="speed.base">
-				<anchored to="label_speeddetail" position="righthigh" offset="5,0" width="45" height="20" />
-			</char_speed_details> -->
-            
-			<label_fieldtop name="label_speedbase">
-				<anchored to="speedbase" />
-				<static textres="char_label_speedbase_base" />
-                <tooltip textres="char_label_speedbase_base_tooltip" />
-			</label_fieldtop>
-            <speed_number_base name="speed_basemodenc" source="speed.basemodenc">
-                <readonly />
-            </speed_number_base>
-			<label_fieldtop name="label_speedbasemodenc">
-				<anchored to="speed_basemodenc" />
-				<static textres="char_label_speedbase_enc" />
-                <tooltip textres="char_label_speedbase_enc_tooltip" />
-            </label_fieldtop>
-
-            <speed_number_base name="speed_basemoditem" source="speed.basemoditem">
-                <readonly />
-            </speed_number_base>
-			<label_fieldtop name="label_speedbasemoditem">
-				<anchored to="speed_basemoditem" />
-				<static textres="char_label_speedbase_item" />
-                <tooltip textres="char_label_speedbase_item_tooltip" />
-            </label_fieldtop>
-
-            <speed_number_base name="speed_basemod" source="speed.basemod">
-            </speed_number_base>
-			<label_fieldtop name="label_speedbasemod">
-				<anchored to="speed_basemod" />
-				<static textres="char_label_speedbase_mod" />
-                <tooltip textres="char_label_speedbase_mod_tooltip" />
-			</label_fieldtop>
-            
-            <label name="label_speeddetail_mods">
-				<anchored width="60">
-					<top parent="columnanchor" anchor="bottom" relation="relative" offset="20" />
-					<left offset="30" />
-				</anchored>
-<!--                 <anchored height="18">
-                    <top parent="columnanchor" anchor="bottom" relation="relative" offset="20" />
-                    <left parent="leftanchor" anchor="right" relation="relative" offset="-60" />
-                    <right parent="rightanchor" anchor="left" relation="relative" offset="60" />
-                </anchored> -->
-				<static textres="char_label_speeddetail_mods" />
-                <tooltip textres="char_label_speeddetail_mods_tooltip" />
-            </label>
-            
-
-            <speed_number_mod name="speed_itemmod" source="speed.itemmod">
-                <readonly />
-                <displaysign />
-            </speed_number_mod>
-			<label_fieldtop name="label_speeditemmod">
-				<anchored to="speed_itemmod" />
-				<static text="Item" />
-            </label_fieldtop>
-
-            <speed_mod_plus />
-            
-            <speed_number_mod name="speed_effectmod" source="speed.effectmod">
-                <readonly />
-                <displaysign />
-            </speed_number_mod>
-			<label_fieldtop name="label_speedeffectmod">
-				<anchored to="speed_effectmod" />
-				<static text="Effect" />
-            </label_fieldtop>
-
-            <speed_mod_plus />
-            
-            <speed_number_mod name="speed_mod" source="speed.mod">
-                <displaysign />
-            </speed_number_mod>
-			<label_fieldtop name="label_speedbasemoditem">
-				<anchored to="speed_mod" />
-				<static text="Mod" />
-            </label_fieldtop>
-            
-            <speed_mod_plus />
-
-            <speed_number_mod name="speed_tempmod" source="speed.tempmod">
-                <displaysign />
-            </speed_number_mod>
-			<label_fieldtop name="label_speedtempmod">
-				<anchored to="speed_tempmod" />
-				<static text="Temp" />
-            </label_fieldtop>
-            
-            <label>
-                <anchored >
-                    <top parent="label_speeddetail_mods" />
-                    <left parent="label_speeddetail_mods" anchor="right" relation="relative" offset="10" />
-                </anchored>
-                <static text="=" />
-            </label>
-
-            <speed_number_total name="speed_total" source="speed.total">
-            </speed_number_total>
-			<label_fieldtop name="label_speedtotal">
-				<anchored to="speed_total" />
-				<static text="Total" />
-            </label_fieldtop>
 
 			<!-- Armor Detail -->
 			<label name="label_armordetail">
@@ -1662,43 +1556,15 @@
 			</label>
 
             <!-- dice rolled for surprise check -->
-			<basicdice name="surprisedice" source="surprise.dice">
-				<anchored to="label_surprisedetail" position="righthigh" offset="10,0" width="30" height="18" />
-                <rollable />
-				<script>
-                    function action()
-                        local node = getDatabaseNode();
-                        local nodeChar = node.getChild("...");
-                        Debug.console("record_char_main.xml","onDragStart","nodeChar",nodeChar);
-                        ActionSurprise.performRoll(draginfo, rActor, nodeChar);
-                        return true;
-                    end
-                    
-                    function onDragStart(button, x, y, draginfo)
-                        return action(draginfo);
-                    end
-                        
-                    function onDoubleClick(x,y)
-                        return action();
-                    end                    
-				</script>
-			</basicdice>
+            <surprise_dice_roll name="surprisedice" source="surprise.dice" />
 			<label_fieldtop name="label_surprisedice">
 				<anchored to="surprisedice" />
 				<static textres="char_label_surprisedice" />
+				<tooltip textres="char_label_surprisedice_tooltip" />
 			</label_fieldtop>
 
 
-			<basicnumber name="surprisebase" source="surprise.base">
-                <script>
-                    function onValueChanged()
-                        window.surpriseTotal();
-                    end
-                </script>
-                <anchored to="surprisedice" position="righthigh" offset="28,0" width="30" height="18" /> 
-				<default>3</default>
-				<tooltip textres="char_label_surprisebase_tooltip" />
-			</basicnumber>
+            <surprise_base name="surprisebase" source="surprise.base" />
 			<label_fieldtop name="label_surprisebase">
 				<anchored to="surprisebase" />
 				<static textres="char_label_surprisebase" />
@@ -1707,36 +1573,11 @@
 
             <surprise_mod_plus />
 
-            <surprise_number_mod name="surprise_itemmod" source="surprise.itemmod">
+            <surprise_number_mod name="surprise_mod" source="surprise.mod">
                 <anchored height="18" width="30" >
                     <top parent="surprisebase" />
-                    <left parent="surprisebase" anchor="right" relation="relative" offset="13" />
+                    <left parent="surprisebase" anchor="right" relation="relative" offset="15" />
                 </anchored>
-                <readonly />
-                <displaysign />
-            </surprise_number_mod>
-			<label_fieldtop name="label_surpriseitemmod">
-				<anchored to="surprise_itemmod" />
-				<static textres="char_label_mod_item" />
-                <tooltip textres="char_label_mod_item_tooltip" />
-            </label_fieldtop>
-
-            <surprise_mod_plus />
-            
-            <surprise_number_mod name="surprise_effectmod" source="surprise.effectmod">
-                <readonly />
-                <displaysign />
-                <tooltip textres="char_label_mod_effect_tooltip" />
-            </surprise_number_mod>
-			<label_fieldtop name="label_speedeffectmod">
-				<anchored to="surprise_effectmod" />
-				<static textres="char_label_mod_effect" />
-                <tooltip textres="char_label_mod_effect_tooltip" />
-            </label_fieldtop>
-
-            <surprise_mod_plus />
-            
-            <surprise_number_mod name="surprise_mod" source="surprise.mod">
                 <displaysign />
                 <tooltip textres="char_label_mod_mod_tooltip" />
             </surprise_number_mod>
@@ -1780,6 +1621,97 @@
                 <tooltip textres="char_label_surprisetotal_tooltip" />
             </label_fieldtop>
 
+            
+			<!-- Speed Detail -->
+            <label name="label_speeddetail_base">
+				<anchored width="60">
+					<top parent="columnanchor" anchor="bottom" relation="relative" offset="20" />
+					<left offset="30" />
+				</anchored>
+<!--                 <anchored height="18" width="30">
+                    <top parent="columnanchor" anchor="bottom" relation="relative" offset="20" />
+                    <left parent="leftanchor" anchor="right" relation="relative" offset="30" />
+                    <right parent="rightanchor" anchor="left" relation="relative" offset="-410" />
+                </anchored> -->
+				<static textres="char_label_speeddetail" />
+                <tooltip textres="char_label_speeddetail_tooltip" />
+            </label>
+
+			<!-- <label name="label_speeddetail">
+				<anchored width="60">
+					<top parent="columnanchor" anchor="bottom" relation="relative" offset="20" />
+					<left offset="30" />
+				</anchored>
+				<static textres="char_label_speeddetail" />
+			</label> -->
+            
+            
+            <speed_number_base name="speedbase" source="speed.base">
+            </speed_number_base>
+
+			<!-- <char_speed_details name="speedbase" source="speed.base">
+				<anchored to="label_speeddetail" position="righthigh" offset="5,0" width="45" height="20" />
+			</char_speed_details> -->
+            
+			<label_fieldtop name="label_speedbase">
+				<anchored to="speedbase" />
+				<static textres="char_label_speedbase_base" />
+                <tooltip textres="char_label_speedbase_base_tooltip" />
+			</label_fieldtop>
+            <speed_number_base name="speed_basemodenc" source="speed.basemodenc">
+                <readonly />
+            </speed_number_base>
+			<label_fieldtop name="label_speedbasemodenc">
+				<anchored to="speed_basemodenc" />
+				<static textres="char_label_speedbase_enc" />
+                <tooltip textres="char_label_speedbase_enc_tooltip" />
+            </label_fieldtop>
+
+
+            <speed_number_base name="speed_basemod" source="speed.basemod">
+            </speed_number_base>
+			<label_fieldtop name="label_speedbasemod">
+				<anchored to="speed_basemod" />
+				<static textres="char_label_speedbase_mod" />
+                <tooltip textres="char_label_speedbase_mod_tooltip" />
+			</label_fieldtop>
+            
+            <speed_mod_plus />
+            
+            <speed_number_mod name="speed_mod" source="speed.mod">
+                <displaysign />
+            </speed_number_mod>
+			<label_fieldtop name="label_speedbasemoditem">
+				<anchored to="speed_mod" />
+				<static text="Mod" />
+            </label_fieldtop>
+            
+            <speed_mod_plus />
+
+            <speed_number_mod name="speed_tempmod" source="speed.tempmod">
+                <displaysign />
+            </speed_number_mod>
+			<label_fieldtop name="label_speedtempmod">
+				<anchored to="speed_tempmod" />
+				<static text="Temp" />
+            </label_fieldtop>
+            
+            <label>
+                <anchored >
+                    <top parent="label_speeddetail_base" />
+                    <left parent="label_speeddetail_base" anchor="right" relation="relative" offset="10" />
+                </anchored>
+                <static text="=" />
+            </label>
+
+            <speed_number_total name="speed_total" source="speed.total">
+            </speed_number_total>
+			<label_fieldtop name="label_speedtotal">
+				<anchored to="speed_total" />
+				<static text="Total" />
+            </label_fieldtop>
+            
+            
 			<close_charsheethelper />
 		</sheetdata>
 	</windowclass>
