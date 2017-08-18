@@ -64,7 +64,7 @@ end
 
 function detailsPercentUpdate()
     local nodeChar = getDatabaseNode();
-    AbilityScoreADND.detailsUpdate(nodeChar);
+    AbilityScoreADND.detailsPercentUpdate(nodeChar);
 end
 ---
 --- Update ability score total

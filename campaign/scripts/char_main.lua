@@ -60,7 +60,7 @@ end
 
 function detailsPercentUpdate()
     local nodeChar = getDatabaseNode();
-    AbilityScoreADND.detailsUpdate(nodeChar);
+    AbilityScoreADND.detailsPercentUpdate(nodeChar);
 end
 
 -- allow drag/drop of class/race/backgrounds onto main sheet

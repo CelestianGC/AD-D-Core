@@ -357,8 +357,6 @@ function detailsUpdate(nodeChar)
 end
 
 function detailsPercentUpdate(nodeChar)
-    local nodeChar = getDatabaseNode();
-
     for i = 1,6,1 do
         local sTarget = DataCommon.abilities[i];
         local nBase =       DB.getValue(nodeChar, "abilities." .. sTarget .. ".percentbase",0);
