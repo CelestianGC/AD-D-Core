@@ -269,6 +269,9 @@
     <string name="power_label_cast_tooltip">Cast this spell or use power.</string>
     <string name="power_label_attack_tooltip">Attack using spell or power.</string>
     <string name="power_label_save_tooltip">Force target(s) to save versus this spell or power.</string>
+    <string name="power_label_duration_dice_tooltip">Dice roll for duration.</string>
+    <string name="power_label_duration_mod_tooltip">Modifier applied to duration.</string>
+    
     
    	<!-- Combat Tracker -->
 	<string name="ct_label_damage">Atks</string>

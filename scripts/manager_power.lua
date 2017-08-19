@@ -331,8 +331,17 @@ function getPowerRoll(rActor, nodeAction, sSubRoll)
 
 		rAction.sApply = DB.getValue(nodeAction, "apply", "");
 		rAction.sTargeting = DB.getValue(nodeAction, "targeting", "");
-		
-		rAction.nDuration = DB.getValue(nodeAction, "durmod", 0);
+--		rAction.nDuration = DB.getValue(nodeAction, "durmod", 0);
+        -- roll dice for duration if exists --celestian
+        local nRollDuration = 0;
+        local dDurationDice = DB.getValue(nodeAction, "durdice");
+        local nModDice = DB.getValue(nodeAction, "durmod", 0);
+        if (dDurationDice and dDurationDice ~= "") then
+            nRollDuration = StringManager.evalDice(dDurationDice, nModDice);
+        else
+            nRollDuration = nModDice;
+        end
+		rAction.nDuration = nRollDuration;
 		rAction.sUnits = DB.getValue(nodeAction, "durunit", "");
 	end
 	

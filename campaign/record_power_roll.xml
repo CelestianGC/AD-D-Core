@@ -597,12 +597,18 @@
 				<static textres="power_header_effect_duration" />
 				<center />
 			</header_column>
-			<basicnumber name="durmod">
-				<anchored width="30" height="20">
+			<basicdice name="durdice">
+				<anchored width="50" height="20">
 					<top parent="columnanchor" anchor="bottom" relation="relative" offset="7" />
 					<left offset="5" />
 				</anchored>
 				<hideonvalue value="0" />
+                <tooltip textres="power_label_duration_dice_tooltip" />
+            </basicdice>
+			<basicnumber name="durmod">
+				<anchored to="durdice" position="righthigh" offset="10,0" width="30" height="20" />
+				<hideonvalue value="0" />
+                <tooltip textres="power_label_duration_mod_tooltip" />
 			</basicnumber>
 			<button_stringcycler name="durunit">
 				<anchored to="durmod" position="righthigh" offset="10,0" width="40" height="20" />
