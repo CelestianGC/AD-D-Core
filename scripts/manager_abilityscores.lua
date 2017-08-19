@@ -9,6 +9,18 @@ end
 --
 -- Get current ability properties
 --
+-- fix scores that go greater than 25 or below one, effects can do this now.
+function abilityScoreSanity(nScore)
+    if (nScore > 25) then
+        nScore = 25;
+    end
+    if (nScore < 1) then
+        nScore = 1;
+    end
+
+    return nScore;
+end
+-- get ability properties adjusted for effects.
 function getStrengthProperties(nodeChar)
 
     local nScore = DB.getValue(nodeChar, "abilities.strength.total", DB.getValue(nodeChar, "abilities.strength.score", 0));
@@ -47,6 +59,7 @@ function getStrengthProperties(nodeChar)
         
         -- adjust ability scores from items!
     end
+    nScore = abilityScoreSanity(nScore);
     local nScoreSaved = nScore;
     
     -- Deal with 18 01-100 strength
@@ -105,6 +118,7 @@ function getDexterityProperties(nodeChar)
 --Debug.console("manager_abilityscores.lua","getDexterityProperties","ONE",nScore);
     end
 --Debug.console("manager_abilityscores.lua","getDexterityProperties","TWO",nScore);
+    nScore = abilityScoreSanity(nScore);
     local dbAbility = {};
     dbAbility.score = nScore;
     dbAbility.reactionadj = DataCommonADND.aDexterity[nScore][1];
@@ -131,6 +145,7 @@ function getWisdomProperties(nodeChar)
         nAbilityMod, nAbilityEffects = EffectManager.getEffectsBonus(rActor, sAbilityEffect, true);
         nScore = nScore + nAbilityMod;
     end
+    nScore = abilityScoreSanity(nScore);
     local dbAbility = {};
     dbAbility.score = nScore;
     dbAbility.magicdefenseadj = DataCommonADND.aWisdom[nScore][1];
@@ -167,6 +182,7 @@ function getConstitutionProperties(nodeChar)
         nScore = nScore + nAbilityMod;
     end
     
+    nScore = abilityScoreSanity(nScore);
     local dbAbility = {};
     dbAbility.score = nScore;
     dbAbility.hitpointadj = DataCommonADND.aConstitution[nScore][1];
@@ -194,6 +210,7 @@ function getCharismaProperties(nodeChar)
         nAbilityMod, nAbilityEffects = EffectManager.getEffectsBonus(rActor, sAbilityEffect, true);
         nScore = nScore + nAbilityMod;
     end
+    nScore = abilityScoreSanity(nScore);
     local dbAbility = {};
     dbAbility.score = nScore;
     dbAbility.reactionadj = DataCommonADND.aCharisma[nScore][1];
@@ -219,6 +236,7 @@ function getIntelligenceProperties(nodeChar)
         nAbilityMod, nAbilityEffects = EffectManager.getEffectsBonus(rActor, sAbilityEffect, true);
         nScore = nScore + nAbilityMod;
     end
+    nScore = abilityScoreSanity(nScore);
     local dbAbility = {};
     dbAbility.score = nScore;
     dbAbility.languages = DataCommonADND.aIntelligence[nScore][1];
@@ -278,7 +296,6 @@ function updateWisdom(nodeChar)
     DB.setValue(nodeChar, "abilities.wisdom.failure", "number", dbAbility.failure);
     DB.setValue(nodeChar, "abilities.wisdom.immunity", "string", dbAbility.immunity);
     DB.setValue(nodeChar, "abilities.wisdom.score", "number", nScore);
-    
     return dbAbility;
 end
 
@@ -316,7 +333,6 @@ function updateIntelligence(nodeChar)
     DB.setValue(nodeChar, "abilities.intelligence.maxlevel", "string", dbAbility.maxlevel);
     DB.setValue(nodeChar, "abilities.intelligence.illusion", "string", dbAbility.illusion);
     DB.setValue(nodeChar, "abilities.intelligence.score", "number", nScore);
-    
     return dbAbility;
 end
 

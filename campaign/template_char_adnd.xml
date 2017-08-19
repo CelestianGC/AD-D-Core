@@ -99,7 +99,7 @@
                     if (sTarget ~= "") then
                         local nTotal = DB.getValue(nodeChar,"abilities." .. sTarget .. ".total",0);
                         local nScore = DB.getValue(nodeChar,"abilities." .. sTarget .. ".score",0);
-                        if (nTotal ~= nScore) then
+                        if (nTotal ~= nScore and nTotal ~= 0) then
                             self.setValue("(" .. nTotal .. ")");
                             self.setVisible(true);
                         else
@@ -495,35 +495,6 @@
     </template>
     <template name="ability_details_percent_total" >
             <basicnumber>
-       			<!-- <script file="campaign/scripts/char_abilities_details.lua" /> -->
-                <!-- <script>
-                    function onInit()
-                        super.onInit();
-                        local nodeChar = window.getDatabaseNode();
-                        local sTarget = string.lower(self.target[1]);
-                        
-                        DB.addHandler(DB.getPath(nodeChar, "abilities." .. sTarget .. ".percentbase"),      "onUpdate", detailsPercentUpdate);
-                        DB.addHandler(DB.getPath(nodeChar, "abilities." .. sTarget .. ".percentbasemod"),   "onUpdate", detailsPercentUpdate);
-                        DB.addHandler(DB.getPath(nodeChar, "abilities." .. sTarget .. ".percentitemmod"),   "onUpdate", detailsPercentUpdate);
-                        DB.addHandler(DB.getPath(nodeChar, "abilities." .. sTarget .. ".percenteffectmod"), "onUpdate", detailsPercentUpdate);
-                        DB.addHandler(DB.getPath(nodeChar, "abilities." .. sTarget .. ".percentadjustment"),"onUpdate", detailsPercentUpdate);
-                        DB.addHandler(DB.getPath(nodeChar, "abilities." .. sTarget .. ".percenttempmod"),   "onUpdate", detailsPercentUpdate);
-                        detailsPercentUpdate();
-                    end
-                    
-                    function onClose()
-                        local nodeChar = window.getDatabaseNode();
-                        local sTarget = string.lower(self.target[1]);
-
-                        DB.removeHandler(DB.getPath(nodeChar, "abilities." .. sTarget .. ".percentbase"),       "onUpdate", detailsPercentUpdate);
-                        DB.removeHandler(DB.getPath(nodeChar, "abilities." .. sTarget .. ".percentbasemod"),    "onUpdate", detailsPercentUpdate);
-                        DB.removeHandler(DB.getPath(nodeChar, "abilities." .. sTarget .. ".percentitemmod"),    "onUpdate", detailsPercentUpdate);
-                        DB.removeHandler(DB.getPath(nodeChar, "abilities." .. sTarget .. ".percenteffectmod"),  "onUpdate", detailsPercentUpdate);
-                        DB.removeHandler(DB.getPath(nodeChar, "abilities." .. sTarget .. ".percentadjustment"), "onUpdate", detailsPercentUpdate);
-                        DB.removeHandler(DB.getPath(nodeChar, "abilities." .. sTarget .. ".percenttempmod"),    "onUpdate", detailsPercentUpdate);
-                    end
-                    
-                </script> -->
                 <anchored width="30" height="20">
                     <top  />
                     <left anchor="right" relation="relative" offset="10" />
