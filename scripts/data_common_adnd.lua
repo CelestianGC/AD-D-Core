@@ -75,6 +75,7 @@
         "BPCHA",
         "BPCON",
         "BPWIS",
+        "BAC",
     };
     
 function onInit()

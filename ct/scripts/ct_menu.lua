@@ -67,8 +67,6 @@ function onMenuSelection(selection, subselection, subsubselection)
 				CombatManager2.clearExpiringEffects();
 			end
 		end
-Debug.console("ct_menu.lua","onMenuSelection","selection",selection);
-Debug.console("ct_menu.lua","onMenuSelection","subselection",subselection);
 		if selection == 3 then
 			if subselection == 1 then
 				clearNPCs();
@@ -101,7 +99,6 @@ end
 function removeNPC(vChild, bDeleteOnlyDeadFoe)
 	if bDeleteOnlyDeadFoe == true then 
 		if vChild.wounds.getValue() >= vChild.hptotal.getValue() then
-Debug.console("ct_menu.lua","removeNPC","bDeleteOnlyDeadFoe",bDeleteOnlyDeadFoe);
 			vChild.delete();
 		end
 	else
