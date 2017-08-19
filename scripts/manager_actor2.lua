@@ -436,17 +436,22 @@ function getDefenseValue(rAttacker, rDefender, rRoll)
 		return nil, 0, 0, false, false;
 	end
 
-    -- new nDefense Calc
+    -- grab BAC value if exists in effects
     local nBonusACBase, nBonusACEffects = EffectManager.getEffectsBonus(rDefender, "BAC",true);
+
+        -- if PC
 	if sDefenderType == "pc" then
         -- new nDefense Calc
 		-- nDefense = DB.getValue(nodeDefender, "defenses.ac.total", 10);
+
+        -- we get dex down a ways for pc and npc
         --local nDexBonus = ActorManager2.getAbilityBonus(rDefender, "dexterity","defenseadj");
         local nACTemp = DB.getValue(nodeChar, "defenses.ac.temporary",0);
         local nACBase = DB.getValue(nodeChar, "defenses.ac.base",10);
         local nACArmor = DB.getValue(nodeChar, "defenses.ac.armor",0);
         local nACShield = DB.getValue(nodeChar, "defenses.ac.shield",0);
         local nACMisc = DB.getValue(nodeChar, "defenses.ac.misc",0);
+        -- use BAC style effects if exist
         if nBonusACEffects > 0 then
             if nBonusACBase < nACBase then
                 nACBase = nBonusACBase;
@@ -455,19 +460,16 @@ function getDefenseValue(rAttacker, rDefender, rRoll)
         nDefense = nACBase + nACTemp + nACArmor + nACShield + nACMisc;
         --
 --		sDefenseStat = DB.getValue(nodeDefender, "ac.sources.ability", "");
-		if sDefenseStat == "" then
-			sDefenseStat = "dexterity";
-		end
 	else
+        -- ELSE NPC
 		nDefense = DB.getValue(nodeDefender, "ac", 10);
+        -- use BAC style effects if exist
         if nBonusACEffects > 0 then
             if nBonusACBase < nDefense then
                 nDefense = nBonusACBase;
             end
         end
 	end
-
-Debug.console("manager_actor2.lua","getDefenseValue","nDefense",nDefense);    
 
 	-- this is to convert decending AC (below AC 10 stuff) to ascending AC
 	-- 20 - (-5) = 25, 20 - 5 = 15 and so on
