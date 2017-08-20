@@ -185,7 +185,7 @@ function onInit()
     aWisdom[24]  =    { 4, "Various", 0, "Various"};
     aWisdom[25]  =    { 4, "Various", 0, "Various"};
     -- deal with long string bonus for tooltip
-    aWisdom[118]  =    { 4, "Bonus Spells: 2x1st, 2x2nd, 1x3rd", 0, "None"};
+    aWisdom[118]  =    { 4, "Bonus Spells: 2x1st, 2x2nd, 1x3rd, 1x4th", 0, "None"};
     aWisdom[119]  =    { 4, "Bonus Spells: 3x1st, 2x2nd, 2x3rd, 1x4th", 0, "Spells: cause fear,charm person, command, friends, hypnotism"};
     aWisdom[120]  =    { 4, "Bonus Spells: 3x1st, 3x2nd, 2x3rd, 2x4th", 0, "Spells: cause fear,charm person, command, friends, hypnotism, forget, hold person, enfeeble, scare"};
     aWisdom[121]  =    { 4, "Bonus Spells: 3x1st, 3x2nd, 3x3rd, 2x4th, 5th", 0, "Spells: cause fear,charm person, command, friends, hypnotism, forget, hold person, enfeeble, scare, fear"};
