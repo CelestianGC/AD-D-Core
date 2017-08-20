@@ -410,6 +410,11 @@ function onAttack(rSource, rTarget, rRoll)
 	rAction.aMessages = {};
 	
 	local nDefenseVal, nAtkEffectsBonus, nDefEffectsBonus = ActorManager2.getDefenseValue(rSource, rTarget, rRoll);
+
+Debug.console("manager_action_attack.lua","onAttack","nDefenseVal",nDefenseVal);
+Debug.console("manager_action_attack.lua","onAttack","nAtkEffectsBonus",nAtkEffectsBonus);
+Debug.console("manager_action_attack.lua","onAttack","nDefEffectsBonus",nDefEffectsBonus);
+
 	if nAtkEffectsBonus ~= 0 then
 		rAction.nTotal = rAction.nTotal + nAtkEffectsBonus;
 		local sFormat = "[" .. Interface.getString("effects_tag") .. " %+d]"

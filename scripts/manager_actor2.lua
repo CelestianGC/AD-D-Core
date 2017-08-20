@@ -441,22 +441,28 @@ function getDefenseValue(rAttacker, rDefender, rRoll)
 
         -- if PC
 	if sDefenderType == "pc" then
+        local nodeDefender = DB.findNode(rDefender.sCreatureNode);
         -- new nDefense Calc
 		-- nDefense = DB.getValue(nodeDefender, "defenses.ac.total", 10);
 
         -- we get dex down a ways for pc and npc
         --local nDexBonus = ActorManager2.getAbilityBonus(rDefender, "dexterity","defenseadj");
-        local nACTemp = DB.getValue(nodeChar, "defenses.ac.temporary",0);
-        local nACBase = DB.getValue(nodeChar, "defenses.ac.base",10);
-        local nACArmor = DB.getValue(nodeChar, "defenses.ac.armor",0);
-        local nACShield = DB.getValue(nodeChar, "defenses.ac.shield",0);
-        local nACMisc = DB.getValue(nodeChar, "defenses.ac.misc",0);
+        local nACTemp = DB.getValue(nodeDefender, "defenses.ac.temporary",0);
+        local nACBase = DB.getValue(nodeDefender, "defenses.ac.base",10);
+        local nACArmor = DB.getValue(nodeDefender, "defenses.ac.armor",0);
+        local nACShield = DB.getValue(nodeDefender, "defenses.ac.shield",0);
+        local nACMisc = DB.getValue(nodeDefender, "defenses.ac.misc",0);
         -- use BAC style effects if exist
         if nBonusACEffects > 0 then
             if nBonusACBase < nACBase then
                 nACBase = nBonusACBase;
             end
         end
+-- Debug.console("manager_actor2.lua","getDefenseValue","nACBase2",nACBase);
+-- Debug.console("manager_actor2.lua","getDefenseValue","nACTemp",nACTemp);
+-- Debug.console("manager_actor2.lua","getDefenseValue","nACArmor",nACArmor);
+-- Debug.console("manager_actor2.lua","getDefenseValue","nACShield",nACShield);
+-- Debug.console("manager_actor2.lua","getDefenseValue","nACMisc",nACMisc);
         nDefense = nACBase + nACTemp + nACArmor + nACShield + nACMisc;
         --
 --		sDefenseStat = DB.getValue(nodeDefender, "ac.sources.ability", "");
@@ -471,12 +477,17 @@ function getDefenseValue(rAttacker, rDefender, rRoll)
         end
 	end
 
+	nDefenseStatMod = getAbilityBonus(rDefender, sDefenseStat, "defenseadj");
+    nDefense = nDefense + nDefenseStatMod;
+    
+-- Debug.console("manager_actor2.lua","getDefenseValue","nDefense",nDefense);
+-- Debug.console("manager_actor2.lua","getDefenseValue","nDefenseStatMod",nDefenseStatMod);
+
 	-- this is to convert decending AC (below AC 10 stuff) to ascending AC
 	-- 20 - (-5) = 25, 20 - 5 = 15 and so on
 	if (nDefense < 10) then
 		nDefense = (20 - nDefense);
 	end
-	nDefenseStatMod = getAbilityBonus(rDefender, sDefenseStat, "defense");
 	
 	-- Effects
 	local nAttackEffectMod = 0;
