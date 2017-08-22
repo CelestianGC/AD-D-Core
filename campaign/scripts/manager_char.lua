@@ -2035,11 +2035,6 @@ function addClassRef(nodeChar, sClass, sRecord)
 		end
 	end
 	
-	-- Calculate current spell slots before levelling up
-	--local nCasterLevel = calcSpellcastingLevel(nodeChar);
-	--local nPactMagicLevel = calcPactMagicLevel(nodeChar);
-	local nCasterLevel = 0;
-	local nPactMagicLevel = 0;
 	
 	-- If class already exists, then add a level; otherwise, create a new class entry
 	local nLevel = 1;
@@ -2050,6 +2045,12 @@ function addClassRef(nodeChar, sClass, sRecord)
 	else
 		nodeClass = nodeList.createChild();
 	end
+
+	-- Calculate current spell slots before levelling up
+	--local nCasterLevel = calcSpellcastingLevel(nodeChar);
+	--local nPactMagicLevel = calcPactMagicLevel(nodeChar);
+	local nCasterLevel = nLevel;
+	local nPactMagicLevel = nLevel;
 	
 	-- Any way you get here, overwrite or set the class reference link with the most current
 	DB.setValue(nodeClass, "shortcut", "windowreference", sClass, sRecord);
@@ -2073,54 +2074,63 @@ function addClassRef(nodeChar, sClass, sRecord)
 		nTotalLevel = nTotalLevel + DB.getValue(vClass, "level", 0);
 	end
 	
-	-- Add hit points based on level added
-	local nHP = DB.getValue(nodeChar, "hp.total", 0);
---	local nConBonus = DB.getValue(nodeChar, "abilities.constitution.bonus", 0);
-	local nConBonus = tonumber(DB.getValue(nodeChar, "abilities.constitution.hitpointadj", 0));
-    -- make sure it's a number, we'll need to split out normal/fighterBonus values eventually --celestian
-    if type(nConBonus) ~= "number" then
-        nConBonus = 0;
+    -- get "advancement" fields, look for matching level and process.
+    local bHadAdvancement = false;
+    for _,nodeAdvance in pairs(DB.getChildren(nodeSource, "advancement")) do
+        --addClassProficiencyDB(nodeChar, "reference_classproficiency", v.getPath());
+        local nAdvanceLevel = DB.getValue(nodeAdvance,"level",0);
+        if (nAdvanceLevel == nLevel) then
+            addAdvancement(nodeChar, nodeAdvance, nodeClass);
+            bHadAdvancement = true;
+            break;
+        end
     end
-	if nTotalLevel == 1 then
-		local nAddHP = (nHDMult * nHDSides);
-		nHP = nHP + nAddHP + nConBonus;
-
-		local sFormat = Interface.getString("char_abilities_message_hpaddmax");
-		local sMsg = string.format(sFormat, DB.getValue(nodeSource, "name", ""), DB.getValue(nodeChar, "name", "")) .. " (" .. nAddHP .. "+" .. nConBonus .. ")";
-		ChatManager.SystemMessage(sMsg);
-	else
-		-- local nAddHP = math.floor(((nHDMult * (nHDSides + 1)) / 2) + 0.5);
-		-- nHP = nHP + nAddHP + nConBonus;
-
-		-- local sFormat = Interface.getString("char_abilities_message_hpaddavg");
-		-- local sMsg = string.format(sFormat, DB.getValue(nodeSource, "name", ""), DB.getValue(nodeChar, "name", "")) .. " (" .. nAddHP .. "+" .. nConBonus .. ")";
-		-- ChatManager.SystemMessage(sMsg);
-
-        -- for now we're going to manually roll hp. We don't have charts with the varying HD 
-		local sFormat = Interface.getString("char_abilities_message_leveledup");
-		local sMsg = string.format(sFormat, DB.getValue(nodeChar, "name", ""),DB.getValue(nodeSource, "name", ""));
-		ChatManager.SystemMessage(sMsg);
-        -- this just sets it's to what it was for now till we get tables of exp/hd if we
-        -- we ever get it. Let them manually apply it for now --celestian
-        nHP = DB.getValue(nodeChar, "hp.total", 0);
-	end
-	DB.setValue(nodeChar, "hp.total", "number", nHP);
-
-	-- AD&D doesn't use these.
-    
-    -- Special hit point level up handling
-	-- if hasTrait(nodeChar, TRAIT_DWARVEN_TOUGHNESS) then
-		-- applyDwarvenToughness(nodeChar);
-	-- end
-	-- if (sClassNameLower == CLASS_SORCERER) and hasFeature(nodeChar, FEATURE_DRACONIC_RESILIENCE) then
-		-- applyDraconicResilience(nodeChar);
-	-- end
-	-- if hasFeat(nodeChar, FEAT_TOUGH) then
-		-- applyTough(nodeChar);
-	-- end
 	
-	-- Add proficiencies
+    if not bHadAdvancement then
+        -- Add hit points based on level added
+        local nHP = DB.getValue(nodeChar, "hp.total", 0);
+        local nConBonus = tonumber(DB.getValue(nodeChar, "abilities.constitution.hitpointadj", 0));
+        -- make sure it's a number, we'll need to split out normal/fighterBonus values eventually --celestian
+        if type(nConBonus) ~= "number" then
+            nConBonus = 0;
+        end
+        
+        if nTotalLevel == 1 then
+            local nAddHP = (nHDMult * nHDSides);
+            nHP = nHP + nAddHP + nConBonus;
+
+            local sFormat = Interface.getString("char_abilities_message_hpaddmax");
+            local sMsg = string.format(sFormat, DB.getValue(nodeSource, "name", ""), DB.getValue(nodeChar, "name", "")) .. " (" .. nAddHP .. "+" .. nConBonus .. ")";
+            ChatManager.SystemMessage(sMsg);
+        else
+            -- local nAddHP = math.floor(((nHDMult * (nHDSides + 1)) / 2) + 0.5);
+            -- nHP = nHP + nAddHP + nConBonus;
+
+            -- local sFormat = Interface.getString("char_abilities_message_hpaddavg");
+            -- local sMsg = string.format(sFormat, DB.getValue(nodeSource, "name", ""), DB.getValue(nodeChar, "name", "")) .. " (" .. nAddHP .. "+" .. nConBonus .. ")";
+            -- ChatManager.SystemMessage(sMsg);
+
+            -- for now we're going to manually roll hp. We don't have charts with the varying HD 
+            local sFormat = Interface.getString("char_abilities_message_leveledup");
+            local sMsg = string.format(sFormat, DB.getValue(nodeChar, "name", ""),DB.getValue(nodeSource, "name", ""));
+            ChatManager.SystemMessage(sMsg);
+            -- this just sets it's to what it was for now till we get tables of exp/hd if we
+            -- we ever get it. Let them manually apply it for now --celestian
+            nHP = DB.getValue(nodeChar, "hp.total", 0);
+        end
+        DB.setValue(nodeChar, "hp.total", "number", nHP);
+
+    end
+
+    
 	if not bExistingClass then
+        -- setup/copy the save/fight as cyclers. --celestian
+        local sSaveAs = DB.getValue(nodeSource,"saveas","warrior");
+        local sFightAs = DB.getValue(nodeSource,"fightas","warrior");
+        DB.setValue(nodeClass,"saveas","string",sSaveAs);
+        DB.setValue(nodeClass,"fightas","string",sFightAs);
+
+        -- Add proficiencies
 --		if nTotalLevel == 1 then
 			for _,v in pairs(DB.getChildren(nodeSource, "proficiencies")) do
 				addClassProficiencyDB(nodeChar, "reference_classproficiency", v.getPath());
@@ -2134,14 +2144,7 @@ function addClassRef(nodeChar, sClass, sRecord)
 --			end
 --		end
 	end
-	
-    -- setup/copy the save/fight as cyclers. --celestian
-	if not bExistingClass then
-        local sSaveAs = DB.getValue(nodeSource,"saveas","warrior");
-        local sFightAs = DB.getValue(nodeSource,"fightas","warrior");
-        DB.setValue(nodeClass,"saveas","string",sSaveAs);
-        DB.setValue(nodeClass,"fightas","string",sFightAs);
-    end
+
     
 	-- Determine whether a specialization is added this level
 	local nodeSpecializationFeature = nil;
@@ -2158,6 +2161,7 @@ function addClassRef(nodeChar, sClass, sRecord)
 	
 	-- Add features, with customization based on whether specialization is added this level
 	local rClassAdd = { nodeChar = nodeChar, nodeSource = nodeSource, nLevel = nLevel, nodeClass = nodeClass, nCasterLevel = nCasterLevel, nPactMagicLevel = nPactMagicLevel };
+
 	if #aOptions == 0 then
 		addClassFeatureHelper(nil, rClassAdd);
 	elseif #aOptions == 1 then
@@ -2169,6 +2173,126 @@ function addClassRef(nodeChar, sClass, sRecord)
 		local sMessage = string.format(Interface.getString("char_build_message_selectspecialization"), DB.getValue(nodeSpecializationFeature, "name", ""), 1);
 		wSelect.requestSelection (sTitle, sMessage, aOptions, addClassFeatureHelper, rClassAdd);
 	end
+end
+
+-- process hp/spellslots/saves/thaco/weaponprof and nonweaponprof slots
+function addAdvancement(nodeChar,nodeAdvance,nodeClass)
+    local nHP = DB.getValue(nodeChar,"hp.total",0);
+    local sClass = DB.getValue(nodeClass,"name","");
+    -- exp needed for next level
+    local nEXPNeeded = DB.getValue(nodeAdvance,"expneeded",0);
+    -- get thaco from nodeAdvance or use thaco that exists already if not
+    local nTHACO = DB.getValue(nodeAdvance,"thaco",DB.getValue(nodeChar,"combat.thaco.score",20));
+    local nWeaponProfs = DB.getValue(nodeAdvance,"weaponprofs",0);
+    local nNonWeaponProfs = DB.getValue(nodeAdvance,"nonweaponprofs",0);
+    local sHDice = DB.getValue(nodeAdvance,"hp","");
+    local sArcaneSlots = DB.getValue(nodeAdvance,"arcane","");
+    local sDivineSlots = DB.getValue(nodeAdvance,"divine","");
+    
+    -- class settings
+    DB.setValue(nodeClass,"expneeded","number",nEXPNeeded);
+    
+    -- character settings
+    -- thaco
+    local nodeCombat = nodeChar.getChild("combat");
+    local nodeTHACO = nil;
+    if (not nodeCombat) then
+        nodeCombat = nodeChar.createChild("combat");    
+        nodeTHACO = nodeCombat.createChild("thaco");
+    else
+        nodeTHACO = nodeCombat.getChild("thaco");
+    end
+    DB.setValue(nodeChar,"combat.thaco.score","number",nTHACO);
+    --profs
+    local nodeProfs = nodeChar.getChild("proficiencies");
+    local nodeWeaponProfs = nil;
+    local nodeNonWeaponProfs = nil;
+    if (not nodeProfs) then
+        nodeProfs = nodeChar.createChild("proficiencies");    
+        nodeWeaponProfs = nodeCombat.createChild("weapon");
+        nodeNonWeaponProfs = nodeCombat.createChild("nonweapon");
+    else
+        nodeWeaponProfs = nodeCombat.getChild("weapon");
+        nodeNonWeaponProfs = nodeCombat.getChild("nonweapon");
+    end
+    local nPrevWeaponProf = DB.getValue(nodeChar,"proficiencies.weapon.max",0);
+    DB.setValue(nodeChar,"proficiencies.weapon.max",nWeaponProfs+nPrevWeaponProf);
+    local nPrevNonWeaponProf = DB.getValue(nodeChar,"proficiencies.nonweapon.max",0);
+    DB.setValue(nodeChar,"proficiencies.nonweapon.max",nNonWeaponProfs+nPrevNonWeaponProf);
+  
+    --saves, this isn't working yet, have to deal with multiclassing to get it right.
+    -- local nodeAdvanceSaves = nodeAdvance.getChild("saves");
+    -- if nodeAdvanceSaves then
+-- --Debug.console("manager_char.lua","addAdvancement","nodeAdvanceSaves",nodeAdvanceSaves);
+        -- local nodeSaves = nodeChar.getChild("saves");
+        -- if (not nodeSaves) then
+            -- nodeSaves = nodeChar.createChild("saves");    
+        -- end
+        -- for i=1, #DataCommon.saves do
+            -- local nodeType = nodeSaves.getChild(DataCommon.saves[i]);
+            -- local nodeAdvanceType = nodeAdvanceSaves.getChild(DataCommon.saves[i]);
+            -- if (not nodeType) then
+                -- nodeType = nodeSaves.createChild(DataCommon.saves[i]);
+            -- end
+            -- if (nodeAdvanceType) then
+                -- local nBase = DB.getValue(nodeAdvanceType,"base",0);
+                -- DB.setValue(nodeType,"base","number",nBase);
+            -- end
+        -- end
+    -- end
+    
+    -- spell slots
+    if (sArcaneSlots ~= "") then
+        local aArcaneSlots = StringManager.split(sArcaneSlots, ",", true);
+        if #aArcaneSlots == 9 then
+            for i = 1, #aArcaneSlots do
+                DB.setValue(nodeChar, "powermeta.spellslots" .. i .. ".max", "number", aArcaneSlots[i]);
+            end
+        end
+    end
+    if (sDivineSlots ~= "") then
+        local aDivineSlots = StringManager.split(sDivineSlots, ",", true);
+        if #aDivineSlots == 7 then
+            for i = 1, #aDivineSlots do
+                DB.setValue(nodeChar, "powermeta.pactmagicslots" .. i .. ".max", "number", aDivineSlots[i]);
+            end
+        end
+    end
+    if (sHDice ~= "") then
+        local aDice, nMod = StringManager.convertStringToDice(sHDice);
+        local nHPRoll = 0;
+            if (aDice) then
+                nHPRoll = StringManager.evalDice(aDice, nMod);
+            else
+                nHPRoll = tonumber(sHDice) or 0;
+            end
+        -- Add hit points based on level added
+        local nHP = DB.getValue(nodeChar, "hp.total", 0);
+        local sConBonus = DB.getValue(nodeChar, "abilities.constitution.hitpointadj");
+        local nConBonus = 0;
+        if (sConBonus ~= "" and string.match(sConBonus,"/") ) then
+            local aConBonus = StringManager.split(sConBonus, "/", true);
+            -- if fighter, give higher bonus
+            if StringManager.contains(DataCommonADND.fighterTypes, sClass:lower()) then
+                if aConBonus[2] then
+                    nConBonus = tonumber(aConBonus[2]);
+                else
+                    nConBonus = tonumber(aConBonus[1]);
+                end
+            else
+                nConBonus = tonumber(aConBonus[1]);
+            end
+        elseif (sConBonus ~= "") then
+            nConBonus = tonumber(sConBonus);
+        end
+       	DB.setValue(nodeChar, "hp.total", "number", nHP+nHPRoll+nConBonus);
+        --'%s' gained a level in %s. Gained %d+%d additional HP.
+		local sFormat = Interface.getString("char_abilities_message_leveledup");
+		local sMsg = string.format(sFormat, DB.getValue(nodeChar, "name", ""),sClass,nHPRoll,nConBonus);
+		ChatManager.SystemMessage(sMsg);
+    end --HDice
+    
+    
 end
 
 function addClassFeatureHelper(aSelection, rClassAdd)
@@ -2200,8 +2324,7 @@ function addClassFeatureHelper(aSelection, rClassAdd)
 			end
 		end
 	end
-	
-	-- -- Increment spell slots for spellcasting level
+                -- -- Increment spell slots for spellcasting level
 	-- local nNewCasterLevel = calcSpellcastingLevel(nodeChar);
 	-- if nNewCasterLevel > rClassAdd.nCasterLevel then
 		-- for i = rClassAdd.nCasterLevel + 1, nNewCasterLevel do

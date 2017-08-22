@@ -78,9 +78,16 @@
         "BAC",
     };
     
+    -- these class get con bonus to hp
+    fighterTypes = {
+        "fighter",
+        "ranger",
+        "paladin",
+        "barbarian",        
+    };
+    
 function onInit()
 
-    
     -- default initiative dice size 
 	nDefaultInitiativeDice = 10;
     -- default coin weight, 50 coins = 1 pound

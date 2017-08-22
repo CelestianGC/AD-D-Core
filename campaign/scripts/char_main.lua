@@ -95,6 +95,11 @@ end
 ---
 function updateAbilityScores(node)
     local nodeChar = node.getChild("....");
+    -- onInit doesn't have the same path for node, so we check here so first time
+    -- load works.
+    if (nodeChar == nil and node.getPath():match("^charsheet%.id%-%d+$")) then
+        nodeChar = node;
+    end
 
     AbilityScoreADND.detailsUpdate(nodeChar);
     AbilityScoreADND.detailsPercentUpdate(nodeChar);

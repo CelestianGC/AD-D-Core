@@ -260,7 +260,7 @@ end
 --
 function updateStrength(nodeChar)
 --Debug.console("manager_abilityscores.lua","updateStrength","nodeChar",nodeChar);
-    local dbAbility = AbilityScoreADND.getStrengthProperties(nodeChar);
+    local dbAbility = getStrengthProperties(nodeChar);
     local nScore = dbAbility.score;
     local nPercent = dbAbility.scorepercent;
     
@@ -277,7 +277,7 @@ function updateStrength(nodeChar)
 end
 
 function updateDexterity(nodeChar)
-    local dbAbility = AbilityScoreADND.getDexterityProperties(nodeChar);
+    local dbAbility = getDexterityProperties(nodeChar);
     local nScore = dbAbility.score;
     
     DB.setValue(nodeChar, "abilities.dexterity.reactionadj", "number", dbAbility.reactionadj);
@@ -288,7 +288,7 @@ function updateDexterity(nodeChar)
 end
 
 function updateWisdom(nodeChar)
-    local dbAbility = AbilityScoreADND.getWisdomProperties(nodeChar);
+    local dbAbility = getWisdomProperties(nodeChar);
     local nScore = dbAbility.score;
     
     DB.setValue(nodeChar, "abilities.wisdom.magicdefenseadj", "number", dbAbility.magicdefenseadj);
@@ -300,7 +300,7 @@ function updateWisdom(nodeChar)
 end
 
 function updateConstitution(nodeChar)
-    local dbAbility = AbilityScoreADND.getConstitutionProperties(nodeChar);
+    local dbAbility = getConstitutionProperties(nodeChar);
     local nScore = dbAbility.score;
 
     DB.setValue(nodeChar, "abilities.constitution.hitpointadj", "string", dbAbility.hitpointadj);
@@ -313,7 +313,7 @@ function updateConstitution(nodeChar)
 end
 
 function updateCharisma(nodeChar)
-    local dbAbility = AbilityScoreADND.getCharismaProperties(nodeChar);
+    local dbAbility = getCharismaProperties(nodeChar);
     local nScore = dbAbility.score;
 
     DB.setValue(nodeChar, "abilities.charisma.maxhench", "number", dbAbility.maxhench);
@@ -324,7 +324,7 @@ function updateCharisma(nodeChar)
 end
 
 function updateIntelligence(nodeChar)
-    local dbAbility = AbilityScoreADND.getIntelligenceProperties(nodeChar);
+    local dbAbility = getIntelligenceProperties(nodeChar);
     local nScore = dbAbility.score;
 
     DB.setValue(nodeChar, "abilities.intelligence.languages", "number", dbAbility.languages);

@@ -300,7 +300,7 @@
 	<string name="class_label_exp_needed_tooltip">Experience needed for this class to reach next level.</string>
 	<string name="class_label_total_xp_earned">TOTAL XP</string>
 	<string name="class_label_total_xp_earned_tooltip">Total experience earned for this character.</string>
-	<string name="char_abilities_message_leveledup">'%s' gained a level in %s. Manually apply earned hitpoints.</string>
+	<string name="char_abilities_message_leveledup">'%s' gained a level in %s. Gained %d+%d additional HP.</string>
     <!-- RACE -->
 	<string name="race_header_traits">RACE TRAITS</string>
 	<string name="race_header_proficiencies">RACE WEAPON PROFICIENCIES</string>
