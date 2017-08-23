@@ -819,6 +819,7 @@
 	<string name="library_recordtype_empty_classproficiency">&#171; New Class Proficiency &#187;</string>
 	<string name="library_recordtype_empty_classfeature">&#171; New Class Feature &#187;</string>
 	<string name="library_recordtype_empty_classspecialization">&#171; New Class Specialization &#187;</string>
+	<string name="library_recordtype_empty_classadvancement">&#171; New Class Advancement &#187;</string>
 
     <!-- group list record buttons -->
    	<string name="item_button_templates">Templates</string>

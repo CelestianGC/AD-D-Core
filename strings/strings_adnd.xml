@@ -471,6 +471,7 @@
     <string name="class_header_weaponproficiencies">WEAPON PROFICIENCIES</string>
     <string name="ref_type_nonweaponproficiency">Non-Weapon Proficiency</string>
     <string name="library_recordtype_empty_nonweaponproficiency">&#171; New Non-Weapon Proficiency &#187;</string>
+    <string name="class_header_advancement">ADVANCEMENT</string>
     
     <string name="table_button_import_tooltip">Text import to table.</string>
     <string name="table_import_window_title">IMPORT TABLE</string>

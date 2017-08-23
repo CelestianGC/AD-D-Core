@@ -207,6 +207,34 @@
 			</label_reftype>	
 		</sheetdata>
 	</windowclass>
+	<windowclass name="ref_classadvacement_header">
+		<margins control="0,0,0,2" />
+		<script>
+			function onInit()
+				update();
+			end
+			function update()
+				local bReadOnly = WindowManager.getReadOnlyState(getDatabaseNode());
+				name.setReadOnly(bReadOnly);
+			end
+		</script>
+		<sheetdata>
+			<link_record_header>
+				<class>reference_classadvacement</class>
+			</link_record_header>
+
+			<anchor_record_header_right />
+			<icon_record_locked />
+			<button_record_locked />
+
+			<string_record_name name="name">
+				<empty textres="library_recordtype_empty_classadvacement" />
+			</string_record_name>
+			<label_reftype name="reftype">
+				<static textres="ref_type_classadvacement" />
+			</label_reftype>	
+		</sheetdata>
+	</windowclass>
 	
 	
 	<windowclass name="ref_class_stats">
@@ -338,7 +366,28 @@
 				<datasource>.abilities</datasource>
 				<class>ref_class_specialization</class>
 			</list_column>
-		</sheetdata>
+
+            <!-- advancement -->
+			<header_column name="advancement_header">
+				<static textres="class_header_advancement"/>
+				<center />
+			</header_column>
+			<button_iedit name="advancement_iedit">
+				<anchored to="advancement_header" position="righthigh" offset="-20,0" />
+				<target>advancement</target>
+			</button_iedit>
+			<button_iadd name="advancement_iadd">
+				<anchored to="advancement_iedit" position="lefthigh" offset="5,0" />
+				<target>advancement</target>
+			</button_iadd>
+			<list_column name="advancement">
+				<datasource>.advancement</datasource>
+				<sortby><control>level</control></sortby>
+				<class>ref_class_advancement</class>
+			</list_column>
+            
+
+        </sheetdata>
 	</windowclass>
 
 	<windowclass name="ref_class_proficiency">
@@ -601,6 +650,35 @@
 			
 			<resize_recordsheet />
 			<close_recordsheet />
+		</sheetdata>
+	</windowclass>
+
+	<windowclass name="ref_class_advancement">
+		<margins control="0,0,0,2" />
+		<sheetdata>
+			<anchor_column name="columnanchor" />
+			<anchor_listitem_column_right name="rightanchor" />
+			<link_listitem_column name="shortcut">
+				<class>reference_classadvancement</class>
+			</link_listitem_column>
+			<button_listitem_column_delete name="idelete" />
+
+			<hs name="name" />
+            <label_column name="level_label">
+				<static textres="classfeature_label_level" />
+			</label_column>
+			<number_columnh name="level" />
+			<label_column name="thaco_label">
+				<static textres="thaco" />
+			</label_column>
+			<number_columnh name="thaco" />
+			<label_column name="expneeded_label">
+				<static text="EXPNeeded" />
+			</label_column>
+			<number_columnh name="expneeded" />
+<!-- 			<string_listitem_column_name name="name">
+				<empty textres="library_recordtype_empty_classadvancement" />
+			</string_listitem_column_name> -->
 		</sheetdata>
 	</windowclass>
 	
