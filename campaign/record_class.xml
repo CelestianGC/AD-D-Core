@@ -214,13 +214,12 @@
 				update();
 			end
 			function update()
-				local bReadOnly = WindowManager.getReadOnlyState(getDatabaseNode());
-				name.setReadOnly(bReadOnly);
+				name.setReadOnly(true);
 			end
 		</script>
 		<sheetdata>
 			<link_record_header>
-				<class>reference_classadvacement</class>
+				<class>reference_class_advacement</class>
 			</link_record_header>
 
 			<anchor_record_header_right />
@@ -229,6 +228,7 @@
 
 			<string_record_name name="name">
 				<empty textres="library_recordtype_empty_classadvacement" />
+                <readonly />
 			</string_record_name>
 			<label_reftype name="reftype">
 				<static textres="ref_type_classadvacement" />
@@ -252,50 +252,30 @@
 				specializations.update(bReadOnly);
 				saveas.setReadOnly(bReadOnly);
 				fightas.setReadOnly(bReadOnly);
-                
-                local node = getDatabaseNode();
-                local sSaveClass = DB.getValue(node,"saveas","");
-                local sFightClass = DB.getValue(node,"fightas","");
-                
-                if sSaveClass == "" then
-                    DB.setValue(node,"saveas","string","warrior");
-                end
-                if sFightClass == "" then
-                    DB.setValue(node,"fightas","string","warrior");
-                end
-                
 			end
 		</script>
 		<sheetdata>
 			<anchor_column name="columnanchor" />
-			
-			<label_column name="hitdice_label">
-				<static textres="class_label_hitdice" />
-			</label_column>
-			<string_columnh name="hitdice" source="hp.hitdice.text" />
 
-            <!-- save as -->
-			<label_column name="saveas_label">
-				<static textres="class_label_saveas" />
-			</label_column>
-			<class_cycler_do_as name="saveas">
-                <anchored width="45" height="20">
-                    <top parent="columnanchor" anchor="bottom" relation="relative" offset="7" />
-                    <left offset="97" />
-                </anchored>
-			</class_cycler_do_as>
-            
-            <!-- fight as -->
-			<label_column name="fightas_label">
-				<static textres="class_label_fightas" />
-			</label_column>
-			<class_cycler_do_as name="fightas">
-                <anchored width="45" height="20">
-                    <top parent="columnanchor" anchor="bottom" relation="relative" offset="7" />
-                    <left offset="97" />
-                </anchored>
-			</class_cycler_do_as>
-            
+            <!-- advancement -->
+			<header_column name="advancement_header">
+				<static textres="class_header_advancement"/>
+				<center />
+			</header_column>
+			<button_iedit name="advancement_iedit">
+				<anchored to="advancement_header" position="righthigh" offset="-20,0" />
+				<target>advancement</target>
+			</button_iedit>
+			<button_iadd name="advancement_iadd">
+				<anchored to="advancement_iedit" position="lefthigh" offset="5,0" />
+				<target>advancement</target>
+			</button_iadd>
+			<list_column name="advancement">
+				<datasource>.advancement</datasource>
+				<sortby><control>level</control></sortby>
+				<class>ref_class_advancement</class>
+			</list_column>
+			
 			<header_column name="proficiencies_header"> <!--Weapon Prof-->
 				<static textres="class_header_weaponproficiencies"/>
 				<center />
@@ -367,25 +347,34 @@
 				<class>ref_class_specialization</class>
 			</list_column>
 
-            <!-- advancement -->
-			<header_column name="advancement_header">
-				<static textres="class_header_advancement"/>
+            
+
+			<header_column name="misc_header">
+				<static text="Deprecated Options (ie. Start using Advacement)"/>
 				<center />
 			</header_column>
-			<button_iedit name="advancement_iedit">
-				<anchored to="advancement_header" position="righthigh" offset="-20,0" />
-				<target>advancement</target>
-			</button_iedit>
-			<button_iadd name="advancement_iadd">
-				<anchored to="advancement_iedit" position="lefthigh" offset="5,0" />
-				<target>advancement</target>
-			</button_iadd>
-			<list_column name="advancement">
-				<datasource>.advancement</datasource>
-				<sortby><control>level</control></sortby>
-				<class>ref_class_advancement</class>
-			</list_column>
-            
+ 			<label_column name="hitdice_label">
+				<static textres="class_label_hitdice" />
+			</label_column>
+			<string_columnh name="hitdice" source="hp.hitdice.text" />
+			<label_column name="saveas_label">
+				<static textres="class_label_saveas" />
+			</label_column>
+			<class_cycler_do_as name="saveas">
+                <anchored width="45" height="20">
+                    <top parent="columnanchor" anchor="bottom" relation="relative" offset="7" />
+                    <left offset="97" />
+                </anchored>
+			</class_cycler_do_as>
+			<label_column name="fightas_label">
+				<static textres="class_label_fightas" />
+			</label_column>
+			<class_cycler_do_as name="fightas">
+                <anchored width="45" height="20">
+                    <top parent="columnanchor" anchor="bottom" relation="relative" offset="7" />
+                    <left offset="97" />
+                </anchored>
+			</class_cycler_do_as>
 
         </sheetdata>
 	</windowclass>
@@ -657,7 +646,7 @@
 		<margins control="0,0,0,2" />
         <script>
             function advancementEditor()
-                Interface.openWindow("class_advancement_editor", getDatabaseNode());
+                Interface.openWindow("reference_class_advancement", getDatabaseNode());
             end
             function onInit()
                 local node = getDatabaseNode();
@@ -683,23 +672,24 @@
                 local sHPString = StringManager.convertDiceToString(aDice,nAdjustment);
                 local sLabel ="Level: " .. nLevel .. ", HD: " .. sHPString .. ", Next: " .. nEXPNeeded;
                 advancement_entry_label.setValue(sLabel);
+                name.setValue(sLabel);
             end
         </script>
 		<sheetdata>
 			<anchor_column name="columnanchor" />
 			<anchor_listitem_column_right name="rightanchor" />
 			<link_listitem_column name="shortcut">
-				<class>reference_classadvancement</class>
+				<class>reference_class_advancement</class>
 			</link_listitem_column>
 			<button_listitem_column_delete name="idelete" />
 
-			<hs name="name" />
             <hn name="level" />
+			<hs name="name" />
  			<class_advancement_label name="advancement_entry_label">
-                <anchored>
+                <anchored height="15">
                     <top parent="columnanchor" anchor="bottom" relation="relative" offset="9" />
-                    <left />
-                    <right parent="shortcut" position="left" relation="relative"/>
+                    <left offset="5" />
+                    <right parent="shortcut" position="left" relation="relative" offset="-25"/>
                 </anchored>
             </class_advancement_label> 
 		</sheetdata>
@@ -707,49 +697,42 @@
 	
     <!-- start advancement edit windows-->
     <!-- skill edit window -->
-    <windowclass name="class_advancement_editor">
-		<frame>charsheethelper</frame>
+    <windowclass name="reference_class_advancement">
+		<frame>recordsheet</frame>
 		<placement>
-			<size width="380" height="350" />
+			<size width="380" height="320" />
 		</placement>
 		<sizelimits>
-			<minimum width="380" height="350" />
+			<minimum width="300" height="300" />
 			<dynamic />
 		</sizelimits>
 		<nodelete />
 		<playercontrol />
-		<minimize>minimized_char</minimize>
+		<minimize>minimized_reference</minimize>
 		<tooltip control="level" />
 		<sheetdata>
-			<windowtitlebar_char name="title">
-                <field>level</field>
-				<prefix>class_header_advancement</prefix>
-			</windowtitlebar_char>
-			<anchor_title_charsheethelper name="contentanchor" />
+			<sub_record_header name="header">
+				<class>ref_classadvacement_header</class>
+			</sub_record_header>
 
-			<genericcontrol name="contentframe">
-				<anchored to="contentanchor">
-					<top anchor="bottom" offset="0" />
-					<left />
-					<right />
-					<bottom parent="" offset="-30" />
-				</anchored>
-			</genericcontrol>
+			<frame_record_content />
 
-			<subwindow_record name="main">
+			<sub_ref_content name="content">
 				<class>class_advancement_editor_main</class>
 				<activate />
-			</subwindow_record>
-
-			<scrollbar_record>
-				<target>main</target>
-			</scrollbar_record>
+			</sub_ref_content>
+            <scrollbar_ref_content />
             
-			<resize_charsheethelper />
-			<close_charsheethelper />
+			<resize_recordsheet />
+			<close_recordsheet />
 		</sheetdata>
 	</windowclass>
 	<windowclass name="class_advancement_editor_main">
+        <script>
+            function onInit()
+                level.setFocus();
+            end
+        </script>
 		<sheetdata>
 			<anchor_column name="columnanchor" />
 
@@ -769,26 +752,31 @@
 			<label name="thaco_label">
                 <anchored to="level" position="righthigh" offset="10,0" />
 				<static textres="thaco" />
+                <tooltip textres="class_thaco_tooltip" />
 			</label>
 			<number_class name="thaco">
                 <anchored to="thaco_label" position="righthigh" offset="10,0" width="20" />
+                <tooltip textres="class_thaco_tooltip" />
             </number_class>
 
 			<label_column name="expneeded_label">
 				<static text="EXPNeeded" />
-			</label_column>
+                <tooltip textres="char_tooltip_xpneeded" />
+            </label_column>
 			<number_class_column name="expneeded">
                 <anchored width="100" />
+                <tooltip textres="char_tooltip_xpneeded" />
 			</number_class_column>
 
 			<label_column name="hd_label">
 				<static text="HP Gained" />
 			</label_column>
             <basicdice name="hitdice" source="hp.dice">
-			<anchored width="45" height="20">
-				<top parent="columnanchor" anchor="bottom" relation="relative" offset="7" />
-				<left offset="97" />
-			</anchored>
+                <anchored width="45" height="20">
+                    <top parent="columnanchor" anchor="bottom" relation="relative" offset="7" />
+                    <left offset="97" />
+                </anchored>
+                <tooltip textres="class_hp_dice_tooltip" />
                 <!-- <anchored to="hd_label" position="righthigh" offset="45,0" width="42" height="20" /> -->
             </basicdice>
 			<label name="hitdicemod_label">
@@ -798,6 +786,7 @@
 			<number_class name="adjustment" source="hp.adjustment">
                 <anchored to="hitdicemod_label" position="righthigh" offset="10,0" width="20" />
                 <displaysign />
+                <tooltip textres="class_hp_adjustment_tooltip" />
             </number_class>
 
 			<label_column name="profs_label">
@@ -809,23 +798,28 @@
                     <left offset="97" />
                 </anchored>
 				<static text="Weapon" />
+                <tooltip textres="class_profs_weapon_tooltip" />
             </label>
 			<number_class name="weaponprofs">
                 <anchored to="weaponprofs_label" position="righthigh" offset="10,0" width="20" />
                 <displaysign />
+                <tooltip textres="class_profs_weapon_tooltip" />
             </number_class>
 
             <label name="nonweaponprofs_label">
                 <anchored to="weaponprofs" position="righthigh" offset="10,0" width="75" />
 				<static text="Non-Weapon" />
+                <tooltip textres="class_profs_nonweapon_tooltip" />
             </label>
 			<number_class name="nonweaponprofs">
                 <anchored to="nonweaponprofs_label" position="righthigh" offset="10,0" width="20" />
                 <displaysign />
+                <tooltip textres="class_profs_nonweapon_tooltip" />
             </number_class>
 
 			<label_column name="spell_slots_label">
 				<static text="Spell Slots" />
+                <tooltip textres="class_spellslots_tooltip" />
 			</label_column>
             <genericcontrol name="spell_slots_spacer">
                 <anchored height="20">
@@ -837,6 +831,7 @@
             <!-- arcane -->
 			<label_column name="arcane_label">
 				<static text="Arcane" />
+                <tooltip textres="class_spellslots_arcane_tooltip" />
 			</label_column>
             <!-- level 1-->
 			<number_class_slot_column name="arcane1" source="spells.arcane.level1">
@@ -915,6 +910,7 @@
             <!-- divine -->
 			<label_column name="divine_label">
 				<static text="Divine" />
+                <tooltip textres="class_spellslots_divine_tooltip" />
 			</label_column>
             <!-- level 1-->
 			<number_class_slot_column name="divine1" source="spells.divine.level1">
@@ -947,6 +943,7 @@
             
 			<label_column name="saves_all_label">
 				<static text="Saving Throws" />
+                <tooltip textres="class_saves_tooltip" />
 			</label_column>
             <genericcontrol name="saves_spacer">
                 <anchored height="20">
@@ -957,86 +954,107 @@
             <!-- SAVES -->
 			<label_column name="saves_label">
 				<static text="Saves" />
+                <tooltip textres="class_saves_tooltip" />
 			</label_column>
             <!-- save para-->
 			<number_class_column name="save_paralyzation" source="saves.paralyzation.base">
                 <anchored width="15" />
+                <tooltip textres="paralyzation" />
 			</number_class_column>
             <label_fieldtop>
                 <anchored to="save_paralyzation" />
                 <static text="Pa" />
+                <tooltip textres="paralyzation" />
             </label_fieldtop>
             <!-- save poison-->
 			<number_class_save name="save_poison" source="saves.poison.base">
                 <anchored to="save_paralyzation" position="righthigh" offset="8"/>
+                <tooltip textres="poison" />
 			</number_class_save>
             <label_fieldtop>
                 <anchored to="save_poison" />
                 <static text="Po" />
+                <tooltip textres="poison" />
             </label_fieldtop>
             <!-- save death-->
 			<number_class_save name="save_death" source="saves.death.base">
                 <anchored to="save_poison" position="righthigh" offset="8"/>
+                <tooltip textres="death" />
 			</number_class_save>
             <label_fieldtop>
                 <anchored to="save_death" />
                 <static text="De" />
+                <tooltip textres="death" />
             </label_fieldtop>
             <!-- save rod-->
 			<number_class_save name="save_rod" source="saves.rod.base">
                 <anchored to="save_death" position="righthigh" offset="8"/>
+                <tooltip textres="rod" />
 			</number_class_save>
             <label_fieldtop>
                 <anchored to="save_rod" />
                 <static text="Ro" />
+                <tooltip textres="rod" />
             </label_fieldtop>
             <!-- save staff-->
 			<number_class_save name="save_staff" source="saves.staff.base">
                 <anchored to="save_rod" position="righthigh" offset="8"/>
+                <tooltip textres="staff" />
 			</number_class_save>
             <label_fieldtop>
                 <anchored to="save_staff" />
                 <static text="St" />
+                <tooltip textres="staff" />
             </label_fieldtop>
             <!-- save wand-->
 			<number_class_save name="save_wand" source="saves.wand.base">
                 <anchored to="save_staff"position="righthigh" offset="8"/>
+                <tooltip textres="wand" />
 			</number_class_save>
             <label_fieldtop>
                 <anchored to="save_wand" />
                 <static text="Wa" />
+                <tooltip textres="wand" />
             </label_fieldtop>
             <!-- save petri-->
 			<number_class_save name="save_petrification" source="saves.petrification.base">
                 <anchored to="save_wand"position="righthigh" offset="8"/>
+                <tooltip textres="petrification" />
 			</number_class_save>
             <label_fieldtop>
                 <anchored to="save_petrification" />
                 <static text="Pe" />
+                <tooltip textres="petrification" />
             </label_fieldtop>
             <!-- save poly-->
 			<number_class_save name="save_poly" source="saves.polymorph.base">
                 <anchored to="save_petrification" position="righthigh" offset="8"/>
+                <tooltip textres="polymorph" />
 			</number_class_save>
             <label_fieldtop>
                 <anchored to="save_poly" />
                 <static text="Po" />
+                <tooltip textres="polymorph" />
             </label_fieldtop>
             <!-- save breath-->
 			<number_class_save name="save_breath" source="saves.breath.base">
                 <anchored to="save_poly" position="righthigh" offset="8"/>
+                <tooltip textres="breath" />
 			</number_class_save>
             <label_fieldtop>
                 <anchored to="save_breath" />
                 <static text="Br" />
+                <tooltip textres="breath" />
             </label_fieldtop>
             <!-- save spell-->
 			<number_class_save name="save_spell" source="saves.spell.base">
                 <anchored to="save_breath" position="righthigh" offset="8"/>
+                <tooltip textres="spell" />
 			</number_class_save>
             <label_fieldtop>
                 <anchored to="save_spell" />
                 <static text="Sp" />
+                <tooltip textres="spell" />
             </label_fieldtop>
 
             

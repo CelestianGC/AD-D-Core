@@ -2186,7 +2186,7 @@ function addAdvancement(nodeChar,nodeAdvance,nodeClass)
     
     -- character settings
     -- thaco
-    local nTHACO = DB.getValue(nodeAdvance,"thaco",DB.getValue(nodeChar,"combat.thaco.score",20));
+    local nTHACO = DB.getValue(nodeAdvance,"thaco",0);
     local nodeCombat = nodeChar.getChild("combat");
     local nodeTHACO = nil;
     if (not nodeCombat) then
@@ -2195,7 +2195,10 @@ function addAdvancement(nodeChar,nodeAdvance,nodeClass)
     else
         nodeTHACO = nodeCombat.getChild("thaco");
     end
-    DB.setValue(nodeChar,"combat.thaco.score","number",nTHACO);
+    local nCurrentTHACO = DB.getValue(nodeChar,"combat.thaco.score",20);
+    if nTHACO ~= 0 and nTHACO < nCurrentTHACO then
+        DB.setValue(nodeChar,"combat.thaco.score","number",nTHACO);
+    end
     
     --profs
     local nWeaponProfs = DB.getValue(nodeAdvance,"weaponprofs",0);
@@ -2254,7 +2257,9 @@ function addAdvancement(nodeChar,nodeAdvance,nodeClass)
         for i = 1, 9 do
             local nSlots = DB.getValue(nodeArcaneSlots,"level" .. i,0);
             if (nSlots > 0) then
-                DB.setValue(nodeChar, "powermeta.spellslots" .. i .. ".max", "number", nSlots);
+                local nCurrentSlots = DB.getValue(nodeChar, "powermeta.spellslots" .. i .. ".max",0);
+                local nAdjustedSlots = nCurrentSlots + nSlots;
+                DB.setValue(nodeChar, "powermeta.spellslots" .. i .. ".max", "number", nAdjustedSlots);
             end
         end
     end
@@ -2263,7 +2268,9 @@ function addAdvancement(nodeChar,nodeAdvance,nodeClass)
         for i = 1, 7 do
             local nSlots = DB.getValue(nodeDivineSlots,"level" .. i,0);
             if (nSlots > 0) then
-                DB.setValue(nodeChar, "powermeta.pactmagicslots" .. i .. ".max", "number", nSlots);
+                local nCurrentSlots = DB.getValue(nodeChar, "powermeta.pactmagicslots" .. i .. ".max",0);
+                local nAdjustedSlots = nCurrentSlots + nSlots;
+                DB.setValue(nodeChar, "powermeta.pactmagicslots" .. i .. ".max", "number", nAdjustedSlots);
             end
         end
     end

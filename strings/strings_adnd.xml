@@ -301,6 +301,16 @@
 	<string name="class_label_total_xp_earned">TOTAL XP</string>
 	<string name="class_label_total_xp_earned_tooltip">Total experience earned for this character.</string>
 	<string name="char_abilities_message_leveledup">'%s' gained a level in %s. Gained %d+%d additional HP.</string>
+	<string name="class_hp_dice_tooltip">Dice rolled for hitpoints at this level.</string>
+	<string name="class_hp_adjustment_tooltip">Adjustment applied to hitpoint dice rolled or straight value gained for hitpoints for this level.</string>
+	<string name="class_profs_weapon_tooltip">Weapon proficiencies earned at this level.</string>
+	<string name="class_profs_nonweapon_tooltip">Non-weapon proficiencies earned at this level.</string>
+	<string name="class_spellslots_tooltip">Spell slots ADDED to current total slots for this level. So if they already have 3 and value set to 1 here, it would result in 3+1 (4) slots for that level.</string>
+	<string name="class_spellslots_arcane_tooltip">Arcane spell slots ADDED to current total slots for this level.</string>
+	<string name="class_spellslots_divine_tooltip">Divine spell slots ADDED to current total slots for this level.</string>
+	<string name="class_saves_tooltip">Saves applied for this level. If value set here is higher than current value on character sheet or set to 0 no changes will be made otherwise value as listed will be used.</string>
+	<string name="class_thaco_tooltip">To Hit Armor Class Zero value. If this value is higher than character sheet value or set to zero will be ignored. If lower than character sheet value will be used.</string>
+
     <!-- RACE -->
 	<string name="race_header_traits">RACE TRAITS</string>
 	<string name="race_header_proficiencies">RACE WEAPON PROFICIENCIES</string>
