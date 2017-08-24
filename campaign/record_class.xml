@@ -678,9 +678,9 @@
 		<sheetdata>
 			<anchor_column name="columnanchor" />
 			<anchor_listitem_column_right name="rightanchor" />
-			<link_listitem_column name="shortcut">
+			<!-- <link_listitem_column name="shortcut">
 				<class>reference_class_advancement</class>
-			</link_listitem_column>
+			</link_listitem_column> -->
 			<button_listitem_column_delete name="idelete" />
 
             <hn name="level" />
@@ -688,8 +688,8 @@
  			<class_advancement_label name="advancement_entry_label">
                 <anchored height="15">
                     <top parent="columnanchor" anchor="bottom" relation="relative" offset="9" />
-                    <left offset="5" />
-                    <right parent="shortcut" position="left" relation="relative" offset="-25"/>
+                    <left offset="25" />
+                    <right offset="-30"/>
                 </anchored>
             </class_advancement_label> 
 		</sheetdata>
