@@ -19,20 +19,14 @@ end
 
 -- flip through all classes
 -- and set saves/thaco
-function updateAutoFills(nodeChar)
-    
+function updateAutoFillsFight(nodeChar)
     -- start clean, set values to 20
     DB.setValue(nodeChar, "combat.thaco.score", "number", 20);
-    setDefaultSaves(nodeChar);
     
 	for _,nodeClass in pairs(DB.getChildren(nodeChar, "classes")) do
         local nClassActive = DB.getValue(nodeClass, "classactive", 0);
         local sFightAs = DB.getValue(nodeClass, "fightas", "warrior"):lower();
-        local sSaveAs = DB.getValue(nodeClass, "saveas", "warrior"):lower();
         local nLevel = DB.getValue(nodeClass, "level", 0);
-
---Debug.console("char_autofill.lua", "updateAutoFills", "nodeClass", nodeClass);
-        
         -- ignoring nClassActive for now
         -- THACO
         if (sFightAs == "warrior") then
@@ -47,7 +41,23 @@ function updateAutoFills(nodeChar)
         if (sFightAs == "rogue") then
             setTHACO(nodeChar,nLevel,DataCommonADND.thaco_rogue_rate, DataCommonADND.thaco_rogue_advancement);
         end
+    end -- for classes
 
+end
+function updateAutoFillsSaves(nodeChar)
+    
+    -- start clean, set values to 20
+    setDefaultSaves(nodeChar);
+    
+	for _,nodeClass in pairs(DB.getChildren(nodeChar, "classes")) do
+        local nClassActive = DB.getValue(nodeClass, "classactive", 0);
+        local sSaveAs = DB.getValue(nodeClass, "saveas", "warrior"):lower();
+        local nLevel = DB.getValue(nodeClass, "level", 0);
+
+--Debug.console("char_autofill.lua", "updateAutoFills", "nodeClass", nodeClass);
+        
+        -- ignoring nClassActive for now
+        -- THACO
         -- SAVES
         if (sSaveAs == "warrior") then
             setWarriorSaves(nodeChar,nLevel);

@@ -2045,6 +2045,27 @@ function addClassRef(nodeChar, sClass, sRecord)
 	else
 		nodeClass = nodeList.createChild();
 	end
+	if not bExistingClass then
+        -- setup/copy the save/fight as cyclers. --celestian
+        local sSaveAs = DB.getValue(nodeSource,"saveas","warrior");
+        local sFightAs = DB.getValue(nodeSource,"fightas","warrior");
+        DB.setValue(nodeClass,"saveas","string",sSaveAs);
+        DB.setValue(nodeClass,"fightas","string",sFightAs);
+
+        -- Add proficiencies
+--		if nTotalLevel == 1 then
+			for _,v in pairs(DB.getChildren(nodeSource, "proficiencies")) do
+				addClassProficiencyDB(nodeChar, "reference_classproficiency", v.getPath());
+			end
+			for _,v in pairs(DB.getChildren(nodeSource, "nonweaponprof")) do
+				addClassProficiencyDB(nodeChar, "reference_classproficiency", v.getPath());
+			end
+--		else
+--			for _,v in pairs(DB.getChildren(nodeSource, "multiclassproficiencies")) do
+--				addClassProficiencyDB(nodeChar, "reference_classproficiency", v.getPath());
+--			end
+--		end
+	end
 
 	-- Calculate current spell slots before levelling up
 	--local nCasterLevel = calcSpellcastingLevel(nodeChar);
@@ -2123,28 +2144,6 @@ function addClassRef(nodeChar, sClass, sRecord)
     end
 
     
-	if not bExistingClass then
-        -- setup/copy the save/fight as cyclers. --celestian
-        local sSaveAs = DB.getValue(nodeSource,"saveas","warrior");
-        local sFightAs = DB.getValue(nodeSource,"fightas","warrior");
-        DB.setValue(nodeClass,"saveas","string",sSaveAs);
-        DB.setValue(nodeClass,"fightas","string",sFightAs);
-
-        -- Add proficiencies
---		if nTotalLevel == 1 then
-			for _,v in pairs(DB.getChildren(nodeSource, "proficiencies")) do
-				addClassProficiencyDB(nodeChar, "reference_classproficiency", v.getPath());
-			end
-			for _,v in pairs(DB.getChildren(nodeSource, "nonweaponprof")) do
-				addClassProficiencyDB(nodeChar, "reference_classproficiency", v.getPath());
-			end
---		else
---			for _,v in pairs(DB.getChildren(nodeSource, "multiclassproficiencies")) do
---				addClassProficiencyDB(nodeChar, "reference_classproficiency", v.getPath());
---			end
---		end
-	end
-
     
 	-- Determine whether a specialization is added this level
 	local nodeSpecializationFeature = nil;
@@ -2177,23 +2176,17 @@ end
 
 -- process hp/spellslots/saves/thaco/weaponprof and nonweaponprof slots
 function addAdvancement(nodeChar,nodeAdvance,nodeClass)
-    local nHP = DB.getValue(nodeChar,"hp.total",0);
-    local sClass = DB.getValue(nodeClass,"name","");
+    local sClassName = DB.getValue(nodeClass,"name","");
+    -- get thaco from nodeAdvance or use thaco that exists already if not
+    -- class settings
+
     -- exp needed for next level
     local nEXPNeeded = DB.getValue(nodeAdvance,"expneeded",0);
-    -- get thaco from nodeAdvance or use thaco that exists already if not
-    local nTHACO = DB.getValue(nodeAdvance,"thaco",DB.getValue(nodeChar,"combat.thaco.score",20));
-    local nWeaponProfs = DB.getValue(nodeAdvance,"weaponprofs",0);
-    local nNonWeaponProfs = DB.getValue(nodeAdvance,"nonweaponprofs",0);
-    local sHDice = DB.getValue(nodeAdvance,"hp","");
-    local sArcaneSlots = DB.getValue(nodeAdvance,"arcane","");
-    local sDivineSlots = DB.getValue(nodeAdvance,"divine","");
-    
-    -- class settings
     DB.setValue(nodeClass,"expneeded","number",nEXPNeeded);
     
     -- character settings
     -- thaco
+    local nTHACO = DB.getValue(nodeAdvance,"thaco",DB.getValue(nodeChar,"combat.thaco.score",20));
     local nodeCombat = nodeChar.getChild("combat");
     local nodeTHACO = nil;
     if (not nodeCombat) then
@@ -2203,7 +2196,10 @@ function addAdvancement(nodeChar,nodeAdvance,nodeClass)
         nodeTHACO = nodeCombat.getChild("thaco");
     end
     DB.setValue(nodeChar,"combat.thaco.score","number",nTHACO);
+    
     --profs
+    local nWeaponProfs = DB.getValue(nodeAdvance,"weaponprofs",0);
+    local nNonWeaponProfs = DB.getValue(nodeAdvance,"nonweaponprofs",0);
     local nodeProfs = nodeChar.getChild("proficiencies");
     local nodeWeaponProfs = nil;
     local nodeNonWeaponProfs = nil;
@@ -2220,60 +2216,79 @@ function addAdvancement(nodeChar,nodeAdvance,nodeClass)
     local nPrevNonWeaponProf = DB.getValue(nodeChar,"proficiencies.nonweapon.max",0);
     DB.setValue(nodeChar,"proficiencies.nonweapon.max",nNonWeaponProfs+nPrevNonWeaponProf);
   
-    --saves, this isn't working yet, have to deal with multiclassing to get it right.
-    -- local nodeAdvanceSaves = nodeAdvance.getChild("saves");
-    -- if nodeAdvanceSaves then
--- --Debug.console("manager_char.lua","addAdvancement","nodeAdvanceSaves",nodeAdvanceSaves);
-        -- local nodeSaves = nodeChar.getChild("saves");
-        -- if (not nodeSaves) then
-            -- nodeSaves = nodeChar.createChild("saves");    
-        -- end
-        -- for i=1, #DataCommon.saves do
-            -- local nodeType = nodeSaves.getChild(DataCommon.saves[i]);
-            -- local nodeAdvanceType = nodeAdvanceSaves.getChild(DataCommon.saves[i]);
-            -- if (not nodeType) then
-                -- nodeType = nodeSaves.createChild(DataCommon.saves[i]);
-            -- end
-            -- if (nodeAdvanceType) then
-                -- local nBase = DB.getValue(nodeAdvanceType,"base",0);
-                -- DB.setValue(nodeType,"base","number",nBase);
-            -- end
-        -- end
-    -- end
+    --saves
+    local nodeAdvanceSaves = nodeAdvance.getChild("saves");
+    if nodeAdvanceSaves then
+        local nodeCharSaves = nodeChar.getChild("saves");
+        if (not nodeCharSaves) then
+            nodeCharSaves = nodeChar.createChild("saves");    
+            for i = 1, #DataCommon.saves do
+                local node = nodeCharSaves.createChild(i);
+            end
+        end
+        for i = 1, #DataCommon.saves do
+            local sPath =  "saves." .. DataCommon.saves[i] .. ".base";
+            local nValue = DB.getValue(nodeAdvance,sPath,0);
+            if (nValue ~= 0) then
+                local nCurrentValue = DB.getValue(nodeChar,sPath,20);
+                if (nCurrentValue > nValue) then
+                    -- set value
+                    DB.setValue(nodeChar,sPath,"number",nValue);
+                end
+
+            end -- save didnt' change
+        end -- for
+    end -- no saves listed
     
+    
+    local nodeSpells = nodeAdvance.getChild("spells");
+    local nodeArcaneSlots = nil;
+    local nodeDivineSlots = nil;
+    if (nodeSpells) then
+        nodeArcaneSlots = nodeSpells.getChild("arcane");
+        nodeDivineSlots = nodeSpells.getChild("divine");
+    end
     -- spell slots
-    if (sArcaneSlots ~= "") then
-        local aArcaneSlots = StringManager.split(sArcaneSlots, ",", true);
-        if #aArcaneSlots == 9 then
-            for i = 1, #aArcaneSlots do
-                DB.setValue(nodeChar, "powermeta.spellslots" .. i .. ".max", "number", aArcaneSlots[i]);
+    -- arcane
+    if (nodeArcaneSlots) then
+        for i = 1, 9 do
+            local nSlots = DB.getValue(nodeArcaneSlots,"level" .. i,0);
+            if (nSlots > 0) then
+                DB.setValue(nodeChar, "powermeta.spellslots" .. i .. ".max", "number", nSlots);
             end
         end
     end
-    if (sDivineSlots ~= "") then
-        local aDivineSlots = StringManager.split(sDivineSlots, ",", true);
-        if #aDivineSlots == 7 then
-            for i = 1, #aDivineSlots do
-                DB.setValue(nodeChar, "powermeta.pactmagicslots" .. i .. ".max", "number", aDivineSlots[i]);
+    -- divine
+    if (nodeDivineSlots) then
+        for i = 1, 7 do
+            local nSlots = DB.getValue(nodeDivineSlots,"level" .. i,0);
+            if (nSlots > 0) then
+                DB.setValue(nodeChar, "powermeta.pactmagicslots" .. i .. ".max", "number", nSlots);
             end
         end
     end
+
+    --local sHDice = DB.getValue(nodeAdvance,"hp","");
+    local nHP = DB.getValue(nodeChar,"hp.total",0);
+    local aHDice = DB.getValue(nodeAdvance,"hp.dice");
+    local nHPAdjustment = DB.getValue(nodeAdvance,"hp.adjustment");
+    local sHDice = StringManager.convertDiceToString(aHDice,nHPAdjustment);
+    -- hitpoints
     if (sHDice ~= "") then
-        local aDice, nMod = StringManager.convertStringToDice(sHDice);
+        --local aDice, nMod = StringManager.convertStringToDice(sHDice);
         local nHPRoll = 0;
-            if (aDice) then
-                nHPRoll = StringManager.evalDice(aDice, nMod);
+            if (aHDice) then
+                nHPRoll = StringManager.evalDice(aHDice, nHPAdjustment);
             else
-                nHPRoll = tonumber(sHDice) or 0;
+                nHPRoll = nHPAdjustment;
             end
         -- Add hit points based on level added
-        local nHP = DB.getValue(nodeChar, "hp.total", 0);
         local sConBonus = DB.getValue(nodeChar, "abilities.constitution.hitpointadj");
         local nConBonus = 0;
         if (sConBonus ~= "" and string.match(sConBonus,"/") ) then
             local aConBonus = StringManager.split(sConBonus, "/", true);
             -- if fighter, give higher bonus
-            if StringManager.contains(DataCommonADND.fighterTypes, sClass:lower()) then
+            if StringManager.contains(DataCommonADND.fighterTypes, sClassName:lower()) then
                 if aConBonus[2] then
                     nConBonus = tonumber(aConBonus[2]);
                 else
@@ -2288,7 +2303,7 @@ function addAdvancement(nodeChar,nodeAdvance,nodeClass)
        	DB.setValue(nodeChar, "hp.total", "number", nHP+nHPRoll+nConBonus);
         --'%s' gained a level in %s. Gained %d+%d additional HP.
 		local sFormat = Interface.getString("char_abilities_message_leveledup");
-		local sMsg = string.format(sFormat, DB.getValue(nodeChar, "name", ""),sClass,nHPRoll,nConBonus);
+		local sMsg = string.format(sFormat, DB.getValue(nodeChar, "name", ""),sClassName,nHPRoll,nConBonus);
 		ChatManager.SystemMessage(sMsg);
     end --HDice
     

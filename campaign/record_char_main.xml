@@ -1285,13 +1285,12 @@
                 local sFightClass = DB.getValue(node,"fightas","");
                 
                 local nodeChar = node.getChild("...");
-                if sSaveClass == "" then
-                    DB.setValue(nodeChar,"saveas","string","warrior");
+                if sSaveClass ~= "" then
+                     CharAutoFill.updateAutoFillsSaves(nodeChar);
                 end
-                if sFightClass == "" then
-                    DB.setValue(nodeChar,"fightas","string","warrior");
+                if sFightClass ~= "" then
+                     CharAutoFill.updateAutoFillsFight(nodeChar);
                 end
-                CharAutoFill.updateAutoFills(nodeChar);
             end
             
 		</script>
