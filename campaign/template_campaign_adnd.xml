@@ -706,5 +706,69 @@
 		</button_text_sm>
 	</template>    
     
+    <template name="number_class_column">
+        <number_column>
+            <anchored width="32" height="20" />
+            <hideonvalue>0</hideonvalue>
+            <default>0</default>
+        </number_column>
+    </template>
+    <template name="number_class">
+        <basicnumber>
+            <anchored width="32" height="20" />
+            <hideonvalue>0</hideonvalue>
+            <default>0</default>
+        </basicnumber>
+    </template>
+
+    <template name="number_class_slot_column">
+        <number_column>
+            <anchored width="32" height="20" />
+            <default>0</default>
+        </number_column>
+    </template>
+    <template name="number_class_slot">
+        <basicnumber>
+            <anchored width="15" height="20" />
+            <default>0</default>
+        </basicnumber>
+    </template>
+    
+    <template name="number_class_save">
+        <basicnumber>
+            <anchored width="15" height="20" />
+            <hideonvalue>0</hideonvalue>
+            <default>0</default>
+        </basicnumber>
+    </template>
+
+    <template name="class_advancement_label">
+        <stringfield>
+                <script>
+                    function onClickDown(x,y)
+                        return window.advancementEditor();
+                    end			
+                    function onClickRelease(x,y)
+                        return window.advancementEditor();
+                    end			
+                    function onDoubleClick(x,y)
+                        return window.advancementEditor();
+                    end			
+                </script>
+                <font>arial-regular-8</font>
+                <multilinespacing>12</multilinespacing>
+                <anchored to="rightanchor">
+                    <top />
+                    <left parent="" offset="4" />
+                    <right anchor="left" offset="-4"/>
+                </anchored>
+                <frame name="fielddark" offset="7,8,7,8" />
+                <stateframe>
+                    <hover name="rowshade" offset="7,8,7,8" />
+                </stateframe>
+                <cursor hover="hand" />
+                <readonly />
+        </stringfield>
+    </template>
     
 </root>

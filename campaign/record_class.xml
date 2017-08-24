@@ -655,6 +655,36 @@
 
 	<windowclass name="ref_class_advancement">
 		<margins control="0,0,0,2" />
+        <script>
+            function advancementEditor()
+                Interface.openWindow("class_advancement_editor", getDatabaseNode());
+            end
+            function onInit()
+                local node = getDatabaseNode();
+                DB.addHandler(node.getPath() .. ".level", "onUpdate", updateEntryLabel);
+                DB.addHandler(node.getPath() .. ".expneeded", "onUpdate", updateEntryLabel);
+                DB.addHandler(node.getPath() .. ".hp.dice", "onUpdate", updateEntryLabel);
+                DB.addHandler(node.getPath() .. ".hp.adjustment", "onUpdate", updateEntryLabel);
+                updateEntryLabel();
+            end
+            function onClose()
+                local node = getDatabaseNode();
+                DB.removeHandler(node.getPath() .. ".level", "onUpdate", updateEntryLabel);
+                DB.removeHandler(node.getPath() .. ".expneeded", "onUpdate", updateEntryLabel);
+                DB.removeHandler(node.getPath() .. ".hp.dice", "onUpdate", updateEntryLabel);
+                DB.removeHandler(node.getPath() .. ".hp.adjustment", "onUpdate", updateEntryLabel);
+            end
+            function updateEntryLabel()
+                local node = getDatabaseNode();
+                local nLevel = DB.getValue(node,"level",0);
+                local nEXPNeeded = DB.getValue(node,"expneeded",0);
+                local aDice = DB.getValue(node,"hp.dice");
+                local nAdjustment = DB.getValue(node,"hp.adjustment");
+                local sHPString = StringManager.convertDiceToString(aDice,nAdjustment);
+                local sLabel ="Level: " .. nLevel .. ", HD: " .. sHPString .. ", Next: " .. nEXPNeeded;
+                advancement_entry_label.setValue(sLabel);
+            end
+        </script>
 		<sheetdata>
 			<anchor_column name="columnanchor" />
 			<anchor_listitem_column_right name="rightanchor" />
@@ -664,22 +694,353 @@
 			<button_listitem_column_delete name="idelete" />
 
 			<hs name="name" />
-            <label_column name="level_label">
-				<static textres="classfeature_label_level" />
-			</label_column>
-			<number_columnh name="level" />
-			<label_column name="thaco_label">
-				<static textres="thaco" />
-			</label_column>
-			<number_columnh name="thaco" />
-			<label_column name="expneeded_label">
-				<static text="EXPNeeded" />
-			</label_column>
-			<number_columnh name="expneeded" />
-<!-- 			<string_listitem_column_name name="name">
-				<empty textres="library_recordtype_empty_classadvancement" />
-			</string_listitem_column_name> -->
+            <hn name="level" />
+ 			<class_advancement_label name="advancement_entry_label">
+                <anchored>
+                    <top parent="columnanchor" anchor="bottom" relation="relative" offset="9" />
+                    <left />
+                    <right parent="shortcut" position="left" relation="relative"/>
+                </anchored>
+            </class_advancement_label> 
 		</sheetdata>
 	</windowclass>
 	
+    <!-- start advancement edit windows-->
+    <!-- skill edit window -->
+    <windowclass name="class_advancement_editor">
+		<frame>charsheethelper</frame>
+		<placement>
+			<size width="380" height="350" />
+		</placement>
+		<sizelimits>
+			<minimum width="380" height="350" />
+			<dynamic />
+		</sizelimits>
+		<nodelete />
+		<playercontrol />
+		<minimize>minimized_char</minimize>
+		<tooltip control="level" />
+		<sheetdata>
+			<windowtitlebar_char name="title">
+                <field>level</field>
+				<prefix>class_header_advancement</prefix>
+			</windowtitlebar_char>
+			<anchor_title_charsheethelper name="contentanchor" />
+
+			<genericcontrol name="contentframe">
+				<anchored to="contentanchor">
+					<top anchor="bottom" offset="0" />
+					<left />
+					<right />
+					<bottom parent="" offset="-30" />
+				</anchored>
+			</genericcontrol>
+
+			<subwindow_record name="main">
+				<class>class_advancement_editor_main</class>
+				<activate />
+			</subwindow_record>
+
+			<scrollbar_record>
+				<target>main</target>
+			</scrollbar_record>
+            
+			<resize_charsheethelper />
+			<close_charsheethelper />
+		</sheetdata>
+	</windowclass>
+	<windowclass name="class_advancement_editor_main">
+		<sheetdata>
+			<anchor_column name="columnanchor" />
+
+<!-- 			<label_column name="name_label" >
+				<static textres="skill_label_name" />
+			</label_column>
+ -->			<!-- <string_column name="name" /> -->
+
+			<label_column name="level_label" >
+                <!-- <tooltip textres="char_label_skill_base_check_tooltip" /> -->
+				<static textres="classfeature_label_level" />
+			</label_column>
+			<number_class_column name="level" >
+                <anchored width="20" />
+			</number_class_column>
+
+			<label name="thaco_label">
+                <anchored to="level" position="righthigh" offset="10,0" />
+				<static textres="thaco" />
+			</label>
+			<number_class name="thaco">
+                <anchored to="thaco_label" position="righthigh" offset="10,0" width="20" />
+            </number_class>
+
+			<label_column name="expneeded_label">
+				<static text="EXPNeeded" />
+			</label_column>
+			<number_class_column name="expneeded">
+                <anchored width="100" />
+			</number_class_column>
+
+			<label_column name="hd_label">
+				<static text="HP Gained" />
+			</label_column>
+            <basicdice name="hitdice" source="hp.dice">
+			<anchored width="45" height="20">
+				<top parent="columnanchor" anchor="bottom" relation="relative" offset="7" />
+				<left offset="97" />
+			</anchored>
+                <!-- <anchored to="hd_label" position="righthigh" offset="45,0" width="42" height="20" /> -->
+            </basicdice>
+			<label name="hitdicemod_label">
+                <anchored to="hitdice" position="righthigh" offset="10,0" />
+				<static text=" + " />
+			</label>
+			<number_class name="adjustment" source="hp.adjustment">
+                <anchored to="hitdicemod_label" position="righthigh" offset="10,0" width="20" />
+                <displaysign />
+            </number_class>
+
+			<label_column name="profs_label">
+				<static text="Proficiencies" />
+			</label_column>
+            <label name="weaponprofs_label">
+                <anchored width="55" height="20">
+                    <top parent="columnanchor" anchor="bottom" relation="relative" offset="7" />
+                    <left offset="97" />
+                </anchored>
+				<static text="Weapon" />
+            </label>
+			<number_class name="weaponprofs">
+                <anchored to="weaponprofs_label" position="righthigh" offset="10,0" width="20" />
+                <displaysign />
+            </number_class>
+
+            <label name="nonweaponprofs_label">
+                <anchored to="weaponprofs" position="righthigh" offset="10,0" width="75" />
+				<static text="Non-Weapon" />
+            </label>
+			<number_class name="nonweaponprofs">
+                <anchored to="nonweaponprofs_label" position="righthigh" offset="10,0" width="20" />
+                <displaysign />
+            </number_class>
+
+			<label_column name="spell_slots_label">
+				<static text="Spell Slots" />
+			</label_column>
+            <genericcontrol name="spell_slots_spacer">
+                <anchored height="20">
+                    <top parent="columnanchor" anchor="bottom" relation="relative" offset="7" />
+                    <left offset="97" />
+                </anchored>
+            </genericcontrol>
+            
+            <!-- arcane -->
+			<label_column name="arcane_label">
+				<static text="Arcane" />
+			</label_column>
+            <!-- level 1-->
+			<number_class_slot_column name="arcane1" source="spells.arcane.level1">
+                <anchored width="15" />
+			</number_class_slot_column>
+            <label_fieldtop>
+                <anchored to="arcane1" />
+                <static text="1" />
+            </label_fieldtop>
+            <!-- level 2-->
+			<number_class_slot name="arcane2" source="spells.arcane.level2">
+                <anchored to="arcane1" position="righthigh" offset="8"/>
+			</number_class_slot>
+            <label_fieldtop>
+                <anchored to="arcane2" />
+                <static text="2" />
+            </label_fieldtop>
+            <!-- level 3-->
+			<number_class_slot name="arcane3" source="spells.arcane.level3">
+                <anchored to="arcane2" position="righthigh" offset="8"/>
+			</number_class_slot>
+            <label_fieldtop>
+                <anchored to="arcane3" />
+                <static text="3" />
+            </label_fieldtop>
+            <!-- level 4-->
+			<number_class_slot name="arcane4" source="spells.arcane.level4">
+                <anchored to="arcane3" position="righthigh" offset="8"/>
+			</number_class_slot>
+            <label_fieldtop>
+                <anchored to="arcane4" />
+                <static text="4" />
+            </label_fieldtop>
+            <!-- level 5-->
+			<number_class_slot name="arcane5" source="spells.arcane.level5">
+                <anchored to="arcane4" position="righthigh" offset="8"/>
+			</number_class_slot>
+            <label_fieldtop>
+                <anchored to="arcane5" />
+                <static text="5" />
+            </label_fieldtop>
+            <!-- level 6-->
+			<number_class_slot name="arcane6" source="spells.arcane.level6">
+                <anchored to="arcane5"position="righthigh" offset="8"/>
+			</number_class_slot>
+            <label_fieldtop>
+                <anchored to="arcane6" />
+                <static text="6" />
+            </label_fieldtop>
+            <!-- level 7-->
+			<number_class_slot name="arcane7" source="spells.arcane.level7">
+                <anchored to="arcane6"position="righthigh" offset="8"/>
+			</number_class_slot>
+            <label_fieldtop>
+                <anchored to="arcane7" />
+                <static text="7" />
+            </label_fieldtop>
+            <!-- level 8-->
+			<number_class_slot name="arcane8" source="spells.arcane.level8">
+                <anchored to="arcane7" position="righthigh" offset="8"/>
+			</number_class_slot>
+            <label_fieldtop>
+                <anchored to="arcane8" />
+                <static text="8" />
+            </label_fieldtop>
+            <!-- level 9-->
+			<number_class_slot name="arcane9" source="spells.arcane.level9">
+                <anchored to="arcane8" position="righthigh" offset="8"/>
+			</number_class_slot>
+            <label_fieldtop>
+                <anchored to="arcane9" />
+                <static text="9" />
+            </label_fieldtop>
+            
+            
+            <!-- divine -->
+			<label_column name="divine_label">
+				<static text="Divine" />
+			</label_column>
+            <!-- level 1-->
+			<number_class_slot_column name="divine1" source="spells.divine.level1">
+                <anchored width="15" />
+			</number_class_slot_column>
+            <!-- level 2-->
+			<number_class_slot name="divine2" source="spells.divine.level2">
+                <anchored to="divine1" position="righthigh" offset="8"/>
+			</number_class_slot>
+            <!-- level 3-->
+			<number_class_slot name="divine3" source="spells.divine.level3">
+                <anchored to="divine2" position="righthigh" offset="8"/>
+			</number_class_slot>
+            <!-- level 4-->
+			<number_class_slot name="divine4" source="spells.divine.level4">
+                <anchored to="divine3" position="righthigh" offset="8"/>
+			</number_class_slot>
+            <!-- level 5-->
+			<number_class_slot name="divine5" source="spells.divine.level5">
+                <anchored to="divine4" position="righthigh" offset="8"/>
+			</number_class_slot>
+            <!-- level 6-->
+			<number_class_slot name="divine6" source="spells.divine.level6">
+                <anchored to="divine5"position="righthigh" offset="8"/>
+			</number_class_slot>
+            <!-- level 7-->
+			<number_class_slot name="divine7" source="spells.divine.level7">
+                <anchored to="divine6"position="righthigh" offset="8"/>
+			</number_class_slot>
+            
+			<label_column name="saves_all_label">
+				<static text="Saving Throws" />
+			</label_column>
+            <genericcontrol name="saves_spacer">
+                <anchored height="20">
+                    <top parent="columnanchor" anchor="bottom" relation="relative" offset="7" />
+                    <left offset="97" />
+                </anchored>
+            </genericcontrol>
+            <!-- SAVES -->
+			<label_column name="saves_label">
+				<static text="Saves" />
+			</label_column>
+            <!-- save para-->
+			<number_class_column name="save_paralyzation" source="saves.paralyzation.base">
+                <anchored width="15" />
+			</number_class_column>
+            <label_fieldtop>
+                <anchored to="save_paralyzation" />
+                <static text="Pa" />
+            </label_fieldtop>
+            <!-- save poison-->
+			<number_class_save name="save_poison" source="saves.poison.base">
+                <anchored to="save_paralyzation" position="righthigh" offset="8"/>
+			</number_class_save>
+            <label_fieldtop>
+                <anchored to="save_poison" />
+                <static text="Po" />
+            </label_fieldtop>
+            <!-- save death-->
+			<number_class_save name="save_death" source="saves.death.base">
+                <anchored to="save_poison" position="righthigh" offset="8"/>
+			</number_class_save>
+            <label_fieldtop>
+                <anchored to="save_death" />
+                <static text="De" />
+            </label_fieldtop>
+            <!-- save rod-->
+			<number_class_save name="save_rod" source="saves.rod.base">
+                <anchored to="save_death" position="righthigh" offset="8"/>
+			</number_class_save>
+            <label_fieldtop>
+                <anchored to="save_rod" />
+                <static text="Ro" />
+            </label_fieldtop>
+            <!-- save staff-->
+			<number_class_save name="save_staff" source="saves.staff.base">
+                <anchored to="save_rod" position="righthigh" offset="8"/>
+			</number_class_save>
+            <label_fieldtop>
+                <anchored to="save_staff" />
+                <static text="St" />
+            </label_fieldtop>
+            <!-- save wand-->
+			<number_class_save name="save_wand" source="saves.wand.base">
+                <anchored to="save_staff"position="righthigh" offset="8"/>
+			</number_class_save>
+            <label_fieldtop>
+                <anchored to="save_wand" />
+                <static text="Wa" />
+            </label_fieldtop>
+            <!-- save petri-->
+			<number_class_save name="save_petrification" source="saves.petrification.base">
+                <anchored to="save_wand"position="righthigh" offset="8"/>
+			</number_class_save>
+            <label_fieldtop>
+                <anchored to="save_petrification" />
+                <static text="Pe" />
+            </label_fieldtop>
+            <!-- save poly-->
+			<number_class_save name="save_poly" source="saves.polymorph.base">
+                <anchored to="save_petrification" position="righthigh" offset="8"/>
+			</number_class_save>
+            <label_fieldtop>
+                <anchored to="save_poly" />
+                <static text="Po" />
+            </label_fieldtop>
+            <!-- save breath-->
+			<number_class_save name="save_breath" source="saves.breath.base">
+                <anchored to="save_poly" position="righthigh" offset="8"/>
+			</number_class_save>
+            <label_fieldtop>
+                <anchored to="save_breath" />
+                <static text="Br" />
+            </label_fieldtop>
+            <!-- save spell-->
+			<number_class_save name="save_spell" source="saves.spell.base">
+                <anchored to="save_breath" position="righthigh" offset="8"/>
+			</number_class_save>
+            <label_fieldtop>
+                <anchored to="save_spell" />
+                <static text="Sp" />
+            </label_fieldtop>
+
+            
+            </sheetdata>
+	</windowclass>
+    <!-- end advancement edit windows-->
 </root>
