@@ -2009,9 +2009,6 @@ function addClassRef(nodeChar, sClass, sRecord)
 			bHDFound = true;
 		end
 	end
-	if not bHDFound then
-		ChatManager.SystemMessage(Interface.getString("char_error_addclasshd"));
-	end
 
 	-- Check to see if the character already has this class
 	local sRecordSansModule = StringManager.split(sRecord, "@")[1];
@@ -2108,6 +2105,10 @@ function addClassRef(nodeChar, sClass, sRecord)
     end
 	
     if not bHadAdvancement then
+        -- we don't need this since we added advancement
+        if not bHDFound then
+            ChatManager.SystemMessage(Interface.getString("char_error_addclasshd"));
+        end
         -- Add hit points based on level added
         local nHP = DB.getValue(nodeChar, "hp.total", 0);
         local nConBonus = tonumber(DB.getValue(nodeChar, "abilities.constitution.hitpointadj", 0));
