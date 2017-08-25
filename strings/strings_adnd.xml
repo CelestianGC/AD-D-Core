@@ -300,7 +300,8 @@
 	<string name="class_label_exp_needed_tooltip">Experience needed for this class to reach next level.</string>
 	<string name="class_label_total_xp_earned">TOTAL XP</string>
 	<string name="class_label_total_xp_earned_tooltip">Total experience earned for this character.</string>
-	<string name="char_abilities_message_leveledup">'%s' gained a level in %s. Gained %d+%d additional HP.</string>
+	<string name="char_abilities_message_leveledup">'%s' gained level %d in %s. Gained %d+%d additional HP.</string>
+	<string name="char_abilities_message_leveledup_multi">'%s' gained level %d in %s. Gained %d additional HP.</string>
 	<string name="class_hp_dice_tooltip">Dice rolled for hitpoints at this level.</string>
 	<string name="class_hp_adjustment_tooltip">Adjustment applied to hitpoint dice rolled or straight value gained for hitpoints for this level.</string>
 	<string name="class_profs_weapon_tooltip">Weapon proficiencies earned at this level.</string>

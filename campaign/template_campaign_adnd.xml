@@ -746,7 +746,6 @@
 
     <template name="class_advancement_label">
         <label>
-		
             <script>
             function onClickRelease( button, x, y )
                 window.advancementEditor();
@@ -756,13 +755,13 @@
                 return true;
             end
             </script>
-                <multilinespacing>12</multilinespacing>
-                <frame name="fielddark" offset="7,8,7,8" />
-                <stateframe>
-                    <hover name="rowshade" offset="7,8,7,8" />
-                </stateframe>
-                <cursor hover="hand" />
-                <center />
+           <font>sheettext</font>
+            <!-- <frame name="fielddark" offset="7,8,7,8" /> -->
+            <stateframe>
+                <hover name="rowshade" offset="7,8,7,8" />
+            </stateframe>
+            <cursor hover="hand" />
+            <center />
         </label>
     </template>
 </root>

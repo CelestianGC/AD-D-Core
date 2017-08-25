@@ -241,6 +241,7 @@
 		<margins control="0,0,0,7" />
 		<script>
 			function onInit()
+                checkAdvancement();
 				update();
 			end
 			function update()
@@ -253,6 +254,19 @@
 				saveas.setReadOnly(bReadOnly);
 				fightas.setReadOnly(bReadOnly);
 			end
+            function checkAdvancement()
+                local node = getDatabaseNode();
+                if node then
+                    local nodeAdvancement = node.getChild("advancement");
+                    local nChildCount = DB.getChildCount(node,"advancement");
+                    if nChildCount &lt; 1 then
+                        for i = 1, 20 do
+                            local nodeEntry = nodeAdvancement.createChild();
+                            DB.setValue(nodeEntry,"level","number", i);
+                        end
+                    end
+                end
+            end
 		</script>
 		<sheetdata>
 			<anchor_column name="columnanchor" />
@@ -643,10 +657,12 @@
 	</windowclass>
 
 	<windowclass name="ref_class_advancement">
-		<margins control="0,0,0,2" />
+		<margins control="0,0,2,5" /> 
         <script>
             function advancementEditor()
-                Interface.openWindow("reference_class_advancement", getDatabaseNode());
+                if User.isHost() then
+                    Interface.openWindow("reference_class_advancement", getDatabaseNode());
+                end
             end
             function onInit()
                 local node = getDatabaseNode();
@@ -678,17 +694,14 @@
 		<sheetdata>
 			<anchor_column name="columnanchor" />
 			<anchor_listitem_column_right name="rightanchor" />
-			<!-- <link_listitem_column name="shortcut">
-				<class>reference_class_advancement</class>
-			</link_listitem_column> -->
 			<button_listitem_column_delete name="idelete" />
 
             <hn name="level" />
 			<hs name="name" />
  			<class_advancement_label name="advancement_entry_label">
-                <anchored height="15">
+                <anchored height="13">
                     <top parent="columnanchor" anchor="bottom" relation="relative" offset="9" />
-                    <left offset="25" />
+                    <left offset="5" />
                     <right offset="-30"/>
                 </anchored>
             </class_advancement_label> 

@@ -81,7 +81,7 @@
 	<includefile source="campaign/record_char_weapon.xml" />
 	<includefile source="campaign/record_ability.xml" />
 	<includefile source="campaign/record_adventure.xml" />
-	<script name="CharManager" file="campaign/scripts/manager_char.lua" />
+	<script name="CharManager" file="scripts/manager_char.lua" />
 
 	<includefile source="campaign/record_image.xml" />
 	<includefile source="campaign/record_npc.xml" />

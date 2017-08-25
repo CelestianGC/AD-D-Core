@@ -6,17 +6,6 @@
 function onInit()
 end
 
--- returns the number of classes the character has
-function getClassCount(nodeChar)
-	local nClassCount = 0;
-    
-	for _,nodeClass in pairs(DB.getChildren(nodeChar, "classes")) do
-        nClassCount = nClassCount + 1;
-    end
-    
-    return nClassCount;
-end
-
 -- flip through all classes
 -- and set saves/thaco
 function updateAutoFillsFight(nodeChar)
@@ -25,7 +14,7 @@ function updateAutoFillsFight(nodeChar)
     
 	for _,nodeClass in pairs(DB.getChildren(nodeChar, "classes")) do
         local nClassActive = DB.getValue(nodeClass, "classactive", 0);
-        local sFightAs = DB.getValue(nodeClass, "fightas", "warrior"):lower();
+        local sFightAs = DB.getValue(nodeClass, "fightas", ""):lower();
         local nLevel = DB.getValue(nodeClass, "level", 0);
         -- ignoring nClassActive for now
         -- THACO
@@ -51,7 +40,7 @@ function updateAutoFillsSaves(nodeChar)
     
 	for _,nodeClass in pairs(DB.getChildren(nodeChar, "classes")) do
         local nClassActive = DB.getValue(nodeClass, "classactive", 0);
-        local sSaveAs = DB.getValue(nodeClass, "saveas", "warrior"):lower();
+        local sSaveAs = DB.getValue(nodeClass, "saveas", ""):lower();
         local nLevel = DB.getValue(nodeClass, "level", 0);
 
 --Debug.console("char_autofill.lua", "updateAutoFills", "nodeClass", nodeClass);

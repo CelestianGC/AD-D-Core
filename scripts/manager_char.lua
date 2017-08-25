@@ -2043,25 +2043,13 @@ function addClassRef(nodeChar, sClass, sRecord)
 		nodeClass = nodeList.createChild();
 	end
 	if not bExistingClass then
-        -- setup/copy the save/fight as cyclers. --celestian
-        local sSaveAs = DB.getValue(nodeSource,"saveas","warrior");
-        local sFightAs = DB.getValue(nodeSource,"fightas","warrior");
-        DB.setValue(nodeClass,"saveas","string",sSaveAs);
-        DB.setValue(nodeClass,"fightas","string",sFightAs);
-
         -- Add proficiencies
---		if nTotalLevel == 1 then
-			for _,v in pairs(DB.getChildren(nodeSource, "proficiencies")) do
-				addClassProficiencyDB(nodeChar, "reference_classproficiency", v.getPath());
-			end
-			for _,v in pairs(DB.getChildren(nodeSource, "nonweaponprof")) do
-				addClassProficiencyDB(nodeChar, "reference_classproficiency", v.getPath());
-			end
---		else
---			for _,v in pairs(DB.getChildren(nodeSource, "multiclassproficiencies")) do
---				addClassProficiencyDB(nodeChar, "reference_classproficiency", v.getPath());
---			end
---		end
+        for _,v in pairs(DB.getChildren(nodeSource, "proficiencies")) do
+            addClassProficiencyDB(nodeChar, "reference_classproficiency", v.getPath());
+        end
+        for _,v in pairs(DB.getChildren(nodeSource, "nonweaponprof")) do
+            addClassProficiencyDB(nodeChar, "reference_classproficiency", v.getPath());
+        end
 	end
 
 	-- Calculate current spell slots before levelling up
@@ -2078,12 +2066,6 @@ function addClassRef(nodeChar, sClass, sRecord)
 	if not bExistingClass then
 		DB.setValue(nodeClass, "name", "string", sClassName);
         DB.setValue(nodeClass, "classactive", "number",1);
-
-		local aDice = {};
-		for i = 1, nHDMult do
-			table.insert(aDice, "d" .. nHDSides);
-		end
-		DB.setValue(nodeClass, "hddie", "dice", aDice);
 	end
 	
 	-- Calculate total level
@@ -2105,6 +2087,20 @@ function addClassRef(nodeChar, sClass, sRecord)
     end
 	
     if not bHadAdvancement then
+        -- setup/copy the save/fight as cyclers. --celestian
+        if not bExistingClass then
+            local aDice = {};
+            for i = 1, nHDMult do
+                table.insert(aDice, "d" .. nHDSides);
+            end
+            DB.setValue(nodeClass, "hddie", "dice", aDice);
+            
+            local sSaveAs = DB.getValue(nodeSource,"saveas","warrior");
+            local sFightAs = DB.getValue(nodeSource,"fightas","warrior");
+            DB.setValue(nodeClass,"saveas","string",sSaveAs);
+            DB.setValue(nodeClass,"fightas","string",sFightAs);
+        end
+
         -- we don't need this since we added advancement
         if not bHDFound then
             ChatManager.SystemMessage(Interface.getString("char_error_addclasshd"));
@@ -2178,6 +2174,7 @@ end
 -- process hp/spellslots/saves/thaco/weaponprof and nonweaponprof slots
 function addAdvancement(nodeChar,nodeAdvance,nodeClass)
     local sClassName = DB.getValue(nodeClass,"name","");
+    local nLevel = DB.getValue(nodeClass, "level",0);
     -- get thaco from nodeAdvance or use thaco that exists already if not
     -- class settings
 
@@ -2283,6 +2280,7 @@ function addAdvancement(nodeChar,nodeAdvance,nodeClass)
     local sHDice = StringManager.convertDiceToString(aHDice,nHPAdjustment);
     -- hitpoints
     if (sHDice ~= "") then
+        local nClassCount = getActiveClassCount(nodeChar);
         --local aDice, nMod = StringManager.convertStringToDice(sHDice);
         local nHPRoll = 0;
             if (aHDice) then
@@ -2308,10 +2306,20 @@ function addAdvancement(nodeChar,nodeAdvance,nodeClass)
         elseif (sConBonus ~= "") then
             nConBonus = tonumber(sConBonus);
         end
-       	DB.setValue(nodeChar, "hp.total", "number", nHP+nHPRoll+nConBonus);
+        local nHPAdded = nHPRoll+nConBonus;
+        local bMoreClasses = false;
+        if (nClassCount > 1) then
+            nHPAdded = math.floor((nHPAdded/nClassCount)+0.5);
+            bMoreClasses = true;
+        end
+       	DB.setValue(nodeChar, "hp.total", "number", nHP+nHPAdded);
         --'%s' gained a level in %s. Gained %d+%d additional HP.
 		local sFormat = Interface.getString("char_abilities_message_leveledup");
-		local sMsg = string.format(sFormat, DB.getValue(nodeChar, "name", ""),sClassName,nHPRoll,nConBonus);
+		local sMsg = string.format(sFormat, DB.getValue(nodeChar, "name", ""),nLevel, sClassName,nHPRoll,nConBonus);
+        if bMoreClasses then
+            sFormat = Interface.getString("char_abilities_message_leveledup_multi");
+            sMsg = string.format(sFormat, DB.getValue(nodeChar, "name", ""),nLevel, sClassName .. "(multi)",nHPAdded);
+        end
 		ChatManager.SystemMessage(sMsg);
     end --HDice
     
@@ -2751,3 +2759,29 @@ function getNodeByCT(nodeCT)
     local nodeChar = DB.findNode(sRecord);
     return nodeChar;
 end
+
+-- returns the number of classes the character has
+function getClassCount(nodeChar)
+	local nClassCount = 0;
+    
+	for _,nodeClass in pairs(DB.getChildren(nodeChar, "classes")) do
+        nClassCount = nClassCount + 1;
+    end
+    
+    return nClassCount;
+end
+
+-- returns the number of classes the character has
+function getActiveClassCount(nodeChar)
+	local nClassCount = 0;
+    
+	for _,nodeClass in pairs(DB.getChildren(nodeChar, "classes")) do
+        local nClassActive = DB.getValue(nodeClass, "classactive", 0);
+        if (nClassActive) then
+            nClassCount = nClassCount + 1;
+        end
+    end
+    
+    return nClassCount;
+end
+
