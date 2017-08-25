@@ -311,6 +311,10 @@
 	<string name="class_spellslots_divine_tooltip">Divine spell slots ADDED to current total slots for this level.</string>
 	<string name="class_saves_tooltip">Saves applied for this level. If value set here is higher than current value on character sheet or set to 0 no changes will be made otherwise value as listed will be used.</string>
 	<string name="class_thaco_tooltip">To Hit Armor Class Zero value. If this value is higher than character sheet value or set to zero will be ignored. If lower than character sheet value will be used.</string>
+    <string name="class_expneeded_label">XP Needed</string>
+    <string name="class_expneeded_tooltip">Experience needed to gain another level in this class.</string>
+    <string name="class_hpgained_label">HP Gained</string>
+    <string name="class_hpgained_tooltip">Hit point dice and adjustment, or just adjustment for static value.</string>
 
     <!-- RACE -->
 	<string name="race_header_traits">RACE TRAITS</string>

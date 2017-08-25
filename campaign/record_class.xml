@@ -773,16 +773,17 @@
             </number_class>
 
 			<label_column name="expneeded_label">
-				<static text="EXPNeeded" />
-                <tooltip textres="char_tooltip_xpneeded" />
+				<static textres="class_expneeded_label" />
+                <tooltip textres="class_expneeded_tooltip" />
             </label_column>
 			<number_class_column name="expneeded">
                 <anchored width="100" />
-                <tooltip textres="char_tooltip_xpneeded" />
+                <tooltip textres="class_expneeded_tooltip" />
 			</number_class_column>
 
 			<label_column name="hd_label">
-				<static text="HP Gained" />
+				<static textres="class_hpgained_label" />
+                <tooltip textres="class_hpgained_tooltip" />
 			</label_column>
             <basicdice name="hitdice" source="hp.dice">
                 <anchored width="45" height="20">
