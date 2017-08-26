@@ -2213,9 +2213,9 @@ function addAdvancement(nodeChar,nodeAdvance,nodeClass)
         nodeNonWeaponProfs = nodeCombat.getChild("nonweapon");
     end
     local nPrevWeaponProf = DB.getValue(nodeChar,"proficiencies.weapon.max",0);
-    DB.setValue(nodeChar,"proficiencies.weapon.max",nWeaponProfs+nPrevWeaponProf);
+    DB.setValue(nodeChar,"proficiencies.weapon.max","number", nWeaponProfs+nPrevWeaponProf);
     local nPrevNonWeaponProf = DB.getValue(nodeChar,"proficiencies.nonweapon.max",0);
-    DB.setValue(nodeChar,"proficiencies.nonweapon.max",nNonWeaponProfs+nPrevNonWeaponProf);
+    DB.setValue(nodeChar,"proficiencies.nonweapon.max","number", nNonWeaponProfs+nPrevNonWeaponProf);
   
     --saves
     local nodeAdvanceSaves = nodeAdvance.getChild("saves");
