@@ -21,6 +21,7 @@ function onInit()
     DB.addHandler(DB.getPath(node, "level"), "onUpdate", toggleDetail);
     DB.addHandler(DB.getPath(node, "group"), "onUpdate", toggleDetail);
     DB.addHandler(DB.getPath(node, "type"), "onUpdate", toggleDetail);
+    DB.addHandler(DB.getPath(node, "memorized"), "onUpdate", onDisplayChanged);
     
 -- tweak here for testing --celestian
     if windowlist == nil or not windowlist.isReadOnly() then
@@ -62,6 +63,7 @@ function onClose()
 	DB.removeHandler(DB.getPath(node, "level"), "onUpdate", toggleDetail);
 	DB.removeHandler(DB.getPath(node, "group"), "onUpdate", toggleDetail);
 	DB.removeHandler(DB.getPath(node, "type"), "onUpdate", toggleDetail);
+    DB.removeHandler(DB.getPath(node, "memorized"), "onUpdate", onDisplayChanged);
 end
 
 -- filters out non-memorized spells when in "combat" mode.
