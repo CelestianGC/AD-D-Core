@@ -27,6 +27,7 @@ function onInit()
 
     local node = getDatabaseNode();
     DB.addHandler(DB.getPath(node, "effects"), "onChildUpdate", updateForEffects);
+    DB.addHandler(node.getPath() .. ".active", "onUpdate", toggleNPCCombat);
     -- DB.addHandler(DB.getPath(node, "effects.*.label"), "onChildUpdate", updateForEffects);
     -- DB.addHandler(DB.getPath(node, "effects.*.isactive"), "onChildUpdate", updateForEffects);
     -- DB.addHandler(DB.getPath(node, "effects"), "onChildAdded", updateForEffects);
@@ -37,10 +38,22 @@ end
 function onClose()
     local node = getDatabaseNode();
     DB.removeHandler(DB.getPath(node, "effects"), "onChildUpdate", updateForEffects);
+    DB.removeHandler(node.getPath() .. ".active", "onUpdate", toggleNPCCombat);
     -- DB.removeHandler(DB.getPath(node, "effects.*.label"), "onChildUpdate", updateForEffects);
     -- DB.removeHandler(DB.getPath(node, "effects.*.isactive"), "onChildUpdate", updateForEffects);
     -- DB.removeHandler(DB.getPath(node, "effects"), "onChildAdded", updateForEffects);
     -- DB.removeHandler(DB.getPath(node, "effects"), "onChildDeleted", updateForEffects);
+end
+
+-- toggle combat tab when "active" is updated to 1. "active" means that entry has initiative --celestian
+function toggleNPCCombat()
+    local sClass, sRecord = link.getValue();
+	local bNPC = (sClass ~= "charsheet");    
+    if (bNPC) then
+        local node = getDatabaseNode();
+        local nActive = DB.getValue(node, "active", 0);
+        activateactive.setValue(nActive);
+    end
 end
 
 function updateDisplay()
@@ -328,9 +341,9 @@ function setActiveVisible()
 	local sClass, sRecord = link.getValue();
 	local bNPC = (sClass ~= "charsheet");
     -- this forces combat section to be open up
-	if bNPC and active.getValue() == 1 then
-		v = true;
-	end
+	--if bNPC and active.getValue() == 1 then
+--		v = true;
+--	end
 	
 	activeicon.setVisible(v);
 

@@ -16,6 +16,8 @@ function onInit()
 
 	CombatManager.setCustomRoundStart(onRoundStart);
     CombatManager.setCustomTurnStart(onTurnStart);
+    --CombatManager.setCustomTurnEnd(onTurnEnd);
+    
 	CombatManager.setCustomCombatReset(resetInit);
 
 	OptionsManager.registerCallback("HRDD", onHRDistanceChanged);
