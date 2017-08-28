@@ -327,6 +327,10 @@ function setActiveVisible()
 
 	local sClass, sRecord = link.getValue();
 	local bNPC = (sClass ~= "charsheet");
+    -- this forces combat section to be open up
+	if bNPC and active.getValue() == 1 then
+		v = true;
+	end
 	
 	activeicon.setVisible(v);
 
