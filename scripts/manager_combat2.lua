@@ -431,9 +431,9 @@ function addNPC(sClass, nodeNPC, sName)
 	-- end
 
 	-- -- Add special effects
-	-- if #aEffects > 0 then
-		-- EffectManager.addEffect("", "", nodeEntry, { sName = table.concat(aEffects, "; "), nDuration = 0, nGMOnly = 1 }, false);
-	-- end
+	if #aEffects > 0 then
+		EffectManager.addEffect("", "", nodeEntry, { sName = table.concat(aEffects, "; "), nDuration = 0, nGMOnly = 1 }, false);
+	end
 
     -- check to see if npc effect string exists and if so apply
     local sEffects = DB.getValue(nodeNPC,"effect_combat","");

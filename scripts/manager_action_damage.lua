@@ -825,6 +825,27 @@ function getReductionType(rSource, rTarget, sEffectType)
 	return aFinal;
 end
 
+-- return if item/weapon has magical effect in damage type --celestian
+function isMagicDamage(aDmgType)
+    local bMagic = false;
+    for _,vProperty in ipairs(aDmgType) do
+        if vProperty:match("^magic %+5$") then
+            bMagic = true;
+        elseif vProperty:match("^magic %+4$") then
+            bMagic = true;
+        elseif vProperty:match("^magic %+3$") then
+            bMagic = true;
+        elseif vProperty:match("^magic %+2$") then
+            bMagic = true;
+        elseif vProperty:match("^magic %+1$") then
+            bMagic = true;
+        elseif vProperty:match("^magic$") then
+            bMagic = true;
+        end
+    end
+    return bMagic;
+end
+
 function checkReductionTypeHelper(rMatch, aDmgType)
 	if not rMatch or (rMatch.mod ~= 0) then
 		return false;
@@ -833,6 +854,11 @@ function checkReductionTypeHelper(rMatch, aDmgType)
 		local bMatchNegative = false;
 		for _,vNeg in pairs(rMatch.aNegatives) do
 			if StringManager.contains(aDmgType, vNeg) then
+				bMatchNegative = true;
+				break;
+			end
+            -- check to see if "magic" and if so then see if magic item/weapon used --celestian
+			if vNeg:match("^magic$") and isMagicDamage(aDmgType) then
 				bMatchNegative = true;
 				break;
 			end
