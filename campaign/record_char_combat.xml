@@ -48,31 +48,6 @@
             <!-- END SURPRISE -->
 
             <!-- INIT -->
-            <!-- <basicnumber name="initiative" source="initiative.total">
-                <anchored height="18" width="30" >
-                    <top parent="surprise_total_roll" />
-                    <left parent="surprise_total_roll" anchor="right" relation="relative" offset="15" />
-                </anchored>
-                <rollable />
-                <displaysign />
-				<script>
-                    function action(draginfo)
-                        local rActor = ActorManager.getActor("pc", window.getDatabaseNode());
-                        ActionInit.performRoll(draginfo, rActor);
-                        return true;
-                    end
-                    
-                    function onDragStart(button, x, y, draginfo)
-                        return action(draginfo);
-                    end
-                        
-                    function onDoubleClick(x,y)
-                        return action();
-                    end                    
-				</script>
-                <cursor hover="hand" />
-                <tooltip textres="char_label_initiativeroll_tooltip" />
-            </basicnumber> -->
 			<number_charinit name="initiative" source="initiative.total">
                 <font>sheetlabelmini</font>
                 <anchored height="18" width="30" >

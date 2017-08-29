@@ -506,6 +506,16 @@ function addToWeaponDB(nodeItem)
 	-- Set new weapons as equipped
 	DB.setValue(nodeItem, "carried", "number", 2);
     
+    local sName;
+    if nItemID == 1 then
+        sName = DB.getValue(nodeItem, "name", "");
+    else
+        sName = DB.getValue(nodeItem, "nonid_name", "");
+        if sName == "" then
+            sName = Interface.getString("item_unidentified");
+        end
+        sName = "** " .. sName .. " **";
+    end
     if (bItemHasWeapons) then
         for _,v in pairs(DB.getChildren(nodeItem, "weaponlist")) do
             local nodeWeapon = nodeWeapons.createChild();
@@ -522,16 +532,6 @@ function addToWeaponDB(nodeItem)
         end
         
         -- Grab some information from the source node to populate the new weapon entries
-        local sName;
-        if nItemID == 1 then
-            sName = DB.getValue(nodeItem, "name", "");
-        else
-            sName = DB.getValue(nodeItem, "nonid_name", "");
-            if sName == "" then
-                sName = Interface.getString("item_unidentified");
-            end
-            sName = "** " .. sName .. " **";
-        end
         local nBonus = 0;
         if nItemID == 1 then
             nBonus = DB.getValue(nodeItem, "bonus", 0);

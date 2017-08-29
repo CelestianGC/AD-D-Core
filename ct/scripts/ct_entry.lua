@@ -28,10 +28,6 @@ function onInit()
     local node = getDatabaseNode();
     DB.addHandler(DB.getPath(node, "effects"), "onChildUpdate", updateForEffects);
     DB.addHandler(node.getPath() .. ".active", "onUpdate", toggleNPCCombat);
-    -- DB.addHandler(DB.getPath(node, "effects.*.label"), "onChildUpdate", updateForEffects);
-    -- DB.addHandler(DB.getPath(node, "effects.*.isactive"), "onChildUpdate", updateForEffects);
-    -- DB.addHandler(DB.getPath(node, "effects"), "onChildAdded", updateForEffects);
-    -- DB.addHandler(DB.getPath(node, "effects"), "onChildDeleted", updateForEffects);
     updateForEffects();
 end
 
@@ -39,10 +35,6 @@ function onClose()
     local node = getDatabaseNode();
     DB.removeHandler(DB.getPath(node, "effects"), "onChildUpdate", updateForEffects);
     DB.removeHandler(node.getPath() .. ".active", "onUpdate", toggleNPCCombat);
-    -- DB.removeHandler(DB.getPath(node, "effects.*.label"), "onChildUpdate", updateForEffects);
-    -- DB.removeHandler(DB.getPath(node, "effects.*.isactive"), "onChildUpdate", updateForEffects);
-    -- DB.removeHandler(DB.getPath(node, "effects"), "onChildAdded", updateForEffects);
-    -- DB.removeHandler(DB.getPath(node, "effects"), "onChildDeleted", updateForEffects);
 end
 
 -- toggle combat tab when "active" is updated to 1. "active" means that entry has initiative --celestian
@@ -143,7 +135,6 @@ function onLinkChanged()
     end
 end
 
--- check here to add "RIP" token overlay? -celestian
 function onHealthChanged()
 	local sColor, nPercentWounded, sStatus = ActorManager2.getWoundColor("ct", getDatabaseNode());
 

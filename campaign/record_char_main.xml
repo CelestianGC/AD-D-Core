@@ -13,34 +13,8 @@
 			<anchor_title_charsheet name="contentanchor" >
                 <anchored>
                     <top offset="15" />
-                    <!-- <left parent="" anchor="left" offset="35" />
-                    <right parent="" anchor="right" offset="-30" /> -->
                 </anchored>
             </anchor_title_charsheet>
-			<!-- <number_charlevel name="level">
-				<bounds>0,0,0,0</bounds>
-				<invisible />
-			</number_charlevel> -->
-
-<!-- 			<label_charframetop name="classleveltitle">
-				<anchored to="contentanchor" height="20">
-					<top anchor="bottomleft" relation="relative" offset="7" />
-					<left offset="5" />
-					<right offset="-210" />
-				</anchored>
-				<icons>char_class</icons>
-				<static textres="char_label_classlevel" />
-			</label_charframetop> -->
-            
-            <!-- <genericcontrol name="classleveltitle">
-				<anchored to="contentanchor" height="20">
-					<top anchor="bottomleft" relation="relative" offset="7" />
-					<left offset="5" />
-					<right offset="-210" />
-				</anchored>
-                <disabled />
-                <invisible />
-            </genericcontrol> -->
             
 			<stringc_charclasslevel name="classlevel">
 				<anchored to="contentanchor" height="20">
@@ -48,9 +22,6 @@
 					<left offset="5" />
 					<right offset="-250" />
 				</anchored>
-				<!-- <anchored to="classleveltitle" position="insidetopleft" offset="-5,25">
-					<right offset="-10" />
-				</anchored> -->
 			</stringc_charclasslevel>
             <label name="class_level_label" >
                 <anchored to="classlevel" >
@@ -67,17 +38,8 @@
 			</button_charclasslevel>
 
             
-			<!-- <label_charframetop name="racetitle">
-				<anchored to="nametitle" position="righthigh" offset="35,0" height="20" width="130">
-				</anchored>
-				<icons>char_race</icons>
-				<static textres="char_label_race" />
-			</label_charframetop> -->
 			<stringu name="race">
 				<anchored to="classlevel" position="right" relation="relative" offset="30,0" width="100" />
-				<!-- <anchored to="racetitle" position="belowleft" offset="-5,5" height="20">
-					<right parent="racelink" anchor="left" offset="-5" />
-				</anchored> -->
 			</stringu>
             <label name="race_label" >
                 <anchored to="race" >
@@ -91,7 +53,6 @@
             </label>
 			<linkfield name="racelink">
                 <anchored to="race" position="righthigh" relation="relative" offset="-5,-3" width="20" height="20" />
-				<!-- <anchored to="racetitle" position="belowright" offset="-10,5" width="20" height="20" /> -->
 				<description field="race" />
 				<closetoggle />
 				<invisible />
@@ -109,12 +70,6 @@
 				</script>
 			</linkfield>
             
-			<!-- <label_charframetop name="backgroundtitle">
-				<anchored to="classleveltitle" position="righthigh" offset="35,0" height="20" width="130">
-                </anchored>
-				<icons>char_background</icons>
-				<static textres="char_label_background" />
-			</label_charframetop> -->
 			<stringu name="background">
 				<anchored to="race" position="right" relation="relative" offset="30,0" width="80" />
 			</stringu>
@@ -149,15 +104,6 @@
 
 
 <!-- Ability Scores -->
-			<!-- <label_charframetop name="statstitle">
-				<anchored to="contentanchor" height="20" >
-					<top anchor="bottom" offset="35" relation="relative" />
-					<left offset="5" />
-					<right offset="-140" />
-				</anchored>
-				<icons>char_abilities</icons>
-				<static textres="char_label_stats" />
-			</label_charframetop> -->
 			<label name="statstitle">
 				<anchored to="contentanchor" height="20" width="300" >
 					<top anchor="bottom" offset="10" relation="relative" />
@@ -169,7 +115,7 @@
 			
             <button_charabiltiesdetail name="abilities_details">
                 <tooltip textres="ability_details_tooltip" />
-				<anchored to="statstitle" position="insidetopright" offset="50,0">
+				<anchored to="statstitle" position="insidetopright" offset="90,0">
 				</anchored>
             </button_charabiltiesdetail>
             
@@ -200,13 +146,6 @@
 				<anchored to="strdetailframe" position="insidetopleft" offset="5,6" />
 				<labelres>char_label_ability_percent</labelres>
 				<tooltip textres="char_tooltip_percentile" />
-<!-- 				<script>
-					function onValueChanged()
-                        local rActor = ActorManager.getActor("pc", window.getDatabaseNode());
-                        local sActorType, nodeActor = ActorManager.getTypeAndNode(rActor);
-                        AbilityScoreADND.updateStrength(nodeActor);
-					end
-				</script> -->
 			</percentile_abilityfield>
  			<label_ability_fields>
 				<anchored to="strength_percent" />
