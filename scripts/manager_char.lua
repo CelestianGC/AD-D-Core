@@ -2278,6 +2278,9 @@ function addAdvancement(nodeChar,nodeAdvance,nodeClass)
     local aHDice = DB.getValue(nodeAdvance,"hp.dice");
     local nHPAdjustment = DB.getValue(nodeAdvance,"hp.adjustment");
     local sHDice = StringManager.convertDiceToString(aHDice,nHPAdjustment);
+    local sHDNumber, sHDSize = sHDice:match("(%d+)d(%d+)");
+    local nHDNumber = tonumber(sHDNumber) or 1;
+    local nHDSize = tonumber(sHDSize) or 0;
     -- hitpoints
     if (sHDice ~= "") then
         local nClassCount = getActiveClassCount(nodeChar);
@@ -2287,6 +2290,10 @@ function addAdvancement(nodeChar,nodeAdvance,nodeClass)
                 nHPRoll = StringManager.evalDice(aHDice, nHPAdjustment);
             else
                 nHPRoll = nHPAdjustment;
+            end
+            -- level 1 gets max HP
+            if nLevel == 1 then
+                nHPRoll = nHDNumber*nHDSize+nHPAdjustment;
             end
         -- Add hit points based on level added
         local sConBonus = DB.getValue(nodeChar, "abilities.constitution.hitpointadj");
@@ -2307,16 +2314,22 @@ function addAdvancement(nodeChar,nodeAdvance,nodeClass)
             nConBonus = tonumber(sConBonus);
         end
         local nHPAdded = nHPRoll+nConBonus;
-        local bMoreClasses = false;
         if (nClassCount > 1) then
+            -- this is if they add a another class and the other class is level 1
+            -- also, we need to fiddle with max hp of the previous class rolls.
+            -- this deals with multiclass hp at level 1.
+            -- this doesn't deal with more than 2 classes properly but best I can
+            -- think of --celestian
+            if ((nClassCount == 2) and (getActiveClassMaxLevel(nodeChar) == 1)) then
+                nHP = math.floor((nHP/nClassCount)+0.5); 
+            end
             nHPAdded = math.floor((nHPAdded/nClassCount)+0.5);
-            bMoreClasses = true;
         end
        	DB.setValue(nodeChar, "hp.total", "number", nHP+nHPAdded);
         --'%s' gained a level in %s. Gained %d+%d additional HP.
 		local sFormat = Interface.getString("char_abilities_message_leveledup");
 		local sMsg = string.format(sFormat, DB.getValue(nodeChar, "name", ""),nLevel, sClassName,nHPRoll,nConBonus);
-        if bMoreClasses then
+        if (nClassCount > 1) then
             sFormat = Interface.getString("char_abilities_message_leveledup_multi");
             sMsg = string.format(sFormat, DB.getValue(nodeChar, "name", ""),nLevel, sClassName .. "(multi)",nHPAdded);
         end
@@ -2774,7 +2787,6 @@ end
 -- returns the number of classes the character has
 function getActiveClassCount(nodeChar)
 	local nClassCount = 0;
-    
 	for _,nodeClass in pairs(DB.getChildren(nodeChar, "classes")) do
         local nClassActive = DB.getValue(nodeClass, "classactive", 0);
         if (nClassActive) then
@@ -2785,3 +2797,16 @@ function getActiveClassCount(nodeChar)
     return nClassCount;
 end
 
+-- returns the highest level for all active classes.
+function getActiveClassMaxLevel(nodeChar)
+	local nMaxLevel = 0;
+	for _,nodeClass in pairs(DB.getChildren(nodeChar, "classes")) do
+        local bClassActive = DB.getValue(nodeClass, "classactive", 0);
+        local nLevel = DB.getValue(nodeClass, "level", 0);
+        if (bClassActive and nLevel > nMaxLevel) then
+            nMaxLevel = nLevel;
+        end
+    end
+    
+    return nMaxLevel;
+end

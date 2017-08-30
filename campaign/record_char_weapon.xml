@@ -467,6 +467,7 @@
 			<label_fieldtop>
 				<anchored to="list" position="aboveleft" offset="129,1" width="35" />
 				<static textres="weapon_label_dmgbonus" />
+                <tooltip textres="weapon_label_dmgbonus_tooltip" />
 			</label_fieldtop>
 			<label_fieldtop>
 				<anchored to="list" position="aboveright" offset="5,1">

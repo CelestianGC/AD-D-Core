@@ -329,6 +329,8 @@
 	<string name="weapon_label_hitadj_tooltip">To hit adjustment applied.</string>
 	<string name="weapon_label_dmgadj">DMG</string>
 	<string name="weapon_label_dmgadj_tooltip">Damage adjustment applied.</string>
+    <string name="weapon_label_dmgbonus_tooltip">Adjustment modifier for damage for this weapon.</string>
+
     <!-- Item Record -->
 	<string name="item_label_exp">EXP</string>
     
