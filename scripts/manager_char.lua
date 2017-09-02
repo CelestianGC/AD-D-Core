@@ -2295,28 +2295,30 @@ function addAdvancement(nodeChar,nodeAdvance,nodeClass)
             if nLevel == 1 then
                 nHPRoll = nHDNumber*nHDSize+nHPAdjustment;
             end
-        -- Add hit points based on level added
-        local sConBonus = DB.getValue(nodeChar, "abilities.constitution.hitpointadj");
-        local nConBonus = 0;
-        if (sConBonus ~= "" and string.match(sConBonus,"/") ) then
-            local aConBonus = StringManager.split(sConBonus, "/", true);
-            -- if fighter, give higher bonus
-            if StringManager.contains(DataCommonADND.fighterTypes, sClassName:lower()) then
-                if aConBonus[2] then
-                    nConBonus = tonumber(aConBonus[2]);
-                else
-                    nConBonus = tonumber(aConBonus[1]);
-                end
-            else
-                nConBonus = tonumber(aConBonus[1]);
-            end
-        elseif (sConBonus ~= "") then
-            nConBonus = tonumber(sConBonus);
-        end
-        -- we don't grant con bonus if no longer using hit dice (i.e. only using nHPAdjustment)
-        if (aHDice == nil) then
-            nConBonus = 0;
-        end
+        -- -- Add hit points based on level added
+        -- local sConBonus = DB.getValue(nodeChar, "abilities.constitution.hitpointadj");
+        -- local nConBonus = 0;
+        -- if (sConBonus ~= "" and string.match(sConBonus,"/") ) then
+            -- local aConBonus = StringManager.split(sConBonus, "/", true);
+            -- -- if fighter, give higher bonus
+            -- if StringManager.contains(DataCommonADND.fighterTypes, sClassName:lower()) then
+                -- if aConBonus[2] then
+                    -- nConBonus = tonumber(aConBonus[2]);
+                -- else
+                    -- nConBonus = tonumber(aConBonus[1]);
+                -- end
+            -- else
+                -- nConBonus = tonumber(aConBonus[1]);
+            -- end
+        -- elseif (sConBonus ~= "") then
+            -- nConBonus = tonumber(sConBonus);
+        -- end
+        -- -- we don't grant con bonus if no longer using hit dice (i.e. only using nHPAdjustment)
+        -- if (aHDice == nil) then
+            -- nConBonus = 0;
+        -- end
+        local nConBonus = getConstitutionHPBonus(nodeChar,nodeClass,nodeAdvance);
+        
         local nHPAdded = nHPRoll+nConBonus;
         if (nClassCount > 1) then
             -- this is if they add a another class and the other class is level 1
@@ -2339,7 +2341,6 @@ function addAdvancement(nodeChar,nodeAdvance,nodeClass)
         end
 		ChatManager.SystemMessage(sMsg);
     end --HDice
-    
     
 end
 
@@ -2814,3 +2815,128 @@ function getActiveClassMaxLevel(nodeChar)
     
     return nMaxLevel;
 end
+
+-- return if has inactive class
+function hasInActiveClass(nodeChar)
+	local bInactive = false;
+	for _,nodeClass in pairs(DB.getChildren(nodeChar, "classes")) do
+        local nClassActive = DB.getValue(nodeClass, "classactive", 0);
+        if (not nClassActive) then
+            bInactive = true;
+            break;
+        end
+    end
+    
+    return bInactive;
+end
+-- returns the highest level for inActive classes.
+function getInActiveClassMaxLevel(nodeChar)
+	local nMaxLevel = 0;
+	for _,nodeClass in pairs(DB.getChildren(nodeChar, "classes")) do
+        local bClassActive = DB.getValue(nodeClass, "classactive", 0);
+        local nLevel = DB.getValue(nodeClass, "level", 0);
+        if (not bClassActive and nLevel > nMaxLevel) then
+            nMaxLevel = nLevel;
+        end
+    end
+    return nMaxLevel;
+end
+
+function getConstitutionHPBonus(nodeChar,nodeClass,nodeAdvance)
+    -- Add hit points based on level added
+    local sClassName = DB.getValue(nodeClass,"name","");
+    local aHDice = DB.getValue(nodeAdvance,"hp.dice");
+    local sConBonus = DB.getValue(nodeChar, "abilities.constitution.hitpointadj");
+    local nConBonus = 0;
+    
+    if (sConBonus ~= "" and string.match(sConBonus,"/") ) then
+        local aConBonus = StringManager.split(sConBonus, "/", true);
+        -- if fighter, give higher bonus
+        if StringManager.contains(DataCommonADND.fighterTypes, sClassName:lower()) then
+            if aConBonus[2] then
+                nConBonus = tonumber(aConBonus[2]);
+            else
+                nConBonus = tonumber(aConBonus[1]);
+            end
+        else
+            nConBonus = tonumber(aConBonus[1]);
+        end
+    elseif (sConBonus ~= "") then
+        nConBonus = tonumber(sConBonus);
+    end
+    -- we don't grant con bonus if no longer using hit dice (i.e. only using nHPAdjustment)
+    if (aHDice == nil) then
+            nConBonus = 0;
+    end    
+    return nConBonus;
+end
+
+-- recalculate hp based on new class added at level 1 for multi-class characters
+-- ignore the class we're adding, just recalculate the rest
+function reCalculateHPForMultiClass(nodeChar,nodeClass)
+    local sCurrentClass = DB.getValue(nodeClass,"name","");
+    local nClassCount = getActiveClassCount(nodeChar);
+    local nHPRecalculated = 0;
+    	for _,nodeClass in pairs(DB.getChildren(nodeChar, "classes")) do
+            local sClassName = DB.getValue(nodeClass,"name","");
+            if sClassName ~= sCurrentClass then
+                local nodeAdvance = nil;
+                local sClass, sRecord = DB.getValue(nodeClass, "shortcut", "", ""); 
+                if sRecord and sRecord ~= "" then
+                    nodeAdvance = DB.findNode(sRecord);
+                    if nodeAdvance then
+                        for _,node in pairs(DB.getChildren(nodeAdvance, "advancement")) do
+                            local nAdvanceLevel = DB.getValue(node,"level",0);
+                            if nAdvanceLevel == 1 then
+                                local nHP,nConBonus,nHPAdjustment = getHPRollForAdvancement(nodeChar,nodeClass,node,nClassCount,1);
+                                -- take new value based on new multi-class count
+                                nHPRecalculated = nHPRecalculated + nHP;
+                                break; -- we stop at first one that matches level 1
+                            end
+                        end -- for
+                    end
+                end
+            end
+        end -- for
+    if nHPRecalculated < 1 then
+        nHPRecalculated = 1;
+    end
+    DB.getValue(nodeChar,"hp.total", nHPRecalculated);
+end
+
+-- get hp calculations for new level 
+function getHPRollForAdvancement(nodeChar,nodeClass,nodeAdvance,nClassCount,nLevel)
+    local nHP = 0;
+    local aHDice = DB.getValue(nodeAdvance,"hp.dice");
+    local nHPAdjustment = DB.getValue(nodeAdvance,"hp.adjustment");
+    local sHDice = StringManager.convertDiceToString(aHDice,nHPAdjustment);
+    local sHDNumber, sHDSize = sHDice:match("(%d+)d(%d+)");
+    local nHDNumber = tonumber(sHDNumber) or 1;
+    local nHDSize = tonumber(sHDSize) or 0;
+    local nHPRoll = 0;
+    local nConBonus = getConstitutionHPBonus(nodeChar,nodeClass,nodeAdvance);
+    if aHDice ~= nil then
+        -- level 1 gets max hp
+        if nLevel == 1 then
+            nHPRoll = nHDNumber*nHDSize+nHPAdjustment+nConBonus;
+            if (nClassCount > 1) then
+                nHPRoll = math.floor((nHPRoll/nClassCount)+0.5); 
+            end
+        else
+            nHPRoll = StringManager.evalDice(aHDice, nHPAdjustment) + nConBonus;
+            if (nClassCount > 1) then
+                nHPRoll = math.floor((nHPRoll/nClassCount)+0.5); 
+            end
+        end
+    else
+        nHPRoll = nHPAdjustment;
+    end
+    
+    nHP = nHPRoll;
+    -- they should get at least 1 hp ?
+    -- if nHP < 1 then
+        -- nHP = 1;
+    -- end
+    return nHP, nConBonus, nHPAdjustment;
+end
+
