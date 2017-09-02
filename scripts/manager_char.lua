@@ -2313,6 +2313,10 @@ function addAdvancement(nodeChar,nodeAdvance,nodeClass)
         elseif (sConBonus ~= "") then
             nConBonus = tonumber(sConBonus);
         end
+        -- we don't grant con bonus if no longer using hit dice (i.e. only using nHPAdjustment)
+        if (aHDice == nil) then
+            nConBonus = 0;
+        end
         local nHPAdded = nHPRoll+nConBonus;
         if (nClassCount > 1) then
             -- this is if they add a another class and the other class is level 1
