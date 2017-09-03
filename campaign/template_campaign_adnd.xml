@@ -616,6 +616,7 @@
 					rList.aFilters = {};
 					table.insert(rList.aFilters, { sDBField = "type", vFilterValue = "Arcane" });
 					rList.aGroups = {};
+					table.insert(rList.aGroups, { sDBField = "level" });
 					rList.aGroupValueOrder = { };
 					w.init(rList);
 				end
@@ -645,6 +646,7 @@
 					rList.aFilters = {};
 					table.insert(rList.aFilters, { sDBField = "type", vFilterValue = "Divine" });
 					rList.aGroups = {};
+					table.insert(rList.aGroups, { sDBField = "level" });
 					rList.aGroupValueOrder = { };
 					w.init(rList);
 				end

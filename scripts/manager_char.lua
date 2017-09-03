@@ -2279,50 +2279,8 @@ function addAdvancement(nodeChar,nodeAdvance,nodeClass)
         end
     end
 
-    -- new version to test, remove indicated section when using --celestian
-    -- updateHPForLevel(nodeChar,nodeClass,nodeAdvance);
-
-    ---------START REMOVE ------------
-    local nHP = DB.getValue(nodeChar,"hp.total",0);
-    local aHDice = DB.getValue(nodeAdvance,"hp.dice");
-    local nHPAdjustment = DB.getValue(nodeAdvance,"hp.adjustment");
-    local sHDice = StringManager.convertDiceToString(aHDice,nHPAdjustment);
-    local sHDNumber, sHDSize = sHDice:match("(%d+)d(%d+)");
-    local nHDNumber = tonumber(sHDNumber) or 1;
-    local nHDSize = tonumber(sHDSize) or 0;
-    -- hitpoints
-    if (sHDice ~= "") then
-        local nClassCount = getActiveClassCount(nodeChar);
-        local nHPRoll = 0;
-            if (aHDice) then
-                nHPRoll = StringManager.evalDice(aHDice, nHPAdjustment);
-            else
-                nHPRoll = nHPAdjustment;
-            end
-            if nLevel == 1 then
-                nHPRoll = nHDNumber*nHDSize+nHPAdjustment;
-            end
-
-        local nConBonus = getConstitutionHPBonus(nodeChar,nodeClass,nodeAdvance);
-        
-        local nHPAdded = nHPRoll+nConBonus;
-        if (nClassCount > 1) then
-            if ((nClassCount == 2) and (getActiveClassMaxLevel(nodeChar) == 1)) then
-                nHP = math.floor((nHP/nClassCount)+0.5); 
-            end
-            nHPAdded = math.floor((nHPAdded/nClassCount)+0.5);
-        end
-       	DB.setValue(nodeChar, "hp.total", "number", nHP+nHPAdded);
-		local sFormat = Interface.getString("char_abilities_message_leveledup");
-		local sMsg = string.format(sFormat, DB.getValue(nodeChar, "name", ""),nLevel, sClassName,nHPRoll,nConBonus);
-        if (nClassCount > 1) then
-            sFormat = Interface.getString("char_abilities_message_leveledup_multi");
-            sMsg = string.format(sFormat, DB.getValue(nodeChar, "name", ""),nLevel, sClassName .. "(multi)",nHPAdded);
-        end
-		ChatManager.SystemMessage(sMsg);
-    end --HDice
-    ---------END REMOVE ------------
-    
+    -- calculate hit points for new level (deals with single/multi/dual classing).
+    updateHPForLevel(nodeChar,nodeClass,nodeAdvance);
 end
 
 function addClassFeatureHelper(aSelection, rClassAdd)
@@ -2802,7 +2760,7 @@ function hasInActiveClass(nodeChar)
 	local bInactive = false;
 	for _,nodeClass in pairs(DB.getChildren(nodeChar, "classes")) do
         local nClassActive = DB.getValue(nodeClass, "classactive", 0);
-        if (not nClassActive) then
+        if (nClassActive == 0) then
             bInactive = true;
             break;
         end
@@ -2814,9 +2772,9 @@ end
 function getInActiveClassMaxLevel(nodeChar)
 	local nMaxLevel = 0;
 	for _,nodeClass in pairs(DB.getChildren(nodeChar, "classes")) do
-        local bClassActive = DB.getValue(nodeClass, "classactive", 0);
+        local nClassActive = DB.getValue(nodeClass, "classactive", 0);
         local nLevel = DB.getValue(nodeClass, "level", 0);
-        if (not bClassActive and nLevel > nMaxLevel) then
+        if ((nClassActive == 0) and (nLevel > nMaxLevel)) then
             nMaxLevel = nLevel;
         end
     end
@@ -2833,7 +2791,12 @@ function updateHPForLevel(nodeChar,nodeClass,nodeAdvance)
     local nHPRoll = 0;
     local nConBonus = 0;
     -- check for multi-class PC
-    if nClassCount > 1 then
+    
+    if nClassCount == 1 then
+        -- everything else, single classed
+        nHPRoll,nConBonus = 
+                    getHPRollForAdvancement(nodeChar,nodeClass,nodeAdvance,nClassCount,nLevel);
+    elseif nClassCount > 1 and not hasInActiveClass(nodeChar) then
         -- if level 1 across the board we need to recalculate hp
         -- to adjust for division of hp for a new class
         if (getActiveClassMaxLevel(nodeChar) == 1) then
@@ -2851,15 +2814,14 @@ function updateHPForLevel(nodeChar,nodeClass,nodeAdvance)
         nHPRoll,nConBonus = 
                     getHPRollForAdvancement(nodeChar,nodeClass,nodeAdvance,nClassCount,nLevel);
     else
-        -- everything else, single classed
-        nHPRoll,nConBonus = 
-                    getHPRollForAdvancement(nodeChar,nodeClass,nodeAdvance,nClassCount,nLevel);
+--Debug.console("manager_char.lua","updateHPForLevel","Dual class but new class isn't greater than previous.");
     end
     
     -- now display text from level up hp
     local sFormat = Interface.getString("char_abilities_message_leveledup");
     local sMsg = string.format(sFormat, DB.getValue(nodeChar, "name", ""),nLevel,sClassName,nHPRoll,nConBonus);
     DB.setValue(nodeChar, "hp.total", "number", nHP+nHPRoll);
+    ChatManager.SystemMessage(sMsg);
 end
 
 -- get constitution bonus for this character/class for hp update
@@ -2898,30 +2860,31 @@ function reCalculateHPForMultiClass(nodeChar,nodeClass)
     local sCurrentClass = DB.getValue(nodeClass,"name","");
     local nClassCount = getActiveClassCount(nodeChar);
     local nHPRecalculated = 0;
-    	for _,nodeClass in pairs(DB.getChildren(nodeChar, "classes")) do
-            local sClassName = DB.getValue(nodeClass,"name","");
-            if sClassName ~= sCurrentClass then
-                local nodeAdvance = nil;
-                local sClass, sRecord = DB.getValue(nodeClass, "shortcut", "", ""); 
-                if sRecord and sRecord ~= "" then
-                    nodeAdvance = DB.findNode(sRecord);
-                    if nodeAdvance then
-                        for _,node in pairs(DB.getChildren(nodeAdvance, "advancement")) do
-                            local nAdvanceLevel = DB.getValue(node,"level",0);
-                            if nAdvanceLevel == 1 then
-                                local nHP,nConBonus = getHPRollForAdvancement(nodeChar,nodeClass,node,nClassCount,1);
-                                -- take new value based on new multi-class count
-                                nHPRecalculated = nHPRecalculated + nHP;
-                                local sFormat = Interface.getString("char_abilities_message_leveledup_multi");
-                                local sMsg = string.format(sFormat, DB.getValue(nodeChar, "name", ""),1, sClassName .. "(multi)",nHPAdded);
-                                ChatManager.SystemMessage(sMsg);
-                                break; -- we stop at first one that matches level 1
-                            end
-                        end -- for
-                    end
+    for _,nodeClass in pairs(DB.getChildren(nodeChar, "classes")) do
+        local sClassName = DB.getValue(nodeClass,"name","");
+        if sClassName ~= sCurrentClass then -- skip current class, only deal with others
+            local nodeAdvance = nil;
+            local sClass, sRecord = DB.getValue(nodeClass, "shortcut", "", ""); 
+            if sRecord and sRecord ~= "" then
+                nodeAdvance = DB.findNode(sRecord);
+                if nodeAdvance then
+                    for _,node in pairs(DB.getChildren(nodeAdvance, "advancement")) do
+                        local nAdvanceLevel = DB.getValue(node,"level",0);
+                        if nAdvanceLevel == 1 then
+                            local nHP,nConBonus = getHPRollForAdvancement(nodeChar,nodeClass,node,nClassCount,1);
+                            -- take new value based on new multi-class count
+                            nHPRecalculated = nHPRecalculated + nHP;
+                            DB.setValue(nodeChar, "hp.total", "number", nHPRecalculated);
+                            local sFormat = Interface.getString("char_abilities_message_leveledup_multi");
+                            local sMsg = string.format(sFormat, DB.getValue(nodeChar, "name", ""),1, sClassName .. "(multi)",nHP);
+                            ChatManager.SystemMessage(sMsg);
+                            break; -- we stop at first one that matches level 1
+                        end
+                    end -- for
                 end
             end
-        end -- for
+        end
+    end -- for
     if nHPRecalculated < 1 then
         nHPRecalculated = 1;
     end
@@ -2943,24 +2906,26 @@ function getHPRollForAdvancement(nodeChar,nodeClass,nodeAdvance,nClassCount,nLev
         -- level 1 gets max hp
         if nLevel == 1 then
             nHPRoll = nHDNumber*nHDSize+nHPAdjustment+nConBonus;
-            if (nClassCount > 1) then
+            -- multi-class divides hp
+            if (nClassCount > 1 and not hasInActiveClass(nodeChar)) then
                 nHPRoll = math.floor((nHPRoll/nClassCount)+0.5); 
             end
         else
             nHPRoll = StringManager.evalDice(aHDice, nHPAdjustment) + nConBonus;
-            if (nClassCount > 1) then
+            -- multi-class divides hp
+            if (nClassCount > 1 and not hasInActiveClass(nodeChar)) then
                 nHPRoll = math.floor((nHPRoll/nClassCount)+0.5); 
             end
         end
     else
         nHPRoll = nHPAdjustment;
+        -- multi-class divides hp
+        if (nClassCount > 1 and not hasInActiveClass(nodeChar)) then
+            nHPRoll = math.floor((nHPRoll/nClassCount)+0.5); 
+        end
     end
     
     nHP = nHPRoll;
-    -- they should get at least 1 hp ?
-    -- if nHP < 1 then
-        -- nHP = 1;
-    -- end
     return nHP, nConBonus;
 end
 
