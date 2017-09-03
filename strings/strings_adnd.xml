@@ -459,6 +459,8 @@
     <string name="option_val_disabled">Disabled</string>
     <string name="option_label_HOUSE_RULE_INIT_EACH_ROUND">CT: Auto-Roll Init Each Round</string>
     <string name="option_val_title">Title+Tooltip</string>
+   	<string name="option_label_RIP">Show RIP on tokens to Players</string>
+   	<string name="option_label_RIP_DM">Show RIP on tokens to DM</string>
 
 	<!-- Armor Table (Samarex CnT Ext ) -->
 	<string name="ref_label_list_weight">Wt.</string>

@@ -29,6 +29,8 @@ function onInit()
 
 	DB.addHandler("options.DM_SHOW_NPC_EFFECTS", "onUpdate", TokenManager.onOptionChanged);
 	DB.addHandler("options.DM_SHOW_NPC_HEALTHBAR", "onUpdate", TokenManager.onOptionChanged);
+	DB.addHandler("options.COMBAT_SHOW_RIP", "onUpdate", TokenManager.onOptionChanged);
+	DB.addHandler("options.COMBAT_SHOW_RIP_DM", "onUpdate", TokenManager.onOptionChanged);
 
 	DB.addHandler("options.TPCE", "onUpdate", TokenManager.onOptionChanged);
 	DB.addHandler("options.TPCH", "onUpdate", TokenManager.onOptionChanged);
@@ -192,8 +194,11 @@ function updateHealthHelper(tokenCT, nodeCT)
 			end
 		end
 	end
+    -- show rip on tokens
+    local bOptionShowRIP = OptionsManager.isOption("COMBAT_SHOW_RIP", "on");
+    local bOptionShowRIP_DM = OptionsManager.isOption("COMBAT_SHOW_RIP_DM", "on");
     -- new stuff, adds indicator for "DEAD" on the token. -celestian
-	--local nPercentHealth = ActorManager2.getPercentWounded2("ct", nodeCT);
+    --local nPercentHealth = ActorManager2.getPercentWounded2("ct", nodeCT);
     local widgetDeathIndicator = tokenCT.findWidget("deathindicator");
     local nWidth, nHeight = tokenCT.getSize();
     local sName = DB.getValue(nodeCT,"name","Unknown");
@@ -215,8 +220,11 @@ function updateHealthHelper(tokenCT, nodeCT)
         nHPMax = DB.getValue(nodeActor,"hp.total",0);
         nWounds = DB.getValue(nodeActor,"hp.wounds",0);
     end
-    -- use this, should work for 5e
-    local bPlayDead = nWounds >= nHPMax;
+    -- display if health 0 or lower and option on
+    local bPlayDead = ((nWounds >= nHPMax) and (bOptionShowRIP));
+    if User.isHost() then
+        bPlayDead = ((nWounds >= nHPMax) and (bOptionShowRIP_DM));
+    end
 -- Debug.console("manager_token2.lua","updateHealthHelper","nHPMax",nHPMax);
 -- Debug.console("manager_token2.lua","updateHealthHelper","nWounds",nWounds);
 -- Debug.console("manager_token2.lua","updateHealthHelper","bPlayDead",bPlayDead);
