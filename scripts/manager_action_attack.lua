@@ -401,36 +401,34 @@ function onAttack(rSource, rTarget, rRoll)
 
 	local rAction = {};
 	rAction.nTotal = ActionsManager.total(rRoll);
-    -- add base attack bonus here so it doesn't confuse players and show up as a +tohit --celestian
-    --Debug.console("manager_action_attack.lua","onAttack","rAction.nTotal1",rAction.nTotal);
-    --Debug.console("manager_action_attack.lua","onAttack","rRoll.nBaseAttack",rRoll.nBaseAttack);
+
+    -- add base attack bonus here(converted THACO to BaB remember?) so it doesn't confuse players and show up as a +tohit --celestian
 	rAction.nTotal = rAction.nTotal + rRoll.nBaseAttack;
-    --Debug.console("manager_action_attack.lua","onAttack","rAction.nTotal2",rAction.nTotal);
     
 	rAction.aMessages = {};
 	
 	local nDefenseVal, nAtkEffectsBonus, nDefEffectsBonus = ActorManager2.getDefenseValue(rSource, rTarget, rRoll);
-
-Debug.console("manager_action_attack.lua","onAttack","nDefenseVal",nDefenseVal);
-Debug.console("manager_action_attack.lua","onAttack","nAtkEffectsBonus",nAtkEffectsBonus);
-Debug.console("manager_action_attack.lua","onAttack","nDefEffectsBonus",nDefEffectsBonus);
-
 	if nAtkEffectsBonus ~= 0 then
 		rAction.nTotal = rAction.nTotal + nAtkEffectsBonus;
 		local sFormat = "[" .. Interface.getString("effects_tag") .. " %+d]"
 		table.insert(rAction.aMessages, string.format(sFormat, nAtkEffectsBonus));
 	end
 
-	-- insert AC hit
-    if rSource ~= nil then
-        local nACHit = (20 - rAction.nTotal);
-        rMessage.text = rMessage.text .. "[AC: " .. nACHit .. " ]" .. table.concat(rAction.aMessages, " ");
-    end
 	if nDefEffectsBonus ~= 0 then
 		nDefenseVal = nDefenseVal + nDefEffectsBonus;
 		local sFormat = "[" .. Interface.getString("effects_def_tag") .. " %+d]"
 		table.insert(rAction.aMessages, string.format(sFormat, nDefEffectsBonus));
 	end
+	-- insert AC hit
+    if rSource ~= nil then
+        local nACHit = (20 - rAction.nTotal);
+        if (nDefenseVal and nDefenseVal ~= 0) then
+            local nTargetAC = (20 - nDefenseVal);
+            rMessage.text = rMessage.text .. "[Hit-AC: " .. nACHit .. " vs. ".. nTargetAC .." ]" .. table.concat(rAction.aMessages, " ");
+        end
+        table.insert(rAction.aMessages, string.format("[AC: %d ]" , nACHit) );
+        --rMessage.text = rMessage.text .. "[AC: " .. nACHit .. " ]" .. table.concat(rAction.aMessages, " ");
+    end
 	
 	local sCritThreshold = string.match(rRoll.sDesc, "%[CRIT (%d+)%]");
 	local nCritThreshold = tonumber(sCritThreshold) or 20;
@@ -449,9 +447,8 @@ Debug.console("manager_action_attack.lua","onAttack","nDefEffectsBonus",nDefEffe
 	elseif rAction.nFirstDie == 1 then
 		rAction.sResult = "fumble";
 		table.insert(rAction.aMessages, "[AUTOMATIC MISS]");
-	elseif nDefenseVal then
-	    --print ("in manager_action_attack, onAttack nDefenseVal=" .. nDefenseVal);
-
+	elseif nDefenseVal and nDefenseVal ~= 0 then
+--Debug.console("manager_action_attack.lua","onAttack","nDefenseVal",nDefenseVal);
 		if rAction.nTotal >= nDefenseVal then
             rMessage.font = "hitfont";
             rMessage.icon = "chat_hit";
