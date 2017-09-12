@@ -5,8 +5,8 @@
   attribution and copyright information.
 -->
 
-<root version="3.0" release="16" logo="logo.png">
-	<announcement text="AD&amp;D Core v2017.09.03 For Fantasy Grounds\r--by Celestian 2017" font="emotefont" icon="rulesetlogo_ADnD" />
+<root version="3.0" release="18" logo="logo.png">
+	<announcement text="AD&amp;D Core v2017.09.11 For Fantasy Grounds\r--by Celestian 2017" font="emotefont" icon="rulesetlogo_ADnD" />
 
 	<!-- Attributes -->
 	<description>

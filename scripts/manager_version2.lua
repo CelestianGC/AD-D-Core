@@ -4,7 +4,7 @@
 --
 
 local rsname = "AD&D Core";
-local rsmajorversion = 16;
+local rsmajorversion = 18;
 
 function onInit()
 	if User.isHost() or User.isLocal() then
@@ -100,6 +100,9 @@ function updateCampaign()
 		end
 		if major < 16 then
            updateNPCs16();
+		end
+		if major < 18 then
+           updateNPCs18();
 		end
 	end
 end
@@ -452,7 +455,7 @@ function updateNPCs()
         -- AbilityScoreADND.updateStrength(nodeNPC,DB.getValue(nodeNPC,"strength",10));
         -- AbilityScoreADND.updateDexterity(nodeNPC,DB.getValue(nodeNPC,"dexterity",10));
         -- AbilityScoreADND.updateWisdom(nodeNPC,DB.getValue(nodeNPC,"wisdom",10));
-        -- AbilityScoreADND.updateConstitution(nodeNPC,DB.getValue(nodeNPC,"consitution",10));
+        -- AbilityScoreADND.updateConstitution(nodeNPC,DB.getValue(nodeNPC,"constitution",10));
         -- AbilityScoreADND.updateCharisma(nodeNPC,DB.getValue(nodeNPC,"charisma",10));
         -- AbilityScoreADND.updateIntelligence(nodeNPC,DB.getValue(nodeNPC,"intelligence",10));
 
@@ -464,22 +467,32 @@ function updateNPCs16()
 	for _,nodeNPC in pairs(DB.getChildren("combattracker.list")) do
         local sClass, sRecord = DB.getValue(nodeNPC, "link", "", "");
         if (sClass == "npc") then
-            fixNPCAbilitySaves(nodeNPC);
+            fixNPCAbilities(nodeNPC);
+            fixNPCSaves(nodeNPC);
         end
 	end
     -- fix all npc records
 	for _,nodeNPC in pairs(DB.getChildren("npc")) do
-        fixNPCAbilitySaves(nodeNPC);
+            fixNPCAbilities(nodeNPC);
+            fixNPCSaves(nodeNPC);
 	end
 end
 
-function fixNPCAbilitySaves(nodeNPC)    
-    -- set default saves for HDice.
---Debug.console("manager_version2.lua","updateNPCs","nodeNPC",nodeNPC);
-    if (DB.getValue(nodeNPC, "saves.poison.score",0) == 0) then
-        CombatManager2.updateNPCSaves(nodeNPC, nodeNPC, true);
-    end
-    
+function updateNPCs18()
+    -- fix all combat tracker records
+	for _,nodeNPC in pairs(DB.getChildren("combattracker.list")) do
+        local sClass, sRecord = DB.getValue(nodeNPC, "link", "", "");
+        if (sClass == "npc") then
+            fixNPCAbilities(nodeNPC);
+        end
+	end
+    -- fix all npc records
+	for _,nodeNPC in pairs(DB.getChildren("npc")) do
+        fixNPCAbilities(nodeNPC);
+	end
+end
+
+function fixNPCAbilities(nodeNPC)    
     if DB.getChildCount(nodeNPC, "abilities") < 6 then
 --Debug.console("manager_version2.lua","updateNPCs","nodeNPC Add abilities",nodeNPC);
         local nodeAbilites = nodeNPC.createChild("abilities");
@@ -493,14 +506,14 @@ function fixNPCAbilitySaves(nodeNPC)
     DB.setValue(nodeNPC,"abilities.strength.base","number",DB.getValue(nodeNPC,"abilities.strength.base",10));
     DB.setValue(nodeNPC,"abilities.dexterity.base","number",DB.getValue(nodeNPC,"abilities.dexterity.base",10));
     DB.setValue(nodeNPC,"abilities.wisdom.base","number",DB.getValue(nodeNPC,"abilities.wisdom.base",10));
-    DB.setValue(nodeNPC,"abilities.consitution.base","number",DB.getValue(nodeNPC,"abilities.consitution.base",10));
+    DB.setValue(nodeNPC,"abilities.constitution.base","number",DB.getValue(nodeNPC,"abilities.constitution.base",10));
     DB.setValue(nodeNPC,"abilities.charisma.base","number",DB.getValue(nodeNPC,"abilities.charisma.base",10));
     DB.setValue(nodeNPC,"abilities.intelligence.base","number",DB.getValue(nodeNPC,"abilities.intelligence.base",10));
 
     DB.setValue(nodeNPC,"abilities.strength.total","number",DB.getValue(nodeNPC,"abilities.strength.total",10));
     DB.setValue(nodeNPC,"abilities.dexterity.total","number",DB.getValue(nodeNPC,"abilities.dexterity.total",10));
     DB.setValue(nodeNPC,"abilities.wisdom.total","number",DB.getValue(nodeNPC,"abilities.wisdom.total",10));
-    DB.setValue(nodeNPC,"abilities.consitution.total","number",DB.getValue(nodeNPC,"abilities.consitution.total",10));
+    DB.setValue(nodeNPC,"abilities.constitution.total","number",DB.getValue(nodeNPC,"abilities.constitution.total",10));
     DB.setValue(nodeNPC,"abilities.charisma.total","number",DB.getValue(nodeNPC,"abilities.charisma.total",10));
     DB.setValue(nodeNPC,"abilities.intelligence.total","number",DB.getValue(nodeNPC,"abilities.intelligence.total",10));
     AbilityScoreADND.updateStrength(nodeNPC);
@@ -509,4 +522,12 @@ function fixNPCAbilitySaves(nodeNPC)
     AbilityScoreADND.updateConstitution(nodeNPC);
     AbilityScoreADND.updateCharisma(nodeNPC);
     AbilityScoreADND.updateIntelligence(nodeNPC);
+end
+
+function fixNPCSaves(nodeNPC)    
+    -- set default saves for HDice.
+--Debug.console("manager_version2.lua","updateNPCs","nodeNPC",nodeNPC);
+    if (DB.getValue(nodeNPC, "saves.poison.score",0) == 0) then
+        CombatManager2.updateNPCSaves(nodeNPC, nodeNPC, true);
+    end
 end

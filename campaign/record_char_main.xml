@@ -1269,11 +1269,13 @@
             <!-- save as -->
 			<class_cycler_do_as name="saveas">
 				<anchored to="spacer" position="lefthigh" offset="5,0" width="45" />
+                <gmeditonly />
 			</class_cycler_do_as>
 
             <!-- fight as -->
 			<class_cycler_do_as name="fightas">
 				<anchored to="saveas" position="lefthigh" offset="25,0" width="45" />
+                <gmeditonly />
 			</class_cycler_do_as>
 
             <!-- hd used -->
