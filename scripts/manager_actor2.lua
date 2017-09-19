@@ -42,7 +42,7 @@ function getPercentWounded2(sNodeType, node)
             -- if nDeathSaveFail >= 3 then
                 -- sStatus = "Dead";
             -- else
-            if EffectManager.hasEffect(rActor, "Stable") then
+            if EffectManager5E.hasEffect(rActor, "Stable") then
                 sStatus = "Unconscious";
             else
                 sStatus = "Dying";
@@ -110,7 +110,7 @@ function getAbilityEffectsBonus(rActor, sAbility, sType)
 		-- return 0, 0;
 	-- end
 	
-	local nAbilityMod, nAbilityEffects = EffectManager.getEffectsBonus(rActor, sAbilityEffect, true);
+	local nAbilityMod, nAbilityEffects = EffectManager5E.getEffectsBonus(rActor, sAbilityEffect, true);
 	
 	-- local nAbilityScore = getAbilityScore(rActor, sAbility);
 	-- if nAbilityScore > 0 then
@@ -311,58 +311,58 @@ function getDefenseAdvantage(rAttacker, rDefender, aAttackFilter)
 	local bProne = false;
 	
 	if ActorManager.hasCT(rDefender) then
-		if EffectManager.hasEffect(rAttacker, "ADVATK", rDefender, true) then
+		if EffectManager5E.hasEffect(rAttacker, "ADVATK", rDefender, true) then
 			bADV = true;
-		elseif #(EffectManager.getEffectsByType(rAttacker, "ADVATK", aAttackFilter, rDefender, true)) > 0 then
+		elseif #(EffectManager5E.getEffectsByType(rAttacker, "ADVATK", aAttackFilter, rDefender, true)) > 0 then
 			bADV = true;
 		end
-		if EffectManager.hasEffect(rAttacker, "DISATK", rDefender, true) then
+		if EffectManager5E.hasEffect(rAttacker, "DISATK", rDefender, true) then
 			bDIS = true;
-		elseif #(EffectManager.getEffectsByType(rAttacker, "DISATK", aAttackFilter, rDefender, true)) > 0 then
-			bDIS = true;
-		end
-		if EffectManager.hasEffect(rAttacker, "Invisible", rDefender, true) then
-			bADV = true;
-		end
-		if EffectManager.hasEffect(rDefender, "GRANTADVATK", rAttacker) then
-			bADV = true;
-		elseif #(EffectManager.getEffectsByType(rDefender, "GRANTADVATK", aAttackFilter, rAttacker)) > 0 then
-			bADV = true;
-		end
-		if EffectManager.hasEffect(rDefender, "GRANTDISATK", rAttacker) then
-			bDIS = true;
-		elseif #(EffectManager.getEffectsByType(rDefender, "GRANTDISATK", aAttackFilter, rAttacker)) > 0 then
+		elseif #(EffectManager5E.getEffectsByType(rAttacker, "DISATK", aAttackFilter, rDefender, true)) > 0 then
 			bDIS = true;
 		end
-		if EffectManager.hasEffect(rDefender, "Blinded", rAttacker) then
+		if EffectManager5E.hasEffect(rAttacker, "Invisible", rDefender, true) then
 			bADV = true;
 		end
-		if EffectManager.hasEffect(rDefender, "Invisible", rAttacker) then
+		if EffectManager5E.hasEffect(rDefender, "GRANTADVATK", rAttacker) then
+			bADV = true;
+		elseif #(EffectManager5E.getEffectsByType(rDefender, "GRANTADVATK", aAttackFilter, rAttacker)) > 0 then
+			bADV = true;
+		end
+		if EffectManager5E.hasEffect(rDefender, "GRANTDISATK", rAttacker) then
+			bDIS = true;
+		elseif #(EffectManager5E.getEffectsByType(rDefender, "GRANTDISATK", aAttackFilter, rAttacker)) > 0 then
 			bDIS = true;
 		end
-		if EffectManager.hasEffect(rDefender, "Paralyzed", rAttacker) then
+		if EffectManager5E.hasEffect(rDefender, "Blinded", rAttacker) then
 			bADV = true;
 		end
-		if EffectManager.hasEffect(rDefender, "Prone", rAttacker) then
+		if EffectManager5E.hasEffect(rDefender, "Invisible", rAttacker) then
+			bDIS = true;
+		end
+		if EffectManager5E.hasEffect(rDefender, "Paralyzed", rAttacker) then
+			bADV = true;
+		end
+		if EffectManager5E.hasEffect(rDefender, "Prone", rAttacker) then
 			bProne = true;
 		end
-		if EffectManager.hasEffect(rDefender, "Restrained", rAttacker) then
+		if EffectManager5E.hasEffect(rDefender, "Restrained", rAttacker) then
 			bADV = true;
 		end
-		if EffectManager.hasEffect(rDefender, "Stunned", rAttacker) then
+		if EffectManager5E.hasEffect(rDefender, "Stunned", rAttacker) then
 			bADV = true;
 		end
-		if EffectManager.hasEffect(rDefender, "Unconscious", rAttacker) then
+		if EffectManager5E.hasEffect(rDefender, "Unconscious", rAttacker) then
 			bADV = true;
 			bProne = true;
 		end
-		if EffectManager.hasEffect(rDefender, "Dodge", rAttacker) and 
-				not (EffectManager.hasEffect(rDefender, "Paralyzed", rAttacker) or
-				EffectManager.hasEffect(rDefender, "Stunned", rAttacker) or
-				EffectManager.hasEffect(rDefender, "Incapacitated", rAttacker) or
-				EffectManager.hasEffect(rDefender, "Unconscious", rAttacker) or
-				EffectManager.hasEffect(rDefender, "Grappled", rAttacker) or
-				EffectManager.hasEffect(rDefender, "Restrained", rAttacker)) then
+		if EffectManager5E.hasEffect(rDefender, "Dodge", rAttacker) and 
+				not (EffectManager5E.hasEffect(rDefender, "Paralyzed", rAttacker) or
+				EffectManager5E.hasEffect(rDefender, "Stunned", rAttacker) or
+				EffectManager5E.hasEffect(rDefender, "Incapacitated", rAttacker) or
+				EffectManager5E.hasEffect(rDefender, "Unconscious", rAttacker) or
+				EffectManager5E.hasEffect(rDefender, "Grappled", rAttacker) or
+				EffectManager5E.hasEffect(rDefender, "Restrained", rAttacker)) then
 			bDIS = true;
 		end
 		
@@ -437,7 +437,7 @@ function getDefenseValue(rAttacker, rDefender, rRoll)
 	end
 
     -- grab BAC value if exists in effects
-    local nBonusACBase, nBonusACEffects = EffectManager.getEffectsBonus(rDefender, "BAC",true);
+    local nBonusACBase, nBonusACEffects = EffectManager5E.getEffectsBonus(rDefender, "BAC",true);
 
         -- if PC
 	if sDefenderType == "pc" then
@@ -509,10 +509,10 @@ function getDefenseValue(rAttacker, rDefender, rRoll)
 			table.insert(aAttackFilter, "opportunity");
 		end
 
-		local aBonusTargetedAttackDice, nBonusTargetedAttack = EffectManager.getEffectsBonus(rAttacker, "ATK", false, aAttackFilter, rDefender, true);
+		local aBonusTargetedAttackDice, nBonusTargetedAttack = EffectManager5E.getEffectsBonus(rAttacker, "ATK", false, aAttackFilter, rDefender, true);
 		nAttackEffectMod = nAttackEffectMod + StringManager.evalDice(aBonusTargetedAttackDice, nBonusTargetedAttack);
 					
-		local aACEffects, nACEffectCount = EffectManager.getEffectsBonusByType(rDefender, {"AC"}, true, aAttackFilter, rAttacker);
+		local aACEffects, nACEffectCount = EffectManager5E.getEffectsBonusByType(rDefender, {"AC"}, true, aAttackFilter, rAttacker);
 		for _,v in pairs(aACEffects) do
 			nBonusAC = nBonusAC + v.mod;
 		end
@@ -520,37 +520,37 @@ function getDefenseValue(rAttacker, rDefender, rRoll)
 		nBonusStat = getAbilityEffectsBonus(rDefender, sDefenseStat);
 		
 		local bProne = false;
-		if EffectManager.hasEffect(rAttacker, "ADVATK", rDefender, true) then
+		if EffectManager5E.hasEffect(rAttacker, "ADVATK", rDefender, true) then
 			bADV = true;
 		end
-		if EffectManager.hasEffect(rAttacker, "DISATK", rDefender, true) then
+		if EffectManager5E.hasEffect(rAttacker, "DISATK", rDefender, true) then
 			bDIS = true;
 		end
-		if EffectManager.hasEffect(rAttacker, "Invisible", rDefender, true) then
+		if EffectManager5E.hasEffect(rAttacker, "Invisible", rDefender, true) then
 			bADV = true;
 		end
-		if EffectManager.hasEffect(rDefender, "GRANTADVATK", rAtracker) then
+		if EffectManager5E.hasEffect(rDefender, "GRANTADVATK", rAtracker) then
 			bADV = true;
 		end
-		if EffectManager.hasEffect(rDefender, "GRANTDISATK", rAtracker) then
+		if EffectManager5E.hasEffect(rDefender, "GRANTDISATK", rAtracker) then
 			bDIS = true;
 		end
-		if EffectManager.hasEffect(rDefender, "Invisible", rAttacker) then
+		if EffectManager5E.hasEffect(rDefender, "Invisible", rAttacker) then
 			bDIS = true;
 		end
-		if EffectManager.hasEffect(rDefender, "Paralyzed", rAttacker) then
+		if EffectManager5E.hasEffect(rDefender, "Paralyzed", rAttacker) then
 			bADV = true;
 		end
-		if EffectManager.hasEffect(rDefender, "Prone", rAttacker) then
+		if EffectManager5E.hasEffect(rDefender, "Prone", rAttacker) then
 			bProne = true;
 		end
-		if EffectManager.hasEffect(rDefender, "Restrained", rAttacker) then
+		if EffectManager5E.hasEffect(rDefender, "Restrained", rAttacker) then
 			bADV = true;
 		end
-		if EffectManager.hasEffect(rDefender, "Stunned", rAttacker) then
+		if EffectManager5E.hasEffect(rDefender, "Stunned", rAttacker) then
 			bADV = true;
 		end
-		if EffectManager.hasEffect(rDefender, "Unconscious", rAttacker) then
+		if EffectManager5E.hasEffect(rDefender, "Unconscious", rAttacker) then
 			bADV = true;
 			bProne = true;
 		end
@@ -564,12 +564,12 @@ function getDefenseValue(rAttacker, rDefender, rRoll)
 		end
 		
 		if nCover < 5 then
-			local aCover = EffectManager.getEffectsByType(rDefender, "SCOVER", aAttackFilter, rAttacker);
-			if #aCover > 0 or EffectManager.hasEffect(rDefender, "SCOVER", rAttacker) then
+			local aCover = EffectManager5E.getEffectsByType(rDefender, "SCOVER", aAttackFilter, rAttacker);
+			if #aCover > 0 or EffectManager5E.hasEffect(rDefender, "SCOVER", rAttacker) then
 				nBonusSituational = nBonusSituational + 5 - nCover;
 			elseif nCover < 2 then
-				aCover = EffectManager.getEffectsByType(rDefender, "COVER", aAttackFilter, rAttacker);
-				if #aCover > 0 or EffectManager.hasEffect(rDefender, "COVER", rAttacker) then
+				aCover = EffectManager5E.getEffectsByType(rDefender, "COVER", aAttackFilter, rAttacker);
+				if #aCover > 0 or EffectManager5E.hasEffect(rDefender, "COVER", rAttacker) then
 					nBonusSituational = nBonusSituational + 2 - nCover;
 				end
 			end

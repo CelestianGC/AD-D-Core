@@ -129,13 +129,11 @@
 	
     <!-- DITCH THIS when 3.3.2 goes live -- celestian, it's in CoreRPG now -->
     <!-- also remove the .lua file -->
-    <script name="EffectManager" file="scripts/manager_effect.lua" />
+    <!-- <script name="EffectManager" file="scripts/manager_effect.lua" /> -->
+	<script name="EffectManager5E" file="scripts/manager_effect_5E.lua" />
 
 	<!-- Override CoreRPG item manager for npc inventory requirements, items for npcs/etc -->
     <script name="ItemManager" file="scripts/manager_item.lua" />
-    <!-- We have to have a custom version of this from CoreRPG so it sorts reverse for the low to high initiative -->
-	<!-- <script name="CombatManager" file="scripts/manager_combat.lua" /> -->
-	<!-- END -->
     
 	<script name="ItemManager2" file="scripts/manager_item2.lua" />
 	<script name="PowerManager" file="scripts/manager_power.lua" />

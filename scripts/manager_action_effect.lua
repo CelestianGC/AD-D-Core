@@ -309,90 +309,90 @@ function decodeEffectFromText(sEffect, bSecret)
 	return rEffect;
 end
 
-function encodeEffectForCT(rEffect)
-	local aMessage = {};
+-- function encodeEffectForCT(rEffect)
+	-- local aMessage = {};
 	
-	if rEffect then
-		table.insert(aMessage, "EFF:");
-		table.insert(aMessage, rEffect.sName);
+	-- if rEffect then
+		-- table.insert(aMessage, "EFF:");
+		-- table.insert(aMessage, rEffect.sName);
 
-		local sDurDice = StringManager.convertDiceToString(rEffect.aDice, rEffect.nDuration);
-		if sDurDice ~= "" then
-			local sOutputUnits = nil;
-			if rEffect.sUnits and rEffect.sUnits ~= "" then
-				if rEffect.sUnits == "minute" then
-					sOutputUnits = "MIN";
-				elseif rEffect.sUnits == "hour" then
-					sOutputUnits = "HR";
-				elseif rEffect.sUnits == "day" then
-					sOutputUnits = "DAY";
-				end
-			end
+		-- local sDurDice = StringManager.convertDiceToString(rEffect.aDice, rEffect.nDuration);
+		-- if sDurDice ~= "" then
+			-- local sOutputUnits = nil;
+			-- if rEffect.sUnits and rEffect.sUnits ~= "" then
+				-- if rEffect.sUnits == "minute" then
+					-- sOutputUnits = "MIN";
+				-- elseif rEffect.sUnits == "hour" then
+					-- sOutputUnits = "HR";
+				-- elseif rEffect.sUnits == "day" then
+					-- sOutputUnits = "DAY";
+				-- end
+			-- end
 			
-			if sOutputUnits then
-				table.insert(aMessage, "(D:" .. sDurDice .. " " .. sOutputUnits .. ")");
-			else
-				table.insert(aMessage, "(D:" .. sDurDice .. ")");
-			end
-		end
+			-- if sOutputUnits then
+				-- table.insert(aMessage, "(D:" .. sDurDice .. " " .. sOutputUnits .. ")");
+			-- else
+				-- table.insert(aMessage, "(D:" .. sDurDice .. ")");
+			-- end
+		-- end
 
-		if rEffect.sTargeting and rEffect.sTargeting ~= "" then
-			table.insert(aMessage, "(T:" .. string.upper(rEffect.sTargeting) .. ")");
-		end
+		-- if rEffect.sTargeting and rEffect.sTargeting ~= "" then
+			-- table.insert(aMessage, "(T:" .. string.upper(rEffect.sTargeting) .. ")");
+		-- end
 		
-		if rEffect.sApply and rEffect.sApply ~= "" then
-			table.insert(aMessage, "(A:" .. string.upper(rEffect.sApply) .. ")");
-		end
-	end
+		-- if rEffect.sApply and rEffect.sApply ~= "" then
+			-- table.insert(aMessage, "(A:" .. string.upper(rEffect.sApply) .. ")");
+		-- end
+	-- end
 	
-	return "[" .. table.concat(aMessage, " ") .. "]";
-end
+	-- return "[" .. table.concat(aMessage, " ") .. "]";
+-- end
 
-function decodeEffectFromCT(sEffect)
-	local rEffect = nil;
+-- function decodeEffectFromCT(sEffect)
+	-- local rEffect = nil;
 
-	local sEffectName = sEffect:match("EFF: ?(.+)");
-	if sEffectName then
-		rEffect = {};
+	-- local sEffectName = sEffect:match("EFF: ?(.+)");
+	-- if sEffectName then
+		-- rEffect = {};
 		
-		rEffect.sType = "effect";
+		-- rEffect.sType = "effect";
 		
-		rEffect.nDuration = 0;
-		rEffect.sUnits = "";
-		local sDurDice, sUnits = sEffect:match("%(D:([d%dF%+%-]+) ?([^)]*)%)");
-		if sDurDice then
-			rEffect.aDice, rEffect.nDuration = StringManager.convertStringToDice(sDurDice);
-			if sUnits then
-				if sUnits == "MIN" then
-					rEffect.sUnits = "minute";
-				elseif sUnits == "HR" then
-					rEffect.sUnits = "hour";
-				elseif sUnits == "DAY" then
-					rEffect.sUnits = "day";
-				end
-			end
-		end
-		sEffectName = sEffectName:gsub("%(D:[^)]*%)", "");
+		-- rEffect.nDuration = 0;
+		-- rEffect.sUnits = "";
+		-- local sDurDice, sUnits = sEffect:match("%(D:([d%dF%+%-]+) ?([^)]*)%)");
+		-- if sDurDice then
+			-- rEffect.aDice, rEffect.nDuration = StringManager.convertStringToDice(sDurDice);
+			-- if sUnits then
+				-- if sUnits == "MIN" then
+					-- rEffect.sUnits = "minute";
+				-- elseif sUnits == "HR" then
+					-- rEffect.sUnits = "hour";
+				-- elseif sUnits == "DAY" then
+					-- rEffect.sUnits = "day";
+				-- end
+			-- end
+		-- end
+		-- sEffectName = sEffectName:gsub("%(D:[^)]*%)", "");
 		
-		rEffect.sTargeting = "";
-		if sEffect:match("%(T:SELF%)") then
-			rEffect.sTargeting = "self";
-		end
-		sEffectName = sEffectName:gsub("%(T:[^)]*%)", "");
+		-- rEffect.sTargeting = "";
+		-- if sEffect:match("%(T:SELF%)") then
+			-- rEffect.sTargeting = "self";
+		-- end
+		-- sEffectName = sEffectName:gsub("%(T:[^)]*%)", "");
 		
-		rEffect.sApply = "";
-		if sEffect:match("%(A:ACTION%)") then
-			rEffect.sApply = "action";
-		elseif sEffect:match("%(A:ROLL%)") then
-			rEffect.sApply = "roll";
-		elseif sEffect:match("%(A:SINGLE%)") then
-			rEffect.sApply = "single";
-		end
-		sEffectName = sEffectName:gsub("%(A:[^)]*%)", "");
+		-- rEffect.sApply = "";
+		-- if sEffect:match("%(A:ACTION%)") then
+			-- rEffect.sApply = "action";
+		-- elseif sEffect:match("%(A:ROLL%)") then
+			-- rEffect.sApply = "roll";
+		-- elseif sEffect:match("%(A:SINGLE%)") then
+			-- rEffect.sApply = "single";
+		-- end
+		-- sEffectName = sEffectName:gsub("%(A:[^)]*%)", "");
 
-		rEffect.sName = StringManager.trim(sEffectName);
-	end
+		-- rEffect.sName = StringManager.trim(sEffectName);
+	-- end
 	
-	return rEffect;
-end
+	-- return rEffect;
+-- end
 

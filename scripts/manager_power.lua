@@ -327,7 +327,7 @@ function getPowerRoll(rActor, nodeAction, sSubRoll)
 				string.gsub(sEffect, "%[BASE%]", "[" .. DataCommon.ability_ltos[sStat] .. "]");
 			end
 		end
-		rAction.sName = EffectManager.evalEffect(rActor, sEffect);
+		rAction.sName = EffectManager5E.evalEffect(rActor, sEffect);
 
 		rAction.sApply = DB.getValue(nodeAction, "apply", "");
 		rAction.sTargeting = DB.getValue(nodeAction, "targeting", "");

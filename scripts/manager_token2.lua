@@ -415,7 +415,7 @@ function getConditionIconList(nodeCT, bSkipGMOnly)
 				for kComp,vComp in ipairs(aEffectComps) do
 					-- CHECK CONDITIONALS
 					if vComp.type == "IF" then
-						if not EffectManager.checkConditional(rActor, v, vComp.remainder) then
+						if not EffectManager5E.checkConditional(rActor, v, vComp.remainder) then
 							break;
 						end
 					elseif vComp.type == "IFT" then

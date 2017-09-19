@@ -219,68 +219,68 @@ function modAttack(rSource, rTarget, rRoll)
 		-- Get attack effect modifiers
 		local bEffects = false;
 		local nEffectCount;
-		aAddDice, nAddMod, nEffectCount = EffectManager.getEffectsBonus(rSource, {"ATK"}, false, aAttackFilter);
+		aAddDice, nAddMod, nEffectCount = EffectManager5E.getEffectsBonus(rSource, {"ATK"}, false, aAttackFilter);
 		if (nEffectCount > 0) then
 			bEffects = true;
 		end
 		
 		-- Get condition modifiers
-		if EffectManager.hasEffect(rSource, "ADVATK", rTarget) then
+		if EffectManager5E.hasEffect(rSource, "ADVATK", rTarget) then
 			bADV = true;
 			bEffects = true;
-		elseif #(EffectManager.getEffectsByType(rSource, "ADVATK", aAttackFilter, rTarget)) > 0 then
+		elseif #(EffectManager5E.getEffectsByType(rSource, "ADVATK", aAttackFilter, rTarget)) > 0 then
 			bADV = true;
 			bEffects = true;
 		end
-		if EffectManager.hasEffect(rSource, "DISATK", rTarget) then
+		if EffectManager5E.hasEffect(rSource, "DISATK", rTarget) then
 			bDIS = true;
 			bEffects = true;
-		elseif #(EffectManager.getEffectsByType(rSource, "DISATK", aAttackFilter, rTarget)) > 0 then
+		elseif #(EffectManager5E.getEffectsByType(rSource, "DISATK", aAttackFilter, rTarget)) > 0 then
 			bDIS = true;
 			bEffects = true;
 		end
-		if EffectManager.hasEffectCondition(rSource, "Blinded") then
+		if EffectManager5E.hasEffectCondition(rSource, "Blinded") then
 			bEffects = true;
 			bDIS = true;
             nAddMod = nAddMod - 4;
 		end
-		if EffectManager.hasEffectCondition(rSource, "Incorporeal") then
+		if EffectManager5E.hasEffectCondition(rSource, "Incorporeal") then
 			bEffects = true;
 			table.insert(aAddDesc, "[INCORPOREAL]");
 		end
-		if EffectManager.hasEffectCondition(rSource, "Encumbered") then
+		if EffectManager5E.hasEffectCondition(rSource, "Encumbered") then
 			bEffects = true;
 			bDIS = true;
 		end
-		if EffectManager.hasEffectCondition(rSource, "Frightened") then
+		if EffectManager5E.hasEffectCondition(rSource, "Frightened") then
 			bEffects = true;
 			bDIS = true;
 		end
-		if EffectManager.hasEffectCondition(rSource, "Intoxicated") then
+		if EffectManager5E.hasEffectCondition(rSource, "Intoxicated") then
 			bEffects = true;
 			bDIS = true;
             nAddMod = nAddMod - 1;
 		end
-		if EffectManager.hasEffectCondition(rSource, "Invisible") then
+		if EffectManager5E.hasEffectCondition(rSource, "Invisible") then
 			bEffects = true;
 			bADV = true;
             nAddMod = nAddMod + 2;
 		end
-		if EffectManager.hasEffectCondition(rSource, "Poisoned") then
+		if EffectManager5E.hasEffectCondition(rSource, "Poisoned") then
 			bEffects = true;
 			bDIS = true;
 		end
-		if EffectManager.hasEffectCondition(rSource, "Prone") then
-			bEffects = true;
-			bDIS = true;
-            nAddMod = nAddMod - 2;
-		end
-		if EffectManager.hasEffectCondition(rSource, "Restrained") then
+		if EffectManager5E.hasEffectCondition(rSource, "Prone") then
 			bEffects = true;
 			bDIS = true;
             nAddMod = nAddMod - 2;
 		end
-		if EffectManager.hasEffectCondition(rSource, "Unconscious") then
+		if EffectManager5E.hasEffectCondition(rSource, "Restrained") then
+			bEffects = true;
+			bDIS = true;
+            nAddMod = nAddMod - 2;
+		end
+		if EffectManager5E.hasEffectCondition(rSource, "Unconscious") then
 			bEffects = true;
 			bDIS = true; -- (from assumed prone state)
 		end
@@ -297,7 +297,7 @@ function modAttack(rSource, rTarget, rRoll)
 		end
 		
 		-- Get exhaustion modifiers
-		local nExhaustMod, nExhaustCount = EffectManager.getEffectsBonus(rSource, {"EXHAUSTION"}, true);
+		local nExhaustMod, nExhaustCount = EffectManager5E.getEffectsBonus(rSource, {"EXHAUSTION"}, true);
 		if nExhaustCount > 0 then
 			bEffects = true;
 			if nExhaustMod >= 3 then
@@ -306,7 +306,7 @@ function modAttack(rSource, rTarget, rRoll)
 		end
 		
 		-- Determine crit range
-		local aCritRange = EffectManager.getEffectsByType(rSource, "CRIT");
+		local aCritRange = EffectManager5E.getEffectsByType(rSource, "CRIT");
 		if #aCritRange > 0 then
 			local nCritThreshold = 20;
 			for _,v in ipairs(aCritRange) do

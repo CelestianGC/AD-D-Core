@@ -4,9 +4,6 @@
 --
 
 function onInit()
-
-Debug.console("manager_effect_5e.lua","onInit","EffectManager",EffectManager);
-Debug.console("manager_effect_5e.lua","onInit","EffectManager.registerEffectVar",EffectManager.registerEffectVar);
 	EffectManager.registerEffectVar("sUnits", { sDBType = "string", sDBField = "unit", bSkipAdd = true });
 	EffectManager.registerEffectVar("sApply", { sDBType = "string", sDBField = "apply", sDisplay = "[%s]" });
 	EffectManager.registerEffectVar("sTargeting", { sDBType = "string", bClearOnUntargetedDrop = true });
@@ -407,43 +404,44 @@ function applyRecharge(nodeActor, nodeEffect, rEffectComp)
 end
 
 function evalAbilityHelper(rActor, sEffectAbility)
-	local sSign, sModifier, sShortAbility = sEffectAbility:match("^%[([%+%-]?)([H2]?)([A-Z][A-Z][A-Z])%]$");
+	-- local sSign, sModifier, sShortAbility = sEffectAbility:match("^%[([%+%-]?)([H2]?)([A-Z][A-Z][A-Z])%]$");
 	
-	local nAbility = nil;
-	if sShortAbility == "STR" then
-		nAbility = ActorManager2.getAbilityBonus(rActor, "strength");
-	elseif sShortAbility == "DEX" then
-		nAbility = ActorManager2.getAbilityBonus(rActor, "dexterity");
-	elseif sShortAbility == "CON" then
-		nAbility = ActorManager2.getAbilityBonus(rActor, "constitution");
-	elseif sShortAbility == "INT" then
-		nAbility = ActorManager2.getAbilityBonus(rActor, "intelligence");
-	elseif sShortAbility == "WIS" then
-		nAbility = ActorManager2.getAbilityBonus(rActor, "wisdom");
-	elseif sShortAbility == "CHA" then
-		nAbility = ActorManager2.getAbilityBonus(rActor, "charisma");
-	elseif sShortAbility == "LVL" then
-		nAbility = ActorManager2.getAbilityBonus(rActor, "level");
-	elseif sShortAbility == "PRF" then
-		nAbility = ActorManager2.getAbilityBonus(rActor, "prf");
-	end
+	-- local nAbility = nil;
+	-- if sShortAbility == "STR" then
+		-- nAbility = ActorManager2.getAbilityBonus(rActor, "strength");
+	-- elseif sShortAbility == "DEX" then
+		-- nAbility = ActorManager2.getAbilityBonus(rActor, "dexterity");
+	-- elseif sShortAbility == "CON" then
+		-- nAbility = ActorManager2.getAbilityBonus(rActor, "constitution");
+	-- elseif sShortAbility == "INT" then
+		-- nAbility = ActorManager2.getAbilityBonus(rActor, "intelligence");
+	-- elseif sShortAbility == "WIS" then
+		-- nAbility = ActorManager2.getAbilityBonus(rActor, "wisdom");
+	-- elseif sShortAbility == "CHA" then
+		-- nAbility = ActorManager2.getAbilityBonus(rActor, "charisma");
+	-- elseif sShortAbility == "LVL" then
+		-- nAbility = ActorManager2.getAbilityBonus(rActor, "level");
+	-- elseif sShortAbility == "PRF" then
+		-- nAbility = ActorManager2.getAbilityBonus(rActor, "prf");
+	-- end
 	
-	if nAbility then
-		if sSign == "-" then
-			nAbility = 0 - nAbility;
-		end
-		if sModifier == "H" then
-			if nAbility > 0 then
-				nAbility = math.floor(nAbility / 2);
-			else
-				nAbility = math.ceil(nAbility / 2);
-			end
-		elseif sModifier == "2" then
-			nAbility = nAbility * 2;
-		end
-	end
+	-- if nAbility then
+		-- if sSign == "-" then
+			-- nAbility = 0 - nAbility;
+		-- end
+		-- if sModifier == "H" then
+			-- if nAbility > 0 then
+				-- nAbility = math.floor(nAbility / 2);
+			-- else
+				-- nAbility = math.ceil(nAbility / 2);
+			-- end
+		-- elseif sModifier == "2" then
+			-- nAbility = nAbility * 2;
+		-- end
+	-- end
 	
-	return nAbility;
+	-- return nAbility;
+    return 0;
 end
 
 function evalEffect(rActor, s)
@@ -661,8 +659,13 @@ function getEffectsBonusByType(rActor, aEffectType, bAddEmptyBonus, aFilter, rFi
 			-- LOOK FOR ENERGY OR BONUS TYPES
 			local dmg_type = nil;
 			local mod_type = nil;
+            -- this handles the BSTR, BPSTR/etc style abilites settings --celestian
+            if (StringManager.contains(DataCommonADND.basetypes, v2.type)) then
+                mod_type = v2.type;
+            end
 			for _,v3 in pairs(v2.remainder) do
-				if StringManager.contains(DataCommon.dmgtypes, v3) or StringManager.contains(DataCommon.conditions, v3) or v3 == "all" then
+				if StringManager.contains(DataCommon.dmgtypes, v3) or 
+                    StringManager.contains(DataCommon.conditions, v3) or v3 == "all" then
 					dmg_type = v3;
 					break;
 				elseif StringManager.contains(DataCommon.bonustypes, v3) then
@@ -887,7 +890,12 @@ function checkConditional(rActor, nodeEffect, aConditions, rTarget, aIgnore)
 	
 	for _,v in ipairs(aConditions) do
 		local sLower = v:lower();
-		if sLower == DataCommon.healthstatushalf then
+		if sLower == DataCommon.healthstatusfull then
+			local nPercentWounded = ActorManager2.getPercentWounded(rActor);
+			if nPercentWounded > 0 then
+				bReturn = false;
+			end
+		elseif sLower == DataCommon.healthstatushalf then
 			local nPercentWounded = ActorManager2.getPercentWounded(rActor);
 			if nPercentWounded < .5 then
 				bReturn = false;

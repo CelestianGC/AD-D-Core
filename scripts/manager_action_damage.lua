@@ -129,17 +129,17 @@ function modDeathRoll(rSource, rTarget, rRoll)
 		local aSaveFilter = {"death"};
 
 		-- Get effect modifiers
-		local aAddDice, nAddMod, nEffectCount = EffectManager.getEffectsBonus(rSource, {"SAVE"}, false, {"death"});
+		local aAddDice, nAddMod, nEffectCount = EffectManager5E.getEffectsBonus(rSource, {"SAVE"}, false, {"death"});
 		if nEffectCount > 0 then
 			bEffects = true;
 		end
 		
 		-- Get condition modifiers
-		if EffectManager.hasEffectCondition(rSource, "ADVDEATH") then
+		if EffectManager5E.hasEffectCondition(rSource, "ADVDEATH") then
 			bADV = true;
 			bEffects = true;
 		end
-		if EffectManager.hasEffectCondition(rSource, "DISDEATH") then
+		if EffectManager5E.hasEffectCondition(rSource, "DISDEATH") then
 			bDIS = true;
 			bEffects = true;
 		end
@@ -213,7 +213,7 @@ function modDamage(rSource, rTarget, rRoll)
 		end
 		
 		-- Apply general damage modifiers
-		local aEffects, nEffectCount = EffectManager.getEffectsBonusByType(rSource, "DMG", true, aAttackFilter, rTarget);
+		local aEffects, nEffectCount = EffectManager5E.getEffectsBonusByType(rSource, "DMG", true, aAttackFilter, rTarget);
 		if nEffectCount > 0 then
 			local sEffectBaseType = "";
 			if #(rRoll.clauses) > 0 then
@@ -271,7 +271,7 @@ function modDamage(rSource, rTarget, rRoll)
 		end
 		
 		-- Apply damage type modifiers
-		local aEffects = EffectManager.getEffectsByType(rSource, "DMGTYPE", {});
+		local aEffects = EffectManager5E.getEffectsByType(rSource, "DMGTYPE", {});
 		local aAddTypes = {};
 		for _,v in ipairs(aEffects) do
 			for _,v2 in ipairs(v.remainder) do
@@ -297,7 +297,7 @@ function modDamage(rSource, rTarget, rRoll)
 		end
 		
 		-- Apply condition modifiers
-		if EffectManager.hasEffect(rSource, "Incorporeal") then
+		if EffectManager5E.hasEffect(rSource, "Incorporeal") then
 			bEffects = true;
 			table.insert(aAddDesc, "[INCORPOREAL]");
 		end
@@ -797,7 +797,7 @@ end
 --
 
 function getReductionType(rSource, rTarget, sEffectType)
-	local aEffects = EffectManager.getEffectsByType(rTarget, sEffectType, {}, rSource);
+	local aEffects = EffectManager5E.getEffectsByType(rTarget, sEffectType, {}, rSource);
 	
 	local aFinal = {};
 	for _,v in pairs(aEffects) do
@@ -939,8 +939,8 @@ function getDamageAdjust(rSource, rTarget, nDamage, rDamageOutput)
 	local aVuln = getReductionType(rSource, rTarget, "VULN");
 	local aResist = getReductionType(rSource, rTarget, "RESIST");
 	
-	local bIncorporealSource = EffectManager.hasEffect(rSource, "Incorporeal", rTarget);
-	local bIncorporealTarget = EffectManager.hasEffect(rTarget, "Incorporeal", rSource);
+	local bIncorporealSource = EffectManager5E.hasEffect(rSource, "Incorporeal", rTarget);
+	local bIncorporealTarget = EffectManager5E.hasEffect(rTarget, "Incorporeal", rSource);
 	local bApplyIncorporeal = (bIncorporealSource ~= bIncorporealTarget);
 	
 	-- Handle immune all
@@ -1191,7 +1191,7 @@ function applyDamage(rSource, rTarget, bSecret, sDamage, nTotal)
 		-- NOTE: Dice determined randomly, instead of rolled
 		if rSource and rTarget and rTarget.nOrder then
 			local bCritical = string.match(sDamage, "%[CRITICAL%]");
-			local aTargetedDamage = EffectManager.getEffectsBonusByType(rSource, {"DMG"}, true, rDamageOutput.aDamageFilter, rTarget, true);
+			local aTargetedDamage = EffectManager5E.getEffectsBonusByType(rSource, {"DMG"}, true, rDamageOutput.aDamageFilter, rTarget, true);
 
 			local nDamageEffectTotal = 0;
 			local nDamageEffectCount = 0;
@@ -1369,7 +1369,7 @@ function applyDamage(rSource, rTarget, bSecret, sDamage, nTotal)
 	if nWounds < nTotalHP then
 		nDeathSaveSuccess = 0;
 		nDeathSaveFail = 0;
-		if EffectManager.hasEffect(rTarget, "Stable") then
+		if EffectManager5E.hasEffect(rTarget, "Stable") then
 			EffectManager.removeEffect(ActorManager.getCTNode(rTarget), "Stable");
 		end
 	end

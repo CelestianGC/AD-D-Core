@@ -71,7 +71,7 @@ function modHeal(rSource, rTarget, rRoll)
 
 		-- Apply general heal modifiers
 		local nEffectCount;
-		aAddDice, nAddMod, nEffectCount = EffectManager.getEffectsBonus(rSource, {"HEAL"});
+		aAddDice, nAddMod, nEffectCount = EffectManager5E.getEffectsBonus(rSource, {"HEAL"});
 		if (nEffectCount > 0) then
 			bEffects = true;
 		end

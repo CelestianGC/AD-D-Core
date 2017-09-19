@@ -32,13 +32,13 @@ function getStrengthProperties(nodeChar)
     if rActor then
         -- adjust ability scores from effects!
         local sAbilityEffect = "BSTR";
-        local nAbilityMod, nAbilityEffects = EffectManager.getEffectsBonus(rActor, sAbilityEffect, true);
+        local nAbilityMod, nAbilityEffects = EffectManager5E.getEffectsBonus(rActor, sAbilityEffect, true);
         if (nAbilityMod ~= 0) then
          nScore = nAbilityMod;
         end
         
         sAbilityEffect = "BPSTR";
-        nAbilityMod, nAbilityEffects = EffectManager.getEffectsBonus(rActor, sAbilityEffect, true);
+        nAbilityMod, nAbilityEffects = EffectManager5E.getEffectsBonus(rActor, sAbilityEffect, true);
         if (nAbilityMod ~= 0) then
             if (nAbilityMod > 100) then
                 nAbilityMod = 100;
@@ -50,11 +50,11 @@ function getStrengthProperties(nodeChar)
         end
         
         sAbilityEffect = "STR";
-        nAbilityMod, nAbilityEffects = EffectManager.getEffectsBonus(rActor, sAbilityEffect, true);
+        nAbilityMod, nAbilityEffects = EffectManager5E.getEffectsBonus(rActor, sAbilityEffect, true);
         nScore = nScore + nAbilityMod;
         
         sAbilityEffect = "PSTR";
-        nAbilityMod, nAbilityEffects = EffectManager.getEffectsBonus(rActor, sAbilityEffect, true);
+        nAbilityMod, nAbilityEffects = EffectManager5E.getEffectsBonus(rActor, sAbilityEffect, true);
         nPercent = nPercent + nAbilityMod;
         
         -- adjust ability scores from items!
@@ -103,7 +103,7 @@ function getDexterityProperties(nodeChar)
     if rActor then
         -- adjust ability scores from effects!
         local sAbilityEffect = "BDEX";
-        local nAbilityMod, nAbilityEffects = EffectManager.getEffectsBonus(rActor, sAbilityEffect, true);
+        local nAbilityMod, nAbilityEffects = EffectManager5E.getEffectsBonus(rActor, sAbilityEffect, true);
         if (nAbilityMod ~= 0) then
          nScore = nAbilityMod;
         end
@@ -111,7 +111,7 @@ function getDexterityProperties(nodeChar)
 --Debug.console("manager_abilityscores.lua","getDexterityProperties","nAbilityEffects1------->",nAbilityEffects);
         
         sAbilityEffect = "DEX";
-        nAbilityMod, nAbilityEffects = EffectManager.getEffectsBonus(rActor, sAbilityEffect, true);
+        nAbilityMod, nAbilityEffects = EffectManager5E.getEffectsBonus(rActor, sAbilityEffect, true);
         nScore = nScore + nAbilityMod;
 --Debug.console("manager_abilityscores.lua","getDexterityProperties","nAbilityMod2------>",nAbilityMod);
 --Debug.console("manager_abilityscores.lua","getDexterityProperties","nAbilityEffects2------->",nAbilityEffects);
@@ -136,13 +136,13 @@ function getWisdomProperties(nodeChar)
     if rActor then
         -- adjust ability scores from effects!
         local sAbilityEffect = "BWIS";
-        local nAbilityMod, nAbilityEffects = EffectManager.getEffectsBonus(rActor, sAbilityEffect, true);
+        local nAbilityMod, nAbilityEffects = EffectManager5E.getEffectsBonus(rActor, sAbilityEffect, true);
         if (nAbilityMod ~= 0) then
          nScore = nAbilityMod;
         end
         
         sAbilityEffect = "WIS";
-        nAbilityMod, nAbilityEffects = EffectManager.getEffectsBonus(rActor, sAbilityEffect, true);
+        nAbilityMod, nAbilityEffects = EffectManager5E.getEffectsBonus(rActor, sAbilityEffect, true);
         nScore = nScore + nAbilityMod;
     end
     nScore = abilityScoreSanity(nScore);
@@ -172,13 +172,13 @@ function getConstitutionProperties(nodeChar)
     if rActor then
         -- adjust ability scores from effects!
         local sAbilityEffect = "BCON";
-        local nAbilityMod, nAbilityEffects = EffectManager.getEffectsBonus(rActor, sAbilityEffect, true);
+        local nAbilityMod, nAbilityEffects = EffectManager5E.getEffectsBonus(rActor, sAbilityEffect, true);
         if (nAbilityMod ~= 0) then
          nScore = nAbilityMod;
         end
         
         sAbilityEffect = "CON";
-        nAbilityMod, nAbilityEffects = EffectManager.getEffectsBonus(rActor, sAbilityEffect, true);
+        nAbilityMod, nAbilityEffects = EffectManager5E.getEffectsBonus(rActor, sAbilityEffect, true);
         nScore = nScore + nAbilityMod;
     end
     
@@ -201,13 +201,13 @@ function getCharismaProperties(nodeChar)
     if rActor then
         -- adjust ability scores from effects!
         local sAbilityEffect = "BCHA";
-        local nAbilityMod, nAbilityEffects = EffectManager.getEffectsBonus(rActor, sAbilityEffect, true);
+        local nAbilityMod, nAbilityEffects = EffectManager5E.getEffectsBonus(rActor, sAbilityEffect, true);
         if (nAbilityMod ~= 0) then
          nScore = nAbilityMod;
         end
         
         sAbilityEffect = "CHA";
-        nAbilityMod, nAbilityEffects = EffectManager.getEffectsBonus(rActor, sAbilityEffect, true);
+        nAbilityMod, nAbilityEffects = EffectManager5E.getEffectsBonus(rActor, sAbilityEffect, true);
         nScore = nScore + nAbilityMod;
     end
     nScore = abilityScoreSanity(nScore);
@@ -227,13 +227,13 @@ function getIntelligenceProperties(nodeChar)
     if rActor then
         -- adjust ability scores from effects!
         local sAbilityEffect = "BINT";
-        local nAbilityMod, nAbilityEffects = EffectManager.getEffectsBonus(rActor, sAbilityEffect, true);
+        local nAbilityMod, nAbilityEffects = EffectManager5E.getEffectsBonus(rActor, sAbilityEffect, true);
         if (nAbilityMod ~= 0) then
          nScore = nAbilityMod;
         end
         
         sAbilityEffect = "INT";
-        nAbilityMod, nAbilityEffects = EffectManager.getEffectsBonus(rActor, sAbilityEffect, true);
+        nAbilityMod, nAbilityEffects = EffectManager5E.getEffectsBonus(rActor, sAbilityEffect, true);
         nScore = nScore + nAbilityMod;
     end
     nScore = abilityScoreSanity(nScore);

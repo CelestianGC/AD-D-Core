@@ -205,7 +205,7 @@ function modSave(rSource, rTarget, rRoll)
 			rSaveSource = ActorManager.getActor("ct", rRoll.sSource);
 		end
     --Debug.console("manager_action_Save.lua","modSave","sSave",sSave);
-		local aAddDice, nAddMod, nEffectCount = EffectManager.getEffectsBonus(rSource, {"SAVE"}, false, aSaveFilter, rSaveSource);
+		local aAddDice, nAddMod, nEffectCount = EffectManager5E.getEffectsBonus(rSource, {"SAVE"}, false, aSaveFilter, rSaveSource);
 		if nEffectCount > 0 then
 			bEffects = true;
 		end
@@ -214,31 +214,31 @@ function modSave(rSource, rTarget, rRoll)
     -- Debug.console("manager_action_Save.lua","modSave","nEffectCount",nEffectCount);
 		
 		-- Get condition modifiers
-		if EffectManager.hasEffect(rSource, "ADVSAV", rTarget) then
+		if EffectManager5E.hasEffect(rSource, "ADVSAV", rTarget) then
 			bADV = true;
 			bEffects = true;
-		elseif #(EffectManager.getEffectsByType(rSource, "ADVSAV", aSaveFilter, rTarget)) > 0 then
+		elseif #(EffectManager5E.getEffectsByType(rSource, "ADVSAV", aSaveFilter, rTarget)) > 0 then
 			bADV = true;
 			bEffects = true;
 		end
-		if EffectManager.hasEffect(rSource, "DISSAV", rTarget) then
+		if EffectManager5E.hasEffect(rSource, "DISSAV", rTarget) then
 			bDIS = true;
 			bEffects = true;
-		elseif #(EffectManager.getEffectsByType(rSource, "DISSAV", aSaveFilter, rTarget)) > 0 then
+		elseif #(EffectManager5E.getEffectsByType(rSource, "DISSAV", aSaveFilter, rTarget)) > 0 then
 			bDIS = true;
 			bEffects = true;
 		end
 		if sSave == "dexterity" then
-			if EffectManager.hasEffectCondition(rSource, "Restrained") then
+			if EffectManager5E.hasEffectCondition(rSource, "Restrained") then
 				bDIS = true;
 				bEffects = true;
 			end
 			if nCover < 5 then
-				if EffectManager.hasEffect(rSource, "SCOVER", rTarget) then
+				if EffectManager5E.hasEffect(rSource, "SCOVER", rTarget) then
 					nCover = 5;
 					bEffects = true;
 				elseif nCover < 2 then
-					if EffectManager.hasEffect(rSource, "COVER", rTarget) then
+					if EffectManager5E.hasEffect(rSource, "COVER", rTarget) then
 						nCover = 2;
 						bEffects = true;
 					end
@@ -246,32 +246,32 @@ function modSave(rSource, rTarget, rRoll)
 			end
 		end
 		if StringManager.contains({ "strength", "dexterity" }, sSave) then
-			if EffectManager.hasEffectCondition(rSource, "Paralyzed") then
+			if EffectManager5E.hasEffectCondition(rSource, "Paralyzed") then
 				bAutoFail = true;
 				bEffects = true;
 			end
-			if EffectManager.hasEffectCondition(rSource, "Stunned") then
+			if EffectManager5E.hasEffectCondition(rSource, "Stunned") then
 				bAutoFail = true;
 				bEffects = true;
 			end
-			if EffectManager.hasEffectCondition(rSource, "Unconscious") then
+			if EffectManager5E.hasEffectCondition(rSource, "Unconscious") then
 				bAutoFail = true;
 				bEffects = true;
 			end
 		end
 		if StringManager.contains({ "strength", "dexterity", "constitution" }, sSave) then
-			if EffectManager.hasEffectCondition(rSource, "Encumbered") then
+			if EffectManager5E.hasEffectCondition(rSource, "Encumbered") then
 				bEffects = true;
 				bDIS = true;
 			end
 		end
-		if sSave == "dexterity" and EffectManager.hasEffectCondition(rSource, "Dodge") and 
-				not (EffectManager.hasEffectCondition(rSource, "Paralyzed") or
-				EffectManager.hasEffectCondition(rSource, "Stunned") or
-				EffectManager.hasEffectCondition(rSource, "Unconscious") or
-				EffectManager.hasEffectCondition(rSource, "Incapacitated") or
-				EffectManager.hasEffectCondition(rSource, "Grappled") or
-				EffectManager.hasEffectCondition(rSource, "Restrained")) then
+		if sSave == "dexterity" and EffectManager5E.hasEffectCondition(rSource, "Dodge") and 
+				not (EffectManager5E.hasEffectCondition(rSource, "Paralyzed") or
+				EffectManager5E.hasEffectCondition(rSource, "Stunned") or
+				EffectManager5E.hasEffectCondition(rSource, "Unconscious") or
+				EffectManager5E.hasEffectCondition(rSource, "Incapacitated") or
+				EffectManager5E.hasEffectCondition(rSource, "Grappled") or
+				EffectManager5E.hasEffectCondition(rSource, "Restrained")) then
 			bEffects = true;
 			bADV = true;
 		end
@@ -288,7 +288,7 @@ function modSave(rSource, rTarget, rRoll)
 		
         -- get Save modifier ADND style --celestian
 --    Debug.console("manager_action_Save.lua","modSave","rSource2",rSource);
-		local nBonusSave, nBonusSaveEffects = EffectManager.getEffectsBonus(rSource, sSave:upper(),true);
+		local nBonusSave, nBonusSaveEffects = EffectManager5E.getEffectsBonus(rSource, sSave:upper(),true);
 		if nBonusSaveEffects > 0 then
 			bEffects = true;
 			nAddMod = nAddMod + nBonusSave;
@@ -297,7 +297,7 @@ function modSave(rSource, rTarget, rRoll)
     --Debug.console("manager_action_Save.lua","modSave","nBonusEffects2",nBonusEffects);
 
     -- Get exhaustion modifiers
-		local nExhaustMod, nExhaustCount = EffectManager.getEffectsBonus(rSource, {"EXHAUSTION"}, true);
+		local nExhaustMod, nExhaustCount = EffectManager5E.getEffectsBonus(rSource, {"EXHAUSTION"}, true);
 		if nExhaustCount > 0 then
 			bEffects = true;
 			if nExhaustMod >= 3 then
@@ -372,10 +372,10 @@ end
 							-- bHalfDamage = true;
 						-- end
 						-- if bHalfDamage then
-							-- if EffectManager.hasEffectCondition(rSource, "Avoidance") then
+							-- if EffectManager5E.hasEffectCondition(rSource, "Avoidance") then
 								-- bAvoidDamage = true;
 								-- rMessage.text = rMessage.text .. " [AVOIDANCE]";
-							-- elseif EffectManager.hasEffectCondition(rSource, "Evasion") then
+							-- elseif EffectManager5E.hasEffectCondition(rSource, "Evasion") then
 								-- local sSave = string.match(rRoll.sDesc, "%[SAVE%] (%w+)");
 								-- if sSave then
 									-- sSave = sSave:lower();
@@ -421,10 +421,10 @@ end
 					
 					-- local bHalfDamage = false;
 					-- if bHalfMatch then
-						-- if EffectManager.hasEffectCondition(rSource, "Avoidance") then
+						-- if EffectManager5E.hasEffectCondition(rSource, "Avoidance") then
 							-- bHalfDamage = true;
 							-- rMessage.text = rMessage.text .. " [AVOIDANCE]";
-						-- elseif EffectManager.hasEffectCondition(rSource, "Evasion") then
+						-- elseif EffectManager5E.hasEffectCondition(rSource, "Evasion") then
 							-- local sSave = string.match(rRoll.sDesc, "%[SAVE%] (%w+)");
 							-- if sSave then
 								-- sSave = sSave:lower();
@@ -508,10 +508,10 @@ function applySave(rSource, rOrigin, rAction, sUser)
 			local bHalfDamage = bHalfMatch;
 			local bAvoidDamage = false;
 			if bHalfDamage then
-				if EffectManager.hasEffectCondition(rSource, "Avoidance") then
+				if EffectManager5E.hasEffectCondition(rSource, "Avoidance") then
 					bAvoidDamage = true;
 					msgLong.text = msgLong.text .. " [AVOIDANCE]";
-				elseif EffectManager.hasEffectCondition(rSource, "Evasion") then
+				elseif EffectManager5E.hasEffectCondition(rSource, "Evasion") then
 					local sSave = rAction.sDesc:match("%[SAVE%] (%w+)");
 					if sSave then
 						sSave = sSave:lower();
@@ -543,10 +543,10 @@ function applySave(rSource, rOrigin, rAction, sUser)
 		if rSource then
 			local bHalfDamage = false;
 			if bHalfMatch then
-				if EffectManager.hasEffectCondition(rSource, "Avoidance") then
+				if EffectManager5E.hasEffectCondition(rSource, "Avoidance") then
 					bHalfDamage = true;
 					msgLong.text = msgLong.text .. " [AVOIDANCE]";
-				elseif EffectManager.hasEffectCondition(rSource, "Evasion") then
+				elseif EffectManager5E.hasEffectCondition(rSource, "Evasion") then
 					local sSave = rAction.sDesc:match("%[SAVE%] (%w+)");
 					if sSave then
 						sSave = sSave:lower();

@@ -112,7 +112,7 @@ function onTurnStart(nodeEntry)
 				local nDeathSaveFail = DB.getValue(nodeEntry, "deathsavefail", 0);
 				if (nHP > 0) and (nWounds >= nHP) and (nDeathSaveFail < 3) then
 					local rActor = ActorManager.getActor("pc", sRecord);
-					if not EffectManager.hasEffect(rActor, "Stable") then
+					if not EffectManager5E.hasEffect(rActor, "Stable") then
 						ActionDamage.performDeathRoll(nil, rActor);
 					end
 				end
@@ -593,7 +593,7 @@ function parseNPCPower(nodePower, aEffects, bAllowSpellDataOverride)
 				table.insert(aDisplayOptions, string.format("[HEAL: %s]", sHeal));
 			
 			elseif v.type == "effect" then
-				table.insert(aDisplayOptions, ActionEffect.encodeEffectForCT(v));
+				table.insert(aDisplayOptions, EffectManager5E.encodeEffectForCT(v));
 			
 			end
 		end
@@ -649,10 +649,10 @@ function resetHealth(nodeCT, bLong)
 		
 		EffectManager.removeEffect(nodeCT, "Stable");
 		
-		local nExhaustMod = EffectManager.getEffectsBonus(ActorManager.getActor("ct", nodeCT), {"EXHAUSTION"}, true);
+		local nExhaustMod = EffectManager5E.getEffectsBonus(ActorManager.getActor("ct", nodeCT), {"EXHAUSTION"}, true);
 		if nExhaustMod > 0 then
 			nExhaustMod = nExhaustMod - 1;
-			EffectManager.removeEffectByType(nodeCT, "EXHAUSTION");
+			EffectManager5E.removeEffectByType(nodeCT, "EXHAUSTION");
 			if nExhaustMod > 0 then
 				EffectManager.addEffect("", "", nodeCT, { sName = "EXHAUSTION: " .. nExhaustMod, nDuration = 0 }, false);
 			end
@@ -717,11 +717,11 @@ function rollEntryInit(nodeEntry)
 	
 	-- Get any effect modifiers
 	local rActor = ActorManager.getActorFromCT(nodeEntry);
-	local aEffectDice, nEffectBonus = EffectManager.getEffectsBonus(rActor, "INIT");
+	local aEffectDice, nEffectBonus = EffectManager5E.getEffectsBonus(rActor, "INIT");
 	nInit = nInit + StringManager.evalDice(aEffectDice, nEffectBonus);
 	
 	-- Check for the ADVINIT effect
-	local bADV = EffectManager.hasEffectCondition(rActor, "ADVINIT");
+	local bADV = EffectManager5E.hasEffectCondition(rActor, "ADVINIT");
 
 	-- For PCs, we always roll unique initiative
 	local sClass, sRecord = DB.getValue(nodeEntry, "link", "", "");
@@ -927,7 +927,7 @@ function parseAttackLine(sLine)
 				table.insert(rPower.aAbilities, rHeal);
 				
 			elseif sAbility:sub(1,4) == "EFF:" and #sAbility > 4 then
-				local rEffect = ActionEffect.decodeEffectFromCT(sAbility);
+				local rEffect = EffectManager5E.decodeEffectFromCT(sAbility);
 				if rEffect then
 					rEffect.nStart = nAbilityStart + 1;
 					rEffect.nEnd = nAbilityEnd;

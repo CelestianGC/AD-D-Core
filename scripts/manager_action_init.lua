@@ -106,7 +106,7 @@ function modRoll(rSource, rTarget, rRoll)
 		
 		-- Determine general effect modifiers
 		local bEffects = false;
-		local aAddDice, nAddMod, nEffectCount = EffectManager.getEffectsBonus(rSource, {"INIT"});
+		local aAddDice, nAddMod, nEffectCount = EffectManager5E.getEffectsBonus(rSource, {"INIT"});
         
 		if nEffectCount > 0 then
 			bEffects = true;
@@ -128,11 +128,11 @@ function modRoll(rSource, rTarget, rRoll)
 		end
 		
 		-- Get condition modifiers
-		if EffectManager.hasEffectCondition(rSource, "ADVINIT") then
+		if EffectManager5E.hasEffectCondition(rSource, "ADVINIT") then
 			bADV = true;
 			bEffects = true;
 		end
-		if EffectManager.hasEffectCondition(rSource, "DISINIT") then
+		if EffectManager5E.hasEffectCondition(rSource, "DISINIT") then
 			bDIS = true;
 			bEffects = true;
 		end
@@ -141,7 +141,7 @@ function modRoll(rSource, rTarget, rRoll)
 		-- -- Since initiative is a Dexterity check, do all those checks as well
 		-- --local aCheckFilter = { "dexterity" };
 		-- -- Dexterity check modifiers
-		-- local aDexCheckAddDice, nDexCheckAddMod, nDexCheckEffectCount = EffectManager.getEffectsBonus(rSource, {"CHECK"}, false, aCheckFilter);
+		-- local aDexCheckAddDice, nDexCheckAddMod, nDexCheckEffectCount = EffectManager5E.getEffectsBonus(rSource, {"CHECK"}, false, aCheckFilter);
 		-- if (nDexCheckEffectCount > 0) then
 			-- bEffects = true;
 			-- for _,vDie in ipairs(aDexCheckAddDice) do
@@ -157,39 +157,39 @@ function modRoll(rSource, rTarget, rRoll)
 		-- end
 		
 		-- Dexterity check conditions
-		if EffectManager.hasEffectCondition(rSource, "ADVCHK") then
+		if EffectManager5E.hasEffectCondition(rSource, "ADVCHK") then
 			bADV = true;
 			bEffects = true;
-		elseif #(EffectManager.getEffectsByType(rSource, "ADVCHK", aCheckFilter)) > 0 then
+		elseif #(EffectManager5E.getEffectsByType(rSource, "ADVCHK", aCheckFilter)) > 0 then
 			bADV = true;
 			bEffects = true;
 		end
-		if EffectManager.hasEffectCondition(rSource, "DISCHK") then
+		if EffectManager5E.hasEffectCondition(rSource, "DISCHK") then
 			bDIS = true;
 			bEffects = true;
-		elseif #(EffectManager.getEffectsByType(rSource, "DISCHK", aCheckFilter)) > 0 then
-			bDIS = true;
-			bEffects = true;
-		end
-		if EffectManager.hasEffectCondition(rSource, "Frightened") then
+		elseif #(EffectManager5E.getEffectsByType(rSource, "DISCHK", aCheckFilter)) > 0 then
 			bDIS = true;
 			bEffects = true;
 		end
-		if EffectManager.hasEffectCondition(rSource, "Intoxicated") then
+		if EffectManager5E.hasEffectCondition(rSource, "Frightened") then
 			bDIS = true;
 			bEffects = true;
 		end
-		if EffectManager.hasEffectCondition(rSource, "Poisoned") then
+		if EffectManager5E.hasEffectCondition(rSource, "Intoxicated") then
 			bDIS = true;
 			bEffects = true;
 		end
-		if EffectManager.hasEffectCondition(rSource, "Encumbered") then
+		if EffectManager5E.hasEffectCondition(rSource, "Poisoned") then
+			bDIS = true;
+			bEffects = true;
+		end
+		if EffectManager5E.hasEffectCondition(rSource, "Encumbered") then
 			bEffects = true;
 			bDIS = true;
 		end
 
 		-- Get exhaustion modifiers
-		local nExhaustMod, nExhaustCount = EffectManager.getEffectsBonus(rSource, {"EXHAUSTION"}, true);
+		local nExhaustMod, nExhaustCount = EffectManager5E.getEffectsBonus(rSource, {"EXHAUSTION"}, true);
 		if nExhaustCount > 0 then
 			bEffects = true;
 			if nExhaustMod >= 1 then
