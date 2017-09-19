@@ -155,8 +155,7 @@ aRecords = {
 		sListDisplayClass = "masterindexitem_id",
 		aGMListButtons = { "button_forge_item" },
 		aGMListButtons = { "button_item_armor", "button_item_weapons","button_item_list", "button_item_templates" };
-		-- when 3.3.2 goes live add these back??? --celestian
-        --aPlayerListButtons = { "button_item_armor_player", "button_item_weapons_player" };
+        aPlayerListButtons = { "button_item_armor_player", "button_item_weapons_player" };
 		fRecordDisplayClass = getItemRecordDisplayClass,
 		aRecordDisplayClasses = { "item", "reference_magicitem", "reference_armor", "reference_weapon", "reference_equipment", "reference_mountsandotheranimals", "reference_waterbornevehicles" },
 		aCustomFilters = {
@@ -205,8 +204,7 @@ aRecords = {
 		aCustomFilters = {
 			["Type"] = { sField = "stat", fGetValue = getSkillTypeValue},
 		},
-		-- when 3.3.2 goes live add these back??? --celestian
-        --aPlayerListButtons = { "button_skills_type_player" };
+        aPlayerListButtons = { "button_skills_type_player" };
 	},
 	["spell"] = {
 		bExport = true, 
@@ -214,8 +212,7 @@ aRecords = {
 		aDisplayIcon = { "button_spells", "button_spells_down" },
 		sRecordDisplayClass = "power", 
 		aGMListButtons = { "button_spells_arcane_player", "button_spells_school_player","button_spells_divine_player","button_spells_sphere_player" };
-		-- when 3.3.2 goes live add these back??? --celestian
-        --aPlayerListButtons = { "button_spells_school_player", "button_spells_sphere_player" };
+        aPlayerListButtons = { "button_spells_school_player", "button_spells_sphere_player" };
 		aCustomFilters = {
 			["Sphere"] = { sField = "sphere", fGetValue = getSpellSphereValue },
 			["School"] = { sField = "school", fGetValue = getSpellSchoolValue },

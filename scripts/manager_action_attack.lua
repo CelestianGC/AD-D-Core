@@ -398,7 +398,7 @@ function onAttack(rSource, rTarget, rRoll)
 	rMessage.text = string.gsub(rMessage.text, " %[MOD:[^]]*%]", "");
 
 	local bIsSourcePC = (rSource and rSource.sType == "pc");
-
+    
 	local rAction = {};
 	rAction.nTotal = ActionsManager.total(rRoll);
 
@@ -419,10 +419,13 @@ function onAttack(rSource, rTarget, rRoll)
 		local sFormat = "[" .. Interface.getString("effects_def_tag") .. " %+d]"
 		table.insert(rAction.aMessages, string.format(sFormat, nDefEffectsBonus));
 	end
+    local bCanCrit = true;
 	-- insert AC hit
     if rSource ~= nil then
         local nACHit = (20 - rAction.nTotal);
         if (nDefenseVal and nDefenseVal ~= 0) then
+            -- adjust bCanCrit based on target AC, if they need roll+bab 20 to hit target ac then they cant crit
+            bCanCrit = canCrit(rRoll.nBaseAttack,nDefenseVal);
             local nTargetAC = (20 - nDefenseVal);
             rMessage.text = rMessage.text .. "[Hit-AC: " .. nACHit .. " vs. ".. nTargetAC .." ]" .. table.concat(rAction.aMessages, " ");
         end
@@ -440,7 +443,7 @@ function onAttack(rSource, rTarget, rRoll)
 	if #(rRoll.aDice) > 0 then
 		rAction.nFirstDie = rRoll.aDice[1].result or 0;
 	end
-	if rAction.nFirstDie >= nCritThreshold then
+	if rAction.nFirstDie >= nCritThreshold and bCanCrit then
 		rAction.bSpecial = true;
 		rAction.sResult = "crit";
 		table.insert(rAction.aMessages, "[CRITICAL HIT]");
@@ -615,3 +618,25 @@ function getTHACO(rActor)
 	return nTHACO
 end
 
+-- return true if the creature doesn't need a natural 20 to hit the target AC -- celestian
+-- this assumes nBaB is base attack bonus and ascending AC values, not THACO and decending AC
+function canCrit(nBaB,nAscendingAC,nRange)
+    local bCanCrit = true;
+    local nValidRange = 0;
+    -- if nRange exists then we use it to adjust the crit window acceptance.
+    -- nRange = 5, if need a 20 to hit nAscendingAC+5 then they would not be able to crit
+    -- here just incase I decide to use it. Default is, if they need a 20 to hit the target
+    -- AC then we don't let them crit because it seems stupid they can crit only.
+    if (nRange) then
+        nValidRange = nRange;
+    end
+    local nAC = nAscendingAC + nValidRange;
+    local nAttackRoll = 20 + nBaB;
+Debug.console("manager_action_attack.lua","canCrit","nAC",nAC);    
+Debug.console("manager_action_attack.lua","canCrit","nAttackRoll",nAttackRoll);    
+    if (nAttackRoll <= nAC) then
+        bCanCrit = false;
+    end
+Debug.console("manager_action_attack.lua","canCrit","bCanCrit",bCanCrit);    
+    return bCanCrit;
+end
