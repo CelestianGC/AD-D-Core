@@ -632,11 +632,11 @@ function canCrit(nBaB,nAscendingAC,nRange)
     end
     local nAC = nAscendingAC + nValidRange;
     local nAttackRoll = 20 + nBaB;
-Debug.console("manager_action_attack.lua","canCrit","nAC",nAC);    
-Debug.console("manager_action_attack.lua","canCrit","nAttackRoll",nAttackRoll);    
+--Debug.console("manager_action_attack.lua","canCrit","nAC",nAC);    
+--Debug.console("manager_action_attack.lua","canCrit","nAttackRoll",nAttackRoll);    
     if (nAttackRoll <= nAC) then
         bCanCrit = false;
     end
-Debug.console("manager_action_attack.lua","canCrit","bCanCrit",bCanCrit);    
+--Debug.console("manager_action_attack.lua","canCrit","bCanCrit",bCanCrit);    
     return bCanCrit;
 end
