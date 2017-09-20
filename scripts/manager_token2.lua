@@ -412,7 +412,8 @@ function getConditionIconList(nodeCT, bSkipGMOnly)
 				local sLastIcon = nil;
 
 				local aEffectComps = EffectManager.parseEffect(sLabel);
-				for kComp,vComp in ipairs(aEffectComps) do
+				for kComp,sEffectComp in ipairs(aEffectComps) do
+					local vComp = EffectManager5E.parseEffectComp(sEffectComp);
 					-- CHECK CONDITIONALS
 					if vComp.type == "IF" then
 						if not EffectManager5E.checkConditional(rActor, v, vComp.remainder) then

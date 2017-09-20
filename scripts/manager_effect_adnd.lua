@@ -80,7 +80,7 @@
 --end
 
 -- adjust abilities.*.effectmod/itemmod
-function persistantAbilityUpdate(nodeChar,sAbility,nAdjustment,bItem)
+--function persistantAbilityUpdate(nodeChar,sAbility,nAdjustment,bItem)
     -- local sMod = ".effectmod";
     -- if (bItem) then
         -- sMod = ".itemmod";
@@ -88,9 +88,9 @@ function persistantAbilityUpdate(nodeChar,sAbility,nAdjustment,bItem)
     -- local nCurrentAdjustment = DB.getValue(nodeChar,"abilities." .. sAbility .. sMod,0);
     -- local nTotal = nCurrentAdjustment + nAdjustment;
     -- DB.setValue(nodeChar,"abilities." .. sAbility .. sMod,"number",nTotal);
-end
+--end
 -- adjust abilities.*.sModifier
-function persistantAbilityBaseUpdate(nodeChar,sAbility,nAdjustment,sModifier)
+--function persistantAbilityBaseUpdate(nodeChar,sAbility,nAdjustment,sModifier)
     -- local nCurrentAdjustment = DB.getValue(nodeChar,"abilities." .. sAbility .. "." .. sModifier,0);
     -- local nTotal = nCurrentAdjustment;
     -- -- only replace the value if the total is > than what we have already
@@ -98,10 +98,10 @@ function persistantAbilityBaseUpdate(nodeChar,sAbility,nAdjustment,sModifier)
         -- nTotal = nAdjustment;
     -- end
     -- DB.setValue(nodeChar,"abilities." .. sAbility .. "." .. sModifier,"number",nTotal);
-end
+--end
 
 -- adjust saves.*.effectmod/itemmod
-function persistantSaveUpdate(nodeChar,sSave,nAdjustment,bItem)
+--function persistantSaveUpdate(nodeChar,sSave,nAdjustment,bItem)
     -- local sMod = ".effectmod";
     -- if (bItem) then
         -- sMod = ".itemmod";
@@ -109,9 +109,9 @@ function persistantSaveUpdate(nodeChar,sSave,nAdjustment,bItem)
     -- local nCurrentAdjustment = DB.getValue(nodeChar,"saves." .. sSave .. sMod,0);
     -- local nTotal = nCurrentAdjustment + nAdjustment;
     -- DB.setValue(nodeChar,"saves." .. sSave .. sMod,"number",nTotal);
-end
+--end
 -- adjust saves.*.sModifier
-function persistantSaveBaseUpdate(nodeChar,sSave,nAdjustment,sModifier)
+--function persistantSaveBaseUpdate(nodeChar,sSave,nAdjustment,sModifier)
     -- local nCurrentAdjustment = DB.getValue(nodeChar,"saves." .. sSave .. "." .. sModifier,0);
     -- local nTotal = nCurrentAdjustment;
     -- -- only replace the value if the total is > than what we have already
@@ -119,10 +119,10 @@ function persistantSaveBaseUpdate(nodeChar,sSave,nAdjustment,sModifier)
         -- nTotal = nAdjustment;
     -- end
     -- DB.setValue(nodeChar,"saves." .. sSave .. "." .. sModifier,"number",nTotal);
-end
+--end
 
 -- removes all persistant ability/save modifiers
-function removeAllPersistanteffects(nodeChar,bItem)
+--function removeAllPersistanteffects(nodeChar,bItem)
     -- if bItem then
         -- -- abilities
         -- for i = 1,6,1 do
@@ -150,16 +150,16 @@ function removeAllPersistanteffects(nodeChar,bItem)
             -- DB.setValue(nodeChar,"saves." .. DataCommon.saves[i] .. ".basemod","number",0);
         -- end
     -- end
-end
+--end
 
 -- add the effect if the item is equipped and doesn't exist already
-function updateItemEffects(nodeItem,bCombat)
---Debug.console("manager_effect.lua","updateItemEffects1","nodeItem",nodeItem);
+function updateItemEffects(nodeItem)
+--Debug.console("manager_effect_adnd.lua","updateItemEffects1","nodeItem",nodeItem);
     local nodeChar = DB.getChild(nodeItem, "...");
     if not nodeChar then
         return;
     end
---Debug.console("manager_effect.lua","updateItemEffects","nodeChar2",nodeChar);
+--Debug.console("manager_effect_adnd.lua","updateItemEffects","nodeChar2",nodeChar);
     local sUser = User.getUsername();
     local sName = DB.getValue(nodeItem, "name", "");
     local sLabel = DB.getValue(nodeItem, "effect", "");
@@ -172,7 +172,7 @@ function updateItemEffects(nodeItem,bCombat)
     if not string.match(nodeChar.getPath(),"^combattracker") then
         nodeChar = CharManager.getCTNodeByNodeChar(nodeChar);
     end
---Debug.console("manager_effect.lua","updateItemEffects","nodeChar3",nodeChar);
+--Debug.console("manager_effect_adnd.lua","updateItemEffects","nodeChar3",nodeChar);
     -- if not in the combat tracker bail
     if not nodeChar then
         return;
@@ -183,27 +183,25 @@ function updateItemEffects(nodeItem,bCombat)
     local sItemSource = nodeItem.getPath();
     local nIdentified = DB.getValue(nodeItem, "isidentified", 0);
     local sCharacterName = DB.getValue(nodeChar, "name", "");
---Debug.console("manager_effect.lua","updateItemEffects","node",node);
--- Debug.console("manager_effect.lua","updateItemEffects","nodeChar",nodeChar);
--- Debug.console("manager_effect.lua","updateItemEffects","nodeItem",nodeItem);
--- Debug.console("manager_effect.lua","updateItemEffects","bCombat",bCombat);
--- Debug.console("manager_effect.lua","updateItemEffects","sName",sName);
--- Debug.console("manager_effect.lua","updateItemEffects","sLabel",sLabel);
--- Debug.console("manager_effect.lua","updateItemEffects","nCarried",nCarried);
--- Debug.console("manager_effect.lua","updateItemEffects","bEquipped",bEquipped);
--- Debug.console("manager_effect.lua","updateItemEffects","sItemSource",sItemSource);
--- Debug.console("manager_effect.lua","updateItemEffects","nIdentified",nIdentified);
+ Debug.console("manager_effect_adnd.lua","updateItemEffects","nodeChar",nodeChar);
+ Debug.console("manager_effect_adnd.lua","updateItemEffects","nodeItem",nodeItem);
+ Debug.console("manager_effect_adnd.lua","updateItemEffects","sName",sName);
+ Debug.console("manager_effect_adnd.lua","updateItemEffects","sLabel",sLabel);
+ Debug.console("manager_effect_adnd.lua","updateItemEffects","nCarried",nCarried);
+ Debug.console("manager_effect_adnd.lua","updateItemEffects","bEquipped",bEquipped);
+ Debug.console("manager_effect_adnd.lua","updateItemEffects","sItemSource",sItemSource);
+ Debug.console("manager_effect_adnd.lua","updateItemEffects","nIdentified",nIdentified);
     if sLabel and sLabel ~= "" then -- if we have effect string
         local bFound = false;
         for _,nodeEffect in pairs(DB.getChildren(nodeChar, "effects")) do
             local nActive = DB.getValue(nodeEffect, "isactive", 0);
-    --Debug.console("manager_effect.lua","updateItemEffects","nActive",nActive);
+    Debug.console("manager_effect.lua","updateItemEffects","nActive",nActive);
             if (nActive ~= 0) then
                 local sEffSource = DB.getValue(nodeEffect, "source_name", "");
-    --Debug.console("manager_effect.lua","updateItemEffects","sEffSource",sEffSource);
+    Debug.console("manager_effect.lua","updateItemEffects","sEffSource",sEffSource);
                 if (sEffSource == sItemSource) then
                     bFound = true;
-    --Debug.console("manager_effect.lua","updateItemEffects","bFound!!!",bFound);
+    Debug.console("manager_effect.lua","updateItemEffects","bFound!!!",bFound);
                     if (not bEquipped) then
                         -- BUILD MESSAGE
                         local msg = {font = "msgfont", icon = "roll_effect"};
@@ -228,7 +226,7 @@ function updateItemEffects(nodeItem,bCombat)
                             end
                         end
                     
-    --Debug.console("manager_effect.lua","updateItemEffects","!!!bEquipped",bEquipped);
+    Debug.console("manager_effect_adnd.lua","updateItemEffects","!!!bEquipped",bEquipped);
                         nodeEffect.delete();
                         break;
                     end -- not equipped
@@ -236,9 +234,9 @@ function updateItemEffects(nodeItem,bCombat)
             end -- was active
         end -- nodeEffect for
         
-    --Debug.console("manager_effect.lua","updateItemEffects","pre bEquipped",bEquipped);
+    Debug.console("manager_effect_adnd.lua","updateItemEffects","pre bEquipped",bEquipped);
         if (not bFound and bEquipped) then
-    --Debug.console("manager_effect.lua","updateItemEffects","bFound and bEquipped",bEquipped);
+    Debug.console("manager_effect_adnd.lua","updateItemEffects","bFound and bEquipped",bEquipped);
             local rEffect = {};
             rEffect.sName = sName .. ";" .. sLabel;
             rEffect.sLabel = sLabel; 
@@ -248,7 +246,7 @@ function updateItemEffects(nodeItem,bCombat)
             rEffect.sSource = sItemSource;
             rEffect.nGMOnly = nIdentified;
             rEffect.sApply = "";        
-    --Debug.console("manager_effect.lua","updateItemEffects","rEffect",rEffect);
+    Debug.console("manager_effect_adnd.lua","updateItemEffects","rEffect",rEffect);
             EffectManager.addEffect(sUser, "", nodeChar, rEffect, true);
         end
         
