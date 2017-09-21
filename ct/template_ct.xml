@@ -21,6 +21,12 @@
 			<anchored to="headeranchor" position="over" />
 		</metalplate>
 	</template>
+	<template name="anchor_ct_label_right">
+		<genericcontrol name="rightanchor">
+			<anchored to="contentanchor" position="insidetopright" offset="43,3" width="0" height="0" />
+			<disabled />
+		</genericcontrol>
+	</template>
 	<template name="label_ct_client_rounds">
 		<metalplate>
 			<anchored height="24">
@@ -38,10 +44,8 @@
 			</anchored>
 			<frame name="metalplate" offset="5,2,5,2" />
 			<font>subwindowtitle</font>
-			<gmeditonly />
 		</simplenumber>
 	</template>
-	
 	<template name="anchor_ctbox_host_header">
 		<genericcontrol name="headeranchor">
 			<anchored to="contentanchor" height="26">
@@ -133,7 +137,6 @@
 			</anchored>
 			<frame name="metalplate" offset="5,2,5,2" />
 			<font>subwindowtitle</font>
-			<gmeditonly />
 		</simplenumber>
 	</template>
 	<template name="button_ct_nextround">
@@ -195,25 +198,6 @@
 				<top parent="name" anchor="bottom" relation="current" offset="3" />
 			</anchored>
 		</genericcontrol>
-	</template>
-	<template name="frame_ctsub">
-		<genericcontrol>
-			<anchored>
-				<left offset="55" />
-				<top offset="-8" />
-				<right offset="-4" />
-				<bottom offset="8" />
-			</anchored>
-			<frame name="ct_subgroupbox" />
-			<disabled />
-		</genericcontrol>
-	</template>
-
-	<template name="string_ctname">
-		<string_ct>
-			<cursor hover="hand" />
-			<script file="ct/scripts/ct_name.lua" />
-		</string_ct>
 	</template>
 
 	<template name="number_ct_ability">
@@ -311,6 +295,67 @@
 			</script>
 		</button_iadd>
 	</template>
+
+	<template name="base_clientct_health">
+		<genericcontrol name="healthbase">
+			<anchored to="rightanchor" width="110" height="20">
+				<top />
+				<right anchor="left" relation="relative" offset="-10" />
+			</anchored>
+			<disabled />
+		</genericcontrol>
+	</template>
+	<template name="string_clientct_status">
+		<simplestring name="status">
+			<anchored to="healthbase" position="over" />
+			<frame name="fieldlight" offset="7,5,7,5" />
+			<center />
+			<static />
+			<invisible />
+		</simplestring>
+	</template>
+	<template name="number_clientct_wounds">
+		<number_ct_static name="wounds">
+			<anchored to="healthbase" width="30" height="20">
+				<top />
+				<right />
+			</anchored>
+			<min value="0" />
+			<script>
+				function onValueChanged()
+					window.onHealthChanged();
+				end
+			</script>
+		</number_ct_static>
+	</template>
+	<template name="number_clientct_hptemp">
+		<number_ct_static name="hptemp">
+			<anchored to="wounds" width="30" height="20">
+				<top />
+				<right anchor="left" offset="-10" />
+			</anchored>
+			<color>0000AA</color>
+			<script>
+				function onValueChanged()
+					window.onHealthChanged();
+				end
+			</script>
+		</number_ct_static>
+	</template>
+	<template name="number_clientct_hp">
+		<number_ct_static name="hptotal">
+			<anchored to="hptemp" width="30" height="20">
+				<top />
+				<right anchor="left" offset="-10" />
+			</anchored>
+			<min value="0" />
+			<script>
+				function onValueChanged()
+					window.onHealthChanged();
+				end
+			</script>
+		</number_ct_static>
+	</template>
     
 	<template name="string_ct_field">
 		<stringfield>
@@ -354,5 +399,7 @@
 			<script file="campaign/scripts/number_savescore.lua" />
 		</number_ct>
 	</template>
+    
+    
     
 </root>
