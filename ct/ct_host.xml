@@ -876,7 +876,6 @@
 		</sheetdata>
 	</windowclass>
 	
-    <!-- Apply this when 3.3.2 goes live as ct_effect --celestian -->
 	<windowclass name="ct_effect" merge="join">
 		<sheetdata>
 			<button_ct_effect_apply name="apply" insertbefore="rightanchor" />

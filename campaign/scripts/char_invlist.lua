@@ -26,6 +26,7 @@ function onInit()
 	DB.addHandler(DB.getPath(node, "*.carried"), "onUpdate", onCarriedChanged);
 	DB.addHandler(DB.getPath(node, "*.weight"), "onUpdate", onEncumbranceChanged);
 	DB.addHandler(DB.getPath(node, "*.count"), "onUpdate", onEncumbranceChanged);
+	DB.addHandler(DB.getPath(node, "*.effect"), "onUpdate", updateItemEffectsForEdit);
 	DB.addHandler(DB.getPath(node), "onChildDeleted", updateFromDeletedInventory);
 end
 
@@ -42,6 +43,7 @@ function onClose()
 	DB.removeHandler(DB.getPath(node, "*.carried"), "onUpdate", onCarriedChanged);
 	DB.removeHandler(DB.getPath(node, "*.weight"), "onUpdate", onEncumbranceChanged);
 	DB.removeHandler(DB.getPath(node, "*.count"), "onUpdate", onEncumbranceChanged);
+	DB.removeHandler(DB.getPath(node, "*.effect"), "onUpdate", updateItemEffectsForEdit);
 	DB.removeHandler(DB.getPath(node), "onChildDeleted", updateFromDeletedInventory);
 end
 
@@ -56,67 +58,6 @@ function StateChanged()
 		w.onIDChanged();
 	end
 	applySort();
-end
-
-function updateFromDeletedInventory(node)
-    local nodeChar = DB.getChild(node, "..");
-    local bisNPC = (not ActorManager.isPC(nodeChar));
-    local nodeTarget = nodeChar;
-    local nodeCT = CharManager.getCTNodeByNodeChar(nodeChar);
-    -- if we're already in a combattracker situation (npcs)
-    if bisNPC and string.match(nodeChar.getPath(),"^combattracker") then
-        nodeCT = nodeChar;
-    end
-    if nodeCT then
-        -- check that we still have the combat effect source item
-        -- otherwise remove it
-        checkEffectsAfterDelete(nodeCT);
-    end
-    if not string.match(nodeChar.getPath(),"^combattracker") then
-        -- item effects
-        DB.deleteChildren(nodeChar,"effects");
-        -- rebuild item effects
-        --for _,nodeItem in pairs(DB.getChildren(nodeChar, "inventorylist")) do
-         --EffectManagerADND.updateItemEffects(nodeItem);
-        --end
-        -- end
-    end
-	onEncumbranceChanged();
-end
-
--- this checks to see if an effect is missing a associated item that applied the effect 
--- when items are deleted and then clears that effect if it's missing.
-function checkEffectsAfterDelete(nodeChar)
-    local sUser = User.getUsername();
-    for _,nodeEffect in pairs(DB.getChildren(nodeChar, "effects")) do
-        local sLabel = DB.getValue(nodeEffect, "label", "");
-        local sEffSource = DB.getValue(nodeEffect, "source_name", "");
-        -- see if the node exists and if it's in an inventory node
-        local nodeFound = DB.findNode(sEffSource);
-        local bDeleted = ((nodeFound == nil) and string.match(sEffSource,"inventorylist"));
-        if (bDeleted) then
-            local msg = {font = "msgfont", icon = "roll_effect"};
-            msg.text = "Effect ['" .. sLabel .. "'] ";
-            msg.text = msg.text .. "removed [from " .. DB.getValue(nodeChar, "name", "") .. "]";
-            -- HANDLE APPLIED BY SETTING
-            if sEffSource and sEffSource ~= "" then
-                msg.text = msg.text .. " [by Deletion]";
-            end
-            if EffectManager.isGMEffect(nodeChar, nodeEffect) then
-                if sUser == "" then
-                    msg.secret = true;
-                    Comm.addChatMessage(msg);
-                elseif sUser ~= "" then
-                    Comm.addChatMessage(msg);
-                    Comm.deliverChatMessage(msg, sUser);
-                end
-            else
-                Comm.deliverChatMessage(msg);
-            end
-            nodeEffect.delete();
-        end
-        
-    end
 end
 
 function onIDChanged(nodeField)
@@ -168,13 +109,6 @@ function onCarriedChanged(nodeField)
 	onEncumbranceChanged();
 end
 
-
-function updateItemEffects(nodeField)
-	if EffectManagerADND.updateItemEffects then
-		EffectManagerADND.updateItemEffects(DB.getChild(nodeField, ".."));
-	end
-end
-
 function onEncumbranceChanged()
 	if CharManager.updateEncumbrance then
 		CharManager.updateEncumbrance(window.getDatabaseNode());
@@ -221,83 +155,103 @@ function onSortCompare(w1, w2)
 	end
 	return ItemManager.onInventorySortCompare(w1, w2);
 end
--- function onSortCompare(w1, w2)
-	-- if sortLocked then
-		-- return false;
-	-- end
-
-	-- local n1 = w1.getDatabaseNode();
-	-- local n2 = w2.getDatabaseNode();
-	
-	-- local sName1 = ItemManager.getSortName(n1);
-	-- local sName2 = ItemManager.getSortName(n2);
-	-- local sLoc1 = DB.getValue(n1, "location", ""):lower();
-	-- local sLoc2 = DB.getValue(n2, "location", ""):lower();
-	
-	-- -- Check for empty name (sort to end of list)
-	-- if sName1 == "" then
-		-- if sName2 == "" then
-			-- return nil;
-		-- end
-		-- return true;
-	-- elseif sName2 == "" then
-		-- return false;
-	-- end
-	
-	-- -- If different containers, then figure out containment
-	-- if sLoc1 ~= sLoc2 then
-		-- -- Check for containment
-		-- if sLoc1 == sName2 then
-			-- return true;
-		-- end
-		-- if sLoc2 == sName1 then
-			-- return false;
-		-- end
-	
-		-- if sLoc1 == "" then
-			-- return sName1 > sLoc2;
-		-- elseif sLoc2 == "" then
-			-- return sLoc1 > sName2;
-		-- else
-			-- return sLoc1 > sLoc2;
-		-- end
-	-- end
-
-	-- -- If same container, then sort by name or node id
-	-- if sName1 ~= sName2 then
-		-- return sName1 > sName2;
-	-- end
--- end
 
 function updateContainers()
 	ItemManager.onInventorySortUpdate(self);
 end
--- function updateContainers()
-	-- local containermapping = {};
-
-	-- for _,w in ipairs(getWindows()) do
-		-- if w.name and w.location then
-			-- local entry = {};
-			-- entry.name = w.name.getValue();
-			-- entry.location = w.location.getValue();
-			-- entry.window = w;
-			-- table.insert(containermapping, entry);
-		-- end
-	-- end
-	
-	-- local lastcontainer = 1;
-	-- for n, w in ipairs(containermapping) do
-		-- if n > 1 and string.lower(w.location) == string.lower(containermapping[lastcontainer].name) and w.location ~= "" then
-			-- -- Item in a container
-			-- w.window.name.setAnchor("left", nil, "left", "absolute", 45);
-		-- else
-			-- -- Top level item
-			-- w.window.name.setAnchor("left", nil, "left", "absolute", 35);
-			-- lastcontainer = n;
-		-- end
-	-- end
--- end
-
 function onDrop(x, y, draginfo)
 	return ItemManager.handleAnyDrop(window.getDatabaseNode(), draginfo);
+end
+
+-- update single item from edit for *.effect handler
+function updateItemEffectsForEdit(nodeField)
+    checkEffectsAfterEdit(DB.getChild(nodeField, ".."));
+end
+
+-- run from addHandler for deleted child
+function updateItemEffects(nodeField)
+	if EffectManagerADND.updateItemEffects then
+		EffectManagerADND.updateItemEffects(DB.getChild(nodeField, ".."));
+	end
+end
+
+-- this checks to see if an effect is missing a associated item that applied the effect 
+-- when items are deleted and then clears that effect if it's missing.
+function updateFromDeletedInventory(node)
+    local nodeChar = DB.getChild(node, "..");
+    local bisNPC = (not ActorManager.isPC(nodeChar));
+    local nodeTarget = nodeChar;
+    local nodeCT = CharManager.getCTNodeByNodeChar(nodeChar);
+    -- if we're already in a combattracker situation (npcs)
+    if bisNPC and string.match(nodeChar.getPath(),"^combattracker") then
+        nodeCT = nodeChar;
+    end
+    if nodeCT then
+        -- check that we still have the combat effect source item
+        -- otherwise remove it
+        checkEffectsAfterDelete(nodeCT);
+    end
+    -- if not string.match(nodeChar.getPath(),"^combattracker") then
+        -- -- item effects
+        -- DB.deleteChildren(nodeChar,"effects");
+        -- -- rebuild item effects
+        -- --for _,nodeItem in pairs(DB.getChildren(nodeChar, "inventorylist")) do
+         -- --EffectManagerADND.updateItemEffects(nodeItem);
+        -- --end
+        -- -- end
+    -- end
+	onEncumbranceChanged();
+end
+
+-- this checks to see if an effect is missing a associated item that applied the effect 
+-- when items are deleted and then clears that effect if it's missing.
+function checkEffectsAfterDelete(nodeChar)
+    local sUser = User.getUsername();
+    for _,nodeEffect in pairs(DB.getChildren(nodeChar, "effects")) do
+        local sLabel = DB.getValue(nodeEffect, "label", "");
+        local sEffSource = DB.getValue(nodeEffect, "source_name", "");
+        -- see if the node exists and if it's in an inventory node
+        local nodeFound = DB.findNode(sEffSource);
+        local bDeleted = ((nodeFound == nil) and string.match(sEffSource,"inventorylist"));
+        if (bDeleted) then
+            local msg = {font = "msgfont", icon = "roll_effect"};
+            msg.text = "Effect ['" .. sLabel .. "'] ";
+            msg.text = msg.text .. "removed [from " .. DB.getValue(nodeChar, "name", "") .. "]";
+            -- HANDLE APPLIED BY SETTING
+            if sEffSource and sEffSource ~= "" then
+                msg.text = msg.text .. " [by Deletion]";
+            end
+            if EffectManager.isGMEffect(nodeChar, nodeEffect) then
+                if sUser == "" then
+                    msg.secret = true;
+                    Comm.addChatMessage(msg);
+                elseif sUser ~= "" then
+                    Comm.addChatMessage(msg);
+                    Comm.deliverChatMessage(msg, sUser);
+                end
+            else
+                Comm.deliverChatMessage(msg);
+            end
+            nodeEffect.delete();
+        end
+        
+    end
+end
+
+-- find the effect for this source and delete and re-build
+function checkEffectsAfterEdit(itemNode)
+    local nodeChar = DB.getChild(itemNode, "...");
+    local nodeCT = EffectManagerADND.getCTNodeByNodeChar(nodeChar);
+    if nodeCT then
+        for _,nodeEffect in pairs(DB.getChildren(nodeCT, "effects")) do
+            local sLabel = DB.getValue(nodeEffect, "label", "");
+            local sEffSource = DB.getValue(nodeEffect, "source_name", "");
+            -- see if the node exists and if it's in an inventory node
+            local nodeFound = DB.findNode(sEffSource);
+            if nodeFound and nodeFound == itemNode and string.match(sEffSource,"inventorylist") then
+                nodeEffect.delete();
+                EffectManagerADND.updateItemEffects(itemNode);
+            end
+        end
+    end
 end
