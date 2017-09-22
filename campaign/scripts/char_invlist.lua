@@ -73,24 +73,25 @@ function updateFromDeletedInventory(node)
         checkEffectsAfterDelete(nodeCT);
     end
     if not string.match(nodeChar.getPath(),"^combattracker") then
-        -- nuke persistant item effects
+        -- item effects
         DB.deleteChildren(nodeChar,"effects");
-        --EffectManagerADND.removeAllPersistanteffects(nodeChar,true);
-        -- rebuild persistant item effects
-        for _,nodeItem in pairs(DB.getChildren(nodeChar, "inventorylist")) do
-         EffectManagerADND.updateItemEffects(nodeItem,false);
-        end
+        -- rebuild item effects
+        --for _,nodeItem in pairs(DB.getChildren(nodeChar, "inventorylist")) do
+         --EffectManagerADND.updateItemEffects(nodeItem);
+        --end
         -- end
     end
 	onEncumbranceChanged();
 end
 
+-- this checks to see if an effect is missing a associated item that applied the effect 
+-- when items are deleted and then clears that effect if it's missing.
 function checkEffectsAfterDelete(nodeChar)
     local sUser = User.getUsername();
     for _,nodeEffect in pairs(DB.getChildren(nodeChar, "effects")) do
         local sLabel = DB.getValue(nodeEffect, "label", "");
         local sEffSource = DB.getValue(nodeEffect, "source_name", "");
-        -- see if the node exists and if it's ain inventory node
+        -- see if the node exists and if it's in an inventory node
         local nodeFound = DB.findNode(sEffSource);
         local bDeleted = ((nodeFound == nil) and string.match(sEffSource,"inventorylist"));
         if (bDeleted) then
@@ -218,75 +219,84 @@ function onSortCompare(w1, w2)
 	if sortLocked then
 		return false;
 	end
-
-	local n1 = w1.getDatabaseNode();
-	local n2 = w2.getDatabaseNode();
-	
-	local sName1 = ItemManager.getSortName(n1);
-	local sName2 = ItemManager.getSortName(n2);
-	local sLoc1 = DB.getValue(n1, "location", ""):lower();
-	local sLoc2 = DB.getValue(n2, "location", ""):lower();
-	
-	-- Check for empty name (sort to end of list)
-	if sName1 == "" then
-		if sName2 == "" then
-			return nil;
-		end
-		return true;
-	elseif sName2 == "" then
-		return false;
-	end
-	
-	-- If different containers, then figure out containment
-	if sLoc1 ~= sLoc2 then
-		-- Check for containment
-		if sLoc1 == sName2 then
-			return true;
-		end
-		if sLoc2 == sName1 then
-			return false;
-		end
-	
-		if sLoc1 == "" then
-			return sName1 > sLoc2;
-		elseif sLoc2 == "" then
-			return sLoc1 > sName2;
-		else
-			return sLoc1 > sLoc2;
-		end
-	end
-
-	-- If same container, then sort by name or node id
-	if sName1 ~= sName2 then
-		return sName1 > sName2;
-	end
+	return ItemManager.onInventorySortCompare(w1, w2);
 end
+-- function onSortCompare(w1, w2)
+	-- if sortLocked then
+		-- return false;
+	-- end
+
+	-- local n1 = w1.getDatabaseNode();
+	-- local n2 = w2.getDatabaseNode();
+	
+	-- local sName1 = ItemManager.getSortName(n1);
+	-- local sName2 = ItemManager.getSortName(n2);
+	-- local sLoc1 = DB.getValue(n1, "location", ""):lower();
+	-- local sLoc2 = DB.getValue(n2, "location", ""):lower();
+	
+	-- -- Check for empty name (sort to end of list)
+	-- if sName1 == "" then
+		-- if sName2 == "" then
+			-- return nil;
+		-- end
+		-- return true;
+	-- elseif sName2 == "" then
+		-- return false;
+	-- end
+	
+	-- -- If different containers, then figure out containment
+	-- if sLoc1 ~= sLoc2 then
+		-- -- Check for containment
+		-- if sLoc1 == sName2 then
+			-- return true;
+		-- end
+		-- if sLoc2 == sName1 then
+			-- return false;
+		-- end
+	
+		-- if sLoc1 == "" then
+			-- return sName1 > sLoc2;
+		-- elseif sLoc2 == "" then
+			-- return sLoc1 > sName2;
+		-- else
+			-- return sLoc1 > sLoc2;
+		-- end
+	-- end
+
+	-- -- If same container, then sort by name or node id
+	-- if sName1 ~= sName2 then
+		-- return sName1 > sName2;
+	-- end
+-- end
 
 function updateContainers()
-	local containermapping = {};
-
-	for _,w in ipairs(getWindows()) do
-		if w.name and w.location then
-			local entry = {};
-			entry.name = w.name.getValue();
-			entry.location = w.location.getValue();
-			entry.window = w;
-			table.insert(containermapping, entry);
-		end
-	end
-	
-	local lastcontainer = 1;
-	for n, w in ipairs(containermapping) do
-		if n > 1 and string.lower(w.location) == string.lower(containermapping[lastcontainer].name) and w.location ~= "" then
-			-- Item in a container
-			w.window.name.setAnchor("left", nil, "left", "absolute", 45);
-		else
-			-- Top level item
-			w.window.name.setAnchor("left", nil, "left", "absolute", 35);
-			lastcontainer = n;
-		end
-	end
+	ItemManager.onInventorySortUpdate(self);
 end
+-- function updateContainers()
+	-- local containermapping = {};
+
+	-- for _,w in ipairs(getWindows()) do
+		-- if w.name and w.location then
+			-- local entry = {};
+			-- entry.name = w.name.getValue();
+			-- entry.location = w.location.getValue();
+			-- entry.window = w;
+			-- table.insert(containermapping, entry);
+		-- end
+	-- end
+	
+	-- local lastcontainer = 1;
+	-- for n, w in ipairs(containermapping) do
+		-- if n > 1 and string.lower(w.location) == string.lower(containermapping[lastcontainer].name) and w.location ~= "" then
+			-- -- Item in a container
+			-- w.window.name.setAnchor("left", nil, "left", "absolute", 45);
+		-- else
+			-- -- Top level item
+			-- w.window.name.setAnchor("left", nil, "left", "absolute", 35);
+			-- lastcontainer = n;
+		-- end
+	-- end
+-- end
 
 function onDrop(x, y, draginfo)
 	return ItemManager.handleAnyDrop(window.getDatabaseNode(), draginfo);

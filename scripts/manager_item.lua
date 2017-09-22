@@ -912,3 +912,84 @@ function handleItemStringTransfer (msgOOB)
 	DB.deleteNode(sTempPath);
 end
 
+
+--
+-- INVENTORY SORTING
+--
+
+function onInventorySortCompare(w1, w2)
+	-- Sort by containment first; empty container to bottom
+	if w1.hidden_locationpath and w2.hidden_locationpath then
+		local sLoc1 = w1.hidden_locationpath.getValue();
+		local sLoc2 = w2.hidden_locationpath.getValue();
+		if sLoc1 ~= sLoc2 then
+			if sLoc1 == "" then
+				if sLoc2 == "" then
+					return nil;
+				end
+				return true;
+			elseif sLoc2 == "" then
+				return false;
+			else
+				return sLoc1 > sLoc2;
+			end
+		end
+	end
+
+	-- If same container, then sort by name; empty name to bottom
+	local sName1 = getSortName(w1.getDatabaseNode());
+	local sName2 = getSortName(w2.getDatabaseNode());
+	if sName1 == "" then
+		if sName2 == "" then
+			return nil;
+		end
+		return true;
+	elseif sName2 == "" then
+		return false;
+	elseif sName1 ~= sName2 then
+		return sName1 > sName2;
+	end
+	
+	-- Return nothing to sort by internal node name
+end
+
+function getInventorySortPath(cList, w)
+	if not w.name or not w.location then
+		return {}, false;
+	end
+	
+	local sName = getSortName(w.getDatabaseNode());
+	local sLocation = StringManager.trim(w.location.getValue()):lower();
+	if (sLocation == "") or (sName == sLocation) then
+		return { sName }, false;
+	end
+	
+	for _,wList in ipairs(cList.getWindows()) do
+		local sListName = getSortName(wList.getDatabaseNode());
+		if sListName == sLocation then
+			local aSortPath = getInventorySortPath(cList, wList);
+			table.insert(aSortPath, sName);
+			return aSortPath, true;
+		end
+	end
+	return { sLocation, sName }, false;
+end
+
+function onInventorySortUpdate(cList)
+	for _,w in ipairs(cList.getWindows()) do
+		if not w.hidden_locationpath then
+			w.createControl("hsc", "hidden_locationpath");
+		end
+		local aSortPath, bContained = getInventorySortPath(cList, w);
+		w.hidden_locationpath.setValue(table.concat(aSortPath, "\a"));
+		if w.name then
+			if bContained then
+				w.name.setAnchor("left", nil, "left", "absolute", 35 + (10 * (#aSortPath - 1)));
+			else
+				w.name.setAnchor("left", nil, "left", "absolute", 35);
+			end
+		end
+	end
+	
+	cList.applySort();
+end
