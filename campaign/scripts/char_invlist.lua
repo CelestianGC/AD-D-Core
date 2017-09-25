@@ -241,7 +241,7 @@ end
 -- find the effect for this source and delete and re-build
 function checkEffectsAfterEdit(itemNode)
     local nodeChar = DB.getChild(itemNode, "...");
-    local nodeCT = EffectManagerADND.getCTNodeByNodeChar(nodeChar);
+    local nodeCT = CharManager.getCTNodeByNodeChar(nodeChar);
     if nodeCT then
         for _,nodeEffect in pairs(DB.getChildren(nodeCT, "effects")) do
             local sLabel = DB.getValue(nodeEffect, "label", "");

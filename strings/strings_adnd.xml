@@ -357,7 +357,19 @@
 	<string name="item_label_save_name">Save</string>
 	<string name="item_label_save_value">Value</string>
 	<string name="item_label_savefeature">Feature</string>
+
+	<string name="header_effects">Effect Features</string>
+	<string name="item_label_effectfeature">Effect</string>
+	<string name="item_label_effect_visible_tooltip">Always SHOW or HIDE the effect. Default mode shows if item is identified or hides if not.</string>
+	<string name="item_label_effects_hide">Hide</string>
+	<string name="item_label_effects_show">Show</string>
     
+	<string name="item_label_effects_dice">Dice</string>
+	<string name="item_effects_dice_tooltip">Dice rolled for duration of effect.</string>
+	<string name="item_label_effects_mod_tooltip">Modifier applied to duration or do not use dice and set for static duration.</string>
+	<string name="item_label_effects_unit">Unit</string>
+	<string name="item_label_effects_unit_tooltip">Time unit, round, turn, hour or day.</string>
+	<string name="item_label_effects_string_tooltip">Effect string. i.e. "STR: +1;SAVE -1;"</string>
 	<string name="item_label_ac_type_tooltip">Type: Armor, Shield, Other (ring,cloak,boots,other)</string>
 	<string name="item_label_ac_armor">Protection</string>
 	<string name="item_label_ac_base">Base</string>

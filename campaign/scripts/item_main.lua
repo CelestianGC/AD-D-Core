@@ -8,20 +8,16 @@ function onInit()
 --Debug.console("item_main.lua","onInit1","nodeRecord",nodeRecord);
 -- Debug.console("item_main.lua","onInit2","nodeRecord",DB.getPath(nodeRecord, "abilitylist"));
 -- Debug.console("item_main.lua","onInit3","nodeRecord",DB.getPath(nodeRecord, "savelist"));
-    DB.addHandler(DB.getPath(nodeRecord, "abilitylist"), "onChildUpdate", updateAbilityEffects);
-    DB.addHandler(DB.getPath(nodeRecord, "savelist"), "onChildUpdate", updateSaveEffects);
-    --DB.addHandler(DB.getPath(nodeRecord, "abilitylist"), "onChildAdded", update);
-    --DB.addHandler(DB.getPath(nodeRecord, "abilitylist"), "onChildDeleted", update);
+    --DB.addHandler(DB.getPath(nodeRecord, "abilitylist"), "onChildUpdate", updateAbilityEffects);
+    --DB.addHandler(DB.getPath(nodeRecord, "savelist"), "onChildUpdate", updateSaveEffects);
 	update();
-    updateAbilityEffects();
-    updateSaveEffects();
+    --updateAbilityEffects();
+    --updateSaveEffects();
 end
 function onClose()
     local nodeRecord = getDatabaseNode();
-    DB.removeHandler(DB.getPath(nodeRecord, "abilitylist"), "onChildUpdate", updateAbilityEffects);
-    DB.removeHandler(DB.getPath(nodeRecord, "savelist"), "onChildUpdate", updateSaveEffects);
-    --DB.removeHandler(DB.getPath(nodeRecord, "abilitylist"), "onChildAdded", update);
-    --DB.removeHandler(DB.getPath(nodeRecord, "abilitylist"), "onChildDeleted", update);
+    --DB.removeHandler(DB.getPath(nodeRecord, "abilitylist"), "onChildUpdate", updateAbilityEffects);
+    --DB.removeHandler(DB.getPath(nodeRecord, "savelist"), "onChildUpdate", updateSaveEffects);
 end
 
 function VisDataCleared()
@@ -137,33 +133,33 @@ function update()
     acbonus.setVisible(bHost and not bReadOnly);
     acbonus_top_label.setVisible(bHost and not bReadOnly);
     
-    header_abilities.setVisible(bHost and not bReadOnly);
-    item_iedit.setVisible(bHost and not bReadOnly);
-    ability_list.setVisible(bHost and not bReadOnly);
+    -- header_abilities.setVisible(bHost and not bReadOnly);
+    -- item_iedit.setVisible(bHost and not bReadOnly);
+    -- ability_list.setVisible(bHost and not bReadOnly);
 
-    header_saves.setVisible(bHost and not bReadOnly);
-    saves_iedit.setVisible(bHost and not bReadOnly);
-    save_list.setVisible(bHost and not bReadOnly);
+    -- header_saves.setVisible(bHost and not bReadOnly);
+    -- saves_iedit.setVisible(bHost and not bReadOnly);
+    -- save_list.setVisible(bHost and not bReadOnly);
 
-    local bHasAbilityFeatures = (DB.getChildCount(nodeRecord, "abilitylist") > 0);
-    local bHasSaveFeatures = (DB.getChildCount(nodeRecord, "savelist") > 0);
-    if (bHost and not bReadOnly) then
-        ability_type_label.setVisible(bHasAbilityFeatures);
-        ability_ability_label.setVisible(bHasAbilityFeatures);
-        ability_value_label.setVisible(bHasAbilityFeatures);
+    -- local bHasAbilityFeatures = (DB.getChildCount(nodeRecord, "abilitylist") > 0);
+    -- local bHasSaveFeatures = (DB.getChildCount(nodeRecord, "savelist") > 0);
+    -- if (bHost and not bReadOnly) then
+        -- ability_type_label.setVisible(bHasAbilityFeatures);
+        -- ability_ability_label.setVisible(bHasAbilityFeatures);
+        -- ability_value_label.setVisible(bHasAbilityFeatures);
 
-        save_type_label.setVisible(bHasSaveFeatures);
-        save_save_label.setVisible(bHasSaveFeatures);
-        save_value_label.setVisible(bHasSaveFeatures);
-    else
-        ability_type_label.setVisible(false);
-        ability_ability_label.setVisible(false);
-        ability_value_label.setVisible(false);
+        -- save_type_label.setVisible(bHasSaveFeatures);
+        -- save_save_label.setVisible(bHasSaveFeatures);
+        -- save_value_label.setVisible(bHasSaveFeatures);
+    -- else
+        -- ability_type_label.setVisible(false);
+        -- ability_ability_label.setVisible(false);
+        -- ability_value_label.setVisible(false);
 
-        save_type_label.setVisible(false);
-        save_save_label.setVisible(false);
-        save_value_label.setVisible(false);
-    end
+        -- save_type_label.setVisible(false);
+        -- save_save_label.setVisible(false);
+        -- save_value_label.setVisible(false);
+    -- end
 
 	--divider4.setVisible((bSection1 or bSection2 or bSection3 or bSection4) and bSection5);
 	--divider6.setVisible(bSection6);
@@ -176,7 +172,6 @@ function updateAbilityEffects()
     
     local nodeRecord = getDatabaseNode();
     local bReadOnly = WindowManager.getReadOnlyState(nodeRecord);
---Debug.console("item_main.lua","updateAbilityEffects","nodeRecord",nodeRecord);
 
     local bHasAbilityFeatures = (DB.getChildCount(nodeRecord, "abilitylist") > 0);
     if (not bReadOnly) then
@@ -207,9 +202,6 @@ function updateAbilityEffects()
             sTypeChar = "BP";
         end
         
---Debug.console("item_main.lua","updateAbilityEffects","sType",sType);
---Debug.console("item_main.lua","updateAbilityEffects","sAbility",sAbility);
---Debug.console("item_main.lua","updateAbilityEffects","nModifier",nModifier);
         if (sAbility ~= "" and sType ~= "") then
             sEffectString = sEffectString .. sTypeChar .. sAbility:upper() .. ": " .. nModifier .. ";";
         end
