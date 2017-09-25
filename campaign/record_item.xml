@@ -418,7 +418,7 @@
 
 			<line_column name="divider3" />
 
-			<label_column name="effect_label">
+<!-- 			<label_column name="effect_label">
 				<static textres="item_label_effect" />
                 <tooltip textres="item_label_effect_tooltip" />
 			</label_column>
@@ -436,6 +436,7 @@
 				<gmeditonly />
 			</string_columnh>
 
+ -->            
             <label_column name="properties_label">
 				<static textres="item_label_properties" />
 			</label_column>
