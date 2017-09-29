@@ -406,7 +406,7 @@
 						local w = createWindow();
 						if w then
 							if bFocus then
-								w.durmod.setFocus();
+								w.effect.setFocus();
 							end
 						end
 						
@@ -552,6 +552,14 @@
     <!-- item effect settings -->
 	<windowclass name="item_effects_entry">
 		<margins control="0,2,0,2" />
+        <script>
+            function onInit()
+                local node = getDatabaseNode();
+                local nodeItem = DB.getChild(node, "...");
+                local sName = DB.getValue(nodeItem,"name","");
+                name.setValue(sName);
+            end
+        </script>
 		<sheetdata>
 			<genericcontrol name="rightanchor">
 				<anchored width="0" height="0">
@@ -567,6 +575,8 @@
 					<right anchor="left" relation="relative" offset="-5" />
 				</anchored>
 			</button_idelete>
+
+            <hs name="name"/>
             <label>
                 <anchored position="insidetopleft" offset="5,2" width="90" height="20" />
                 <static textres="item_label_effectfeature" />
