@@ -8,7 +8,8 @@
 <root>
 	<template name="image_record">
 		<image_record_step>
-			<bounds>21,110,-27,-29</bounds>
+            <bounds>21,93,-27,-29</bounds>
+<!-- 			<bounds>21,110,-27,-29</bounds>
 			<pointertypes>
 				<arrow>
 					<icon>pointer</icon>
@@ -30,8 +31,8 @@
 					<icon>pointer_circle</icon>
 					<label>Draw Large Burst</label>
 				</custom>
-			</pointertypes>
-			<script file="campaign/scripts/image_record.lua" />
+			</pointertypes> -->
+			<script file="campaign/scripts/image_record.lua" merge="replace" />
 		</image_record_step>
 	</template>
     
