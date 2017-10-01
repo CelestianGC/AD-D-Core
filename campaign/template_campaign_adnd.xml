@@ -238,7 +238,8 @@
 			</script>
 		</windowlist>
 	</template>
-	<template name="list_editor_item_effects">
+    
+	<template name="list_editor_advanced_effects">
 		<windowlist name="list">
 			<anchored>
 				<top parent="columnanchor" anchor="bottom" relation="relative" offset="0" />

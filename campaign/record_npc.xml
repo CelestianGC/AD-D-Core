@@ -317,13 +317,14 @@
 				<static textres="STR" />
 			</label_npc_abilityscore>
 
-			<number_npc_abilityscore name="strengthpercent" source="abilities.strength.percent">
+			<number_npc_abilityscore name="strengthpercent" source="abilities.strength.percentbase">
 				<!-- <script>
 					function onValueChanged()
                         local node = getDatabaseNode();
                         local nodeNPC = node.getChild("....");
-                        local nScore = DB.getValue(nodeNPC, "abilities.strength.score", 0);
-                        AbilityScores.updateStrength(nodeNPC,nScore);
+                        AbilityScoreADND.detailsUpdate(nodeNPC);
+                        AbilityScoreADND.detailsPercentUpdate(nodeNPC);
+                        AbilityScoreADND.updateStrength(nodeNPC);
 					end
 				</script> -->
                 <default>0</default>
@@ -404,8 +405,8 @@
 				<static textres="CHA" />
 			</label_npc_abilityscore>
 			
-
 			<line_column />
+            
             <!-- saves -->
 			<number_npc_savescore name="paralyzation" source="saves.paralyzation.score">
 				<anchored merge="replace" width="30" height="30">
@@ -554,6 +555,48 @@
 				</anchored>
 			</line_column>
 			
+            <!-- effects -->
+			<header_column name="header_effects">
+				<static textres="header_effects" />
+				<center />
+			</header_column>
+			<button_iedit name="effects_iedit">
+				<anchored to="header_effects" position="insidetopright" offset="-5,0" />
+ 				<script>
+					function onValueChanged()
+						local bEditMode = (getValue() == 1);
+						
+						window.effects_list_iadd.setVisible(bEditMode);
+						window.effects_list.update();
+					end
+				</script>
+			</button_iedit>
+			<button_iadd name="effects_list_iadd">
+				<anchored to="effects_iedit" position="lefthigh" offset="5,0" />
+				<target>effects_list</target>
+			</button_iadd>
+            
+			<list_editor_advanced_effects name="effects_list">
+				<datasource>.effectlist</datasource>
+				<class>advanced_effects_entry</class>
+				<script>
+					function addEntry(bFocus)
+						local n = getWindowCount();
+						
+						local w = createWindow();
+						if w then
+							if bFocus then
+								w.effect.setFocus();
+							end
+						end
+						
+						return w;
+					end
+				</script>
+			</list_editor_advanced_effects>
+            <line_column />
+            <!-- end effects -->
+            
 			<label_column name="savingthrows_label">
 				<static textres="npc_label_savingthrows" />
 			</label_column>
@@ -596,14 +639,14 @@
 			</label_column>
 			<string_columnh name="languages" />
 			
-			<label_column name="effect_combat_label">
+<!-- 			<label_column name="effect_combat_label">
 				<static textres="npc_label_effects" />
                 <tooltip textres="npc_label_effects_tooltip" />
                 </label_column>
 			<string_columnh name="effect_combat">
                 <tooltip textres="npc_label_effects_tooltip" />
             </string_columnh>
-			
+ -->			
 			<label_column name="challenge_label">
 				<static textres="npc_label_challenge" />
 			</label_column>

@@ -172,12 +172,14 @@ function updateNPCEffect(nodeNPCEffect,nodeEntry)
     elseif sVisibility == "hide" then
         nDMOnly = 1;
     end
+    local rEffect = {};
     rEffect.nDuration = nRollDuration;
-    rEffect.sName = sName .. ";" .. sLabel;
+    --rEffect.sName = sName .. ";" .. sLabel;
+    rEffect.sName = sLabel;
     rEffect.sLabel = sLabel; 
     rEffect.sUnits = DB.getValue(nodeNPCEffect, "durunit", "day");
     rEffect.nInit = 0;
-    rEffect.sSource = nodeNPC.getPath();
+    --rEffect.sSource = nodeEntry.getPath();
     rEffect.nGMOnly = nDMOnly;
     rEffect.sApply = "";
     EffectManager.addEffect("", "", nodeEntry, rEffect, true);

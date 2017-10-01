@@ -437,14 +437,8 @@ function addNPC(sClass, nodeNPC, sName)
 		EffectManager.addEffect("", "", nodeEntry, { sName = table.concat(aEffects, "; "), nDuration = 0, nGMOnly = 1 }, false);
 	end
 
-    -- check to see if npc effect string exists and if so apply --celestian
-    -- revamp this to use effectlist and get all effects (same as items)
-    -- EffectManagerADND.updateNPCEffects(nodeNPC,nodeEntry);
-    local sEffects = DB.getValue(nodeNPC,"effect_combat","");
-    if sEffects ~= "" then
-        EffectManager.addEffect("", "", nodeEntry, { sName = sEffects, label = sEffects, source_name = nodeEntry.getPath(), nDuration = 0, nGMOnly= 1 }, false);
-    end
-    -- end replacement block
+    -- check to see if npc effects exists and if so apply --celestian
+    EffectManagerADND.updateNPCEffects(nodeNPC,nodeEntry);
     
     -- now flip through inventory and pass each to updateEffects()
     -- so that if they have a combat_effect it will be applied.
