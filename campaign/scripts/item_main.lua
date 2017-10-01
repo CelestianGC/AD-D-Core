@@ -84,7 +84,17 @@ function update()
         istemplate.setVisible(bSection2 or not bReadOnly);
         template_label.setVisible(bSection2 or not bReadOnly);
         type_label.setVisible(bSection2 or not bReadOnly);
+        -- show effect features for DM
+        header_effects.setVisible(true);
+        effects_iedit.setVisible(true);
+        effects_list_iadd.setVisible(true);
+        effects_list.setVisible(true);
 	else
+        -- hide effect features for pcs
+        header_effects.setVisible(false);
+        effects_iedit.setVisible(false);
+        effects_list_iadd.setVisible(false);
+        effects_list.setVisible(false);
     end
     
 	if updateControl("subtype", bReadOnly, bID) then bSection2 = true; end

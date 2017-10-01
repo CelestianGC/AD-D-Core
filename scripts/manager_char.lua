@@ -2819,7 +2819,7 @@ function updateHPForLevel(nodeChar,nodeClass,nodeAdvance)
     
     -- now display text from level up hp
     local sFormat = Interface.getString("char_abilities_message_leveledup");
-    local sMsg = string.format(sFormat, DB.getValue(nodeChar, "name", ""),nLevel,sClassName,nHPRoll,nConBonus);
+    local sMsg = string.format(sFormat, DB.getValue(nodeChar, "name", ""),nLevel,sClassName,nHPRoll);
     DB.setValue(nodeChar, "hp.total", "number", nHP+nHPRoll);
     ChatManager.SystemMessage(sMsg);
 end
@@ -2875,7 +2875,7 @@ function reCalculateHPForMultiClass(nodeChar,nodeClass)
                             -- take new value based on new multi-class count
                             nHPRecalculated = nHPRecalculated + nHP;
                             DB.setValue(nodeChar, "hp.total", "number", nHPRecalculated);
-                            local sFormat = Interface.getString("char_abilities_message_leveledup_multi");
+                            local sFormat = Interface.getString("char_abilities_message_leveledup");
                             local sMsg = string.format(sFormat, DB.getValue(nodeChar, "name", ""),1, sClassName .. "(multi)",nHP);
                             ChatManager.SystemMessage(sMsg);
                             break; -- we stop at first one that matches level 1
