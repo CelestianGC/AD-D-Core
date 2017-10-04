@@ -225,6 +225,77 @@ function updateMoveFromEncumbrance2e(nodeChar)
 end
 -- update speed.basemodenc due to weight adjustments for AD&D 1e
 function updateMoveFromEncumbrance1e(nodeChar)
+    if ActorManager.isPC(nodeChar) then -- only need this is the node is a PC
+        local nEncLight = 0.33;   -- 1/3
+        local nEncModerate = 0.5; -- 1/2
+        local nEncHeavy = 0.67;   -- 2/3
+        
+        local nStrength = DB.getValue(nodeChar, "abilities.strength.score", 0);
+        local nPercent = DB.getValue(nodeChar, "abilities.strength.percent", 0);
+        local nWeightCarried = DB.getValue(nodeChar, "encumbrance.load", 0);
+        local nBaseMove = DB.getValue(nodeChar, "speed.base", 0);
+        local nBaseEncOriginal = DB.getValue(nodeChar, "speed.basemodenc", 0);
+        local sEncRankOriginal = DB.getValue(nodeChar, "speed.encumbrancerank", "");
+        local nBaseEnc = 0; 
+        local sEncRank = "Normal";
+        
+        -- Deal with 18 01-100 strength
+        if ((nStrength == 18) and (nPercent > 0)) then
+            local nPercentRank = 50;
+            if (nPercent == 100) then 
+                nPercentRank = 100
+            elseif (nPercent >= 91 and nPercent <= 99) then
+                nPercentRank = 99
+            elseif (nPercent >= 76 and nPercent <= 90) then
+                nPercentRank = 90
+            elseif (nPercent >= 51 and nPercent <= 75) then
+                nPercentRank = 75
+            elseif (nPercent >= 1 and nPercent <= 50) then
+                nPercentRank = 50
+            end
+            nStrength = nPercentRank;
+        end
+        
+        local nWeightAllowance = DataCommonADND.aStrength[nStrength][3];
+
+        local nMaxCarry = 105;
+        local nHeavyCarry = 104;
+        local nModerateCarry = 70;
+        local nNormalCarry = 35;
+        
+        -- determine if wt carried is greater than a encumbrance rank for strength value
+        if (nWeightCarried >= (nMaxCarry-nWeightAllowance) then
+            nBaseEnc = (nBaseMove - 1); -- greater than severe, base is 1
+            sEncRank = "MAX";
+        elseif (nWeightCarried >= (nHeavyCarry-nWeightAllowance) then
+            nBaseEnc = nBaseMove * nEncHeavy; -- greater than heavy
+            sEncRank = "Heavy";
+        elseif (nWeightCarried >= (nModerateCarry-nWeightAllowance) then
+            nBaseEnc = nBaseMove * nEncModerate; -- greater than moderate
+            sEncRank = "Moderate";
+        elseif (nWeightCarried >= (nNormalCarry-nWeightAllowance) then
+            nBaseEnc = nBaseMove * nEncLight; -- greater than light
+            sEncRank = "Light";
+        end
+        
+        nBaseEnc = math.floor(nBaseEnc);
+        nBaseEnc = nBaseMove - nBaseEnc;
+        if (nBaseEnc < 1) then
+            nBaseEnc = 1;
+        end
+        if nBaseMove == nBaseEnc then
+            DB.setValue(nodeChar,"speed.basemodenc","number",0);
+        else
+            DB.setValue(nodeChar,"speed.basemodenc","number",nBaseEnc);
+        end
+        DB.setValue(nodeChar,"speed.encumbrancerank","string",sEncRank);
+        if (sEncRankOriginal ~= sEncRank ) then
+            local sFormat = Interface.getString("message_encumbrance_changed");
+            local sMsg = string.format(sFormat, DB.getValue(nodeChar, "name", ""),sEncRank,nBaseEnc);
+            ChatManager.SystemMessage(sMsg);
+        end
+        
+    end
 end
 
 function getEncumbranceMult(nodeChar)
