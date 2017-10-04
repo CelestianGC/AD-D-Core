@@ -3,6 +3,9 @@
 -- 
 --
 
+    -- what version of AD&D is this
+    coreVersion = "2e";
+
     -- this index points to the location of this save
     -- in the aWarriorSaves, aPriestSaves, aWizardSaves, aRogueSaves
     -- We do this so we can split the saves up and give

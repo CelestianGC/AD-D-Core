@@ -213,7 +213,7 @@ function getCharismaProperties(nodeChar)
     nScore = abilityScoreSanity(nScore);
     local dbAbility = {};
     dbAbility.score = nScore;
-    dbAbility.reactionadj = DataCommonADND.aCharisma[nScore][1];
+    dbAbility.maxhench = DataCommonADND.aCharisma[nScore][1];
     dbAbility.loyalty = DataCommonADND.aCharisma[nScore][2];
     dbAbility.reaction = DataCommonADND.aCharisma[nScore][3];
 

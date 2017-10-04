@@ -109,6 +109,7 @@ function updateEncumbrance(nodeChar)
     local sOptionHREC = OptionsManager.getOption("HouseRule_Encumbrance_Coins");
 	local bCoinWeight = (sOptionHREC == "on");	
     local nEncTotal = 0;
+    local bADND2 = (DataCommonADND.coreVersion == "2e");
 
 	local nCount, nWeight;
 	for _,vNode in pairs(DB.getChildren(nodeChar, "inventorylist")) do
@@ -138,11 +139,15 @@ function updateEncumbrance(nodeChar)
     
 	DB.setValue(nodeChar, "encumbrance.load", "number", nEncTotal);
     -- check encumbrance levels for movement adjustments --celestian
-    updateMoveFromEncumbrance(nodeChar);
+    if bADND2 then
+        updateMoveFromEncumbrance2e(nodeChar);
+        else
+        --updateMoveFromEncumbrance1e(nodeChar); 
+    end
 end
 
--- update speed.basemodenc due to weight adjustments
-function updateMoveFromEncumbrance(nodeChar)
+-- update speed.basemodenc due to weight adjustments for AD&D 2e
+function updateMoveFromEncumbrance2e(nodeChar)
 
     if ActorManager.isPC(nodeChar) then -- only need this is the node is a PC
         local nEncLight = 0.33;   -- 1/3
@@ -217,6 +222,9 @@ function updateMoveFromEncumbrance(nodeChar)
         end
         
     end
+end
+-- update speed.basemodenc due to weight adjustments for AD&D 1e
+function updateMoveFromEncumbrance1e(nodeChar)
 end
 
 function getEncumbranceMult(nodeChar)
