@@ -142,12 +142,13 @@ function updateEncumbrance(nodeChar)
     if bADND2 then
         updateMoveFromEncumbrance2e(nodeChar);
         else
-        --updateMoveFromEncumbrance1e(nodeChar); 
+        updateMoveFromEncumbrance1e(nodeChar); 
     end
 end
 
 -- update speed.basemodenc due to weight adjustments for AD&D 2e
 function updateMoveFromEncumbrance2e(nodeChar)
+--Debug.console("number_abilityscore.lua","updateMoveFromEncumbrance2e","nodeChar",nodeChar);
 
     if ActorManager.isPC(nodeChar) then -- only need this is the node is a PC
         local nEncLight = 0.33;   -- 1/3
@@ -209,12 +210,12 @@ function updateMoveFromEncumbrance2e(nodeChar)
             DB.setValue(nodeChar,"speed.basemodenc","number",nBaseEnc);
         end
         DB.setValue(nodeChar,"speed.encumbrancerank","string",sEncRank);
-        -- Debug.console("number_abilityscore.lua","updateMoveFromEncumbrance","nodeChar",nodeChar);
-        -- Debug.console("number_abilityscore.lua","updateMoveFromEncumbrance","nWeightCarried",nWeightCarried);
-        -- Debug.console("number_abilityscore.lua","updateMoveFromEncumbrance","nStrength",nStrength);
-        -- Debug.console("number_abilityscore.lua","updateMoveFromEncumbrance","nBaseEnc",nBaseEnc);
-        -- Debug.console("number_abilityscore.lua","updateMoveFromEncumbrance","nBaseEncOriginal",nBaseEncOriginal);
-        -- Debug.console("number_abilityscore.lua","updateMoveFromEncumbrance","nBaseMove",nBaseMove);
+        -- Debug.console("manager_char.lua","updateMoveFromEncumbrance","nodeChar",nodeChar);
+        -- Debug.console("manager_char.lua","updateMoveFromEncumbrance","nWeightCarried",nWeightCarried);
+        -- Debug.console("manager_char.lua","updateMoveFromEncumbrance","nStrength",nStrength);
+        -- Debug.console("manager_char.lua","updateMoveFromEncumbrance","nBaseEnc",nBaseEnc);
+        -- Debug.console("manager_char.lua","updateMoveFromEncumbrance","nBaseEncOriginal",nBaseEncOriginal);
+        -- Debug.console("manager_char.lua","updateMoveFromEncumbrance","nBaseMove",nBaseMove);
         if (sEncRankOriginal ~= sEncRank ) then
             local sFormat = Interface.getString("message_encumbrance_changed");
             local sMsg = string.format(sFormat, DB.getValue(nodeChar, "name", ""),sEncRank,nBaseEnc);
@@ -225,6 +226,7 @@ function updateMoveFromEncumbrance2e(nodeChar)
 end
 -- update speed.basemodenc due to weight adjustments for AD&D 1e
 function updateMoveFromEncumbrance1e(nodeChar)
+--Debug.console("manager_char.lua","updateMoveFromEncumbrance1e","nodeChar",nodeChar);
     if ActorManager.isPC(nodeChar) then -- only need this is the node is a PC
         local nEncLight = 0.33;   -- 1/3
         local nEncModerate = 0.5; -- 1/2
@@ -258,34 +260,32 @@ function updateMoveFromEncumbrance1e(nodeChar)
         
         local nWeightAllowance = DataCommonADND.aStrength[nStrength][3];
 
-        local nMaxCarry = 105;
-        local nHeavyCarry = 104;
+        local nHeavyCarry = 105;
         local nModerateCarry = 70;
         local nNormalCarry = 35;
         
         -- determine if wt carried is greater than a encumbrance rank for strength value
-        if (nWeightCarried >= (nMaxCarry-nWeightAllowance) then
-            nBaseEnc = (nBaseMove - 1); -- greater than severe, base is 1
-            sEncRank = "MAX";
-        elseif (nWeightCarried >= (nHeavyCarry-nWeightAllowance) then
+        if (nWeightCarried >= (nHeavyCarry+nWeightAllowance)) then
             nBaseEnc = nBaseMove * nEncHeavy; -- greater than heavy
             sEncRank = "Heavy";
-        elseif (nWeightCarried >= (nModerateCarry-nWeightAllowance) then
+        elseif (nWeightCarried >= (nModerateCarry+nWeightAllowance)) then
             nBaseEnc = nBaseMove * nEncModerate; -- greater than moderate
             sEncRank = "Moderate";
-        elseif (nWeightCarried >= (nNormalCarry-nWeightAllowance) then
+        elseif (nWeightCarried >= (nNormalCarry+nWeightAllowance)) then
             nBaseEnc = nBaseMove * nEncLight; -- greater than light
             sEncRank = "Light";
+        else
+            nBaseEnc = nBaseMove;
         end
         
-        nBaseEnc = math.floor(nBaseEnc);
-        nBaseEnc = nBaseMove - nBaseEnc;
-        if (nBaseEnc < 1) then
-            nBaseEnc = 1;
-        end
         if nBaseMove == nBaseEnc then
             DB.setValue(nodeChar,"speed.basemodenc","number",0);
         else
+            nBaseEnc = math.floor(nBaseEnc);
+            nBaseEnc = nBaseMove - nBaseEnc;
+            if (nBaseEnc < 1) then
+                nBaseEnc = 1;
+            end
             DB.setValue(nodeChar,"speed.basemodenc","number",nBaseEnc);
         end
         DB.setValue(nodeChar,"speed.encumbrancerank","string",sEncRank);

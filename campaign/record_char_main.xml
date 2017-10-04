@@ -1599,7 +1599,7 @@
                 <tooltip textres="char_label_speedbase_base_tooltip" />
 			</label_fieldtop>
             <speed_number_base name="speed_basemodenc" source="speed.basemodenc">
-                <readonly />
+                <gmeditonly />
             </speed_number_base>
 			<label_fieldtop name="label_speedbasemodenc">
 				<anchored to="speed_basemodenc" />
