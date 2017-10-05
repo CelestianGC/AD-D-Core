@@ -259,6 +259,7 @@ function updateMoveFromEncumbrance1e(nodeChar)
         end
         
         local nWeightAllowance = DataCommonADND.aStrength[nStrength][3];
+        nWeightAllowance = math.floor(nWeightAllowance/10); -- convert the coin weight 1e style to actual pounds
 
         local nHeavyCarry = 105;
         local nModerateCarry = 70;
