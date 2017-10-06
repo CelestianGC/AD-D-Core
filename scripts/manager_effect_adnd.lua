@@ -44,12 +44,12 @@ function updateItemEffects(nodeItem)
         -- updateItemEffect(nodeItemEffect, nodeItem.getPath(), sName, nodeChar, sUser, bEquipped, nIdentified);
     -- end;
     
-Debug.console("manager_effect_adnd.lua","updateItemEffects","sUser",sUser);
-Debug.console("manager_effect_adnd.lua","updateItemEffects","nodeChar",nodeChar);
-Debug.console("manager_effect_adnd.lua","updateItemEffects","nodeItem",nodeItem);
-Debug.console("manager_effect_adnd.lua","updateItemEffects","nCarried",nCarried);
-Debug.console("manager_effect_adnd.lua","updateItemEffects","bEquipped",bEquipped);
-Debug.console("manager_effect_adnd.lua","updateItemEffects","nIdentified",nIdentified);
+-- Debug.console("manager_effect_adnd.lua","updateItemEffects","sUser",sUser);
+-- Debug.console("manager_effect_adnd.lua","updateItemEffects","nodeChar",nodeChar);
+-- Debug.console("manager_effect_adnd.lua","updateItemEffects","nodeItem",nodeItem);
+-- Debug.console("manager_effect_adnd.lua","updateItemEffects","nCarried",nCarried);
+-- Debug.console("manager_effect_adnd.lua","updateItemEffects","bEquipped",bEquipped);
+-- Debug.console("manager_effect_adnd.lua","updateItemEffects","nIdentified",nIdentified);
 
     for _,nodeItemEffect in pairs(DB.getChildren(nodeItem, "effectlist")) do
         updateItemEffect(nodeItemEffect, sName, nodeChar, sUser, bEquipped, nIdentified);
@@ -61,9 +61,9 @@ function updateItemEffect(nodeItemEffect, sName, nodeChar, sUser, bEquipped, nId
     local sCharacterName = DB.getValue(nodeChar, "name", "");
     local sItemSource = nodeItemEffect.getPath();
     local sLabel = DB.getValue(nodeItemEffect, "effect", "");
-Debug.console("manager_effect_adnd.lua","updateItemEffect","sName",sName);
-Debug.console("manager_effect_adnd.lua","updateItemEffect","sLabel",sLabel);
-Debug.console("manager_effect_adnd.lua","updateItemEffect","sItemSource",sItemSource);
+-- Debug.console("manager_effect_adnd.lua","updateItemEffect","sName",sName);
+-- Debug.console("manager_effect_adnd.lua","updateItemEffect","sLabel",sLabel);
+-- Debug.console("manager_effect_adnd.lua","updateItemEffect","sItemSource",sItemSource);
     if sLabel and sLabel ~= "" then -- if we have effect string
         local bFound = false;
         for _,nodeEffect in pairs(DB.getChildren(nodeChar, "effects")) do

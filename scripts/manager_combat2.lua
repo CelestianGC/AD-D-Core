@@ -346,6 +346,16 @@ function addNPC(sClass, nodeNPC, sName)
 		nHP = StringManager.evalDiceString(sHD, true, true);
 	elseif sOptHRNH == "random" and sHD ~= "" then
 		nHP = math.max(StringManager.evalDiceString(sHD, true), 1);
+    elseif sOptHRNH == "80plus" and sHD ~= "" then        
+        -- roll hp, if it's less than 80% of what max then set to 80% of max
+        -- i.e. if hp max is 100, 80% of that is 80. If the random is less than
+        -- that the value will be set to 80.
+        local nMaxHP = StringManager.evalDiceString(sHD, true, true);
+        local n80 = math.floor(nMaxHP * 0.8);
+        nHP = math.max(StringManager.evalDiceString(sHD, true), 1);
+        if (nHP < n80) then
+            nHP = n80;
+        end
 	end
 	DB.setValue(nodeEntry, "hptotal", "number", nHP);
 	

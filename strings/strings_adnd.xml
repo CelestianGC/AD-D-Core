@@ -472,6 +472,7 @@
     <string name="option_val_title">Title+Tooltip</string>
    	<string name="option_label_RIP">Show RIP on tokens to Players</string>
    	<string name="option_label_RIP_DM">Show RIP on tokens to DM</string>
+    <string name="option_val_80plus">80%+</string>
 
 	<!-- Armor Table (Samarex CnT Ext ) -->
 	<string name="ref_label_list_weight">Wt.</string>
