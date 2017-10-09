@@ -391,7 +391,8 @@
 					end
 				</script>
 			</list_editor_advanced_effects>
-
+            <!-- end advanced effects entry -->
+            
 			<line_column name="divider3" />
 
             <label_column name="properties_label">
@@ -417,92 +418,5 @@
 		</sheetdata>
 	</windowclass>
     
-
-    <!-- item ability settings -->
-	<windowclass name="item_ability_entry">
-		<margins control="0,0,0,5" />
-		<sheetdata>
-			<genericcontrol name="rightanchor">
-				<anchored width="0" height="0">
-					<top offset="2" />
-					<right />
-				</anchored>
-				<invisible />
-			</genericcontrol>
-
-			<button_idelete name="idelete">
-				<anchored to="rightanchor">
-					<top />
-					<right anchor="left" relation="relative" offset="-5" />
-				</anchored>
-			</button_idelete>
-            <label>
-                <anchored position="insidetopleft" offset="5,2" width="90" height="20" />
-                <static textres="item_label_abilityfeature" />
-            </label>
-			<cycler_abilitytypes name="type">
-                <anchored position="insidetopleft" offset="97,2" width="60" height="20" />
-                <tooltip textres="item_ability_type_tooltip" />
-                <gmeditonly />
-			</cycler_abilitytypes>
-
-			<cycler_ability_short name="ability">
-                <anchored to="type" position="righthigh" offset="15,0" width="40"  height="20"/>
-			</cycler_ability_short>
-
-            <!-- ability modifier/score -->
-			<basicnumber name="value">
-				<anchored to="ability" position="righthigh" offset="15,0" width="40"  height="20"/>
-				<gmeditonly />
-                <default>0</default>
-                <hideonvalue>0</hideonvalue>
-                <gmeditonly />
-			</basicnumber>
-        </sheetdata>
-	</windowclass>
-    
-     <!-- item save settings -->
-	<windowclass name="item_save_entry">
-		<margins control="0,0,0,5" />
-		<sheetdata>
-			<genericcontrol name="rightanchor">
-				<anchored width="0" height="0">
-					<top offset="2" />
-					<right />
-				</anchored>
-				<invisible />
-			</genericcontrol>
-
-			<button_idelete name="idelete">
-				<anchored to="rightanchor">
-					<top />
-					<right anchor="left" relation="relative" offset="-5" />
-				</anchored>
-			</button_idelete>
-            <label>
-                <anchored position="insidetopleft" offset="5,2" width="90" height="20" />
-                <static textres="item_label_savefeature" />
-            </label>
-			<cycler_savetypes name="type">
-                <anchored position="insidetopleft" offset="97,2" width="60" height="20" />
-                <tooltip textres="item_save_type_tooltip" />
-                <gmeditonly />
-			</cycler_savetypes>
-
-			<cycler_saveselect name="save">
-                <anchored to="type" position="righthigh" offset="15,0" width="70"  height="20"/>
-                <gmeditonly />
-			</cycler_saveselect>
-
-            <!-- save modifier/score -->
-			<basicnumber name="value">
-				<anchored to="save" position="righthigh" offset="15,0" width="40"  height="20"/>
-				<gmeditonly />
-                <default>0</default>
-                <hideonvalue>0</hideonvalue>
-                <gmeditonly />
-			</basicnumber>
-        </sheetdata>
-	</windowclass>
     
 </root>
