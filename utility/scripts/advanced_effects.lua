@@ -68,11 +68,11 @@ function update()
     local sEffect = DB.getValue(node,"effect","");
     local sVis = DB.getValue(node,"visibility","");
     if (sVis ~= "") then
-        sVis = " visibility " .. sVis;
+        sVis = " visibility [" .. sVis .. "]";
     end
     if (sDuration ~= "") then
-        sDuration = " for " .. sDuration;
+        sDuration = " for [" .. sDuration .. "]";
     end
-    local sFinal = "Effect [" .. sEffect .. "]" .. sDuration .. sVis;
+    local sFinal = "[" .. sEffect .. "]" .. sDuration .. sVis;
     effect_description.setValue(sFinal);
 end

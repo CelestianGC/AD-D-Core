@@ -213,15 +213,15 @@
 				<editor>advanced_effect_editor</editor>
 				<anchored to="rightanchor">
 					<top />
-					<right anchor="left" relation="relative" offset="-5" />
+					<right anchor="left" relation="relative" offset="-25" />
 				</anchored>
 			</button_poweractioneditor>
             
             <!-- delete button if in edit mode -->
 			<button_idelete name="idelete">
 				<anchored to="rightanchor">
-					<top />
-					<right anchor="left" relation="relative" offset="-5" />
+					<top offset="-2" />
+					<right anchor="left" relation="relative" offset="-25" />
 				</anchored>
 			</button_idelete>
 
@@ -243,7 +243,7 @@
 	<windowclass name="advanced_effect_editor">
 		<frame>charsheethelper</frame>
 		<placement>
-			<size width="350" height="250" />
+			<size width="350" height="280" />
 		</placement>
 		<sizelimits>
 			<minimum width="350" height="250" />
@@ -284,6 +284,7 @@
 	</windowclass>
 
 	<windowclass name="advanced_effect_editor_main">
+        <script file="utility/scripts/advanced_effects_editor.lua" />
 		<sheetdata>
 			<anchor_column name="columnanchor" />
 			
@@ -301,6 +302,19 @@
 				<readonly />
 			</stringcontrol>
 
+            <!-- effect type cycler here -->
+			<label_column name="type_label">
+				<static textres="power_label_type" />
+			</label_column>
+            <cycler_effecttypes name="type">
+				<anchored>
+					<top parent="columnanchor" anchor="bottom" relation="relative" offset="7" />
+					<left offset="97" />
+					<right offset="-110" />
+				</anchored>
+                <gmeditonly />
+            </cycler_effecttypes>
+            
             <!-- effect / label -->
 			<header_column name="header_label">
 				<static textres="power_header_effect" />
@@ -308,11 +322,114 @@
 			</header_column>
 			<string_column_full name="effect" />
 			
+            
+            <!-- SAVE types -->
+			<cycler_savetypes name="save_type">
+				<anchored>
+					<top parent="columnanchor" anchor="bottom" relation="relative" offset="7" />
+					<left offset="5" />
+					<right offset="-250" />
+				</anchored>
+                <tooltip textres="item_save_type_tooltip" />
+                <gmeditonly />
+			</cycler_savetypes>
+
+			<combobox_saveselect name="save">
+                <anchored to="save_type" position="righthigh" offset="10,0" width="70"  height="20"/>
+                <gmeditonly />
+                <tooltip textres="item_label_save_type_tooltip" />
+			</combobox_saveselect>
+
+            <!-- save modifier/score -->
+ 			<basicnumber name="save_modifier">
+				<anchored to="save" position="righthigh" offset="10,0" width="40"  height="20"/>
+				<gmeditonly />
+                <default>0</default>
+                <hideonvalue>0</hideonvalue>
+                <gmeditonly />
+                <tooltip textres="item_label_save_value_tooltip" />
+			</basicnumber>
+
+            <!-- ability version -->
+			<cycler_abilitytypes name="ability_type">
+				<anchored>
+					<top parent="columnanchor" anchor="bottom" relation="relative" offset="7" />
+					<left offset="5" />
+					<right offset="-230" />
+				</anchored>
+                <tooltip textres="item_ability_type_tooltip" />
+                <gmeditonly />
+			</cycler_abilitytypes>
+
+			<cycler_ability_short name="ability">
+                <anchored to="ability_type" position="righthigh" offset="10,0" width="80"  height="20"/>
+			</cycler_ability_short>
+
+            <!-- ability modifier/score -->
+			<basicnumber name="ability_modifier">
+				<anchored to="ability" position="righthigh" offset="10,0" width="20"  height="20"/>
+				<gmeditonly />
+                <default>0</default>
+                <hideonvalue>0</hideonvalue>
+                <gmeditonly />
+			</basicnumber>
+            
+            <!-- end ability version -->
+            
+            <!-- Susceptiblity version -->
+			<cycler_susceptiblitytypes name="susceptiblity_type">
+				<anchored>
+					<top parent="columnanchor" anchor="bottom" relation="relative" offset="7" />
+					<left offset="5" />
+					<right offset="-230" />
+				</anchored>
+                <tooltip textres="item_ability_type_tooltip" />
+                <gmeditonly />
+			</cycler_susceptiblitytypes>
+
+            <combobox_susceptiblity_items name="susceptiblity">
+                <anchored to="susceptiblity_type" position="righthigh" offset="10,0" width="80"  height="20"/>
+			</combobox_susceptiblity_items>
+
+            <!-- Susceptiblity modifier/score -->
+			<basicnumber name="susceptiblity_modifier">
+				<anchored to="susceptiblity" position="righthigh" offset="10,0" width="20"  height="20"/>
+				<gmeditonly />
+                <default>0</default>
+                <hideonvalue>0</hideonvalue>
+                <gmeditonly />
+			</basicnumber>
+            <!-- end Susceptiblity version -->
+
+            <!-- misc version -->
+			<cycler_misctypes name="misc_type">
+				<anchored>
+					<top parent="columnanchor" anchor="bottom" relation="relative" offset="7" />
+					<left offset="5" />
+					<right offset="-230" />
+				</anchored>
+                <tooltip textres="effect_label_misc_type_tooltip" />
+                <gmeditonly />
+			</cycler_misctypes>
+
+            <!-- misc modifier/score -->
+			<basicnumber name="misc_modifier">
+				<anchored to="misc_type" position="righthigh" offset="10,0" width="20"  height="20"/>
+				<gmeditonly />
+                <default>0</default>
+                <hideonvalue>0</hideonvalue>
+                <gmeditonly />
+                <tooltip textres="effect_label_misc_value_tooltip" />
+			</basicnumber>
+            <!-- end misc version -->
+
+            <!-- duration header-->
 			<header_column name="header_duration">
 				<static textres="power_header_effect_duration" />
 				<center />
 			</header_column>
             
+            <!-- duration dice -->
 			<basicdice name="durdice">
 				<anchored width="50" height="20">
 					<top parent="columnanchor" anchor="bottom" relation="relative" offset="7" />
@@ -321,11 +438,13 @@
 				<hideonvalue value="0" />
                 <tooltip textres="power_label_duration_dice_tooltip" />
             </basicdice>
+            <!-- duration modifier -->
 			<basicnumber name="durmod">
 				<anchored to="durdice" position="righthigh" offset="10,0" width="30" height="20" />
 				<hideonvalue value="0" />
                 <tooltip textres="power_label_duration_mod_tooltip" />
 			</basicnumber>
+            <!-- duration unit -->
 			<button_stringcycler name="durunit">
 				<anchored to="durmod" position="righthigh" offset="10,0" width="40" height="20" />
 				<parameters>

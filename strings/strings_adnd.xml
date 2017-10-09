@@ -264,6 +264,8 @@
     <string name="power_label_save_tooltip">Force target(s) to save versus this spell or power.</string>
     <string name="power_label_duration_dice_tooltip">Dice roll for duration.</string>
     <string name="power_label_duration_mod_tooltip">Modifier applied to duration.</string>
+    <string name="power_label_type">Type</string>
+    <string name="power_label_type_tooltip">Type of effect. Use CUSTOM to set the string manually.</string>
     
     
    	<!-- Combat Tracker -->
@@ -337,24 +339,93 @@
 	<string name="shield">Shield</string>
 	<string name="other">Other</string>
     
+	<string name="custom">Custom</string>
+	<string name="save">Save</string>
+	<string name="ability">Ability</string>
+	<string name="resist">Resistance</string>
+	<string name="resistant">Resistant</string>
+	<string name="immune">Immunity</string>
+	<string name="vuln">Vulnerability</string>
+	<string name="susceptiblity">Susceptiblity</string>
+	<string name="misc">Miscellaneous</string>
+
 	<string name="modifier">Modifier</string>
 	<string name="percent_modifier">% Modifier</string>
 	<string name="base">Base</string>
 	<string name="base_percent">Base %</string>
+
+	<string name="ac">AC</string>
+	<string name="bac">Base AC</string>
+	<string name="atk">Attack</string>
+	<string name="check">Check</string>
+	<string name="dmg">Damage</string>
+	<string name="heal">Heal</string>
+	<string name="init">Initiative</string>
+	<string name="save">Save</string>
+
+	<string name="acid">acid</string>
+	<string name="cold">cold</string>
+	<string name="fire">fire</string>
+	<string name="force">force</string>
+	<string name="lightning">lightning</string>
+	<string name="necrotic">necrotic</string>
+	<string name="poison">poison</string>
+	<string name="psychic">psychic</string>
+	<string name="radiant">radiant</string>
+	<string name="thunder">thunder</string>
+	<string name="adamantine">adamantine</string>
+	<string name="bludgeoning">bludgeoning</string>
+	<string name="old-forged iron">old-forged iron</string>
+	<string name="magic">magic</string>
+	<string name="piercing">piercing</string>
+	<string name="silver">silver</string>
+	<string name="slashing">slashing</string>
+	<string name="critical">critical</string>
+	<string name="magic +1">magic +1</string>
+	<string name="magic +2">magic +2</string>
+	<string name="magic +3">magic +3</string>
+	<string name="magic +4">magic +4</string>
+	<string name="magic +5">magic +5</string>
+	<string name="blinded">blinded</string>
+	<string name="charmed">charmed</string>
+	<string name="cursed">cursed</string>
+	<string name="deafened">deafened</string>
+	<string name="encumbered">encumbered</string>
+	<string name="frightened">frightened</string>
+	<string name="grappled">grappled</string>
+	<string name="incapacitated">incapacitated</string>
+	<string name="incorporeal">incorporeal</string>
+	<string name="intoxicated">intoxicated</string>
+	<string name="invisible">invisible</string>
+	<string name="paralyzed">paralyzed</string>
+	<string name="petrified">petrified</string>
+	<string name="poisoned">poisoned</string>
+	<string name="prone">prone</string>
+	<string name="restrained">restrained</string>
+	<string name="stable">stable</string>
+	<string name="stunned">stunned</string>
+	<string name="turned">turned</string>
+	<string name="unconscious">unconscious</string>
     
 	<string name="header_armorclass">Protection Features</string>
 	<string name="header_abilities">Ability Features</string>
 	<string name="item_label_ac_type">Type</string>
 	<string name="item_label_ability_type">Type</string>
-	<string name="item_ability_type_tooltip">Type of feature. Modifier of an ability score. Percent Modifier of an ability score. Base value of an ability score. Base Percent value of an ability score.</string>
+	<string name="item_ability_type_tooltip">MODIFIER, PERCENT MODIFIER, BASE VALUE or BASE PERCENT value of an ability score.</string>
 	<string name="item_label_ability_name">Ability</string>
 	<string name="item_label_ability_value">Value</string>
+
+	<string name="effect_label_misc_type_tooltip">The type of effect you wish to apply.</string>
+	<string name="effect_label_misc_value_tooltip">Value to be applied to the type of effect.</string>
 
 	<string name="header_saves">Save Features</string>
 	<string name="item_save_type_tooltip">Modifier of a save score. Base value of a save score.</string>
 	<string name="item_label_save_type">Type</string>
+	<string name="item_label_save_type_tooltip">The type of save to be used.</string>
 	<string name="item_label_save_name">Save</string>
+	<string name="item_label_save_name_tooltip">Save</string>
 	<string name="item_label_save_value">Value</string>
+	<string name="item_label_save_value_tooltip">Value of the modifier.</string>
 	<string name="item_label_savefeature">Feature</string>
 
 	<string name="header_effects">Effect Features</string>
