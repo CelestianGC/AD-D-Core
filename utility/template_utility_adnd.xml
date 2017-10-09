@@ -113,7 +113,7 @@
 		</button_stringcycler>
 	</template>
 	<template name="combobox_saveselect">
-			<combobox_adnd>
+			<combobox>
 				<listdirection>down</listdirection>
 				<script>
 					function onInit()
@@ -122,7 +122,7 @@
 					end
 				</script>
 				<!-- <script file="campaign/scripts/prof_select.lua"/> bonuscomps -->
-			</combobox_adnd>
+			</combobox>
 	</template>
 	<template name="cycler_susceptiblitytypes">
 		<button_stringcycler>
@@ -134,7 +134,7 @@
 		</button_stringcycler>
 	</template>
 	<template name="combobox_susceptiblity_items">
-			<combobox_adnd>
+			<combobox>
 				<listdirection>down</listdirection>
 				<script>
 					function onInit()
@@ -144,7 +144,7 @@
 					end
 				</script>
 				<!-- <script file="campaign/scripts/prof_select.lua"/> -->
-			</combobox_adnd>
+			</combobox>
 	</template>
 	<template name="cycler_misctypes">
 		<button_stringcycler>

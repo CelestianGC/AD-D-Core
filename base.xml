@@ -101,9 +101,6 @@
 	<includefile source="campaign/template_char_adnd.xml" />
   	<includefile source="campaign/table_import.xml" />
 
-    <!-- common -->
-  	<includefile source="common/template_combobox_adnd.xml" />
-	
 	<!-- Forge -->
 	<includefile source="forge/template_forge.xml" />
 	<includefile source="forge/forge_item.xml" />

@@ -59,13 +59,13 @@ function update()
     if (bSave) then
         -- save
         save_type.setVisible(true);
-        save.setCustomVisibility(true);
+        save.setComboBoxVisible(true);
         --save.setVisible(true);
         save_modifier.setVisible(true);
         updateSaveEffects();
     else
         save_type.setVisible(false);
-        save.setCustomVisibility(false);
+        save.setComboBoxVisible(false);
         --save.setVisible(false);
         save_modifier.setVisible(false);
     end
@@ -85,14 +85,14 @@ function update()
     if (bSusceptiblity) then
         -- bSusceptiblity
         susceptiblity_type.setVisible(true);
-        susceptiblity.setCustomVisibility(true);
+        susceptiblity.setComboBoxVisible(true);
         --susceptiblity.setVisible(true);
         -- we dont use modifier yet? hiding
         susceptiblity_modifier.setVisible(false);
         updateSusceptibleEffects();
     else
         susceptiblity_type.setVisible(false);
-        susceptiblity.setCustomVisibility(false);
+        susceptiblity.setComboBoxVisible(false);
         --susceptiblity.setVisible(false);
         susceptiblity_modifier.setVisible(false);
     end
