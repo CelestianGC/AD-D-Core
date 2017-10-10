@@ -363,15 +363,20 @@
 				function action(draginfo)
                     local nValue = getValue();
                     local node = getDatabaseNode();
-                    local sPath = node.getPath();
                     local nodePower = getDatabaseNode();
                     nodeSpell = node.getChild("..");
                     nodeChar = node.getChild("....");
-                    
+                    local sGroup = DB.getValue(nodeSpell, "group", ""):lower();
+                    local bIsConcentrationSpell = (string.match(sGroup,"^spell"))
                     local sName = DB.getValue(nodeSpell,"name","");
                     local rItem = {};
                     rItem.sName = sName;
                     rItem.nInit = nValue;
+                    if (bIsConcentrationSpell) then
+                        rItem.nodeSpell = nodeSpell;
+                    else
+                        rItem.nodeSpell = nil;
+                    end
 					local rActor = ActorManager.getActor("pc", nodeChar);
 					ActionInit.performRoll(draginfo, rActor, nil, rItem);
 

@@ -53,6 +53,9 @@ function getRoll(rActor, bSecretRoll, rItem)
         if rItem then
             rRoll.nMod =  rItem.nInit;
             rRoll.sDesc = rRoll.sDesc .. " [MOD:" .. rItem.sName .. "]";
+            if (rItem.nodeSpell) then
+                applySpellCastingConcentration(nodeActor,rItem.nodeSpell);
+            end
         elseif sActorType == "pc" then
             rRoll.nMod = DB.getValue(nodeActor, "initiative.total", 0);
 --			sAbility = "dexterity";
@@ -73,6 +76,44 @@ function getRoll(rActor, bSecretRoll, rItem)
 --	end
 	
 	return rRoll;
+end
+
+function applySpellCastingConcentration(nodeChar,nodeSpell)
+    if not string.match(nodeChar.getPath(),"^combattracker") then
+        nodeChar = CharManager.getCTNodeByNodeChar(nodeChar);
+    end
+    -- if not in the combat tracker bail
+    if not nodeChar then
+        return;
+    end
+
+    -- need to do some error checking to make sure we only add it once
+    -- verify existing "effect_source" isn't the same as this one.
+    local bFound = false;
+    for _,nodeEffect in pairs(DB.getChildren(nodeChar, "effects")) do
+        local sSource = DB.getValue(nodeEffect,"source_name","");
+        if (sSource == nodeSpell.getPath()) then
+            bFound = true;
+            break;
+        end
+    end -- for item's effects list
+    
+    if bFound then
+        return;
+    end
+    
+    local sSpellName = DB.getValue(nodeSpell,"name","");
+    local rEffect = {};
+    local sEffectString = "(C)";
+    rEffect.nDuration = 1;
+    rEffect.sName = sSpellName .. "; " .. sEffectString;
+    rEffect.sLabel = sEffectString;
+    rEffect.sUnits = "rnd";
+    rEffect.nInit = 0;
+    rEffect.sSource = nodeChar.getPath();
+    rEffect.nGMOnly = 0;
+    rEffect.sApply = "";
+    EffectManager.addEffect("", "", nodeChar, rEffect, true);
 end
 
 function performRoll(draginfo, rActor, bSecretRoll, rItem)
