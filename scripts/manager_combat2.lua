@@ -448,7 +448,7 @@ function addNPC(sClass, nodeNPC, sName)
 	end
 
     -- check to see if npc effects exists and if so apply --celestian
-    EffectManagerADND.updateNPCEffects(nodeNPC,nodeEntry);
+    EffectManagerADND.updateCharEffects(nodeNPC,nodeEntry);
     
     -- now flip through inventory and pass each to updateEffects()
     -- so that if they have a combat_effect it will be applied.
@@ -1123,4 +1123,25 @@ function addPC(nodePC)
         EffectManagerADND.updateItemEffects(nodeItem,true);
     end
     -- end
+
+    -- check to see if npc effects exists and if so apply --celestian
+    EffectManagerADND.updateCharEffects(nodePC,nodeEntry);
+end
+--
+--	COMBAT ACTION FUNCTIONS
+--
+
+function addRightClickDiceToClauses(rRoll)
+	if #rRoll.clauses > 0 then
+		local nOrigDamageDice = 0;
+		for _,vClause in ipairs(rRoll.clauses) do
+			nOrigDamageDice = nOrigDamageDice + #vClause.dice;
+		end
+		if #rRoll.aDice > nOrigDamageDice then
+			local v = rRoll.clauses[#rRoll.clauses].dice;
+			for i = nOrigDamageDice + 1,#rRoll.aDice do
+				table.insert(rRoll.clauses[1].dice, rRoll.aDice[i]);
+			end
+		end
+	end
 end

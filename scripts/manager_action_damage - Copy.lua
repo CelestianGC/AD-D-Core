@@ -10,6 +10,9 @@ function onInit()
 	OOBManager.registerOOBMsgHandler(OOB_MSGTYPE_APPLYDMG, handleApplyDamage);
 	OOBManager.registerOOBMsgHandler(OOB_MSGTYPE_APPLYDMGSTATE, handleApplyDamageState);
 
+	ActionsManager.registerModHandler("death", modDeathRoll);
+	ActionsManager.registerResultHandler("death", onDeathRoll);
+
 	ActionsManager.registerModHandler("damage", modDamage);
 	ActionsManager.registerPostRollHandler("damage", onDamageRoll);
 	ActionsManager.registerResultHandler("damage", onDamage);
@@ -56,6 +59,17 @@ function notifyApplyDamage(rSource, rTarget, bSecret, sDesc, nTotal)
 	Comm.deliverOOBMessage(msgOOB, "");
 end
 
+function performDeathRoll(draginfo, rActor)
+	local rRoll = { };
+	rRoll.sType = "death";
+	rRoll.aDice = { "d20" };
+	rRoll.nMod = 0;
+	
+	rRoll.sDesc = "[DEATH]";
+	
+	ActionsManager.performAction(draginfo, rActor, rRoll);
+end
+
 function getRoll(rActor, rAction)
 	local rRoll = {};
 	rRoll.sType = "damage";
@@ -73,19 +87,15 @@ function getRoll(rActor, rAction)
 	end
 	rRoll.sDesc = rRoll.sDesc .. "] " .. rAction.label;
 	
-	-- Save the damage properties in the roll structure
+	-- Save the damage clauses in the roll structure
 	rRoll.clauses = rAction.clauses;
 	
 	-- Add the dice and modifiers
-	for _,vClause in ipairs(rRoll.clauses) do
+	for _,vClause in pairs(rRoll.clauses) do
 		for _,vDie in ipairs(vClause.dice) do
 			table.insert(rRoll.aDice, vDie);
 		end
 		rRoll.nMod = rRoll.nMod + vClause.modifier;
-	end
-	
-	if rAction.nReroll then
-		rRoll.sDesc = rRoll.sDesc .. " [REROLL " .. rAction.nReroll.. "]";
 	end
 	
 	-- Encode the damage types
@@ -100,10 +110,69 @@ function performRoll(draginfo, rActor, rAction)
 	ActionsManager.performAction(draginfo, rActor, rRoll);
 end
 
-function modDamage(rSource, rTarget, rRoll)
-	decodeDamageTypes(rRoll);
-	CombatManager2.addRightClickDiceToClauses(rRoll);
+function modDeathRoll(rSource, rTarget, rRoll)
+	local bADV = false;
+	local bDIS = false;
+	if rRoll.sDesc:match(" %[ADV%]") then
+		bADV = true;
+		rRoll.sDesc = rRoll.sDesc:gsub(" %[ADV%]", "");
+	end
+	if rRoll.sDesc:match(" %[DIS%]") then
+		bDIS = true;
+		rRoll.sDesc = rRoll.sDesc:gsub(" %[DIS%]", "");
+	end
+
+	if rSource then
+		local bEffects = false;
+
+		-- Build filter
+		local aSaveFilter = {"death"};
+
+		-- Get effect modifiers
+		local aAddDice, nAddMod, nEffectCount = EffectManager5E.getEffectsBonus(rSource, {"SAVE"}, false, {"death"});
+		if nEffectCount > 0 then
+			bEffects = true;
+		end
+		
+		-- Get condition modifiers
+		if EffectManager5E.hasEffectCondition(rSource, "ADVDEATH") then
+			bADV = true;
+			bEffects = true;
+		end
+		if EffectManager5E.hasEffectCondition(rSource, "DISDEATH") then
+			bDIS = true;
+			bEffects = true;
+		end
+
+		-- If effects happened, then add note
+		if bEffects then
+			for _, vDie in ipairs(aAddDice) do
+				if vDie:sub(1,1) == "-" then
+					table.insert(rRoll.aDice, "-p" .. vDie:sub(3));
+				else
+					table.insert(rRoll.aDice, "p" .. vDie:sub(2));
+				end
+			end
+			rRoll.nMod = rRoll.nMod + nAddMod;
+			
+			local sEffects = "";
+			local sMod = StringManager.convertDiceToString(aAddDice, nAddMod, true);
+			if sMod ~= "" then
+				sEffects = "[" .. Interface.getString("effects_tag") .. " " .. sMod .. "]";
+			else
+				sEffects = "[" .. Interface.getString("effects_tag") .. "]";
+			end
+			rRoll.sDesc = rRoll.sDesc .. " " .. sEffects;
+		end
+	end
 	
+	ActionsManager2.encodeAdvantage(rRoll, bADV, bDIS);
+end
+
+function modDamage(rSource, rTarget, rRoll)
+	-- Extract damage type information from roll
+	decodeDamageTypes(rRoll);
+
 	-- Set up
 	local aAddDesc = {};
 	local aAddDice = {};
@@ -175,9 +244,6 @@ function modDamage(rSource, rTarget, rRoll)
 					for _,vDie in ipairs(v.dice) do
 						table.insert(aEffectDice, vDie);
 						table.insert(rClause.dice, vDie);
-						if rClause.reroll then
-							table.insert(rClause.reroll, 0);
-						end
 						if vDie:sub(1,1) == "-" then
 							table.insert(rRoll.aDice, "-p" .. vDie:sub(3));
 						else
@@ -281,7 +347,6 @@ function modDamage(rSource, rTarget, rRoll)
 			if bApplyCritToClause then
 				local bNewMax = false;
 				local aCritClauseDice = {};
-				local aCritClauseReroll = {};
 				for kDie,vDie in ipairs(vClause.dice) do
 					if vDie:sub(1,1) == "-" then
 						table.insert(aNewDice, "-g" .. vDie:sub(3));
@@ -289,9 +354,6 @@ function modDamage(rSource, rTarget, rRoll)
 						table.insert(aNewDice, "g" .. vDie:sub(2));
 					end
 					table.insert(aCritClauseDice, vDie);
-					if vClause.reroll then
-						table.insert(aCritClauseReroll, vClause.reroll[kDie]);
-					end
 					
 					if kClause <= nPreEffectClauses and vDie:sub(1,1) ~= "-" then
 						local nDieSides = tonumber(vDie:sub(2)) or 0;
@@ -303,7 +365,7 @@ function modDamage(rSource, rTarget, rRoll)
 				end
 
 				if #aCritClauseDice > 0 then
-					local rNewClause = { dice = {}, reroll = {}, modifier = 0, stat = "" };
+					local rNewClause = { dice = {}, modifier = 0, stat = "" };
 					if vClause.dmgtype == "" then
 						rNewClause.dmgtype = "critical";
 					else
@@ -311,7 +373,6 @@ function modDamage(rSource, rTarget, rRoll)
 					end
 					for kDie, vDie in ipairs(aCritClauseDice) do
 						table.insert(rNewClause.dice, vDie);
-						table.insert(rNewClause.reroll, aCritClauseReroll[kDie]);
 					end
 					table.insert(aNewClauses, rNewClause);
 					
@@ -337,9 +398,6 @@ function modDamage(rSource, rTarget, rRoll)
 				for i = 1, nCritDice do
 					table.insert(aNewDice, nMaxDieIndex, "g" .. nMaxSides);
 					table.insert(aNewClauses[nMaxClause].dice, "d" .. nMaxSides);
-					if aNewClauses[nMaxClause].reroll then
-						table.insert(aNewClauses[nMaxClause].reroll, aNewClauses[nMaxClause].reroll[1]);
-					end
 				end
 			end
 		end
@@ -372,9 +430,9 @@ function modDamage(rSource, rTarget, rRoll)
 							nClauseFixedMod = nClauseFixedMod + 1;
 						end
 					end
+					vClause.dice = {};
 					vClause.modifier = vClause.modifier + nClauseFixedMod;
 				end
-				vClause.dice = {};
 				nFixedMod = nFixedMod + nClauseFixedMod;
 			else
 				for kDie,vDie in ipairs(vClause.dice) do
@@ -390,11 +448,7 @@ function modDamage(rSource, rTarget, rRoll)
 		rRoll.nMod = rRoll.nMod + nFixedMod;
 	end
 
-	-- Handle damage modifiers
-	local bMax = ModifierStack.getModifierKey("DMG_MAX");
-	if bMax then
-		table.insert(aAddDesc, "[MAX]");
-	end
+	-- Handle half damage
 	local bHalf = ModifierStack.getModifierKey("DMG_HALF");
 	if bHalf then
 		table.insert(aAddDesc, "[HALF]");
@@ -412,40 +466,126 @@ function modDamage(rSource, rTarget, rRoll)
 	ActionsManager2.encodeDesktopMods(rRoll);
 end
 
-function onDamageRoll(rSource, rRoll)
-	decodeDamageTypes(rRoll, true);
-end
+function onDeathRoll(rSource, rTarget, rRoll)
+	ActionsManager2.decodeAdvantage(rRoll);
 
-function onDamage(rSource, rTarget, rRoll)
-	-- Handle max damage
-	local bMax = rRoll.sDesc:match("%[MAX%]");
-	if bMax then
-		for _,vDie in ipairs(rRoll.aDice) do
-			local sSign, sColor, sDieSides = vDie.type:match("^([%-%+]?)([dDrRgGbBpP])([%dF]+)");
-			if sDieSides then
-				local nResult;
-				if sDieSides == "F" then
-					nResult = 1;
-				else
-					nResult = tonumber(sDieSides) or 0;
+	local rMessage = ActionsManager.createActionMessage(rSource, rRoll);
+
+	if ActorManager2.getPercentWounded(rSource) >= 1 then
+		local nTotal = ActionsManager.total(rRoll);
+		
+		local bStatusCheck = true;
+		local _,sOriginalStatus = ActorManager2.getPercentWounded(rSource);
+		
+		local nFirstDie = 0;
+		if #(rRoll.aDice) > 0 then
+			nFirstDie = rRoll.aDice[1].result or 0;
+		end
+		if nTotal <= 1 then
+			rMessage.text = rMessage.text .. " [CRITICAL FAILURE]";
+			
+			local sSourceType, sSourceNode = ActorManager.getTypeAndNodeName(rSource);
+			local nodeSource = nil;
+			if sSourceType == "pc" or sSourceType == "ct" then
+				nodeSource = DB.findNode(sSourceNode);
+			end
+			if nodeSource then
+				local nValue = DB.getValue(nodeSource, "hp.deathsavefail", 0);
+				if nValue < 3 then
+					nValue = math.min(nValue + 2, 3);
+					DB.setValue(nodeSource, "hp.deathsavefail", "number", nValue);
 				end
-				
-				if sSign == "-" then
-					nResult = 0 - nResult;
+			end
+		elseif nFirstDie == 20 then
+			rMessage.text = rMessage.text .. " [CRITICAL SUCCESS]";
+			
+			ActionDamage.applyDamage(nil, rSource, rRoll.bSecret, "[HEAL]", 1);
+			bStatusCheck = false;
+		elseif nTotal >= 10 then
+			rMessage.text = rMessage.text .. " [SUCCESS]";
+
+			local sSourceType, sSourceNode = ActorManager.getTypeAndNodeName(rSource);
+			local nodeSource = nil;
+			if sSourceType == "pc" or sSourceType == "ct" then
+				nodeSource = DB.findNode(sSourceNode);
+			end
+			if nodeSource then
+				local nValue = DB.getValue(nodeSource, "hp.deathsavesuccess", 0);
+				if nValue < 3 then
+					nValue = nValue + 1;
+					DB.setValue(nodeSource, "hp.deathsavesuccess", "number", nValue);
 				end
-				
-				vDie.result = nResult;
-				if sColor == "d" or sColor == "D" then
-					if sSign == "-" then
-						vDie.type = "-b" .. sDieSides;
-					else
-						vDie.type = "b" .. sDieSides;
-					end
+				if nValue >= 3 then
+					EffectManager.addEffect("", "", ActorManager.getCTNode(rSource), { sName = "Stable", nDuration = 0 }, true);
+				end
+			end
+		else
+			rMessage.text = rMessage.text .. " [FAILURE]";
+
+			local sSourceType, sSourceNode = ActorManager.getTypeAndNodeName(rSource);
+			local nodeSource = nil;
+			if sSourceType == "pc" or sSourceType == "ct" then
+				nodeSource = DB.findNode(sSourceNode);
+			end
+			if nodeSource then
+				local nValue = DB.getValue(nodeSource, "hp.deathsavefail", 0);
+				if nValue < 3 then
+					DB.setValue(nodeSource, "hp.deathsavefail", "number", nValue + 1);
+				end
+			end
+		end
+		
+		if bStatusCheck then
+			local bShowStatus = false;
+			if ActorManager.getFaction(rTarget) == "friend" then
+				bShowStatus = not OptionsManager.isOption("SHPC", "off");
+			else
+				bShowStatus = not OptionsManager.isOption("SHNPC", "off");
+			end
+			if bShowStatus then
+				local _,sNewStatus = ActorManager2.getPercentWounded(rSource);
+				if sOriginalStatus ~= sNewStatus then
+					rMessage.text = rMessage.text .. " [" .. Interface.getString("combat_tag_status") .. ": " .. sNewStatus .. "]";
 				end
 			end
 		end
 	end
 	
+	Comm.deliverChatMessage(rMessage);
+end
+
+function onDamageRoll(rSource, rRoll)
+	-- Handle rerolls
+	local nReroll = tonumber(rRoll.sDesc:match("%[REROLL (%d+)%]")) or 0;
+	if nReroll > 0 then
+		local aReroll = {};
+		
+		for k, vDie in ipairs(rRoll.aDice) do
+			if math.abs(vDie.result) <= nReroll then
+				local nDieSides = tonumber(string.match(vDie.type, "[%-%+]?[a-z](%d+)")) or 0;
+				if nDieSides > 0 then
+					local nSubtotal = math.random(nDieSides);
+					if vDie.result < 0 then
+						vDie.result = -nSubtotal;
+					else
+						vDie.result = nSubtotal;
+					end
+				end
+				
+				table.insert(aReroll, "D" .. k .. "=" .. vDie.result);
+			end
+		end
+		
+		if #aReroll > 0 then
+			rRoll.sDesc = rRoll.sDesc .. " [RESULT MOD " .. table.concat(aReroll, ",") .. "]";
+		end
+	end
+	
+	-- Decode damage types
+	decodeDamageTypes(rRoll, true);
+end
+
+function onDamage(rSource, rTarget, rRoll)
 	local rMessage = ActionsManager.createActionMessage(rSource, rRoll);
 	rMessage.text = string.gsub(rMessage.text, " %[MOD:[^]]*%]", "");
 
@@ -471,7 +611,7 @@ function encodeDamageTypes(rRoll)
 	for _,vClause in ipairs(rRoll.clauses) do
 		if vClause.dmgtype and vClause.dmgtype ~= "" then
 			local sDice = StringManager.convertDiceToString(vClause.dice, vClause.modifier);
-			rRoll.sDesc = rRoll.sDesc .. string.format(" [TYPE: %s (%s)(%s)(%s)]", vClause.dmgtype, sDice, vClause.stat or "", table.concat(vClause.reroll or {}, ","));
+			rRoll.sDesc = rRoll.sDesc .. string.format(" [TYPE: %s (%s)(%s)]", vClause.dmgtype, sDice, vClause.stat or "");
 		end
 	end
 end
@@ -479,47 +619,21 @@ end
 function decodeDamageTypes(rRoll, bFinal)
 	-- Process each type clause in the damage description (INITIAL ROLL)
 	local nMainDieIndex = 0;
-	local aRerollOutput = {};
 	rRoll.clauses = {};
-	for sDamageType, sDamageDice, sDamageAbility, sDamageReroll in string.gmatch(rRoll.sDesc, "%[TYPE: ([^(]*) %(([^)]*)%)%((%w*)%)%(([%w,]*)%)%]") do
+	for sDamageType, sDamageDice, sDamageAbility in string.gmatch(rRoll.sDesc, "%[TYPE: ([^(]*) %(([^)]*)%)%((%w*)%)%]") do
 		local rClause = {};
 		rClause.dmgtype = StringManager.trim(sDamageType);
 		rClause.stat = sDamageAbility;
 		rClause.dice, rClause.modifier = StringManager.convertStringToDice(sDamageDice);
 		rClause.nTotal = rClause.modifier;
-		local aReroll = {};
-		for sReroll in sDamageReroll:gmatch("%d+") do
-			table.insert(aReroll, tonumber(sReroll) or 0);
-		end
-		if #aReroll > 0 then
-			rClause.reroll = aReroll;
-		end
-		for kDie,vDie in ipairs(rClause.dice) do
+		for _,vDie in ipairs(rClause.dice) do
 			nMainDieIndex = nMainDieIndex + 1;
 			if rRoll.aDice[nMainDieIndex] then
-				if bFinal and 
-						rClause.reroll and rClause.reroll[kDie] and 
-						rRoll.aDice[nMainDieIndex].result and 
-						(math.abs(rRoll.aDice[nMainDieIndex].result) <= rClause.reroll[kDie]) then
-					local nDieSides = tonumber(string.match(rRoll.aDice[nMainDieIndex].type, "[%-%+]?[a-z](%d+)")) or 0;
-					if nDieSides > 0 then
-						table.insert(aRerollOutput, "D" .. nMainDieIndex .. "=" .. rRoll.aDice[nMainDieIndex].result);
-						local nSubtotal = math.random(nDieSides);
-						if rRoll.aDice[nMainDieIndex].result < 0 then
-							rRoll.aDice[nMainDieIndex].result = -nSubtotal;
-						else
-							rRoll.aDice[nMainDieIndex].result = nSubtotal;
-						end
-					end
-				end
 				rClause.nTotal = rClause.nTotal + (rRoll.aDice[nMainDieIndex].result or 0);
 			end
 		end
 		
 		table.insert(rRoll.clauses, rClause);
-	end
-	if #aRerollOutput > 0 then
-		rRoll.sDesc = rRoll.sDesc .. " [REROLL " .. table.concat(aRerollOutput, ",") .. "]";
 	end
 
 	-- Process each type clause in the damage description (DRAG ROLL RESULT)
@@ -663,6 +777,7 @@ function getDamageStrings(clauses)
 	return aOrderedTypes;
 end
 
+-- check this for split command/damage types on comma and ;
 function getDamageTypesFromString(sDamageTypes)
 	local sLower = string.lower(sDamageTypes);
 	local aSplit = StringManager.split(sLower, ",", true);
@@ -837,7 +952,6 @@ function getDamageAdjust(rSource, rTarget, nDamage, rDamageOutput)
 	
 	-- Iterate through damage type entries for vulnerability, resistance and immunity
 	local nVulnApplied = 0;
-	local bResistCarry = false;
 	for k, v in pairs(rDamageOutput.aDamageTypes) do
 		-- Get individual damage types for each damage clause
 		local aSrcDmgClauseTypes = {};
@@ -880,17 +994,8 @@ function getDamageAdjust(rSource, rTarget, nDamage, rDamageOutput)
 			end
 			-- Handle standard resistance
 			if bLocalResist then
-				local nResistOddCheck = (v + nLocalDamageAdjust) % 2;
 				local nAdj = math.ceil((nLocalDamageAdjust + v) / 2);
 				nLocalDamageAdjust = nLocalDamageAdjust - nAdj;
-				if nResistOddCheck == 1 then
-					if bResistCarry then
-						nLocalDamageAdjust = nLocalDamageAdjust + 1;
-						bResistCarry = false;
-					else
-						bResistCarry = true;
-					end
-				end
 				bResist = true;
 			end
 			-- Handle numerical resistance
@@ -1001,8 +1106,6 @@ function applyDamage(rSource, rTarget, bSecret, sDamage, nTotal)
 
 	-- Prepare for notifications
 	local aNotifications = {};
-	local nConcentrationDamage = 0;
-	local bRemoveTarget = false;
 
 	-- Remember current health status
 	local _,sOriginalStatus = ActorManager2.getPercentWounded(rTarget);
@@ -1135,14 +1238,10 @@ function applyDamage(rSource, rTarget, bSecret, sDamage, nTotal)
 		local sAttack = string.match(sDamage, "%[DAMAGE[^]]*%] ([^[]+)");
 		if sAttack then
 			local sDamageState = getDamageState(rSource, rTarget, StringManager.trim(sAttack));
-			if sDamageState == "none" then
+			if sDamageState == "half" then
+				isHalf = true;
+			elseif sDamageState == "none" then
 				isAvoided = true;
-				bRemoveTarget = true;
-			elseif sDamageState == "half_success" then
-				isHalf = true;
-				bRemoveTarget = true;
-			elseif sDamageState == "half_failure" then
-				isHalf = true;
 			end
 		end
 		if isAvoided then
@@ -1153,18 +1252,8 @@ function applyDamage(rSource, rTarget, bSecret, sDamage, nTotal)
 			nTotal = 0;
 		elseif isHalf then
 			table.insert(aNotifications, "[HALF]");
-			local bCarry = false;
 			for kType, nType in pairs(rDamageOutput.aDamageTypes) do
-				local nOddCheck = nType % 2;
 				rDamageOutput.aDamageTypes[kType] = math.floor(nType / 2);
-				if nOddCheck == 1 then
-					if bCarry then
-						rDamageOutput.aDamageTypes[kType] = rDamageOutput.aDamageTypes[kType] + 1;
-						bCarry = false;
-					else
-						bCarry = true;
-					end
-				end
 			end
 			nTotal = math.max(math.floor(nTotal / 2), 1);
 		end
@@ -1185,9 +1274,6 @@ function applyDamage(rSource, rTarget, bSecret, sDamage, nTotal)
 		if bVulnerable then
 			table.insert(aNotifications, "[VULNERABLE]");
 		end
-		
-		-- Prepare for concentration checks if damaged
-		nConcentrationDamage = nAdjustedDamage;
 		
 		-- Reduce damage by temporary hit points
 		if nTempHP > 0 and nAdjustedDamage > 0 then
@@ -1255,11 +1341,10 @@ function applyDamage(rSource, rTarget, bSecret, sDamage, nTotal)
 					if (nActive == 1) then
 						local bMatch = false;
 						local sLabel = DB.getValue(v, "label", "");
-						local aEffectComps = EffectManager.parseEffect(sLabel);
-						for i = 1, #aEffectComps do
-							local rEffectComp = EffectManager5E.parseEffectComp(aEffectComps[i]);
-							if rEffectComp.type == "REGEN" then
-								for _,v2 in pairs(rEffectComp.remainder) do
+						local effect_list = EffectManager.parseEffect(sLabel);
+						for i = 1, #effect_list do
+							if effect_list[i].type == "REGEN" then
+								for _,v2 in pairs(effect_list[i].remainder) do
 									if StringManager.contains(aActualDamageTypes, v2) then
 										bMatch = true;
 									end
@@ -1286,13 +1371,6 @@ function applyDamage(rSource, rTarget, bSecret, sDamage, nTotal)
 		nDeathSaveFail = 0;
 		if EffectManager5E.hasEffect(rTarget, "Stable") then
 			EffectManager.removeEffect(ActorManager.getCTNode(rTarget), "Stable");
-		end
-		if EffectManager5E.hasEffect(rTarget, "Unconscious") then
-			EffectManager.removeEffect(ActorManager.getCTNode(rTarget), "Unconscious");
-		end
-	else
-		if not EffectManager5E.hasEffect(rTarget, "Unconscious") then
-			EffectManager.addEffect("", "", ActorManager.getCTNode(rTarget), { sName = "Unconscious", nDuration = 0 }, true);
 		end
 	end
 
@@ -1325,23 +1403,6 @@ function applyDamage(rSource, rTarget, bSecret, sDamage, nTotal)
 	
 	-- Output results
 	messageDamage(rSource, rTarget, bSecret, rDamageOutput.sTypeOutput, sDamage, rDamageOutput.sVal, table.concat(aNotifications, " "));
-
-	-- Remove target after applying damage
-	if bRemoveTarget and rSource and rTarget then
-		TargetingManager.removeTarget(ActorManager.getCTNodeName(rSource), ActorManager.getCTNodeName(rTarget));
-	end
-
-	-- Check for required concentration checks
-    -- changed, using (C) effect to indicate someone is casting and if they take damage
-    -- the casting is interrupted and spell lost. --celestian
-	if nConcentrationDamage > 0 and ActionSave.hasConcentrationEffects(rTarget) then
-		if nWounds < nTotalHP then
-			-- local nTargetDC = math.max(math.floor(nConcentrationDamage / 2), 10);
-			-- ActionSave.performConcentrationRoll(nil, rTarget, nTargetDC);
-		-- else
-			ActionSave.expireConcentrationEffects(rTarget);
-		end
-	end
 end
 
 function messageDamage(rSource, rTarget, bSecret, sDamageType, sDamageDesc, sTotal, sExtraResult)
@@ -1376,10 +1437,6 @@ function messageDamage(rSource, rTarget, bSecret, sDamageType, sDamageDesc, sTot
 	
 	ActionsManager.messageResult(bSecret, rSource, rTarget, msgLong, msgShort);
 end
-
---
--- TRACK DAMAGE STATE
---
 
 local aDamageState = {};
 

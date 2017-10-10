@@ -4,10 +4,16 @@
 --
 
 OOB_MSGTYPE_APPLYSAVE = "applysave";
+OOB_MSGTYPE_APPLYCONC = "applyconc";
+
 function onInit()
 	OOBManager.registerOOBMsgHandler(OOB_MSGTYPE_APPLYSAVE, handleApplySave);
+  	OOBManager.registerOOBMsgHandler(OOB_MSGTYPE_APPLYCONC, handleApplyConc);
+
 	ActionsManager.registerModHandler("save", modSave);
 	ActionsManager.registerResultHandler("save", onSave);
+
+	ActionsManager.registerResultHandler("concentration", onConcentrationRoll);
 end
 
 function setNPCSave(nodeEntry, sSave, nodeNPC)
@@ -568,5 +574,142 @@ function applySave(rSource, rOrigin, rAction, sUser)
 	
 	if rSource and rOrigin then
 		ActionDamage.setDamageState(rOrigin, rSource, StringManager.trim(sAttack), rAction.sResult);
+	end
+end
+
+function hasConcentrationEffects(rSource)
+	return #(getConcentrationEffects(rSource)) > 0;
+end
+
+function getConcentrationEffects(rSource)
+	local aEffects = {};
+	
+	local nodeCTSource = ActorManager.getCTNode(rSource);
+	if nodeCTSource then
+		local sCTNodeSource = nodeCTSource.getPath();
+		for _,nodeCT in pairs(DB.getChildren(CombatManager.CT_LIST)) do
+			local sCTNode = nodeCT.getPath();
+			for _,nodeEffect in pairs(DB.getChildren(nodeCT, "effects")) do
+				local bSourceMatch = false;
+				local sEffectCTSource = DB.getValue(nodeEffect, "source_name", "");
+				if sEffectCTSource == sCTNodeSource then
+					bSourceMatch = true;
+				elseif (sCTNode == sCTNodeSource) and (sEffectCTSource == "") then
+					bSourceMatch = true;
+				end
+				if bSourceMatch then
+					if DB.getValue(nodeEffect, "label", ""):match("%([cC]%)") then
+						table.insert(aEffects, { nodeCT = nodeCT, nodeEffect = nodeEffect });
+					end
+				end
+			end
+		end
+	end
+	
+	return aEffects;
+end
+
+function handleApplyConc(msgOOB)
+	local rSource = ActorManager.getActor(msgOOB.sSourceType, msgOOB.sSourceNode);
+	
+	local rAction = {};
+	rAction.bSecret = (tonumber(msgOOB.nSecret) == 1);
+	rAction.sDesc = msgOOB.sDesc;
+	rAction.nTotal = tonumber(msgOOB.nTotal) or 0;
+	rAction.nTarget = tonumber(msgOOB.nTarget) or 0;
+	
+	applyConcentrationRoll(rSource, rAction);
+end
+
+function notifyApplyConc(rSource, bSecret, rRoll)
+	local msgOOB = {};
+	msgOOB.type = OOB_MSGTYPE_APPLYCONC;
+	
+	if bSecret then
+		msgOOB.nSecret = 1;
+	else
+		msgOOB.nSecret = 0;
+	end
+	msgOOB.sDesc = rRoll.sDesc;
+	msgOOB.nTotal = ActionsManager.total(rRoll);
+	msgOOB.nTarget = rRoll.nTarget;
+
+	local sSourceType, sSourceNode = ActorManager.getTypeAndNodeName(rSource);
+	msgOOB.sSourceType = sSourceType;
+	msgOOB.sSourceNode = sSourceNode;
+
+	Comm.deliverOOBMessage(msgOOB, "");
+end
+function performConcentrationRoll(draginfo, rActor, nTargetDC)
+	local rRoll = { };
+	rRoll.sType = "concentration";
+	rRoll.aDice = { "d20" };
+	local nMod, bADV, bDIS, sAddText = ActorManager2.getSave(rActor, "constitution");
+	rRoll.nMod = nMod;
+	
+	rRoll.sDesc = "[CONCENTRATION]";
+	if sAddText and sAddText ~= "" then
+		rRoll.sDesc = rRoll.sDesc .. " " .. sAddText;
+	end
+	if bADV then
+		rRoll.sDesc = rRoll.sDesc .. " [ADV]";
+	end
+	if bDIS then
+		rRoll.sDesc = rRoll.sDesc .. " [DIS]";
+	end
+
+	rRoll.nTarget = nTargetDC;
+	
+	ActionsManager.performAction(draginfo, rActor, rRoll);
+end
+
+function onConcentrationRoll(rSource, rTarget, rRoll)
+	ActionsManager2.decodeAdvantage(rRoll);
+
+	local rMessage = ActionsManager.createActionMessage(rSource, rRoll);
+	Comm.deliverChatMessage(rMessage);
+
+	local bAutoFail = rRoll.sDesc:match("%[AUTOFAIL%]");
+	if not bAutoFail and rRoll.nTarget then
+		notifyApplyConc(rSource, rMessage.secret, rRoll);
+	end
+end
+
+function applyConcentrationRoll(rSource, rAction)
+	local msgShort = {font = "msgfont"};
+	local msgLong = {font = "msgfont"};
+	
+	msgShort.text = "Concentration";
+	msgLong.text = "Concentration [" .. rAction.nTotal ..  "]";
+	if rAction.nTarget > 0 then
+		msgLong.text = msgLong.text .. "[vs. DC " .. rAction.nTarget .. "]";
+	end
+	msgShort.text = msgShort.text .. " ->";
+	msgLong.text = msgLong.text .. " ->";
+	if rSource then
+		msgShort.text = msgShort.text .. " [for " .. rSource.sName .. "]";
+		msgLong.text = msgLong.text .. " [for " .. rSource.sName .. "]";
+	end
+	
+	msgShort.icon = "roll_cast";
+		
+	if rAction.nTotal >= rAction.nTarget then
+		msgLong.text = msgLong.text .. " [SUCCESS]";
+	else
+		msgLong.text = msgLong.text .. " [FAILURE]";
+	end
+	
+	ActionsManager.messageResult(bSecret, rSource, nil, msgLong, msgShort);
+	
+	-- On failed concentration check, remove all effects with the same source creature
+	if rAction.nTotal < rAction.nTarget then
+		expireConcentrationEffects(rSource);
+	end
+end
+
+function expireConcentrationEffects(rSource)
+	local aSourceConcentrationEffects = getConcentrationEffects(rSource);
+	for _,v in ipairs(aSourceConcentrationEffects) do
+		EffectManager.expireEffect(v.nodeCT, v.nodeEffect, 0);
 	end
 end

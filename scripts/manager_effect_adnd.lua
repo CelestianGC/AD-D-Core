@@ -143,30 +143,30 @@ function updateItemEffect(nodeItemEffect, sName, nodeChar, sUser, bEquipped, nId
     end
 end
 
--- flip through all npc effects (generally do this in addNPC()
--- nodeNPC: node of NPC in NPCs record list
--- nodeEntry: node in combat tracker for NPC
-function updateNPCEffects(nodeNPC,nodeEntry)
-    for _,nodeNPCEffect in pairs(DB.getChildren(nodeNPC, "effectlist")) do
-        updateNPCEffect(nodeNPCEffect,nodeEntry);
+-- flip through all npc effects (generally do this in addNPC()/addPC()
+-- nodeChar: node of PC/NPC in PC/NPCs record list
+-- nodeEntry: node in combat tracker for PC/NPC
+function updateCharEffects(nodeChar,nodeEntry)
+    for _,nodeCharEffect in pairs(DB.getChildren(nodeChar, "effectlist")) do
+        updateCharEffect(nodeCharEffect,nodeEntry);
     end -- for item's effects list 
 end
--- this will be used to manage NPC effectslist objects
--- nodeNPCEffect: node in effectlist on NPC
--- nodeEntry: node in combat tracker for NPC
-function updateNPCEffect(nodeNPCEffect,nodeEntry)
+-- this will be used to manage PC/NPC effectslist objects
+-- nodeCharEffect: node in effectlist on PC/NPC
+-- nodeEntry: node in combat tracker for PC/NPC
+function updateCharEffect(nodeCharEffect,nodeEntry)
     local sName = DB.getValue(nodeEntry, "name", "");
-    local sLabel = DB.getValue(nodeNPCEffect, "effect", "");
+    local sLabel = DB.getValue(nodeCharEffect, "effect", "");
     local nRollDuration = 0;
-    local dDurationDice = DB.getValue(nodeNPCEffect, "durdice");
-    local nModDice = DB.getValue(nodeNPCEffect, "durmod", 0);
+    local dDurationDice = DB.getValue(nodeCharEffect, "durdice");
+    local nModDice = DB.getValue(nodeCharEffect, "durmod", 0);
     if (dDurationDice and dDurationDice ~= "") then
         nRollDuration = StringManager.evalDice(dDurationDice, nModDice);
     else
         nRollDuration = nModDice;
     end
     local nDMOnly = 0;
-    local sVisibility = DB.getValue(nodeNPCEffect, "visibility", "");
+    local sVisibility = DB.getValue(nodeCharEffect, "visibility", "");
     if sVisibility == "show" then
         nDMOnly = 0;
     elseif sVisibility == "hide" then
@@ -177,7 +177,7 @@ function updateNPCEffect(nodeNPCEffect,nodeEntry)
     --rEffect.sName = sName .. ";" .. sLabel;
     rEffect.sName = sLabel;
     rEffect.sLabel = sLabel; 
-    rEffect.sUnits = DB.getValue(nodeNPCEffect, "durunit", "day");
+    rEffect.sUnits = DB.getValue(nodeCharEffect, "durunit", "day");
     rEffect.nInit = 0;
     --rEffect.sSource = nodeEntry.getPath();
     rEffect.nGMOnly = nDMOnly;
