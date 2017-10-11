@@ -241,156 +241,18 @@
 				<static textres="item_label_ac_bonus" />
 			</label>
 
-
-            <!-- ability features -->
-<!-- 			<header_column name="header_abilities">
-				<static textres="header_abilities" />
-				<center />
-			</header_column>
-			<button_iedit name="item_iedit">
-				<anchored to="header_abilities" position="insidetopright" offset="-5,0" />
-				<tooltip textres="char_abilities_tooltip_edit" />
- 				<script>
-					function onValueChanged()
-						local bEditMode = (getValue() == 1);
-						
-						window.item_ability_list_iadd.setVisible(bEditMode);
-						window.ability_list.update();
-					end
-				</script>
-			</button_iedit>
-			<button_iadd name="item_ability_list_iadd">
-				<anchored to="item_iedit" position="lefthigh" offset="5,0" />
-				<target>ability_list</target>
-			</button_iadd>
-
-			<label name="ability_type_label">
-				<anchored width="60" height="20">
-					<top parent="columnanchor" anchor="bottom" relation="relative" offset="0" />
-					<left offset="107" />
-				</anchored>
-				<static textres="item_label_ability_type" />
-                <tooltip textres="item_ability_type_tooltip" />
-			</label>
-			<label name="ability_ability_label">
-				<anchored to="ability_type_label" position="righthigh" width="60" height="20" offset="5"/>
-				<static textres="item_label_ability_name" />
-			</label>
-			<label name="ability_value_label">
-				<anchored to="ability_ability_label" position="righthigh"  width="60" height="20" offset="0" />
-				<static textres="item_label_ability_value" />
-			</label>
-            
-			<list_editor_item name="ability_list">
-				<datasource>.abilitylist</datasource>
-				<class>item_ability_entry</class>
-				<script>
-					function addEntry(bFocus)
-						local n = getWindowCount();
-						
-						local w = createWindow();
-						if w then
-							if bFocus then
-								w.value.setFocus();
-							end
-						end
-						
-						return w;
-					end
-				</script>
-			</list_editor_item> -->
-            
-            <!-- saves features -->
-<!-- 			<header_column name="header_saves">
-				<static textres="header_saves" />
-				<center />
-			</header_column>
-			<button_iedit name="saves_iedit">
-				<anchored to="header_saves" position="insidetopright" offset="-5,0" />
-				<tooltip textres="char_abilities_tooltip_edit" />
- 				<script>
-					function onValueChanged()
-						local bEditMode = (getValue() == 1);
-						
-						window.save_list_iadd.setVisible(bEditMode);
-						window.save_list.update();
-					end
-				</script>
-			</button_iedit>
-			<button_iadd name="save_list_iadd">
-				<anchored to="saves_iedit" position="lefthigh"  offset="5,0" />
-				<target>save_list</target>
-			</button_iadd>
-
-			<label name="save_type_label">
-				<anchored width="60" height="20">
-					<top parent="columnanchor" anchor="bottom" relation="relative" offset="0" />
-					<left offset="112" />
-				</anchored>
-				<static textres="item_label_save_type" />
-                <tooltip textres="item_save_type_tooltip" />
-			</label>
-			<label name="save_save_label">
-				<anchored to="save_type_label" position="righthigh" width="60" height="20" offset="20"/>
-				<static textres="item_label_save_name" />
-			</label>
-			<label name="save_value_label">
-				<anchored to="save_save_label" position="righthigh"  width="60" height="20" offset="10" />
-				<static textres="item_label_save_value" />
-			</label>
-            
-			<list_editor_item_saves name="save_list">
-				<datasource>.savelist</datasource>
-				<class>item_save_entry</class>
-				<script>
-					function addEntry(bFocus)
-						local n = getWindowCount();
-						
-						local w = createWindow();
-						if w then
-							if bFocus then
-								w.value.setFocus();
-							end
-						end
-						
-						return w;
-					end
-				</script>
-			</list_editor_item_saves> -->
-
             <!-- effects -->
-			<header_column name="header_effects">
-				<static textres="header_effects" />
-				<center />
-			</header_column>
-			<button_iedit name="effects_iedit">
-				<anchored to="header_effects" position="insidetopright" offset="-5,0" />
- 				<script>
-					function onValueChanged()
-						local bEditMode = (getValue() == 1);
-						
-						window.effects_list_iadd.setVisible(bEditMode);
-						window.effects_list.update();
-					end
-				</script>
-			</button_iedit>
-			<button_iadd name="effects_list_iadd">
-				<anchored to="effects_iedit" position="lefthigh" offset="5,0" />
-				<target>effects_list</target>
-			</button_iadd>
-            
-			<list_editor_advanced_effects name="effects_list">
-				<datasource>.effectlist</datasource>
-				<class>advanced_effects_entry</class>
-				<script>
-					function addEntry(bFocus)
-						local n = getWindowCount();
-						
-						local w = createWindow();
-						return w;
-					end
-				</script>
-			</list_editor_advanced_effects>
+			<subwindow name="advanced_effects_contents">
+				<anchored>
+					<top parent="columnanchor" anchor="bottom" relation="relative" offset="0" />
+					<left offset="5" />
+                    <right offset="5" />
+				</anchored>
+				<class>advanced_effects_subwindow</class>
+				<activate />
+				<fastinit />
+                <invisible />
+			</subwindow>
             <!-- end advanced effects entry -->
             
 			<line_column name="divider3" />
