@@ -1340,6 +1340,13 @@ function applyDamage(rSource, rTarget, bSecret, sDamage, nTotal)
 			-- ActionSave.performConcentrationRoll(nil, rTarget, nTargetDC);
 		-- else
 			ActionSave.expireConcentrationEffects(rTarget);
+            local sLmsg = {font = "msgfont"};
+            sLmsg.icon = "roll_cast";
+            sSmsg.text = string.format(Interface.getString("message_concentration_failed"), rTarget.sName);
+            
+            local sSmsg = {font = "msgfont"};
+            sSmsg.text = string.format("%s's spell casting interrupted.", rTarget.sName);
+            ActionsManager.messageResult(bSecret, nil, rTarget, sLmsg, sSmsg);
 		end
 	end
 end

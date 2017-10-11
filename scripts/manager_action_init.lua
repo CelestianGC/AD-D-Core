@@ -106,7 +106,7 @@ function applySpellCastingConcentration(nodeChar,nodeSpell)
     local rEffect = {};
     local sEffectString = "(C)";
     rEffect.nDuration = 1;
-    rEffect.sName = sSpellName .. "; " .. sEffectString;
+    rEffect.sName = "Casting " .. sSpellName .. "; " .. sEffectString;
     rEffect.sLabel = sEffectString;
     rEffect.sUnits = "rnd";
     rEffect.nInit = 0;

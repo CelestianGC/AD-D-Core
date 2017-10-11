@@ -516,6 +516,7 @@
 
 	<string name="message_exp_applied">'%s' applied '%d' experience to %s.</string>
     
+	<string name="message_concentration_failed">%s's concentration broken by damage, spell casting interrupted!</string>
     <!-- Sidebar -->
    	<string name="library_recordtype_label_image">Images</string>
 	<string name="library_recordtype_label_treasureparcel">Loot</string>
