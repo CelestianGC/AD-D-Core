@@ -584,12 +584,6 @@
 						local n = getWindowCount();
 						
 						local w = createWindow();
-						if w then
-							if bFocus then
-								w.effect.setFocus();
-							end
-						end
-						
 						return w;
 					end
 				</script>
