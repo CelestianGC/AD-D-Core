@@ -87,33 +87,42 @@ function applySpellCastingConcentration(nodeChar,nodeSpell)
         return;
     end
 
-    -- need to do some error checking to make sure we only add it once
-    -- verify existing "effect_source" isn't the same as this one.
-    local bFound = false;
-    for _,nodeEffect in pairs(DB.getChildren(nodeChar, "effects")) do
-        local sSource = DB.getValue(nodeEffect,"source_name","");
-        if (sSource == nodeSpell.getPath()) then
-            bFound = true;
-            break;
-        end
-    end -- for item's effects list
-    
-    if bFound then
-        return;
-    end
-    
+    -- build effect fields
     local sSpellName = DB.getValue(nodeSpell,"name","");
     local rEffect = {};
     local sEffectString = "(C)";
+    local sEffectFullName = "Casting " .. sSpellName .. "; " .. sEffectString;
     rEffect.nDuration = 1;
-    rEffect.sName = "Casting " .. sSpellName .. "; " .. sEffectString;
+    rEffect.sName = sEffectFullName;
     rEffect.sLabel = sEffectString;
     rEffect.sUnits = "rnd";
     rEffect.nInit = 0;
     rEffect.sSource = nodeChar.getPath();
     rEffect.nGMOnly = 0;
     rEffect.sApply = "";
-    EffectManager.addEffect("", "", nodeChar, rEffect, true);
+
+    -- need to do some error checking to make sure we only add it once
+    -- verify existing "effect_source" and "label" isn't the same as this one.
+    local bFound = false;
+    for _,nodeEffect in pairs(DB.getChildren(nodeChar, "effects")) do
+        local sLabel = DB.getValue(nodeEffect,"label","");
+        local sSource = DB.getValue(nodeEffect,"source_name","");
+--        if (sSource == nodeSpell.getPath()) then
+        if (sLabel == sEffectFullName and sSource == nodeChar.getPath()) then
+            bFound = true;
+            break;
+        end
+    end -- for item's effects list
+    
+    if bFound then
+        -- effect already exists
+        return;
+    end
+    
+    -- lastly add effect
+    local sUser = User.getUsername();
+    local sIdentity = User.getCurrentIdentity(sUser);
+    EffectManager.addEffect(sUser, sIdentity, nodeChar, rEffect, true);
 end
 
 function performRoll(draginfo, rActor, bSecretRoll, rItem)

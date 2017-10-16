@@ -10,6 +10,7 @@ function setSortLock(isLocked)
 end
 
 function onInit()
+--Debug.console("char_invlist.lua","onInit","getDatabaseNode()",getDatabaseNode());
 	OptionsManager.registerCallback("MIID", StateChanged);
 
 	onEncumbranceChanged();
@@ -93,6 +94,7 @@ function onArmorChanged(nodeField)
 end
 
 function onCarriedChanged(nodeField)
+--Debug.console("char_invlist.lua","onCarriedChanged","nodeField",nodeField);
 	local nodeChar = DB.getChild(nodeField, "....");
 	if nodeChar then
 		local nodeItem = DB.getChild(nodeField, "..");
@@ -181,6 +183,7 @@ end
 
 -- run from addHandler for deleted child
 function updateItemEffects(nodeField)
+--Debug.console("char_invlist.lua","updateItemEffects","User.isHost()",User.isHost());
 	if EffectManagerADND.updateItemEffects then
 		EffectManagerADND.updateItemEffects(DB.getChild(nodeField, ".."));
 	end

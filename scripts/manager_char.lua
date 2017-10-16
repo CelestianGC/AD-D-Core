@@ -2555,7 +2555,7 @@ function applyEXPToActiveClasses(nodeChar)
         return;
     end
     local nApplyPerClass = math.ceil(nApplyAmount/nActiveClasses);
-Debug.console("manager_char.lua","applyEXPToActiveClasses","nApplyPerClass",nApplyPerClass);
+--Debug.console("manager_char.lua","applyEXPToActiveClasses","nApplyPerClass",nApplyPerClass);
 
 -- Debug.console("manager_char.lua","applyEXPToActiveClasses","nodeChar",nodeChar);
 -- Debug.console("manager_char.lua","applyEXPToActiveClasses","nCurrentTotal",nCurrentTotal);
@@ -2565,7 +2565,7 @@ Debug.console("manager_char.lua","applyEXPToActiveClasses","nApplyPerClass",nApp
 
 	for _,vClass in pairs(DB.getChildren(nodeChar, "classes")) do
         local sClass = DB.getValue(vClass, "name","UNKNOWN");
-Debug.console("manager_char.lua","applyEXPToActiveClasses","sClass",sClass);
+--Debug.console("manager_char.lua","applyEXPToActiveClasses","sClass",sClass);
         local nEXP = DB.getValue(vClass, "exp",0);
         local bActive = (DB.getValue(vClass, "classactive",0) == 1);
         local bBonusEXP = (DB.getValue(vClass, "classbonus",0) == 1);
@@ -2574,8 +2574,8 @@ Debug.console("manager_char.lua","applyEXPToActiveClasses","sClass",sClass);
             nApplyEXP = math.ceil(nApplyPerClass + (nApplyPerClass*0.10));
         end
         if (bActive) then
-Debug.console("manager_char.lua","applyEXPToActiveClasses","bBonusEXP",bBonusEXP);
-Debug.console("manager_char.lua","applyEXPToActiveClasses","nApplyEXP",nApplyEXP);
+--Debug.console("manager_char.lua","applyEXPToActiveClasses","bBonusEXP",bBonusEXP);
+--Debug.console("manager_char.lua","applyEXPToActiveClasses","nApplyEXP",nApplyEXP);
             local nTotalAmount = nEXP+nApplyEXP;
             DB.setValue(vClass, "exp","number", nTotalAmount);
             local sFormat = Interface.getString("message_exp_applied");

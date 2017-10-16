@@ -6,6 +6,7 @@
 -- add the effect if the item is equipped and doesn't exist already
 function updateItemEffects(nodeItem)
 --Debug.console("manager_effect_adnd.lua","updateItemEffects1","nodeItem",nodeItem);
+Debug.console("manager_effect_adnd.lua","updateItemEffects","User.isHost()",User.isHost());
     local nodeChar = DB.getChild(nodeItem, "...");
     if not nodeChar then
         return;
@@ -30,20 +31,6 @@ function updateItemEffects(nodeItem)
     if not bOptionID then 
         nIdentified = 1;
     end
-
-    -- local sLabel = DB.getValue(nodeItem, "effect", "");
-    -- local sLabelCombat = DB.getValue(nodeItem, "effect_combat", "");
-    -- if (sLabelCombat ~= "") then
-        -- sLabel = sLabel .. ";" .. sLabelCombat;
-    -- end
-    -- if (sLabel ~= "") then
-        -- local nodeItemEffect = DB.createChild("
-        -- nodeItemEffect.durmod = 0;
-        -- nodeItemEffect.durunit = "day";
-        -- nodeItemEffect.effect = sLabel;
-        -- updateItemEffect(nodeItemEffect, nodeItem.getPath(), sName, nodeChar, sUser, bEquipped, nIdentified);
-    -- end;
-    
 -- Debug.console("manager_effect_adnd.lua","updateItemEffects","sUser",sUser);
 -- Debug.console("manager_effect_adnd.lua","updateItemEffects","nodeChar",nodeChar);
 -- Debug.console("manager_effect_adnd.lua","updateItemEffects","nodeItem",nodeItem);
@@ -58,6 +45,7 @@ end
 
 -- update single effect for item
 function updateItemEffect(nodeItemEffect, sName, nodeChar, sUser, bEquipped, nIdentified)
+Debug.console("manager_effect_adnd.lua","updateItemEffect","User.isHost()",User.isHost());
     local sCharacterName = DB.getValue(nodeChar, "name", "");
     local sItemSource = nodeItemEffect.getPath();
     local sLabel = DB.getValue(nodeItemEffect, "effect", "");
@@ -77,7 +65,7 @@ function updateItemEffect(nodeItemEffect, sName, nodeChar, sUser, bEquipped, nId
                     bFound = true;
 --Debug.console("manager_effect.lua","updateItemEffect","bFound!!!",bFound);
                     if (not bEquipped) then
-                    sendEffectRemovedMessage(nodeChar, nodeEffect, sLabel, nDMOnly, sUser)
+                        sendEffectRemovedMessage(nodeChar, nodeEffect, sLabel, nDMOnly, sUser)
 --Debug.console("manager_effect_adnd.lua","updateItemEffect","!!!bEquipped",bEquipped);
                         nodeEffect.delete();
                         break;
@@ -89,7 +77,7 @@ function updateItemEffect(nodeItemEffect, sName, nodeChar, sUser, bEquipped, nId
 --Debug.console("manager_effect_adnd.lua","updateItemEffect","pre bEquipped",bEquipped);
         if (not bFound and bEquipped) then
 --Debug.console("manager_effect_adnd.lua","updateItemEffect","bFound and bEquipped",bEquipped);
-Debug.console("manager_effect_adnd.lua","updateItemEffect","nIdentified",nIdentified);
+--Debug.console("manager_effect_adnd.lua","updateItemEffect","nIdentified",nIdentified);
 
             local rEffect = {};
             local nRollDuration = 0;
@@ -120,13 +108,13 @@ Debug.console("manager_effect_adnd.lua","updateItemEffect","nIdentified",nIdenti
             rEffect.sApply = "";
 --Debug.console("manager_effect_adnd.lua","updateItemEffect","rEffect",rEffect);
             --EffectManager.addEffect(sUser, "", nodeChar, rEffect, true);
-            EffectManager.addEffect(sUser, "", nodeChar, rEffect, false );
+            EffectManager.addEffect("", "", nodeChar, rEffect, false);
             sendEffectAddedMessage(nodeChar, rEffect, sLabel, nDMOnly, sUser)
         end
     end
 end
 
--- flip through all npc effects (generally do this in addNPC()/addPC()
+-- flip through all pc/npc effects (generally do this in addNPC()/addPC()
 -- nodeChar: node of PC/NPC in PC/NPCs record list
 -- nodeEntry: node in combat tracker for PC/NPC
 function updateCharEffects(nodeChar,nodeEntry)
@@ -138,6 +126,7 @@ end
 -- nodeCharEffect: node in effectlist on PC/NPC
 -- nodeEntry: node in combat tracker for PC/NPC
 function updateCharEffect(nodeCharEffect,nodeEntry)
+    local sUser = User.getUsername();
     local sName = DB.getValue(nodeEntry, "name", "");
     local sLabel = DB.getValue(nodeCharEffect, "effect", "");
     local nRollDuration = 0;
@@ -165,12 +154,16 @@ function updateCharEffect(nodeCharEffect,nodeEntry)
     --rEffect.sSource = nodeEntry.getPath();
     rEffect.nGMOnly = nDMOnly;
     rEffect.sApply = "";
-    EffectManager.addEffect("", "", nodeEntry, rEffect, true);
+    --EffectManager.addEffect("", "", nodeEntry, rEffect, true);
+    EffectManager.addEffect("", "", nodeEntry, rEffect, false);
+    sendEffectAddedMessage(nodeEntry, rEffect, sLabel, nDMOnly, sUser);
 end
 
+-- build message to send that effect removed
 function sendEffectRemovedMessage(nodeChar, nodeEffect, sLabel, nDMOnly, sUser)
     local sCharacterName = DB.getValue(nodeChar, "name", "");
-    -- BUILD MESSAGE
+	-- Build output message
+	local msg = ChatManager.createBaseMessage(ActorManager.getActorFromCT(nodeChar),sUser);
     local msg = {font = "msgfont", icon = "roll_effect"};
     msg.text = "Advanced Effect ['" .. sLabel .. "'] ";
     msg.text = msg.text .. "removed [from " .. sCharacterName .. "]";
@@ -182,9 +175,10 @@ function sendEffectRemovedMessage(nodeChar, nodeEffect, sLabel, nDMOnly, sUser)
 
     sendRawMessage(nDMOnly,sUser,msg);
 end
+-- build message to send that effect added
 function sendEffectAddedMessage(nodeCT, rNewEffect, sLabel, nDMOnly, sUser)
 	-- Build output message
-	local msg = {font = "msgfont", icon = "roll_effect"};
+	local msg = ChatManager.createBaseMessage(ActorManager.getActorFromCT(nodeCT),sUser);
 	msg.text = "Advanced Effect ['" .. rNewEffect.sName .. "'] ";
 	msg.text = msg.text .. "-> [to " .. DB.getValue(nodeCT, "name", "") .. "]";
 	if rNewEffect.sSource and rNewEffect.sSource ~= "" then
@@ -192,18 +186,26 @@ function sendEffectAddedMessage(nodeCT, rNewEffect, sLabel, nDMOnly, sUser)
 	end
     sendRawMessage(nDMOnly,sUser,msg);
 end
-
+-- send message
 function sendRawMessage(nDMOnly,sUser, msg)
---Debug.console("manager_effect_adnd.lua","sendRawMessage","nDMOnly",nDMOnly);
+-- Debug.console("manager_effect_adnd.lua","sendRawMessage","nDMOnly",nDMOnly);
+-- Debug.console("manager_effect_adnd.lua","sendRawMessage","sUser",sUser);
+-- Debug.console("manager_effect_adnd.lua","sendRawMessage","msg",msg);
+-- Debug.console("manager_effect_adnd.lua","sendRawMessage","User.isHost()",User.isHost());
+-- Debug.console("manager_effect_adnd.lua","sendRawMessage","User.getCurrentIdentity()",User.getCurrentIdentity());
+-- printstack();
     if nDMOnly == 1 and User.isHost() then
         msg.secret = true;
         Comm.addChatMessage(msg);
     elseif nDMOnly ~= 1 then 
         if sUser ~= "" then
             Comm.addChatMessage(msg);
-            Comm.deliverChatMessage(msg, sUser);
+            --Comm.deliverChatMessage(msg, sUser);
         else
             Comm.deliverChatMessage(msg);
         end
     end
 end
+
+
+
