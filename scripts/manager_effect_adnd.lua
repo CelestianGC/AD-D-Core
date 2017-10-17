@@ -96,6 +96,8 @@ Debug.console("manager_effect_adnd.lua","updateItemEffect","User.isHost()",User.
                 nDMOnly = 1;
             elseif nIdentified > 0 then
                 nDMOnly = 0;
+            elseif nIdentified == 0 then
+                nDMOnly = 1;
             end
             
             rEffect.nDuration = nRollDuration;

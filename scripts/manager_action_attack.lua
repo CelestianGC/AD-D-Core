@@ -192,6 +192,21 @@ function modAttack(rSource, rTarget, rRoll)
     rRoll.nBaseAttack = nBaseAttack;
 
 	if rSource then
+Debug.console("manager_action_attack.lua","modAttack","rSource",rSource);    
+        local rItemSource = nil;
+        local bItem = false;
+        if (rSource.itemPath and rSource.itemPath ~= "") then
+            local itemNode = DB.findNode(rSource.itemPath);
+            if (itemNode) then
+Debug.console("manager_action_attack.lua","modAttack","rSource.itemNode",rSource.itemNode);    
+                rItemSource = {};
+                rItemSource.sType = rSource.sType;
+                rItemSource.sCTNode = rSource.itemPath;
+                rItemSource.sCreatureNode = rSource.sCreatureNode;
+                rItemSource.sName = rSource.sName;
+                bItem = true;
+            end
+        end
 		-- Determine attack type
 		local sAttackType = string.match(rRoll.sDesc, "%[ATTACK.*%((%w+)%)%]");
 		if not sAttackType then
@@ -215,11 +230,20 @@ function modAttack(rSource, rTarget, rRoll)
 			table.insert(aAttackFilter, "opportunity");
 		end
 
-		
 		-- Get attack effect modifiers
 		local bEffects = false;
 		local nEffectCount;
 		aAddDice, nAddMod, nEffectCount = EffectManager5E.getEffectsBonus(rSource, {"ATK"}, false, aAttackFilter);
+        -- check item for special modifiers
+        if (bItem) then
+            local aAddDiceItem, nAddModItem, nEffectCountItem = EffectManager5E.getEffectsBonus(rItemSource, {"ATK"}, false, aAttackFilter);
+Debug.console("manager_action_attack.lua","modAttack","aAddDiceItem",aAddDiceItem);    
+Debug.console("manager_action_attack.lua","modAttack","nAddModItem",nAddModItem);    
+Debug.console("manager_action_attack.lua","modAttack","nEffectCountItem",nEffectCountItem);    
+            nAddMod = nAddMod + nAddModItem;
+            nEffectCount = nEffectCount + nEffectCountItem;
+        end
+
 		if (nEffectCount > 0) then
 			bEffects = true;
 		end

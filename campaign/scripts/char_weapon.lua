@@ -184,8 +184,13 @@ function onAttackAction(draginfo)
 	local nodeWeapon = getDatabaseNode();
 	local nodeChar = nodeWeapon.getChild("...")
 	local rActor = ActorManager.getActor("pc", nodeChar);
+    -- pass itemNode
+    local _, sRecord = DB.getValue(nodeWeapon, "shortcut", "", "");
+	rActor.itemPath = sRecord;
+Debug.console("char_Weapon.lua","onAttackAction","rActor",rActor);    
+
 	local rAction = {};
-	
+    
 	local aWeaponProps = StringManager.split(DB.getValue(nodeWeapon, "properties", ""):lower(), ",", true);
 	
 	rAction.label = name.getValue();
