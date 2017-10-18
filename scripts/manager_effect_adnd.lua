@@ -39,19 +39,26 @@ Debug.console("manager_effect_adnd.lua","updateItemEffects","User.isHost()",User
 -- Debug.console("manager_effect_adnd.lua","updateItemEffects","nIdentified",nIdentified);
 
     for _,nodeItemEffect in pairs(DB.getChildren(nodeItem, "effectlist")) do
-        updateItemEffect(nodeItemEffect, sName, nodeChar, sUser, bEquipped, nIdentified);
+        updateItemEffect(nodeItem,nodeItemEffect, sName, nodeChar, sUser, bEquipped, nIdentified);
     end -- for item's effects list
 end
 
 -- update single effect for item
-function updateItemEffect(nodeItemEffect, sName, nodeChar, sUser, bEquipped, nIdentified)
+function updateItemEffect(nodeItem,nodeItemEffect, sName, nodeChar, sUser, bEquipped, nIdentified)
 Debug.console("manager_effect_adnd.lua","updateItemEffect","User.isHost()",User.isHost());
     local sCharacterName = DB.getValue(nodeChar, "name", "");
     local sItemSource = nodeItemEffect.getPath();
+Debug.console("manager_effect_adnd.lua","updateItemEffect","sItemSource",sItemSource);
+Debug.console("manager_effect_adnd.lua","updateItemEffect","itemNode?",nodeItemEffect.getChild("..."));
+    -- local bActionOnly = (DB.getValue(nodeItemEffect, "actiononly", 0) ~= 0);
+    -- local sActionSource = "";
+    -- if (bActionOnly) then
+        -- sActionSource =  nodeItem.getPath();
+    -- end
     local sLabel = DB.getValue(nodeItemEffect, "effect", "");
 -- Debug.console("manager_effect_adnd.lua","updateItemEffect","sName",sName);
 -- Debug.console("manager_effect_adnd.lua","updateItemEffect","sLabel",sLabel);
--- Debug.console("manager_effect_adnd.lua","updateItemEffect","sItemSource",sItemSource);
+Debug.console("manager_effect_adnd.lua","updateItemEffect","sItemSource",sItemSource);
     if sLabel and sLabel ~= "" then -- if we have effect string
         local bFound = false;
         for _,nodeEffect in pairs(DB.getChildren(nodeChar, "effects")) do
@@ -116,7 +123,7 @@ Debug.console("manager_effect_adnd.lua","updateItemEffect","User.isHost()",User.
     end
 end
 
--- flip through all pc/npc effects (generally do this in addNPC()/addPC()
+-- flip through all pc/npc effectslist (generally do this in addNPC()/addPC()
 -- nodeChar: node of PC/NPC in PC/NPCs record list
 -- nodeEntry: node in combat tracker for PC/NPC
 function updateCharEffects(nodeChar,nodeEntry)
@@ -124,13 +131,14 @@ function updateCharEffects(nodeChar,nodeEntry)
         updateCharEffect(nodeCharEffect,nodeEntry);
     end -- for item's effects list 
 end
--- this will be used to manage PC/NPC effectslist objects
+-- apply effect from npc/pc/item to the node
 -- nodeCharEffect: node in effectlist on PC/NPC
 -- nodeEntry: node in combat tracker for PC/NPC
 function updateCharEffect(nodeCharEffect,nodeEntry)
     local sUser = User.getUsername();
     local sName = DB.getValue(nodeEntry, "name", "");
     local sLabel = DB.getValue(nodeCharEffect, "effect", "");
+    local bActionOnly = (DB.getValue(nodeCharEffect, "actiononly", 0)==1);
     local nRollDuration = 0;
     local dDurationDice = DB.getValue(nodeCharEffect, "durdice");
     local nModDice = DB.getValue(nodeCharEffect, "durmod", 0);
@@ -209,5 +217,17 @@ function sendRawMessage(nDMOnly,sUser, msg)
     end
 end
 
-
+-- concat two tables
+function TableConcat(t1,t2)
+    if t2 == nil then
+        return t1;
+    end
+    if t1 == nil then
+        return t2;
+    end
+    for i=1,#t2 do
+        t1[#t1+1] = t2[i]
+    end
+    return t1
+end
 

@@ -189,7 +189,7 @@
 			</anchored>
 			<state textres="item_button_templates" />
 			<script>
-				function onButtonPress()
+				function onClickDown(button, x, y)
 					Interface.openWindow("masterindex", "itemtemplate");
 				end
 			</script>

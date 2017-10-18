@@ -213,10 +213,8 @@ function updateMiscEffects()
         return;
     end
     local nodeRecord = getDatabaseNode();
---Debug.console("advanced_effects_editor.lua","updateMiscEffects","nodeRecord",nodeRecord);
     local sEffectString = "";
     local sType = DB.getValue(nodeRecord,"misc_type","");
-    --local sSuscept = DB.getValue(nodeRecord,"susceptiblity","");
     local nModifier = DB.getValue(nodeRecord,"misc_modifier",0);
     local sTypeChar = "";
     
@@ -224,9 +222,6 @@ function updateMiscEffects()
         sType = "ac";
     end
     
---Debug.console("advanced_effects_editor.lua","updateMiscEffects","sType",sType);
---Debug.console("advanced_effects_editor.lua","updateMiscEffects","sSuscept",sSuscept);
---Debug.console("advanced_effects_editor.lua","updateMiscEffects","nModifier",nModifier);
     if (nModifier ~= 0) then
         sEffectString = sEffectString .. sType:upper() .. ": " .. nModifier .. ";";
     end

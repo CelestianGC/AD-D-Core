@@ -473,10 +473,13 @@ function evalEffect(rActor, s)
 end
 
 function getEffectsByType(rActor, sEffectType, aFilter, rFilterActor, bTargetedOnly)
+--Debug.console("manager_effect_5E.lua","getEffectsByType","==rActor",rActor);    
+--Debug.console("manager_effect_5E.lua","getEffectsByType","==sEffectType",sEffectType);    
 	if not rActor then
 		return {};
 	end
 	local results = {};
+--Debug.console("manager_effect_5E.lua","getEffectsByType","------------>rActor",rActor);    
 	
 	-- Set up filters
 	local aRangeFilter = {};
@@ -496,11 +499,45 @@ function getEffectsByType(rActor, sEffectType, aFilter, rFilterActor, bTargetedO
 	-- Determine effect type targeting
 	local bTargetSupport = StringManager.isWord(sEffectType, DataCommon.targetableeffectcomps);
 	
+Debug.console("manager_effect_5E.lua","getEffectsByType","rActor",rActor);    
+Debug.console("manager_effect_5E.lua","getEffectsByType","sEffectType",sEffectType);    
+-- Debug.console("manager_effect_5E.lua","getEffectsByType","aFilter",aFilter);    
+-- Debug.console("manager_effect_5E.lua","getEffectsByType","rFilterActor",rFilterActor);    
+-- Debug.console("manager_effect_5E.lua","getEffectsByType","bTargetedOnly",bTargetedOnly);    
+
 	-- Iterate through effects
 	for _,v in pairs(DB.getChildren(ActorManager.getCTNode(rActor), "effects")) do
 		-- Check active
 		local nActive = DB.getValue(v, "isactive", 0);
-		if (nActive ~= 0) then
+
+        -- item effect jazz
+        local sSource = DB.getValue(v,"source_name","");
+        local bItemTriggered = false;
+        local nodeItem = nil;
+        local sNodePath = "";
+        -- if there is a itemPath do some sanity checking
+        if (rActor.itemPath and rActor.itemPath ~= "") then 
+            bItemTriggered = (DB.findNode(rActor.itemPath) ~= nil);
+            -- here is where we get the node path of the item, not the 
+            -- effectslist entry
+            if (bItemTriggered) then
+                local node = DB.findNode(sSource);
+                if (node and node ~= nil) then
+                    nodeItem = node.getChild("...");
+                    if nodeItem and nodeItem ~= nil then
+                        sNodePath = nodeItem.getPath();
+                    end
+                end
+            end
+        end
+        local bItemSource = false;
+        if bItemTriggered and sNodePath ~= "" and (sNodePath == rActor.itemPath) then
+            bItemSource = true;
+Debug.console("manager_effect_5E.lua","getEffectsByType","bItemSource",bItemSource);    
+        end
+        
+		if ( nActive ~= 0 and ( not bItemTriggered or (bItemTriggered and bItemSource) ) ) then
+            
 			local sLabel = DB.getValue(v, "label", "");
 			local sApply = DB.getValue(v, "apply", "");
 
@@ -635,6 +672,8 @@ function getEffectsByType(rActor, sEffectType, aFilter, rFilterActor, bTargetedO
 end
 
 function getEffectsBonusByType(rActor, aEffectType, bAddEmptyBonus, aFilter, rFilterActor, bTargetedOnly)
+--Debug.console("manager_effect_5E.lua","getEffectsBonusByType","rActor",rActor);
+--Debug.console("manager_effect_5E.lua","getEffectsBonusByType","aEffectType",aEffectType);
 	if not rActor or not aEffectType then
 		return {}, 0;
 	end
@@ -817,9 +856,40 @@ function hasEffect(rActor, sEffect, rTarget, bTargetedOnly, bIgnoreEffectTargets
 	
 	-- Iterate through each effect
 	local aMatch = {};
+Debug.console("manager_effect_5E.lua","hasEffect","rActor",rActor);    
+Debug.console("manager_effect_5E.lua","hasEffect","sEffect",sEffect);    
+Debug.console("manager_effect_5E.lua","hasEffect","rTarget",rTarget);    
+Debug.console("manager_effect_5E.lua","hasEffect","bIgnoreEffectTargets",bIgnoreEffectTargets);    
+Debug.console("manager_effect_5E.lua","hasEffect","bTargetedOnly",bTargetedOnly);    
 	for _,v in pairs(DB.getChildren(ActorManager.getCTNode(rActor), "effects")) do
 		local nActive = DB.getValue(v, "isactive", 0);
-		if nActive ~= 0 then
+        -- item effect jazz
+        local sSource = DB.getValue(v,"source_name","");
+        local bItemTriggered = false;
+        local nodeItem = nil;
+        local sNodePath = "";
+        -- if there is a itemPath do some sanity checking
+        if (rActor.itemPath and rActor.itemPath ~= "") then 
+            bItemTriggered = (DB.findNode(rActor.itemPath) ~= nil);
+            -- here is where we get the node path of the item, not the 
+            -- effectslist entry
+            if (bItemTriggered) then
+                local node = DB.findNode(sSource);
+                if (node and node ~= nil) then
+                    nodeItem = node.getChild("...");
+                    if nodeItem and nodeItem ~= nil then
+                        sNodePath = nodeItem.getPath();
+                    end
+                end
+            end
+        end
+        local bItemSource = false;
+        if bItemTriggered and sNodePath ~= "" and (sNodePath == rActor.itemPath) then
+            bItemSource = true;
+Debug.console("manager_effect_5E.lua","getEffectsByType","bItemSource",bItemSource);    
+        end
+        
+		if ( nActive ~= 0 and ( not bItemTriggered or (bItemTriggered and bItemSource) ) ) then
 			-- Parse each effect label
 			local sLabel = DB.getValue(v, "label", "");
 			local bTargeted = EffectManager.isTargetedEffect(v);
@@ -952,7 +1022,34 @@ function checkConditionalHelper(rActor, sEffect, rTarget, aIgnore)
 	
 	for _,v in pairs(DB.getChildren(ActorManager.getCTNode(rActor), "effects")) do
 		local nActive = DB.getValue(v, "isactive", 0);
-		if nActive ~= 0 and not StringManager.contains(aIgnore, v.getNodeName()) then
+        -- item effect jazz
+        local sSource = DB.getValue(v,"source_name","");
+        local bItemTriggered = false;
+        local nodeItem = nil;
+        local sNodePath = "";
+        -- if there is a itemPath do some sanity checking
+        if (rActor.itemPath and rActor.itemPath ~= "") then 
+            bItemTriggered = (DB.findNode(rActor.itemPath) ~= nil);
+            -- here is where we get the node path of the item, not the 
+            -- effectslist entry
+            if (bItemTriggered) then
+                local node = DB.findNode(sSource);
+                if (node and node ~= nil) then
+                    nodeItem = node.getChild("...");
+                    if nodeItem and nodeItem ~= nil then
+                        sNodePath = nodeItem.getPath();
+                    end
+                end
+            end
+        end
+        local bItemSource = false;
+        if bItemTriggered and sNodePath ~= "" and (sNodePath == rActor.itemPath) then
+            bItemSource = true;
+Debug.console("manager_effect_5E.lua","getEffectsByType","bItemSource",bItemSource);    
+        end
+        
+		if ( nActive ~= 0 and ( not bItemTriggered or (bItemTriggered and bItemSource)) and not StringManager.contains(aIgnore, v.getNodeName()) ) then
+		--if nActive ~= 0 and not StringManager.contains(aIgnore, v.getNodeName()) then
 			-- Parse each effect label
 			local sLabel = DB.getValue(v, "label", "");
 			local bTargeted = EffectManager.isTargetedEffect(v);

@@ -92,7 +92,6 @@
 						addItems(DataCommon.saves_shortnames);
 					end
 				</script>
-				<!-- <script file="campaign/scripts/prof_select.lua"/> bonuscomps -->
 			</combobox>
 	</template>
 	<template name="cycler_susceptiblitytypes">
@@ -114,7 +113,6 @@
 						addItems(DataCommon.conditions);
 					end
 				</script>
-				<!-- <script file="campaign/scripts/prof_select.lua"/> -->
 			</combobox>
 	</template>
 	<template name="cycler_misctypes">

@@ -146,7 +146,7 @@ function modDamage(rSource, rTarget, rRoll)
 		-- Apply general damage modifiers
 		local aEffects, nEffectCount = EffectManager5E.getEffectsBonusByType(rSource, "DMG", true, aAttackFilter, rTarget);
 		if nEffectCount > 0 then
-			local sEffectBaseType = "";
+            local sEffectBaseType = "";
 			if #(rRoll.clauses) > 0 then
 				sEffectBaseType = rRoll.clauses[1].dmgtype or "";
 			end
@@ -201,9 +201,9 @@ function modDamage(rSource, rTarget, rRoll)
 
 					table.insert(rRoll.clauses, rClause);
 				end
-			end
+			end -- for 
 		end
-		
+            
 		-- Apply damage type modifiers
 		local aEffects = EffectManager5E.getEffectsByType(rSource, "DMGTYPE", {});
 		local aAddTypes = {};

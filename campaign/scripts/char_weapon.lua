@@ -184,11 +184,14 @@ function onAttackAction(draginfo)
 	local nodeWeapon = getDatabaseNode();
 	local nodeChar = nodeWeapon.getChild("...")
 	local rActor = ActorManager.getActor("pc", nodeChar);
-    -- pass itemNode
+
+    -- add itemPath to rActor so that when effects are checked we can 
+    -- make compare against action only effects
     local _, sRecord = DB.getValue(nodeWeapon, "shortcut", "", "");
 	rActor.itemPath = sRecord;
 Debug.console("char_Weapon.lua","onAttackAction","rActor",rActor);    
-
+    --
+    
 	local rAction = {};
     
 	local aWeaponProps = StringManager.split(DB.getValue(nodeWeapon, "properties", ""):lower(), ",", true);
@@ -259,7 +262,13 @@ function onDamageActionSingle(nodeDamage, draginfo)
     local nodeWeapon = getDatabaseNode();
 	local nodeChar = nodeWeapon.getChild("...");
 	local rActor = ActorManager.getActor("pc", nodeChar);
-
+    -- add itemPath to rActor so that when effects are checked we can 
+    -- make compare against action only effects
+    local _, sRecord = DB.getValue(nodeWeapon, "shortcut", "", "");
+	rActor.itemPath = sRecord;
+Debug.console("char_Weapon.lua","onDamageActionSingle","rActor",rActor);    
+    --
+    
 	local aWeaponProps = StringManager.split(DB.getValue(nodeWeapon, "properties", ""):lower(), ",", true);
 	
 	local rAction = {};

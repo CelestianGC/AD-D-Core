@@ -449,6 +449,8 @@
 	<string name="item_label_abilityfeature">Feature</string>
 
 	<string name="header_dmonly">Dungeon Master Only</string>
+
+    <string name="item_label_effect_attackonly">This effect ONLY applied during an attack or damage.</string>
     
    	<!-- Pregens -->
 	<string name="pregen_label_background">Kit</string>

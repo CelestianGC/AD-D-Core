@@ -33,6 +33,7 @@ function onInit()
 	DB.addHandler(DB.getPath(node, "*.effectlist.*.name"), "onUpdate", updateItemEffectsForEdit);
 	DB.addHandler(DB.getPath(node, "*.effectlist.*.durunit"), "onUpdate", updateItemEffectsForEdit);
 	DB.addHandler(DB.getPath(node, "*.effectlist.*.visibility"), "onUpdate", updateItemEffectsForEdit);
+	DB.addHandler(DB.getPath(node, "*.effectlist.*.actiononly"), "onUpdate", updateItemEffectsForEdit);
 	DB.addHandler(DB.getPath(node), "onChildDeleted", updateFromDeletedInventory);
 end
 
@@ -55,6 +56,7 @@ function onClose()
 	DB.removeHandler(DB.getPath(node, "*.effectlist.*.name"), "onUpdate", updateItemEffectsForEdit);
 	DB.removeHandler(DB.getPath(node, "*.effectlist.*.durunit"), "onUpdate", updateItemEffectsForEdit);
 	DB.removeHandler(DB.getPath(node, "*.effectlist.*.visibility"), "onUpdate", updateItemEffectsForEdit);
+	DB.removeHandler(DB.getPath(node, "*.effectlist.*.actiononly"), "onUpdate", updateItemEffectsForEdit);
 	DB.removeHandler(DB.getPath(node),"onChildDeleted", updateFromDeletedInventory);
 end
 

@@ -192,21 +192,6 @@ function modAttack(rSource, rTarget, rRoll)
     rRoll.nBaseAttack = nBaseAttack;
 
 	if rSource then
-Debug.console("manager_action_attack.lua","modAttack","rSource",rSource);    
-        local rItemSource = nil;
-        local bItem = false;
-        if (rSource.itemPath and rSource.itemPath ~= "") then
-            local itemNode = DB.findNode(rSource.itemPath);
-            if (itemNode) then
-Debug.console("manager_action_attack.lua","modAttack","rSource.itemNode",rSource.itemNode);    
-                rItemSource = {};
-                rItemSource.sType = rSource.sType;
-                rItemSource.sCTNode = rSource.itemPath;
-                rItemSource.sCreatureNode = rSource.sCreatureNode;
-                rItemSource.sName = rSource.sName;
-                bItem = true;
-            end
-        end
 		-- Determine attack type
 		local sAttackType = string.match(rRoll.sDesc, "%[ATTACK.*%((%w+)%)%]");
 		if not sAttackType then
@@ -234,32 +219,22 @@ Debug.console("manager_action_attack.lua","modAttack","rSource.itemNode",rSource
 		local bEffects = false;
 		local nEffectCount;
 		aAddDice, nAddMod, nEffectCount = EffectManager5E.getEffectsBonus(rSource, {"ATK"}, false, aAttackFilter);
-        -- check item for special modifiers
-        if (bItem) then
-            local aAddDiceItem, nAddModItem, nEffectCountItem = EffectManager5E.getEffectsBonus(rItemSource, {"ATK"}, false, aAttackFilter);
-Debug.console("manager_action_attack.lua","modAttack","aAddDiceItem",aAddDiceItem);    
-Debug.console("manager_action_attack.lua","modAttack","nAddModItem",nAddModItem);    
-Debug.console("manager_action_attack.lua","modAttack","nEffectCountItem",nEffectCountItem);    
-            nAddMod = nAddMod + nAddModItem;
-            nEffectCount = nEffectCount + nEffectCountItem;
-        end
-
 		if (nEffectCount > 0) then
 			bEffects = true;
 		end
 		
 		-- Get condition modifiers
-		if EffectManager5E.hasEffect(rSource, "ADVATK", rTarget) then
+		if (EffectManager5E.hasEffect(rSource, "ADVATK", rTarget)) then
 			bADV = true;
 			bEffects = true;
-		elseif #(EffectManager5E.getEffectsByType(rSource, "ADVATK", aAttackFilter, rTarget)) > 0 then
+		elseif (#(EffectManager5E.getEffectsByType(rSource, "ADVATK", aAttackFilter, rTarget)) > 0) then
 			bADV = true;
 			bEffects = true;
 		end
 		if EffectManager5E.hasEffect(rSource, "DISATK", rTarget) then
 			bDIS = true;
 			bEffects = true;
-		elseif #(EffectManager5E.getEffectsByType(rSource, "DISATK", aAttackFilter, rTarget)) > 0 then
+		elseif (#(EffectManager5E.getEffectsByType(rSource, "DISATK", aAttackFilter, rTarget)) > 0)  then
 			bDIS = true;
 			bEffects = true;
 		end
@@ -319,6 +294,11 @@ Debug.console("manager_action_attack.lua","modAttack","nEffectCountItem",nEffect
 			bEffects = true;
 			nAddMod = nAddMod + nBonusStat;
 		end
+		-- local nBonusStatItem, nBonusEffectsItem = ActorManager2.getAbilityEffectsBonus(rItemSource, sActionStat,"hitadj");
+		-- if nBonusEffectsItem > 0 then
+            -- bEffects = true;
+            -- nAddMod = nAddMod + nBonusStatItem;
+        -- end
 		
 		-- Get exhaustion modifiers
 		local nExhaustMod, nExhaustCount = EffectManager5E.getEffectsBonus(rSource, {"EXHAUSTION"}, true);
@@ -331,6 +311,9 @@ Debug.console("manager_action_attack.lua","modAttack","nEffectCountItem",nEffect
 		
 		-- Determine crit range
 		local aCritRange = EffectManager5E.getEffectsByType(rSource, "CRIT");
+   		--local aCritRangeItem = EffectManager5E.getEffectsByType(rItemSource, "CRIT");
+        --aCritRange = EffectManagerADND.TableConcat(aCritRange,aCritRangeItem);
+
 		if #aCritRange > 0 then
 			local nCritThreshold = 20;
 			for _,v in ipairs(aCritRange) do
