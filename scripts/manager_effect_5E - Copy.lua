@@ -404,43 +404,44 @@ function applyRecharge(nodeActor, nodeEffect, rEffectComp)
 end
 
 function evalAbilityHelper(rActor, sEffectAbility)
-	local sSign, sModifier, sShortAbility = sEffectAbility:match("^%[([%+%-]?)([H2]?)([A-Z][A-Z][A-Z])%]$");
+	-- local sSign, sModifier, sShortAbility = sEffectAbility:match("^%[([%+%-]?)([H2]?)([A-Z][A-Z][A-Z])%]$");
 	
-	local nAbility = nil;
-	if sShortAbility == "STR" then
-		nAbility = ActorManager2.getAbilityBonus(rActor, "strength");
-	elseif sShortAbility == "DEX" then
-		nAbility = ActorManager2.getAbilityBonus(rActor, "dexterity");
-	elseif sShortAbility == "CON" then
-		nAbility = ActorManager2.getAbilityBonus(rActor, "constitution");
-	elseif sShortAbility == "INT" then
-		nAbility = ActorManager2.getAbilityBonus(rActor, "intelligence");
-	elseif sShortAbility == "WIS" then
-		nAbility = ActorManager2.getAbilityBonus(rActor, "wisdom");
-	elseif sShortAbility == "CHA" then
-		nAbility = ActorManager2.getAbilityBonus(rActor, "charisma");
-	elseif sShortAbility == "LVL" then
-		nAbility = ActorManager2.getAbilityBonus(rActor, "level");
-	elseif sShortAbility == "PRF" then
-		nAbility = ActorManager2.getAbilityBonus(rActor, "prf");
-	end
+	-- local nAbility = nil;
+	-- if sShortAbility == "STR" then
+		-- nAbility = ActorManager2.getAbilityBonus(rActor, "strength");
+	-- elseif sShortAbility == "DEX" then
+		-- nAbility = ActorManager2.getAbilityBonus(rActor, "dexterity");
+	-- elseif sShortAbility == "CON" then
+		-- nAbility = ActorManager2.getAbilityBonus(rActor, "constitution");
+	-- elseif sShortAbility == "INT" then
+		-- nAbility = ActorManager2.getAbilityBonus(rActor, "intelligence");
+	-- elseif sShortAbility == "WIS" then
+		-- nAbility = ActorManager2.getAbilityBonus(rActor, "wisdom");
+	-- elseif sShortAbility == "CHA" then
+		-- nAbility = ActorManager2.getAbilityBonus(rActor, "charisma");
+	-- elseif sShortAbility == "LVL" then
+		-- nAbility = ActorManager2.getAbilityBonus(rActor, "level");
+	-- elseif sShortAbility == "PRF" then
+		-- nAbility = ActorManager2.getAbilityBonus(rActor, "prf");
+	-- end
 	
-	if nAbility then
-		if sSign == "-" then
-			nAbility = 0 - nAbility;
-		end
-		if sModifier == "H" then
-			if nAbility > 0 then
-				nAbility = math.floor(nAbility / 2);
-			else
-				nAbility = math.ceil(nAbility / 2);
-			end
-		elseif sModifier == "2" then
-			nAbility = nAbility * 2;
-		end
-	end
+	-- if nAbility then
+		-- if sSign == "-" then
+			-- nAbility = 0 - nAbility;
+		-- end
+		-- if sModifier == "H" then
+			-- if nAbility > 0 then
+				-- nAbility = math.floor(nAbility / 2);
+			-- else
+				-- nAbility = math.ceil(nAbility / 2);
+			-- end
+		-- elseif sModifier == "2" then
+			-- nAbility = nAbility * 2;
+		-- end
+	-- end
 	
-	return nAbility;
+	-- return nAbility;
+    return 0;
 end
 
 function evalEffect(rActor, s)
@@ -472,10 +473,13 @@ function evalEffect(rActor, s)
 end
 
 function getEffectsByType(rActor, sEffectType, aFilter, rFilterActor, bTargetedOnly)
+Debug.console("manager_effect_5E.lua","getEffectsByType","==rActor",rActor);    
+Debug.console("manager_effect_5E.lua","getEffectsByType","==sEffectType",sEffectType);    
 	if not rActor then
 		return {};
 	end
 	local results = {};
+--Debug.console("manager_effect_5E.lua","getEffectsByType","------------>rActor",rActor);    
 	
 	-- Set up filters
 	local aRangeFilter = {};
@@ -495,11 +499,18 @@ function getEffectsByType(rActor, sEffectType, aFilter, rFilterActor, bTargetedO
 	-- Determine effect type targeting
 	local bTargetSupport = StringManager.isWord(sEffectType, DataCommon.targetableeffectcomps);
 	
+--Debug.console("manager_effect_5E.lua","getEffectsByType","rActor",rActor);    
+--Debug.console("manager_effect_5E.lua","getEffectsByType","sEffectType",sEffectType);    
+-- Debug.console("manager_effect_5E.lua","getEffectsByType","aFilter",aFilter);    
+-- Debug.console("manager_effect_5E.lua","getEffectsByType","rFilterActor",rFilterActor);    
+-- Debug.console("manager_effect_5E.lua","getEffectsByType","bTargetedOnly",bTargetedOnly);    
+
 	-- Iterate through effects
 	for _,v in pairs(DB.getChildren(ActorManager.getCTNode(rActor), "effects")) do
 		-- Check active
 		local nActive = DB.getValue(v, "isactive", 0);
-		if (nActive ~= 0) then
+		--if ( nActive ~= 0 and ( not bItemTriggered or (bItemTriggered and bItemSource) ) ) then
+        if (EffectManagerADND.isValidCheckEffect(rActor,v)) then
 			local sLabel = DB.getValue(v, "label", "");
 			local sApply = DB.getValue(v, "apply", "");
 
@@ -634,6 +645,8 @@ function getEffectsByType(rActor, sEffectType, aFilter, rFilterActor, bTargetedO
 end
 
 function getEffectsBonusByType(rActor, aEffectType, bAddEmptyBonus, aFilter, rFilterActor, bTargetedOnly)
+--Debug.console("manager_effect_5E.lua","getEffectsBonusByType","rActor",rActor);
+--Debug.console("manager_effect_5E.lua","getEffectsBonusByType","aEffectType",aEffectType);
 	if not rActor or not aEffectType then
 		return {}, 0;
 	end
@@ -658,8 +671,13 @@ function getEffectsBonusByType(rActor, aEffectType, bAddEmptyBonus, aFilter, rFi
 			-- LOOK FOR ENERGY OR BONUS TYPES
 			local dmg_type = nil;
 			local mod_type = nil;
+            -- this handles the BSTR, BPSTR/etc style abilites settings --celestian
+            if (StringManager.contains(DataCommonADND.basetypes, v2.type)) then
+                mod_type = v2.type;
+            end
 			for _,v3 in pairs(v2.remainder) do
-				if StringManager.contains(DataCommon.dmgtypes, v3) or StringManager.contains(DataCommon.conditions, v3) or v3 == "all" then
+				if StringManager.contains(DataCommon.dmgtypes, v3) or 
+                    StringManager.contains(DataCommon.conditions, v3) or v3 == "all" then
 					dmg_type = v3;
 					break;
 				elseif StringManager.contains(DataCommon.bonustypes, v3) then
@@ -811,9 +829,14 @@ function hasEffect(rActor, sEffect, rTarget, bTargetedOnly, bIgnoreEffectTargets
 	
 	-- Iterate through each effect
 	local aMatch = {};
+--Debug.console("manager_effect_5E.lua","hasEffect","rActor",rActor);    
+--Debug.console("manager_effect_5E.lua","hasEffect","sEffect",sEffect);    
+--Debug.console("manager_effect_5E.lua","hasEffect","rTarget",rTarget);    
+--Debug.console("manager_effect_5E.lua","hasEffect","bIgnoreEffectTargets",bIgnoreEffectTargets);    
+--Debug.console("manager_effect_5E.lua","hasEffect","bTargetedOnly",bTargetedOnly);    
 	for _,v in pairs(DB.getChildren(ActorManager.getCTNode(rActor), "effects")) do
 		local nActive = DB.getValue(v, "isactive", 0);
-		if nActive ~= 0 then
+        if (EffectManagerADND.isValidCheckEffect(rActor,v)) then
 			-- Parse each effect label
 			local sLabel = DB.getValue(v, "label", "");
 			local bTargeted = EffectManager.isTargetedEffect(v);
@@ -946,7 +969,8 @@ function checkConditionalHelper(rActor, sEffect, rTarget, aIgnore)
 	
 	for _,v in pairs(DB.getChildren(ActorManager.getCTNode(rActor), "effects")) do
 		local nActive = DB.getValue(v, "isactive", 0);
-		if nActive ~= 0 and not StringManager.contains(aIgnore, v.getNodeName()) then
+        if (EffectManagerADND.isValidCheckEffect(rActor,v) and not StringManager.contains(aIgnore, v.getNodeName())) then
+		--if nActive ~= 0 and not StringManager.contains(aIgnore, v.getNodeName()) then
 			-- Parse each effect label
 			local sLabel = DB.getValue(v, "label", "");
 			local bTargeted = EffectManager.isTargetedEffect(v);

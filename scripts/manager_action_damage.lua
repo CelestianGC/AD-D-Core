@@ -96,6 +96,10 @@ end
 
 function performRoll(draginfo, rActor, rAction)
 	local rRoll = getRoll(rActor, rAction);
+
+    if (draginfo and rActor.itemPath and rActor.itemPath ~= "") then
+        draginfo.setMetaData("itemPath",rActor.itemPath);
+    end
 	
 	ActionsManager.performAction(draginfo, rActor, rRoll);
 end

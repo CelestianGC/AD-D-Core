@@ -189,7 +189,7 @@ function onAttackAction(draginfo)
     -- make compare against action only effects
     local _, sRecord = DB.getValue(nodeWeapon, "shortcut", "", "");
 	rActor.itemPath = sRecord;
-Debug.console("char_Weapon.lua","onAttackAction","rActor",rActor);    
+--Debug.console("char_Weapon.lua","onAttackAction","rActor",rActor);    
     --
     
 	local rAction = {};
@@ -266,7 +266,7 @@ function onDamageActionSingle(nodeDamage, draginfo)
     -- make compare against action only effects
     local _, sRecord = DB.getValue(nodeWeapon, "shortcut", "", "");
 	rActor.itemPath = sRecord;
-Debug.console("char_Weapon.lua","onDamageActionSingle","rActor",rActor);    
+--Debug.console("char_Weapon.lua","onDamageActionSingle","rActor",rActor);    
     --
     
 	local aWeaponProps = StringManager.split(DB.getValue(nodeWeapon, "properties", ""):lower(), ",", true);
