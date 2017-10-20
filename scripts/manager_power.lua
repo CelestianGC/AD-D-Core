@@ -349,8 +349,7 @@ function getPowerRoll(rActor, nodeAction, sSubRoll)
 end
 
 
--- check this -celestian
-function onPowerAction(draginfo, nodeAction, sSubRoll)
+function performAction(draginfo, nodeAction, sSubRoll)
 	if not nodeAction then
 		return;
 	end
@@ -359,6 +358,16 @@ function onPowerAction(draginfo, nodeAction, sSubRoll)
 		return;
 	end
 
+    -- add itemPath to rActor so that when effects are checked we can 
+    -- make compare against action only effects
+    local nodeWeapon = nodeAction.getChild("...");
+    local _, sRecord = DB.getValue(nodeWeapon, "shortcut", "", "");
+	rActor.itemPath = sRecord;
+    if (draginfo and rActor.itemPath and rActor.itemPath ~= "") then
+        draginfo.setMetaData("itemPath",rActor.itemPath);
+    end
+    --
+    
     -- capture this and increment spells used -celestian
   	local sType = DB.getValue(nodeAction, "type", "");
     if sType == "cast" then 

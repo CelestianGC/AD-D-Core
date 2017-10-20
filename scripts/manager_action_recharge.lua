@@ -44,13 +44,14 @@ function onRecharge(rSource, rTarget, rRoll)
 	if nodeTargetEffect then
 		-- Check the effect components
 		local sEffectName = DB.getValue(nodeTargetEffect, "label", "");
-		local aEffectList = EffectManager.parseEffect(sEffectName);
+		local aEffectComps = EffectManager.parseEffect(sEffectName);
 		local nRecharge = nil;
 		local sRecharge = "";
-		for i = 1, #aEffectList do
-			if aEffectList[i].type == "RCHG" then
-				nRecharge = aEffectList[i].mod;
-				sRecharge = table.concat(aEffectList[i].remainder, " ");
+		for i = 1, #aEffectComps do
+			local rEffectComp = EffectManager5E.parseEffectComp(aEffectComps[i]);
+			if rEffectComp.type == "RCHG" then
+				nRecharge = rEffectComp.mod;
+				sRecharge = table.concat(rEffectComp.remainder, " ");
 				break;
 			end
 		end

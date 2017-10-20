@@ -16,7 +16,7 @@
 --		Heal actions are either direct healing or granting temporary hit points (if subtype = "temp" set)
 --		If sTargeting = "self" set, then the heal will always be applied to self instead of target.
 --
--- { type = "save", save = "<ability>", [savemod = #, ][savestat = "<ability>", ][onmissdamage = "half"] }
+-- { type = "powersave", save = "<ability>", [savemod = #, ][savestat = "<ability>", ][onmissdamage = "half"] }
 --		If savemod defined, then the DC will be this fixed value.
 --		If savestat defined, then the DC will be calculated as 8 + specified ability bonus + proficiency bonus
 --		Otherwise, the save DC will be the same as the spell group
@@ -32,14 +32,14 @@ parsedata = {
 		{ type = "heal", subtype = "temp", clauses = { { bonus = 5 } } },
 	},
 	["bane"] = {
-		{ type = "save", save = "charisma" },
+		{ type = "powersave", save = "charisma", magic = true, savebase = "group" },
 		{ type = "effect", sName = "ATK: -1d4; SAVE: -1d4; (C)", nDuration = 1, sUnits = "minute" },
 	},
 	["beacon of hope"] = {
-		{ type = "effect", sName = "ADVSAV: wisdom; ADVDEATH; NOTE: Receive Max Healing; (C)", nDuration = 1, sUnits = "minute" },
+		{ type = "effect", sName = "ADVSAV: wisdom; ADVSAV: death; NOTE: Receive Max Healing; (C)", nDuration = 1, sUnits = "minute" },
 	},
 	["bestow curse"] = {
-		{ type = "save", save = "wisdom" },
+		{ type = "powersave", save = "wisdom", magic = true, savebase = "group" },
 		{ type = "effect", sName = "DISCHK: strength; DISSAV: strength; (C)", nDuration = 1, sUnits = "minute" },
 		{ type = "effect", sName = "DISCHK: dexterity; DISSAV: dexterity; (C)", nDuration = 1, sUnits = "minute" },
 		{ type = "effect", sName = "DISCHK: constitution; DISSAV: constitution; (C)", nDuration = 1, sUnits = "minute" },
@@ -51,8 +51,8 @@ parsedata = {
 		{ type = "effect", sName = "[TRGT]; DMG: 1d8 necrotic; (C)", sTargeting = "self", nDuration = 1, sUnits = "minute" },
 	},
 	["blade barrier"] = {
-		{ type = "save", save = "dexterity", onmissdamage = "half" },
-		{ type = "damage", clauses = { { dice = { "d10", "d10", "d10", "d10", "d10", "d10" }, type = "slashing,magic" } } },
+		{ type = "powersave", save = "dexterity", onmissdamage = "half", magic = true, savebase = "group" },
+		{ type = "damage", clauses = { { dice = { "d10", "d10", "d10", "d10", "d10", "d10" }, dmgtype = "slashing,magic" } } },
 	},
 	["blade ward"] = {
 		{ type = "effect", sName = "RESIST: bludgeoning,piercing,slashing", nDuration = 1 },
@@ -61,7 +61,7 @@ parsedata = {
 		{ type = "effect", sName = "ATK: 1d4; SAVE: 1d4; (C)", nDuration = 1, sUnits = "minute" },
 	},
 	["blindness/deafness"] = {
-		{ type = "save", save = "constitution" },
+		{ type = "powersave", save = "constitution", magic = true, savebase = "group" },
 		{ type = "effect", sName = "Blinded; NOTE: End of Round Save", nDuration = 1, sUnits = "minute" },
 		{ type = "effect", sName = "Deafened; NOTE: End of Round Save", nDuration = 1, sUnits = "minute" },
 	},
@@ -69,25 +69,25 @@ parsedata = {
 		{ type = "effect", sName = "GRANTDISATK; (C)", sTargeting = "self", nDuration = 1, sUnits = "minute" },
 	},
 	["chill touch"] = {
-		{ type = "attack", range = "R" },
-		{ type = "damage", clauses = { { dice = { "d8" }, type = "necrotic" } } },
+		{ type = "attack", range = "R", spell = true, base = "group" },
+		{ type = "damage", clauses = { { dice = { "d8" }, dmgtype = "necrotic" } } },
 		{ type = "effect", sName = "NOTE: Can't regain hit points", nDuration = 1 },
 		{ type = "effect", sName = "[TRGT]; GRANTDISATK", sTargeting = "self", nDuration = 1 },
 	},
 	["chromatic orb"] = {
-		{ type = "attack", range = "R" },
-		{ type = "damage", clauses = { { dice = { "d8", "d8", "d8" }, type = "acid" } } },
-		{ type = "damage", clauses = { { dice = { "d8", "d8", "d8" }, type = "cold" } } },
-		{ type = "damage", clauses = { { dice = { "d8", "d8", "d8" }, type = "fire" } } },
-		{ type = "damage", clauses = { { dice = { "d8", "d8", "d8" }, type = "lightning" } } },
-		{ type = "damage", clauses = { { dice = { "d8", "d8", "d8" }, type = "poison" } } },
-		{ type = "damage", clauses = { { dice = { "d8", "d8", "d8" }, type = "thunder" } } },
+		{ type = "attack", range = "R", spell = true, base = "group" },
+		{ type = "damage", clauses = { { dice = { "d8", "d8", "d8" }, dmgtype = "acid" } } },
+		{ type = "damage", clauses = { { dice = { "d8", "d8", "d8" }, dmgtype = "cold" } } },
+		{ type = "damage", clauses = { { dice = { "d8", "d8", "d8" }, dmgtype = "fire" } } },
+		{ type = "damage", clauses = { { dice = { "d8", "d8", "d8" }, dmgtype = "lightning" } } },
+		{ type = "damage", clauses = { { dice = { "d8", "d8", "d8" }, dmgtype = "poison" } } },
+		{ type = "damage", clauses = { { dice = { "d8", "d8", "d8" }, dmgtype = "thunder" } } },
 	},
 	["color spray"] = {
 		{ type = "effect", sName = "Blinded", nDuration = 1 },
 	},
 	["contagion"] = {
-		{ type = "attack", range = "M" },
+		{ type = "attack", range = "M", spell = true, base = "group" },
 		{ type = "effect", sName = "NOTE: Contagion", nDuration = 1, sUnits = "minute" },
 		{ type = "effect", sName = "NOTE: Blinding Sickness; DISCHK: wisdom; DISSAV: wisdom; Blinded", nDuration = 7, sUnits = "day" },
 		{ type = "effect", sName = "NOTE: Filth Fever; DISCHK: strength; DISSAV: strength; NOTE: DIS on strength attacks", nDuration = 7, sUnits = "day" },
@@ -97,19 +97,19 @@ parsedata = {
 		{ type = "effect", sName = "NOTE: Slimy Doom; DISCHK: constitution; DISSAV: constitution; NOTE: Stunned when damaged", nDuration = 7, sUnits = "day" },
 	},
 	["crown of madness"] = {
-		{ type = "save", save = "wisdom" },
+		{ type = "powersave", save = "wisdom", magic = true, savebase = "group" },
 		{ type = "effect", sName = "Charmed; NOTE: Save on end of round; (C)", nDuration = 1, sUnits = "minute" },
 	},
 	["death ward"] = {
 		{ type = "effect", sName = "NOTE: Death Ward", nDuration = 8, sUnits = "hour" },
 	},
 	["dispel evil and good"] = {
-		{ type = "attack", range = "M" },
-		{ type = "save", save = "charisma" },
-		{ type = "effect", sName = "IFT: (aberration, celestial, elemental, fey, fiend, undead); GRANTDISATK; IMMUNE: charmed,frightened,possessed; (C)", nDuration = 1, sUnits = "minute" },
+		{ type = "attack", range = "M", spell = true, base = "group" },
+		{ type = "powersave", save = "charisma", magic = true, savebase = "group" },
+		{ type = "effect", sName = "IFT: TYPE(aberration, celestial, elemental, fey, fiend, undead); GRANTDISATK; IMMUNE: charmed,frightened,possessed; (C)", nDuration = 1, sUnits = "minute" },
 	},
 	["divine word"] = {
-		{ type = "save", save = "charisma" },
+		{ type = "powersave", save = "charisma", magic = true, savebase = "group" },
 		{ type = "effect", sName = "Deafened", nDuration = 1, sUnits = "minute" },
 		{ type = "effect", sName = "Deafened; Blinded", nDuration = 10, sUnits = "minute" },
 		{ type = "effect", sName = "Blinded; Deafened; Stunned", nDuration = 1, sUnits = "hour" },
@@ -124,16 +124,20 @@ parsedata = {
 		{ type = "effect", sName = "ADVCHK: wisdom; (C)", nDuration = 1, sUnits = "hour" },
 	},
 	["enlarge/reduce"] = {
-		{ type = "save", save = "constitution" },
+		{ type = "powersave", save = "constitution", magic = true, savebase = "group" },
 		{ type = "effect", sName = "NOTE: Enlarged; ADVCHK: strength; ADVSAV: strength; DMG: 1d4; (C)", nDuration = 1, sUnits = "minute" },
-		{ type = "effect", sName = "NOTE: Enlarged; DISCHK: strength; DISSAV: strength; DMG: -1d4; (C)", nDuration = 1, sUnits = "minute" },
+		{ type = "effect", sName = "NOTE: Reduced; DISCHK: strength; DISSAV: strength; DMG: -1d4; (C)", nDuration = 1, sUnits = "minute" },
+	},
+	["faerie fire"] = {
+		{ type = "powersave", save = "dexterity", magic = true, savebase = "group" },
+		{ type = "effect", sName = "GRANTADVATK; (C)", nDuration = 1, sUnits = "minute" },
 	},
 	["feign death"] = {
 		{ type = "effect", sName = "Blinded; Incapacitated; RESIST: all, !psychic", nDuration = 1, sUnits = "hour" },
 	},
 	["forbiddance"] = {
-		{ type = "damage", clauses = { { dice = { "d10", "d10", "d10", "d10", "d10" }, type = "radiant" } } },
-		{ type = "damage", clauses = { { dice = { "d10", "d10", "d10", "d10", "d10" }, type = "necrotic" } } },
+		{ type = "damage", clauses = { { dice = { "d10", "d10", "d10", "d10", "d10" }, dmgtype = "radiant" } } },
+		{ type = "damage", clauses = { { dice = { "d10", "d10", "d10", "d10", "d10" }, dmgtype = "necrotic" } } },
 	},
 	["friends"] = {
 		{ type = "effect", sName = "ADVCHK: charisma; (C)", nDuration = 1, sUnits = "minute" },
@@ -142,34 +146,34 @@ parsedata = {
 		{ type = "effect", sName = "NOTE: Gaseous Form; RESIST: all, !magic; ADVSAV: strength; ADVSAV: dexterity; ADVSAV: constitution", nDuration = 1, sUnits = "hour" },
 	},
 	["geas"] = {
-		{ type = "save", save = "wisdom" },
+		{ type = "powersave", save = "wisdom", magic = true, savebase = "group" },
 		{ type = "effect", sName = "Charmed" },
 		{ type = "damage", clauses = { { dice = { "d10", "d10", "d10", "d10", "d10" }, type = "psychic" } } },
 	},
 	["glyph of warding"] = {
-		{ type = "save", save = "dexterity", onmissdamage = "half" },
-		{ type = "damage", clauses = { { dice = { "d8", "d8", "d8", "d8", "d8" }, type = "acid" } } },
-		{ type = "damage", clauses = { { dice = { "d8", "d8", "d8", "d8", "d8" }, type = "cold" } } },
-		{ type = "damage", clauses = { { dice = { "d8", "d8", "d8", "d8", "d8" }, type = "fire" } } },
-		{ type = "damage", clauses = { { dice = { "d8", "d8", "d8", "d8", "d8" }, type = "lightning" } } },
-		{ type = "damage", clauses = { { dice = { "d8", "d8", "d8", "d8", "d8" }, type = "thunder" } } },
+		{ type = "powersave", save = "dexterity", onmissdamage = "half", magic = true, savebase = "group" },
+		{ type = "damage", clauses = { { dice = { "d8", "d8", "d8", "d8", "d8" }, dmgtype = "acid" } } },
+		{ type = "damage", clauses = { { dice = { "d8", "d8", "d8", "d8", "d8" }, dmgtype = "cold" } } },
+		{ type = "damage", clauses = { { dice = { "d8", "d8", "d8", "d8", "d8" }, dmgtype = "fire" } } },
+		{ type = "damage", clauses = { { dice = { "d8", "d8", "d8", "d8", "d8" }, dmgtype = "lightning" } } },
+		{ type = "damage", clauses = { { dice = { "d8", "d8", "d8", "d8", "d8" }, dmgtype = "thunder" } } },
 	},
 	["grease"] = {
-		{ type = "save", save = "dexterity" },
+		{ type = "powersave", save = "dexterity", magic = true, savebase = "group" },
 		{ type = "effect", sName = "Prone" },
 	},
 	["guardian of faith"] = {
 		{ type = "effect", sName = "NOTE: Guardian of Faith", sTargeting = "self", nDuration = 8, sUnits = "hour" },
-		{ type = "save", save = "dexterity", onmissdamage = "half" },
-		{ type = "damage", clauses = { { bonus = 20, type = "radiant" } } },
+		{ type = "powersave", save = "dexterity", onmissdamage = "half", magic = true, savebase = "group" },
+		{ type = "damage", clauses = { { bonus = 20, dmgtype = "radiant" } } },
 	},
 	["guiding bolt"] = {
-		{ type = "attack", range = "R" },
-		{ type = "damage", clauses = { { dice = { "d6", "d6", "d6", "d6" }, type = "radiant" } } },
+		{ type = "attack", range = "R", spell = true, base = "group" },
+		{ type = "damage", clauses = { { dice = { "d6", "d6", "d6", "d6" }, dmgtype = "radiant" } } },
 		{ type = "effect", sName = "GRANTADVATK", nDuration = 1, sApply = "roll" },
 	},
 	["hallow"] = {
-		{ type = "save", save = "charisma" },
+		{ type = "powersave", save = "charisma", magic = true, savebase = "group" },
 		{ type = "effect", sName = "IMMUNE: frightened; [FIXED]" },
 		{ type = "effect", sName = "RESIST: acid; [FIXED]" },
 		{ type = "effect", sName = "RESIST: cold; [FIXED]" },
@@ -204,15 +208,15 @@ parsedata = {
 		{ type = "effect", sName = "ADVSAV; GRANTDISATK; NOTE: Extra effect on fiend/undead melee attack; (C)", nDuration = 1, sUnits = "minute" },
 	},
 	["insect plague"] = {
-		{ type = "save", save = "constitution", onmissdamage = "half" },
-		{ type = "damage", clauses = { { dice = { "d10", "d10", "d10", "d10" }, type = "piercing,magic" } } },
+		{ type = "powersave", save = "constitution", onmissdamage = "half", magic = true, savebase = "group" },
+		{ type = "damage", clauses = { { dice = { "d10", "d10", "d10", "d10" }, dmgtype = "piercing,magic" } } },
 	},
 	["mage armor"] = {
 		{ type = "effect", sName = "AC: 3", nDuration = 8, sUnits = "hour" },
 	},
 	["magic circle"] = {
-		{ type = "save", save = "charisma" },
-		{ type = "effect", sName = "IFT: (aberration, celestial, elemental, fey, fiend, undead); GRANTDISATK; IMMUNE: charmed,frightened,possessed; [FIXED]", nDuration = 1, sUnits = "hour" },
+		{ type = "powersave", save = "charisma", magic = true, savebase = "group" },
+		{ type = "effect", sName = "IFT: TYPE(aberration, celestial, elemental, fey, fiend, undead); GRANTDISATK; IMMUNE: charmed,frightened,possessed; [FIXED]", nDuration = 1, sUnits = "hour" },
 	},
 	["magic weapon"] = {
 		{ type = "effect", sName = "ATK: 1; DMG: 1; DMGTYPE: magic; (C)", nDuration = 1, sUnits = "hour" },
@@ -225,13 +229,13 @@ parsedata = {
 		{ type = "effect", sName = "RESIST: thunder; (C)", nDuration = 1, sUnits = "hour" },
 	},
 	["protection from evil and good"] = {
-		{ type = "effect", sName = "IFT: (aberration, celestial, elemental, fey, fiend, undead); GRANTDISATK; IMMUNE: charmed,frightened,possessed; (C)", nDuration = 10, sUnits = "minute" },
+		{ type = "effect", sName = "IFT: TYPE(aberration, celestial, elemental, fey, fiend, undead); GRANTDISATK; IMMUNE: charmed,frightened,possessed; (C)", nDuration = 10, sUnits = "minute" },
 	},
 	["protection from poison"] = {
 		{ type = "effect", sName = "ADVSAV: poisoned; RESIST: poison", nDuration = 1, sUnits = "hour" },
 	},
 	["ray of enfeeblement"] = {
-		{ type = "attack", range = "R" },
+		{ type = "attack", range = "R", spell = true, base = "group" },
 		{ type = "effect", sName = "NOTE: Deals half damage with Strength attacks; NOTE: Save on end of round; (C)", nDuration = 1, sUnits = "minute" },
 	},
 	["sanctuary"] = {
@@ -244,12 +248,12 @@ parsedata = {
 		{ type = "effect", sName = "AC: 2; (C)", nDuration = 10, sUnits = "minute" },
 	},
 	["slow"] = {
-		{ type = "save", save = "wisdom" },
+		{ type = "powersave", save = "wisdom", magic = true, savebase = "group" },
 		{ type = "effect", sName = "NOTE: Slowed; AC: -2; DISSAV: dexterity; NOTE: Save on end of round; (C)", nDuration = 1, sUnits = "minute" },
 	},
 	["symbol"] = {
-		{ type = "save", save = "constitution", onmissdamage = "half" },
-		{ type = "damage", clauses = { { dice = { "d10", "d10", "d10", "d10", "d10", "d10", "d10", "d10", "d10", "d10" }, type = "necrotic" } } },
+		{ type = "powersave", save = "constitution", onmissdamage = "half", magic = true, savebase = "group" },
+		{ type = "damage", clauses = { { dice = { "d10", "d10", "d10", "d10", "d10", "d10", "d10", "d10", "d10", "d10" }, dmgtype = "necrotic" } } },
 		{ type = "effect", sName = "NOTE: Symbol of Discord", nDuration = 1, sUnits = "minute" },
 		{ type = "effect", sName = "NOTE: Symbol of FEar; Frightened", nDuration = 1, sUnits = "minute" },
 		{ type = "effect", sName = "NOTE: Symbol of Hopelessness", nDuration = 1, sUnits = "minute" },
@@ -259,7 +263,7 @@ parsedata = {
 		{ type = "effect", sName = "NOTE: Symbol of Stunning; Stunned", nDuration = 1, sUnits = "minute" },
 	},
 	["tasha's hideous laughter"] = {
-		{ type = "save", save = "wisdom" },
+		{ type = "powersave", save = "wisdom", magic = true, savebase = "group" },
 		{ type = "effect", sName = "Prone; Incapacitated; NOTE: Unable to stand up; NOTE: Save on end of round and damage; (C)", nDuration = 1, sUnits = "minute" },
 	},
 	["true strike"] = {

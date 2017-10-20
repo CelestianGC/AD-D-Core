@@ -99,7 +99,7 @@
 			<bounds>1,1,20,20</bounds>
 			<script>
 				function action(draginfo)
-					PowerManager.onPowerAction(draginfo, window.getDatabaseNode());
+					PowerManager.performAction(draginfo, window.getDatabaseNode());
 				end
 				
 				function onButtonPress()
@@ -156,7 +156,7 @@
 						sSubRoll = subroll[1];
 					end
 					
-					PowerManager.onPowerAction(draginfo, window.getDatabaseNode(), sSubRoll);
+					PowerManager.performAction(draginfo, window.getDatabaseNode(), sSubRoll);
 				end
 
 				function onButtonPress(x, y)
@@ -186,7 +186,7 @@
 						sSubRoll = subroll[1];
 					end
 					
-					PowerManager.onPowerAction(draginfo, window.getDatabaseNode(), sSubRoll);
+					PowerManager.performAction(draginfo, window.getDatabaseNode(), sSubRoll);
 				end
 
 				function onDoubleClick(x, y)

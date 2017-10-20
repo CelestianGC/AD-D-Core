@@ -166,7 +166,7 @@ end
 
 function performSaveVsRoll(draginfo, rActor, rAction)
 	local rRoll = getSaveVsRoll(rActor, rAction);
-	
+
 	ActionsManager.performAction(draginfo, rActor, rRoll);
 end
 

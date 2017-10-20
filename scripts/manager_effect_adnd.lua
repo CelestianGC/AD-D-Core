@@ -22,6 +22,8 @@ function onInit()
     -- used for 5E extension ONLY
     --ActionAttack.performRoll = manager_action_attack_performRoll;
     --ActionDamage.performRoll = manager_action_damage_performRoll;
+    --PowerManager.performAction = manager_power_performAction;
+    
 end
 
 -- add the effect if the item is equipped and doesn't exist already
@@ -801,3 +803,59 @@ function manager_action_attack_performRoll(draginfo, rActor, rAction)
 	ActionsManager.performAction(draginfo, rActor, rRoll);
 end
 
+-- replace 5E PowerManager manager_power.lua performAction() with this
+-- extension only
+function manager_power_performAction(draginfo, rActor, rAction, nodePower)
+	if not rActor or not rAction then
+		return false;
+	end
+	
+    -- add itemPath to rActor so that when effects are checked we can 
+    -- make compare against action only effects
+    local nodeWeapon = nodeAction.getChild("...");
+    local _, sRecord = DB.getValue(nodeWeapon, "shortcut", "", "");
+	rActor.itemPath = sRecord;
+    if (draginfo and rActor.itemPath and rActor.itemPath ~= "") then
+        draginfo.setMetaData("itemPath",rActor.itemPath);
+    end
+    --
+
+	evalAction(rActor, nodePower, rAction);
+
+	local rRolls = {};
+	if rAction.type == "cast" then
+		rAction.subtype = (rAction.subtype or "");
+		if rAction.subtype == "" then
+			table.insert(rRolls, ActionPower.getPowerCastRoll(rActor, rAction));
+		end
+		if ((rAction.subtype == "") or (rAction.subtype == "atk")) and rAction.range then
+			table.insert(rRolls, ActionAttack.getRoll(rActor, rAction));
+		end
+		if ((rAction.subtype == "") or (rAction.subtype == "save")) and ((rAction.save or "") ~= "") then
+			table.insert(rRolls, ActionPower.getSaveVsRoll(rActor, rAction));
+		end
+	
+	elseif rAction.type == "attack" then
+		table.insert(rRolls, ActionAttack.getRoll(rActor, rAction));
+		
+	elseif rAction.type == "powersave" then
+		table.insert(rRolls, ActionPower.getSaveVsRoll(rActor, rAction));
+
+	elseif rAction.type == "damage" then
+		table.insert(rRolls, ActionDamage.getRoll(rActor, rAction));
+		
+	elseif rAction.type == "heal" then
+		table.insert(rRolls, ActionHeal.getRoll(rActor, rAction));
+		
+	elseif rAction.type == "effect" then
+		local rRoll = ActionEffect.getRoll(draginfo, rActor, rAction);
+		if rRoll then
+			table.insert(rRolls, rRoll);
+		end
+	end
+	
+	if #rRolls > 0 then
+		ActionsManager.performMultiAction(draginfo, rActor, rRolls[1].sType, rRolls);
+	end
+	return true;
+end
