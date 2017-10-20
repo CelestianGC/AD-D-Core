@@ -337,6 +337,8 @@
                     local nodeWeapon = getDatabaseNode();
                     local nodeChar = nodeWeapon.getChild("....");
 					local rActor = ActorManager.getActor("pc", nodeChar);
+                    local _, sRecord = DB.getValue(nodeWeapon.getChild(".."), "shortcut", "", "");
+                    rActor.itemPath = sRecord;
 					ActionInit.performRoll(draginfo, rActor, nil, rItem);
 
 					return true;
@@ -378,6 +380,8 @@
                         rItem.nodeSpell = nil;
                     end
 					local rActor = ActorManager.getActor("pc", nodeChar);
+                    local _, sRecord = DB.getValue(nodeSpell, "shortcut", "", "");
+                    rActor.itemPath = sRecord;
 					ActionInit.performRoll(draginfo, rActor, nil, rItem);
 
 					return true;
