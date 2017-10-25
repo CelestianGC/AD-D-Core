@@ -110,12 +110,15 @@ function updateItemEffect(nodeItem,nodeItemEffect, sName, nodeChar, sUser, bEqui
             local nRollDuration = 0;
             local dDurationDice = DB.getValue(nodeItemEffect, "durdice");
             local nModDice = DB.getValue(nodeItemEffect, "durmod", 0);
+--Debug.console("manager_effect_adnd.lua","updateItemEffect","dDurationDice",dDurationDice);
+--Debug.console("manager_effect_adnd.lua","updateItemEffect","nModDice",nModDice);
 
             if (dDurationDice and dDurationDice ~= "") then
                 nRollDuration = StringManager.evalDice(dDurationDice, nModDice);
             else
                 nRollDuration = nModDice;
             end
+--bug.console("manager_effect_adnd.lua","updateItemEffect","nRollDuration",nRollDuration);
             local nDMOnly = 1;
             local sVisibility = DB.getValue(nodeItemEffect, "visibility", "");
             if sVisibility == "show" then

@@ -43,6 +43,7 @@
 	<includefile source="common/template_common.xml" />
 	<includefile source="common/template_windows.xml" />
 	<includefile source="common/template_records.xml" /> 
+	<includefile source="common/template_records_adnd.xml" /> 
 
 	<!-- Desktop -->
 	<script name="LibraryData5E" file="scripts/data_library_5E.lua" />
@@ -177,6 +178,7 @@
  	<!-- <script name="ImageManagerADND" file="scripts/manage_image_adnd.lua" /> -->
  	<script name="EffectManagerADND" file="scripts/manager_effect_adnd.lua" />
  	<script name="AccessManagerADND" file="scripts/manager_access_adnd.lua" />
+ 	<script name="TokenManagerADND" file="scripts/manager_token_adnd.lua" />
 
 
 </root>

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<!-- 
+  Please see the license.html file included with this distribution for 
+  attribution and copyright information.
+-->
+
+<root>
+	<template name="image_record_step"  merge="replace">
+		<imagecontrol name="image">
+			<indicators availability="image_sent" locked="image_locked" loading="image_loading" zoom="image_zoom" shortcuts="image_shortcuts" />
+			<default snap="on" drawingsize="500,500" />
+			<script file="campaign/scripts/image_adnd.lua" />
+		</imagecontrol>
+	</template>
+</root>
