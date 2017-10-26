@@ -8,7 +8,7 @@
 <root>
 	<windowclass name="table_import_window">
         <margins control="2,2,2,2" />
-		<frame>charsheethelper</frame>
+		<frame>chatbox</frame>
 		<placement>
 			<size width="320" height="300" />
 		</placement>
@@ -22,35 +22,40 @@
             end
         </script>
 		<sheetdata>
-            <windowtitlebar_char name="title">
-                <prefix>table_import_window_title</prefix>
-            </windowtitlebar_char>
-            <anchor_title_charsheethelper name="contentanchor" />
-			<anchor_left />
+            <windowtitlebar name="title">
+                <resource>table_import_window_title</resource>
+            </windowtitlebar>
+			<anchor_left  name="contentanchor" />
             <anchor_right />
-            <label_charframetop>
+            <label name="importdescription1">
 				<anchored>
-					<top parent="contentanchor" anchor="bottom" relation="relative" offset="5" />
-					<left parent="leftanchor" anchor="right" relation="relative" offset="35" />
-					<!-- <right parent="rightanchor" anchor="left" relation="relative" offset="35" /> -->
-                    <right offset="-45"/>
+					<top offset="39"/>
+					<left offset="30" />
+					<right offset="-45" parent="" />
 				</anchored>
-                <multilinespacing>20</multilinespacing>
-				<static textres="table_import_text_helptext" />
-			</label_charframetop>
-
-            <label_charframetop name="importtabletitle">
+				<static textres="table_import_text_1" />
+			</label>
+            <label name="importdescription2">
 				<anchored height="20">
-					<top parent="contentanchor" anchor="bottom" relation="relative" offset="5" />
-					<left offset="35"/>
+				<top parent="importdescription1" anchor="bottom" relation="relative" offset="0" />
+					<left offset="30" />
+					<right offset="-45" />
+				</anchored>
+				<static textres="table_import_text_2" />
+			</label>
+
+            <label name="importtabletitle">
+				<anchored height="20">
+					<top parent="importdescription2" anchor="bottom" relation="relative" offset="5" />
+					<left offset="30"/>
 					<right offset="-45"/>
 				</anchored>
 				<static textres="table_import_text_title" />
-			</label_charframetop>
+			</label>
             
 			<subwindow name="contents">
 				<anchored>
-					<top parent="contentanchor" anchor="bottom" relation="relative" offset="0" />
+					<top parent="importtabletitle" anchor="bottom" relation="relative" offset="0" />
 					<bottom offset="-40" />
 					<left offset="0" />
 					<right offset="-15" />
@@ -59,7 +64,7 @@
 				<activate />
 				<fastinit />
 			</subwindow>
-            <scrollbar_charcontents />
+            <scrollbar />
             <!-- <buttoncontrol name="importbutton">
 				<anchored to="contents" position="below" offset="0,0"  height="20" />
                 <script>
