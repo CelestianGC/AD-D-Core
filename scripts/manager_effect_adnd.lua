@@ -3,10 +3,21 @@
 -- Effects on Items, apply to character in CT
 --
 --
-
+-- local aEffectVarMap = {
+	-- ["sName"] = { sDBType = "string", sDBField = "label" },
+	-- ["nGMOnly"] = { sDBType = "number", sDBField = "isgmonly" },
+	-- ["sSource"] = { sDBType = "string", sDBField = "source_name", bClearOnUntargetedDrop = true },
+	-- ["sTarget"] = { sDBType = "string", bClearOnUntargetedDrop = true },
+	-- ["nDuration"] = { sDBType = "number", sDBField = "duration", vDBDefault = 1, sDisplay = "[D: %d]" },
+	-- ["nInit"] = { sDBType = "number", sDBField = "init", sSourceChangeSet = "initresult", bClearOnUntargetedDrop = true },
+-- };
 function onInit()
     --CoreRPG replacements
     ActionsManager.decodeActors = decodeActors;
+    -- AD&D Core ONLY!!! (need this because we use high to low initiative, not low to high
+    --EffectManager.processEffects = manager_effect_processEffects;
+    --CombatManager.aCustomInitChange = {};
+    --CombatManager.setCustomInitChange(manager_effect_processEffects);
     
     -- 5E effects replacements
     EffectManager5E.checkConditionalHelper = checkConditionalHelper;
@@ -84,13 +95,13 @@ function updateItemEffect(nodeItem,nodeItemEffect, sName, nodeChar, sUser, bEqui
         for _,nodeEffect in pairs(DB.getChildren(nodeChar, "effects")) do
             local nActive = DB.getValue(nodeEffect, "isactive", 0);
             local nDMOnly = DB.getValue(nodeEffect, "isgmonly", 0);
---Debug.console("manager_effect.lua","updateItemEffect","nActive",nActive);
+--Debug.console("manager_effect_adnd.lua","updateItemEffect","nActive",nActive);
             if (nActive ~= 0) then
                 local sEffSource = DB.getValue(nodeEffect, "source_name", "");
---Debug.console("manager_effect.lua","updateItemEffect","sEffSource",sEffSource);
+--Debug.console("manager_effect_adnd.lua","updateItemEffect","sEffSource",sEffSource);
                 if (sEffSource == sItemSource) then
                     bFound = true;
---Debug.console("manager_effect.lua","updateItemEffect","bFound!!!",bFound);
+--Debug.console("manager_effect_adnd.lua","updateItemEffect","bFound!!!",bFound);
                     if (not bEquipped) then
                         sendEffectRemovedMessage(nodeChar, nodeEffect, sLabel, nDMOnly, sUser)
 --Debug.console("manager_effect_adnd.lua","updateItemEffect","!!!bEquipped",bEquipped);
@@ -310,6 +321,108 @@ end
 --          REPLACEMENT FUNCTIONS
 --
 
+-- replace CoreRPG EffectManager manager_effect_adnd.lua processEffects() with this
+-- AD&D CORE ONLY
+-- we use this because we use initiative low to high. Lowest goes first... 
+-- because of that we have to manage effects differently 
+-- if we do not do this effects with "action" will not expire on that players turn as it should
+-- Specifically
+-- if nEffInit >= nCurrentInit and nEffInit <= nNewInit then
+-- where 5E and others use
+-- if nEffInit < nCurrentInit and nEffInit >= nNewInit then
+function manager_effect_processEffects(nodeCurrentActor, nodeNewActor)
+--Debug.console("manager_effect_adnd.lua","manager_effect_processEffects","nodeCurrentActor",nodeCurrentActor);
+--Debug.console("manager_effect_adnd.lua","manager_effect_processEffects","nodeNewActor",nodeNewActor);
+        	-- Get sorted combatant list
+	local aEntries = CombatManager.getSortedCombatantList();
+	if #aEntries == 0 then
+		return;
+	end
+		
+	-- Set up current and new initiative values for effect processing
+	local nCurrentInit = -10000;
+	if nodeCurrentActor then
+		nCurrentInit = DB.getValue(nodeCurrentActor, "initresult", 0); 
+	end
+	local nNewInit = 10000;
+	if nodeNewActor then
+		nNewInit = DB.getValue(nodeNewActor, "initresult", 0);
+	end
+	
+	-- For each actor, advance durations, and process start of turn special effects
+	local bProcessSpecialStart = (nodeCurrentActor == nil);
+	local bProcessSpecialEnd = (nodeCurrentActor == nil);
+	for i = 1,#aEntries do
+		local nodeActor = aEntries[i];
+		
+		if nodeActor == nodeCurrentActor then
+			bProcessSpecialEnd = true;
+		elseif nodeActor == nodeNewActor then
+			bProcessSpecialEnd = false;
+		end
+
+		-- Check each effect
+		for _,nodeEffect in pairs(DB.getChildren(nodeActor, "effects")) do
+			-- Make sure effect is active
+			local nActive = DB.getValue(nodeEffect, "isactive", 0);
+			if (nActive ~= 0) then
+				if bProcessSpecialStart then
+					if EffectManager.fCustomOnEffectActorStartTurn then
+						EffectManager.fCustomOnEffectActorStartTurn(nodeActor, nodeEffect);
+					end
+				end
+
+				if aEffectVarMap["nInit"] then
+					local nEffInit = DB.getValue(nodeEffect, aEffectVarMap["nInit"].sDBField, aEffectVarMap["nInit"].vDBDefault or 0);
+
+Debug.console("manager_effect_adnd.lua","manager_effect_processEffects","nEffInit",nEffInit);
+Debug.console("manager_effect_adnd.lua","manager_effect_processEffects","nCurrentInit",nCurrentInit);
+Debug.console("manager_effect_adnd.lua","manager_effect_processEffects","nNewInit",nNewInit);
+				
+					-- Apply start of effect initiative changes
+					if nEffInit > nCurrentInit and nEffInit <= nNewInit then
+Debug.console("manager_effect_adnd.lua","manager_effect_processEffects","Apply start of effect initiative changes");
+						-- Start turn
+						local bHandled = false;
+						if fCustomOnEffectStartTurn then
+							bHandled = EffectManager.fCustomOnEffectStartTurn(nodeActor, nodeEffect, nCurrentInit, nNewInit);
+						end
+						if not bHandled and aEffectVarMap["nDuration"] then
+							local nDuration = DB.getValue(nodeEffect, aEffectVarMap["nDuration"].sDBField, 0);
+							if nDuration > 0 then
+								nDuration = nDuration - 1;
+Debug.console("manager_effect_adnd.lua","manager_effect_processEffects","nDuration",nDuration);
+								if nDuration <= 0 then
+									EffectManager.expireEffect(nodeActor, nodeEffect, 0);
+								else
+									DB.setValue(nodeEffect, "duration", "number", nDuration);
+								end
+							end
+						end
+						
+					-- Apply end of effect initiative changes
+					elseif nEffInit <= nCurrentInit and nEffInit > nNewInit then
+						if EffectManager.fCustomOnEffectEndTurn then
+							bHandled = EffectManager.fCustomOnEffectEndTurn(nodeActor, nodeEffect, nCurrentInit, nNewInit);
+						end
+					end
+				end
+				
+				if bProcessSpecialEnd then
+					if EffectManager.fCustomOnEffectActorEndTurn then
+						EffectManager.fCustomOnEffectActorEndTurn(nodeActor, nodeEffect);
+					end
+				end
+			end -- END ACTIVE EFFECT CHECK
+         end -- END EFFECT LOOP
+		
+		if nodeActor == nodeCurrentActor then
+			bProcessSpecialStart = true;
+		elseif nodeActor == nodeNewActor then
+			bProcessSpecialStart = false;
+		end
+	end -- END ACTOR LOOP
+end
 
 
 -- replace 5E EffectManager5E manager_effect_5E.lua evalAbilityHelper() with this
@@ -376,9 +489,13 @@ function decodeActors(draginfo)
 
     -- itemPath data filled if itemPath if exists
     local sItemPath = draginfo.getMetaData("itemPath");
+    local sSpellPath = draginfo.getMetaData("spellPath");
 --Debug.console("manager_effect_Adnd.lua","decodeActors","sItemPath",sItemPath);
     if (sItemPath and sItemPath ~= "") then
         rSource.itemPath = sItemPath;
+    end
+    if (sSpellPath and sSpellPath ~= "") then
+        rSource.spellPath = sSpellPath;
     end
     --
     
@@ -387,8 +504,8 @@ end
 
 -- replace 5E EffectManager5E manager_effect_5E.lua getEffectsByType() with this
 function getEffectsByType(rActor, sEffectType, aFilter, rFilterActor, bTargetedOnly)
---Debug.console("manager_effect_adnd.lua","getEffectsByType","==rActor",rActor);    
---Debug.console("manager_effect_adnd.lua","getEffectsByType","==sEffectType",sEffectType);    
+-- Debug.console("manager_effect_adnd.lua","getEffectsByType","==rActor",rActor);    
+-- Debug.console("manager_effect_adnd.lua","getEffectsByType","==sEffectType",sEffectType);    
 	if not rActor then
 		return {};
 	end
@@ -536,6 +653,11 @@ function getEffectsByType(rActor, sEffectType, aFilter, rFilterActor, bTargetedO
 					end
 				end -- END EFFECT COMPONENT LOOP
 
+-- Debug.console("manager_effect_adnd.lua","getEffectsByType","END EFFECT COMPONENT LOOP");    
+-- Debug.console("manager_effect_adnd.lua","getEffectsByType","nMatch",nMatch);    
+-- Debug.console("manager_effect_adnd.lua","getEffectsByType","sApply",sApply);    
+-- Debug.console("manager_effect_adnd.lua","getEffectsByType","v",v);    
+
 				-- Remove one shot effects
 				if nMatch > 0 then
 					if nActive == 2 then
@@ -609,7 +731,9 @@ function hasEffect(rActor, sEffect, rTarget, bTargetedOnly, bIgnoreEffectTargets
 				end
 				
 			end
-			
+
+-- Debug.console("manager_effect_adnd.lua","hasEffect","nMatch",nMatch);    
+-- Debug.console("manager_effect_adnd.lua","hasEffect","sApply",sApply);    
 			-- If matched, then remove one-off effects
 			if nMatch > 0 then
 				if nActive == 2 then

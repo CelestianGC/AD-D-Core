@@ -375,9 +375,9 @@
                     rItem.sName = sName;
                     rItem.nInit = nValue;
                     if (bIsConcentrationSpell) then
-                        rItem.nodeSpell = nodeSpell;
+                        rItem.spellPath = nodeSpell.getPath();
                     else
-                        rItem.nodeSpell = nil;
+                        rItem.spellPath = nil;
                     end
 					local rActor = ActorManager.getActor("pc", nodeChar);
                     local _, sRecord = DB.getValue(nodeSpell, "shortcut", "", "");

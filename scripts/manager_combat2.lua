@@ -4,7 +4,6 @@
 --
 
 function onInit()
-	--CombatManager.setCustomSort(CombatManager.sortfuncDnD);
     -- use our AD&D sort function --celestian
     CombatManager.setCustomSort(sortfuncADnD);
 
@@ -792,7 +791,7 @@ function rollInit(sType)
 		end
 		
 		if bRoll then
-			DB.setValue(vChild, "initresult", "number", -10000);
+			DB.setValue(vChild, "initresult", "number", 10000);
 		end
 	end
 

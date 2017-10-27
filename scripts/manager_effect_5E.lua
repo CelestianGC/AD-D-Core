@@ -116,7 +116,7 @@ end
 function onEffectActorStartTurn(nodeActor, nodeEffect)
 	local sEffName = DB.getValue(nodeEffect, "label", "");
 	local aEffectComps = EffectManager.parseEffect(sEffName);
-	for _,sEffectComp in ipairs(aEffectComps) do
+    for _,sEffectComp in ipairs(aEffectComps) do
 		local rEffectComp = parseEffectComp(sEffectComp);
 		-- Conditionals
 		if rEffectComp.type == "IFT" then
@@ -848,7 +848,12 @@ function hasEffect(rActor, sEffect, rTarget, bTargetedOnly, bIgnoreEffectTargets
 				end
 				
 			end
+
+Debug.console("manager_effect_5E.lua","hasEffect","nMatch",nMatch);			
+Debug.console("manager_effect_5E.lua","hasEffect","sApply",sApply);			
+Debug.console("manager_effect_5E.lua","hasEffect","v",v);			
 			
+            
 			-- If matched, then remove one-off effects
 			if nMatch > 0 then
 				if nActive == 2 then

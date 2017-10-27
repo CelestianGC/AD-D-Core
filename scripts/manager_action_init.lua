@@ -53,9 +53,9 @@ function getRoll(rActor, bSecretRoll, rItem)
         if rItem then
             rRoll.nMod =  rItem.nInit;
             rRoll.sDesc = rRoll.sDesc .. " [MOD:" .. rItem.sName .. "]";
-            if (rItem.nodeSpell) then
-                applySpellCastingConcentration(nodeActor,rItem.nodeSpell);
-            end
+            -- if (rItem.spellPath) then
+                -- applySpellCastingConcentration(nodeActor,rItem.spellPath);
+            -- end
         elseif sActorType == "pc" then
             rRoll.nMod = DB.getValue(nodeActor, "initiative.total", 0);
 --			sAbility = "dexterity";
@@ -78,62 +78,26 @@ function getRoll(rActor, bSecretRoll, rItem)
 	return rRoll;
 end
 
-function applySpellCastingConcentration(nodeChar,nodeSpell)
-    if not string.match(nodeChar.getPath(),"^combattracker") then
-        nodeChar = CharManager.getCTNodeByNodeChar(nodeChar);
-    end
-    -- if not in the combat tracker bail
-    if not nodeChar then
-        return;
-    end
-
-    -- build effect fields
-    local sSpellName = DB.getValue(nodeSpell,"name","");
-    local rEffect = {};
-    local sEffectString = "(C)";
-    local sEffectFullName = "Casting " .. sSpellName .. "; " .. sEffectString;
-    rEffect.nDuration = 1;
-    rEffect.sName = sEffectFullName;
-    rEffect.sLabel = sEffectString;
-    rEffect.sUnits = "rnd";
-    rEffect.nInit = 0;
-    rEffect.sSource = nodeChar.getPath();
-    rEffect.nGMOnly = 0;
-    rEffect.sApply = "";
-
-    -- need to do some error checking to make sure we only add it once
-    -- verify existing "effect_source" and "label" isn't the same as this one.
-    local bFound = false;
-    for _,nodeEffect in pairs(DB.getChildren(nodeChar, "effects")) do
-        local sLabel = DB.getValue(nodeEffect,"label","");
-        local sSource = DB.getValue(nodeEffect,"source_name","");
---        if (sSource == nodeSpell.getPath()) then
-        if (sLabel == sEffectFullName and sSource == nodeChar.getPath()) then
-            bFound = true;
-            break;
-        end
-    end -- for item's effects list
-    
-    if bFound then
-        -- effect already exists
-        return;
-    end
-    
-    -- lastly add effect
-    local sUser = User.getUsername();
-    local sIdentity = User.getCurrentIdentity(sUser);
-    EffectManager.addEffect(sUser, sIdentity, nodeChar, rEffect, true);
-end
-
 function performRoll(draginfo, rActor, bSecretRoll, rItem)
 	local rRoll = getRoll(rActor, bSecretRoll, rItem);
 
     if (draginfo and rActor.itemPath and rActor.itemPath ~= "") then
         draginfo.setMetaData("itemPath",rActor.itemPath);
     end
+    if (draginfo and rItem.spellPath and rItem.spellPath ~= "") then
+        draginfo.setMetaData("spellPath",rActor.spellPath);
+        rActor.spellPath = rItem.spellPath;
+    end
+    -- dont like this but I need the spell path to for later and this
+    -- is the easiest place to put it. We need to know the spellPath AFTER
+    -- the initiative is set so the initiative for the effect is correct
+    if (rItem.spellPath and rItem.spellPath ~= "") then
+        rRoll.spellPath = rItem.spellPath;
+    end
     
 	ActionsManager.performAction(draginfo, rActor, rRoll);
 end
+
 
 function modRoll(rSource, rTarget, rRoll)
 	local bADV = false;
@@ -275,4 +239,60 @@ function onResolve(rSource, rTarget, rRoll)
 	
 	local nTotal = ActionsManager.total(rRoll);
 	notifyApplyInit(rSource, nTotal);
+    -- now we apply effect if this was a spell cast initiative
+    if (rRoll and rRoll.spellPath) then
+        applySpellCastingConcentration(rSource,rRoll);
+    end
 end
+
+function applySpellCastingConcentration(rSource,rRoll)
+    local nTotal = ActionsManager.total(rRoll);
+    local sActorType, nodeActor = ActorManager.getTypeAndNode(rSource);
+    local nodeSpell = DB.findNode(rRoll.spellPath);
+    local nodeChar = nodeActor;
+    if not string.match(nodeActor.getPath(),"^combattracker") then
+        nodeChar = CharManager.getCTNodeByNodeChar(nodeActor);
+    end
+    -- if not in the combat tracker bail
+    if not nodeChar or not nodeSpell then
+        return;
+    end
+    --local nTotal = rRoll.nT
+    -- build effect fields
+    local sSpellName = DB.getValue(nodeSpell,"name","");
+    local rEffect = {};
+    local sEffectString = "(C)";
+    local sEffectFullName = "Casting " .. sSpellName .. "; " .. sEffectString;
+    rEffect.nDuration = 1;
+    rEffect.sName = sEffectFullName;
+    rEffect.sLabel = sEffectString;
+    rEffect.sUnits = "rnd";
+    rEffect.nInit = DB.getValue(nodeChar,"initresult",0);
+    rEffect.sSource = nodeChar.getPath();
+    rEffect.nGMOnly = 0;
+    rEffect.sApply = "action";
+
+    -- need to do some error checking to make sure we only add it once
+    -- verify existing "effect_source" and "label" isn't the same as this one.
+    local bFound = false;
+    for _,nodeEffect in pairs(DB.getChildren(nodeChar, "effects")) do
+        local sLabel = DB.getValue(nodeEffect,"label","");
+        local sSource = DB.getValue(nodeEffect,"source_name","");
+--        if (sSource == nodeSpell.getPath()) then
+        if (sLabel == sEffectFullName and sSource == nodeChar.getPath()) then
+            bFound = true;
+            break;
+        end
+    end -- for item's effects list
+    
+    if bFound then
+        -- effect already exists
+        return;
+    end
+    
+    -- lastly add effect
+    local sUser = User.getUsername();
+    local sIdentity = User.getCurrentIdentity(sUser);
+    EffectManager.addEffect(sUser, sIdentity, nodeChar, rEffect, true);
+end
+

@@ -77,36 +77,39 @@ function onDrop(x, y, draginfo)
         x, y = snapToGrid(x, y);
         nDropSpread = getGridSize();
     end
-
-    -- drop npc token so you can spawn it with double click later
-    local nodeMap = getDatabaseNode();
-    local prototype, dropref = draginfo.getTokenData();
-    local token = draginfo.getTokenData();
-    local sType, sNode = draginfo.getShortcutData();
-    local sTokenImage = "";
-    if (sDragType == "shortcut" and sNode:match("^npc%.id")) then
-        local nodeNPC = DB.findNode(sNode);
-        if (nodeNPC) then
-            local sName = DB.getValue(nodeNPC,"name","");
-            sTokenImage = getATokenImage(nodeNPC);
-            draginfo.setTokenData(sTokenImage);
-            draginfo.setType("token");
-            sDragType = "token";
-            local tokenAdded = Token.addToken(nodeMap.getNodeName(),sTokenImage,x,y);
-            if (tokenAdded) then
-                local nID = tokenAdded.getId();
-    --Debug.console("image.lua","onDrop","nID",nID);
-                tokenAdded.setName(sNode);
-                tokenAdded.setVisible(false);
-                -- local widget = tokenAdded.addTextWidget("sheetlabelinline",sName);
-                -- local w,h = widget.getSize();
-                -- widget.setPosition("center", w/2, h/2-4);
-                -- widget.setColor("FDFEFE");                
-                return false;
-            end
-        end
-    end
-    -- end npc token drop specifics.
+    
+    -- commented out for now. FG doesn't allow export of <tokens> to modules
+    -- so it's pointless for now --celestian
+    
+    -- -- drop npc token so you can spawn it with double click later
+    -- local nodeMap = getDatabaseNode();
+    -- local prototype, dropref = draginfo.getTokenData();
+    -- local token = draginfo.getTokenData();
+    -- local sType, sNode = draginfo.getShortcutData();
+    -- local sTokenImage = "";
+    -- if (sDragType == "shortcut" and sNode:match("^npc%.id")) then
+        -- local nodeNPC = DB.findNode(sNode);
+        -- if (nodeNPC) then
+            -- local sName = DB.getValue(nodeNPC,"name","");
+            -- sTokenImage = getATokenImage(nodeNPC);
+            -- draginfo.setTokenData(sTokenImage);
+            -- draginfo.setType("token");
+            -- sDragType = "token";
+            -- local tokenAdded = Token.addToken(nodeMap.getNodeName(),sTokenImage,x,y);
+            -- if (tokenAdded) then
+                -- local nID = tokenAdded.getId();
+    -- --Debug.console("image.lua","onDrop","nID",nID);
+                -- tokenAdded.setName(sNode);
+                -- tokenAdded.setVisible(false);
+                -- -- local widget = tokenAdded.addTextWidget("sheetlabelinline",sName);
+                -- -- local w,h = widget.getSize();
+                -- -- widget.setPosition("center", w/2, h/2-4);
+                -- -- widget.setColor("FDFEFE");                
+                -- return false;
+            -- end
+        -- end
+    -- end
+    -- -- end npc token drop specifics.
     
 	if sDragType == "combattrackerff" then
 		-- Grab faction data from drag object
