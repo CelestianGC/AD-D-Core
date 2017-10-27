@@ -3,21 +3,16 @@
 -- Effects on Items, apply to character in CT
 --
 --
--- local aEffectVarMap = {
-	-- ["sName"] = { sDBType = "string", sDBField = "label" },
-	-- ["nGMOnly"] = { sDBType = "number", sDBField = "isgmonly" },
-	-- ["sSource"] = { sDBType = "string", sDBField = "source_name", bClearOnUntargetedDrop = true },
-	-- ["sTarget"] = { sDBType = "string", bClearOnUntargetedDrop = true },
-	-- ["nDuration"] = { sDBType = "number", sDBField = "duration", vDBDefault = 1, sDisplay = "[D: %d]" },
-	-- ["nInit"] = { sDBType = "number", sDBField = "init", sSourceChangeSet = "initresult", bClearOnUntargetedDrop = true },
--- };
 function onInit()
     --CoreRPG replacements
     ActionsManager.decodeActors = decodeActors;
+
     -- AD&D Core ONLY!!! (need this because we use high to low initiative, not low to high
+    -- THIS DOESNT WORK, had to just include/replace the entire CoreRPG manager_effect.lua
+    --EffectManager.onInit = manager_effect_onInit;
     --EffectManager.processEffects = manager_effect_processEffects;
-    --CombatManager.aCustomInitChange = {};
     --CombatManager.setCustomInitChange(manager_effect_processEffects);
+    -- end doesn't work
     
     -- 5E effects replacements
     EffectManager5E.checkConditionalHelper = checkConditionalHelper;
@@ -258,11 +253,10 @@ end
 -- pass effect to here to see if the effect is being triggered
 -- by an item and if so if it's valid
 function isValidCheckEffect(rActor,nodeEffect)
---Debug.console("manager_effect_Adnd.lua","isValidCheckEffect","nodeEffect",nodeEffect);    
     local bResult = false;
     local nActive = DB.getValue(nodeEffect, "isactive", 0);
     local bItem = false;
-    local bValidItemTriggered = false;
+    local bActionItemUsed = false;
     local bActionOnly = false;
     local nodeItem = nil;
 
@@ -270,48 +264,50 @@ function isValidCheckEffect(rActor,nodeEffect)
     -- if source is a valid node and we can find "actiononly"
     -- setting then we set it.
     local node = DB.findNode(sSource);
---Debug.console("manager_effect_Adnd.lua","isValidCheckEffect","node",node);    
     if (node and node ~= nil) then
         nodeItem = node.getChild("...");
---Debug.console("manager_effect_Adnd.lua","isValidCheckEffect","nodeItem",nodeItem);    
         if nodeItem and nodeItem ~= nil then
             bActionOnly = (DB.getValue(node,"actiononly",0) ~= 0);
---Debug.console("manager_effect_Adnd.lua","isValidCheckEffect","bActionOnly",bActionOnly);    
         end
     end
 
     -- if there is a itemPath do some sanity checking
     if (rActor.itemPath and rActor.itemPath ~= "") then 
---Debug.console("manager_effect_Adnd.lua","isValidCheckEffect","rActor.itemPath",rActor.itemPath);    
         -- here is where we get the node path of the item, not the 
         -- effectslist entry
         if ((DB.findNode(rActor.itemPath) ~= nil)) then
             if (node and node ~= nil and nodeItem and nodeItem ) then
                 local sNodePath = nodeItem.getPath();
---Debug.console("manager_effect_Adnd.lua","isValidCheckEffect","sNodePath",sNodePath);    
                 if bActionOnly and sNodePath ~= "" and (sNodePath == rActor.itemPath) then
-                    bValidItemTriggered = true;
+                    bActionItemUsed = true;
                     bItem = true;
---Debug.console("manager_effect_Adnd.lua","isValidCheckEffect","bValidItemTriggered1",bValidItemTriggered);    
---Debug.console("manager_effect_Adnd.lua","isValidCheckEffect","bItem1",bItem);    
                 else
-                    bValidItemTriggered = false;
+                    bActionItemUsed = false;
                     bItem = true; -- is item but doesn't match source path for this effect
---Debug.console("manager_effect_Adnd.lua","isValidCheckEffect","bValidItemTriggered2",bValidItemTriggered);    
---Debug.console("manager_effect_Adnd.lua","isValidCheckEffect","bItem2",bItem);    
                 end
             end
         end
     end
-	if ( nActive ~= 0 and ( not bItem or (bItem and bValidItemTriggered) ) ) then
+--Debug.console("manager_effect_adnd.lua","isValidCheckEffect","nActive",nActive);    
+--Debug.console("manager_effect_adnd.lua","isValidCheckEffect","bActionOnly",bActionOnly);    
+--Debug.console("manager_effect_adnd.lua","isValidCheckEffect","bActionItemUsed",bActionItemUsed);    
+    if nActive ~= 0 and bActionOnly and bActionItemUsed then
+        bResult = true;
+    elseif nActive ~= 0 and not bActionOnly and bActionItemUsed then
+        bResult = true;
+    elseif nActive ~= 0 and bActionOnly and not bActionItemUsed then
+        bResult = false;
+    elseif nActive ~= 0 then
         bResult = true;
     end
---Debug.console("manager_effect_Adnd.lua","isValidCheckEffect","bResult",bResult);    
-    if bActionOnly and not (bItem or bValidItemTriggered) then
-        bResult = false;
-    end
---Debug.console("manager_effect_Adnd.lua","isValidCheckEffect","bResult",bResult);    
-    
+--Debug.console("manager_effect_adnd.lua","isValidCheckEffect","bResult",bResult);    
+	-- if ( nActive ~= 0 and ( not bItem or (bItem and bActionItemUsed) ) ) then
+        -- bResult = true;
+    -- elseif nActive ~= 0 and bActionOnly and not (bItem or bActionItemUsed) then
+        -- bResult = false;
+    -- elseif nActive ~= 0 and (not bActionOnly and bItem) then
+        -- bResult = true;
+    -- end
     return bResult;
 end
 
@@ -320,6 +316,26 @@ end
 --
 --          REPLACEMENT FUNCTIONS
 --
+
+
+
+-- CoreRPG EffectManager manager_effect_adnd.lua 
+-- AD&D CORE ONLY
+local aEffectVarMap = {
+	["sName"] = { sDBType = "string", sDBField = "label" },
+	["nGMOnly"] = { sDBType = "number", sDBField = "isgmonly" },
+	["sSource"] = { sDBType = "string", sDBField = "source_name", bClearOnUntargetedDrop = true },
+	["sTarget"] = { sDBType = "string", bClearOnUntargetedDrop = true },
+	["nDuration"] = { sDBType = "number", sDBField = "duration", vDBDefault = 1, sDisplay = "[D: %d]" },
+	["nInit"] = { sDBType = "number", sDBField = "init", sSourceChangeSet = "initresult", bClearOnUntargetedDrop = true },
+};
+-- replace CoreRPG EffectManager manager_effect_adnd.lua onInit() with this
+-- AD&D CORE ONLY
+function manager_effect_onInit()
+	--CombatManager.setCustomInitChange(manager_effect_processEffects);
+	OOBManager.registerOOBMsgHandler(OOB_MSGTYPE_APPLYEFF, handleApplyEffect);
+	OOBManager.registerOOBMsgHandler(OOB_MSGTYPE_EXPIREEFF, handleExpireEffect);
+end
 
 -- replace CoreRPG EffectManager manager_effect_adnd.lua processEffects() with this
 -- AD&D CORE ONLY
@@ -340,7 +356,7 @@ function manager_effect_processEffects(nodeCurrentActor, nodeNewActor)
 	end
 		
 	-- Set up current and new initiative values for effect processing
-	local nCurrentInit = -10000;
+	local nCurrentInit = 10000;
 	if nodeCurrentActor then
 		nCurrentInit = DB.getValue(nodeCurrentActor, "initresult", 0); 
 	end
@@ -375,13 +391,13 @@ function manager_effect_processEffects(nodeCurrentActor, nodeNewActor)
 				if aEffectVarMap["nInit"] then
 					local nEffInit = DB.getValue(nodeEffect, aEffectVarMap["nInit"].sDBField, aEffectVarMap["nInit"].vDBDefault or 0);
 
-Debug.console("manager_effect_adnd.lua","manager_effect_processEffects","nEffInit",nEffInit);
-Debug.console("manager_effect_adnd.lua","manager_effect_processEffects","nCurrentInit",nCurrentInit);
-Debug.console("manager_effect_adnd.lua","manager_effect_processEffects","nNewInit",nNewInit);
+--Debug.console("manager_effect_adnd.lua","manager_effect_processEffects","nEffInit",nEffInit);
+--Debug.console("manager_effect_adnd.lua","manager_effect_processEffects","nCurrentInit",nCurrentInit);
+--Debug.console("manager_effect_adnd.lua","manager_effect_processEffects","nNewInit",nNewInit);
 				
 					-- Apply start of effect initiative changes
 					if nEffInit > nCurrentInit and nEffInit <= nNewInit then
-Debug.console("manager_effect_adnd.lua","manager_effect_processEffects","Apply start of effect initiative changes");
+--Debug.console("manager_effect_adnd.lua","manager_effect_processEffects","Apply start of effect initiative changes");
 						-- Start turn
 						local bHandled = false;
 						if fCustomOnEffectStartTurn then
@@ -391,7 +407,7 @@ Debug.console("manager_effect_adnd.lua","manager_effect_processEffects","Apply s
 							local nDuration = DB.getValue(nodeEffect, aEffectVarMap["nDuration"].sDBField, 0);
 							if nDuration > 0 then
 								nDuration = nDuration - 1;
-Debug.console("manager_effect_adnd.lua","manager_effect_processEffects","nDuration",nDuration);
+--Debug.console("manager_effect_adnd.lua","manager_effect_processEffects","nDuration",nDuration);
 								if nDuration <= 0 then
 									EffectManager.expireEffect(nodeActor, nodeEffect, 0);
 								else
@@ -423,7 +439,6 @@ Debug.console("manager_effect_adnd.lua","manager_effect_processEffects","nDurati
 		end
 	end -- END ACTOR LOOP
 end
-
 
 -- replace 5E EffectManager5E manager_effect_5E.lua evalAbilityHelper() with this
 -- AD&D CORE ONLY

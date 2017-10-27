@@ -3,6 +3,11 @@
 -- attribution and copyright information.
 --
 
+--
+-- Original CoreRPG manager_effect.lua
+--
+--
+
 -- Standard effect fields
 --		sName
 --		nGMOnly
