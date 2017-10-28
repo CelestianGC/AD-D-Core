@@ -16,44 +16,11 @@ function onInit()
 	ActionsManager.registerResultHandler("concentration", onConcentrationRoll);
 end
 
-function setNPCSave(nodeEntry, sSave, nodeNPC)
-    
-    --Debug.console("manager_action_save.lua", "setNPCSave", sSave);
 
-    local nSaveIndex = DataCommonADND.saves_table_index[sSave];
 
-    --Debug.console("manager_action_save.lua", "setNPCSave", "DataCommonADND.saves_table_index[sSave]", DataCommonADND.saves_table_index[sSave]);
-    
-    --Debug.console("manager_action_save.lua", "setNPCSave", "nSaveIndex", nSaveIndex);
-    
-    local nSaveScore = 20;
-    local nLevel = CombatManager2.getNPCLevelFromHitDice(nodeEntry, nodeNPC);
 
-    -- store it incase we wanna look at it later
-    DB.setValue(nodeEntry, "level", "number", nLevel);
-    
-    --Debug.console("manager_action_save.lua", "setNPCSave", "nLevel", nLevel);
-    
-    if (nLevel > 17) then
-        nSaveScore = DataCommonADND.aWarriorSaves[17][nSaveIndex];
-    elseif (nLevel < 1) then
-        nSaveScore = DataCommonADND.aWarriorSaves[0][nSaveIndex];
-    else
-        nSaveScore = DataCommonADND.aWarriorSaves[nLevel][nSaveIndex];
-    --Debug.console("manager_action_save.lua", "setNPCSave", "DataCommonADND.aWarriorSaves[nLevel][nSaveIndex]", DataCommonADND.aWarriorSaves[nLevel][nSaveIndex]);
-    end
-
-    --Debug.console("manager_action_save.lua", "setNPCSave", "nSaveScore", nSaveScore);
-    
-    DB.setValue(nodeEntry, "saves." .. sSave .. ".score", "number", nSaveScore);
-
-    --Debug.console("manager_action_save.lua", "setNPCSave", "setValue Done");
-
-    return nSaveScore;
-end
 
 function handleApplySave(msgOOB)
-    --Debug.console("manager_action_Save.lua","handleApplySave","msgOOB",msgOOB);
 	local rSource = ActorManager.getActor(msgOOB.sSourceType, msgOOB.sSourceNode);
 	local rOrigin = ActorManager.getActor(msgOOB.sTargetType, msgOOB.sTargetNode);
 	
@@ -63,20 +30,13 @@ function handleApplySave(msgOOB)
 	rAction.nTotal = tonumber(msgOOB.nTotal) or 0;
 	rAction.sSaveDesc = msgOOB.sSaveDesc;
 	rAction.nTarget = tonumber(msgOOB.nTarget) or 0;
---	rAction.nTarget = tonumber(msgOOB.nDC) or 0;
 	rAction.sResult = msgOOB.sResult;
 	rAction.bRemoveOnMiss = (tonumber(msgOOB.nRemoveOnMiss) == 1);
-	
---    Debug.console("manager_action_Save.lua","handleApplySave","rSource",rSource);
---    Debug.console("manager_action_Save.lua","handleApplySave","rOrigin",rOrigin);
---    Debug.console("manager_action_Save.lua","handleApplySave","rAction",rAction);
+
 	applySave(rSource, rOrigin, rAction);
 end
 
 function notifyApplySave(rSource, bSecret, rRoll)
---    Debug.console("manager_action_Save.lua","notifyApplySave","rSource",rSource);
---    Debug.console("manager_action_Save.lua","notifyApplySave","bSecret",bSecret);
---    Debug.console("manager_action_Save.lua","notifyApplySave","rRoll",rRoll);
 	local msgOOB = {};
 	msgOOB.type = OOB_MSGTYPE_APPLYSAVE;
 	
@@ -104,10 +64,6 @@ function notifyApplySave(rSource, bSecret, rRoll)
 		msgOOB.sTargetNode = "";
 	end
 
---    Debug.console("manager_action_Save.lua","notifyApplySave2","rSource",rSource);
---    Debug.console("manager_action_Save.lua","notifyApplySave2","bSecret",bSecret);
---    Debug.console("manager_action_Save.lua","notifyApplySave2","rRoll",rRoll);
---    Debug.console("manager_action_Save.lua","notifyApplySave2","msgOOB",msgOOB);
 	Comm.deliverOOBMessage(msgOOB, "");
 end
 
@@ -117,20 +73,8 @@ function performRoll(draginfo, rActor, sSave, nTargetDC, bSecretRoll, rSource, b
 	rRoll.aDice = { "d20" };
 	local nMod, bADV, bDIS, sAddText = ActorManager2.getSave(rActor, sSave);
 	rRoll.nMod = nMod;
-	
-    -- Debug.console("manager_action_Save.lua","performRoll","draginfo",draginfo);
-    -- Debug.console("manager_action_Save.lua","performRoll","rActor",rActor);
-    -- Debug.console("manager_action_Save.lua","performRoll","sSave",sSave);
-    -- Debug.console("manager_action_Save.lua","performRoll","nTargetDC",nTargetDC);
-    -- Debug.console("manager_action_Save.lua","performRoll","bSecretRoll",bSecretRoll);
-    -- Debug.console("manager_action_Save.lua","performRoll","rSource",rSource);
-    -- Debug.console("manager_action_Save.lua","performRoll","bRemoveOnMiss",bRemoveOnMiss);
-
-	-- sPrettySaveText = aSave[string.lower(sSave)];
     local sPrettySaveText = DataCommon.saves_stol[sSave];
-
 	rRoll.sDesc = "[SAVE] vs. " .. StringManager.capitalize(sPrettySaveText);
-
 	if sAddText and sAddText ~= "" then
 		rRoll.sDesc = rRoll.sDesc .. " " .. sAddText;
 	end
@@ -158,14 +102,18 @@ function performRoll(draginfo, rActor, sSave, nTargetDC, bSecretRoll, rSource, b
 end
 
 function modSave(rSource, rTarget, rRoll)
-    -- Debug.console("manager_action_Save.lua","modSave","rSource",rSource);
-    -- Debug.console("manager_action_Save.lua","modSave","rTarget",rTarget);
-    -- Debug.console("manager_action_Save.lua","modSave","rRoll",rRoll);
 	local bAutoFail = false;
 
-	local sSave = string.match(rRoll.sDesc, "%[SAVE%] vs. (%w+)");
-	if sSave then
-		sSave = sSave:lower();
+	local sSave = nil;
+	if rRoll.sDesc:match("%[DEATH%]") then
+		sSave = "death";
+	elseif rRoll.sDesc:match("%[CONCENTRATION%]") then
+		sSave = "concentration";
+	else
+		sSave = rRoll.sDesc:match("%[SAVE%] (%w+)");
+		if sSave then
+			sSave = sSave:lower();
+		end
 	end
 
 	local bADV = false;
@@ -183,7 +131,7 @@ function modSave(rSource, rTarget, rRoll)
 	local aAddDice = {};
 	local nAddMod = 0;
 	
-	-- local nCover = 0;
+	local nCover = 0;
 	-- if sSave == "dexterity" then
 		-- if rRoll.sSaveDesc then
 			-- nCover = tonumber(rRoll.sSaveDesc:match("%[COVER %-(%d)%]")) or 0;
@@ -210,14 +158,10 @@ function modSave(rSource, rTarget, rRoll)
 		if rRoll.sSource then
 			rSaveSource = ActorManager.getActor("ct", rRoll.sSource);
 		end
-    --Debug.console("manager_action_Save.lua","modSave","sSave",sSave);
 		local aAddDice, nAddMod, nEffectCount = EffectManager5E.getEffectsBonus(rSource, {"SAVE"}, false, aSaveFilter, rSaveSource);
 		if nEffectCount > 0 then
 			bEffects = true;
 		end
-    -- Debug.console("manager_action_Save.lua","modSave","aAddDice",aAddDice);
-    -- Debug.console("manager_action_Save.lua","modSave","nAddMod",nAddMod);
-    -- Debug.console("manager_action_Save.lua","modSave","nEffectCount",nEffectCount);
 		
 		-- Get condition modifiers
 		if EffectManager5E.hasEffect(rSource, "ADVSAV", rTarget) then
@@ -226,11 +170,17 @@ function modSave(rSource, rTarget, rRoll)
 		elseif #(EffectManager5E.getEffectsByType(rSource, "ADVSAV", aSaveFilter, rTarget)) > 0 then
 			bADV = true;
 			bEffects = true;
+		elseif sSave == "death" and EffectManager5E.hasEffect(rSource, "ADVDEATH") then
+			bADV = true;
+			bEffects = true;
 		end
 		if EffectManager5E.hasEffect(rSource, "DISSAV", rTarget) then
 			bDIS = true;
 			bEffects = true;
 		elseif #(EffectManager5E.getEffectsByType(rSource, "DISSAV", aSaveFilter, rTarget)) > 0 then
+			bDIS = true;
+			bEffects = true;
+		elseif sSave == "death" and EffectManager5E.hasEffect(rSource, "DISDEATH") then
 			bDIS = true;
 			bEffects = true;
 		end
@@ -265,7 +215,7 @@ function modSave(rSource, rTarget, rRoll)
 				bEffects = true;
 			end
 		end
-		if StringManager.contains({ "strength", "dexterity", "constitution" }, sSave) then
+		if StringManager.contains({ "strength", "dexterity", "constitution", "concentration" }, sSave) then
 			if EffectManager5E.hasEffectCondition(rSource, "Encumbered") then
 				bEffects = true;
 				bDIS = true;
@@ -281,28 +231,31 @@ function modSave(rSource, rTarget, rRoll)
 			bEffects = true;
 			bADV = true;
 		end
-
-		-- Get ability modifiers
-    -- Debug.console("manager_action_Save.lua","modSave","rSource",rSource);
-		-- local nBonusStat, nBonusEffects = ActorManager2.getAbilityEffectsBonus(rSource, sSave);
-		-- if nBonusEffects > 0 then
-			-- bEffects = true;
-			-- nAddMod = nAddMod + nBonusStat;
-		-- end
-    -- Debug.console("manager_action_Save.lua","modSave","nBonusStat",nBonusStat);
-    -- Debug.console("manager_action_Save.lua","modSave","nBonusEffects",nBonusEffects);
-		
-        -- get Save modifier ADND style --celestian
---    Debug.console("manager_action_Save.lua","modSave","rSource2",rSource);
+		if rRoll.sSaveDesc then
+			if rRoll.sSaveDesc:match("%[MAGIC%]") then
+				if EffectManager5E.hasEffectCondition(rSource, "Magic Resistance") then
+					bEffects = true;
+					bADV = true;
+				end
+			end
+		end
+        -- Get save modifiers
 		local nBonusSave, nBonusSaveEffects = EffectManager5E.getEffectsBonus(rSource, sSave:upper(),true);
 		if nBonusSaveEffects > 0 then
 			bEffects = true;
 			nAddMod = nAddMod + nBonusSave;
 		end
-    --Debug.console("manager_action_Save.lua","modSave","nBonusStat2",nBonusStat);
-    --Debug.console("manager_action_Save.lua","modSave","nBonusEffects2",nBonusEffects);
 
-    -- Get exhaustion modifiers
+
+
+
+
+
+
+
+
+
+        -- Get exhaustion modifiers
 		local nExhaustMod, nExhaustCount = EffectManager5E.getEffectsBonus(rSource, {"EXHAUSTION"}, true);
 		if nExhaustCount > 0 then
 			bEffects = true;
@@ -333,15 +286,20 @@ function modSave(rSource, rTarget, rRoll)
 		end
 	end
 	
-	-- if nCover > 0 then
-		-- rRoll.nMod = rRoll.nMod + nCover;
-		-- rRoll.sDesc = rRoll.sDesc .. string.format(" [COVER +%d]", nCover);
-	-- end
-	
-	ActionsManager2.encodeDesktopMods(rRoll);
 
-    -- don't use advantage/disadvantage in AD&D --celestian
-    bADV = false;
+
+
+
+
+
+
+
+	if nCover > 0 then
+		rRoll.nMod = rRoll.nMod + nCover;
+		rRoll.sDesc = rRoll.sDesc .. string.format(" [COVER +%d]", nCover);
+	end
+	ActionsManager2.encodeDesktopMods(rRoll);
+    bADV = false;    -- don't use advantage/disadvantage in AD&D --celestian
     bDIS = false;
 	ActionsManager2.encodeAdvantage(rRoll, bADV, bDIS);
 	
@@ -349,117 +307,7 @@ function modSave(rSource, rTarget, rRoll)
 		rRoll.sDesc = rRoll.sDesc .. " [AUTOFAIL]";
 	end
 end
-
--- function onSave(rSource, rTarget, rRoll)
-	-- ActionsManager2.decodeAdvantage(rRoll);
-
-	-- local rMessage = ActionsManager.createActionMessage(rSource, rRoll);
-
-	-- local bAutoFail = string.match(rRoll.sDesc, "%[AUTOFAIL%]");
-	-- if not bAutoFail and rRoll.nTarget then
-    -- --
-		-- local nTotal = ActionsManager.total(rRoll);
-		-- local nTargetDC = tonumber(rRoll.nTarget) or 0;
-		
-		-- rMessage.text = rMessage.text .. " (Target " .. nTargetDC .. ")";
-		-- if nTotal >= nTargetDC then
-			-- rMessage.text = rMessage.text .. " [SUCCESS]";
-
-			-- if rSource and rRoll.sSource then
-				-- if rRoll.sSaveDesc then
-					-- local sAttack = string.match(rRoll.sSaveDesc, "%[SAVE VS[^]]*%] ([^[]+)");
-					-- if sAttack then
-						-- local rRollSource = ActorManager.getActor("ct", rRoll.sSource);
-						-- local bHalfMatch = rRoll.sSaveDesc:match("%[HALF ON SAVE%]");
-						
-						-- local bHalfDamage = false;
-						-- local bAvoidDamage = false;
-						-- if bHalfMatch then
-							-- bHalfDamage = true;
-						-- end
-						-- if bHalfDamage then
-							-- if EffectManager5E.hasEffectCondition(rSource, "Avoidance") then
-								-- bAvoidDamage = true;
-								-- rMessage.text = rMessage.text .. " [AVOIDANCE]";
-							-- elseif EffectManager5E.hasEffectCondition(rSource, "Evasion") then
-								-- local sSave = string.match(rRoll.sDesc, "%[SAVE%] (%w+)");
-								-- if sSave then
-									-- sSave = sSave:lower();
-								-- end
-								-- if sSave == "dexterity" then
-									-- bAvoidDamage = true;
-									-- rMessage.text = rMessage.text .. " [EVASION]";
-								-- end
-							-- end
-						-- end
-						
-						-- if bAvoidDamage then
-							-- ActionDamage.setDamageState(rRollSource, rSource, StringManager.trim(sAttack), "none");
-							-- rRoll.bRemoveOnMiss = false;
-						-- elseif bHalfDamage then
-							-- ActionDamage.setDamageState(rRollSource, rSource, StringManager.trim(sAttack), "half");
-							-- rRoll.bRemoveOnMiss = false;
-						-- else
-							-- ActionDamage.setDamageState(rRollSource, rSource, StringManager.trim(sAttack), "");
-						-- end
-					-- end
-				-- end
-			
-				-- local bRemoveTarget = false;
-				-- if OptionsManager.isOption("RMMT", "on") then
-					-- bRemoveTarget = true;
-				-- elseif rRoll.bRemoveOnMiss then
-					-- bRemoveTarget = true;
-				-- end
-				
-				-- if bRemoveTarget then
-					-- TargetingManager.removeTarget(rRoll.sSource, ActorManager.getCTNodeName(rSource));
-				-- end
-			-- end
-		-- else
-			-- rMessage.text = rMessage.text .. " [FAILURE]";
-
-			-- if rRoll.sSaveDesc then
-				-- local sAttack = string.match(rRoll.sSaveDesc, "%[SAVE VS[^]]*%] ([^[]+)");
-				-- if sAttack then
-					-- local rRollSource = ActorManager.getActor("ct", rRoll.sSource);
-					-- local bHalfMatch = rRoll.sSaveDesc:match("%[HALF ON SAVE%]");
-					
-					-- local bHalfDamage = false;
-					-- if bHalfMatch then
-						-- if EffectManager5E.hasEffectCondition(rSource, "Avoidance") then
-							-- bHalfDamage = true;
-							-- rMessage.text = rMessage.text .. " [AVOIDANCE]";
-						-- elseif EffectManager5E.hasEffectCondition(rSource, "Evasion") then
-							-- local sSave = string.match(rRoll.sDesc, "%[SAVE%] (%w+)");
-							-- if sSave then
-								-- sSave = sSave:lower();
-							-- end
-							-- if sSave == "dexterity" then
-								-- bHalfDamage = true;
-								-- rMessage.text = rMessage.text .. " [EVASION]";
-							-- end
-						-- end
-					-- end
-					
-					-- if bHalfDamage then
-						-- ActionDamage.setDamageState(rRollSource, rSource, StringManager.trim(sAttack), "half");
-					-- else
-						-- ActionDamage.setDamageState(rRollSource, rSource, StringManager.trim(sAttack), "");
-					-- end
-				-- end
-			-- end
-		-- end
-	-- end
-
-	-- Comm.deliverChatMessage(rMessage);
--- end
-
--- this part of the new save method in the 5e ruleset, need to trace it and see if we need it.
 function onSave(rSource, rTarget, rRoll)
-    -- Debug.console("manager_action_Save.lua","onSave","rSource",rSource);
-    -- Debug.console("manager_action_Save.lua","onSave","rTarget",rTarget);
-    -- Debug.console("manager_action_Save.lua","onSave","rRoll",rRoll);
 	ActionsManager2.decodeAdvantage(rRoll);
 
 	local rMessage = ActionsManager.createActionMessage(rSource, rRoll);
@@ -471,12 +319,7 @@ function onSave(rSource, rTarget, rRoll)
 	end
 end
 
--- this part of the new save method in the 5e ruleset, need to trace it and see if we need it.
 function applySave(rSource, rOrigin, rAction, sUser)
-    -- Debug.console("manager_action_Save.lua","applySave","rSource",rSource);
-    -- Debug.console("manager_action_Save.lua","applySave","rOrigin",rOrigin);
-    -- Debug.console("manager_action_Save.lua","applySave","rAction",rAction);
-    -- Debug.console("manager_action_Save.lua","applySave","sUser",sUser);
 	local msgShort = {font = "msgfont"};
 	local msgLong = {font = "msgfont"};
 	
@@ -506,76 +349,187 @@ function applySave(rSource, rOrigin, rAction, sUser)
 	end
 	rAction.sResult = "";
 	
-	if rAction.nTotal >= rAction.nTarget then
-		msgLong.text = msgLong.text .. " [SUCCESS]";
-		msgLong.icon = "chat_success";
-		msgLong.font = "successfont";
-		if rSource then
-			local bHalfDamage = bHalfMatch;
-			local bAvoidDamage = false;
-			if bHalfDamage then
-				if EffectManager5E.hasEffectCondition(rSource, "Avoidance") then
-					bAvoidDamage = true;
-					msgLong.text = msgLong.text .. " [AVOIDANCE]";
-				elseif EffectManager5E.hasEffectCondition(rSource, "Evasion") then
-					local sSave = rAction.sDesc:match("%[SAVE%] (%w+)");
-					if sSave then
-						sSave = sSave:lower();
-					end
-					if sSave == "dexterity" then
-						bAvoidDamage = true;
-						msgLong.text = msgLong.text .. " [EVASION]";
-					end
-				end
-			end
-			
-			if bAvoidDamage then
-				rAction.sResult = "none";
-				rAction.bRemoveOnMiss = false;
-			elseif bHalfDamage then
-				rAction.sResult = "half";
-				rAction.bRemoveOnMiss = false;
-			end
-			
-			if rOrigin and rAction.bRemoveOnMiss then
-				TargetingManager.removeTarget(ActorManager.getCTNodeName(rOrigin), ActorManager.getCTNodeName(rSource));
-			end
-		end
-	else
-		msgLong.text = msgLong.text .. " [FAILURE]";
-		msgLong.icon = "chat_fail";
-		msgLong.font = "failfont";
+	if rAction.nTarget > 0 then
+        if rAction.nTotal >= rAction.nTarget then
+            msgLong.text = msgLong.text .. " [SUCCESS]";
+            msgLong.icon = "chat_success";msgLong.font = "successfont";
+            if rSource then
+                local bHalfDamage = bHalfMatch;
+                local bAvoidDamage = false;
+                if bHalfDamage then
+                    if EffectManager5E.hasEffectCondition(rSource, "Avoidance") then
+                        bAvoidDamage = true;
+                        msgLong.text = msgLong.text .. " [AVOIDANCE]";
+                    elseif EffectManager5E.hasEffectCondition(rSource, "Evasion") then
+                        local sSave = rAction.sDesc:match("%[SAVE%] (%w+)");
+                        if sSave then
+                            sSave = sSave:lower();
+                        end
+                        if sSave == "dexterity" then
+                            bAvoidDamage = true;
+                            msgLong.text = msgLong.text .. " [EVASION]";
+                        end
+                    end
+                end
+                
+                if bAvoidDamage then
+                    rAction.sResult = "none";
+                    rAction.bRemoveOnMiss = false;
+                elseif bHalfDamage then
+                    rAction.sResult = "half_success";
+                    rAction.bRemoveOnMiss = false;
+                end
+                
+                if rOrigin and rAction.bRemoveOnMiss then
+                    TargetingManager.removeTarget(ActorManager.getCTNodeName(rOrigin), ActorManager.getCTNodeName(rSource));
+                end
+            end
+        else
+            msgLong.text = msgLong.text .. " [FAILURE]";
+            msgLong.icon = "chat_fail";	msgLong.font = "failfont";
+            if rSource then
+                local bHalfDamage = false;
+                if bHalfMatch then
+                    if EffectManager5E.hasEffectCondition(rSource, "Avoidance") then
+                        bHalfDamage = true;
+                        msgLong.text = msgLong.text .. " [AVOIDANCE]";
+                    elseif EffectManager5E.hasEffectCondition(rSource, "Evasion") then
+                        local sSave = rAction.sDesc:match("%[SAVE%] (%w+)");
+                        if sSave then
+                            sSave = sSave:lower();
+                        end
+                        if sSave == "dexterity" then
+                            bHalfDamage = true;
+                            msgLong.text = msgLong.text .. " [EVASION]";
+                        end
+                    end
+                end
+                
+                if bHalfDamage then
+                    rAction.sResult = "half_failure";
+                end
+            end
+        end
+    end
 
-		if rSource then
-			local bHalfDamage = false;
-			if bHalfMatch then
-				if EffectManager5E.hasEffectCondition(rSource, "Avoidance") then
-					bHalfDamage = true;
-					msgLong.text = msgLong.text .. " [AVOIDANCE]";
-				elseif EffectManager5E.hasEffectCondition(rSource, "Evasion") then
-					local sSave = rAction.sDesc:match("%[SAVE%] (%w+)");
-					if sSave then
-						sSave = sSave:lower();
-					end
-					if sSave == "dexterity" then
-						bHalfDamage = true;
-						msgLong.text = msgLong.text .. " [EVASION]";
-					end
-				end
-			end
-			
-			if bHalfDamage then
-				rAction.sResult = "half";
-			end
-		end
-	end
-	
 	ActionsManager.messageResult(bSecret, rSource, rOrigin, msgLong, msgShort);
 	
 	if rSource and rOrigin then
 		ActionDamage.setDamageState(rOrigin, rSource, StringManager.trim(sAttack), rAction.sResult);
 	end
 end
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--
+--  Concentration saving throw
+--
 
 function hasConcentrationEffects(rSource)
 	return #(getConcentrationEffects(rSource)) > 0;
@@ -640,6 +594,7 @@ function notifyApplyConc(rSource, bSecret, rRoll)
 
 	Comm.deliverOOBMessage(msgOOB, "");
 end
+
 function performConcentrationRoll(draginfo, rActor, nTargetDC)
 	local rRoll = { };
 	rRoll.sType = "concentration";
@@ -712,4 +667,40 @@ function expireConcentrationEffects(rSource)
 	for _,v in ipairs(aSourceConcentrationEffects) do
 		EffectManager.expireEffect(v.nodeCT, v.nodeEffect, 0);
 	end
+end
+
+function setNPCSave(nodeEntry, sSave, nodeNPC)
+    
+    --Debug.console("manager_action_save.lua", "setNPCSave", sSave);
+
+    local nSaveIndex = DataCommonADND.saves_table_index[sSave];
+
+    --Debug.console("manager_action_save.lua", "setNPCSave", "DataCommonADND.saves_table_index[sSave]", DataCommonADND.saves_table_index[sSave]);
+    
+    --Debug.console("manager_action_save.lua", "setNPCSave", "nSaveIndex", nSaveIndex);
+    
+    local nSaveScore = 20;
+    local nLevel = CombatManager2.getNPCLevelFromHitDice(nodeEntry, nodeNPC);
+
+    -- store it incase we wanna look at it later
+    DB.setValue(nodeEntry, "level", "number", nLevel);
+    
+    --Debug.console("manager_action_save.lua", "setNPCSave", "nLevel", nLevel);
+    
+    if (nLevel > 17) then
+        nSaveScore = DataCommonADND.aWarriorSaves[17][nSaveIndex];
+    elseif (nLevel < 1) then
+        nSaveScore = DataCommonADND.aWarriorSaves[0][nSaveIndex];
+    else
+        nSaveScore = DataCommonADND.aWarriorSaves[nLevel][nSaveIndex];
+    --Debug.console("manager_action_save.lua", "setNPCSave", "DataCommonADND.aWarriorSaves[nLevel][nSaveIndex]", DataCommonADND.aWarriorSaves[nLevel][nSaveIndex]);
+    end
+
+    --Debug.console("manager_action_save.lua", "setNPCSave", "nSaveScore", nSaveScore);
+    
+    DB.setValue(nodeEntry, "saves." .. sSave .. ".score", "number", nSaveScore);
+
+    --Debug.console("manager_action_save.lua", "setNPCSave", "setValue Done");
+
+    return nSaveScore;
 end
