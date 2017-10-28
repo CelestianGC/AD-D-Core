@@ -18,7 +18,7 @@ function createBlankTable()
 	if node then
 		local w = Interface.openWindow("table", node.getNodeName());
 		--TableManager.createRows(node, nRows, nStep, bSpecial);
-		if w and w.header.subwindow.name then
+		if w and w.header and w.header.subwindow and w.header.subwindow.name then
 			w.header.subwindow.name.setFocus();
 		end
 	end

@@ -849,11 +849,6 @@ function hasEffect(rActor, sEffect, rTarget, bTargetedOnly, bIgnoreEffectTargets
 				
 			end
 
-Debug.console("manager_effect_5E.lua","hasEffect","nMatch",nMatch);			
-Debug.console("manager_effect_5E.lua","hasEffect","sApply",sApply);			
-Debug.console("manager_effect_5E.lua","hasEffect","v",v);			
-			
-            
 			-- If matched, then remove one-off effects
 			if nMatch > 0 then
 				if nActive == 2 then

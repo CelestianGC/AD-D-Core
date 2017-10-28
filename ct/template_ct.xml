@@ -191,10 +191,22 @@
 			<readonly />
 		</stringcontrol>
 	</template>
+	<template name="frame_ctsub">
+		<genericcontrol>
+			<anchored>
+				<left parent="name" offset="15" />
+				<top offset="-8" />
+				<right offset="-4" />
+				<bottom offset="8" />
+			</anchored>
+			<frame name="ct_subgroupbox" />
+			<disabled />
+		</genericcontrol>
+	</template>
 	<template name="icon_ctsection">
 		<genericcontrol>
-			<anchored width="35" height="32">
-				<left offset="25" />
+			<anchored width="25" height="32">
+				<left parent="name" offset="-10" />
 				<top parent="name" anchor="bottom" relation="current" offset="3" />
 			</anchored>
 		</genericcontrol>

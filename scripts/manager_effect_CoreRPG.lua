@@ -120,14 +120,11 @@ end
 --
 
 function processEffects(nodeCurrentActor, nodeNewActor)
-Debug.console("manager_effect.lua","processEffects","nodeCurrentActor",nodeCurrentActor);
-Debug.console("manager_effect.lua","processEffects","nodeNewActor",nodeNewActor);
         	-- Get sorted combatant list
 	local aEntries = CombatManager.getSortedCombatantList();
 	if #aEntries == 0 then
 		return;
 	end
-Debug.console("manager_effect.lua","processEffects","aEntries",aEntries);
 		
 	-- Set up current and new initiative values for effect processing
 	local nCurrentInit = -10000;
@@ -138,7 +135,6 @@ Debug.console("manager_effect.lua","processEffects","aEntries",aEntries);
 	if nodeNewActor then
 		nNewInit = DB.getValue(nodeNewActor, "initresult", 0);
 	end
-Debug.console("manager_effect.lua","processEffects","nCurrentInit",nCurrentInit);
 	
 	-- For each actor, advance durations, and process start of turn special effects
 	local bProcessSpecialStart = (nodeCurrentActor == nil);
@@ -157,78 +153,49 @@ Debug.console("manager_effect.lua","processEffects","nCurrentInit",nCurrentInit)
 			-- Make sure effect is active
 			local nActive = DB.getValue(nodeEffect, "isactive", 0);
 			if (nActive ~= 0) then
-Debug.console("manager_effect.lua","processEffects","----------nActive1",nActive);
 				if bProcessSpecialStart then
-Debug.console("manager_effect.lua","processEffects","bProcessSpecialStart",bProcessSpecialStart);
 					if fCustomOnEffectActorStartTurn then
-Debug.console("manager_effect.lua","processEffects","fCustomOnEffectActorStartTurn1",fCustomOnEffectActorStartTurn);
 						fCustomOnEffectActorStartTurn(nodeActor, nodeEffect);
-Debug.console("manager_effect.lua","processEffects","fCustomOnEffectActorStartTurn2",fCustomOnEffectActorStartTurn);
 					end
-Debug.console("manager_effect.lua","processEffects","1");
 				end
-Debug.console("manager_effect.lua","processEffects","2");
 
 				if aEffectVarMap["nInit"] then
-Debug.console("manager_effect.lua","processEffects","3");
 					local nEffInit = DB.getValue(nodeEffect, aEffectVarMap["nInit"].sDBField, aEffectVarMap["nInit"].vDBDefault or 0);
 
-Debug.console("manager_effect.lua","processEffects","nEffInit",nEffInit);
-Debug.console("manager_effect.lua","processEffects","nCurrentInit",nCurrentInit);
-Debug.console("manager_effect.lua","processEffects","nNewInit",nNewInit);
-				
 					-- Apply start of effect initiative changes
 					if nEffInit < nCurrentInit and nEffInit >= nNewInit then
-Debug.console("manager_effect.lua","processEffects","4");
 						-- Start turn
 						local bHandled = false;
-Debug.console("manager_effect.lua","processEffects","5");
 						if fCustomOnEffectStartTurn then
-Debug.console("manager_effect.lua","processEffects","6");
 							bHandled = fCustomOnEffectStartTurn(nodeActor, nodeEffect, nCurrentInit, nNewInit);
 						end
-Debug.console("manager_effect.lua","processEffects","7");
 						if not bHandled and aEffectVarMap["nDuration"] then
-Debug.console("manager_effect.lua","processEffects","8");
 							local nDuration = DB.getValue(nodeEffect, aEffectVarMap["nDuration"].sDBField, 0);
 							if nDuration > 0 then
-Debug.console("manager_effect.lua","processEffects","9");
 								nDuration = nDuration - 1;
 								if nDuration <= 0 then
-Debug.console("manager_effect.lua","processEffects","10");
 									expireEffect(nodeActor, nodeEffect, 0);
 								else
-Debug.console("manager_effect.lua","processEffects","11");
 									DB.setValue(nodeEffect, "duration", "number", nDuration);
 								end
-Debug.console("manager_effect.lua","processEffects","12");
 							end
-Debug.console("manager_effect.lua","processEffects","13");
 						end
-Debug.console("manager_effect.lua","processEffects","14");
 						
 					-- Apply end of effect initiative changes
 					elseif nEffInit <= nCurrentInit and nEffInit > nNewInit then
-Debug.console("manager_effect.lua","processEffects","fCustomOnEffectActorStartTurn",nEffInit);
 						if fCustomOnEffectEndTurn then
-Debug.console("manager_effect.lua","processEffects","fCustomOnEffectEndTurn",fCustomOnEffectEndTurn);
 							bHandled = fCustomOnEffectEndTurn(nodeActor, nodeEffect, nCurrentInit, nNewInit);
-Debug.console("manager_effect.lua","processEffects","15");
 						end
 					end
 				end
 				
 				if bProcessSpecialEnd then
-Debug.console("manager_effect.lua","processEffects","bProcessSpecialEnd",bProcessSpecialEnd);
 					if fCustomOnEffectActorEndTurn then
-Debug.console("manager_effect.lua","processEffects","fCustomOnEffectActorEndTurn",fCustomOnEffectActorEndTurn);
 						fCustomOnEffectActorEndTurn(nodeActor, nodeEffect);
-Debug.console("manager_effect.lua","processEffects","16");
 					end
 				end
 			end -- END ACTIVE EFFECT CHECK
 
-Debug.console("manager_effect.lua","processEffects","----------nActive2",nActive);
 
          end -- END EFFECT LOOP
 		
