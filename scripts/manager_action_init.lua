@@ -91,7 +91,7 @@ function performRoll(draginfo, rActor, bSecretRoll, rItem)
     -- dont like this but I need the spell path to for later and this
     -- is the easiest place to put it. We need to know the spellPath AFTER
     -- the initiative is set so the initiative for the effect is correct
-    if (rItem.spellPath and rItem.spellPath ~= "") then
+    if (rItem and rItem.spellPath and rItem.spellPath ~= "") then
         rRoll.spellPath = rItem.spellPath;
     end
     

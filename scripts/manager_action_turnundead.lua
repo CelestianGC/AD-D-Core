@@ -109,7 +109,39 @@ function modRoll(rSource, rTarget, rRoll)
 	local aAddDesc = {};
 	local aAddDice = {};
 	local nAddMod = 0;
+    local bEffects = false;
+    
+    -- apply turn roll modifiers
+    -- -- Get roll effect modifiers
+    local nEffectCount;
+    aAddDice, nAddMod, nEffectCount = EffectManager5E.getEffectsBonus(rSource, {"TURN"}, false, '');
+    if (nEffectCount > 0) then
+        bEffects = true;
+    end
+	rRoll.nMod = rRoll.nMod + nAddMod;
+    
+    -- apply turn level adjustment?
+    aAddDice, nAddMod, nEffectCount = EffectManager5E.getEffectsBonus(rSource, {"TURNLEVEL"}, false, '');
+    if (nEffectCount > 0) then
+        bEffects = true;
+    end
+    rRoll.nTarget = rRoll.nTarget + nAddMod;
 
+    -- If effects happened, then add note
+    if bEffects then
+        local sEffects = "";
+        local sMod = StringManager.convertDiceToString(aAddDice, nAddMod, true);
+        if sMod ~= "" then
+            sEffects = "[" .. Interface.getString("effects_tag") .. " " .. sMod .. "]";
+        else
+            sEffects = "[" .. Interface.getString("effects_tag") .. "]";
+        end
+        table.insert(aAddDesc, sEffects);
+    end
+	if #aAddDesc > 0 then
+		rRoll.sDesc = rRoll.sDesc .. " " .. table.concat(aAddDesc, " ");
+	end
+	
 	ActionsManager2.encodeDesktopMods(rRoll);
 	for _,vDie in ipairs(aAddDice) do
 		if vDie:sub(1,1) == "-" then
@@ -118,7 +150,7 @@ function modRoll(rSource, rTarget, rRoll)
 			table.insert(rRoll.aDice, "p" .. vDie:sub(2));
 		end
 	end
-	rRoll.nMod = rRoll.nMod + nAddMod;
-	
+
+
 	ActionsManager2.encodeAdvantage(rRoll, false, false);
 end
