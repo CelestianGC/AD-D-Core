@@ -22,6 +22,7 @@
                     function action(draginfo)
                         local node = getDatabaseNode();
                         local nodeChar = node.getChild("...");
+                        local rActor = ActorManager.getActor("pc", nodeChar);
                         ActionSurprise.performRoll(draginfo, rActor, nodeChar);
                         return true;
                     end
@@ -71,6 +72,7 @@
                     function action(draginfo)
                         local node = getDatabaseNode();
                         local nodeChar = node.getChild("...");
+                        local rActor = ActorManager.getActor("pc", nodeChar);
                         ActionTurn.performRoll(draginfo, rActor, nodeChar);
                         return true;
                     end

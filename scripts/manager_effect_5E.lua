@@ -658,6 +658,11 @@ function getEffectsBonusByType(rActor, aEffectType, bAddEmptyBonus, aFilter, rFi
 			-- LOOK FOR ENERGY OR BONUS TYPES
 			local dmg_type = nil;
 			local mod_type = nil;
+            -- -- this handles the BSTR, BPSTR/etc style abilites settings --celestian
+            -- this doesn't seem to be needed anymore.
+            -- if (StringManager.contains(DataCommonADND.basetypes, v2.type)) then
+                -- mod_type = v2.type;
+            -- end
 			for _,v3 in pairs(v2.remainder) do
 				if StringManager.contains(DataCommon.dmgtypes, v3) or StringManager.contains(DataCommon.conditions, v3) or v3 == "all" then
 					dmg_type = v3;
@@ -736,6 +741,10 @@ function getEffectsBonusByType(rActor, aEffectType, bAddEmptyBonus, aFilter, rFi
 end
 
 function getEffectsBonus(rActor, aEffectType, bModOnly, aFilter, rFilterActor, bTargetedOnly)
+-- Debug.console("manager_effect5E.lua","getEffectsBonus","rActor",rActor);
+-- Debug.console("manager_effect5E.lua","getEffectsBonus","aEffectType",aEffectType);
+-- Debug.console("manager_effect5E.lua","getEffectsBonus","bModOnly",bModOnly);
+-- Debug.console("manager_effect5E.lua","getEffectsBonus","aFilter",aFilter);
 	if not rActor or not aEffectType then
 		if bModOnly then
 			return 0, 0;
@@ -747,6 +756,8 @@ function getEffectsBonus(rActor, aEffectType, bModOnly, aFilter, rFilterActor, b
 	if type(aEffectType) ~= "table" then
 		aEffectType = { aEffectType };
 	end
+
+
 	
 	-- START WITH AN EMPTY MODIFIER TOTAL
 	local aTotalDice = {};

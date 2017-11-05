@@ -110,23 +110,25 @@ function modRoll(rSource, rTarget, rRoll)
 	local aAddDice = {};
 	local nAddMod = 0;
     local bEffects = false;
-    
-    -- apply turn roll modifiers
-    -- -- Get roll effect modifiers
-    local nEffectCount;
-    aAddDice, nAddMod, nEffectCount = EffectManager5E.getEffectsBonus(rSource, {"TURN"}, false, '');
-    if (nEffectCount > 0) then
-        bEffects = true;
-    end
-	rRoll.nMod = rRoll.nMod + nAddMod;
-    
-    -- apply turn level adjustment?
-    aAddDice, nAddMod, nEffectCount = EffectManager5E.getEffectsBonus(rSource, {"TURNLEVEL"}, false, '');
-    if (nEffectCount > 0) then
-        bEffects = true;
-    end
-    rRoll.nTarget = rRoll.nTarget + nAddMod;
 
+    if rSource then
+        -- apply turn roll modifiers
+        -- -- Get roll effect modifiers
+        local nEffectCount;
+        aAddDice, nAddMod, nEffectCount = EffectManager5E.getEffectsBonus(rSource, {"TURN"}, false);
+        if (nEffectCount > 0) then
+            bEffects = true;
+        end
+        rRoll.nMod = rRoll.nMod + nAddMod;
+        
+        -- apply turn level adjustment?
+        aAddDice, nAddMod, nEffectCount = EffectManager5E.getEffectsBonus(rSource, {"TURNLEVEL"}, false);
+        if (nEffectCount > 0) then
+            bEffects = true;
+        end
+        rRoll.nTarget = rRoll.nTarget + nAddMod;
+    end
+    
     -- If effects happened, then add note
     if bEffects then
         local sEffects = "";

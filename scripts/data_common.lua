@@ -298,7 +298,7 @@ bonuscomps = {
 	"DEX",
 	"INT",
 	"WIS",
-	"CHA",
+	"CHA"
 };
 
 -- Condition effect types for token widgets
