@@ -80,6 +80,10 @@
         "BPWIS",
         "BAC",
     };
+    -- also added these effect tags
+    --"TURN",
+    --"TURNLEVEL",
+    --"SURPRISE",
     
     -- these class get con bonus to hp
     fighterTypes = {

@@ -52,6 +52,7 @@
 				<class>advanced_effects_entry</class>
 				<script>
 					function addEntry(bFocus)
+                    
 						local n = getWindowCount();
 						
 						local w = createWindow();
