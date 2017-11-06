@@ -143,10 +143,6 @@
 					<subwindow>main</subwindow>
 				</tab>
 				<tab>
-					<icon>tab_actions</icon>
-                    <subwindow>combat</subwindow>
-				</tab>
-				<tab>
 					<icon>tab_skills</icon>
 					<subwindow>skills</subwindow>
 				</tab>
@@ -165,6 +161,10 @@
 				<tab>
 					<icon>tab_log</icon>
 					<subwindow>logs</subwindow>
+				</tab>
+				<tab>
+					<icon>tab_actions</icon>
+                    <subwindow>combat</subwindow>
 				</tab>
 				<activate>1</activate>
 			</tabs_charsheet>
