@@ -179,6 +179,7 @@
  	<script name="EffectManagerADND" file="scripts/manager_effect_adnd.lua" />
  	<script name="AccessManagerADND" file="scripts/manager_access_adnd.lua" />
  	<script name="TokenManagerADND" file="scripts/manager_token_adnd.lua" />
+ 	<script name="ActorManagerADND" file="scripts/manager_actor_adnd.lua" />
     <!-- This replaces the CoreRPG EffectManager with one that works with AD&D Core -->
  	<script name="EffectManager" file="scripts/manager_effect_CoreRPG.lua" />
 

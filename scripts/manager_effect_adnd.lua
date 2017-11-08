@@ -13,14 +13,15 @@ function onInit()
     --EffectManager.processEffects = manager_effect_processEffects;
     --CombatManager.setCustomInitChange(manager_effect_processEffects);
     -- end doesn't work
+
+    -- used for AD&D Core ONLY
+    EffectManager5E.evalAbilityHelper = evalAbilityHelper;
+    EffectManager5E.checkConditional = checkConditional; -- this is for ARMOR() effect type
     
     -- 5E effects replacements
     EffectManager5E.checkConditionalHelper = checkConditionalHelper;
     EffectManager5E.getEffectsByType = getEffectsByType;
     EffectManager5E.hasEffect = hasEffect;
-
-    -- used for AD&D Core ONLY
-    EffectManager5E.evalAbilityHelper = evalAbilityHelper;
     
     -- used for 5E extension ONLY
     --ActionAttack.performRoll = manager_action_attack_performRoll;
@@ -772,6 +773,75 @@ function hasEffect(rActor, sEffect, rTarget, bTargetedOnly, bIgnoreEffectTargets
 		return true;
 	end
 	return false;
+end
+
+-- replace 5E EffectManager5E manager_effect_5E.lua checkConditional() with this
+function checkConditional(rActor, nodeEffect, aConditions, rTarget, aIgnore)
+	local bReturn = true;
+	
+	if not aIgnore then
+		aIgnore = {};
+	end
+	table.insert(aIgnore, nodeEffect.getNodeName());
+	
+	for _,v in ipairs(aConditions) do
+		local sLower = v:lower();
+		if sLower == DataCommon.healthstatusfull then
+			local nPercentWounded = ActorManager2.getPercentWounded(rActor);
+			if nPercentWounded > 0 then
+				bReturn = false;
+			end
+		elseif sLower == DataCommon.healthstatushalf then
+			local nPercentWounded = ActorManager2.getPercentWounded(rActor);
+			if nPercentWounded < .5 then
+				bReturn = false;
+			end
+		elseif sLower == DataCommon.healthstatuswounded then
+			local nPercentWounded = ActorManager2.getPercentWounded(rActor);
+			if nPercentWounded == 0 then
+				bReturn = false;
+			end
+		elseif StringManager.contains(DataCommon.conditions, sLower) then
+			if not EffectManager5E.checkConditionalHelper(rActor, sLower, rTarget, aIgnore) then
+				bReturn = false;
+			end
+		elseif StringManager.contains(DataCommon.conditionaltags, sLower) then
+			if not EffectManager5E.checkConditionalHelper(rActor, sLower, rTarget, aIgnore) then
+				bReturn = false;
+			end
+		else
+			local sAlignCheck = sLower:match("^align%s*%(([^)]+)%)$");
+			local sSizeCheck = sLower:match("^size%s*%(([^)]+)%)$");
+			local sTypeCheck = sLower:match("^type%s*%(([^)]+)%)$");
+			local sCustomCheck = sLower:match("^custom%s*%(([^)]+)%)$");
+            local sArmorCheck = sLower:match("^armor%s*%(([^)]+)%)$");
+			if sAlignCheck then
+				if not ActorManager2.isAlignment(rActor, sAlignCheck) then
+					bReturn = false;
+				end
+			elseif sSizeCheck then
+				if not ActorManager2.isSize(rActor, sSizeCheck) then
+					bReturn = false;
+				end
+			elseif sTypeCheck then
+				if not ActorManager2.isCreatureType(rActor, sTypeCheck) then
+					bReturn = false;
+				end
+			elseif sCustomCheck then
+				if not EffectManager5E.checkConditionalHelper(rActor, sCustomCheck, rTarget, aIgnore) then
+					bReturn = false;
+				end
+			elseif sArmorCheck then
+				if not ActorManagerADND.isArmorType(rActor, sArmorCheck) then
+					bReturn = false;
+				end
+			end
+		end
+	end
+	
+	table.remove(aIgnore);
+	
+	return bReturn;
 end
 
 -- replace 5E EffectManager5E manager_effect_5E.lua checkConditionalHelper() with this

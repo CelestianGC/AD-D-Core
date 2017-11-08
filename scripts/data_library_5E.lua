@@ -162,7 +162,8 @@ aRecords = {
 		aCustomFilters = {
 			["Cost"] = { sField = "cost", sType = "string" },
 			["Type"] = { sField = "type" },
-			["Template"] = { sField = "istemplate", sType = "boolean" },
+			--["Template"] = { sField = "istemplate", sType = "boolean" },
+            --["Text"] = { sField = "text", sType = "formattedtext", bSearchable = true };
 		},
 	},
 	["quest"] = { 
