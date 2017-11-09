@@ -296,7 +296,6 @@
 		<basicnumber>
             <script>
 				function action(draginfo)
-                    local nValue = getValue();
                     local nodeChar = getDatabaseNode();
                     local rActor = ActorManager.getActor("pc", nodeChar);
                     ActionAttack.performRoll(draginfo, rActor, nil);        
