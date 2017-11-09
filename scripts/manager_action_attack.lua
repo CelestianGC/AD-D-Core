@@ -84,61 +84,67 @@ function onTargeting(rSource, aTargeting, rRolls)
 end
 
 function getRoll(rActor, rAction)
-	local bADV = rAction.bADV or false;
-	local bDIS = rAction.bDIS or false;
-	
 	-- Build basic roll
 	local rRoll = {};
 	rRoll.sType = "attack";
 	rRoll.aDice = { "d20" };
-	rRoll.nMod = rAction.modifier or 0;
-	rRoll.bWeapon = rAction.bWeapon;
-    if (rActor.itemPath and rActor.itemPath ~= "") then
-        rRoll.itemPath = rActor.itemPath;
+	rRoll.nMod = 0;
+	rRoll.bWeapon = false;
+
+    if (rAction) then 
+        rRoll.nMod = rAction.modifier or 0;
+        rRoll.bWeapon = rAction.bWeapon;
+        if (rActor.itemPath and rActor.itemPath ~= "") then
+            rRoll.itemPath = rActor.itemPath;
+        end
+        local bADV = rAction.bADV or false;
+        local bDIS = rAction.bDIS or false;
+        
+        
+        -- Build the description label
+        rRoll.sDesc = "[ATTACK";
+        if rAction.order and rAction.order > 1 then
+            rRoll.sDesc = rRoll.sDesc .. " #" .. rAction.order;
+        end
+        if rAction.range then
+            rRoll.sDesc = rRoll.sDesc .. " (" .. rAction.range .. ")";
+        end
+        rRoll.sDesc = rRoll.sDesc .. "] " .. rAction.label;
+
+        -- Add crit range
+        if rAction.nCritRange then
+            rRoll.sDesc = rRoll.sDesc .. " [CRIT " .. rAction.nCritRange .. "]";
+        end
+        
+        -- Add ability modifiers
+        if rAction.stat then
+            local sAbilityEffect = DataCommon.ability_ltos[rAction.stat];
+            if sAbilityEffect then
+                rRoll.sDesc = rRoll.sDesc .. " [MOD:" .. sAbilityEffect .. "]";
+            end
+
+            -- Check for armor non-proficiency
+            local sActorType, nodeActor = ActorManager.getTypeAndNode(rActor);
+            if sActorType == "pc" then
+                if StringManager.contains({"strength", "dexterity"}, rAction.stat) then
+                    if DB.getValue(nodeActor, "defenses.ac.prof", 1) == 0 then
+                        rRoll.sDesc = rRoll.sDesc .. " " .. Interface.getString("roll_msg_armor_nonprof");
+                        bDIS = true;
+                    end
+                end
+            end
+        end
+        
+        -- Add advantage/disadvantage tags
+        if bADV then
+            rRoll.sDesc = rRoll.sDesc .. " [ADV]";
+        end
+        if bDIS then
+            rRoll.sDesc = rRoll.sDesc .. " [DIS]";
+        end
+    else
+        rRoll.sDesc = "[ATTACK][BASIC]";
     end
-	
-	-- Build the description label
-	rRoll.sDesc = "[ATTACK";
-	if rAction.order and rAction.order > 1 then
-		rRoll.sDesc = rRoll.sDesc .. " #" .. rAction.order;
-	end
-	if rAction.range then
-		rRoll.sDesc = rRoll.sDesc .. " (" .. rAction.range .. ")";
-	end
-	rRoll.sDesc = rRoll.sDesc .. "] " .. rAction.label;
-
-	-- Add crit range
-	if rAction.nCritRange then
-		rRoll.sDesc = rRoll.sDesc .. " [CRIT " .. rAction.nCritRange .. "]";
-	end
-	
-	-- Add ability modifiers
-	if rAction.stat then
-		local sAbilityEffect = DataCommon.ability_ltos[rAction.stat];
-		if sAbilityEffect then
-			rRoll.sDesc = rRoll.sDesc .. " [MOD:" .. sAbilityEffect .. "]";
-		end
-
-		-- Check for armor non-proficiency
-		local sActorType, nodeActor = ActorManager.getTypeAndNode(rActor);
-		if sActorType == "pc" then
-			if StringManager.contains({"strength", "dexterity"}, rAction.stat) then
-				if DB.getValue(nodeActor, "defenses.ac.prof", 1) == 0 then
-					rRoll.sDesc = rRoll.sDesc .. " " .. Interface.getString("roll_msg_armor_nonprof");
-					bDIS = true;
-				end
-			end
-		end
-	end
-	
-	-- Add advantage/disadvantage tags
-	if bADV then
-		rRoll.sDesc = rRoll.sDesc .. " [ADV]";
-	end
-	if bDIS then
-		rRoll.sDesc = rRoll.sDesc .. " [DIS]";
-	end
-
 	return rRoll;
 end
 

@@ -294,6 +294,23 @@
     
 	<template name="number_charthaco">
 		<basicnumber>
+            <script>
+				function action(draginfo)
+                    local nValue = getValue();
+                    local nodeChar = getDatabaseNode();
+                    local rActor = ActorManager.getActor("pc", nodeChar);
+                    ActionAttack.performRoll(draginfo, rActor, nil);        
+					return true;
+				end
+				
+				function onDragStart(button, x, y, draginfo)
+					return action(draginfo);
+				end
+					
+				function onDoubleClick(x,y)
+					return action();
+				end
+            </script>
             <frame name="adnd_square"/>
             <min>-10</min>
             <max>30</max>
