@@ -514,7 +514,9 @@ function addToPowerDB(nodeItem)
         for _,v in pairs(DB.getChildren(nodeItem, "powers")) do
             local nodePower = nodePowers.createChild();
             DB.copyNode(v,nodePower);
-            DB.setValue(nodePower, "shortcut", "windowreference", "item", ".....inventorylist." .. nodeItem.getName());
+            DB.setValue(nodePower, "description","formattedtext",DB.getValue(nodeItem,"description",""));
+            DB.setValue(nodePower, "shortcut", "windowreference", "item", "....inventorylist." .. nodeItem.getName());
+            DB.setValue(nodePower, "locked", "number", 1); -- want this to start locked
         end
 
 end
@@ -535,6 +537,7 @@ function removeFromPowerDB(nodeItem)
 	local bFound = false;
 	for _,v in pairs(DB.getChildren(nodeItem, "...powers")) do
 		local sClass, sRecord = DB.getValue(v, "shortcut", "", "");
+Debug.console("removeFromPowerDB","sRecord",sRecord);  
 		if sRecord == sItemNode or sRecord == sItemNode2 then
 			bFound = true;
 			v.delete();
