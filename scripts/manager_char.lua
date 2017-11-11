@@ -514,7 +514,7 @@ function addToPowerDB(nodeItem)
         for _,v in pairs(DB.getChildren(nodeItem, "powers")) do
             local nodePower = nodePowers.createChild();
             DB.copyNode(v,nodePower);
-            DB.setValue(nodePower, "shortcut", "windowreference", "item", "....inventorylist." .. nodeItem.getName());
+            DB.setValue(nodePower, "shortcut", "windowreference", "item", ".....inventorylist." .. nodeItem.getName());
         end
 
 end
