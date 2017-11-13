@@ -310,7 +310,15 @@
 					return action();
 				end
             </script>
-            <frame name="adnd_square"/>
+            <frame name="fielddark" offset="7,5,7,5" />
+            <stateframe>
+                <hover name="rowshade" offset="7,5,7,5" />
+            </stateframe>
+            <cursor hover="hand" />
+            <rollable />
+			<showemptywidget />
+			<!-- <frame name="fieldlight" offset="7,5,7,5" /> -->
+			<showemptywidget />
             <min>-10</min>
             <max>30</max>
             <default>20</default>

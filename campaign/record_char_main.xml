@@ -821,9 +821,10 @@
 			</label_combatscores>
 
 			<number_charthaco name="thaco" source="combat.thaco.score">
+                <frame name="adnd_square"/>
                 <!-- <anchored to="combatanchor" position="insidetopleft" offset="0,0" width="45" height="40" /> -->
-				<anchored to="combatanchor" width="45" height="40">
-					<top parent="combatanchor" />
+				<anchored to="combatanchor" width="40" height="30">
+					<top parent="combatanchor" offset="4,0" />
 					<left anchor="right" relation="relative" offset="0" />
 				</anchored>
 			</number_charthaco>
@@ -851,11 +852,12 @@
                 <frame name="adnd_square"/>
 				<anchored to="combatanchor" width="30" height="30">
 					<top parent="combatanchor" offset="4" />
-					<left anchor="right" relation="relative" offset="23" />
+					<left anchor="right" relation="relative" offset="15" />
 				</anchored>
                 <tooltip textres="char_label_surprisetotal_tooltip" />
                 <font>reference-b-large</font>
             </surprise_number_total>
+            
 			<label_combatscores>
                 <anchored to="sheet_surprise_total" position="insidetopleft" offset="-9,-10" width="50"/>
 				<static textres="char_label_surprise" />
@@ -867,7 +869,7 @@
 				<readonly />
 				<anchored to="combatanchor" width="40" height="30">
 					<top parent="combatanchor" />
-					<left anchor="right" relation="relative" offset="25" />
+					<left anchor="right" relation="relative" offset="22" />
 				</anchored>
 				<static textres="char_label_speed" />
 			</number_charspeed_defaults>

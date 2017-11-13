@@ -84,7 +84,7 @@ function performRoll(draginfo, rActor, bSecretRoll, rItem)
     if (draginfo and rActor.itemPath and rActor.itemPath ~= "") then
         draginfo.setMetaData("itemPath",rActor.itemPath);
     end
-    if (draginfo and rItem.spellPath and rItem.spellPath ~= "") then
+    if (draginfo and rItem and rItem.spellPath and rItem.spellPath ~= "") then
         draginfo.setMetaData("spellPath",rActor.spellPath);
         rActor.spellPath = rItem.spellPath;
     end
