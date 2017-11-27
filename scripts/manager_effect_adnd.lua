@@ -28,6 +28,9 @@ function onInit()
     --ActionDamage.performRoll = manager_action_damage_performRoll;
     --PowerManager.performAction = manager_power_performAction;
     
+    -- option in house rule section, enable/disable allow PCs to edit advanced effects.
+	OptionsManager.registerOption2("ADND_AE_EDIT", false, "option_header_houserule", "option_label_ADND_AE_EDIT", "option_entry_cycler", 
+			{ labels = "option_label_ADND_AE_enabled" , values = "enabled", baselabel = "option_label_ADND_AE_disabled", baseval = "disabled", default = "disabled" });    
 end
 
 -- add the effect if the item is equipped and doesn't exist already

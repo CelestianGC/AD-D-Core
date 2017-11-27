@@ -550,6 +550,12 @@
    	<string name="option_label_RIP_DM">Show RIP on tokens to DM</string>
     <string name="option_val_80plus">80%+</string>
 
+    <string name="option_label_ADND_AE_EDIT">PC: Adv. Effect Edit</string>
+    <string name="option_label_ADND_AE_enabled">Enabled</string>
+    <string name="option_label_ADND_AE_disabled">Disabled</string>
+    
+    
+
 	<!-- Armor Table (Samarex CnT Ext ) -->
 	<string name="ref_label_list_weight">Wt.</string>
 	<string name="ref_label_list_fullac">Full AC</string>	
