@@ -2559,8 +2559,7 @@ function applyEXPToActiveClasses(nodeChar)
         return;
     end
     local nApplyPerClass = math.ceil(nApplyAmount/nActiveClasses);
---Debug.console("manager_char.lua","applyEXPToActiveClasses","nApplyPerClass",nApplyPerClass);
-
+-- Debug.console("manager_char.lua","applyEXPToActiveClasses","nApplyPerClass",nApplyPerClass);
 -- Debug.console("manager_char.lua","applyEXPToActiveClasses","nodeChar",nodeChar);
 -- Debug.console("manager_char.lua","applyEXPToActiveClasses","nCurrentTotal",nCurrentTotal);
 -- Debug.console("manager_char.lua","applyEXPToActiveClasses","nActiveClasses",nActiveClasses);
@@ -2817,11 +2816,10 @@ function getActiveClassCount(nodeChar)
 	local nClassCount = 0;
 	for _,nodeClass in pairs(DB.getChildren(nodeChar, "classes")) do
         local nClassActive = DB.getValue(nodeClass, "classactive", 0);
-        if (nClassActive) then
+        if (nClassActive ~= 0 ) then
             nClassCount = nClassCount + 1;
         end
     end
-    
     return nClassCount;
 end
 
@@ -2829,7 +2827,7 @@ end
 function getActiveClassMaxLevel(nodeChar)
 	local nMaxLevel = 0;
 	for _,nodeClass in pairs(DB.getChildren(nodeChar, "classes")) do
-        local bClassActive = DB.getValue(nodeClass, "classactive", 0);
+        local bClassActive = (DB.getValue(nodeClass, "classactive", 0) ~= 0);
         local nLevel = DB.getValue(nodeClass, "level", 0);
         if (bClassActive and nLevel > nMaxLevel) then
             nMaxLevel = nLevel;
