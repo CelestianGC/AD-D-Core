@@ -257,7 +257,7 @@ function applySpellCastingConcentration(rSource,rRoll)
     if not nodeChar or not nodeSpell then
         return;
     end
-    --local nTotal = rRoll.nT
+Debug.console("manager_action_init.lua","applySpellCastingConcentration","nodeChar",nodeChar);
     -- build effect fields
     local sSpellName = DB.getValue(nodeSpell,"name","");
     local rEffect = {};
@@ -272,23 +272,36 @@ function applySpellCastingConcentration(rSource,rRoll)
     rEffect.nGMOnly = 0;
     rEffect.sApply = "action";
 
+Debug.console("manager_action_init.lua","applySpellCastingConcentration","rEffect.nInit",rEffect.nInit);
+Debug.console("manager_action_init.lua","applySpellCastingConcentration","initresult",DB.getValue(nodeChar,"initresult",0));
+
+Debug.console("manager_action_init.lua","applySpellCastingConcentration","sEffectFullName",sEffectFullName);
+Debug.console("manager_action_init.lua","applySpellCastingConcentration","nodeChar.getPath()",nodeChar.getPath());
+    
     -- need to do some error checking to make sure we only add it once
     -- verify existing "effect_source" and "label" isn't the same as this one.
-    local bFound = false;
+    --local bFound = false;
     for _,nodeEffect in pairs(DB.getChildren(nodeChar, "effects")) do
         local sLabel = DB.getValue(nodeEffect,"label","");
         local sSource = DB.getValue(nodeEffect,"source_name","");
+Debug.console("manager_action_init.lua","applySpellCastingConcentration","sLabel",sLabel);
+Debug.console("manager_action_init.lua","applySpellCastingConcentration","sSource",sSource);
 --        if (sSource == nodeSpell.getPath()) then
         if (sLabel == sEffectFullName and sSource == nodeChar.getPath()) then
-            bFound = true;
+            -- just remove and re-add with new values
+            nodeEffect.delete();
+            
+            -- set nInit to match new initiative rolled
+            --DB.setValue(nodeEffect,"ninit","number",DB.getValue(nodeChar,"initresult",0));
+            --bFound = true;
             break;
         end
     end -- for item's effects list
     
-    if bFound then
-        -- effect already exists
-        return;
-    end
+    -- if bFound then
+        -- -- effect already exists
+        -- return;
+    -- end
     
     -- lastly add effect
     local sUser = User.getUsername();

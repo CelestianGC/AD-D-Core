@@ -2498,19 +2498,19 @@ function addClassFeatureHelper(aSelection, rClassAdd)
 	-- end
 end
 -- count active Classes
-function getClassCount(nodeChar)
-    if not nodeChar then
-        return 0;
-    end
-    local nCount = 0;
-	for _,vClass in pairs(DB.getChildren(nodeChar, "classes")) do
-        local bActive = (DB.getValue(vClass, "classactive",0) == 1);
-        if (bActive) then
-            nCount = nCount + 1;
-        end
-	end
-    return nCount;
-end
+-- function getClassCount(nodeChar)
+    -- if not nodeChar then
+        -- return 0;
+    -- end
+    -- local nCount = 0;
+	-- for _,vClass in pairs(DB.getChildren(nodeChar, "classes")) do
+        -- local bActive = (DB.getValue(vClass, "classactive",0) == 1);
+        -- if (bActive) then
+            -- nCount = nCount + 1;
+        -- end
+	-- end
+    -- return nCount;
+-- end
 
 -- return total exp on all classes (active or not)
 function getTotalEXP(nodeChar)
@@ -2550,7 +2550,8 @@ function applyEXPToActiveClasses(nodeChar)
     if not nodeChar then
         return;
     end
-    local nActiveClasses = getClassCount(nodeChar);     -- 
+    --local nActiveClasses = getClassCount(nodeChar);     -- 
+    local nActiveClasses = getActiveClassCount(nodeChar);    
     local nTotalEXPEarned = DB.getValue(nodeChar, "exp",0); -- all exp ever earned
     local nApplyAmount = getEXPNotApplied(nodeChar);
     -- nothing to give
