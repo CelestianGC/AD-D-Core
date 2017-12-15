@@ -4,14 +4,14 @@ function onInit()
 end
 
 function onDoubleClick(tokenMap, vImage)
-local tokenName = tokenMap.getName();
-local nodeNPC = DB.findNode(tokenName);
-    if (tokeName ~= "" and nodeNPC) then
+--local tokenName = tokenMap.getName();
+--local nodeNPC = DB.findNode(tokenName);
+--    if (tokeName ~= "" and nodeNPC) then
         -- local sClass = "npc";
         -- local sName = DB.getValue(nodeNPC,"name","");
         -- CombatManager.addNPC(sClass, nodeNPC, sName);    
-        spawnNPC(nodeNPC,tokenMap);
-    else
+--        spawnNPC(nodeNPC,tokenMap);
+--    else
         local nodeCT = CombatManager.getCTFromToken(tokenMap);
         if nodeCT then
             local sClass, sRecord = DB.getValue(nodeCT, "link", "", "");
@@ -27,7 +27,7 @@ local nodeNPC = DB.findNode(tokenName);
                 end
             end
         end
-    end    
+--    end    
 end
 
 -- spawn the npc passed using token as location
