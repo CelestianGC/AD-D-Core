@@ -473,8 +473,8 @@ function addNPC(sClass, nodeNPC, sName)
 		DB.setValue(nodeEntry, "initresult", "number", nInitiativeRoll);
 	end
 
-    -- set mode/display to combat/actions
-    DB.setValue(nodeEntry,"powermode","string", "combat");
+    -- set mode/display default to standard/actions
+    DB.setValue(nodeEntry,"powermode","string", "standard");
     DB.setValue(nodeEntry,"powerdisplaymode","string","action");
     
     -- sanitize special defense/attack string
