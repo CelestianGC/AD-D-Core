@@ -604,4 +604,9 @@
     <!-- CT Radial -->
 	<string name="ct_menu_itemdeletenonfriendly_with_0HP">Delete All Non-Friendly With 0 HP</string>
 	<string name="ct_menu_itemdeletefoe_with_0HP">Delete Only Foes With 0 HP</string>    
+    
+    <!-- Author strings -->
+    <string name="author_window_title">Author Manual</string>
+    <string name="author_completed">Authored manual as '%s', see node %s.</string>
+    
 </root>

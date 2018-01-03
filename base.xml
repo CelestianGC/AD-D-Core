@@ -6,7 +6,7 @@
 -->
 
 <root version="3.0" release="18" logo="logo.png">
-	<announcement text="AD&amp;D Core v2017.12.12 For Fantasy Grounds\r--by Celestian 2017" font="emotefont" icon="rulesetlogo_ADnD" />
+	<announcement text="AD&amp;D Core v2018.01.02 For Fantasy Grounds\r--by Celestian 2017-2018" font="emotefont" icon="rulesetlogo_ADnD" />
 
 	<!-- Attributes -->
 	<description>
@@ -183,5 +183,8 @@
     <!-- This replaces the CoreRPG EffectManager with one that works with AD&D Core -->
  	<script name="EffectManager" file="scripts/manager_effect_CoreRPG.lua" />
 
+	<!-- Author requirements -->
+ 	<script name="AuthorManagerADND" file="scripts/manager_author_adnd.lua" />
+    <includefile source="utility/utility_author.xml" />
 
 </root>
