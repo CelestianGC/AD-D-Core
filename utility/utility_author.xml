@@ -150,7 +150,7 @@
 			</stringu>
 			<label>
 				<anchored to="file" position="insidetopleft" offset="-80,0" />
-				<static textres="export_label_file" />
+				<static textres="author_label_directory" />
 			</label>
 
 			<stringu name="thumbnail">
@@ -263,7 +263,9 @@
 			
 			<!-- Controls -->
 			<button_export_clear name="button_clear" />
-			<button_export name="button_export" />
+			<button_export name="button_export" >
+                <state textres="author_button" />
+            </button_export>
 
 			<resize_utilitybox3 />
 			<close_utilitybox3 />

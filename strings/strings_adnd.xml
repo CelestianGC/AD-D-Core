@@ -607,6 +607,9 @@
     
     <!-- Author strings -->
     <string name="author_window_title">Author Manual</string>
-    <string name="author_completed">Authored manual as '%s', see node %s.</string>
+    <string name="author_completed">Authored manual '%s'as file: %s.</string>
+    <string name="author_label_directory">Directory</string>
+    <string name="author_button">Author</string>
+    
     
 </root>
