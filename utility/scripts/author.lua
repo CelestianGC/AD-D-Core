@@ -88,7 +88,7 @@ function performExport()
                     local dAuthorRecord = DB.createChild(dAuthorNode,vSource);  
                     -- create library link to list all these items
                     local nodeLibraryAdditional =  DB.createChild(nodeLibraryEntries);                    
-                    DB.setValue(nodeLibraryAdditional,"name","string",vSource);
+                    DB.setValue(nodeLibraryAdditional,"name","string",StringManager.capitalize(vSource));
                     DB.setValue(nodeLibraryAdditional,"source","string",vSource);
                     DB.setValue(nodeLibraryAdditional,"recordtype","string",vSource);
                     local sClass = "reference_list";
@@ -138,18 +138,31 @@ function performExport()
         end
     end
 
+    -- create root "author" definition node to export
+    local dDefinitionNode = DB.createChild("_authorDefinition");
+    DB.setValue(dDefinitionNode,"name","string",aProperties.name);    
+    DB.setValue(dDefinitionNode,"category","string",aProperties.category);    
+    DB.setValue(dDefinitionNode,"author","string",aProperties.author);    
+    DB.setValue(dDefinitionNode,"ruleset","string",User.getRulesetName());    
+    
     -- prompt for filename to save client.xml to
     local sFile = Interface.dialogFileSave( );
-    -- export the client.xml data to selected file
-    DB.export(sFile,dAuthorNode.getPath());	
-    
-    -- show done message
-	local sFormat = Interface.getString("author_completed");
-	local sMsg = string.format(sFormat, aProperties.name,sFile);
-	ChatManager.SystemMessage(sMsg);
-    file.setFocus(true);
-    
+    if (sFile ~= nil) then 
+        local sDirectory = sFile:match("(.*[/\\])");
+Debug.console("author.lua","performExport","sDirectory",sDirectory);
+        -- export the client.xml data to selected file
+        DB.export(sFile,dAuthorNode.getPath());	
+        -- export definition file in same path/definition
+        DB.export(sDirectory .. "definition.xml",dDefinitionNode.getPath());	
+        
+        -- show done message
+        local sFormat = Interface.getString("author_completed");
+        local sMsg = string.format(sFormat, aProperties.name,sFile);
+        ChatManager.SystemMessage(sMsg);
+        file.setFocus(true);
+    end
     -- remove temporary category sorting nodes
     DB.deleteNode(dRoot);
     DB.deleteNode(dAuthorNode);    
+    DB.deleteNode(dDefinitionNode);    
 end
