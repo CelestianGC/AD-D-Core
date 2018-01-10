@@ -124,10 +124,11 @@
 			</windowtitlebar>
 			<anchor_title_utilitybox3 name="contentanchor" />
 			
-			<frame_export_file name="genericframe" />
+			<!-- <frame_export_file name="genericframe" /> -->
 			
 			<frame_export_meta name="genericframe2" />
-			
+
+<!--			
 			<stringu name="file">
 				<anchored to="genericframe" position="insidetopleft" offset="90,6" height="20">
 					<right offset="-40" />
@@ -173,7 +174,7 @@
 					end
 				</script>
 			</button_text>
-
+-->
 			<stringu name="name">
 				<anchored to="genericframe2" position="insidetopleft" offset="90,6" height="20">
 					<right offset="-10" />

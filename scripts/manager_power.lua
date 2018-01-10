@@ -2047,14 +2047,17 @@ function canMemorizeSpell(nodeSpell)
 
 --Debug.console("manager_power.lua","canMemorizeSpell","bCanMemorize1",bCanMemorize);    
         
+--Debug.console("manager_power.lua","canMemorizeSpell","spell:",string.match(sNodePath,"^spell"));    
+--Debug.console("manager_power.lua","canMemorizeSpell","item:",string.match(sNodePath,"^item"));    
     -- if this is coming from spell record then no, nothing will memorize
-    if string.match(sNodePath,"^spell") or string.match(sNodePath,"^item") then
+    if string.match(sNodePath,"^spell") ~= nil or string.match(sNodePath,"^item") ~= nil then
             bCanMemorize = false;
     end
 --Debug.console("manager_power.lua","canMemorizeSpell","bCanMemorize2",bCanMemorize);    
     
+--Debug.console("manager_power.lua","canMemorizeSpell","sGroup:",string.match(sGroup,"^spell")); 
     -- if the group the action is in, is NOT a spell then no, no memorization
-    if not string.match(sGroup,"^spell") then
+    if string.match(sGroup,"^spell") == nil then
             bCanMemorize = false;
     end
 --Debug.console("manager_power.lua","canMemorizeSpell","bCanMemorize3",bCanMemorize);    

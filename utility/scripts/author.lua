@@ -1,7 +1,7 @@
 --
 -- Export Story text as ref-manual with records
---
---
+-- Contains code to manage "/author" command and "export" story entries (<encounters>) as chapter in a ref-manual
+-- format. Each "category" in the <encounters> list is a chapter and the chapter contains those story entries.
 --
 
 -- pass list of nodes with a "name" record and sort by name
@@ -20,25 +20,16 @@ function performExport()
 	aProperties.name = name.getValue();
 	aProperties.namecompact = string.lower(string.gsub(aProperties.name, "%W", ""));
 	aProperties.category = category.getValue();
-	aProperties.file = file.getValue();
+	--aProperties.file = file.getValue();
 	aProperties.author = author.getValue();
-	aProperties.thumbnail = thumbnail.getValue();
+	--aProperties.thumbnail = thumbnail.getValue();
 	if readonly.getValue() == 1 then
 		aProperties.readonly = true;
 	end
 	aProperties.playervisible = (playervisible.getValue() == 1);
 
-    -- this cleans out previous author nodes
-    -- local dAuthor = DB.getChildren("_authorRefmanual");
-    -- for _,nodeClean in pairs(dAuthor) do
-        -- nodeClean.delete();
-    -- end
-
     -- pickup all stories
     local dStoryRaw = DB.getChildren("encounter");
---Debug.console("author.lua","performExport","------>dStoryRaw",dStoryRaw);
---local aCategoriesList = DB.getChildCategories(dStoryRaw, true);
---Debug.console("author.lua","performExport","------>aCategoriesList",aCategoriesList);
     local dRoot = DB.createChild("_authorRefmanual_tmp");
     local dStories = DB.createChild(dRoot,"stories");
     local dStoryCategories = DB.createChild(dStories,"category");
@@ -47,6 +38,8 @@ function performExport()
         local sCategory = UtilityManager.getNodeCategory(node);
         -- only apply if the record is in a category
         if (sCategory ~= "") then
+            -- strip out all periods because we use category name as a child/node name --DO SOMETHING ELSE
+            sCategory = sCategory:gsub("%.",""); 
             local dCategory = DB.getChild(dStoryCategories,sCategory);
             if (dCategory == nil) then
                 dCategory = DB.createChild(dStoryCategories,sCategory);
@@ -54,13 +47,10 @@ function performExport()
             end
             local nodeEntry = dCategory.createChild();
             DB.copyNode(node,nodeEntry);
--- Debug.console("author.lua","performExport","sCategory",sCategory);
--- Debug.console("author.lua","performExport","dCategory",dCategory);
--- Debug.console("author.lua","performExport","nodeEntry",nodeEntry);
         end
     end
 
-    -- create root "author" node to drop entries
+    -- create root "author" node to drop entries into temporarily 
     local dAuthorNode = DB.createChild("_authorRefmanual");
 
     -- library section
@@ -75,7 +65,7 @@ function performExport()
     local sLinkRecord = "reference.refmanualindex";
     DB.setValue(nodeLibraryEntry,"librarylink","windowreference",sLinkClass,sLinkRecord);
     
-	-- Loop through selected export record categories
+	-- Loop through selected export record categories (class, race, npc, items, spells, skills/etc)
 	for _, cw in ipairs(list.getWindows()) do
         local bAuthorRecord = (cw.all.getValue() == 1);
         local aExportSources = cw.getSources();
@@ -117,12 +107,16 @@ function performExport()
     for _,nodeCategory in pairs(sortByName(dStoryCategories.getChildren())) do
         -- create subchapter node and set name
         local nodeSubChapter = DB.createChild(nodeSubChapters);
-        DB.setValue(nodeSubChapter,"name","string",DB.getValue(nodeCategory,"name","EMPTY-CATEGORY-NAME"));
+        local sChapterName = DB.getValue(nodeCategory,"name","EMPTY-CATEGORY-NAME");
+        sChapterName = stripLeadingNumbers(sChapterName);
+        DB.setValue(nodeSubChapter,"name","string",sChapterName);
         for _,nodeStory in pairs(sortByName(nodeCategory.getChildren())) do
             -- create refpages node and current node to work on and set name/links
             local dRefPages = DB.createChild(nodeSubChapter,"refpages");
             local sNodeName = DB.getValue(nodeStory,"name","");
             if (sNodeName ~= "") then
+--Debug.console("author.lua","performExport","sNodeName",sNodeName);            
+                sNodeName = stripLeadingNumbers(sNodeName);
                 local nodeRefPage = DB.createChild(dRefPages);
                 DB.setValue(nodeRefPage,"name","string",sNodeName);
                 DB.setValue(nodeRefPage,"keywords","string",sNodeName);
@@ -149,7 +143,6 @@ function performExport()
     local sFile = Interface.dialogFileSave( );
     if (sFile ~= nil) then 
         local sDirectory = sFile:match("(.*[/\\])");
-Debug.console("author.lua","performExport","sDirectory",sDirectory);
         -- export the client.xml data to selected file
         DB.export(sFile,dAuthorNode.getPath());	
         -- export definition file in same path/definition
@@ -159,10 +152,19 @@ Debug.console("author.lua","performExport","sDirectory",sDirectory);
         local sFormat = Interface.getString("author_completed");
         local sMsg = string.format(sFormat, aProperties.name,sFile);
         ChatManager.SystemMessage(sMsg);
-        file.setFocus(true);
+        --file.setFocus(true);
     end
     -- remove temporary category sorting nodes
     DB.deleteNode(dRoot);
     DB.deleteNode(dAuthorNode);    
     DB.deleteNode(dDefinitionNode);    
+end
+
+-- remove leading \d+ and punctuation on text and return it
+function stripLeadingNumbers(sText)
+    local sStripped, sTextTrimmed = sText:match("^([%d%p?%s?]+)(.*)");
+    if sStripped ~= nil and sStripped ~= "" then
+        sText = sTextTrimmed;
+    end
+    return sText;
 end

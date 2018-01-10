@@ -17,11 +17,13 @@ function onInit()
 -- Debug.console("power_item.lua","onInit","windowlist",windowlist);
 
     local node = getDatabaseNode();
+    
     -- these are so memorization sections show up properly if level/type/group are updated
     DB.addHandler(DB.getPath(node, "level"), "onUpdate", toggleDetail);
     DB.addHandler(DB.getPath(node, "group"), "onUpdate", toggleDetail);
     DB.addHandler(DB.getPath(node, "type"), "onUpdate", toggleDetail);
     DB.addHandler(DB.getPath(node, "memorized"), "onUpdate", onDisplayChanged);
+    DB.addHandler(DB.getPath(node, "group"), "onUpdate", onDisplayChanged);
     
 -- tweak here for testing --celestian
     if windowlist == nil or not windowlist.isReadOnly() then
@@ -64,6 +66,7 @@ function onClose()
 	DB.removeHandler(DB.getPath(node, "group"), "onUpdate", toggleDetail);
 	DB.removeHandler(DB.getPath(node, "type"), "onUpdate", toggleDetail);
     DB.removeHandler(DB.getPath(node, "memorized"), "onUpdate", onDisplayChanged);
+	DB.removeHandler(DB.getPath(node, "group"), "onUpdate", onDisplayChanged);
 end
 
 -- filters out non-memorized spells when in "combat" mode.
@@ -166,6 +169,7 @@ function onDisplayChanged()
     -- if the spell can not be memorized, hide it
     if not PowerManager.canMemorizeSpell(getDatabaseNode()) then
         header.subwindow.memorizedcount.setVisible(false);
+    else
     end
 end
 
