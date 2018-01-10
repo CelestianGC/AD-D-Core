@@ -28,6 +28,7 @@
 		<sheetdata>
 			<anchor_column name="columnanchor" />
 			
+            <!-- sex/age/height/weight/size title -->
 			<metalplate name="detailstitle">
 				<anchored height="20">
 					<top parent="columnanchor" anchor="bottom" relation="relative" offset="10" />
@@ -71,7 +72,9 @@
 				<anchored to="size" offset="0,5" />
 				<static textres="char_label_size" />
 			</label_charfieldtop>
-			
+            <!-- END sex/age/height/weight/size title -->
+
+            <!-- alignment/deity title -->
 			<metalplate name="detailstitle2">
 				<anchored height="20">
 					<top parent="columnanchor" anchor="bottom" relation="relative" offset="35" />
@@ -97,7 +100,53 @@
 				<anchored to="deity" offset="0,5" />
 				<static textres="char_label_deity" />
 			</label_charfieldtop>
+            <!-- END alignment/deity title -->
 
+            <!-- proficiencies weapon, used, non-weapon, used title -->
+			<metalplate name="profstitle">
+				<anchored height="20">
+					<top parent="columnanchor" anchor="bottom" relation="relative" offset="40" />
+					<left offset="15" />
+					<right offset="-10" />
+				</anchored>
+			</metalplate>
+            
+            <label_titlechar name="char_profs_label">
+				<anchored to="profstitle" position="insidetopleft" offset="0,0" />
+				<static textres="char_profs_label" />
+            </label_titlechar>
+            <label_titlechar name="char_profs_weapon_label">
+				<anchored to="char_profs_label" relation="relative" position="righthigh" offset="20,0" />
+				<static textres="char_profs_weapon_label" />
+            </label_titlechar>
+            <label_titlechar name="char_profs_weaponused_label">
+				<anchored to="char_profs_weapon_label" relation="relative" position="righthigh" offset="20,0"/>
+				<static textres="char_profs_used_label" />
+            </label_titlechar>
+            <label_titlechar name="char_profs_nonweapon_label">
+				<anchored to="char_profs_weaponused_label" relation="relative" position="righthigh" offset="20,0"/>
+				<static textres="char_profs_nonweapon_label" />
+            </label_titlechar>
+            <label_titlechar name="char_profs_nonweapon_used_label">
+				<anchored to="char_profs_nonweapon_label" relation="relative" position="righthigh" offset="15,0"/>
+				<static textres="char_profs_used_label" />
+            </label_titlechar>
+            
+			<number_profs_weapon name="weapon_proficiencies" source="proficiencies.weapon.max">
+				<anchored to="char_profs_weapon_label" position="insidebottomleft" offset="10,-25" width="30" height="20"/>
+			</number_profs_weapon>
+			<number_profs_weapon_used name="weapon_proficiencies_used" source="proficiencies.weapon.used">
+				<anchored to="char_profs_weaponused_label" position="insidebottomleft" offset="0,-25" width="30" height="20"/>
+			</number_profs_weapon_used>
+            
+			<number_profs_nonweapon name="nonweapon_proficiencies" source="proficiencies.nonweapon.max">
+				<anchored to="char_profs_nonweapon_label" position="insidebottomleft" offset="15,-25" width="30" height="20"/>
+			</number_profs_nonweapon>
+			<number_profs_nonweapon_used name="nonweapon_proficiencies_used" source="proficiencies.nonweapon.used">
+				<anchored to="char_profs_nonweapon_used_label" position="insidebottomleft" offset="0,-25" width="30" height="20"/>
+			</number_profs_nonweapon_used>
+            <!-- END proficiencies weapon, used, non-weapon, used title -->
+            
 			<label_charframetop name="traitstitle">
 				<anchored height="20">
 					<top parent="columnanchor" anchor="bottom" relation="relative" offset="35" />

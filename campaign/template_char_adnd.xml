@@ -819,4 +819,49 @@
             </basicnumber>
     </template>
 
-     </root>
+    <template name="number_profs_weapon">
+        <basicnumber>
+            <default>0</default>
+            <min>0</min>
+            <max>99</max>
+            <gmeditonly />
+            <tooltip textres="class_profs_weapon_tooltip" />                
+        </basicnumber>
+    </template>
+
+    <template name="number_profs_weapon_used">
+        <basicnumber>
+            <default>0</default>
+            <min>0</min>
+            <max>99</max>
+            <tooltip textres="class_profs_weapon_used_tooltip" />                
+        </basicnumber>
+    </template>
+    
+    <template name="number_profs_nonweapon">
+        <basicnumber>
+            <default>0</default>
+            <min>0</min>
+            <max>99</max>
+            <gmeditonly />
+            <tooltip textres="class_profs_nonweapon_tooltip" />                
+        </basicnumber>
+    </template>
+
+    <template name="number_profs_nonweapon_used">
+        <basicnumber>
+            <default>0</default>
+            <min>0</min>
+            <max>99</max>
+            <tooltip textres="class_profs_nonweapon_used_tooltip" />                
+        </basicnumber>
+    </template>
+    
+	<template name="label_titlechar">
+		<label>
+			<font>subwindowsmalltitle</font>
+			<center />
+		</label>
+	</template>
+    
+</root>
