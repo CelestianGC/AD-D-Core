@@ -307,8 +307,13 @@
 	<string name="char_abilities_message_leveledup">'%s' gained level %d in %s. Gained %d additional HP.</string>
 	<string name="class_hp_dice_tooltip">Dice rolled for hitpoints at this level.</string>
 	<string name="class_hp_adjustment_tooltip">Adjustment applied to hitpoint dice rolled or straight value gained for hitpoints for this level.</string>
+
 	<string name="class_profs_weapon_tooltip">Weapon proficiencies earned at this level.</string>
+	<string name="class_profs_weapon_spent_tooltip">Weapon proficiencies spent.</string>
+
 	<string name="class_profs_nonweapon_tooltip">Non-weapon proficiencies earned at this level.</string>
+	<string name="class_profs_nonweapon__spent_tooltip">Non-weapon proficiencies spent.</string>
+    
 	<string name="class_spellslots_tooltip">Spell slots ADDED to current total slots for this level. So if they already have 3 and value set to 1 here, it would result in 3+1 (4) slots for that level.</string>
 	<string name="class_spellslots_arcane_tooltip">Arcane spell slots ADDED to current total slots for this level.</string>
 	<string name="class_spellslots_divine_tooltip">Divine spell slots ADDED to current total slots for this level.</string>

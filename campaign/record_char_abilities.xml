@@ -129,6 +129,23 @@
 				<icons>char_abilities_purple</icons>
 				<target>proficiencies</target>
 			</label_charframetop>
+
+			<basicnumber name="weapon_proficiencies" source="proficiencies.weapon.max">
+				<anchored to="proficienciestitle" position="insidetopleft" offset="25,2" height="13" width="20"/>
+				<default>0</default>
+				<min>0</min>
+				<max>99</max>
+                <gmeditonly />
+                <tooltip textres="class_profs_weapon_tooltip" />                
+			</basicnumber>
+			<basicnumber name="weapon_proficiencies_used" source="proficiencies.weapon.used">
+				<anchored to="proficienciestitle" position="insidetopleft" offset="60,2" height="13" width="20"/>
+				<default>0</default>
+				<min>0</min>
+				<max>99</max>
+                <tooltip textres="class_profs_weapon_spent_tooltip" />                                
+			</basicnumber>
+
 			<button_iadd name="proficiencies_iadd">
 				<anchored to="proficienciestitle" position="insidetopright" offset="5,0" />
 				<target>proficiencies</target>
