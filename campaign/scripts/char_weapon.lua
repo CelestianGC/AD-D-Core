@@ -36,11 +36,13 @@ function onInit()
     -- give it a name of the item
     -- set speedfactor start to whatever weapon was set to
     -- hide carried state, doesn't need it here
-    if string.match(sCreaturePath,"^item") then
+    if string.match(sCreaturePath,"^item") ~= nil then
         local nodeItem = DB.getChild(node, "...");
         if ( name.getValue() == "") then
             name.setValue(DB.getValue(nodeItem,"name",""));
-            speedfactor.setValue(DB.getValue(nodeItem,"speedfactor",""));
+            -- we dropped speedfactor on items and moved it to action/weapons
+            --speedfactor.setValue(DB.getValue(nodeItem,"speedfactor",0));
+            speedfactor.setValue(0);
         end
         carried.setVisible(false);
     end
