@@ -51,7 +51,6 @@
 		</script>
 		<sheetdata>
 			<anchor_column name="columnanchor" />
-			
 			<label_charframetop name="skillstitle">
 				<anchored height="20">
 					<top parent="columnanchor" anchor="bottom" relation="relative" offset="15" />
@@ -59,18 +58,27 @@
 					<right offset="-15" />
 				</anchored>
 				<icons>char_abilities_purple</icons>
-				<!-- <static textres="char_label_skills" /> -->
 			</label_charframetop>
+            
+            <!-- show nonweapon profs max and used -->
+            <!-- BUG: these can't be reached, click/etc wont change them -->
+			<number_profs_nonweapon name="nonweapon_proficiencies" source="proficiencies.nonweapon.max">
+				<anchored to="skillstitle" position="insidetopleft" offset="35,1" height="13" width="20"/>
+			</number_profs_nonweapon>
+ 			<number_profs_nonweapon name="nonweapon_proficiencies_used" source="proficiencies.nonweapon.used">
+				<anchored to="nonweapon_proficiencies" position="right" offset="10,0" height="13" width="20"/>
+			</number_profs_nonweapon>
 
-			<label name="title_label">
+<!-- 			<label name="title_label">
 				<anchored>
 					<top parent="skillstitle" />
 					<left position="insidetopleft" offset="45" />
 				</anchored>
+                <font>subwindowsmalltitle</font>
 				<static textres="char_label_skills" />
 				<center />
 			</label>
-
+ -->
 			<genericcontrol name="rightanchor">
 				<anchored width="0" height="20">
 					<top parent="columnanchor" anchor="bottom" relation="relative" offset="4" />
@@ -91,6 +99,7 @@
 					<right anchor="left" relation="relative" offset="-25" />
 				</anchored>
 				<center />
+                <font>subwindowsmalltitle</font>
 				<static textres="char_label_skilltotal" />
 			</label>
 
@@ -100,7 +109,9 @@
 					<left offset="35" />
 					<right parent="rightanchor" anchor="left" relation="relative" offset="-15" />
 				</anchored>
-				<static textres="char_label_skillname" />
+				<!-- <static textres="char_label_skillname" /> -->
+                <static textres="char_label_skills" />
+                <font>subwindowsmalltitle</font>
 				<center />
 			</label>
 

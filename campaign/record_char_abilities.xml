@@ -130,21 +130,12 @@
 				<target>proficiencies</target>
 			</label_charframetop>
 
-			<basicnumber name="weapon_proficiencies" source="proficiencies.weapon.max">
+			<number_profs_weapon name="weapon_proficiencies" source="proficiencies.weapon.max">
 				<anchored to="proficienciestitle" position="insidetopleft" offset="25,2" height="13" width="20"/>
-				<default>0</default>
-				<min>0</min>
-				<max>99</max>
-                <gmeditonly />
-                <tooltip textres="class_profs_weapon_tooltip" />                
-			</basicnumber>
-			<basicnumber name="weapon_proficiencies_used" source="proficiencies.weapon.used">
-				<anchored to="proficienciestitle" position="insidetopleft" offset="60,2" height="13" width="20"/>
-				<default>0</default>
-				<min>0</min>
-				<max>99</max>
-                <tooltip textres="class_profs_weapon_used_tooltip" />                                
-			</basicnumber>
+			</number_profs_weapon>
+			<number_profs_weapon name="weapon_proficiencies_used" source="proficiencies.weapon.used">
+				<anchored to="weapon_proficiencies" position="right" offset="10,0" height="13" width="20"/>
+			</number_profs_weapon>
 
 			<button_iadd name="proficiencies_iadd">
 				<anchored to="proficienciestitle" position="insidetopright" offset="5,0" />
