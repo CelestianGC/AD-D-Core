@@ -46,34 +46,7 @@
 		<margins control="0,0,0,2" />
 		<script file="campaign/scripts/char_abilities.lua" />
 		<sheetdata>
-
-<!--             <label_charframetop name="featstitle">
-				<bounds>15,10,-10,20</bounds>
-				<static textres="char_abilities_label_feats" />
-				<icons>char_abilities_green</icons>
-				<target>feats</target>
-			</label_charframetop>
-			<list_abilities name="feats">
-				<anchored to="featstitle">
-					<top anchor="bottom" relation="relative" offset="5" />
-					<left />
-					<right />
-				</anchored>
-				<datasource>.featlist</datasource>
-				<class>ability_item</class>
-				<listheader>featstitle</listheader>
-			</list_abilities>
-			<button_iadd name="feats_iadd">
-				<anchored to="featstitle" position="insidetopright" offset="5,0" />
-				<target>feats</target>
-			</button_iadd>
- -->
 			<label_charframetop name="featurestitle">
-<!-- 				<anchored to="featstitle" height="20">
-					<top anchor="bottom" relation="relative" offset="7" />
-					<left />
-					<right />
-				</anchored> -->
                 <bounds>15,10,-10,20</bounds>
 				<static textres="char_abilities_label_features" />
 				<icons>char_abilities_red</icons>
@@ -118,69 +91,10 @@
 				<anchored to="traitstitle" position="insidetopright" offset="5,0" />
 				<target>traits</target>
 			</button_iadd>
-
-			<label_charframetop name="proficienciestitle">
-				<anchored to="traitstitle" height="20">
-					<top anchor="bottom" relation="relative" offset="7" />
-					<left />
-					<right />
-				</anchored>
-				<static textres="char_abilities_label_proficiencies" />
-				<icons>char_abilities_purple</icons>
-				<target>proficiencies</target>
-			</label_charframetop>
-
-			<number_profs_weapon name="weapon_proficiencies" source="proficiencies.weapon.max">
-				<anchored to="proficienciestitle" position="insidetopleft" offset="25,2" height="13" width="20"/>
-			</number_profs_weapon>
-			<number_profs_weapon name="weapon_proficiencies_used" source="proficiencies.weapon.used">
-				<anchored to="weapon_proficiencies" position="right" offset="10,0" height="13" width="20"/>
-			</number_profs_weapon>
-
-			<button_iadd name="proficiencies_iadd">
-				<anchored to="proficienciestitle" position="insidetopright" offset="5,0" />
-				<target>proficiencies</target>
-			</button_iadd>
-			<list_abilities name="proficiencies">
-				<anchored to="proficienciestitle">
-					<top anchor="bottom" relation="relative" offset="5" />
-					<left />
-					<right />
-				</anchored>
-				<datasource>.proficiencylist</datasource>
-				<class>proficiency_item</class>
-				<listheader>proficienciestitle</listheader>
-			</list_abilities>
-
-			<label_charframetop name="languagestitle">
-				<anchored to="proficienciestitle" height="20">
-					<top anchor="bottom" relation="relative" offset="7" />
-					<left />
-					<right />
-				</anchored>
-				<static textres="char_abilities_label_languages" />
-				<icons>char_abilities_blue</icons>
-				<target>languages</target>
-			</label_charframetop>
-			<list_abilities name="languages">
-				<anchored to="languagestitle">
-					<top anchor="bottom" relation="relative" offset="5" />
-					<left />
-					<right />
-				</anchored>
-				<datasource>.languagelist</datasource>
-				<class>char_language</class>
-				<listheader>languagestitle</listheader>
-			</list_abilities>
-			<button_iadd name="languages_iadd">
-				<anchored to="languagestitle" position="insidetopright" offset="5,0" />
-				<target>languages</target>
-			</button_iadd>
-
             
             <!-- effects -->
 			<label_charframetop name="advancedeffectstitle">
-				<anchored to="languagestitle" height="20">
+				<anchored to="traitstitle" height="20">
 					<top anchor="bottom" relation="relative" offset="7" />
 					<left />
 					<right />
@@ -233,9 +147,10 @@
 		<margins control="0,0,0,2" />
 		<sheetdata>
 			<genericcontrol name="rightanchor">
-				<anchored position="insidetopright" height="0" width="0" />
+				<anchored position="insidetopright" offset="0,2" height="0" width="0" />
 			</genericcontrol>
-			<!-- bit added for samarex ref docs -->
+
+            <!-- skill link button? -->
 			<linkcontrol name="shortcut">
 				<anchored to="rightanchor" width="20" height="20">
 					<top />
@@ -244,13 +159,15 @@
 				<class>ref_proficiency_item</class>
 				<readonly />
 			</linkcontrol>
+
+            <!-- button delete -->
 			<button_idelete name="idelete">
 				<anchored to="rightanchor">
 					<top />
-					<right anchor="left" relation="relative" offset="-7" />
+					<right anchor="left" offset="-5" />
 				</anchored>
 			</button_idelete>
-            
+
 			<number_adjustment name="dmgadj">
 				<anchored to="rightanchor">
 					<top offset="3" />
@@ -285,12 +202,6 @@
 				</anchored>
 			</label>
 
-<!-- 			<string_textlistitem name="name">
- 				<anchored position="insidetopleft">
-					<right parent="rightanchor" anchor="left" relation="relative" offset="-5" />
-				</anchored> 
-				<multilinespacing>20</multilinespacing>
-			</string_textlistitem> -->
 			<string_textlistitem name="name">
 				<anchored to="rightanchor">
 					<top />

@@ -310,11 +310,13 @@
 
 	<string name="class_profs_weapon_tooltip">Weapon proficiencies earned at this level.</string>
 	<string name="class_profs_weapon_used_tooltip">Weapon proficiencies spent.</string>
+	<string name="class_profs_nonweapon_used_tooltip">Non-Weapon proficiencies spent.</string>
 
     <string name="char_profs_label">PROFICIENCIES</string>
     <string name="char_profs_weapon_label">WEAPON</string>
     <string name="char_profs_nonweapon_label">NONWEAPON</string>
     <string name="char_profs_used_label">USED</string>
+    <string name="char_profs_nonweapon_title_label">NONWEAPON/SKILLS</string>
 
 	<string name="class_profs_nonweapon_tooltip">Non-weapon proficiencies earned at this level.</string>
 	<string name="class_profs_nonweapon__used_tooltip">Non-weapon proficiencies spent.</string>

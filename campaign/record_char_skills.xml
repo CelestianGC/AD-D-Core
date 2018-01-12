@@ -17,6 +17,11 @@
 						
 						window.contents.subwindow.skills_iadd.setVisible(bEditMode);
 						window.contents.subwindow.skills.update();
+
+						window.contents.subwindow.proficiencies_iadd.setVisible(bEditMode);
+						window.contents.subwindow.proficiencies.update();
+						window.contents.subwindow.languages_iadd.setVisible(bEditMode);
+						window.contents.subwindow.languages.update();
 					end
 				</script>
 			</button_iedit>
@@ -51,40 +56,80 @@
 		</script>
 		<sheetdata>
 			<anchor_column name="columnanchor" />
-			<label_charframetop name="skillstitle">
-				<anchored height="20">
-					<top parent="columnanchor" anchor="bottom" relation="relative" offset="15" />
-					<left offset="15" />
-					<right offset="-15" />
-				</anchored>
-				<icons>char_abilities_purple</icons>
-			</label_charframetop>
-            
-            <!-- show nonweapon profs max and used -->
-            <!-- BUG: these can't be reached, click/etc wont change them -->
-			<number_profs_nonweapon name="nonweapon_proficiencies" source="proficiencies.nonweapon.max">
-				<anchored to="skillstitle" position="insidetopleft" offset="35,1" height="13" width="20"/>
-			</number_profs_nonweapon>
- 			<number_profs_nonweapon name="nonweapon_proficiencies_used" source="proficiencies.nonweapon.used">
-				<anchored to="nonweapon_proficiencies" position="right" offset="10,0" height="13" width="20"/>
-			</number_profs_nonweapon>
-
-<!-- 			<label name="title_label">
-				<anchored>
-					<top parent="skillstitle" />
-					<left position="insidetopleft" offset="45" />
-				</anchored>
-                <font>subwindowsmalltitle</font>
-				<static textres="char_label_skills" />
-				<center />
-			</label>
- -->
 			<genericcontrol name="rightanchor">
 				<anchored width="0" height="20">
 					<top parent="columnanchor" anchor="bottom" relation="relative" offset="4" />
 					<right offset="-15" />
 				</anchored>
 			</genericcontrol>
+			<genericcontrol name="leftanchor">
+				<anchored width="0" height="20">
+					<top parent="columnanchor" anchor="bottom" relation="relative" offset="4" />
+					<left offset="-15" />
+				</anchored>
+			</genericcontrol>
+            
+			<label_charframetop name="profstitle">
+				<anchored height="20">
+					<top parent="columnanchor" anchor="bottom" relation="relative" offset="-30" />
+					<left offset="15" />
+					<right offset="-15" />
+				</anchored>
+				<icons>char_abilities_red</icons>
+			</label_charframetop>
+			<label name="profs_title_label">
+				<anchored>
+					<top parent="profstitle" />
+					<left offset="15" />
+					<right offset="-15" />
+				</anchored>
+                <static textres="char_profs_label" />
+                <font>subwindowsmalltitle</font>
+				<center />
+			</label>
+
+            <!-- show weapon profs max and used -->
+			<number_profs_weapon name="weapon_proficiencies" source="proficiencies.weapon.max">
+				<anchored to="profstitle" position="insidetopleft" offset="45,25" height="15" width="20"/>
+			</number_profs_weapon>
+            <label_titlechar>
+   				<anchored to="weapon_proficiencies" position="insidetopleft" offset="-15,-25" />
+                <static textres="char_profs_weapon_label" />
+            </label_titlechar>
+			<number_profs_weapon_used name="weapon_proficiencies_used" source="proficiencies.weapon.used">
+				<anchored to="weapon_proficiencies" position="right" offset="30,0" width="20"/>
+			</number_profs_weapon_used>
+            <label_titlechar>
+   				<anchored to="weapon_proficiencies_used" position="insidetopleft" offset="-5,-25" />
+                <static textres="char_profs_used_label" />
+            </label_titlechar>
+            <!-- show nonweapon profs max and used -->
+			<number_profs_nonweapon name="nonweapon_proficiencies" source="proficiencies.nonweapon.max">
+				<anchored to="profstitle" position="insidetopright" offset="80,25" height="15" width="20"/>
+			</number_profs_nonweapon>
+            <label_titlechar>
+   				<anchored to="nonweapon_proficiencies" position="insidetopleft" offset="-30,-25" />
+                <static textres="char_profs_nonweapon_label" />
+            </label_titlechar>
+ 			<number_profs_nonweapon_used name="nonweapon_proficiencies_used" source="proficiencies.nonweapon.used">
+				<anchored to="nonweapon_proficiencies" position="right" offset="45,0"  width="20"/>
+			</number_profs_nonweapon_used>
+            <label_titlechar>
+   				<anchored to="nonweapon_proficiencies_used" position="insidetopleft" offset="-5,-25" />
+                <static textres="char_profs_used_label" />
+            </label_titlechar>
+
+
+            <!-- skills/nonweapon profs -->
+			<label_charframetop name="skillstitle">
+				<anchored to="profstitle" height="20">
+					<top anchor="bottom" relation="relative" offset="27" />
+					<left />
+					<right />
+				</anchored>
+				<icons>char_abilities_purple</icons>
+			</label_charframetop>
+            
 			<genericcontrol name="shortcut_header">
 				<anchored to="rightanchor" width="20" height="20">
 					<top />
@@ -96,7 +141,7 @@
 			<label name="total_label">
 				<anchored to="rightanchor" width="40">
 					<top parent="skillstitle" />
-					<right anchor="left" relation="relative" offset="-25" />
+					<right anchor="left" offset="-50" />
 				</anchored>
 				<center />
                 <font>subwindowsmalltitle</font>
@@ -104,13 +149,16 @@
 			</label>
 
 			<label name="name_label">
-				<anchored>
-					<top parent="skillstitle" />
-					<left offset="35" />
-					<right parent="rightanchor" anchor="left" relation="relative" offset="-15" />
+				<anchored  >
+					<top parent="skillstitle"/>
+					<!-- <left offset="35" /> -->
+                    <left />
+					<!-- <right parent="rightanchor" anchor="left" relation="relative" offset="-15" /> -->
+                    <right />
 				</anchored>
 				<!-- <static textres="char_label_skillname" /> -->
-                <static textres="char_label_skills" />
+                <!-- <static textres="char_label_skills" /> -->
+                <static textres="char_profs_nonweapon_title_label" />
                 <font>subwindowsmalltitle</font>
 				<center />
 			</label>
@@ -133,9 +181,64 @@
 				<sortby><control>name</control></sortby>
 				<script file="campaign/scripts/char_skilllist.lua" />
 			</windowlist>
+
+            <!-- weapon profs -->
+			<label_charframetop name="proficienciestitle">
+				<anchored to="skillstitle" height="20">
+					<top anchor="bottom" relation="relative" offset="7" />
+					<left />
+					<right />
+				</anchored>
+				<static textres="char_abilities_label_proficiencies" />
+				<icons>char_abilities_purple</icons>
+				<target>proficiencies</target>
+			</label_charframetop>
+			<button_iadd name="proficiencies_iadd">
+				<anchored to="proficienciestitle" position="insidetopright" offset="5,0" />
+				<target>proficiencies</target>
+			</button_iadd>
+			<list_proficiencies name="proficiencies">
+				<anchored to="proficienciestitle">
+					<top anchor="bottom" relation="relative" offset="5" />
+					<left />
+					<right />
+				</anchored>
+				<datasource>.proficiencylist</datasource>
+				<class>proficiency_item</class>
+				<listheader>proficienciestitle</listheader>
+			</list_proficiencies>
+
+            <!-- languages -->
+			<label_charframetop name="languagestitle">
+				<anchored to="proficienciestitle" height="20">
+					<top anchor="bottom" relation="relative" offset="7" />
+					<left />
+					<right />
+				</anchored>
+				<static textres="char_abilities_label_languages" />
+				<icons>char_abilities_blue</icons>
+				<target>languages</target>
+			</label_charframetop>
+			<list_proficiencies name="languages">
+				<anchored to="languagestitle">
+					<top anchor="bottom" relation="relative" offset="5" />
+					<left />
+					<right />
+				</anchored>
+				<datasource>.languagelist</datasource>
+				<class>char_language</class>
+				<listheader>languagestitle</listheader>
+			</list_proficiencies>
+			<button_iadd name="languages_iadd">
+				<anchored to="languagestitle" position="insidetopright" offset="5,0" />
+				<target>languages</target>
+			</button_iadd>
+            
+            
 		</sheetdata>
 	</windowclass>
 	
+    
 	<!-- List Items-->
 	<windowclass name="skill_item">
 		<margins control="0,0,0,2" />
@@ -163,6 +266,7 @@
 					<right anchor="left" offset="-2" />
 				</anchored>
 			</button_idelete>
+
             
 			<buttoncontrol name="skillconfig">
 				<anchored to="rightanchor" width="20" height="20">

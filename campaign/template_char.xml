@@ -629,6 +629,40 @@
 		</list_text>
 	</template>
 
+	<template name="list_proficiencies">
+		<list_text>
+			<child></child>
+			<child><backcolor>1A40301E</backcolor></child>
+			<allowcreate />
+			<allowdelete />
+			<sortby mergerule="replace"><control>name</control></sortby>
+			<noscroll />
+			<script>
+				function onListChanged()
+					update();
+					if listheader and listheader[1] and not isVisible() then
+						window[listheader[1]].expand();
+					end
+				end
+
+				function update()
+                    local bEdit = (window.parentcontrol.window.skills_iedit.getValue() == 1);
+					for _,w in ipairs(getWindows()) do
+						w.idelete.setVisibility(bEdit);
+					end
+				end
+
+				function addEntry(bFocus)
+					local w = createWindow();
+                    if bFocus and w then
+						w.name.setFocus();
+					end
+					return w;
+				end
+			</script>
+		</list_text>
+	</template>
+
 	<template name="button_char_skills_iedit">
 		<buttoncontrol>
 			<anchored width="20" height="20" />
