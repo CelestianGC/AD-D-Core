@@ -980,10 +980,10 @@
 	<windowclass name="charsheet_classes">
 		<frame>charsheethelper</frame>
 		<placement>
-			<size width="600" height="300" />
+			<size width="450" height="250" />
 		</placement>
 		<sizelimits>
-			<minimum width="600" height="300" />
+			<minimum width="450" height="250" />
 			<dynamic />
 		</sizelimits>
 		<nodelete />
@@ -1087,26 +1087,19 @@
 				</anchored>
 				<disabled />
 			</genericcontrol>
-         
-            
-            
-            
-            
-            
-            
             <!-- save as -->
-			<label_charframetop name="classsave">
+<!-- 			<label_charframetop name="classsave">
                 <tooltip textres="char_label_class_save_tooltip" />
 				<anchored to="spacer" position="left" offset="15,0" width="50" />
 				<static textres="char_label_class_save" />
-			</label_charframetop>
+			</label_charframetop> -->
 
             <!-- fight as -->
-			<label_charframetop name="classfight">
+<!-- 			<label_charframetop name="classfight">
                 <tooltip textres="char_label_class_fight_tooltip" />
 				<anchored to="classsave" position="left" offset="20,0" width="55" />
 				<static textres="char_label_class_fight" />
-			</label_charframetop>
+			</label_charframetop> -->
 
 			
             <!-- hd used -->
@@ -1116,22 +1109,23 @@
 			</label_charframetop> -->
 
             <!-- HD type -->
-			<label_charframetop name="hdtitle">
-				<anchored to="classfight" position="left" offset="20,0" width="50" />
+<!-- 			<label_charframetop name="hdtitle">
+				<anchored to="spacer" position="left" offset="20,0" width="50" />
 				<static textres="char_label_hd" />
-			</label_charframetop>
+			</label_charframetop> -->
 
 
             <!-- exp needed -->
 			<label_charframetop name="experienceneededtitle">
-				<anchored to="hdtitle" position="left" offset="20,0" width="65" />
+                <anchored to="spacer" position="left" offset="20,0" width="100" />
+				<!-- <anchored to="hdtitle" position="left" offset="20,0" width="65" /> -->
 				<static textres="class_label_exp_needed" />
 				<tooltip textres="class_label_exp_needed_tooltip" />
 			</label_charframetop>
 
             <!-- exp  -->
 			<label_charframetop name="experiencetitle">
-				<anchored to="experienceneededtitle" position="left" offset="20,0" width="50" />
+				<anchored to="experienceneededtitle" position="left" offset="20,0" width="100" />
 				<static textres="char_label_class_exp" />
 				<tooltip textres="char_label_class_exp_tooltip" />
 			</label_charframetop>
@@ -1151,10 +1145,7 @@
 
             
 			<button_iadd name="classes_iadd">
-				<anchored to="classsave">
-					<top anchor="bottom" relation="relative" offset="3" />
-					<left anchor="right" offset="15" />
-				</anchored>
+				<anchored to="experienceneededtitle" position="insidetopright" offset="-30,0"/>
 				<target>classes</target>
 			</button_iadd>
 			<list_text name="classes">
@@ -1172,7 +1163,10 @@
 				<target>classes</target>
 			</scrollbar>
 			<button_iedit name="classes_iedit">
-				<anchored to="classsave" position="righthigh" offset="15,0" />
+				<anchored to="classes">
+					<top anchor="bottom" relation="relative" offset="-10" />
+					<left anchor="right" offset="-15" />
+				</anchored>
 				<target>classes</target>
 			</button_iedit>
 
@@ -1264,21 +1258,21 @@
 			<button_idelete name="idelete">
  				<anchored to="rightanchor">
 					<top />
-					<right anchor="left" />
+					<right anchor="left"/>
 				</anchored>
 			</button_idelete>
 
             <!-- save as -->
-			<class_cycler_do_as name="saveas">
+<!-- 			<class_cycler_do_as name="saveas">
 				<anchored to="spacer" position="lefthigh" offset="5,0" width="45" />
                 <gmeditonly />
-			</class_cycler_do_as>
+			</class_cycler_do_as> -->
 
             <!-- fight as -->
-			<class_cycler_do_as name="fightas">
+<!-- 			<class_cycler_do_as name="fightas">
 				<anchored to="saveas" position="lefthigh" offset="25,0" width="45" />
                 <gmeditonly />
-			</class_cycler_do_as>
+			</class_cycler_do_as> -->
 
             <!-- hd used -->
 <!-- 			<number_charwounds name="hdused">
@@ -1287,8 +1281,8 @@
 			</number_charwounds> -->
 
             <!-- hdie -->
-			<basicdice name="hddie">
-				<anchored to="fightas" position="left" offset="25,0" width="50" />
+<!-- 			<basicdice name="hddie">
+				<anchored to="spacer" position="left" offset="5,0" width="50" />
 				<script>
 					function onDragStart(button, x, y, draginfo)
 						return window.onDragStart(button, x, y, draginfo);
@@ -1298,7 +1292,7 @@
 						return window.onDoubleClick(x, y);
 					end
 				</script>
-			</basicdice>
+			</basicdice> -->
 
             <!-- exp needed -->
  			<basicnumber name="expneeded">
@@ -1322,7 +1316,8 @@
 						return true;
 					end
 				</script>
-				<anchored to="hddie" position="left" offset="20,0" width="60" />
+				<!-- <anchored to="hddie" position="left" offset="20,0" width="60" /> -->
+                <anchored to="spacer" position="left" offset="5,0" width="100" />
 				<tooltip textres="class_label_exp_needed_tooltip" />
 			</basicnumber>
 
@@ -1334,7 +1329,7 @@
             <!-- exp -->
  			<basicnumber name="exp">
                 <gmeditonly />
-				<anchored to="expneeded" position="left" offset="20,0" width="60" />
+				<anchored to="expneeded" position="left" offset="20,0" width="100" />
 				<tooltip textres="char_label_class_exp_tooltip" />
 			</basicnumber>
 
