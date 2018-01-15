@@ -829,7 +829,7 @@
 				</anchored>
 			</number_charthaco>
 			<label_combatscores>
-				<anchored to="thaco"/>
+                <anchored to="thaco" offset="-2,-2" />
 				<static textres="thaco" />
 			</label_combatscores>
 
