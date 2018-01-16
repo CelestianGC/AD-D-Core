@@ -93,6 +93,10 @@
 	<!-- Override CoreRPG ruleset graphics -->
 
 	<!-- Desktop background -->
+<!-- 	<framedef name="desktop">
+		<bitmap file="graphics/frames/IrregularTiles_kpl05-g.png" />
+		<middle rect="0,0,200,200" />
+	</framedef> -->
 	<framedef name="desktop">
 		<bitmap file="graphics/frames/desktop.png" />
 		<topleft rect="0,0,15,15" />
@@ -102,22 +106,19 @@
 		<bottomleft rect="0,500,15,15" />
 		<bottom rect="15,500,480,15" />
 	</framedef>
+	
+<!--     <framedef name="shortcuts">
+		<bitmap file="graphics/frames/woodplankingH_DBrown-a.png" />
+		<middle rect="0,0,100,100" />
+	</framedef> -->
 	<framedef name="shortcuts">
-		<bitmap file="graphics/frames/desktop_shortcut.png" />
-		<topleft rect="500,0,15,15" />
-		<left rect="500,15,15,500" />
-		<middle rect="515,0,50,100" />
-		<topright rect="500,0,11,15" />
-		<right rect="500,15,11,500" />
-	</framedef>
-<!-- 	<framedef name="shortcuts">
 		<bitmap file="graphics/frames/desktop.png" />
 		<topleft rect="500,0,15,15" />
 		<left rect="500,15,15,500" />
 		<middle rect="515,0,50,100" />
 		<topright rect="500,0,11,15" />
 		<right rect="500,15,11,500" />
-	</framedef> -->
+	</framedef>
 
 	<!-- Windows -->
 	<framedef name="windowtitle">

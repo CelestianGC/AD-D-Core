@@ -822,7 +822,6 @@
 
 			<number_charthaco name="thaco" source="combat.thaco.score">
                 <frame name="adnd_square"/>
-                <!-- <anchored to="combatanchor" position="insidetopleft" offset="0,0" width="45" height="40" /> -->
 				<anchored to="combatanchor" width="40" height="30">
 					<top parent="combatanchor" offset="4,0" />
 					<left anchor="right" relation="relative" offset="0" />
