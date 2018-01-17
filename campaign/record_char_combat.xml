@@ -95,7 +95,7 @@
                     <left parent="surprise_total_roll" anchor="right" relation="relative" offset="15" />
                 </anchored>
                 <rollable />
-				<default>1</default>
+				<default>0</default>
 				<tooltip textres="char_label_turnlevel_tooltip" />
 			</basicnumber>
 			<label_fieldtop name="label_turnlevel">

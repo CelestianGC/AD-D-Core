@@ -2330,7 +2330,14 @@ function addAdvancement(nodeChar,nodeAdvance,nodeClass)
         end -- for
     end -- no saves listed
     
+    -- turn undead
+    local nTurnLevel = DB.getValue(nodeAdvance,"turnlevel",0);    
+    local nCurrentTurnLevel = DB.getValue(nodeChar,"turn.total",0);
+    if nCurrentTurnLevel < nTurnLevel then
+        DB.setValue(nodeChar,"turn.total","number",nTurnLevel);
+    end
     
+    -- spells
     local nodeSpells = nodeAdvance.getChild("spells");
     local nodeArcaneSlots = nil;
     local nodeDivineSlots = nil;
@@ -2341,6 +2348,11 @@ function addAdvancement(nodeChar,nodeAdvance,nodeClass)
     -- spell slots
     -- arcane
     if (nodeArcaneSlots) then
+        -- set the "spell level" so we can access it in spells
+        local nCurrentSpellLevel = DB.getValue(nodeChar,"arcane.totalLevel",0);
+        if nCurrentSpellLevel < nLevel then
+            DB.setValue(nodeChar,"arcane.totalLevel","number",nLevel);
+        end
         for i = 1, 9 do
             local nSlots = DB.getValue(nodeArcaneSlots,"level" .. i,0);
             if (nSlots > 0) then
@@ -2352,6 +2364,11 @@ function addAdvancement(nodeChar,nodeAdvance,nodeClass)
     end
     -- divine
     if (nodeDivineSlots) then
+        -- set the "spell level" so we can access it in spells 
+        local nCurrentSpellLevel = DB.getValue(nodeChar,"divine.totalLevel",0);
+        if nCurrentSpellLevel < nLevel then
+            DB.setValue(nodeChar,"divine.totalLevel","number",nLevel);
+        end
         for i = 1, 7 do
             local nSlots = DB.getValue(nodeDivineSlots,"level" .. i,0);
             if (nSlots > 0) then

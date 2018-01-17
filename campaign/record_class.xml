@@ -772,6 +772,16 @@
                 <tooltip textres="class_thaco_tooltip" />
             </number_class>
 
+			<label name="turn_label">
+                <anchored to="thaco" position="righthigh" offset="10,0" />
+				<static text="TURN" />
+                <tooltip textres="class_turn_tooltip" />
+			</label>
+			<number_class name="turnlevel">
+                <anchored to="turn_label" position="righthigh" offset="10,0" width="20" />
+                <tooltip textres="class_turn_tooltip" />
+            </number_class>
+
 			<label_column name="expneeded_label">
 				<static textres="class_expneeded_label" />
                 <tooltip textres="class_expneeded_tooltip" />
