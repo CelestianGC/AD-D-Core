@@ -569,17 +569,17 @@
     
     
 
-	<!-- Armor Table (Samarex CnT Ext ) -->
+	<!-- Armor Table -->
 	<string name="ref_label_list_weight">Wt.</string>
 	<string name="ref_label_list_fullac">Full AC</string>	
 	<string name="ref_label_list_torso">Torso AC</string>	
 	<string name="ref_label_list_arm">Arm AC</string>
 	<string name="ref_label_list_leg">Leg AC</string>
-	<!-- Helmet Table (Samarex CnT Ext ) -->
+	<!-- Helmet Table-->
 	<string name="ref_label_list_susprise">Surprise</string>
-	<!-- Shield Table (Samarex CnT Ext ) -->
+	<!-- Shield Table -->
 	<string name="ref_label_list_nofoes"># Foes</string>
-	<!-- Weapon Table (Samarex CnT Ext ) -->
+	<!-- Weapon Table -->
 	<string name="ref_label_wtwt">Wt.</string>
 	<string name="ref_label_wtsize">Size</string>
 	<string name="ref_label_wttype">Type</string>
@@ -605,7 +605,7 @@
     <string name="table_import_text_button">Import</string>
     <string name="table_import_text_helptext">Paste in the text of the table you want to create. The first line will be the name of the table. Each line after will be an entry on the table.</string>
     
-   	<!-- Groulist buttons -->
+   	<!-- Grouplist buttons -->
     <string name="npc_button_hd">By HD</string>
     <string name="npc_groupedtitle_hd">NPC BY HitDice</string>
     <string name="item_button_items">Items</string>

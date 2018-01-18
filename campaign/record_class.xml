@@ -304,9 +304,7 @@
 			</button_iadd>
 			<list_column name="proficiencies">
 				<datasource>.proficiencies</datasource>
-				<!-- ref doc req for samarex -->
 				<class>proficiency_item</class>
-				<!-- <class>ref_class_proficiency</class> -->
 			</list_column>
 			
 			<header_column name="nonweaponprof_header">

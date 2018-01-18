@@ -98,7 +98,6 @@
 		</sheetdata>
 	</windowclass>
 	
-<!-- new bits for samarex ref docs -->
 	<windowclass name="ref_proficiency_item">
 		<frame>recordsheet</frame>
 		<placement>
