@@ -49,6 +49,7 @@ function getRoll(rActor, bSecretRoll, rItem)
 	-- Determine the modifier and ability to use for this roll
 	local sAbility = nil;
 	local sActorType, nodeActor = ActorManager.getTypeAndNode(rActor);
+--Debug.console("manager_action_init.lua","getRoll","sActorType",sActorType);
     if nodeActor then
         if rItem then
             rRoll.nMod =  rItem.nInit;
@@ -247,18 +248,22 @@ end
 
 function applySpellCastingConcentration(rSource,rRoll)
     local nTotal = ActionsManager.total(rRoll);
---Debug.console("manager_action_init.lua","applySpellCastingConcentration","nTotal",nTotal);
     local sActorType, nodeActor = ActorManager.getTypeAndNode(rSource);
+--Debug.console("manager_action_init.lua","applySpellCastingConcentration","rSource",rSource);            
     local nodeSpell = DB.findNode(rRoll.spellPath);
     local nodeChar = nodeActor;
+    local nDMOnly = 0;
     if not string.match(nodeActor.getPath(),"^combattracker") then
+        -- this is a PC
         nodeChar = CharManager.getCTNodeByNodeChar(nodeActor);
+    else
+        -- hide if NPC
+        nDMOnly = 1;
     end
     -- if not in the combat tracker bail
     if not nodeChar or not nodeSpell then
         return;
     end
---Debug.console("manager_action_init.lua","applySpellCastingConcentration","nodeChar",nodeChar);
     -- build effect fields
     local sSpellName = DB.getValue(nodeSpell,"name","");
     local rEffect = {};
@@ -270,9 +275,10 @@ function applySpellCastingConcentration(rSource,rRoll)
     rEffect.sUnits = "rnd";
     rEffect.nInit = nTotal;
     rEffect.sSource = nodeChar.getPath();
-    rEffect.nGMOnly = 0;
+    rEffect.nGMOnly = nDMOnly;
     rEffect.sApply = "action";
 
+    
     -- need to do some error checking to make sure we only add it once
     -- verify existing "effect_source" and "label" isn't the same as this one.
     local bFound = false;
@@ -281,9 +287,6 @@ function applySpellCastingConcentration(rSource,rRoll)
         local sSource = DB.getValue(nodeEffect,"source_name","");
         if (sLabel == sEffectFullName and sSource == nodeChar.getPath()) then
             -- set nInit to match new initiative rolled
-
-Debug.console("manager_action_init.lua","applySpellCastingConcentration","nodeEffect",nodeEffect);            
-
             DB.setValue(nodeEffect,"init","number",nTotal);
             bFound = true;
             break;
