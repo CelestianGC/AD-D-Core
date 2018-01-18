@@ -2060,6 +2060,10 @@ function addRaceSelect(aSelection, aTable)
 			end
 		end
 	end
+
+    -- effects
+    local nodeEffects = nodeSource.getChild("effectlist");
+    addEffectFeature(nodeEffects,nodeChar);
 end
 
 function addClassRef(nodeChar, sClass, sRecord)
@@ -2191,7 +2195,6 @@ function addClassRef(nodeChar, sClass, sRecord)
         -- Add hit points based on level added
         local nHP = DB.getValue(nodeChar, "hp.total", 0);
         local nConBonus = tonumber(DB.getValue(nodeChar, "abilities.constitution.hitpointadj", 0));
-        -- make sure it's a number, we'll need to split out normal/fighterBonus values eventually --celestian
         if type(nConBonus) ~= "number" then
             nConBonus = 0;
         end
@@ -2379,8 +2382,23 @@ function addAdvancement(nodeChar,nodeAdvance,nodeClass)
         end
     end
 
+        -- effects
+    local nodeEffects = nodeAdvance.getChild("effectlist");
+    addEffectFeature(nodeEffects,nodeChar);
+    
     -- calculate hit points for new level (deals with single/multi/dual classing).
     updateHPForLevel(nodeChar,nodeClass,nodeAdvance);
+end
+
+-- add advanced effects to character
+function addEffectFeature(nodeEffects,nodeChar)
+    if nodeEffects and nodeEffects.getChildCount() > 0 then
+        local nodeCharEffectList = nodeChar.createChild("effectlist");
+        for _,nodeEffect in pairs(nodeEffects.getChildren()) do
+            local addNode = nodeCharEffectList.createChild();
+            DB.copyNode(nodeEffect,addNode);
+        end
+    end
 end
 
 function addClassFeatureHelper(aSelection, rClassAdd)

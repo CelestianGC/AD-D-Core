@@ -1084,11 +1084,16 @@
             <!-- advanced effects -->
             <!-- effects saves_label -->
 			<label_charframetop name="advancedeffectstitle">
-				<anchored height="20">
+				<anchored to="saves_label" height="20">
+					<top  anchor="bottom" relation="relative" offset="15" />
+					<left parent="" offset="15"/>
+					<right parent="" offset="-15"/>
+				</anchored>
+<!-- 				<anchored height="20">
 					<bottom anchor="bottom" relation="relative" offset="-50" />
 					<left offset="15"/>
 					<right offset="-15"/>
-				</anchored>
+				</anchored> -->
 <!-- 				<anchored to="columnanchor" height="20">
 					<top anchor="bottom" relation="relative" offset="20" />
 					<left parent="" anchor="right" offset="15" />
