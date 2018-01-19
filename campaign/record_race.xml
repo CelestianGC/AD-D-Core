@@ -165,7 +165,11 @@
 
             <!-- advanced effects -->
             <!-- effects  -->
-			<label_charframetop name="advancedeffectstitle">
+			<header_column name="advancedeffectstitle">
+				<static textres="char_abilities_label_advancedeffects"/>
+				<center />
+			</header_column>
+			<!-- <label_charframetop name="advancedeffectstitle">
 				<anchored to="proficiencies" height="20">
 					<top  anchor="bottom" relation="relative" offset="15" />
 					<left parent="" offset="15"/>
@@ -174,7 +178,7 @@
 				<static textres="char_abilities_label_advancedeffects" />
 				<icons>char_abilities</icons>
 				<target>header_effects</target>
-			</label_charframetop>
+			</label_charframetop> -->
 
 
 			<button_iedit name="effects_iedit">

@@ -1081,26 +1081,20 @@
 
             <!-- advanced effects -->
             <!-- effects saves_label -->
-			<label_charframetop name="advancedeffectstitle">
+			<header_column name="advancedeffectstitle">
+				<static textres="char_abilities_label_advancedeffects"/>
+				<center />
+			</header_column>
+<!-- 			<label_charframetop name="advancedeffectstitle">
 				<anchored to="saves_label" height="20">
 					<top  anchor="bottom" relation="relative" offset="15" />
 					<left parent="" offset="15"/>
 					<right parent="" offset="-15"/>
 				</anchored>
-<!-- 				<anchored height="20">
-					<bottom anchor="bottom" relation="relative" offset="-50" />
-					<left offset="15"/>
-					<right offset="-15"/>
-				</anchored> -->
-<!-- 				<anchored to="columnanchor" height="20">
-					<top anchor="bottom" relation="relative" offset="20" />
-					<left parent="" anchor="right" offset="15" />
-					<right parent=""  anchor="left" offset="15" />
-				</anchored> -->
 				<static textres="char_abilities_label_advancedeffects" />
 				<icons>char_abilities</icons>
 				<target>header_effects</target>
-			</label_charframetop>
+			</label_charframetop> -->
 
 
 			<button_iedit name="effects_iedit">
