@@ -219,8 +219,4 @@
    	<icon name="chat_success" file="graphics/icons/check_success.png" />
    	<icon name="chat_fail" file="graphics/icons/check_fail.png" />
 
-	<!-- Tables -->
-	<icon name="button_importtext_table" file="graphics/buttons/button_import.png" />
-	<icon name="button_importtext_table_down" file="graphics/buttons/button_import_down.png" />
-    
 </root>

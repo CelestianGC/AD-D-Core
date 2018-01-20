@@ -599,12 +599,6 @@
     <string name="library_recordtype_empty_nonweaponproficiency">&#171; New Non-Weapon Proficiency &#187;</string>
     <string name="class_header_advancement">ADVANCEMENT</string>
     
-    <string name="table_button_import_tooltip">Text import to table.</string>
-    <string name="table_import_window_title">IMPORT TABLE</string>
-    <string name="table_import_text_title">IMPORT TEXT</string>
-    <string name="table_import_text_button">Import</string>
-    <string name="table_import_text_helptext">Paste in the text of the table you want to create. The first line will be the name of the table. Each line after will be an entry on the table.</string>
-    
    	<!-- Grouplist buttons -->
     <string name="npc_button_hd">By HD</string>
     <string name="npc_groupedtitle_hd">NPC BY HitDice</string>
@@ -617,12 +611,6 @@
     <!-- CT Radial -->
 	<string name="ct_menu_itemdeletenonfriendly_with_0HP">Delete All Non-Friendly With 0 HP</string>
 	<string name="ct_menu_itemdeletefoe_with_0HP">Delete Only Foes With 0 HP</string>    
-    
-    <!-- Author strings -->
-    <string name="author_window_title">Author Manual</string>
-    <string name="author_completed">Authored manual '%s'as file: %s.</string>
-    <string name="author_label_directory">Directory</string>
-    <string name="author_button">Author</string>
     
     
 </root>
