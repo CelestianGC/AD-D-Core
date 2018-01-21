@@ -643,11 +643,15 @@
  -->			
 			<label_column name="challenge_label">
 				<static textres="npc_label_challenge" />
+            <!-- hide CR, not used in AD&D --celestian -->
+                <invisible />
 			</label_column>
 			<string_columnh name="cr" >
 				<anchored width="20">
 					<right merge="delete" />
 				</anchored>
+            <!-- hide CR, not used in AD&D --celestian -->
+                <invisible />
 			</string_columnh>
 			
 			<label_column_right name="xp_label">

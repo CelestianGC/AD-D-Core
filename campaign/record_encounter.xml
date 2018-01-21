@@ -110,7 +110,8 @@
 
 	<windowclass name="battle_header">
 		<margins control="0,0,0,2" />
-		<script>
+        <!-- hiding CR, dont use in AD&D, --celestian -->
+<!-- 		<script>
 			function onInit()
 				update();
 				
@@ -126,6 +127,21 @@
 				cr.setReadOnly(bReadOnly);
 				exp.setReadOnly(bReadOnly);
 				button_refreshcr.setVisible(not bReadOnly);
+				button_refreshxp.setVisible(not bReadOnly);
+			end
+		</script> -->
+		<script>
+			function onInit()
+				update();
+				local node = getDatabaseNode();
+				if DB.getValue(node, "generated", 0) == 1 then
+					DB.setValue(node, "generated", "number", 0);
+				end
+			end
+			function update()
+				local bReadOnly = WindowManager.getReadOnlyState(getDatabaseNode());
+				name.setReadOnly(bReadOnly);
+				exp.setReadOnly(bReadOnly);
 				button_refreshxp.setVisible(not bReadOnly);
 			end
 		</script>
@@ -148,6 +164,8 @@
 					<left offset="15" />
 				</anchored>
 				<static textres="cr" />
+                <!-- hiding CR, dont use in AD&D, --celestian -->
+                <invisible />
 			</label>
 			<basicstring name="cr">
 				<anchored to="cr_label" position="righthigh" offset="10,0" width="20" height="20" />
@@ -155,8 +173,11 @@
 				<description textres="cr" />
 				<frame name="fielddark" offset="7,5,7,5" />
 				<center />
+                <!-- hiding CR, dont use in AD&D, --celestian -->
+                <invisible />
 			</basicstring>
-			<button_enc_refreshcr name="button_refreshcr" />
+             <!-- hiding CR, dont use in AD&D, --celestian -->
+			<!-- <button_enc_refreshcr name="button_refreshcr" /> -->
 			
 			<basicnumber name="exp">
 				<anchored width="70" height="20">

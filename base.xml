@@ -55,7 +55,6 @@
 	<includefile source="utility/template_utility.xml" />
 	<includefile source="utility/utility_modifiers.xml" />
 	<includefile source="utility/utility_effects.xml" />
-	<includefile source="utility/template_utility_adnd.xml" />
 	<includefile source="utility/template_utility_advanced.xml" />
 	<includefile source="utility/utility_effects_advanced.xml" />
 	
