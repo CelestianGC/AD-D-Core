@@ -114,7 +114,7 @@
     
 	<template name="number_charabilityscore2">
 		<basicnumber>
-			<frame name="adnd_square" />
+<!-- 			<frame name="adnd_square" />
  			<anchored to="statstitle" position="insidetopleft"/> 
 			<rollable />
             <readonly />
@@ -122,8 +122,17 @@
             <max>25</max>
 			<default>9</default>
 			<font>arial-bold-12</font>
+			<script file="campaign/scripts/number_abilityscore.lua" /> -->
+ 			<anchored to="statstitle" position="insidetopleft"/> 
+			<rollable />
+            <readonly />
+            <min>1</min>
+            <max>25</max>
+			<default>9</default>
+			<font>arial-bold-12</font>
+			<frame name="abilityscore_box" />
 			<script file="campaign/scripts/number_abilityscore.lua" />
-		</basicnumber>
+        </basicnumber>
 	</template>
     
 	<template name="number_saves_modifier">
@@ -200,21 +209,18 @@
 
 	<template name="number_abilityfield">
 			<number>
-   				<frame name="adnd_rectangle" />
-<!-- 				<frame name="abilityscore_box" /> -->
-<!--                 <backcolor>#ff99cc</backcolor> -->
+				<frame name="abilityscore_box" />
 				<anchored position="right" offset="0,0" width="40"/>
                 <displaysign />
    				<center />
                 <nokeyedit />
 				<font>regular8</font>
-			</number>
+            </number>
 	</template>
 
 	<template name="number_abilityfield_noplus">
 			<number>
-				<frame name="adnd_rectangle" />
-<!-- 				<frame name="abilityscore_box" /> -->
+				<frame name="abilityscore_box" />
 <!--                 <backcolor>#ff99cc</backcolor> -->
 				<anchored position="right" offset="0,0" width="40"/>
    				<center />
@@ -226,34 +232,27 @@
 	<template name="percentile_abilityfield">
 			<number>
                 <readonly />
-				<frame name="adnd_rectangle" />
-                <!-- <frame name="abilityscore_box" /> -->
-				<anchored position="right" offset="0,0" width="30" height="25" />
+				<frame name="abilityscore_box" />
+				<anchored position="right" offset="0,0" width="30" height="25"/>
    				<center />
 				<font>regular8</font>
-                <min> 0 </min>
-                <max> 100 </max>
 			</number>
 	</template>
 	
 	<template name="string_abilityfield">
 			<stringfield>
-				<frame name="adnd_rectangle" />
-				<!-- <frame name="abilityscore_box" /> -->
-    <!--             <backcolor>#ff99cc</backcolor> -->
-				<!-- <multilinespacing>20</multilinespacing> -->
 				<anchored position="right" offset="0,0" width="40" />
    				<center />
                 <readonly />
+                <frame name="fielddark" offset="3,3,3,3" />
 				<font>regular8</font>
-			</stringfield>
+            </stringfield>
 	</template>
 	
 	<template name="ability_fields_container">
 			<frame_char>
 				<anchored position="right" offset="0,0" width="280"/>
-                <frame name="adnd_rectangle"/>
-				<!-- <frame name="bonus_box" /> -->
+				<frame name="bonus_box" />
 			</frame_char>			
 	</template>
 	
@@ -291,6 +290,11 @@
             <script file="campaign/scripts/number_charskill.lua" />
 		</number_linked>
 	</template>
+    
+    <template name="number_charthaco_charsheet">
+    <number_charthaco>
+    </number_charthaco>
+    </template>
     
 	<template name="number_charthaco">
 		<basicnumber>
@@ -564,10 +568,13 @@
             </label>
     </template>
 
+	<template name="number_char_save_charsheet">
+        <number_char_save>
+        </number_char_save>
+    </template>
 	<template name="number_char_save">
 		<basicnumber>
-				<frame name="adnd_saveicon" offset="0,0,0,0" />
-                <!-- <frame name="fielddark" offset="7,5,7,5" /> -->
+<!-- 				<frame name="adnd_saveicon" offset="0,0,0,0" />
                 <stateframe>
                     <hover name="rowshade" offset="7,5,7,5" />
                 </stateframe>
@@ -576,8 +583,19 @@
 			<anchored to="statstitle" position="below"/>
 			<rollable />
             <readonly />
+   			<script file="campaign/scripts/char_saves_details.lua" /> -->
+            <frame name="fielddark" offset="7,5,7,5" />
+            <stateframe>
+                <hover name="rowshade" offset="7,5,7,5" />
+            </stateframe>
+            <cursor hover="hand" />
+			<default>20</default>
+			<anchored to="statstitle" position="below"/>
+			<rollable />
+            <readonly />
    			<script file="campaign/scripts/char_saves_details.lua" />
-		</basicnumber>
+
+        </basicnumber>
 	</template>
 
     <template name="label_save_details">
@@ -791,6 +809,16 @@
             </label>
     </template>            
 
+	<template name="number_charspeed_defaults_charsheet">
+        <number_charspeed_defaults>
+        </number_charspeed_defaults>
+	</template>
+
+    <template name="surprise_number_total_charsheet">
+        <surprise_number_total>
+        </surprise_number_total>
+    </template>            
+    
     <template name="surprise_number_total">
             <basicnumber>
                 <rollable />
@@ -862,6 +890,65 @@
 			<font>subwindowsmalltitle</font>
 			<center />
 		</label>
+	</template>
+	<template name="number_charinit_charsheet">
+		<number_chartotal>
+			<font>reference-b-large</font>
+			<rollable />
+			<displaysign />
+			<modifiersize>mini</modifiersize>
+			<modifierfield>initiative.temporary</modifierfield>
+			<source><name>initiative.misc</name><op>+</op></source>
+			<script>
+				function action(draginfo)
+					local rActor = ActorManager.getActor("pc", window.getDatabaseNode());
+					ActionInit.performRoll(draginfo, rActor);
+
+					return true;
+				end
+				
+				function onDragStart(button, x, y, draginfo)
+					return action(draginfo);
+				end
+					
+				function onDoubleClick(x,y)
+					return action();
+				end
+			</script>
+		</number_chartotal>
+	</template>
+	<template name="number_charwounds_charsheet">
+        <number_charwounds>
+        </number_charwounds>
+	</template>
+	<template name="number_hptotal_charsheet">
+        <number_dropadd>
+        </number_dropadd>
+	</template>
+	<template name="number_hptemp">
+			<basicnumber name="temphp" source="hp.temporary">
+				<font>reference-b-large</font>
+				<color>0000AA</color>
+				<description textres="temphp" />
+				<hideonvalue>0</hideonvalue>
+				<script>
+					function onDrop(x, y, draginfo)
+						if draginfo.getType() == "number" then
+							if draginfo.getNumberData() &gt; 0 then
+								setValue(draginfo.getNumberData());
+							else
+								setValue(getValue() + draginfo.getNumberData());
+							end
+						end
+						
+						return true;
+					end
+				</script>
+			</basicnumber>
+	</template>
+	<template name="number_hptemp_charsheet">
+        <number_hptemp>
+        </number_hptemp>
 	</template>
     
 </root>

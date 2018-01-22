@@ -47,8 +47,7 @@
 
 	<!-- Characters -->
 	<framedef name="acicon">
-		<!-- <bitmap file="graphics/frames/acicon.png" /> -->
-        <bitmap file="graphics/frames/adnd_acshield.png" />
+		<bitmap file="graphics/frames/acicon.png" />
 		<topleft rect="0,0,35,39" />
 	</framedef>
 	<framedef name="adnd_hpicon">
@@ -346,13 +345,17 @@
 	</framedef>
 	
 	<!-- Characters -->
-	<framedef name="charsheet">
+<!-- 	<framedef name="charsheet">
 		<bitmap file="graphics/frames/adnd_charsheet.png" />
-<!-- 		<offset>50,50,45,45</offset>
-		<insideoffset>0,5,12,14</insideoffset> -->
 		<offset>50,50,45,45</offset>
 		<insideoffset>0,0,0,0</insideoffset>
+	</framedef> -->
+	<framedef name="charsheet">
+		<bitmap file="graphics/frames/charsheet.png" />
+		<offset>50,50,45,45</offset>
+		<insideoffset>0,5,12,14</insideoffset>
 	</framedef>
+    
 	<framedef name="charsheethelper">
 		<bitmap file="graphics/frames/charsheet.png" />
 		<offset>50,50,45,45</offset>

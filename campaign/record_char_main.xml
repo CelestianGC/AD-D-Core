@@ -664,100 +664,100 @@
 				</anchored>
             </button_charasavesdetail>
 
-			<number_char_save name="paralyzation" source="saves.paralyzation.score">
+			<number_char_save_charsheet name="paralyzation" source="saves.paralyzation.score">
 				<anchored to="savestitle" position="belowleft" offset="0,5"  height="25" width="25"/> 
 				<target>paralyzation</target>
-			</number_char_save>
+			</number_char_save_charsheet>
 			<label_savescore>
    				<tooltip textres="save_paralyzation_full" />
 				<anchored to="paralyzation" />
 				<static textres="save_paralyzation_wrapped" />
 			</label_savescore>
 
-			<number_char_save name="poison" source="saves.poison.score">
+			<number_char_save_charsheet name="poison" source="saves.poison.score">
 				<anchored to="paralyzation"   height="25"  />
 				<target>poison</target>
-			</number_char_save>
+			</number_char_save_charsheet>
 			<label_savescore>
    				<tooltip textres="save_poison_full" />
 				<anchored to="poison" />
 				<static textres="save_poison_wrapped" />
 			</label_savescore>
 
-			<number_char_save name="death" source="saves.death.score">
+			<number_char_save_charsheet name="death" source="saves.death.score">
 				<anchored to="poison"   height="25"  />
 				<target>death</target>
-			</number_char_save>
+			</number_char_save_charsheet>
 			<label_savescore>
    				<tooltip textres="save_death_full" />
 				<anchored to="death" />
 				<static textres="save_death_wrapped" />
 			</label_savescore>
 
-			<number_char_save name="rod" source="saves.rod.score">
+			<number_char_save_charsheet name="rod" source="saves.rod.score">
 				<anchored to="death"   height="25"  />
 				<target>rod</target>
-			</number_char_save>
+			</number_char_save_charsheet>
 			<label_savescore>
    				<tooltip textres="save_rod_full" />
 				<anchored to="rod" />
 				<static textres="save_rod_wrapped" />
 			</label_savescore>
             
-			<number_char_save name="staff" source="saves.staff.score">
+			<number_char_save_charsheet name="staff" source="saves.staff.score">
 				<anchored to="rod"   height="25"  />
 				<target>staff</target>
-			</number_char_save>
+			</number_char_save_charsheet>
 			<label_savescore>
    				<tooltip textres="save_staff_full" />
 				<anchored to="staff" />
 				<static textres="save_staff_wrapped" />
 			</label_savescore>
 
-			<number_char_save name="wand" source="saves.wand.score">
+			<number_char_save_charsheet name="wand" source="saves.wand.score">
 				<anchored to="staff"   height="25"  />
 				<target>wand</target>
-			</number_char_save>
+			</number_char_save_charsheet>
 			<label_savescore>
    				<tooltip textres="save_wand_full" />
 				<anchored to="wand" />
 				<static textres="save_wand_wrapped" />
 			</label_savescore>
 
-			<number_char_save name="petrification" source="saves.petrification.score">
+			<number_char_save_charsheet name="petrification" source="saves.petrification.score">
 				<anchored to="wand"   height="25"  />
 				<target>petrification</target>
-			</number_char_save>
+			</number_char_save_charsheet>
 			<label_savescore>
    				<tooltip textres="save_petrification_full" />
 				<anchored to="petrification" />
 				<static textres="save_petrification_wrapped" />
 			</label_savescore>
 
-			<number_char_save name="polymorph" source="saves.polymorph.score">
+			<number_char_save_charsheet name="polymorph" source="saves.polymorph.score">
 				<anchored to="petrification"   height="25"  />
 				<target>polymorph</target>
-			</number_char_save>
+			</number_char_save_charsheet>
 			<label_savescore>
    				<tooltip textres="save_polymorph_full" />
 				<anchored to="polymorph" />
 				<static textres="save_polymorph_wrapped" />
 			</label_savescore>
 
-			<number_char_save name="breath" source="saves.breath.score">
+			<number_char_save_charsheet name="breath" source="saves.breath.score">
 				<anchored to="polymorph"   height="25"  />
 				<target>breath</target>
-			</number_char_save>
+			</number_char_save_charsheet>
 			<label_savescore>
    				<tooltip textres="save_breath_full" />
 				<anchored to="breath" />
 				<static textres="save_breath_wrapped" />
 			</label_savescore>
 
-			<number_char_save name="spell" source="saves.spell.score">
+			<number_char_save_charsheet name="spell" source="saves.spell.score">
 				<anchored to="breath"   height="25"  />
 				<target>spell</target>
-			</number_char_save>
+			</number_char_save_charsheet>
 			<label_savescore>
    				<tooltip textres="save_spell_full" />
 				<anchored to="spell" />
@@ -820,42 +820,39 @@
 				<static textres="ac" />
 			</label_combatscores>
 
-			<number_charthaco name="thaco" source="combat.thaco.score">
-                <frame name="adnd_square"/>
+			<number_charthaco_charsheet name="thaco" source="combat.thaco.score">
 				<anchored to="combatanchor" width="40" height="30">
 					<top parent="combatanchor" offset="4,0" />
 					<left anchor="right" relation="relative" offset="0" />
 				</anchored>
-			</number_charthaco>
+			</number_charthaco_charsheet>
 			<label_combatscores>
                 <anchored to="thaco" offset="-2,-2" />
 				<static textres="thaco" />
 			</label_combatscores>
 
 			
-			<number_charinit name="initiative" source="initiative.total">
-                <frame name="adnd_square"/>
+			<number_charinit_charsheet name="initiative" source="initiative.total">
 				<readonly />
 				<anchored to="combatanchor" width="30" height="30">
 					<top parent="combatanchor" offset="4" />
 					<left anchor="right" relation="relative" offset="15" />
 				</anchored>
-			</number_charinit>
+			</number_charinit_charsheet>
 			<label_combatscores>
                 <anchored to="initiative" position="insidetopleft" offset="0,-10" width="30"/>
 				<static textres="char_label_initiative" />
 			</label_combatscores>
 			
 
-            <surprise_number_total name="sheet_surprise_total" source="surprise.total">
-                <frame name="adnd_square"/>
+            <surprise_number_total_charsheet name="sheet_surprise_total" source="surprise.total">
 				<anchored to="combatanchor" width="30" height="30">
 					<top parent="combatanchor" offset="4" />
 					<left anchor="right" relation="relative" offset="15" />
 				</anchored>
                 <tooltip textres="char_label_surprisetotal_tooltip" />
                 <font>reference-b-large</font>
-            </surprise_number_total>
+            </surprise_number_total_charsheet>
             
 			<label_combatscores>
                 <anchored to="sheet_surprise_total" position="insidetopleft" offset="-9,-10" width="50"/>
@@ -863,15 +860,14 @@
                 <tooltip textres="char_label_surprise_tooltip" />
 			</label_combatscores>
 
-			<number_charspeed_defaults name="speed" source="speed.total">
-				<frame name="adnd_moveicon" offset="12,-2,0,0" />
+			<number_charspeed_defaults_charsheet name="speed" source="speed.total">
 				<readonly />
 				<anchored to="combatanchor" width="40" height="30">
 					<top parent="combatanchor" />
 					<left anchor="right" relation="relative" offset="22" />
 				</anchored>
 				<static textres="char_label_speed" />
-			</number_charspeed_defaults>
+			</number_charspeed_defaults_charsheet>
 			<label_combatscores>
 				<anchored to="speed" />
 				<static textres="char_label_speed" />
@@ -906,22 +902,20 @@
 				<icons>char_stats</icons>
 			</label_charframetop> -->
 			
-			<number_charwounds name="wounds" source="hp.wounds">
-				<frame name="adnd_hpothericon" offset="5,1,1,1" />
+			<number_charwounds_charsheet name="wounds" source="hp.wounds">
 				<anchored to="combatanchor" width="40" height="30">
 					<top parent="combatanchor" />
 					<left anchor="right" relation="relative" offset="35" />
 				</anchored>
 				<font>reference-b-large</font>
 				<description textres="char_tooltip_wounds" />
-			</number_charwounds>
+			</number_charwounds_charsheet>
 			<label_combatscores>
 				<anchored to="wounds" />
 				<static textres="char_label_wounds" />
 			</label_combatscores>
 			
-			<number_dropadd name="hp" source="hp.total">
-				<frame name="adnd_hpicon" offset="5,1,1,1" />
+			<number_hptotal_charsheet name="hp" source="hp.total">
 				<anchored to="combatanchor" width="40" height="30">
 					<top parent="combatanchor" />
 					<left anchor="right" relation="relative" offset="5" />
@@ -934,36 +928,18 @@
 						window.onHealthChanged();
 					end
 				</script>
-			</number_dropadd>
+			</number_hptotal_charsheet>
 			<label_combatscores>
 				<anchored to="hp" />
 				<static textres="char_label_hpmax" />
 			</label_combatscores>
-			
-			<basicnumber name="temphp" source="hp.temporary">
-				<frame name="adnd_hpothericon" offset="5,1,1,1" />
+
+			<number_hptemp_charsheet>
 				<anchored to="combatanchor" width="40" height="30">
 					<top parent="combatanchor" />
 					<left anchor="right" relation="relative" offset="5" />
 				</anchored>
-				<font>reference-b-large</font>
-				<color>0000AA</color>
-				<description textres="temphp" />
-				<hideonvalue>0</hideonvalue>
-				<script>
-					function onDrop(x, y, draginfo)
-						if draginfo.getType() == "number" then
-							if draginfo.getNumberData() &gt; 0 then
-								setValue(draginfo.getNumberData());
-							else
-								setValue(getValue() + draginfo.getNumberData());
-							end
-						end
-						
-						return true;
-					end
-				</script>
-			</basicnumber>
+            </number_hptemp_charsheet>
 			<label_combatscores>
 				<anchored to="temphp"  />
 				<static textres="char_label_hptemp" />
