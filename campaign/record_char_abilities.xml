@@ -19,10 +19,6 @@
 						window.contents.subwindow.features.update();
 						window.contents.subwindow.traits_iadd.setVisible(bEditMode);
 						window.contents.subwindow.traits.update();
-						window.contents.subwindow.proficiencies_iadd.setVisible(bEditMode);
-						window.contents.subwindow.proficiencies.update();
-						window.contents.subwindow.languages_iadd.setVisible(bEditMode);
-						window.contents.subwindow.languages.update();
 					end
 				</script>
 			</button_iedit>
