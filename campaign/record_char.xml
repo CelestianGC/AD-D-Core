@@ -8,7 +8,7 @@
 <root>
 	<windowclass name="charsheet">
 		<frame>charsheet</frame>
-        <margins control="15,0,0,0" />
+        <!-- <margins control="15,0,0,0" /> -->
 		<placement>
 			<size width="510" height="540" />
 		</placement>
@@ -24,16 +24,14 @@
 		<script file="campaign/scripts/char.lua" />
 		<sheetdata>
 			<anchor_title_charsheet name="contentanchor">
-               <anchored>
+<!--                <anchored>
                     <top offset="20" />
-                    <!-- <left parent="" anchor="left" offset="35" />
-                    <right parent="" anchor="right" offset="-30" /> -->
-                </anchored>
+                </anchored> -->
             </anchor_title_charsheet>
 			
 			<token_char name="token">
                 <!-- <anchored to="name" position="righthigh" offset="25,0" width="45" height="45" /> -->
-				<anchored to="contentanchor" position="belowleft" offset="5,5" width="45" height="45" />
+				<anchored to="contentanchor" position="belowleft" offset="15,5" width="45" height="45" />
 			</token_char>
 			<button_charactivate>
                 <anchored to="token" position="lefthigh" offset="-8,-7" width="23" height="22" />
@@ -169,18 +167,20 @@
 				<activate>1</activate>
 			</tabs_charsheet>
 
-            <close>
+            <close_charsheet />
+            <resize_charsheet />
+            <!-- <close>
                 <anchored>
-                    <top offset="5" />
+                    <top offset="15" />
+                    <right offset="-15" />
+                </anchored>
+            </close> -->
+			<!-- <resize_charsheet >
+                <anchored>
                     <right offset="-5" />
+                    <bottom offset="-10" />
                 </anchored>
-            </close>
-			<resize_charsheet >
-                <anchored>
-                    <right offset="-3" />
-                    <bottom offset="-5" />
-                </anchored>
-            </resize_charsheet>
+            </resize_charsheet> -->
 		</sheetdata>
 	</windowclass>
 </root>

@@ -8,7 +8,7 @@
 <root>
 	<windowclass name="charsheet_main" >
         <script file="campaign/scripts/char_main.lua" />
-        <margins control="15,0,0,0" />
+        <!-- <margins control="15,0,0,0" /> -->
 		<sheetdata>
 			<anchor_title_charsheet name="contentanchor" >
                 <anchored>
