@@ -360,7 +360,7 @@ function manager_effect_processEffects(nodeCurrentActor, nodeNewActor)
 	end
 		
 	-- Set up current and new initiative values for effect processing
-	local nCurrentInit = 10000;
+	local nCurrentInit = -10000;
 	if nodeCurrentActor then
 		nCurrentInit = DB.getValue(nodeCurrentActor, "initresult", 0); 
 	end
@@ -393,11 +393,17 @@ function manager_effect_processEffects(nodeCurrentActor, nodeNewActor)
 				end
 
 				if aEffectVarMap["nInit"] then
+                    -- change init to match current init of player, this changes each round
+                    -- this only matches when the actor and new actor are the same (meaning it's their turn
+                    if (nodeActor == nodeNewActor) then
+                        DB.setValue(nodeEffect,aEffectVarMap["nInit"].sDBField,"number",nNewInit);
+                    end
+                    --
 					local nEffInit = DB.getValue(nodeEffect, aEffectVarMap["nInit"].sDBField, aEffectVarMap["nInit"].vDBDefault or 0);
 
---Debug.console("manager_effect_adnd.lua","manager_effect_processEffects","nEffInit",nEffInit);
---Debug.console("manager_effect_adnd.lua","manager_effect_processEffects","nCurrentInit",nCurrentInit);
---Debug.console("manager_effect_adnd.lua","manager_effect_processEffects","nNewInit",nNewInit);
+-- Debug.console("manager_effect_adnd.lua","manager_effect_processEffects","nEffInit",nEffInit);
+-- Debug.console("manager_effect_adnd.lua","manager_effect_processEffects","nCurrentInit",nCurrentInit);
+-- Debug.console("manager_effect_adnd.lua","manager_effect_processEffects","nNewInit",nNewInit);
 				
 					-- Apply start of effect initiative changes
 					if nEffInit > nCurrentInit and nEffInit <= nNewInit then

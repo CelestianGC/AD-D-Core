@@ -187,6 +187,9 @@ function parseResistances(sResistances)
 				while aResistWords[i] do
 					if StringManager.isWord(aResistWords[i], DataCommon.dmgtypes) then
 						table.insert(aResistTypes, aResistWords[i]);
+					elseif StringManager.isWord(aResistWords[i], "cold-forged") and StringManager.isWord(aResistWords[i+1], "iron") then
+						i = i + 1;
+						table.insert(aResistTypes, "cold-forged iron");
 					elseif StringManager.isWord(aResistWords[i], "from") and StringManager.isWord(aResistWords[i+1], "nonmagical") and StringManager.isWord(aResistWords[i+2], { "weapons", "attacks" }) then
 						i = i + 2;
 						table.insert(aResistTypes, "!magic");
@@ -496,11 +499,13 @@ function parseNPCPower(nodePower, aEffects, bAllowSpellDataOverride)
 	elseif sName == "evasion" then
 		table.insert(aEffects, "Evasion");
 	elseif sName == "magic resistance" then
-		table.insert(aEffects, "NOTE: Magic Resist");
+		table.insert(aEffects, "Magic Resistance");
 	elseif sName == "magic weapons" or sName == "hellish weapons" or sName == "angelic weapons" then
 		table.insert(aEffects, "DMGTYPE: magic");
 	elseif sName == "improved critical" then
 		table.insert(aEffects, "CRIT: 19");
+	elseif sName == "superior critical" then
+		table.insert(aEffects, "CRIT: 18");
 	elseif sName == "regeneration" then
 		local sDesc = StringManager.trim(DB.getValue(nodePower, "desc", ""):lower());
 		local aPowerWords = StringManager.parseWords(sDesc);
@@ -518,6 +523,8 @@ function parseNPCPower(nodePower, aEffects, bAllowSpellDataOverride)
 						-- SKIP
 					elseif StringManager.isWord(aPowerWords[i+1], DataCommon.dmgtypes) then
 						table.insert(aRegenBlockTypes, aPowerWords[i+1]);
+					elseif StringManager.isWord(aPowerWords[i+1], "cold-forged") and StringManager.isWord(aPowerWords[i+2], "iron") then
+						table.insert(aRegenBlockTypes, "cold-forged iron");
 					else
 						break;
 					end
@@ -533,13 +540,16 @@ function parseNPCPower(nodePower, aEffects, bAllowSpellDataOverride)
 			local sRegen = "REGEN: " .. sRegenAmount;
 			if #aRegenBlockTypes > 0 then
 				sRegen = sRegen .. " " .. table.concat(aRegenBlockTypes, ",");
+				EffectManager.addEffect("", "", nodePower.getChild("..."), { sName = sRegen, nDuration = 0, nGMOnly = 1 }, false);
+			else
+				table.insert(aEffects, sRegen);
 			end
-			table.insert(aEffects, sRegen);
 		end
 	-- Handle all the other traits and actions (i.e. look for recharge, attacks, damage, saves, reach, etc.)
 	else
 		local aAbilities = PowerManager.parseNPCPower(nodePower, bAllowSpellDataOverride);
 		for _,v in ipairs(aAbilities) do
+			PowerManager.evalAction(rActor, nodePower, v);
 			if v.type == "attack" then
 				if v.nomod then
 					if v.range then
@@ -564,11 +574,12 @@ function parseNPCPower(nodePower, aEffects, bAllowSpellDataOverride)
 			
 			elseif v.type == "powersave" then
 				local sSaveVs = string.format("[SAVEVS: %s", v.save);
-				if not v.spell then
-					sSaveVs = sSaveVs .. " " .. v.savemod;
-				end
+				sSaveVs = sSaveVs .. " " .. (v.savemod or 0);
 				if v.onmissdamage == "half" then
 					sSaveVs = sSaveVs .. " (H)";
+				end
+				if v.magic then
+					sSaveVs = sSaveVs .. " (magic)";
 				end
 				sSaveVs = sSaveVs .. "]";
 				table.insert(aDisplayOptions, sSaveVs);
@@ -622,6 +633,159 @@ function parseNPCPower(nodePower, aEffects, bAllowSpellDataOverride)
 		sDisplay = sDisplay .. " " .. table.concat(aDisplayOptions, " ");
 	end
 	DB.setValue(nodePower, "value", "string", sDisplay);
+end
+
+--
+-- PARSE CT ATTACK LINE
+--
+
+function parseAttackLine(sLine)
+	local rPower = nil;
+	
+	local nIntroStart, nIntroEnd, sName = sLine:find("([^%[]*)[%[]?");
+	if nIntroStart then
+		rPower = {};
+		rPower.name = StringManager.trim(sName);
+		rPower.aAbilities = {};
+
+		nIndex = nIntroEnd;
+		local nAbilityStart, nAbilityEnd, sAbility = sLine:find("%[([^%]]+)%]", nIntroEnd);
+		while nAbilityStart do
+			if sAbility == "M" or sAbility == "R" then
+				rPower.range = sAbility;
+
+			elseif sAbility:sub(1,4) == "ATK:" and #sAbility > 4 then
+				local rAttack = {};
+				rAttack.sType = "attack";
+				rAttack.nStart = nAbilityStart + 1;
+				rAttack.nEnd = nAbilityEnd;
+				rAttack.label = rPower.name;
+				rAttack.range = rPower.range;
+				local sAttack, sCritRange = sAbility:sub(7):match("([+-]?%d+)%s*%((%d+)%)");
+				if sAttack then
+					rAttack.modifier = tonumber(sAttack) or 0;
+					rAttack.nCritRange = tonumber(sCritRange) or 0;
+					if rAttack.nCritRange < 2 or rAttack.nCritRange > 19 then
+						rAttack.nCritRange = nil;
+					end
+				else
+					rAttack.modifier = tonumber(sAbility:sub(5)) or 0;
+				end
+				table.insert(rPower.aAbilities, rAttack);
+
+			elseif sAbility:sub(1,7) == "SAVEVS:" and #sAbility > 7 then
+				local aWords = StringManager.parseWords(sAbility:sub(7));
+				
+				local rSave = {};
+				rSave.sType = "powersave";
+				rSave.nStart = nAbilityStart + 1;
+				rSave.nEnd = nAbilityEnd;
+				rSave.label = rPower.name;
+				rSave.save = aWords[1];
+				rSave.savemod = tonumber(aWords[2]) or 0;
+				if StringManager.isWord(aWords[3], "H") then
+					rSave.onmissdamage = "half";
+				end
+				if StringManager.isWord(aWords[3], "magic") or StringManager.isWord(aWords[4], "magic") then
+					rSave.magic = true;
+				end
+				table.insert(rPower.aAbilities, rSave);
+
+			elseif sAbility:sub(1,4) == "DMG:" and #sAbility > 4 then
+				local rDamage = {};
+				rDamage.sType = "damage";
+				rDamage.nStart = nAbilityStart + 1;
+				rDamage.nEnd = nAbilityEnd;
+				rDamage.label = rPower.name;
+				rDamage.range = rPower.range;
+				rDamage.clauses = {};
+				
+				local aPowerWords = StringManager.parseWords(sAbility:sub(5));
+				local i = 1;
+				while aPowerWords[i] do
+					if StringManager.isDiceString(aPowerWords[i]) then
+						local aDmgDiceStr = {};
+						table.insert(aDmgDiceStr, aPowerWords[i]);
+						while StringManager.isDiceString(aPowerWords[i+1]) do
+							table.insert(aDmgDiceStr, aPowerWords[i+1]);
+							i = i + 1;
+						end
+						local aClause = {};
+						aClause.dice, aClause.modifier = StringManager.convertStringToDice(table.concat(aDmgDiceStr));
+						
+						local aDmgType = {};
+						while aPowerWords[i+1] and not StringManager.isDiceString(aPowerWords[i+1]) and not StringManager.isWord(aPowerWords[i+1], {"and", "plus"}) do
+							table.insert(aDmgType, aPowerWords[i+1]);
+							i = i + 1;
+						end
+						aClause.dmgtype = table.concat(aDmgType, ",");
+						
+						table.insert(rDamage.clauses, aClause);
+					end
+					
+					i = i + 1;
+				end
+				table.insert(rPower.aAbilities, rDamage);
+
+			elseif sAbility:sub(1,5) == "HEAL:" and #sAbility > 5 then
+				local rHeal = {};
+				rHeal.sType = "heal";
+				rHeal.nStart = nAbilityStart + 1;
+				rHeal.nEnd = nAbilityEnd;
+				rHeal.label = rPower.name;
+				rHeal.clauses = {};
+
+				local aPowerWords = StringManager.parseWords(sAbility:sub(6));
+				local i = 1;
+				local aHealDiceStr = {};
+				while StringManager.isDiceString(aPowerWords[i]) do
+					table.insert(aHealDiceStr, aPowerWords[i]);
+					i = i + 1;
+				end
+
+				local aClause = {};
+				aClause.dice, aClause.modifier = StringManager.convertStringToDice(table.concat(aHealDiceStr));
+				table.insert(rHeal.clauses, aClause);
+				
+				if StringManager.isWord(aPowerWords[i], "temp") then
+					rHeal.subtype = "temp";
+				end
+
+				table.insert(rPower.aAbilities, rHeal);
+				
+			elseif sAbility:sub(1,4) == "EFF:" and #sAbility > 4 then
+				local rEffect = EffectManager5E.decodeEffectFromCT(sAbility);
+				if rEffect then
+					rEffect.nStart = nAbilityStart + 1;
+					rEffect.nEnd = nAbilityEnd;
+					table.insert(rPower.aAbilities, rEffect);
+				end
+			
+			elseif sAbility:sub(1,2) == "R:" and #sAbility == 3 then
+				local rUsage = {};
+				rUsage.sType = "usage";
+
+				local nUsedStart, nUsedEnd, sUsage = string.find(sLine, "%[(USED)%]", nIndex);
+				if nUsedStart then
+					rUsage.nStart = nUsedStart + 1;
+					rUsage.nEnd = nUsedEnd;
+				else
+					rUsage.nStart = nAbilityStart + 1;
+					rUsage.nEnd = nAbilityEnd;
+					sUsage = sAbility;
+				end
+				table.insert(rPower.aAbilities, rUsage);
+				
+				rPower.sUsage = sUsage;
+				rPower.nUsageStart = rUsage.nStart;
+				rPower.nUsageEnd = rUsage.nEnd;
+			end
+			
+			nAbilityStart, nAbilityEnd, sAbility = sLine:find("%[([^%]]+)%]", nAbilityEnd + 1);
+		end
+	end
+	
+	return rPower;
 end
 
 --
@@ -813,160 +977,6 @@ function rollInit(sType)
 end
 
 --
--- PARSE CT ATTACK LINE
---
-
-function parseAttackLine(sLine)
-	local rPower = nil;
-	
-	local nIntroStart, nIntroEnd, sName = sLine:find("([^%[]*)[%[]?");
-	if nIntroStart then
-		rPower = {};
-		rPower.name = StringManager.trim(sName);
-		rPower.aAbilities = {};
-
-		nIndex = nIntroEnd;
-		local nAbilityStart, nAbilityEnd, sAbility = sLine:find("%[([^%]]+)%]", nIntroEnd);
-		while nAbilityStart do
-			if sAbility == "M" or sAbility == "R" then
-				rPower.range = sAbility;
-
-			elseif sAbility:sub(1,4) == "ATK:" and #sAbility > 4 then
-				local rAttack = {};
-				rAttack.sType = "attack";
-				rAttack.nStart = nAbilityStart + 1;
-				rAttack.nEnd = nAbilityEnd;
-				rAttack.label = rPower.name;
-				rAttack.range = rPower.range;
-				local sAttack, sCritRange = string.match(sAbility:sub(7), "([+-]?%d+)%s*%((%d+)%)");
-				if sAttack then
-					rAttack.modifier = tonumber(sAttack) or 0;
-					rAttack.nCritRange = tonumber(sCritRange) or 0;
-					if rAttack.nCritRange < 2 or rAttack.nCritRange > 19 then
-						rAttack.nCritRange = nil;
-					end
-				else
-					rAttack.modifier = tonumber(sAbility:sub(5)) or 0;
-				end
-				table.insert(rPower.aAbilities, rAttack);
-
-			elseif sAbility:sub(1,7) == "SAVEVS:" and #sAbility > 7 then
-				local rSave = {};
-				rSave.sType = "powersave";
-				rSave.nStart = nAbilityStart + 1;
-				rSave.nEnd = nAbilityEnd;
-				rSave.label = rPower.name;
-				local sSave, sSaveMod, bSaveHalf = string.match(sAbility:sub(7), "(%w+) (%d+) (%(H%))");
-				if not sSave then
-					sSave, sSaveMod = string.match(sAbility:sub(7), "(%w+) (%d+)");
-					if not sSave then
-						sSave = StringManager.trim(sAbility:sub(7):lower());
-					end
-				end
-				rSave.save = sSave;
-				rSave.savemod = tonumber(sSaveMod) or 0;
-				if bSaveHalf then
-					rSave.onmissdamage = "half";
-				end
-				table.insert(rPower.aAbilities, rSave);
-
-			elseif sAbility:sub(1,4) == "DMG:" and #sAbility > 4 then
-				local rDamage = {};
-				rDamage.sType = "damage";
-				rDamage.nStart = nAbilityStart + 1;
-				rDamage.nEnd = nAbilityEnd;
-				rDamage.label = rPower.name;
-				rDamage.range = rPower.range;
-				rDamage.clauses = {};
-				
-				local aPowerWords = StringManager.parseWords(sAbility:sub(5));
-				local i = 1;
-				while aPowerWords[i] do
-					if StringManager.isDiceString(aPowerWords[i]) then
-						local aDmgDiceStr = {};
-						table.insert(aDmgDiceStr, aPowerWords[i]);
-						while StringManager.isDiceString(aPowerWords[i+1]) do
-							table.insert(aDmgDiceStr, aPowerWords[i+1]);
-							i = i + 1;
-						end
-						local aClause = {};
-						aClause.dice, aClause.modifier = StringManager.convertStringToDice(table.concat(aDmgDiceStr));
-						
-						local aDmgType = {};
-						while aPowerWords[i+1] and not StringManager.isDiceString(aPowerWords[i+1]) and not StringManager.isWord(aPowerWords[i+1], {"and", "plus"}) do
-							table.insert(aDmgType, aPowerWords[i+1]);
-							i = i + 1;
-						end
-						aClause.dmgtype = table.concat(aDmgType, ",");
-						
-						table.insert(rDamage.clauses, aClause);
-					end
-					
-					i = i + 1;
-				end
-				table.insert(rPower.aAbilities, rDamage);
-
-			elseif sAbility:sub(1,5) == "HEAL:" and #sAbility > 5 then
-				local rHeal = {};
-				rHeal.sType = "heal";
-				rHeal.nStart = nAbilityStart + 1;
-				rHeal.nEnd = nAbilityEnd;
-				rHeal.label = rPower.name;
-				rHeal.clauses = {};
-
-				local aPowerWords = StringManager.parseWords(sAbility:sub(6));
-				local i = 1;
-				local aHealDiceStr = {};
-				while StringManager.isDiceString(aPowerWords[i]) do
-					table.insert(aHealDiceStr, aPowerWords[i]);
-					i = i + 1;
-				end
-
-				local aClause = {};
-				aClause.dice, aClause.modifier = StringManager.convertStringToDice(table.concat(aHealDiceStr));
-				table.insert(rHeal.clauses, aClause);
-				
-				if StringManager.isWord(aPowerWords[i], "temp") then
-					rHeal.subtype = "temp";
-				end
-
-				table.insert(rPower.aAbilities, rHeal);
-				
-			elseif sAbility:sub(1,4) == "EFF:" and #sAbility > 4 then
-				local rEffect = EffectManager5E.decodeEffectFromCT(sAbility);
-				if rEffect then
-					rEffect.nStart = nAbilityStart + 1;
-					rEffect.nEnd = nAbilityEnd;
-					table.insert(rPower.aAbilities, rEffect);
-				end
-			
-			elseif sAbility:sub(1,2) == "R:" and #sAbility == 3 then
-				local rUsage = {};
-				rUsage.sType = "usage";
-
-				local nUsedStart, nUsedEnd, sUsage = string.find(sLine, "%[(USED)%]", nIndex);
-				if nUsedStart then
-					rUsage.nStart = nUsedStart + 1;
-					rUsage.nEnd = nUsedEnd;
-				else
-					rUsage.nStart = nAbilityStart + 1;
-					rUsage.nEnd = nAbilityEnd;
-					sUsage = sAbility;
-				end
-				table.insert(rPower.aAbilities, rUsage);
-				
-				rPower.sUsage = sUsage;
-				rPower.nUsageStart = rUsage.nStart;
-				rPower.nUsageEnd = rUsage.nEnd;
-			end
-			
-			nAbilityStart, nAbilityEnd, sAbility = sLine:find("%[([^%]]+)%]", nAbilityEnd + 1);
-		end
-	end
-	
-	return rPower;
-end
-
 --
 --	XP FUNCTIONS
 --

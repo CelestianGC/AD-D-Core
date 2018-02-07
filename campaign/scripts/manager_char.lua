@@ -28,6 +28,12 @@ function onInit()
 	initWeaponIDTracking();
 end
 
+function outputUserMessage(sResource, ...)
+	local sFormat = Interface.getString(sResource);
+	local sMsg = string.format(sFormat, ...);
+	ChatManager.SystemMessage(sMsg);
+end
+
 --
 -- CLASS MANAGEMENT
 --
@@ -1066,7 +1072,7 @@ function resolveRefNode(sRecord)
 		local sRecordSansModule = StringManager.split(sRecord, "@")[1];
 		nodeSource = DB.findNode(sRecordSansModule .. "@*");
 		if not nodeSource then
-			ChatManager.SystemMessage(Interface.getString("char_error_missingrecord"));
+			outputUserMessage("char_error_missingrecord");
 		end
 	end
 	return nodeSource;
@@ -1146,7 +1152,7 @@ function addClassProficiencyDB(nodeChar, sClass, sRecord)
 		-- end
 		
 		-- if nPicks == 0 or #aSkills == 0 then
-			-- ChatManager.SystemMessage(Interface.getString("char_error_addskill"));
+			outputUserMessage("char_error_addskill");
 			-- return nil;
 		-- end
 		
@@ -1492,6 +1498,7 @@ function addTraitDB(nodeChar, sClass, sRecord)
 		if sWalkSpeed then
 			local nSpeed = tonumber(sWalkSpeed) or 30;
 			DB.setValue(nodeChar, "speed.base", "number", nSpeed);
+			outputUserMessage("char_abilities_message_basespeedset", nSpeed, DB.getValue(nodeChar, "name", ""));
 		end
 		
 		local aSpecial = {};
@@ -1881,16 +1888,8 @@ function addBackgroundRef(nodeChar, sClass, sRecord)
 			sPickSkills = sPickSkills:gsub("and ", "");
 
 			sSkills = "";
+			nPicks = convertSingleNumberTextToNumber(sPicks);
 			
-			if sPicks == "one" then
-				nPicks = 1;
-			elseif sPicks == "two" then
-				nPicks = 2;
-			elseif sPicks == "three" then
-				nPicks = 3;
-			elseif sPicks == "four" then
-				nPicks = 4;
-			end
 			
 			for sSkill in string.gmatch(sPickSkills, "(%a[%a%s]+)%,?") do
 				local sTrim = StringManager.trim(sSkill);
@@ -2005,7 +2004,7 @@ function addRaceSelect(aSelection, aTable)
 	-- If subraces available, make sure that exactly one is selected
 	if aSelection then
 		if #aSelection ~= 1 then
-			ChatManager.SystemMessage(Interface.getString("char_error_addsubrace"));
+			outputUserMessage("char_error_addsubrace");
 			return;
 		end
 	end
@@ -2826,6 +2825,20 @@ function getCTNodeByNodeChar(nodeChar)
         end
     end
     return nodeCT;
+end
+function convertSingleNumberTextToNumber(s)
+	if s then
+		if s == "one" then return 1; end
+		if s == "two" then return 2; end
+		if s == "three" then return 3; end
+		if s == "four" then return 4; end
+		if s == "five" then return 5; end
+		if s == "six" then return 6; end
+		if s == "seven" then return 7; end
+		if s == "eight" then return 8; end
+		if s == "nine" then return 9; end
+	end
+	return 0;
 end
 
 -- return the nodeChar by using the combattracker nodeCT

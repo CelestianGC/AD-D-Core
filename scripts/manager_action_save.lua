@@ -654,7 +654,7 @@ function applyConcentrationRoll(rSource, rAction)
 		msgLong.text = msgLong.text .. " [FAILURE]";
 	end
 	
-	ActionsManager.messageResult(bSecret, rSource, nil, msgLong, msgShort);
+	ActionsManager.messageResult(rAction.bSecret, rSource, nil, msgLong, msgShort);
 	
 	-- On failed concentration check, remove all effects with the same source creature
 	if rAction.nTotal < rAction.nTarget then

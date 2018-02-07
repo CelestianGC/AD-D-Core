@@ -129,6 +129,7 @@ function onEffectActorStartTurn(nodeActor, nodeEffect)
 		
 		-- Ongoing damage and regeneration
 		elseif rEffectComp.type == "DMGO" or rEffectComp.type == "REGEN" then
+			local nActive = DB.getValue(nodeEffect, "isactive", 0);
 			if nActive == 2 then
 				DB.setValue(nodeEffect, "isactive", "number", 1);
 			else
@@ -137,6 +138,7 @@ function onEffectActorStartTurn(nodeActor, nodeEffect)
 
 		-- NPC power recharge
 		elseif rEffectComp.type == "RCHG" then
+			local nActive = DB.getValue(nodeEffect, "isactive", 0);
 			if nActive == 2 then
 				DB.setValue(nodeEffect, "isactive", "number", 1);
 			else
@@ -180,7 +182,7 @@ function parseEffectComp(s)
 		end
 		
 		if nRemainderIndex <= #aWords then
-			while nRemainderIndex <= #aWords and aWords[nRemainderIndex]:match("^%[%a+%]$") do
+			while nRemainderIndex <= #aWords and aWords[nRemainderIndex]:match("^%[[%+%-]?%w+%]$") do
 				table.insert(aRemainder, aWords[nRemainderIndex]);
 				nRemainderIndex = nRemainderIndex + 1;
 			end
@@ -404,25 +406,27 @@ function applyRecharge(nodeActor, nodeEffect, rEffectComp)
 end
 
 function evalAbilityHelper(rActor, sEffectAbility)
-	local sSign, sModifier, sShortAbility = sEffectAbility:match("^%[([%+%-]?)([H2]?)([A-Z][A-Z][A-Z])%]$");
+	local sSign, sModifier, sTag = sEffectAbility:match("^%[([%+%-]?)([H2]?)([A-Z]+)%]$");
 	
 	local nAbility = nil;
-	if sShortAbility == "STR" then
+	if sTag == "STR" then
 		nAbility = ActorManager2.getAbilityBonus(rActor, "strength");
-	elseif sShortAbility == "DEX" then
+	elseif sTag == "DEX" then
 		nAbility = ActorManager2.getAbilityBonus(rActor, "dexterity");
-	elseif sShortAbility == "CON" then
+	elseif sTag == "CON" then
 		nAbility = ActorManager2.getAbilityBonus(rActor, "constitution");
-	elseif sShortAbility == "INT" then
+	elseif sTag == "INT" then
 		nAbility = ActorManager2.getAbilityBonus(rActor, "intelligence");
-	elseif sShortAbility == "WIS" then
+	elseif sTag == "WIS" then
 		nAbility = ActorManager2.getAbilityBonus(rActor, "wisdom");
-	elseif sShortAbility == "CHA" then
+	elseif sTag == "CHA" then
 		nAbility = ActorManager2.getAbilityBonus(rActor, "charisma");
-	elseif sShortAbility == "LVL" then
+	elseif sTag == "LVL" then
 		nAbility = ActorManager2.getAbilityBonus(rActor, "level");
-	elseif sShortAbility == "PRF" then
+	elseif sTag == "PRF" then
 		nAbility = ActorManager2.getAbilityBonus(rActor, "prf");
+	else
+		nAbility = ActorManager2.getAbilityScore(rActor, sTag:lower());
 	end
 	
 	if nAbility then
@@ -456,7 +460,7 @@ function evalEffect(rActor, s)
 	for _,sEffectComp in ipairs(aEffectComps) do
 		local vComp = parseEffectComp(sEffectComp);
 		for i = #(vComp.remainder), 1, -1 do
-			if vComp.remainder[i]:match("^%[([%+%-]?)([H2]?)([A-Z][A-Z][A-Z])%]$") then
+			if vComp.remainder[i]:match("^%[([%+%-]?)([H2]?)([A-Z]+)%]$") then
 				local nAbility = evalAbilityHelper(rActor, vComp.remainder[i]);
 				if nAbility then
 					vComp.mod = vComp.mod + nAbility;

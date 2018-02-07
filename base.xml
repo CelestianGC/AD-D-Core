@@ -6,7 +6,7 @@
 -->
 
 <root version="3.0" release="18" logo="logo.png">
-	<announcement text="AD&amp;D Core v2018.02.04 For Fantasy Grounds\r--by Celestian 2017-2018" font="emotefont" icon="rulesetlogo_ADnD" />
+	<announcement text="AD&amp;D Core v2018.02.07 For Fantasy Grounds\r--by Celestian 2017-2018" font="emotefont" icon="rulesetlogo_ADnD" />
 
 	<!-- Attributes -->
 	<description>
@@ -84,7 +84,7 @@
 	<includefile source="campaign/record_char_weapon.xml" />
 	<includefile source="campaign/record_ability.xml" />
 	<includefile source="campaign/record_adventure.xml" />
-	<script name="CharManager" file="scripts/manager_char.lua" />
+	<script name="CharManager" file="campaign/scripts/manager_char.lua" />
 
 	<includefile source="campaign/record_image.xml" />
 	<includefile source="campaign/record_npc.xml" />

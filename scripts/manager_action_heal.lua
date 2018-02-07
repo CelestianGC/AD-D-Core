@@ -32,10 +32,13 @@ function getRoll(rActor, rAction)
 		rRoll.nMod = rRoll.nMod + vClause.modifier;
 		local sAbility = DataCommon.ability_ltos[vClause.stat];
 		if sAbility then
-			rRoll.sDesc = rRoll.sDesc .. string.format(" [MOD: %s]", sAbility);
+			rRoll.sDesc = rRoll.sDesc .. string.format(" [MOD: %s (%s)]", sAbility, vClause.statmult or 1);
 		end
 	end
 	
+	-- Encode the damage types
+	encodeHealClauses(rRoll);
+
 	-- Handle temporary hit points
 	if rAction.subtype == "temp" then
 		rRoll.sDesc = rRoll.sDesc .. " [TEMP]";
@@ -56,14 +59,14 @@ function performRoll(draginfo, rActor, rAction)
 end
 
 function modHeal(rSource, rTarget, rRoll)
+	decodeHealClauses(rRoll);
+	CombatManager2.addRightClickDiceToClauses(rRoll);
+	
 	local aAddDesc = {};
 	local aAddDice = {};
 	local nAddMod = 0;
 	
 	-- Track how many heal clauses before effects applied
-	if not rRoll.clauses then
-		rRoll.clauses = { { dice = {}, modifier = rRoll.nMod } };
-	end
 	local nPreEffectClauses = #(rRoll.clauses);
 	
 	if rSource then
@@ -77,10 +80,14 @@ function modHeal(rSource, rTarget, rRoll)
 		end
 		
 		-- Apply ability modifiers
-		for sAbility in string.gmatch(rRoll.sDesc, "%[MOD: (%w+)%]") do
+		for sAbility, sAbilityMult in rRoll.sDesc:gmatch("%[MOD: (%w+) %((%w+)%)%]") do
 			local nBonusStat, nBonusEffects = ActorManager2.getAbilityEffectsBonus(rSource, DataCommon.ability_stol[sAbility]);
 			if nBonusEffects > 0 then
 				bEffects = true;
+				local nMult = tonumber(sAbilityMult) or 1;
+				if nBonusStat > 0 and nMult ~= 1 then
+					nBonusStat = math.floor(nMult * nBonusStat);
+				end
 				nAddMod = nAddMod + nBonusStat;
 			end
 		end
@@ -157,8 +164,36 @@ end
 
 function onHeal(rSource, rTarget, rRoll)
 	local rMessage = ActionsManager.createActionMessage(rSource, rRoll);
+	rMessage.text = string.gsub(rMessage.text, " %[MOD:[^]]*%]", "");
 	Comm.deliverChatMessage(rMessage);
 	
 	local nTotal = ActionsManager.total(rRoll);
 	ActionDamage.notifyApplyDamage(rSource, rTarget, rMessage.secret, rMessage.text, nTotal);
+end
+
+--
+-- UTILITY FUNCTIONS
+--
+
+function encodeHealClauses(rRoll)
+	for _,vClause in ipairs(rRoll.clauses) do
+		local sDice = StringManager.convertDiceToString(vClause.dice, vClause.modifier);
+		rRoll.sDesc = rRoll.sDesc .. string.format(" [CLAUSE: (%s) (%s) (%s)]", sDice, vClause.stat or "", vClause.statmult or 1);
+	end
+end
+
+function decodeHealClauses(rRoll)
+	-- Process each type clause in the damage description
+	rRoll.clauses = {};
+	for sDice, sStat, sStatMult in string.gmatch(rRoll.sDesc, "%[CLAUSE: %(([^)]*)%) %(([^)]*)%) %(([^)]*)%)]") do
+		local rClause = {};
+		rClause.dice, rClause.modifier = StringManager.convertStringToDice(sDice);
+		rClause.stat = sStat;
+		rClause.statmult = tonumber(sStatMult) or 1;
+		
+		table.insert(rRoll.clauses, rClause);
+	end
+	
+	-- Remove heal clause information from roll description
+	rRoll.sDesc = string.gsub(rRoll.sDesc, " %[CLAUSE:[^]]*%]", "");
 end

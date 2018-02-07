@@ -141,6 +141,10 @@ function modDamage(rSource, rTarget, rRoll)
 			local nBonusStat, nBonusEffects = ActorManager2.getAbilityEffectsBonus(rSource, vClause.stat);
 			if nBonusEffects > 0 then
 				bEffects = true;
+				local nMult = vClause.statmult or 1;
+				if nBonusStat > 0 and nMult ~= 1 then
+					nBonusStat = math.floor(nMult * nBonusStat);
+				end
 				nEffectMod = nEffectMod + nBonusStat;
 				vClause.modifier = vClause.modifier + nBonusStat;
 				rRoll.nMod = rRoll.nMod + nBonusStat;
@@ -475,7 +479,7 @@ function encodeDamageTypes(rRoll)
 	for _,vClause in ipairs(rRoll.clauses) do
 		if vClause.dmgtype and vClause.dmgtype ~= "" then
 			local sDice = StringManager.convertDiceToString(vClause.dice, vClause.modifier);
-			rRoll.sDesc = rRoll.sDesc .. string.format(" [TYPE: %s (%s)(%s)(%s)]", vClause.dmgtype, sDice, vClause.stat or "", table.concat(vClause.reroll or {}, ","));
+			rRoll.sDesc = rRoll.sDesc .. string.format(" [TYPE: %s (%s)(%s)(%s)(%s)]", vClause.dmgtype, sDice, vClause.stat or "", vClause.statmult or 1, table.concat(vClause.reroll or {}, ","));
 		end
 	end
 end
@@ -485,10 +489,11 @@ function decodeDamageTypes(rRoll, bFinal)
 	local nMainDieIndex = 0;
 	local aRerollOutput = {};
 	rRoll.clauses = {};
-	for sDamageType, sDamageDice, sDamageAbility, sDamageReroll in string.gmatch(rRoll.sDesc, "%[TYPE: ([^(]*) %(([^)]*)%)%((%w*)%)%(([%w,]*)%)%]") do
+	for sDamageType, sDamageDice, sDamageAbility, sDamageAbilityMult, sDamageReroll in string.gmatch(rRoll.sDesc, "%[TYPE: ([^(]*) %(([^)]*)%)%((%w*)%)%((%w*)%)%(([%w,]*)%)%]") do
 		local rClause = {};
 		rClause.dmgtype = StringManager.trim(sDamageType);
 		rClause.stat = sDamageAbility;
+		rClause.statmult = tonumber(sDamageAbilityMult) or 1;
 		rClause.dice, rClause.modifier = StringManager.convertStringToDice(sDamageDice);
 		rClause.nTotal = rClause.modifier;
 		local aReroll = {};
@@ -871,10 +876,11 @@ function getDamageAdjust(rSource, rTarget, nDamage, rDamageOutput)
 			nLocalDamageAdjust = -v;
 			bResist = true;
 		else
-			-- Handle standard vulnerability
-			if bLocalVulnerable then
-				nLocalDamageAdjust = v;
-				bVulnerable = true;
+			-- Handle numerical resistance
+			local nLocalResist = checkNumericalReductionType(aResist, aSrcDmgClauseTypes, v);
+			if nLocalResist ~= 0 then
+				nLocalDamageAdjust = nLocalDamageAdjust - nLocalResist;
+				bResist = true;
 			end
 			-- Handle numerical vulnerability
 			local nLocalVulnerable = checkNumericalReductionType(aVuln, aSrcDmgClauseTypes);
@@ -884,7 +890,7 @@ function getDamageAdjust(rSource, rTarget, nDamage, rDamageOutput)
 			end
 			-- Handle standard resistance
 			if bLocalResist then
-				local nResistOddCheck = (v + nLocalDamageAdjust) % 2;
+				local nResistOddCheck = (nLocalDamageAdjust + v) % 2;
 				local nAdj = math.ceil((nLocalDamageAdjust + v) / 2);
 				nLocalDamageAdjust = nLocalDamageAdjust - nAdj;
 				if nResistOddCheck == 1 then
@@ -897,11 +903,10 @@ function getDamageAdjust(rSource, rTarget, nDamage, rDamageOutput)
 				end
 				bResist = true;
 			end
-			-- Handle numerical resistance
-			local nLocalResist = checkNumericalReductionType(aResist, aSrcDmgClauseTypes, nLocalDamageAdjust + v);
-			if nLocalResist ~= 0 then
-				nLocalDamageAdjust = nLocalDamageAdjust - nLocalResist;
-				bResist = true;
+			-- Handle standard vulnerability
+			if bLocalVulnerable then
+				nLocalDamageAdjust = nLocalDamageAdjust + (nLocalDamageAdjust + v);
+				bVulnerable = true;
 			end
 		end
 		
@@ -1236,6 +1241,7 @@ function applyDamage(rSource, rTarget, bSecret, sDamage, nTotal)
 						nDeathSaveFail = nDeathSaveFail + 1;
 					end
 				end
+-- Add check here for nAdjustedDamage > 50 and if so perform system shock check?-- celestian, AD&D
 			end
 			
 			-- Handle stable situation
