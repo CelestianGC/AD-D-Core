@@ -67,6 +67,8 @@ function getItemRecordDisplayClass(vNode)
 					sRecordDisplayClass = "reference_mountsandotheranimals";
 				elseif sTypeLower == "waterborne vehicles" then
 					sRecordDisplayClass = "reference_waterbornevehicles";
+				elseif sTypeLower == "vehicle" then
+					sRecordDisplayClass = "reference_vehicle";
 				else
 					sRecordDisplayClass = "reference_equipment";
 				end
