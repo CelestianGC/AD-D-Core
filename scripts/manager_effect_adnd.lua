@@ -8,6 +8,7 @@ function onInit()
     ActionsManager.decodeActors = decodeActors;
 
     -- AD&D Core ONLY!!! (need this because we use high to low initiative, not low to high
+    EffectManager.setInitAscending(true);
     -- THIS DOESNT WORK, had to just include/replace the entire CoreRPG manager_effect.lua
     --EffectManager.onInit = manager_effect_onInit;
     --EffectManager.processEffects = manager_effect_processEffects;

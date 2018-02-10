@@ -6,7 +6,7 @@
 -->
 
 <root version="3.0" release="18" logo="logo.png">
-	<announcement text="AD&amp;D Core v2018.02.07 For Fantasy Grounds\r--by Celestian 2017-2018" font="emotefont" icon="rulesetlogo_ADnD" />
+	<announcement text="AD&amp;D Core v2018.02.09 For Fantasy Grounds\r--by Celestian 2017-2018" font="emotefont" icon="rulesetlogo_ADnD" />
 
 	<!-- Attributes -->
 	<description>
@@ -178,7 +178,7 @@
  	<script name="AccessManagerADND" file="scripts/manager_access_adnd.lua" />
  	<script name="TokenManagerADND" file="scripts/manager_token_adnd.lua" />
  	<script name="ActorManagerADND" file="scripts/manager_actor_adnd.lua" />
-    <!-- This replaces the CoreRPG EffectManager with one that works with AD&D Core -->
- 	<script name="EffectManager" file="scripts/manager_effect_CoreRPG.lua" />
+  <!-- This replaces the CoreRPG EffectManager with one that works with AD&D Core,3.3.4 added setInitAscending() -->
+ 	<!-- <script name="EffectManager" file="scripts/manager_effect_CoreRPG.lua" /> -->
 
 </root>
