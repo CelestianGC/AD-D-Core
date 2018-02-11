@@ -354,40 +354,71 @@
 				<tooltip textres="power_tooltip_group" />
 				<delaykeyupdate />
 			</string_power>
-
             
-            <number_power_init name="castinitiative">
-                <tooltip textres="power_label_initiative_tooltip" />
-				<anchored to="name" width="23" height="18">
-					<top offset="2"/>
-					<left anchor="right" relation="relative" offset="10" />
-				</anchored>
-                <invisible />
-			</number_power_init>
+      <number_power_init name="castinitiative">
+        <tooltip textres="power_label_initiative_tooltip" />
+        <anchored to="name" width="23" height="18">
+          <top offset="2"/>
+          <left anchor="right" relation="relative" offset="10" />
+        </anchored>
+        <invisible />
+      </number_power_init>
  			<basicnumber name="memorizedcount" source="memorized">
-				<anchored to="name" width="23" height="18">
-					<top offset="2"/>
-					<left anchor="right" relation="relative" offset="10" />
-				</anchored>
-                <readonly />
-                <invisible />
-                <tooltip textres="power_label_memorizecount_tooltip" />
+        <anchored to="name" width="23" height="18">
+          <top offset="2"/>
+          <left anchor="right" relation="relative" offset="10" />
+        </anchored>
+        <readonly />
+        <invisible />
+        <tooltip textres="power_label_memorizecount_tooltip" />
 			</basicnumber> 
- 
+  		<!-- hide spell button when all memorizations used -->
+      <button_powermemorize name="hidespellbutton">
+        <script>
+          function onInit()
+            local nodeSpell = window.getDatabaseNode();
+            DB.addHandler(DB.getPath(nodeSpell, "memorized"),"onUpdate", update);
+            update();
+          end
+          function onClose()
+            local nodeSpell = window.getDatabaseNode();
+            DB.removeHandler(DB.getPath(nodeSpell, "memorized"),"onUpdate", update);
+          end
+          
+          function onButtonPress()
+            local nodeSpell = window.getDatabaseNode();
+            DB.setValue(nodeSpell,"wasmemorized","number",0);
+          end
+          
+          function update()
+            local nodeSpell = window.getDatabaseNode();
+            local nodeChar = nodeSpell.getChild("...");
+            local sSpellName = DB.getValue(nodeSpell,"name","");
+            local sMode = DB.getValue(nodeChar, "powermode", "");
+            local bMemorized = ((DB.getValue(nodeSpell,"memorized",0) > 0));
+            local bWasMemorized = (DB.getValue(nodeSpell,"wasmemorized",0) == 1);
+            if (sMode == "combat") and bWasMemorized and not bMemorized then
+              setVisible(true);
+            else
+              setVisible(false);
+            end
+          end
+        </script>
+        <anchored to="name" width="23" height="18">
+          <top offset="2"/>
+          <left anchor="right" relation="relative" offset="10" />
+        </anchored>
+        <tooltip textres="power_label_hidespell_tooltip" />
+        <icon normal="button_dialog_cancel" pressed="button_dialog_cancel_down" />
+      </button_powermemorize>
+
 			<windowlist name="actionsmini">
 				<anchored to="name" >
 					<top offset="0"/>
 					<left anchor="right" relation="relative" offset="5" />
                     <right parent="rightanchor" anchor="left" relation="relative" offset="-5" /> 
 				</anchored>
-
- 				<!-- <anchored>
-					<top offset="2" />
-					<left parent="name" anchor="right" offset="5" />
-					<right parent="rightanchor" anchor="left" relation="relative" offset="-5" />
-				</anchored> -->
-				
-                <datasource>.actions</datasource>
+        <datasource>.actions</datasource>
 				<class>power_action_mini</class>
 				<noscroll />
 				<readonly />
@@ -396,7 +427,6 @@
                 <child><backcolor>1A40301E</backcolor></child>
 				<invisible />
 			</windowlist>
-
 
 			<string_power name="shortdescription">
 				<anchored>
@@ -596,19 +626,20 @@
 		</sheetdata>
 	</windowclass>
 
-     <windowclass name="power_initiative">
+  <windowclass name="power_initiative">
 		<margins control="0,0,2,2" />
-        <sheetdata>
-            <anchor_right />
-            <anchor_left />
-            <number_power_init name="castinitiative">
-                <tooltip textres="power_label_initiative_tooltip" />
-				<anchored to="leftanchor" width="25" height="18">
-					<top offset="5"/>
-					<left anchor="right" relation="relative" offset="5" />
-				</anchored>
-			</number_power_init>
-			<label name="initiativelabel">
+      <sheetdata>
+        <anchor_right />
+        <anchor_left />
+        <number_power_init name="castinitiative">
+          <tooltip textres="power_label_initiative_tooltip" />
+          <anchored to="leftanchor" width="25" height="18">
+            <top offset="5"/>
+            <left anchor="right" relation="relative" offset="5" />
+          </anchored>
+        </number_power_init>
+			
+      <label name="initiativelabel">
 				<anchored to="leftanchor" height="18">
 					<top offset="5"/>
 					<left anchor="right" relation="relative" offset="5" />
@@ -616,7 +647,7 @@
 				<static textres="power_label_initiative" />
                 <tooltip textres="power_label_initiative_tooltip" />
 			</label>
-        </sheetdata>
+      </sheetdata>
     </windowclass>
 
     <windowclass name="power_memorization">
@@ -662,7 +693,7 @@
 			<hn name="order" />
 			<hs name="type">
 				<script>
-                    function onValueChanged()
+          function onValueChanged()
 						window.updateDisplay();
 					end
 				</script>
@@ -671,45 +702,9 @@
 			<button_idelete name="idelete">
 				<bounds>-22,3,20,20</bounds>
 			</button_idelete>
-
-            <!-- initiative -->
-<!--             <number_power_init name="castinitiative">
-                <script>
-                    function onInit()
-                        local nodeAction = getDatabaseNode();
-                        local nodeSpell = nodeAction.getChild("....");
-                        local nInitMod = nodeAction.getValue();
-                        if nInitMod > 0 then
-                            DB.setValue(nodeSpell,"castinitiative","number",nInitMod);
-                        end
-                    end
-                    function onValueChanged()
-                        local nodeAction = getDatabaseNode();
-                        local nodeSpell = nodeAction.getChild("....");
-                        local nInitMod = nodeAction.getValue();
-                        DB.setValue(nodeSpell,"castinitiative","number",nInitMod);
-                    end
-                </script>
-                <tooltip textres="power_label_initiative_tooltip" />
-				<anchored to="leftanchor" width="25" height="18">
-					<top offset="5"/>
-					<left anchor="right" relation="relative" offset="5" />
-				</anchored>
-			</number_power_init>
-			<label name="initiativelabel">
-                <tooltip textres="power_label_initiative_tooltip" />
-				<anchored to="leftanchor" height="18">
-					<top offset="5"/>
-					<left anchor="right" relation="relative" offset="5" />
-				</anchored>
-				<static textres="power_label_initiative" />
-			</label>
- -->
 			<!-- CAST -->
 			<button_poweraction name="castbutton">
                 <tooltip textres="power_label_cast_tooltip" />
-<!-- 				<anchored to="castinitiative" position="righthigh" offset="5,0" /> -->
-<!--				<anchored position="insidetopleft" offset="2,2" /> -->
 				<anchored to="leftanchor" height="18">
 					<top offset="5"/>
 					<left anchor="right" relation="relative" offset="5" />
@@ -722,13 +717,11 @@
 					<top offset="5"/>
 					<left anchor="right" relation="relative" offset="2" />
 				</anchored>
-				<!-- <anchored to="castbutton" position="righthigh" offset="5,0" /> -->
 				<static textres="power_label_cast" />
 			</label>
             
 			<button_poweraction name="attackbutton">
-                <tooltip textres="power_label_attack_tooltip" />
-				<!-- <anchored to="castlabel" position="righthigh" offset="10,0" /> -->
+        <tooltip textres="power_label_attack_tooltip" />
 				<anchored to="leftanchor" height="18">
 					<top offset="5"/>
 					<left anchor="right" relation="relative" offset="2" />
@@ -737,8 +730,7 @@
 				<subroll>atk</subroll>
 			</button_poweraction>
 			<label name="attackviewlabel">
-                <tooltip textres="power_label_attack_tooltip" />
-				<!-- <anchored to="attackbutton" position="righthigh" offset="5,0" /> -->
+        <tooltip textres="power_label_attack_tooltip" />
 				<anchored to="leftanchor" height="18">
 					<top offset="5"/>
 					<left anchor="right" relation="relative" offset="2" />
@@ -747,11 +739,10 @@
 			</label>
 			<string_poweractionview name="attackview">
 				<script>
-                    function onValueChanged()
+          function onValueChanged()
 						window.updateDisplay();
 					end
 				</script>
-				<!-- <anchored to="attackviewlabel" position="righthigh" offset="10,0" width="70" /> -->
 				<anchored to="leftanchor" width="70" height="18">
 					<top offset="5"/>
 					<left anchor="right" relation="relative" offset="5" />
@@ -760,8 +751,7 @@
 			</string_poweractionview>
 
 			<button_poweraction name="savebutton">
-				<!-- <anchored to="attackview" position="righthigh" offset="5,0" /> -->
-                <tooltip textres="power_label_save_tooltip" />
+        <tooltip textres="power_label_save_tooltip" />
 				<anchored to="leftanchor" height="18">
 					<top offset="5"/>
 					<left anchor="right" relation="relative" offset="2" />
@@ -769,8 +759,7 @@
 				<subroll>save</subroll>
 			</button_poweraction>
 			<label name="saveviewlabel">
-                <tooltip textres="power_label_save_tooltip" />
-				<!-- <anchored to="savebutton" position="righthigh" offset="5,0" /> -->
+        <tooltip textres="power_label_save_tooltip" />
 				<anchored to="leftanchor" height="18">
 					<top offset="5"/>
 					<left anchor="right" relation="relative" offset="2" />
@@ -779,11 +768,10 @@
 			</label>
 			<string_poweractionview name="saveview">
 				<script>
-                    function onValueChanged()
+          function onValueChanged()
 						window.updateDisplay();
 					end
 				</script>
-				<!-- <anchored to="saveviewlabel" position="righthigh" offset="10,0" width="80" /> -->
 				<anchored to="leftanchor" width="70" height="18">
 					<top offset="5"/>
 					<left anchor="right" relation="relative" offset="5" />
@@ -791,63 +779,29 @@
 				<subroll>save</subroll>
 			</string_poweractionview>
             
-			<!-- memorize -->
-            <button_powermemorize name="hidespellbutton">
-                <!-- <anchored to="saveview" position="righthigh" offset="5,0" /> -->
-				<anchored to="leftanchor" height="18">
-					<top offset="5"/>
-					<left anchor="right" relation="relative" offset="2" />
-				</anchored>
-                <tooltip textres="power_label_hidespell_tooltip" />
-                <icon normal="button_dialog_cancel" pressed="button_dialog_cancel_down" />
-                <script>
-                    function onButtonPress()
-                        window.hideSpellPressed()
-                    end
-                </script>
-            </button_powermemorize>
+			<!-- hide spell button un-memorize -->
+      <button_powermemorize name="hidespellbutton">
+          <anchored to="leftanchor" height="18">
+            <top offset="5"/>
+            <left anchor="right" relation="relative" offset="2" />
+          </anchored>
+          <tooltip textres="power_label_hidespell_tooltip" />
+          <icon normal="button_dialog_cancel" pressed="button_dialog_cancel_down" />
+          <script>
+              function onButtonPress()
+                  window.hideSpellPressed()
+              end
+          </script>
+      </button_powermemorize>
 			<label name="hidespelllabel">
-				<!-- <anchored to="hidespellbutton" position="righthigh" offset="5,0" /> -->
 				<anchored to="leftanchor" height="18">
 					<top offset="5"/>
 					<left anchor="right" relation="relative" offset="2" />
 				</anchored>
 				<static textres="power_label_hidespell" />
-                <tooltip textres="power_label_hidespell_tooltip" />
+        <tooltip textres="power_label_hidespell_tooltip" />
 			</label>
-<!-- 
-			<button_powermemorize name="memorizebutton">
-				<anchored to="leftanchor" height="18">
-					<top offset="5"/>
-					<left anchor="right" relation="relative" offset="2" />
-				</anchored>
-                <tooltip textres="power_label_memorize_tooltip" />
-				<icon normal="button_action_memorize" pressed="button_action_memorize_down" />
-			</button_powermemorize>
-			<label name="memorizelabel">
-				<anchored to="leftanchor"  height="18">
-					<top offset="5"/>
-					<left anchor="right" relation="relative" offset="2" />
-				</anchored>
-				<static textres="power_label_memorize" />
-                <tooltip textres="power_label_memorize_tooltip" />
-			</label>
- 			<basicnumber name="memorizedcount" source="...memorized">
-                <script>
-					function onValueChanged()
-						window.updateDisplay();
-					end
-                </script>
-				<anchored to="leftanchor" width="25" height="18">
-					<top offset="5"/>
-					<left anchor="right" relation="relative" offset="5" />
-				</anchored>
- 				<hideonvalue>0</hideonvalue>
-                <readonly />
-                <tooltip textres="power_label_memorizecount_tooltip" />
-			</basicnumber> 
- --> 
-            
+
 			<button_poweractioneditor name="castdetail">
 				<editor>power_cast_editor</editor>
 			</button_poweractioneditor>
@@ -1353,7 +1307,7 @@
 		</sheetdata>
 	</windowclass>
     
-    	<!-- list actions for this spell in the spell record --celestian -->
+  <!-- list actions for this spell in the spell record --celestian -->
 	<windowclass name="power_item_spellrecord">
 		<margins control="0,0,0,2" />
 		<script file="campaign/scripts/power_item.lua" />

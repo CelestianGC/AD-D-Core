@@ -38,6 +38,8 @@
 	
 	<!-- Strings -->
 	<includefile source="strings/strings_5e.xml" />
+	<includefile source="strings/strings_adnd.xml" />
+
 
 	<!-- Common -->
 	<includefile source="common/template_common.xml" />
@@ -120,33 +122,20 @@
 
 	<!-- High-level scripts -->
 	<script name="DataCommon" file="scripts/data_common.lua" />
-	<script name="DataCommonADND" file="scripts/data_common_adnd.lua" />
 	<script name="CharAutoFill" file="campaign/scripts/char_autofill.lua" />
 	<script name="GameSystem" file="scripts/manager_gamesystem.lua" />
 	<script name="CampaignDataManager2" file="scripts/manager_campaigndata2.lua" />
 	<script name="DataSpell" file="scripts/data_spell.lua" />
-
 	<script name="CharacterListManager_Inspiration" file="scripts/manager_charlist_inspiration.lua" />
-
 	<script name="ActorManager2" file="scripts/manager_actor2.lua" />
 	<script name="CombatManager2" file="scripts/manager_combat2.lua" />
-	
-    <!-- DITCH THIS when 3.3.2 goes live -- celestian, it's in CoreRPG now -->
-    <!-- also remove the .lua file -->
-    <!-- <script name="EffectManager" file="scripts/manager_effect.lua" /> -->
 	<script name="EffectManager5E" file="scripts/manager_effect_5E.lua" />
-
-	<!-- Override CoreRPG item manager for npc inventory requirements, items for npcs/etc -->
-    <script name="ItemManager" file="scripts/manager_item.lua" />
-    
 	<script name="ItemManager2" file="scripts/manager_item2.lua" />
 	<script name="PowerManager" file="scripts/manager_power.lua" />
 	<script name="TokenManager2" file="scripts/manager_token2.lua" />
 	<script name="VersionManager2" file="scripts/manager_version2.lua" />
-
 	<script name="ActionsManager2" file="scripts/manager_actions2.lua" />
 	<script name="ActionGeneral" file="scripts/manager_action_general.lua" />
-	
 	<script name="ActionAttack" file="scripts/manager_action_attack.lua" />
 	<script name="ActionCheck" file="scripts/manager_action_check.lua" />
 	<script name="ActionDamage" file="scripts/manager_action_damage.lua" />
@@ -159,26 +148,25 @@
 	<script name="ActionSave" file="scripts/manager_action_save.lua" />
 	<script name="ActionSkill" file="scripts/manager_action_skill.lua" />
 
-	<!-- <script name="AbilityScores" file="campaign/scripts/number_abilityscore.lua" /> -->
-    <script name="ActionSurprise" file="scripts/manager_action_surprise.lua" />
-    <script name="ActionTurn" file="scripts/manager_action_turnundead.lua" />
-    <script name="WindowManagerADND" file="scripts/windowmanager.lua" />
-    <script name="AbilityScoreADND" file="scripts/manager_abilityscores.lua" />
-
-    <!-- add back when 3.3.2 goes live -->
-	<!-- <script name="EffectManager5E" file="scripts/manager_effect_5E.lua" /> -->
-
-   	<!-- Strings -->
-	<includefile source="strings/strings_adnd.xml" />
-
     <!-- AD&D specific settings -->
+	<script name="DataCommonADND" file="scripts/data_common_adnd.lua" />
  	<script name="LibraryDataADND" file="scripts/data_library_adnd.lua" />
  	<!-- <script name="ImageManagerADND" file="scripts/manage_image_adnd.lua" /> -->
  	<script name="EffectManagerADND" file="scripts/manager_effect_adnd.lua" />
  	<script name="AccessManagerADND" file="scripts/manager_access_adnd.lua" />
  	<script name="TokenManagerADND" file="scripts/manager_token_adnd.lua" />
  	<script name="ActorManagerADND" file="scripts/manager_actor_adnd.lua" />
-  <!-- This replaces the CoreRPG EffectManager with one that works with AD&D Core,3.3.4 added setInitAscending() -->
+  <script name="ActionSurprise" file="scripts/manager_action_surprise.lua" />
+  <script name="ActionTurn" file="scripts/manager_action_turnundead.lua" />
+  <script name="WindowManagerADND" file="scripts/windowmanager.lua" />
+  <script name="AbilityScoreADND" file="scripts/manager_abilityscores.lua" />
+
+  <!--  This replaces the CoreRPG EffectManager. 
+        3.3.4 added setInitAscending() and allowed us to stop using this -->
  	<!-- <script name="EffectManager" file="scripts/manager_effect_CoreRPG.lua" /> -->
+
+	<!-- Override CoreRPG item manager for npc inventory requirements, items for npcs/etc -->
+  <script name="ItemManager" file="scripts/manager_item.lua" />
+    
 
 </root>

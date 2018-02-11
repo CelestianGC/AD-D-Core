@@ -49,10 +49,10 @@ end
 
 function updateDisplay()
 	local node = getDatabaseNode();
-    local sNodePath = node.getPath();
-    local nodeSpell = node.getChild("...");
-    local nodeChar = node.getChild(".....");
-    --local bisNPC = (not ActorManager.isPC(nodeChar));
+  local sNodePath = node.getPath();
+  local nodeSpell = node.getChild("...");
+  local nodeChar = node.getChild(".....");
+  --local bisNPC = (not ActorManager.isPC(nodeChar));
 	local sType = DB.getValue(node, "type", "");
 	
 	local bShowCast = (sType == "cast");
