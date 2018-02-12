@@ -13,10 +13,13 @@ function onInit()
 	local node = getDatabaseNode();
 	windowlist.setOrder(node);
 
-    local nodeSpell = DB.getChild(node, "...");
-    -- this is so when wasmemorized is changed we update display
-    DB.addHandler(DB.getPath(nodeSpell, "memorized"),"onUpdate", updateDisplay);
-    --DB.addHandler(DB.getPath(nodeSpell, "wasmemorized"),"onUpdate", updateDisplay);
+  local nodeSpell = DB.getChild(node, "...");
+--  Debug.console("power_action.lua","onInit","nodeSpell",nodeSpell);
+  -- this is so when wasmemorized is changed we update display
+  DB.addHandler(DB.getPath(nodeSpell, "memorized"),"onUpdate", updateDisplay);
+  DB.addHandler(DB.getPath(nodeSpell, "group"),"onUpdate", updateDisplay);
+  DB.addHandler(DB.getPath(nodeSpell, "level"),"onUpdate", updateDisplay);
+  --DB.addHandler(DB.getPath(nodeSpell, "wasmemorized"),"onUpdate", updateDisplay);
     
 	local sNode = getDatabaseNode().getNodeName();
 	DB.addHandler(sNode, "onChildUpdate", onDataChanged);
@@ -28,9 +31,11 @@ function onClose()
 	DB.removeHandler(sNode, "onChildUpdate", onDataChanged);
 
 	local node = getDatabaseNode();
-    local nodeSpell = DB.getChild(node, "...");
-    DB.addHandler(DB.getPath(nodeSpell, "memorized"),"onUpdate", updateDisplay);
-    --DB.addHandler(DB.getPath(nodeSpell, "wasmemorized"),"onUpdate", updateDisplay);
+  local nodeSpell = DB.getChild(node, "...");
+  DB.removeHandler(DB.getPath(nodeSpell, "memorized"),"onUpdate", updateDisplay);
+  DB.removeHandler(DB.getPath(nodeSpell, "group"),"onUpdate", updateDisplay);
+  DB.removeHandler(DB.getPath(nodeSpell, "level"),"onUpdate", updateDisplay);
+  --DB.addHandler(DB.getPath(nodeSpell, "wasmemorized"),"onUpdate", updateDisplay);
 end
 
 function onMenuSelection(selection, subselection)
@@ -60,8 +65,8 @@ function updateDisplay()
 	local bShowHeal = (sType == "heal");
 	local bShowEffect = (sType == "effect");
 
-    --Debug.console("power_action.lua","updateDisplay","node",node);
-    --Debug.console("power_action.lua","updateDisplay","nodeSpell",nodeSpell);
+--Debug.console("power_action.lua","updateDisplay","node",node);
+--Debug.console("power_action.lua","updateDisplay","nodeSpell",nodeSpell);
     
     local sSpellType = DB.getValue(nodeSpell, "type", ""):lower();
     local sSource = DB.getValue(nodeSpell, "source", ""):lower();
@@ -73,6 +78,7 @@ function updateDisplay()
                               -- PowerManager.isDivineSpellType(sSource) )  and 
                               -- (sType == "cast")   );
     
+--Debug.console("power_action.lua","updateDisplay","bShowMemorize",bShowMemorize);
     local sMode = DB.getValue(nodeChar, "powermode", "");
 --Debug.console("power_action.lua","updateDisplay","sMode",sMode);
     local bMemorized = ((DB.getValue(nodeSpell,"memorized",0) > 0));

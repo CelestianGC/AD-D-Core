@@ -711,7 +711,7 @@
 	<string name="weapon_header_damage">DAMAGE</string>
 	<string name="weapon_label_dmgdice">Dice</string>
 	<string name="weapon_label_dmgstat">Stat</string>
-	<string name="weapon_label_dmgbonus">M</string>
+	<string name="weapon_label_dmgbonus">MOD</string>
 	<string name="weapon_label_dmgtype">Type</string>
 
 	<string name="power_label_name">Name</string>

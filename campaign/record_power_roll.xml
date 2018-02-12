@@ -322,6 +322,9 @@
 			<basicdice name="dice">
 				<anchored position="insidetopleft" offset="5,2" width="60" height="20" />
 			</basicdice>
+      <!-- add dice string and parse <level> for "{level}d6" fireball damage? --celestian -->
+      <!-- -->
+      
 			<label name="label_plus">
 				<anchored to="dice" position="righthigh" offset="5,0" width="10" />
 				<static>+</static>

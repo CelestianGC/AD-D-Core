@@ -297,14 +297,15 @@
 				</anchored>
 				<invisible />
 			</counter_power>
-			<button_checkbox name="preparedcheck" source="prepared">
+      
+<!-- 			<button_checkbox name="preparedcheck" source="prepared">
 				<anchored width="20" height="20">
 					<top offset="2" />
 					<left parent="leftanchor" anchor="right" relation="relative" offset="0" />
 				</anchored>
 				<invisible />
 			</button_checkbox>
-
+ 
 			<basicnumber name="prepared">
 				<anchored width="30" height="20">
 					<top offset="2" />
@@ -314,7 +315,7 @@
 				<tooltip textres="power_tooltip_prepared" />
 				<invisible />
 			</basicnumber>
-            
+ -->           
 			<cycler_power_useperiod name="usesperiod">
 				<anchored>
 					<top offset="2" />

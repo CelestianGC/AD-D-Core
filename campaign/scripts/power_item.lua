@@ -19,11 +19,10 @@ function onInit()
     local node = getDatabaseNode();
     
     -- these are so memorization sections show up properly if level/type/group are updated
-    DB.addHandler(DB.getPath(node, "level"), "onUpdate", toggleDetail);
-    DB.addHandler(DB.getPath(node, "group"), "onUpdate", toggleDetail);
-    DB.addHandler(DB.getPath(node, "type"), "onUpdate", toggleDetail);
-    DB.addHandler(DB.getPath(node, "memorized"), "onUpdate", onDisplayChanged);
-    DB.addHandler(DB.getPath(node, "group"), "onUpdate", onDisplayChanged);
+    DB.addHandler(DB.getPath(node, "memorized"), "onUpdate", updateForMemorizationChanges);
+    DB.addHandler(DB.getPath(node, "group"), "onUpdate",     updateForMemorizationChanges);
+    DB.addHandler(DB.getPath(node, "level"), "onUpdate", updateForMemorizationChanges);
+    DB.addHandler(DB.getPath(node, "type"), "onUpdate", updateForMemorizationChanges);
     
 -- tweak here for testing --celestian
     if windowlist == nil or not windowlist.isReadOnly() then
@@ -62,11 +61,16 @@ end
 
 function onClose()
 	local node = getDatabaseNode();
-	DB.removeHandler(DB.getPath(node, "level"), "onUpdate", toggleDetail);
-	DB.removeHandler(DB.getPath(node, "group"), "onUpdate", toggleDetail);
-	DB.removeHandler(DB.getPath(node, "type"), "onUpdate", toggleDetail);
-    DB.removeHandler(DB.getPath(node, "memorized"), "onUpdate", onDisplayChanged);
-	DB.removeHandler(DB.getPath(node, "group"), "onUpdate", onDisplayChanged);
+  DB.removeHandler(DB.getPath(node, "memorized"), "onUpdate", updateForMemorizationChanges);
+	DB.removeHandler(DB.getPath(node, "group"), "onUpdate",     updateForMemorizationChanges);
+	DB.removeHandler(DB.getPath(node, "level"), "onUpdate", updateForMemorizationChanges);
+	DB.removeHandler(DB.getPath(node, "type"), "onUpdate", updateForMemorizationChanges);
+end
+
+-- If level, group, type or memorization count changes we update visibility
+function updateForMemorizationChanges()
+  onDisplayChanged();
+  toggleDetail();
 end
 
 -- filters out non-memorized spells when in "combat" mode.
@@ -244,7 +248,7 @@ end
 
 function toggleDetail()
 	local status = (activatedetail.getValue() == 1);
---Debug.console("power_item.lua","toggleDetail","status",status);    
+--Debug.console("------------power_item.lua","toggleDetail","status",status);    
 	
     -- actions can be nil when using this in spell records --celestian
 	--if actions ~= nil then 
