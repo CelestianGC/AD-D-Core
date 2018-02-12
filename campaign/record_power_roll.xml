@@ -283,15 +283,20 @@
 			</list_editor>
 			
 			<label_fieldtop>
-				<anchored to="list" position="aboveleft" offset="5,1" width="60" />
+				<anchored to="list" position="aboveleft" offset="5,1" width="20" />
+				<static textres="weapon_label_dicetype" />
+        <tooltip textres="weapon_label_dicetype_tooltip" />
+			</label_fieldtop>
+			<label_fieldtop>
+				<anchored to="list" position="aboveleft" offset="45,1" width="60" />
 				<static textres="weapon_label_dmgdice" />
 			</label_fieldtop>
 			<label_fieldtop>
-				<anchored to="list" position="aboveleft" offset="82,1" width="30" />
+				<anchored to="list" position="aboveleft" offset="122,1" width="30" />
 				<static textres="weapon_label_dmgstat" />
 			</label_fieldtop>
 			<label_fieldtop>
-				<anchored to="list" position="aboveleft" offset="129,1" width="35" />
+				<anchored to="list" position="aboveleft" offset="169,1" width="35" />
 				<static textres="weapon_label_dmgbonus" />
 			</label_fieldtop>
 			<label_fieldtop>
@@ -302,8 +307,38 @@
 			</label_fieldtop>
 		</sheetdata>
 	</windowclass>
+  
 	<windowclass name="power_damage_entry">
 		<margins control="0,0,0,5" />
+    <script>
+      function onInit()
+        local sValue = dicetype.getStringValue();
+        if (sValue == nil or sValue == "") then
+          dicetype.setStringValue("dice");
+        end
+        sValue = dicetext.getValue();
+        if (sValue == nil or sValue == "") then
+          dicetext.setValue("LVLd6");
+        end
+        
+        DB.addHandler(DB.getPath(getDatabaseNode(), "dicetype"),"onUpdate", update);
+        update();
+      end
+      function onClose()
+        DB.removeHandler(DB.getPath(getDatabaseNode(), "dicetype"),"onUpdate", update);
+      end
+      
+      function update()
+        local sValue = dicetype.getStringValue();
+        if (sValue == "dice") then
+          dice.setVisible(true);
+          dicetext.setVisible(false);
+        else
+          dice.setVisible(false);
+          dicetext.setVisible(true);
+        end
+      end
+    </script>
 		<sheetdata>
 			<genericcontrol name="rightanchor">
 				<anchored width="0" height="0">
@@ -319,25 +354,37 @@
 				</anchored>
 			</button_idelete>
 
+      <cycler_dice_type name="dicetype">
+        <anchored position="insidetopleft" offset="5,2" width="25" height="20" />
+      </cycler_dice_type>
+      
 			<basicdice name="dice">
-				<anchored position="insidetopleft" offset="5,2" width="60" height="20" />
+				<anchored position="insidetopleft" offset="45,2" width="60" height="20" />
 			</basicdice>
+      
+      
       <!-- add dice string and parse <level> for "{level}d6" fireball damage? --celestian -->
+      <string_power name="dicetext">
+        <anchored position="insidetopleft" offset="45,2" width="60" height="20" />
+        <center />
+        <delaykeyupdate />
+      </string_power>
       <!-- -->
       
+      
 			<label name="label_plus">
-				<anchored to="dice" position="righthigh" offset="5,0" width="10" />
+				<anchored position="insidetopleft" offset="110,0" width="10" />
 				<static>+</static>
 			</label>
 			<cycler_power name="stat">
-				<anchored to="label_plus" position="righthigh" offset="2,0" width="30" height="20" />
+				<anchored to="label_plus" position="righthigh" offset="2,1" width="30" height="20" />
 			</cycler_power>
 			<label name="label_plus2">
 				<anchored to="stat" position="righthigh" offset="5,0" width="10" />
 				<static>+</static>
 			</label>
 			<basicnumber name="bonus">
-				<anchored to="label_plus2" position="righthigh" offset="2,0" width="35" height="20" />
+				<anchored to="label_plus2" position="righthigh" offset="2,1" width="35" height="20" />
 				<hideonvalue>0</hideonvalue>
 			</basicnumber>
 			<stringu name="type">

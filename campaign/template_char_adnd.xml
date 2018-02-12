@@ -951,4 +951,14 @@
         </number_hptemp>
 	</template>
     
+  <template name="cycler_dice_type">
+   <button_stringcycler>
+    <parameters>
+      <labelsres>dice|dicetext</labelsres>
+      <values>dice|dicetext</values>
+    </parameters>
+  </button_stringcycler>
+  
+	</template>
+
 </root>

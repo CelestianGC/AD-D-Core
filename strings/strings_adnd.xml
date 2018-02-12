@@ -19,6 +19,8 @@
 
 	<string name="thaco">THACO</string>
 	<string name="percent">%</string>
+	<string name="dice">Dice</string>
+	<string name="dicetext">Text</string>
 
 	<string name="paralyzation">Paralyzation</string>
 	<string name="poison">Poison</string>
@@ -345,8 +347,9 @@
 	<string name="weapon_label_hitadj_tooltip">To hit adjustment applied.</string>
 	<string name="weapon_label_dmgadj">DMG</string>
 	<string name="weapon_label_dmgadj_tooltip">Damage adjustment applied.</string>
-    <string name="weapon_label_dmgbonus_tooltip">Adjustment modifier for damage for this weapon.</string>
-
+  <string name="weapon_label_dmgbonus_tooltip">Adjustment modifier for damage for this weapon.</string>
+  <string name="weapon_label_dicetype">D/T</string>
+  <string name="weapon_label_dicetype_tooltip">Dice OR Dice as text i.e."LVLd6".</string>
     <!-- Item Record -->
 	<string name="item_label_exp">EXP</string>
     
