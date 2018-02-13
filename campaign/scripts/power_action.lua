@@ -23,6 +23,11 @@ function onInit()
     
 	local sNode = getDatabaseNode().getNodeName();
 	DB.addHandler(sNode, "onChildUpdate", onDataChanged);
+  -- update on level changes
+  local nodeChar = node.getChild(".....");
+  DB.addHandler(DB.getPath(nodeChar, "arcane.totalLevel"), "onUpdate", onDataChanged);
+  DB.addHandler(DB.getPath(nodeChar, "divine.totalLevel"), "onUpdate", onDataChanged);
+  
 	onDataChanged();
 end
 
@@ -36,6 +41,9 @@ function onClose()
   DB.removeHandler(DB.getPath(nodeSpell, "group"),"onUpdate", updateDisplay);
   DB.removeHandler(DB.getPath(nodeSpell, "level"),"onUpdate", updateDisplay);
   --DB.addHandler(DB.getPath(nodeSpell, "wasmemorized"),"onUpdate", updateDisplay);
+  local nodeChar = node.getChild(".....");
+  DB.removeHandler(DB.getPath(nodeChar, "arcane.totalLevel"), "onUpdate", onDataChanged);
+  DB.removeHandler(DB.getPath(nodeChar, "divine.totalLevel"), "onUpdate", onDataChanged);
 end
 
 function onMenuSelection(selection, subselection)

@@ -680,7 +680,11 @@ function setNPCSave(nodeEntry, sSave, nodeNPC)
     --Debug.console("manager_action_save.lua", "setNPCSave", "nSaveIndex", nSaveIndex);
     
     local nSaveScore = 20;
-    local nLevel = CombatManager2.getNPCLevelFromHitDice(nodeEntry, nodeNPC);
+    
+    local sHitDice = DB.getValue(nodeNPC, "hitDice", "1");
+    DB.setValue(nodeEntry,"hitDice","string", sHitDice);
+    
+    local nLevel = CombatManager2.getNPCLevelFromHitDice(nodeNPC);
 
     -- store it incase we wanna look at it later
     DB.setValue(nodeEntry, "level", "number", nLevel);

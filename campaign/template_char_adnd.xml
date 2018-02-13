@@ -951,11 +951,12 @@
         </number_hptemp>
 	</template>
     
-  <template name="cycler_dice_type">
+  <template name="cycler_casterlevel_type">
    <button_stringcycler>
     <parameters>
-      <labelsres>dice|dicetext</labelsres>
-      <values>dice|dicetext</values>
+			<defaultlabelres mergerule="replace">dash</defaultlabelres>
+      <labelsres>casterlevel|casterlevelby2|casterlevelby3|casterlevelby4|casterlevelby5</labelsres>
+      <values>casterlevel|casterlevelby2|casterlevelby3|casterlevelby4|casterlevelby5</values>
     </parameters>
   </button_stringcycler>
   

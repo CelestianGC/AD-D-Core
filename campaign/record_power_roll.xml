@@ -284,24 +284,29 @@
 			
 			<label_fieldtop>
 				<anchored to="list" position="aboveleft" offset="5,1" width="20" />
-				<static textres="weapon_label_dicetype" />
-        <tooltip textres="weapon_label_dicetype_tooltip" />
+				<static textres="weapon_label_castertype" />
+        <tooltip textres="weapon_label_castertype_tooltip" />
 			</label_fieldtop>
 			<label_fieldtop>
-				<anchored to="list" position="aboveleft" offset="45,1" width="60" />
+				<anchored to="list" position="aboveleft" offset="40,1" width="25" />
+				<static textres="weapon_label_casterlevelmax" />
+        <tooltip textres="weapon_label_casterlevelmax_tooltip" />
+			</label_fieldtop>
+			<label_fieldtop>
+				<anchored to="list" position="aboveleft" offset="90,1" width="60" />
 				<static textres="weapon_label_dmgdice" />
 			</label_fieldtop>
 			<label_fieldtop>
-				<anchored to="list" position="aboveleft" offset="122,1" width="30" />
+				<anchored to="list" position="aboveleft" offset="160,1" width="30" />
 				<static textres="weapon_label_dmgstat" />
 			</label_fieldtop>
 			<label_fieldtop>
-				<anchored to="list" position="aboveleft" offset="169,1" width="35" />
+				<anchored to="list" position="aboveleft" offset="205,1" width="35" />
 				<static textres="weapon_label_dmgbonus" />
 			</label_fieldtop>
 			<label_fieldtop>
 				<anchored to="list" position="aboveright" offset="5,1">
-					<left offset="174" />
+					<left offset="225" />
 				</anchored>
 				<static textres="weapon_label_dmgtype" />
 			</label_fieldtop>
@@ -310,26 +315,26 @@
   
 	<windowclass name="power_damage_entry">
 		<margins control="0,0,0,5" />
-    <script>
+<!--     <script>
       function onInit()
-        local sValue = dicetype.getStringValue();
+        local sValue = castertype.getStringValue();
         if (sValue == nil or sValue == "") then
-          dicetype.setStringValue("dice");
+          castertype.setStringValue("dice");
         end
         sValue = dicetext.getValue();
         if (sValue == nil or sValue == "") then
           dicetext.setValue("LVLd6");
         end
         
-        DB.addHandler(DB.getPath(getDatabaseNode(), "dicetype"),"onUpdate", update);
+        DB.addHandler(DB.getPath(getDatabaseNode(), "castertype"),"onUpdate", update);
         update();
       end
       function onClose()
-        DB.removeHandler(DB.getPath(getDatabaseNode(), "dicetype"),"onUpdate", update);
+        DB.removeHandler(DB.getPath(getDatabaseNode(), "castertype"),"onUpdate", update);
       end
       
       function update()
-        local sValue = dicetype.getStringValue();
+        local sValue = castertype.getStringValue();
         if (sValue == "dice") then
           dice.setVisible(true);
           dicetext.setVisible(false);
@@ -338,7 +343,7 @@
           dicetext.setVisible(true);
         end
       end
-    </script>
+    </script> -->
 		<sheetdata>
 			<genericcontrol name="rightanchor">
 				<anchored width="0" height="0">
@@ -354,26 +359,37 @@
 				</anchored>
 			</button_idelete>
 
-      <cycler_dice_type name="dicetype">
-        <anchored position="insidetopleft" offset="5,2" width="25" height="20" />
-      </cycler_dice_type>
+      <!-- add dice string and parse <level> for "{level}d6" fireball damage? --celestian -->
+      <cycler_casterlevel_type name="castertype">
+        <anchored position="insidetopleft" offset="5,1" width="25" height="20" />
+      </cycler_casterlevel_type>
+      
+			<label name="label_wrap1">
+				<anchored to="castertype" position="righthigh" offset="4,0" width="10" />
+				<static>(</static>
+			</label>
+			<basicnumber name="castermax">
+				<anchored to="label_wrap1" position="righthigh" offset="-1,1" width="20" height="20" />
+				<hideonvalue>0</hideonvalue>
+        <default>20</default>
+			</basicnumber>
+			<label name="label_wrap2">
+				<anchored to="castermax" position="righthigh" offset="3,0" width="10" />
+				<static>)</static>
+			</label>
+      
+			<label name="label_dee">
+				<anchored to="label_wrap2" position="righthigh" offset="-2,0" width="10" />
+				<static>D</static>
+			</label>
       
 			<basicdice name="dice">
-				<anchored position="insidetopleft" offset="45,2" width="60" height="20" />
+				<anchored to="label_dee" position="righthigh" offset="4,1" width="60" height="20" />
+				<!-- <anchored position="insidetopleft" offset="45,2" width="60" height="20" /> -->
 			</basicdice>
       
-      
-      <!-- add dice string and parse <level> for "{level}d6" fireball damage? --celestian -->
-      <string_power name="dicetext">
-        <anchored position="insidetopleft" offset="45,2" width="60" height="20" />
-        <center />
-        <delaykeyupdate />
-      </string_power>
-      <!-- -->
-      
-      
 			<label name="label_plus">
-				<anchored position="insidetopleft" offset="110,0" width="10" />
+				<anchored to="dice" position="righthigh" offset="2,1" width="10" />
 				<static>+</static>
 			</label>
 			<cycler_power name="stat">

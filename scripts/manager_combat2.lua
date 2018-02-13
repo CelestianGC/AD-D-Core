@@ -221,13 +221,10 @@ end
 
 -- calculate npc level from HD and return it -celestian
 -- move to manager_action_save.lua?
-function getNPCLevelFromHitDice(nodeEntry, nodeNPC) 
+function getNPCLevelFromHitDice(nodeNPC) 
     local nLevel = 1;
     local sHitDice = DB.getValue(nodeNPC, "hitDice", "1");
-    
-    
     if (sHitDice) then
-        DB.setValue(nodeEntry,"hitDice","string", sHitDice);
         -- Match #-#, #+# or just #
         -- (\d+)([\-\+])?(\d+)?
         -- Full match	0-4	`12+3`

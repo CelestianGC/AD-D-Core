@@ -21,6 +21,11 @@
 	<string name="percent">%</string>
 	<string name="dice">Dice</string>
 	<string name="dicetext">Text</string>
+  <string name="casterlevel">CL</string>
+  <string name="casterlevelby2">CL/2</string>
+  <string name="casterlevelby3">CL/3</string>
+  <string name="casterlevelby4">CL/4</string>
+  <string name="casterlevelby5">CL/5</string>
 
 	<string name="paralyzation">Paralyzation</string>
 	<string name="poison">Poison</string>
@@ -348,8 +353,10 @@
 	<string name="weapon_label_dmgadj">DMG</string>
 	<string name="weapon_label_dmgadj_tooltip">Damage adjustment applied.</string>
   <string name="weapon_label_dmgbonus_tooltip">Adjustment modifier for damage for this weapon.</string>
-  <string name="weapon_label_dicetype">D/T</string>
-  <string name="weapon_label_dicetype_tooltip">Dice OR Dice as text i.e."LVLd6".</string>
+  <string name="weapon_label_castertype">CL</string>
+  <string name="weapon_label_castertype_tooltip">Caster level dice count value.</string>
+  <string name="weapon_label_casterlevelmax">MAX</string>
+  <string name="weapon_label_casterlevelmax_tooltip">The maximum size the caster dice count can be.</string>
     <!-- Item Record -->
 	<string name="item_label_exp">EXP</string>
     

@@ -515,20 +515,71 @@ function getActionDamage(rActor, nodeAction)
 	if not nodeAction then
 		return {};
 	end
-	
+
+  local nodeCaster = DB.findNode(rActor.sCreatureNode);
+  local isPC = (rActor.sType == "pc");
+  
 	local clauses = {};
 	local aDamageNodes = UtilityManager.getSortedTable(DB.getChildren(nodeAction, "damagelist"));
 	for _,v in ipairs(aDamageNodes) do
-		local sDmgAbility = DB.getValue(v, "stat", "");
-		local aDmgDice = DB.getValue(v, "dice", {});
-		local nDmgMod = DB.getValue(v, "bonus", 0);
-		local sDmgType = DB.getValue(v, "type", "");
-		
-		local nDmgStatMod;
-		nDmgStatMod, sDmgAbility = getGroupDamageHealBonus(rActor, nodeAction, sDmgAbility);
-		nDmgMod = nDmgMod + nDmgStatMod;
-		
-		table.insert(clauses, { dice = aDmgDice, stat = sDmgAbility, modifier = nDmgMod, dmgtype = sDmgType });
+    local sDmgAbility = DB.getValue(v, "stat", "");
+    local aDmgDice = DB.getValue(v, "dice", {});
+    local nDmgMod = DB.getValue(v, "bonus", 0);
+    local sDmgType = DB.getValue(v, "type", "");
+    
+    -- bits of code to sort out level for dice
+    local nDiceCount = 0;
+    local sCasterType = DB.getValue(v, "castertype", "");
+    local nCasterMax = DB.getValue(v, "castermax", 20);
+    local nodeSpell = nodeAction.getChild("...");
+    local nCasterLevel = 1;
+    local sSpellType = DB.getValue(nodeSpell, "type", ""):lower();
+    if (isPC) then
+      if (sSpellType == "arcane") then
+        nCasterLevel = DB.getValue(nodeCaster, "arcane.totalLevel",1);
+      elseif (sSpellType == "divine") then
+        nCasterLevel = DB.getValue(nodeCaster, "divine.totalLevel",1);
+      else
+        nCasterLevel = CharManager.getActiveClassMaxLevel(nodeCaster);
+      end
+    else
+      -- is NPC
+      nCasterLevel = DB.getValue(nodeCaster, "level",1);
+    end
+    -- if castertype ~= "" then setup the dice
+    if (sCasterType ~= nil) then
+      if sCasterType == "casterlevel" then
+        nDiceCount = nCasterLevel;
+      elseif sCasterType == "casterlevelby2" then
+        nDiceCount = math.floor(nCasterLevel/2);
+      elseif sCasterType == "casterlevelby3" then
+        nDiceCount = math.floor(nCasterLevel/3);
+      elseif sCasterType == "casterlevelby4" then
+        nDiceCount = math.floor(nCasterLevel/4);
+      elseif sCasterType == "casterlevelby5" then
+        nDiceCount = math.floor(nCasterLevel/5);
+      else
+        nDiceCount = 0;
+      end
+      -- make sure dice count is not larger than max size
+      if nCasterMax > 0 and nDiceCount > nCasterMax then
+        nDiceCount = nCasterMax;
+      end
+      if nDiceCount > 0 then
+        local aNewDmgDice = {}
+        for count = 1, nDiceCount do
+          aNewDmgDice[count] = aDmgDice[1];
+        end
+        aDmgDice = aNewDmgDice;
+      end
+    end
+    -- end sort out level for dice count
+    
+    local nDmgStatMod;
+    nDmgStatMod, sDmgAbility = getGroupDamageHealBonus(rActor, nodeAction, sDmgAbility);
+    nDmgMod = nDmgMod + nDmgStatMod;
+
+    table.insert(clauses, { dice = aDmgDice, stat = sDmgAbility, modifier = nDmgMod, dmgtype = sDmgType });
 	end
 
 	return clauses;
