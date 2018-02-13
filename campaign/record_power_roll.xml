@@ -315,35 +315,6 @@
   
 	<windowclass name="power_damage_entry">
 		<margins control="0,0,0,5" />
-<!--     <script>
-      function onInit()
-        local sValue = castertype.getStringValue();
-        if (sValue == nil or sValue == "") then
-          castertype.setStringValue("dice");
-        end
-        sValue = dicetext.getValue();
-        if (sValue == nil or sValue == "") then
-          dicetext.setValue("LVLd6");
-        end
-        
-        DB.addHandler(DB.getPath(getDatabaseNode(), "castertype"),"onUpdate", update);
-        update();
-      end
-      function onClose()
-        DB.removeHandler(DB.getPath(getDatabaseNode(), "castertype"),"onUpdate", update);
-      end
-      
-      function update()
-        local sValue = castertype.getStringValue();
-        if (sValue == "dice") then
-          dice.setVisible(true);
-          dicetext.setVisible(false);
-        else
-          dice.setVisible(false);
-          dicetext.setVisible(true);
-        end
-      end
-    </script> -->
 		<sheetdata>
 			<genericcontrol name="rightanchor">
 				<anchored width="0" height="0">
@@ -371,7 +342,7 @@
 			<basicnumber name="castermax">
 				<anchored to="label_wrap1" position="righthigh" offset="-1,1" width="20" height="20" />
 				<hideonvalue>0</hideonvalue>
-        <default>20</default>
+        <default>10</default>
 			</basicnumber>
 			<label name="label_wrap2">
 				<anchored to="castermax" position="righthigh" offset="3,0" width="10" />
@@ -663,18 +634,94 @@
 				<static textres="power_header_effect_duration" />
 				<center />
 			</header_column>
-			<basicdice name="durdice">
-				<anchored width="50" height="20">
-					<top parent="columnanchor" anchor="bottom" relation="relative" offset="7" />
+      
+			<label_simple name="label_castertype">
+				<anchored width="25" height="20">
+					<top parent="columnanchor" anchor="bottom" relation="relative" offset="2" />
 					<left offset="5" />
 				</anchored>
+				<static textres="weapon_label_castertype" />
+        <tooltip textres="weapon_label_castertype_tooltip" />
+			</label_simple>
+			<label_simple name="label_casterlevel">
+				<anchored to="label_castertype" position="righthigh" offset="10,3" width="25" />
+				<static textres="weapon_label_casterlevelmax" />
+        <tooltip textres="weapon_label_casterlevelmax_tooltip" />
+			</label_simple>
+			<label_simple name="label_durvalue">
+				<anchored to="label_casterlevel" position="righthigh" offset="25,0" width="25" />
+				<static textres="power_label_duration_value" />
+        <tooltip textres="power_label_duration_value_tooltip" />
+			</label_simple>
+			<label_simple name="label_durdice">
+				<anchored to="label_durvalue" position="righthigh" offset="15,0" width="60" />
+				<static textres="power_label_duration_dice" />
+        <tooltip textres="power_label_duration_dice_tooltip" />
+			</label_simple>
+			<label_simple name="label_durmod">
+				<anchored to="label_durdice" position="righthigh" offset="10,0" width="30" />
+				<static textres="text_MOD" />
+        <tooltip textres="power_label_duration_mod_tooltip" />
+			</label_simple>
+			<label_simple>
+				<anchored to="label_durmod" position="righthigh" offset="15,0" width="30" />
+				<static textres="power_label_duration_unit" />
+        <tooltip textres="power_label_duration_unit_tooltip" />
+			</label_simple>
+
+      <!--  --celestian -->
+      <cycler_casterlevel_type name="castertype">
+				<anchored width="25" height="20">
+					<top parent="columnanchor" anchor="bottom" relation="relative" offset="1" />
+					<left offset="5" />
+				</anchored>
+        <!-- <anchored position="insidetopleft" offset="5,1" width="25" height="20" /> -->
+      </cycler_casterlevel_type>
+      
+			<label name="label_wrap1">
+				<anchored to="castertype" position="righthigh" offset="4,0" width="10" />
+				<static>(</static>
+			</label>
+			<basicnumber name="castermax">
+				<anchored to="label_wrap1" position="righthigh" offset="-1,1" width="20" height="20" />
+				<hideonvalue>0</hideonvalue>
+        <default>10</default>
+			</basicnumber>
+			<label name="label_wrap2">
+				<anchored to="castermax" position="righthigh" offset="3,0" width="10" />
+				<static>)</static>
+			</label>
+      
+			<label name="label_ex">
+				<anchored to="label_wrap2" position="righthigh" offset="-2,0" width="10" />
+				<static>X</static>
+			</label>
+
+			<basicnumber name="durvalue">
+				<anchored to="label_ex" position="righthigh" offset="4,0" width="30" height="20" />
 				<hideonvalue value="0" />
-                <tooltip textres="power_label_duration_dice_tooltip" />
-            </basicdice>
+        <tooltip textres="power_label_duration_value_tooltip" />
+			</basicnumber>
+
+			<label name="label_plus2">
+				<anchored to="durvalue" position="righthigh" offset="4,0" width="10" />
+				<static>+</static>
+			</label>
+
+			<basicdice name="durdice">
+        <anchored to="label_plus2" position="righthigh" offset="3,0" width="50" height="20" />
+				<hideonvalue value="0" />
+        <tooltip textres="power_label_duration_dice_tooltip" />
+      </basicdice>
+      
+			<label name="label_plus">
+				<anchored to="durdice" position="righthigh" offset="3,0" width="10" />
+				<static>+</static>
+			</label>
 			<basicnumber name="durmod">
-				<anchored to="durdice" position="righthigh" offset="10,0" width="30" height="20" />
+				<anchored to="label_plus" position="righthigh" offset="3,0" width="30" height="20" />
 				<hideonvalue value="0" />
-                <tooltip textres="power_label_duration_mod_tooltip" />
+        <tooltip textres="power_label_duration_mod_tooltip" />
 			</basicnumber>
 			<button_stringcycler name="durunit">
 				<anchored to="durmod" position="righthigh" offset="10,0" width="40" height="20" />
@@ -683,6 +730,7 @@
 					<labelsres>effect_label_durunitmin|effect_label_durunithr|effect_label_durunitday</labelsres>
 					<values>minute|hour|day</values>
 				</parameters>
+        <tooltip textres="power_label_duration_unit_tooltip" />
 			</button_stringcycler>
 			
 			<header_column name="header_other">

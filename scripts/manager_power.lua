@@ -336,6 +336,10 @@ function getPowerRoll(rActor, nodeAction, sSubRoll)
         local nRollDuration = 0;
         local dDurationDice = DB.getValue(nodeAction, "durdice");
         local nModDice = DB.getValue(nodeAction, "durmod", 0);
+        local nDurationValue = PowerManager.getLevelBasedDurationValue(nodeAction);
+        if (nDurationValue > 0) then
+          nModDice = nModDice + nDurationValue;
+        end
         if (dDurationDice and dDurationDice ~= "") then
             nRollDuration = StringManager.evalDice(dDurationDice, nModDice);
         else
@@ -2293,4 +2297,58 @@ function isDivineSpellType(sSpellType)
         end
 	end        
     return bValid
+end
+
+-- bits of code to sort out level for duration values
+function getLevelBasedDurationValue(nodeAction)
+  local nodeCaster = nodeAction.getChild(".....");
+  local isPC = (ActorManager.isPC(nodeCaster));    
+  local nDurationValue = DB.getValue(nodeAction, "durvalue", 0);
+  local nCasterLevel = 1;
+  local nMultiplier = 0;
+  local sCasterType = DB.getValue(nodeAction, "castertype", "");
+  local nCasterMax = DB.getValue(nodeAction, "castermax", 20);
+  local nodeSpell = nodeAction.getChild("...");
+  local sSpellType = DB.getValue(nodeSpell, "type", ""):lower();
+--Debug.console("manager_power.lua","getLevelBasedDurationValue","nodeAction",nodeAction);  
+  if (isPC) then
+    if (sSpellType == "arcane") then
+      nCasterLevel = DB.getValue(nodeCaster, "arcane.totalLevel",1);
+    elseif (sSpellType == "divine") then
+      nCasterLevel = DB.getValue(nodeCaster, "divine.totalLevel",1);
+    else
+      nCasterLevel = CharManager.getActiveClassMaxLevel(nodeCaster);
+    end
+  else
+    -- is NPC
+    nCasterLevel = DB.getValue(nodeCaster, "level",1);
+  end
+
+  -- if castertype ~= "" then setup the dice
+  if (sCasterType ~= nil) then
+    -- make sure dice count is not larger than max size
+    if nCasterMax > 0 and nCasterLevel > nCasterMax then
+      nCasterLevel = nCasterMax;
+    end
+    if sCasterType == "casterlevel" then
+      nMultiplier = nCasterLevel;
+    elseif sCasterType == "casterlevelby2" then
+      nMultiplier = math.floor(nCasterLevel/2);
+    elseif sCasterType == "casterlevelby3" then
+      nMultiplier = math.floor(nCasterLevel/3);
+    elseif sCasterType == "casterlevelby4" then
+      nMultiplier = math.floor(nCasterLevel/4);
+    elseif sCasterType == "casterlevelby5" then
+      nMultiplier = math.floor(nCasterLevel/5);
+    else
+      nMultiplier = 1;
+    end
+    -- all that to now multiple durationValue * level
+    if (nMultiplier>0 and nDurationValue > 0) then
+      nDurationValue = (nMultiplier * nDurationValue);
+    end
+  end
+  -- end sort out level for dice count
+
+  return nDurationValue;
 end

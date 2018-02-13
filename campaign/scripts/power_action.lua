@@ -321,26 +321,32 @@ function onEffectChanged()
 
     -- display dice/mods for duration --celestian
 	local sDuration = "";
-    local dDurationDice = DB.getValue(nodeAction, "durdice");
-    local nDurationMod = DB.getValue(nodeAction, "durmod", 0);
-    local sDurDice = StringManager.convertDiceToString(dDurationDice);
-    if (sDurDice ~= "") then 
-        sDuration = sDuration .. sDurDice;
+  local dDurationDice = DB.getValue(nodeAction, "durdice");
+  local nDurationMod = DB.getValue(nodeAction, "durmod", 0);
+  local sDurDice = StringManager.convertDiceToString(dDurationDice);
+  if (sDurDice ~= "") then 
+      sDuration = sDurDice;
+  end
+
+  local nDurationValue = PowerManager.getLevelBasedDurationValue(nodeAction);
+  if nDurationValue > 0 then
+    sDuration = nDurationValue .. "+" .. sDuration
+  end
+
+  if (nDurationMod ~= 0 and sDurDice ~= "") then
+    local sSign = "+";
+    if (nDurationMod < 0) then
+      sSign = "";
     end
-    if (nDurationMod ~= 0 and sDurDice ~= "") then
-        local sSign = "+";
-        if (nDurationMod < 0) then
-            sSign = "";
-        end
-        sDuration = sDuration .. sSign .. nDurationMod;
-    elseif (nDurationMod ~= 0) then
-        sDuration = sDuration .. nDurationMod;
-    end
+    sDuration = sDuration .. sSign .. nDurationMod;
+  elseif (nDurationMod ~= 0) then
+    sDuration = sDuration .. nDurationMod;
+  end
 	
 	local sUnits = DB.getValue(nodeAction, "durunit", "");
 	if sDuration ~= "" then
-        --local nDuration = tonumber(sDuration);
-        local bMultiple = (sDurDice ~= "") or (nDurationMod > 1);
+    --local nDuration = tonumber(sDuration);
+    local bMultiple = (sDurDice ~= "") or (nDurationMod > 1);
 		if sUnits == "minute" then
 			sDuration = sDuration .. " turn";
 		elseif sUnits == "hour" then
@@ -350,9 +356,9 @@ function onEffectChanged()
 		else
 			sDuration = sDuration .. " rnd";
 		end
-            if (bMultiple) then
-                sDuration = sDuration .. "s";
-            end
+    if (bMultiple) then
+        sDuration = sDuration .. "s";
+    end
 	end
 	
 	effectview.setValue(sLabel);

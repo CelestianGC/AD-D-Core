@@ -2350,35 +2350,43 @@ function addAdvancement(nodeChar,nodeAdvance,nodeClass)
     -- spell slots
     -- arcane
     if (nodeArcaneSlots) then
-        -- set the "spell level" so we can access it in spells
+      local bNewArcaneSlots = hasSpellSlots(nodeArcaneSlots,"arcane");
+Debug.console("manager_char.lua","applyEXPToActiveClasses","bNewArcaneSlots",bNewArcaneSlots);    
+      -- set the "spell level" so we can access it in spells
+      if bNewArcaneSlots then
         local nCurrentSpellLevel = DB.getValue(nodeChar,"arcane.totalLevel",0);
         if nCurrentSpellLevel < nLevel then
             DB.setValue(nodeChar,"arcane.totalLevel","number",nLevel);
         end
-        for i = 1, 9 do
-            local nSlots = DB.getValue(nodeArcaneSlots,"level" .. i,0);
-            if (nSlots > 0) then
-                local nCurrentSlots = DB.getValue(nodeChar, "powermeta.spellslots" .. i .. ".max",0);
-                local nAdjustedSlots = nCurrentSlots + nSlots;
-                DB.setValue(nodeChar, "powermeta.spellslots" .. i .. ".max", "number", nAdjustedSlots);
-            end
-        end
+      end
+      for i = 1, 9 do
+          local nSlots = DB.getValue(nodeArcaneSlots,"level" .. i,0);
+          if (nSlots > 0) then
+              local nCurrentSlots = DB.getValue(nodeChar, "powermeta.spellslots" .. i .. ".max",0);
+              local nAdjustedSlots = nCurrentSlots + nSlots;
+              DB.setValue(nodeChar, "powermeta.spellslots" .. i .. ".max", "number", nAdjustedSlots);
+          end
+      end
     end
     -- divine
     if (nodeDivineSlots) then
+      local bNewDivineSlots = hasSpellSlots(nodeDivineSlots,"divine");
+Debug.console("manager_char.lua","applyEXPToActiveClasses","bNewDivineSlots",bNewDivineSlots);    
         -- set the "spell level" so we can access it in spells 
+      if bNewDivineSlots then
         local nCurrentSpellLevel = DB.getValue(nodeChar,"divine.totalLevel",0);
         if nCurrentSpellLevel < nLevel then
             DB.setValue(nodeChar,"divine.totalLevel","number",nLevel);
         end
-        for i = 1, 7 do
-            local nSlots = DB.getValue(nodeDivineSlots,"level" .. i,0);
-            if (nSlots > 0) then
-                local nCurrentSlots = DB.getValue(nodeChar, "powermeta.pactmagicslots" .. i .. ".max",0);
-                local nAdjustedSlots = nCurrentSlots + nSlots;
-                DB.setValue(nodeChar, "powermeta.pactmagicslots" .. i .. ".max", "number", nAdjustedSlots);
-            end
-        end
+      end
+      for i = 1, 7 do
+          local nSlots = DB.getValue(nodeDivineSlots,"level" .. i,0);
+          if (nSlots > 0) then
+              local nCurrentSlots = DB.getValue(nodeChar, "powermeta.pactmagicslots" .. i .. ".max",0);
+              local nAdjustedSlots = nCurrentSlots + nSlots;
+              DB.setValue(nodeChar, "powermeta.pactmagicslots" .. i .. ".max", "number", nAdjustedSlots);
+          end
+      end
     end
 
         -- effects
@@ -3059,3 +3067,19 @@ function getHPRollForAdvancement(nodeChar,nodeClass,nodeAdvance,nClassCount,nLev
     return nHP, nConBonus;
 end
 
+-- flip though all slots and if has spell slot return true
+function hasSpellSlots(nodeSpellSlots, sSpellType)
+  local nMaxSlots = 9;
+  local bHasNewSlots = false;
+  if (sSpellType == "divine") then
+    nMaxSlots = 7;
+  end
+  for i = 1, nMaxSlots do
+      local nSlots = DB.getValue(nodeSpellSlots,"level" .. i,0);
+      if (nSlots > 0) then
+        bHasNewSlots = true;
+        break;
+      end
+  end
+  return bHasNewSlots;
+end

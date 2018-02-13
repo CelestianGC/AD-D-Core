@@ -261,21 +261,26 @@
     <!-- Actions -->
 	<string name="power_label_spellcastingslots">Arcane</string>
 	<string name="power_label_pactmagicslots">Divine</string>
-    <string name="power_label_memorize">Memorize</string>
-    <string name="power_label_memorize_tooltip">Click the spell book to memorize this spell.</string>
-    <string name="power_label_memorizecount_tooltip">Number of times this spell is memorized.</string>
-    <string name="power_label_initiative">Initiative</string>
-    <string name="power_label_initiative_tooltip">Roll (or change) initiative for this action.</string>
-    <string name="power_label_hidespell">Hide</string>
-    <string name="power_label_hidespell_tooltip">Hide spell from combat listing since it is no longer memorized.</string>
-    <string name="power_label_cast_tooltip">Cast this spell or use power.</string>
-    <string name="power_label_attack_tooltip">Attack using spell or power.</string>
-    <string name="power_label_save_tooltip">Force target(s) to save versus this spell or power.</string>
-    <string name="power_label_duration_dice_tooltip">Dice roll for duration.</string>
-    <string name="power_label_duration_mod_tooltip">Modifier applied to duration.</string>
-    <string name="power_label_type">Type</string>
-    <string name="power_label_type_tooltip">Type of effect. Use CUSTOM to set the string manually.</string>
-    
+  <string name="power_label_memorize">Memorize</string>
+  <string name="power_label_memorize_tooltip">Click the spell book to memorize this spell.</string>
+  <string name="power_label_memorizecount_tooltip">Number of times this spell is memorized.</string>
+  <string name="power_label_initiative">Initiative</string>
+  <string name="power_label_initiative_tooltip">Roll (or change) initiative for this action.</string>
+  <string name="power_label_hidespell">Hide</string>
+  <string name="power_label_hidespell_tooltip">Hide spell from combat listing since it is no longer memorized.</string>
+  <string name="power_label_cast_tooltip">Cast this spell or use power.</string>
+  <string name="power_label_attack_tooltip">Attack using spell or power.</string>
+  <string name="power_label_save_tooltip">Force target(s) to save versus this spell or power.</string>
+  <string name="power_label_duration_dice_tooltip">Dice roll for duration.</string>
+  <string name="power_label_duration_mod_tooltip">Modifier applied to duration.</string>
+  <string name="power_label_type">Type</string>
+  <string name="power_label_type_tooltip">Type of effect. Use CUSTOM to set the string manually.</string>
+  
+  <string name="power_label_duration_dice">Dice</string>
+  <string name="power_label_duration_value">Value</string>
+  <string name="power_label_duration_value_tooltip">Value applied to duration.</string>
+  <string name="power_label_duration_unit">Unit</string>
+  <string name="power_label_duration_unit_tooltip">Unit used for duration, rounds, turns, hours, days...</string>
     
    	<!-- Combat Tracker -->
 	<string name="ct_label_damage">Atks</string>
@@ -356,7 +361,7 @@
   <string name="weapon_label_castertype">CL</string>
   <string name="weapon_label_castertype_tooltip">Caster level dice count value.</string>
   <string name="weapon_label_casterlevelmax">MAX</string>
-  <string name="weapon_label_casterlevelmax_tooltip">The maximum size the caster dice count can be.</string>
+  <string name="weapon_label_casterlevelmax_tooltip">The maximum size the caster dice count can be (0 for infinite).</string>
     <!-- Item Record -->
 	<string name="item_label_exp">EXP</string>
     

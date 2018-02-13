@@ -40,4 +40,12 @@
 			<script file="common/scripts/number_crosslink.lua" />
 		</numberfield>
 	</template>
+  
+  <template name="label_simple">
+    <stringcontrol>
+      <font>sheetlabelmini</font>
+      <center />
+    </stringcontrol>
+  </template>
+
 </root>
