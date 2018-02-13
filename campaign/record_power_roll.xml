@@ -284,13 +284,13 @@
 			
 			<label_fieldtop>
 				<anchored to="list" position="aboveleft" offset="5,1" width="20" />
-				<static textres="weapon_label_castertype" />
-        <tooltip textres="weapon_label_castertype_tooltip" />
+				<static textres="power_label_castertype" />
+        <tooltip textres="power_label_castertype_tooltip" />
 			</label_fieldtop>
 			<label_fieldtop>
 				<anchored to="list" position="aboveleft" offset="40,1" width="25" />
-				<static textres="weapon_label_casterlevelmax" />
-        <tooltip textres="weapon_label_casterlevelmax_tooltip" />
+				<static textres="power_label_casterlevelmax" />
+        <tooltip textres="power_label_casterlevelmax_tooltip" />
 			</label_fieldtop>
 			<label_fieldtop>
 				<anchored to="list" position="aboveleft" offset="90,1" width="60" />
@@ -640,13 +640,13 @@
 					<top parent="columnanchor" anchor="bottom" relation="relative" offset="2" />
 					<left offset="5" />
 				</anchored>
-				<static textres="weapon_label_castertype" />
-        <tooltip textres="weapon_label_castertype_tooltip" />
+				<static textres="power_label_castertype" />
+        <tooltip textres="power_label_castertype_duration_tooltip" />
 			</label_simple>
 			<label_simple name="label_casterlevel">
 				<anchored to="label_castertype" position="righthigh" offset="10,3" width="25" />
-				<static textres="weapon_label_casterlevelmax" />
-        <tooltip textres="weapon_label_casterlevelmax_tooltip" />
+				<static textres="power_label_casterlevelmax" />
+        <tooltip textres="power_label_casterlevelmax_duration_tooltip" />
 			</label_simple>
 			<label_simple name="label_durvalue">
 				<anchored to="label_casterlevel" position="righthigh" offset="25,0" width="25" />

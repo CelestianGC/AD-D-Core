@@ -281,6 +281,13 @@
   <string name="power_label_duration_value_tooltip">Value applied to duration.</string>
   <string name="power_label_duration_unit">Unit</string>
   <string name="power_label_duration_unit_tooltip">Unit used for duration, rounds, turns, hours, days...</string>
+
+  <string name="power_label_castertype">CL</string>
+  <string name="power_label_castertype_tooltip">Caster level dice count value.  Level, Level/2, Level/3, Level/4 and Level/5</string>
+  <string name="power_label_castertype_duration_tooltip">Caster level value. CL can be Level, Level/2, Level/3, Level/4 and Level/5.  CL X Duration Value. </string>
+  <string name="power_label_casterlevelmax">MAX</string>
+  <string name="power_label_casterlevelmax_tooltip">The maximum size the caster dice count can be (0 for infinite).</string>
+  <string name="power_label_casterlevelmax_duration_tooltip">The maximum level of caster value. (0 for infinite).</string>
     
    	<!-- Combat Tracker -->
 	<string name="ct_label_damage">Atks</string>
@@ -358,10 +365,6 @@
 	<string name="weapon_label_dmgadj">DMG</string>
 	<string name="weapon_label_dmgadj_tooltip">Damage adjustment applied.</string>
   <string name="weapon_label_dmgbonus_tooltip">Adjustment modifier for damage for this weapon.</string>
-  <string name="weapon_label_castertype">CL</string>
-  <string name="weapon_label_castertype_tooltip">Caster level dice count value.</string>
-  <string name="weapon_label_casterlevelmax">MAX</string>
-  <string name="weapon_label_casterlevelmax_tooltip">The maximum size the caster dice count can be (0 for infinite).</string>
     <!-- Item Record -->
 	<string name="item_label_exp">EXP</string>
     

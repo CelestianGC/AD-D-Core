@@ -571,8 +571,12 @@ function getActionDamage(rActor, nodeAction)
       end
       if nDiceCount > 0 then
         local aNewDmgDice = {}
+        local nDiceIndex = 0;
         for count = 1, nDiceCount do
-          aNewDmgDice[count] = aDmgDice[1];
+          for i = 1, #aDmgDice do
+            nDiceIndex = nDiceIndex + 1;
+            aNewDmgDice[nDiceIndex] = aDmgDice[i];
+          end
         end
         aDmgDice = aNewDmgDice;
       end
