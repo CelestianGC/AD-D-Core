@@ -288,7 +288,8 @@
   <string name="power_label_casterlevelmax">MAX</string>
   <string name="power_label_casterlevelmax_tooltip">The maximum size the caster dice count can be (0 for infinite).</string>
   <string name="power_label_casterlevelmax_duration_tooltip">The maximum level of caster value. (0 for infinite).</string>
-    
+  <string name="power_label_dmgvalue_tooltip">Value multipled by CL result added to damage.</string>
+
    	<!-- Combat Tracker -->
 	<string name="ct_label_damage">Atks</string>
 	<string name="ct_label_speed">Mv</string>
@@ -365,6 +366,10 @@
 	<string name="weapon_label_dmgadj">DMG</string>
 	<string name="weapon_label_dmgadj_tooltip">Damage adjustment applied.</string>
   <string name="weapon_label_dmgbonus_tooltip">Adjustment modifier for damage for this weapon.</string>
+  <string name="weapon_label_customdmgdice">Custom</string>
+  <string name="weapon_label_customdmgdice_tooltip">Custom dice roll without CL adjustments.</string>
+  <string name="weapon_label_dmgdice_tooltip">Dice roll modified by CL value</string>
+  
     <!-- Item Record -->
 	<string name="item_label_exp">EXP</string>
     

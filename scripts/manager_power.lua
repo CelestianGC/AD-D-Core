@@ -535,6 +535,8 @@ function getActionDamage(rActor, nodeAction)
     local nDiceCount = 0;
     local sCasterType = DB.getValue(v, "castertype", "");
     local nCasterMax = DB.getValue(v, "castermax", 20);
+    local nDmgValue = DB.getValue(v, "dmgvalue", 0);
+    local aDmgDiceCustom = DB.getValue(v, "dicecustom", {});
     local nodeSpell = nodeAction.getChild("...");
     local nCasterLevel = 1;
     local sSpellType = DB.getValue(nodeSpell, "type", ""):lower();
@@ -552,6 +554,10 @@ function getActionDamage(rActor, nodeAction)
     end
     -- if castertype ~= "" then setup the dice
     if (sCasterType ~= nil) then
+      -- make sure nCasterLevel is not larger than max size
+      if nCasterMax > 0 and nCasterLevel > nCasterMax then
+        nCasterLevel = nCasterMax;
+      end
       if sCasterType == "casterlevel" then
         nDiceCount = nCasterLevel;
       elseif sCasterType == "casterlevelby2" then
@@ -563,21 +569,28 @@ function getActionDamage(rActor, nodeAction)
       elseif sCasterType == "casterlevelby5" then
         nDiceCount = math.floor(nCasterLevel/5);
       else
-        nDiceCount = 0;
-      end
-      -- make sure dice count is not larger than max size
-      if nCasterMax > 0 and nDiceCount > nCasterMax then
-        nDiceCount = nCasterMax;
+        nDiceCount = 1;
       end
       if nDiceCount > 0 then
+        -- if using dmgValue multiply it by CL value and add that to +mod total
+        if (nDmgValue > 0) then
+          nDmgMod = nDmgMod + (nDmgValue * nDiceCount); -- nDiceCount is CL value
+        end
         local aNewDmgDice = {}
         local nDiceIndex = 0;
+        -- roll count number of "dice" LEVEL D {DICE}
         for count = 1, nDiceCount do
           for i = 1, #aDmgDice do
             nDiceIndex = nDiceIndex + 1;
             aNewDmgDice[nDiceIndex] = aDmgDice[i];
           end
         end
+        -- add in custom plain dice now
+        for i = 1, #aDmgDiceCustom do
+          nDiceIndex = nDiceIndex + 1;
+          aNewDmgDice[nDiceIndex] = aDmgDiceCustom[i];
+        end
+        
         aDmgDice = aNewDmgDice;
       end
     end
