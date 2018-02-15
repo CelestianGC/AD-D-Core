@@ -369,11 +369,21 @@
 			<string_ctname name="name">
 				<anchored height="20">
 					<top parent="active_spacer_top" anchor="bottom" offset="10" />
-					<left parent="tokenvis" anchor="right" offset="5" />
-					<right parent="rightanchor" anchor="left" relation="relative" offset="-10" />
+					<left parent="tokenvis" anchor="right" relation="relative" offset="5" />
+					<!-- <right parent="rightanchor" anchor="left" relation="relative" offset="-10" /> -->
+				</anchored>
+				<tabtarget next="name_hidden" />
+			</string_ctname>
+
+			<string_ctname name="name_hidden">
+				<anchored height="20">
+					<top parent="active_spacer_top" anchor="bottom" offset="10" />
+					<left parent="tokenvis" anchor="right" relation="relative" offset="5" />
+          <right parent="rightanchor" anchor="left" relation="relative" offset="-10" />
 				</anchored>
 				<tabtarget next="initresult" />
 			</string_ctname>
+
 
 			<!-- Targeting subsection -->
 			<icon_ctsection name="targetingicon">

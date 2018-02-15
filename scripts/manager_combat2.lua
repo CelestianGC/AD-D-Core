@@ -288,10 +288,16 @@ function updateNPCSaves(nodeEntry, nodeNPC, bForceUpdate)
 end
 
 function addNPC(sClass, nodeNPC, sName)
+--Debug.console("manager_combat2.lua","addNPC","sClass",sClass);
+  
+  local sNPCFullName = DB.getValue(nodeNPC,"name","");
+  local sNPCName = sNPCFullName:gsub("%(.*%)", ""); -- remove everything (*) because thats DM only
+  local sNPCNameHidden = string.match(sNPCFullName, "%(.*%)"); -- get the hidden portion and save it
+  sName = sNPCName; -- set name to non-hidden bit
 	local nodeEntry, nodeLastMatch = CombatManager.addNPCHelper(nodeNPC, sName);
 	
-    -- update NPC Saves for HD
-    updateNPCSaves(nodeEntry, nodeNPC);
+  -- update NPC Saves for HD
+  updateNPCSaves(nodeEntry, nodeNPC);
 
 	-- Fill in spells
 	CampaignDataManager2.updateNPCSpells(nodeEntry);
@@ -302,8 +308,8 @@ function addNPC(sClass, nodeNPC, sName)
 --	DB.setValue(nodeEntry, "init", "number", nDexMod);
 
 	-- base modifier for initiative
-    -- we set modifiers based on size per DMG for AD&D -celestian
-    DB.setValue(nodeEntry, "init", "number", 0);
+  -- we set modifiers based on size per DMG for AD&D -celestian
+  DB.setValue(nodeEntry, "init", "number", 0);
 	
 	-- Determine size
 	local sSize = StringManager.trim(DB.getValue(nodeEntry, "size", ""):lower());
@@ -480,6 +486,11 @@ function addNPC(sClass, nodeNPC, sName)
     -- sanitize special defense/attack string
     setSpecialDefenseAttack(nodeEntry);
     
+  -- DM only "full name" if necessary
+  if sNPCNameHidden ~= nil and sNPCNameHidden ~= "" then
+    DB.setValue(nodeEntry,"name_hidden","string",sNPCNameHidden);
+  end
+  
 	return nodeEntry;
 end
 
