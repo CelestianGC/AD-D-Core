@@ -260,7 +260,11 @@
     
     <!-- Actions -->
 	<string name="power_label_spellcastingslots">Arcane</string>
+	<string name="power_label_arcane_level_tooltip">Arcane spellcasting level.</string>
+  
 	<string name="power_label_pactmagicslots">Divine</string>
+	<string name="power_label_divine_level_tooltip">Divine spellcasting level.</string>
+  
   <string name="power_label_memorize">Memorize</string>
   <string name="power_label_memorize_tooltip">Click the spell book to memorize this spell.</string>
   <string name="power_label_memorizecount_tooltip">Number of times this spell is memorized.</string>

@@ -23,7 +23,7 @@
 	
     <!-- Power slot cast -->
 	<windowclass name="power_slots_cast">
-        <margins control="0,4,0,0" />
+        <margins control="0,0,0,0" />
 		<script file="campaign/scripts/power_slots_cast.lua" />
 		<sheetdata>
 			<anchor_column name="columnanchor" />
@@ -41,10 +41,17 @@
 			<label name="spellslots_label">
 				<anchored width="80">
 					<top parent="columnanchor" anchor="bottom" relation="current" offset="7" />
-					<left offset="10" />
+					<left offset="40" />
 				</anchored>
 				<static textres="power_label_spellcastingslots" />
 			</label>
+
+      <!-- level -->
+      <basicnumber name="arcanelevel" source="arcane.totalLevel">
+        <anchored to="spellslots_label"  position="insidetopleft" offset="-25,0" width="20" height="20" />
+        <tooltip textres="power_label_arcane_level_tooltip" />
+      </basicnumber>
+      
 			<windowlist name="spellslots">
 				<anchored>
 					<top parent="columnanchor" anchor="bottom" relation="relative" offset="7" />
@@ -63,10 +70,17 @@
  			<label name="pactmagicslots_label">
 				<anchored width="80">
 					<top parent="columnanchor" anchor="bottom" relation="current" offset="7" />
-					<left offset="10" />
+					<left offset="40" />
 				</anchored>
 				<static textres="power_label_pactmagicslots" />
 			</label> 
+
+      <!-- level -->
+      <basicnumber name="divinelevel" source="divine.totalLevel">
+        <anchored to="pactmagicslots_label"  position="insidetopleft" offset="-25,0" width="20" height="20" />
+        <tooltip textres="power_label_divine_level_tooltip" />
+      </basicnumber>
+      
 			<windowlist name="pactmagicslots">
 				<anchored>
 					<top parent="columnanchor" anchor="bottom" relation="relative" offset="7" />
@@ -123,11 +137,17 @@
 			<label name="spellslots_label">
 				<anchored>
 					<top parent="columnanchor" anchor="bottom" relation="current" offset="17" />
-					<left offset="10" />
+					<left offset="40" />
 					<right anchor="center" offset="-120" />
 				</anchored>
 				<static textres="power_label_spellcastingslots" />
 			</label>
+      <!-- level -->
+      <basicnumber name="arcanelevel" source="arcane.totalLevel">
+        <anchored to="spellslots_label"  position="insidetopleft" offset="-25,0" width="20" height="20" />
+        <tooltip textres="power_label_arcane_level_tooltip" />
+      </basicnumber>
+
 			<genericcontrol name="anchor_spellslots">
 				<anchored width="0" height="20">
 					<top parent="columnanchor" anchor="bottom" relation="relative" offset="17" />
@@ -184,11 +204,17 @@
 			<label name="pactmagicslots_label">
 				<anchored>
 					<top parent="columnanchor" anchor="bottom" relation="current" offset="17" />
-					<left offset="10" />
+					<left offset="40" />
 					<right anchor="center" offset="-120" />
 				</anchored>
 				<static textres="power_label_pactmagicslots" />
 			</label>
+      <!-- level -->
+      <basicnumber name="divinelevel" source="divine.totalLevel">
+        <anchored to="pactmagicslots_label"  position="insidetopleft" offset="-25,0" width="20" height="20" />
+        <tooltip textres="power_label_divine_level_tooltip" />
+      </basicnumber>
+      
 			<genericcontrol name="anchor_pactmagicslots">
 				<anchored width="0" height="20">
 					<top parent="columnanchor" anchor="bottom" relation="relative" offset="17" />

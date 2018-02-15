@@ -439,7 +439,7 @@
 			
 			<subwindow name="spellslots_cast">
 				<anchored>
-					<top parent="columnanchor" anchor="bottom" relation="relative" offset="0" />
+					<top parent="columnanchor" anchor="bottom" relation="relative" offset="3" />
 					<left />
 					<right />
 				</anchored>
@@ -637,7 +637,7 @@
 			
 			<subwindow name="spellslots_cast">
 				<anchored>
-					<top parent="columnanchor" anchor="bottom" relation="relative" offset="0" />
+					<top parent="columnanchor" anchor="bottom" relation="relative" offset="3" />
 					<left />
 					<right />
 				</anchored>
