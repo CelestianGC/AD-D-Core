@@ -293,7 +293,14 @@ function addNPC(sClass, nodeNPC, sName)
   local sNPCFullName = DB.getValue(nodeNPC,"name","");
   local sNPCName = sNPCFullName:gsub("%(.*%)", ""); -- remove everything (*) because thats DM only
   local sNPCNameHidden = string.match(sNPCFullName, "%(.*%)"); -- get the hidden portion and save it
-  sName = sNPCName; -- set name to non-hidden bit
+  
+  if sName == nil then 
+    sName = sNPCName; -- set name to non-hidden part
+  else
+    sNPCNameHidden = string.match(sName, "%(.*%)"); -- save hidden portion
+    sName = sName:gsub("%(.*%)", "");               -- strip out hidden portion from name
+  end
+  
 	local nodeEntry, nodeLastMatch = CombatManager.addNPCHelper(nodeNPC, sName);
 	
   -- update NPC Saves for HD
