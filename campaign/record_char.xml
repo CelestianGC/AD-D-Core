@@ -52,6 +52,7 @@
 					<left anchor="token" postion="right" offset="50" />
 					<right offset="-160" />
 				</anchored>
+        <nodrag/>
 			</stringu>
             <label name="name_label" >
                 <anchored to="name" >

@@ -193,7 +193,7 @@
 			<size width="450" height="250" />
 		</placement>
 		<sizelimits>
-			<minimum width="350" height="350" />
+			<minimum width="450" height="250" />
 			<dynamic />
 		</sizelimits>
 		<nodelete />
@@ -402,10 +402,10 @@
 				<static>X</static>
 			</label>
       
-			<basicnumber name="dmgvalue">
+			<basicnumber name="customvalue">
 				<anchored to="dice" position="belowleft" width="60" height="20" offset="0,3" />
         <hideonvalue>0</hideonvalue>
-        <tooltip textres="power_label_dmgvalue_tooltip" />
+        <tooltip textres="power_label_customvalue_tooltip" />
 			</basicnumber>
       
 		</sheetdata>
@@ -414,10 +414,10 @@
 	<windowclass name="power_heal_editor">
 		<frame>charsheethelper</frame>
 		<placement>
-			<size width="350" height="350" />
+			<size width="400" height="350" />
 		</placement>
 		<sizelimits>
-			<minimum width="350" height="350" />
+			<minimum width="400" height="250" />
 			<dynamic />
 		</sizelimits>
 		<nodelete />
@@ -541,7 +541,7 @@
 				<class>power_heal_entry</class>
 			</list_editor>
 			
-			<label_fieldtop>
+<!-- 			<label_fieldtop>
 				<anchored to="list" position="aboveleft" offset="5,1" width="60" />
 				<static textres="weapon_label_dmgdice" />
 			</label_fieldtop>
@@ -553,8 +553,37 @@
 				<anchored to="list" position="aboveleft" offset="129,1" width="35" />
 				<static textres="weapon_label_dmgbonus" />
 			</label_fieldtop>
+ -->      
+			<label_fieldtop>
+				<anchored to="list" position="aboveleft" offset="5,1" width="20" />
+				<static textres="power_label_castertype" />
+        <tooltip textres="power_label_castertype_tooltip" />
+			</label_fieldtop>
+			<label_fieldtop>
+				<anchored to="list" position="aboveleft" offset="40,1" width="25" />
+				<static textres="power_label_casterlevelmax" />
+        <tooltip textres="power_label_casterlevelmax_tooltip" />
+			</label_fieldtop>
+			<label_fieldtop>
+				<anchored to="list" position="aboveleft" offset="90,1" width="60" />
+				<static textres="weapon_label_dmgdice" />
+			</label_fieldtop>
+			<label_fieldtop>
+				<anchored to="list" position="aboveleft" offset="165,1" width="60" />
+				<static textres="weapon_label_customdmgdice" />
+			</label_fieldtop>
+			<label_fieldtop>
+				<anchored to="list" position="aboveleft" offset="245,1" width="30" />
+				<static textres="weapon_label_dmgstat" />
+			</label_fieldtop>
+			<label_fieldtop>
+				<anchored to="list" position="aboveleft" offset="290,1" width="35" />
+				<static textres="weapon_label_dmgbonus" />
+			</label_fieldtop>
+
 		</sheetdata>
 	</windowclass>
+  
 	<windowclass name="power_heal_entry">
 		<margins control="0,0,0,5" />
 		<sheetdata>
@@ -572,16 +601,64 @@
 				</anchored>
 			</button_idelete>
 
-			<basicdice name="dice">
+<!-- 			<basicdice name="dice">
 				<anchored position="insidetopleft" offset="5,2" width="60" height="20" />
 			</basicdice>
 			<label name="label_plus">
 				<anchored to="dice" position="righthigh" offset="5,0" width="10" />
 				<static>+</static>
 			</label>
+ -->      
+      <!-- add dice string and parse <level> for "{level}d6" fireball damage? --celestian -->
+      <cycler_casterlevel_type name="castertype">
+        <anchored position="insidetopleft" offset="5,1" width="25" height="20" />
+      </cycler_casterlevel_type>
+      
+			<label name="label_wrap1">
+				<anchored to="castertype" position="righthigh" offset="4,0" width="10" />
+				<static>(</static>
+			</label>
+			<basicnumber name="castermax">
+				<anchored to="label_wrap1" position="righthigh" offset="-1,1" width="20" height="20" />
+				<hideonvalue>0</hideonvalue>
+        <default>10</default>
+			</basicnumber>
+			<label name="label_wrap2">
+				<anchored to="castermax" position="righthigh" offset="3,0" width="10" />
+				<static>)</static>
+			</label>
+      
+			<label name="label_dee">
+				<anchored to="label_wrap2" position="righthigh" offset="-2,0" width="10" />
+				<static>D</static>
+			</label>
+      
+			<basicdice name="dice">
+				<anchored to="label_dee" position="righthigh" offset="4,1" width="60" height="20" />
+				<!-- <anchored position="insidetopleft" offset="45,2" width="60" height="20" /> -->
+        <tooltip textres="weapon_label_dmgdice_tooltip" />
+			</basicdice>
+      
+			<label name="label_plus">
+				<anchored to="dice" position="righthigh" offset="5,1" width="10" />
+				<static>+</static>
+			</label>
+
+			<basicdice name="dicecustom">
+				<anchored to="label_plus" position="righthigh" offset="4,1" width="60" height="20" />
+				<!-- <anchored position="insidetopleft" offset="45,2" width="60" height="20" /> -->
+        <tooltip textres="weapon_label_customdmgdice_tooltip" />
+			</basicdice>
+      
+			<label name="label_plus_custom">
+				<anchored to="dicecustom" position="righthigh" offset="5,1" width="10" />
+				<static>+</static>
+			</label>
+ 
 			<cycler_power name="stat">
-				<anchored to="label_plus" position="righthigh" offset="2,0" width="30" height="20" />
+				<anchored to="label_plus_custom" position="righthigh" offset="2,0" width="30" height="20" />
 			</cycler_power>
+
 			<label name="label_plus2">
 				<anchored to="stat" position="righthigh" offset="5,0" width="10" />
 				<static>+</static>
@@ -590,6 +667,19 @@
 				<anchored to="label_plus2" position="righthigh" offset="2,0" width="35" height="20" />
 				<hideonvalue>0</hideonvalue>
 			</basicnumber>
+      
+      
+			<label name="label_x">
+				<anchored to="label_dee" position="belowleft" width="10" offset="0,3" />
+				<static>X</static>
+			</label>
+      
+			<basicnumber name="customvalue">
+				<anchored to="dice" position="belowleft" width="60" height="20" offset="0,3" />
+        <hideonvalue>0</hideonvalue>
+        <tooltip textres="power_label_customvalue_tooltip" />
+			</basicnumber>
+      
 		</sheetdata>
 	</windowclass>
 

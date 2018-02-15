@@ -527,74 +527,78 @@ function getActionDamage(rActor, nodeAction)
 	local aDamageNodes = UtilityManager.getSortedTable(DB.getChildren(nodeAction, "damagelist"));
 	for _,v in ipairs(aDamageNodes) do
     local sDmgAbility = DB.getValue(v, "stat", "");
-    local aDmgDice = DB.getValue(v, "dice", {});
-    local nDmgMod = DB.getValue(v, "bonus", 0);
+    -- local aDmgDice = DB.getValue(v, "dice", {});
+    -- local nDmgMod = DB.getValue(v, "bonus", 0);
     local sDmgType = DB.getValue(v, "type", "");
     
-    -- bits of code to sort out level for dice
-    local nDiceCount = 0;
-    local sCasterType = DB.getValue(v, "castertype", "");
-    local nCasterMax = DB.getValue(v, "castermax", 20);
-    local nDmgValue = DB.getValue(v, "dmgvalue", 0);
-    local aDmgDiceCustom = DB.getValue(v, "dicecustom", {});
-    local nodeSpell = nodeAction.getChild("...");
-    local nCasterLevel = 1;
-    local sSpellType = DB.getValue(nodeSpell, "type", ""):lower();
-    if (isPC) then
-      if (sSpellType == "arcane") then
-        nCasterLevel = DB.getValue(nodeCaster, "arcane.totalLevel",1);
-      elseif (sSpellType == "divine") then
-        nCasterLevel = DB.getValue(nodeCaster, "divine.totalLevel",1);
-      else
-        nCasterLevel = CharManager.getActiveClassMaxLevel(nodeCaster);
-      end
-    else
-      -- is NPC
-      nCasterLevel = DB.getValue(nodeCaster, "level",1);
-    end
-    -- if castertype ~= "" then setup the dice
-    if (sCasterType ~= nil) then
-      -- make sure nCasterLevel is not larger than max size
-      if nCasterMax > 0 and nCasterLevel > nCasterMax then
-        nCasterLevel = nCasterMax;
-      end
-      if sCasterType == "casterlevel" then
-        nDiceCount = nCasterLevel;
-      elseif sCasterType == "casterlevelby2" then
-        nDiceCount = math.floor(nCasterLevel/2);
-      elseif sCasterType == "casterlevelby3" then
-        nDiceCount = math.floor(nCasterLevel/3);
-      elseif sCasterType == "casterlevelby4" then
-        nDiceCount = math.floor(nCasterLevel/4);
-      elseif sCasterType == "casterlevelby5" then
-        nDiceCount = math.floor(nCasterLevel/5);
-      else
-        nDiceCount = 1;
-      end
-      if nDiceCount > 0 then
-        -- if using dmgValue multiply it by CL value and add that to +mod total
-        if (nDmgValue > 0) then
-          nDmgMod = nDmgMod + (nDmgValue * nDiceCount); -- nDiceCount is CL value
-        end
-        local aNewDmgDice = {}
-        local nDiceIndex = 0;
-        -- roll count number of "dice" LEVEL D {DICE}
-        for count = 1, nDiceCount do
-          for i = 1, #aDmgDice do
-            nDiceIndex = nDiceIndex + 1;
-            aNewDmgDice[nDiceIndex] = aDmgDice[i];
-          end
-        end
-        -- add in custom plain dice now
-        for i = 1, #aDmgDiceCustom do
-          nDiceIndex = nDiceIndex + 1;
-          aNewDmgDice[nDiceIndex] = aDmgDiceCustom[i];
-        end
+    local nodeCaster = DB.findNode(rActor.sCreatureNode);
+    local isPC = (rActor.sType == "pc");
+    local nDmgMod, aDmgDice = getLevelBasedDiceValues(nodeCaster,isPC, nodeAction, v)
+    
+    -- -- bits of code to sort out level for dice
+    -- local nDiceCount = 0;
+    -- local sCasterType = DB.getValue(v, "castertype", "");
+    -- local nCasterMax = DB.getValue(v, "castermax", 20);
+    -- local ncustomvalue = DB.getValue(v, "customvalue", 0);
+    -- local aDmgDiceCustom = DB.getValue(v, "dicecustom", {});
+    -- local nodeSpell = nodeAction.getChild("...");
+    -- local nCasterLevel = 1;
+    -- local sSpellType = DB.getValue(nodeSpell, "type", ""):lower();
+    -- if (isPC) then
+      -- if (sSpellType == "arcane") then
+        -- nCasterLevel = DB.getValue(nodeCaster, "arcane.totalLevel",1);
+      -- elseif (sSpellType == "divine") then
+        -- nCasterLevel = DB.getValue(nodeCaster, "divine.totalLevel",1);
+      -- else
+        -- nCasterLevel = CharManager.getActiveClassMaxLevel(nodeCaster);
+      -- end
+    -- else
+      -- -- is NPC
+      -- nCasterLevel = DB.getValue(nodeCaster, "level",1);
+    -- end
+    -- -- if castertype ~= "" then setup the dice
+    -- if (sCasterType ~= nil) then
+      -- -- make sure nCasterLevel is not larger than max size
+      -- if nCasterMax > 0 and nCasterLevel > nCasterMax then
+        -- nCasterLevel = nCasterMax;
+      -- end
+      -- if sCasterType == "casterlevel" then
+        -- nDiceCount = nCasterLevel;
+      -- elseif sCasterType == "casterlevelby2" then
+        -- nDiceCount = math.floor(nCasterLevel/2);
+      -- elseif sCasterType == "casterlevelby3" then
+        -- nDiceCount = math.floor(nCasterLevel/3);
+      -- elseif sCasterType == "casterlevelby4" then
+        -- nDiceCount = math.floor(nCasterLevel/4);
+      -- elseif sCasterType == "casterlevelby5" then
+        -- nDiceCount = math.floor(nCasterLevel/5);
+      -- else
+        -- nDiceCount = 1;
+      -- end
+      -- if nDiceCount > 0 then
+        -- -- if using customvalue multiply it by CL value and add that to +mod total
+        -- if (ncustomvalue > 0) then
+          -- nDmgMod = nDmgMod + (ncustomvalue * nDiceCount); -- nDiceCount is CL value
+        -- end
+        -- local aNewDmgDice = {}
+        -- local nDiceIndex = 0;
+        -- -- roll count number of "dice" LEVEL D {DICE}
+        -- for count = 1, nDiceCount do
+          -- for i = 1, #aDmgDice do
+            -- nDiceIndex = nDiceIndex + 1;
+            -- aNewDmgDice[nDiceIndex] = aDmgDice[i];
+          -- end
+        -- end
+        -- -- add in custom plain dice now
+        -- for i = 1, #aDmgDiceCustom do
+          -- nDiceIndex = nDiceIndex + 1;
+          -- aNewDmgDice[nDiceIndex] = aDmgDiceCustom[i];
+        -- end
         
-        aDmgDice = aNewDmgDice;
-      end
-    end
-    -- end sort out level for dice count
+        -- aDmgDice = aNewDmgDice;
+      -- end
+    -- end
+    -- -- end sort out level for dice count
     
     local nDmgStatMod;
     nDmgStatMod, sDmgAbility = getGroupDamageHealBonus(rActor, nodeAction, sDmgAbility);
@@ -643,17 +647,94 @@ function getActionHeal(rActor, nodeAction)
 	local aHealNodes = UtilityManager.getSortedTable(DB.getChildren(nodeAction, "heallist"));
 	for _,v in ipairs(aHealNodes) do
 		local sAbility = DB.getValue(v, "stat", "");
-		local aDice = DB.getValue(v, "dice", {});
-		local nMod = DB.getValue(v, "bonus", 0);
+		-- local aDice = DB.getValue(v, "dice", {});
+		-- local nMod = DB.getValue(v, "bonus", 0);
+
+    local nodeCaster = DB.findNode(rActor.sCreatureNode);
+    local isPC = (rActor.sType == "pc");
+    local nMod,aDice = getLevelBasedDiceValues(nodeCaster,isPC, nodeAction, v)
 		
 		local nStatMod;
 		nStatMod, sAbility = getGroupDamageHealBonus(rActor, nodeAction, sAbility);
 		nMod = nMod + nStatMod;
 		
+    
 		table.insert(clauses, { dice = aDice, stat = sAbility, modifier = nMod });
 	end
 
 	return clauses;
+end
+
+-- bits of code to sort out level for dice
+function getLevelBasedDiceValues(nodeCaster, isPC, node, nodeAction)
+  local nDiceCount = 0;
+  local aDice = DB.getValue(nodeAction, "dice", {});
+  local nMod = DB.getValue(nodeAction, "bonus", 0);
+  local sCasterType = DB.getValue(nodeAction, "castertype", "");
+  local nCasterMax = DB.getValue(nodeAction, "castermax", 20);
+  local nCustomValue = DB.getValue(nodeAction, "customvalue", 0);
+  local aDmgDiceCustom = DB.getValue(nodeAction, "dicecustom", {});
+  local nodeSpell = node.getChild("...");
+  local nCasterLevel = 1;
+  local sSpellType = DB.getValue(nodeSpell, "type", ""):lower();
+  if (isPC) then
+    if (sSpellType == "arcane") then
+      nCasterLevel = DB.getValue(nodeCaster, "arcane.totalLevel",1);
+    elseif (sSpellType == "divine") then
+      nCasterLevel = DB.getValue(nodeCaster, "divine.totalLevel",1);
+    else
+      nCasterLevel = CharManager.getActiveClassMaxLevel(nodeCaster);
+    end
+  else
+    -- is NPC
+    nCasterLevel = DB.getValue(nodeCaster, "level",1);
+  end
+  -- if castertype ~= "" then setup the dice
+  if (sCasterType ~= nil) then
+    -- make sure nCasterLevel is not larger than max size
+    if nCasterMax > 0 and nCasterLevel > nCasterMax then
+      nCasterLevel = nCasterMax;
+    end
+    if sCasterType == "casterlevel" then
+      nDiceCount = nCasterLevel;
+    elseif sCasterType == "casterlevelby2" then
+      nDiceCount = math.floor(nCasterLevel/2);
+    elseif sCasterType == "casterlevelby3" then
+      nDiceCount = math.floor(nCasterLevel/3);
+    elseif sCasterType == "casterlevelby4" then
+      nDiceCount = math.floor(nCasterLevel/4);
+    elseif sCasterType == "casterlevelby5" then
+      nDiceCount = math.floor(nCasterLevel/5);
+    else
+      nDiceCount = 1;
+    end
+    if nDiceCount > 0 then
+      -- if using customvalue multiply it by CL value and add that to +mod total
+      if (nCustomValue > 0) then
+        nMod = nMod + (nCustomValue * nDiceCount); -- nDiceCount is CL value
+      end
+      local aNewDmgDice = {}
+      local nDiceIndex = 0;
+      -- roll count number of "dice" LEVEL D {DICE}
+      for count = 1, nDiceCount do
+        for i = 1, #aDice do
+          nDiceIndex = nDiceIndex + 1;
+          aNewDmgDice[nDiceIndex] = aDice[i];
+        end
+      end
+      -- add in custom plain dice now
+      for i = 1, #aDmgDiceCustom do
+        nDiceIndex = nDiceIndex + 1;
+        aNewDmgDice[nDiceIndex] = aDmgDiceCustom[i];
+      end
+      
+      aDice = aNewDmgDice;
+    end
+  end
+  -- end sort out level for dice count
+
+  -- return adjusted modifier and dice
+  return nMod, aDice;
 end
 
 -------------------------

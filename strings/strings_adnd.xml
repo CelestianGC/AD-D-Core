@@ -283,12 +283,12 @@
   <string name="power_label_duration_unit_tooltip">Unit used for duration, rounds, turns, hours, days...</string>
 
   <string name="power_label_castertype">CL</string>
-  <string name="power_label_castertype_tooltip">Caster level dice count value.  Level, Level/2, Level/3, Level/4 and Level/5</string>
-  <string name="power_label_castertype_duration_tooltip">Caster level value. CL can be Level, Level/2, Level/3, Level/4 and Level/5.  CL X Duration Value. </string>
+  <string name="power_label_castertype_tooltip">Caster level value.  Simple Level, Level divided by 2, Level divided by 3, Level divided by 4 and Level divided by 5</string>
+  <string name="power_label_castertype_duration_tooltip">Caster level value.  Simple Level, Level divided by 2, Level divided by 3, Level divided by 4 and Level divided by 5. CL multiplied by Duration Value. </string>
   <string name="power_label_casterlevelmax">MAX</string>
   <string name="power_label_casterlevelmax_tooltip">The maximum size the caster dice count can be (0 for infinite).</string>
   <string name="power_label_casterlevelmax_duration_tooltip">The maximum level of caster value. (0 for infinite).</string>
-  <string name="power_label_dmgvalue_tooltip">Value multipled by CL result added to damage.</string>
+  <string name="power_label_customvalue_tooltip">Value multipled by CL result added to total.</string>
 
    	<!-- Combat Tracker -->
 	<string name="ct_label_damage">Atks</string>
