@@ -287,18 +287,26 @@ function updateNPCSaves(nodeEntry, nodeNPC, bForceUpdate)
     end
 end
 
+-- remove everything in (*) because thats DM only "Orc (3HD)" and return "Orc"
+function stripHiddenNameText(sStr)
+  return StringManager.trim(sStr:gsub("%(.*%)", "")); 
+end
+-- get the hidden portion in "name" within ()'s and return it, "Orc (3HD)" and return "(3HD)"
+function getHiddenNameText(sStr)
+  return string.match(sStr, "%(.*%)");
+end
+
 function addNPC(sClass, nodeNPC, sName)
 --Debug.console("manager_combat2.lua","addNPC","sClass",sClass);
-  
   local sNPCFullName = DB.getValue(nodeNPC,"name","");
-  local sNPCName = sNPCFullName:gsub("%(.*%)", ""); -- remove everything (*) because thats DM only
-  local sNPCNameHidden = string.match(sNPCFullName, "%(.*%)"); -- get the hidden portion and save it
+  local sNPCName = stripHiddenNameText(sNPCFullName);
+  local sNPCNameHidden = getHiddenNameText(sNPCFullName);
   
   if sName == nil then 
     sName = sNPCName; -- set name to non-hidden part
   else
-    sNPCNameHidden = string.match(sName, "%(.*%)"); -- save hidden portion
-    sName = sName:gsub("%(.*%)", "");               -- strip out hidden portion from name
+    sNPCNameHidden = getHiddenNameText(sName);
+    sName = stripHiddenNameText(sName);
   end
   
 	local nodeEntry, nodeLastMatch = CombatManager.addNPCHelper(nodeNPC, sName);
@@ -355,6 +363,7 @@ function addNPC(sClass, nodeNPC, sName)
 	local nHP = DB.getValue(nodeNPC, "hp", 0);
 	local sHD = StringManager.trim(DB.getValue(nodeNPC, "hd", ""));
 	if sOptHRNH == "max" and sHD ~= "" then
+    -- max hp
 		nHP = StringManager.evalDiceString(sHD, true, true);
 	elseif sOptHRNH == "random" and sHD ~= "" then
 		nHP = math.max(StringManager.evalDiceString(sHD, true), 1);
