@@ -311,6 +311,11 @@ function addNPC(sClass, nodeNPC, sName)
   
 	local nodeEntry, nodeLastMatch = CombatManager.addNPCHelper(nodeNPC, sName);
 	
+  -- save DM only "hiddten text" if necessary to display in host CT
+  if sNPCNameHidden ~= nil and sNPCNameHidden ~= "" then
+    DB.setValue(nodeEntry,"name_hidden","string",sNPCNameHidden);
+  end
+
   -- update NPC Saves for HD
   updateNPCSaves(nodeEntry, nodeNPC);
 
@@ -502,11 +507,6 @@ function addNPC(sClass, nodeNPC, sName)
     -- sanitize special defense/attack string
     setSpecialDefenseAttack(nodeEntry);
     
-  -- DM only "full name" if necessary
-  if sNPCNameHidden ~= nil and sNPCNameHidden ~= "" then
-    DB.setValue(nodeEntry,"name_hidden","string",sNPCNameHidden);
-  end
-  
 	return nodeEntry;
 end
 
