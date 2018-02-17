@@ -402,21 +402,23 @@ function addSpellDrop(nodeSource, bInnate)
 end
 
 function onDrop(x, y, draginfo)
-	if draginfo.isType("shortcut") then
-		local sClass = draginfo.getShortcutData();
-		local nodeSource = draginfo.getDatabaseNode();
+-- all of these moved to actions/skills so no longer needed for drag/drop here.
+
+	-- if draginfo.isType("shortcut") then
+		-- local sClass = draginfo.getShortcutData();
+		-- local nodeSource = draginfo.getDatabaseNode();
 		
-		if sClass == "reference_spell" or sClass == "power" then
-			addSpellDrop(nodeSource);
-		elseif sClass == "reference_backgroundfeature" then
-			addAction(DB.getValue(nodeSource, "name", ""), DB.getText(nodeSource, "text", ""));
-		elseif sClass == "reference_classfeature" then
-			--addAction(DB.getValue(nodeSource, "name", ""), DB.getText(nodeSource, "text", ""));
-		elseif sClass == "reference_feat" then
-			--addAction(DB.getValue(nodeSource, "name", ""), DB.getText(nodeSource, "text", ""));
-		elseif sClass == "reference_racialtrait" or sClass == "reference_subracialtrait" then
-			--addTrait(DB.getValue(nodeSource, "name", ""), DB.getText(nodeSource, "text", ""));
-		end
-		return true;
-	end
+		-- if sClass == "reference_spell" or sClass == "power" then
+			-- addSpellDrop(nodeSource); -- we dont drag/drop spells here with AD&D Core
+		-- elseif sClass == "reference_backgroundfeature" then
+			-- addAction(DB.getValue(nodeSource, "name", ""), DB.getText(nodeSource, "text", ""));
+		-- elseif sClass == "reference_classfeature" then
+			-- addAction(DB.getValue(nodeSource, "name", ""), DB.getText(nodeSource, "text", ""));
+		-- elseif sClass == "reference_feat" then
+			-- addAction(DB.getValue(nodeSource, "name", ""), DB.getText(nodeSource, "text", ""));
+		-- elseif sClass == "reference_racialtrait" or sClass == "reference_subracialtrait" then
+			-- addTrait(DB.getValue(nodeSource, "name", ""), DB.getText(nodeSource, "text", ""));
+		-- end
+		-- return true;
+	-- end
 end
