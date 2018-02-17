@@ -2362,6 +2362,9 @@ function getLevelBasedDurationValue(nodeAction)
 --    nCasterLevel = DB.getValue(nodeCaster, "level",1);
 --  end
 
+--Debug.console("manager_power.lua","getLevelBasedDurationValue","nodeCaster",nodeCaster);  
+--Debug.console("manager_power.lua","getLevelBasedDurationValue","nCasterLevel",nCasterLevel);  
+
   -- if castertype ~= "" then setup the dice
   if (sCasterType ~= nil) then
     -- make sure dice count is not larger than max size

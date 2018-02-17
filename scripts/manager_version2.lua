@@ -4,7 +4,7 @@
 --
 
 local rsname = "AD&D Core";
-local rsmajorversion = 21;
+local rsmajorversion = 22;
 
 function onInit()
 	if User.isHost() or User.isLocal() then
@@ -105,6 +105,9 @@ function updateCampaign()
            updateNPCs18();
 		end
 		if major < 21 then
+      updateNPCs21();
+		end
+		if major < 22 then
       updateNPCs21();
 		end
 	end

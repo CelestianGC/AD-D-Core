@@ -38,17 +38,21 @@ function onModeChanged()
 		
 		if bSpellSlotsVisible then
 			spellslots.setVisible(true);
-			spellslots_label.setVisible(bPactMagicSlotsVisible);
+      arcanelevel.setVisible(true)
+			spellslots_label.setVisible(true);
 		else
 			spellslots.setVisible(false);
 			spellslots_label.setVisible(false);
+      arcanelevel.setVisible(false)
 		end
 		if bPactMagicSlotsVisible then
 			pactmagicslots.setVisible(true);
 			pactmagicslots_label.setVisible(true);
+      divinelevel.setVisible(true);
 		else
 			pactmagicslots.setVisible(false);
 			pactmagicslots_label.setVisible(false);
+      divinelevel.setVisible(false);
 		end
 		parentcontrol.setVisible(bSpellSlotsVisible or bPactMagicSlotsVisible);
 	end

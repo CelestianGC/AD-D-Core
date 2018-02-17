@@ -43,9 +43,12 @@ function onRoll(rSource, rTarget, rRoll)
 	ActionsManager2.decodeAdvantage(rRoll);
 
 	local rMessage = ActionsManager.createActionMessage(rSource, rRoll);
-
+  local nMaxHDTurned = 0;
+  local aTurnDice = {};
+  
 	if rRoll.nTarget then
-		local nTotal = ActionsManager.total(rRoll);
+Debug.console("manager_action_turnundead.lua","onRoll","rRoll",rRoll);
+    local nTotal = ActionsManager.total(rRoll);
 		local nTargetDC = tonumber(rRoll.nTarget) or 0;
         
         local nMaxLevel = DataCommonADND.nDefaultTurnUndeadMaxLevel;
@@ -58,10 +61,10 @@ function onRoll(rSource, rTarget, rRoll)
         end
 
         rMessage.text = rMessage.text .. " (as Level " .. nClericLevel .. ")";
-        
-        local sTurn = "";
         local bTurnedSome = false;
         local bTurnedExtra = false;
+        
+        local sTurn = "";
         for i=1, nMaxTurnHD,1 do
             local nTurnValue = DataCommonADND.aTurnUndead[nClericLevel][i];
             --  0 = Cannot turn
@@ -78,7 +81,19 @@ function onRoll(rSource, rTarget, rRoll)
                     sTurnedResult = "(DESTROY!)";
                     bTurnedExtra = true;
                 end
-                local sTurnedType = "\r\n[" .. DataCommonADND.turn_name_index[i];
+                local sTurnString = DataCommonADND.turn_name_index[i];
+                -- grab the number before HD, match "2" 1-2HD or "10" for 10HD or "6" for 5-6HD.
+                local sMaxHD = sTurnString:match("(%d+)HD");
+                local nMaxHD = 0;
+                if (sMaxHD ~= nil) then
+                  nMaxHD = tonumber(sMaxHD) or 0;
+                end
+                -- if this HD max is larger, save it
+                if nMaxHD > nMaxHDTurned then
+                  nMaxHDTurned = nMaxHD;
+                end
+                
+                local sTurnedType = "\r\n[" .. sTurnString;
                 sTurn = sTurn .. sTurnedType .. sTurnedResult .. "]";
                 bTurnedSome = true;
             end
@@ -89,18 +104,33 @@ function onRoll(rSource, rTarget, rRoll)
        		rMessage.font = "successfont";
        		rMessage.icon = "chat_success";
 
-            sTurnAmountRoll = "\r\n(roll 2d6 for number affected, lowest HD first)";
+            --sTurnAmountRoll = "\r\n(roll 2d6 for number affected, lowest HD first)";
             sTurnHeader = "\r\nTurn can affect:";
+            table.insert(aTurnDice,'d6');
+            table.insert(aTurnDice,'d6');
         else
        		rMessage.font = "failfont";
        		rMessage.icon = "chat_fail";
             sTurn = "[NOTHING TURNED!]";
         end
         if (bTurnedExtra) then
-            sTurnAmountRoll = sTurnAmountRoll .. "(add 2d4 more extra)";
+            --sTurnAmountRoll = sTurnAmountRoll .. "(add 2d4 more extra)";
+            table.insert(aTurnDice,'d4');
+            table.insert(aTurnDice,'d4');
         end
-        rMessage.text = rMessage.text .. sTurnHeader .. sTurn .. sTurnAmountRoll;
+        --rMessage.text = rMessage.text .. sTurnHeader .. sTurn .. sTurnAmountRoll;
+        rMessage.text = rMessage.text .. sTurnHeader .. sTurn;
 	end
+
+Debug.console("manager_action_turnundead.lua","onRoll","rSource",rSource);  
+Debug.console("manager_action_turnundead.lua","onRoll","aTurnDice",aTurnDice);
+Debug.console("manager_action_turnundead.lua","onRoll","nMaxHDTurned",nMaxHDTurned);
+local rTurnHDRoll = { sType = "dice", sDesc = "Turn Undead", aDice = aTurnDice, nMod = 0 };
+ActionsManager.performAction(nil, rSource, rTurnHDRoll);
+--ActionsManager.actionDirect(nil, "dice", { rTurnHDRoll });
+--local nTurnedTotal = ActionsManager.total(rTurnHDRoll);
+Debug.console("manager_action_turnundead.lua","onRoll","rTurnHDRoll",rTurnHDRoll);
+Debug.console("manager_action_turnundead.lua","onRoll","nTurnedTotal",nTurnedTotal);
 	
 	Comm.deliverChatMessage(rMessage);
 end

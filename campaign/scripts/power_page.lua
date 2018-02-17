@@ -407,10 +407,10 @@ function updatePowerWindowUses(nodeChar, w)
 	w.setFilter(bShow);
 	
 	if bCaster then
-		-- if w.header.subwindow.prepared.getValue() > 1 then
-			-- w.header.subwindow.prepared.setValue(1);
-		-- end
-		-- w.header.subwindow.prepared.setVisible(false);
+		 if w.header.subwindow.prepared.getValue() > 1 then
+			 w.header.subwindow.prepared.setValue(1);
+		 end
+		 w.header.subwindow.prepared.setVisible(false);
 		w.header.subwindow.usesperiod.setVisible(false);
 		w.header.subwindow.counter.setVisible(false);
 		if sMode == "preparation" then
@@ -437,7 +437,7 @@ function updatePowerWindowUses(nodeChar, w)
 	else
 		w.header.subwindow.blank.setVisible(false);
 		if sMode == "preparation" then
-			--w.header.subwindow.prepared.setVisible(true);
+			w.header.subwindow.prepared.setVisible(true);
 			w.header.subwindow.usepower.setVisible(false);
 			w.header.subwindow.counter.setVisible(false);
 			if rGroup and (nAvailable > 0) then
@@ -446,7 +446,7 @@ function updatePowerWindowUses(nodeChar, w)
 				w.header.subwindow.usesperiod.setVisible(true);
 			end
 		else
-			--w.header.subwindow.prepared.setVisible(false);
+			w.header.subwindow.prepared.setVisible(false);
 			w.header.subwindow.usesperiod.setVisible(false);
 			if nAvailable > 0 then
 				w.header.subwindow.usepower.setVisible(false);

@@ -401,17 +401,17 @@ function onInit()
     -- index of the turns 1-13
     turn_name_index ={ 
         "Skeleton or 1HD",
-        "Zombie",
+        "Zombie or 1-2HD",
         "Ghoul or 2HD",
-        "Shadow or 3-4 HD",
+        "Shadow or 3-4HD",
         "Wight or 5HD",
-        "Ghast",
+        "Ghast or 5-6HD",
         "Wraith or 6HD",
         "Mummy or 7HD",
         "Spectre or 8HD",
         "Vampire or 9HD",
-        "Ghost or 10 HD",
-        "Lich or 11+ HD",
+        "Ghost or 10HD",
+        "Lich or 11HD+",
         "Special++"
     };
     

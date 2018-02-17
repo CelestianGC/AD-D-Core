@@ -331,7 +331,7 @@
 				</anchored>
 				<invisible />
 			</button_checkbox>
- 
+ -->
 			<basicnumber name="prepared">
 				<anchored width="30" height="20">
 					<top offset="2" />
@@ -341,7 +341,7 @@
 				<tooltip textres="power_tooltip_prepared" />
 				<invisible />
 			</basicnumber>
- -->           
+            
 			<cycler_power_useperiod name="usesperiod">
 				<anchored>
 					<top offset="2" />
