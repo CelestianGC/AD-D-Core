@@ -6,6 +6,7 @@
 function onInit()
     ActionsManager.registerModHandler("turnundead", modRoll);
     ActionsManager.registerResultHandler("turnundead", onRoll);
+    ActionsManager.registerResultHandler("turnundead_count", onRoll_TurnCount);
 end
 
 function getRoll(rActor,nodeChar,nTargetDC, bSecretRoll)
@@ -39,15 +40,34 @@ function performRoll(draginfo, rActor, nodeChar, nTargetDC, bSecretRoll)
 	ActionsManager.performAction(draginfo, rActor, rRoll);
 end
 
+function onRoll_TurnCount(rSource, rTarget, rRoll)
+  ActionsManager2.decodeAdvantage(rRoll);
+  local rMessage = ActionsManager.createActionMessage(rSource, rRoll);
+  local nTotal = ActionsManager.total(rRoll);
+  local nMaxHDTurned = tonumber(rRoll.nMaxHDTurned) or 0;
+  local nMaxHDDestroyed = tonumber(rRoll.nMaxHDDestroyed) or 0;
+-- Debug.console("manager_action_turnundead.lua","onRoll_TurnCount","rRoll",rRoll);
+-- Debug.console("manager_action_turnundead.lua","onRoll_TurnCount","nTotal",nTotal);
+  
+  if (nMaxHDDestroyed > 0) then
+    rMessage.text = rMessage.text .. " [Max HD Obliterated " .. nMaxHDDestroyed .. "]";
+  end
+  if (nMaxHDTurned > 0) then
+    rMessage.text = rMessage.text .. " [Max HD Turned " .. nMaxHDTurned .. "]";
+  end
+  rMessage.text = rMessage.text .. " " .. nTotal;
+  Comm.deliverChatMessage(rMessage);
+end
+
 function onRoll(rSource, rTarget, rRoll)
 	ActionsManager2.decodeAdvantage(rRoll);
 
 	local rMessage = ActionsManager.createActionMessage(rSource, rRoll);
   local nMaxHDTurned = 0;
+  local nMaxHDDestroyed = 0;
   local aTurnDice = {};
   
 	if rRoll.nTarget then
-Debug.console("manager_action_turnundead.lua","onRoll","rRoll",rRoll);
     local nTotal = ActionsManager.total(rRoll);
 		local nTargetDC = tonumber(rRoll.nTarget) or 0;
         
@@ -60,7 +80,7 @@ Debug.console("manager_action_turnundead.lua","onRoll","rRoll",rRoll);
             nClericLevel = DataCommonADND.nDefaultTurnUndeadMaxLevel;
         end
 
-        rMessage.text = rMessage.text .. " (as Level " .. nClericLevel .. ")";
+        rMessage.text = rMessage.text .. "[as Level " .. nClericLevel .. "] " .. nTotal;
         local bTurnedSome = false;
         local bTurnedExtra = false;
         
@@ -89,10 +109,12 @@ Debug.console("manager_action_turnundead.lua","onRoll","rRoll",rRoll);
                   nMaxHD = tonumber(sMaxHD) or 0;
                 end
                 -- if this HD max is larger, save it
-                if nMaxHD > nMaxHDTurned then
+                if nMaxHD > nMaxHDDestroyed and (nTurnValue == -2 or nTurnValue == -3) then
+                  nMaxHDDestroyed = nMaxHD;
+                elseif nMaxHD > nMaxHDTurned then
                   nMaxHDTurned = nMaxHD;
                 end
-                
+
                 local sTurnedType = "\r\n[" .. sTurnString;
                 sTurn = sTurn .. sTurnedType .. sTurnedResult .. "]";
                 bTurnedSome = true;
@@ -111,7 +133,7 @@ Debug.console("manager_action_turnundead.lua","onRoll","rRoll",rRoll);
         else
        		rMessage.font = "failfont";
        		rMessage.icon = "chat_fail";
-            sTurn = "[NOTHING TURNED!]";
+            sTurn = " [NOTHING TURNED!]";
         end
         if (bTurnedExtra) then
             --sTurnAmountRoll = sTurnAmountRoll .. "(add 2d4 more extra)";
@@ -122,15 +144,13 @@ Debug.console("manager_action_turnundead.lua","onRoll","rRoll",rRoll);
         rMessage.text = rMessage.text .. sTurnHeader .. sTurn;
 	end
 
-Debug.console("manager_action_turnundead.lua","onRoll","rSource",rSource);  
-Debug.console("manager_action_turnundead.lua","onRoll","aTurnDice",aTurnDice);
-Debug.console("manager_action_turnundead.lua","onRoll","nMaxHDTurned",nMaxHDTurned);
-local rTurnHDRoll = { sType = "dice", sDesc = "Turn Undead", aDice = aTurnDice, nMod = 0 };
-ActionsManager.performAction(nil, rSource, rTurnHDRoll);
---ActionsManager.actionDirect(nil, "dice", { rTurnHDRoll });
---local nTurnedTotal = ActionsManager.total(rTurnHDRoll);
-Debug.console("manager_action_turnundead.lua","onRoll","rTurnHDRoll",rTurnHDRoll);
-Debug.console("manager_action_turnundead.lua","onRoll","nTurnedTotal",nTurnedTotal);
+  -- if we have a dice count we turned something so roll it
+  if (#aTurnDice > 0) then
+    local rTurnHDRoll = { sType = "turnundead_count", sDesc = "[TURNED COUNT]", aDice = aTurnDice, nMod = 0, bSecret = rRoll.bSecret, nMaxHDTurned = nMaxHDTurned, nMaxHDDestroyed = nMaxHDDestroyed  };
+    ActionsManager.performAction(nil, rSource, rTurnHDRoll);
+  end
+-- Debug.console("manager_action_turnundead.lua","onRoll","rTurnHDRoll",rTurnHDRoll);
+-- Debug.console("manager_action_turnundead.lua","onRoll","nTurnedTotal",nTurnedTotal);
 	
 	Comm.deliverChatMessage(rMessage);
 end
