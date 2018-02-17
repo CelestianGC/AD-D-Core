@@ -7,7 +7,7 @@ function onInit()
     --CoreRPG replacements
     ActionsManager.decodeActors = decodeActors;
 
-    -- AD&D Core ONLY!!! (need this because we use Ascending initiative, not low to high
+    -- AD&D Core ONLY!!! (need this because we use Ascending initiative, not high to low
     EffectManager.setInitAscending(true);
 
     -- used for AD&D Core ONLY

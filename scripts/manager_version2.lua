@@ -4,7 +4,7 @@
 --
 
 local rsname = "AD&D Core";
-local rsmajorversion = 18;
+local rsmajorversion = 21;
 
 function onInit()
 	if User.isHost() or User.isLocal() then
@@ -104,7 +104,11 @@ function updateCampaign()
 		if major < 18 then
            updateNPCs18();
 		end
+		if major < 21 then
+      updateNPCs21();
+		end
 	end
+--Debug.console("manager_version2.lua","updateCampaign","major",major);
 end
 
 function updateModule(sModule, nVersion)
@@ -530,4 +534,20 @@ function fixNPCSaves(nodeNPC)
     if (DB.getValue(nodeNPC, "saves.poison.score",0) == 0) then
         CombatManager2.updateNPCSaves(nodeNPC, nodeNPC, true);
     end
+end
+
+-- fix npc levels
+function updateNPCs21()
+    -- fix all combat tracker records
+	for _,nodeNPC in pairs(DB.getChildren("combattracker.list")) do
+        local sClass, sRecord = DB.getValue(nodeNPC, "link", "", "");
+        if (sClass == "npc") then
+          CombatManager2.updateNPCLevels(nodeNPC, true);
+        end
+	end
+    -- fix all npc records
+	for _,nodeNPC in pairs(DB.getChildren("npc")) do
+  --Debug.console("manager_version2.lua","updateNPCs19","nodeNPC",nodeNPC);
+    CombatManager2.updateNPCLevels(nodeNPC, true);
+	end
 end

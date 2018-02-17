@@ -527,78 +527,11 @@ function getActionDamage(rActor, nodeAction)
 	local aDamageNodes = UtilityManager.getSortedTable(DB.getChildren(nodeAction, "damagelist"));
 	for _,v in ipairs(aDamageNodes) do
     local sDmgAbility = DB.getValue(v, "stat", "");
-    -- local aDmgDice = DB.getValue(v, "dice", {});
-    -- local nDmgMod = DB.getValue(v, "bonus", 0);
     local sDmgType = DB.getValue(v, "type", "");
     
     local nodeCaster = DB.findNode(rActor.sCreatureNode);
     local isPC = (rActor.sType == "pc");
     local nDmgMod, aDmgDice = getLevelBasedDiceValues(nodeCaster,isPC, nodeAction, v)
-    
-    -- -- bits of code to sort out level for dice
-    -- local nDiceCount = 0;
-    -- local sCasterType = DB.getValue(v, "castertype", "");
-    -- local nCasterMax = DB.getValue(v, "castermax", 20);
-    -- local ncustomvalue = DB.getValue(v, "customvalue", 0);
-    -- local aDmgDiceCustom = DB.getValue(v, "dicecustom", {});
-    -- local nodeSpell = nodeAction.getChild("...");
-    -- local nCasterLevel = 1;
-    -- local sSpellType = DB.getValue(nodeSpell, "type", ""):lower();
-    -- if (isPC) then
-      -- if (sSpellType == "arcane") then
-        -- nCasterLevel = DB.getValue(nodeCaster, "arcane.totalLevel",1);
-      -- elseif (sSpellType == "divine") then
-        -- nCasterLevel = DB.getValue(nodeCaster, "divine.totalLevel",1);
-      -- else
-        -- nCasterLevel = CharManager.getActiveClassMaxLevel(nodeCaster);
-      -- end
-    -- else
-      -- -- is NPC
-      -- nCasterLevel = DB.getValue(nodeCaster, "level",1);
-    -- end
-    -- -- if castertype ~= "" then setup the dice
-    -- if (sCasterType ~= nil) then
-      -- -- make sure nCasterLevel is not larger than max size
-      -- if nCasterMax > 0 and nCasterLevel > nCasterMax then
-        -- nCasterLevel = nCasterMax;
-      -- end
-      -- if sCasterType == "casterlevel" then
-        -- nDiceCount = nCasterLevel;
-      -- elseif sCasterType == "casterlevelby2" then
-        -- nDiceCount = math.floor(nCasterLevel/2);
-      -- elseif sCasterType == "casterlevelby3" then
-        -- nDiceCount = math.floor(nCasterLevel/3);
-      -- elseif sCasterType == "casterlevelby4" then
-        -- nDiceCount = math.floor(nCasterLevel/4);
-      -- elseif sCasterType == "casterlevelby5" then
-        -- nDiceCount = math.floor(nCasterLevel/5);
-      -- else
-        -- nDiceCount = 1;
-      -- end
-      -- if nDiceCount > 0 then
-        -- -- if using customvalue multiply it by CL value and add that to +mod total
-        -- if (ncustomvalue > 0) then
-          -- nDmgMod = nDmgMod + (ncustomvalue * nDiceCount); -- nDiceCount is CL value
-        -- end
-        -- local aNewDmgDice = {}
-        -- local nDiceIndex = 0;
-        -- -- roll count number of "dice" LEVEL D {DICE}
-        -- for count = 1, nDiceCount do
-          -- for i = 1, #aDmgDice do
-            -- nDiceIndex = nDiceIndex + 1;
-            -- aNewDmgDice[nDiceIndex] = aDmgDice[i];
-          -- end
-        -- end
-        -- -- add in custom plain dice now
-        -- for i = 1, #aDmgDiceCustom do
-          -- nDiceIndex = nDiceIndex + 1;
-          -- aNewDmgDice[nDiceIndex] = aDmgDiceCustom[i];
-        -- end
-        
-        -- aDmgDice = aNewDmgDice;
-      -- end
-    -- end
-    -- -- end sort out level for dice count
     
     local nDmgStatMod;
     nDmgStatMod, sDmgAbility = getGroupDamageHealBonus(rActor, nodeAction, sDmgAbility);
@@ -677,18 +610,22 @@ function getLevelBasedDiceValues(nodeCaster, isPC, node, nodeAction)
   local nodeSpell = node.getChild("...");
   local nCasterLevel = 1;
   local sSpellType = DB.getValue(nodeSpell, "type", ""):lower();
-  if (isPC) then
+  --if (isPC) then
     if (sSpellType == "arcane") then
       nCasterLevel = DB.getValue(nodeCaster, "arcane.totalLevel",1);
     elseif (sSpellType == "divine") then
       nCasterLevel = DB.getValue(nodeCaster, "divine.totalLevel",1);
     else
-      nCasterLevel = CharManager.getActiveClassMaxLevel(nodeCaster);
+      if (isPC) then
+        nCasterLevel = CharManager.getActiveClassMaxLevel(nodeCaster);
+      else
+        nCasterLevel = DB.getValue(nodeCaster, "level",1);
+      end
     end
-  else
+  --else
     -- is NPC
-    nCasterLevel = DB.getValue(nodeCaster, "level",1);
-  end
+--    nCasterLevel = DB.getValue(nodeCaster, "level",1);
+--  end
   -- if castertype ~= "" then setup the dice
   if (sCasterType ~= nil) then
     -- make sure nCasterLevel is not larger than max size
@@ -2229,7 +2166,6 @@ function memorizeSpell(draginfo, nodeSpell)
 	if not nodeChar then
 		return false;
 	end
-
     
     local sName = DB.getValue(nodeSpell, "name", "");
     local nLevel = DB.getValue(nodeSpell, "level", 0);
@@ -2409,18 +2345,22 @@ function getLevelBasedDurationValue(nodeAction)
   local nodeSpell = nodeAction.getChild("...");
   local sSpellType = DB.getValue(nodeSpell, "type", ""):lower();
 --Debug.console("manager_power.lua","getLevelBasedDurationValue","nodeAction",nodeAction);  
-  if (isPC) then
+  --if (isPC) then
     if (sSpellType == "arcane") then
-      nCasterLevel = DB.getValue(nodeCaster, "arcane.totalLevel",1);
+      nCasterLevel = DB.getValue(nodeCaster, "arcane.totalLevel",1); 
     elseif (sSpellType == "divine") then
       nCasterLevel = DB.getValue(nodeCaster, "divine.totalLevel",1);
     else
-      nCasterLevel = CharManager.getActiveClassMaxLevel(nodeCaster);
+      if (isPC) then
+        nCasterLevel = CharManager.getActiveClassMaxLevel(nodeCaster);
+      else
+        nCasterLevel = DB.getValue(nodeCaster, "level",1);
+      end
     end
-  else
+  --else
     -- is NPC
-    nCasterLevel = DB.getValue(nodeCaster, "level",1);
-  end
+--    nCasterLevel = DB.getValue(nodeCaster, "level",1);
+--  end
 
   -- if castertype ~= "" then setup the dice
   if (sCasterType ~= nil) then

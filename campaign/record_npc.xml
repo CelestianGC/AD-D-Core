@@ -180,6 +180,7 @@
                         local node = getDatabaseNode();
                         local nodeNPC = node.getChild("..");
                         CombatManager2.updateNPCSaves(nodeNPC, nodeNPC, true);
+                        CombatManager2.updateNPCLevels(nodeNPC, true);
                     end
                 </script>
             </string_column_left>

@@ -286,6 +286,14 @@ function updateNPCSaves(nodeEntry, nodeNPC, bForceUpdate)
         end
     end
 end
+-- set Level, Arcane/Divine levels based on HD "level"
+function updateNPCLevels(nodeNPC, bForceUpdate) 
+    if  (bForceUpdate) then
+      local nLevel = CombatManager2.getNPCLevelFromHitDice(nodeNPC);
+      DB.setValue(nodeNPC, "arcane.totalLevel","number",nLevel);
+      DB.setValue(nodeNPC, "divine.totalLevel","number",nLevel);
+    end
+end
 
 -- remove everything in (*) because thats DM only "Orc (3HD)" and return "Orc"
 function stripHiddenNameText(sStr)
