@@ -670,7 +670,7 @@ function expireConcentrationEffects(rSource)
 end
 
 function setNPCSave(nodeEntry, sSave, nodeNPC)
-    
+--Debug.console("manager_action_save.lua", "setNPCSave", "DataCommonADND.aWarriorSaves[nLevel][nSaveIndex]", DataCommonADND.aWarriorSaves[0][1]);    
     --Debug.console("manager_action_save.lua", "setNPCSave", sSave);
 
     local nSaveIndex = DataCommonADND.saves_table_index[sSave];

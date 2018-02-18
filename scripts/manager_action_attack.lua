@@ -200,7 +200,7 @@ function modAttack(rSource, rTarget, rRoll)
 	local aAttackFilter = {};
 
 -- Debug.console("manager_action_attack.lua","modAttack","rSource",rSource);
--- Debug.console("manager_action_attack.lua","modAttack","rTarget",rTarget);
+Debug.console("manager_action_attack.lua","modAttack","rTarget",rTarget);
 -- Debug.console("manager_action_attack.lua","modAttack","rRoll",rRoll);
     local nBaseAttack = 0;
     rRoll.nBaseAttack = nBaseAttack;

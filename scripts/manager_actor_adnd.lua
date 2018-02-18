@@ -37,3 +37,20 @@ function getArmorWorn(node)
     end
     return aArmorList;
 end
+
+-- return any targets a Combat Tracker node currently has.
+function getTargets(rActor)
+    local nodeCT = DB.findNode(rActor.sCTNode);
+    local aTargetRefs = {};
+    if (nodeCT ~= nil) then
+      local nodeTargets = DB.getChildren(nodeCT,"targets");
+      for _,node in pairs(nodeTargets) do
+        local sNodeRef = DB.getValue(node,"noderef","");
+        local nodeRef = DB.findNode(sNodeRef);
+        if nodeRef ~= nil then
+          table.insert(aTargetRefs,nodeRef.getPath());
+        end
+      end
+    end -- nodeCT != nil
+    return aTargetRefs;
+end

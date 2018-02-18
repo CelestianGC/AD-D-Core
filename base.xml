@@ -5,7 +5,7 @@
   attribution and copyright information.
 -->
 
-<root version="3.0" release="22" logo="logo.png">
+<root version="3.0" release="23" logo="logo.png">
 	<announcement text="AD&amp;D Core v2018.02.16 For Fantasy Grounds\r--by Celestian 2017-2018" font="emotefont" icon="rulesetlogo_ADnD" />
 
 	<!-- Attributes -->
@@ -120,6 +120,8 @@
 	<includefile source="ps/ps_xp.xml" />
 	<script name="PartyManager2" file="ps/scripts/manager_ps2.lua" />
 
+  <!-- AD&D specific setting, this needs to be above manager_version2 or the updates wont work properly  -->
+	<script name="DataCommonADND" file="scripts/data_common_adnd.lua" />
 	<!-- High-level scripts -->
 	<script name="DataCommon" file="scripts/data_common.lua" />
 	<script name="CharAutoFill" file="campaign/scripts/char_autofill.lua" />
@@ -149,7 +151,6 @@
 	<script name="ActionSkill" file="scripts/manager_action_skill.lua" />
 
     <!-- AD&D specific settings -->
-	<script name="DataCommonADND" file="scripts/data_common_adnd.lua" />
  	<script name="LibraryDataADND" file="scripts/data_library_adnd.lua" />
  	<!-- <script name="ImageManagerADND" file="scripts/manage_image_adnd.lua" /> -->
  	<script name="EffectManagerADND" file="scripts/manager_effect_adnd.lua" />
