@@ -69,21 +69,21 @@
             <!-- TURN UNDEAD -->            
 			<basicnumber name="turnlevel" source="turn.total">
 				<script>
-                    function action(draginfo)
-                        local node = getDatabaseNode();
-                        local nodeChar = node.getChild("...");
-                        local rActor = ActorManager.getActor("pc", nodeChar);
-                        ActionTurn.performRoll(draginfo, rActor);
-                        return true;
-                    end
-                    
-                    function onDragStart(button, x, y, draginfo)
-                        return action(draginfo);
-                    end
-                        
-                    function onDoubleClick(x,y)
-                        return action();
-                    end                    
+          function action(draginfo)
+            local node = getDatabaseNode();
+            local nodeChar = node.getChild("...");
+            local rActor = ActorManager.getActor("pc", nodeChar);
+            ActionTurn.performRoll(draginfo, rActor);
+            return true;
+          end
+          
+          function onDragStart(button, x, y, draginfo)
+            return action(draginfo);
+          end
+              
+          function onDoubleClick(x,y)
+            return action();
+          end                    
 				</script>
                 <frame name="fielddark" offset="7,5,7,5" />
                 <stateframe>

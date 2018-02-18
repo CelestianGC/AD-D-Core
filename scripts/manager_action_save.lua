@@ -68,7 +68,7 @@ function notifyApplySave(rSource, bSecret, rRoll)
 end
 
 function performRoll(draginfo, rActor, sSave, nTargetDC, bSecretRoll, rSource, bRemoveOnMiss, sSaveDesc)
-    local rRoll = {};
+  local rRoll = {};
 	rRoll.sType = "save";
 	rRoll.aDice = { "d20" };
 	local nMod, bADV, bDIS, sAddText = ActorManager2.getSave(rActor, sSave);

@@ -21,6 +21,8 @@ actions = {
 	["recharge"] = { },
 	["recovery"] = { bUseModStack = true },
 	["skill"] = { bUseModStack = true },
+  ["turnundead"] = { sIcon = "action_attack", bUseModStack = true },
+  ["surprise"] = { bUseModStack = true },
 };
 
 targetactions = {
@@ -30,7 +32,8 @@ targetactions = {
 	"attack",
 	"damage",
 	"heal",
-	"effect"
+	"effect",
+  --"turnundead",
 };
 
 currencies = { "PP", "GP", "EP", "SP", "CP" };

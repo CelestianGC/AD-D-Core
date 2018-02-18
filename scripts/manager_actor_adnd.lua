@@ -39,7 +39,7 @@ function getArmorWorn(node)
 end
 
 -- return any targets a Combat Tracker node currently has.
-function getTargets(rActor)
+function getTargetNodes(rActor)
     local nodeCT = DB.findNode(rActor.sCTNode);
     local aTargetRefs = {};
     if (nodeCT ~= nil) then

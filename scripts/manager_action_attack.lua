@@ -91,64 +91,65 @@ function getRoll(rActor, rAction)
 	rRoll.nMod = 0;
 	rRoll.bWeapon = false;
 
-    if (rAction) then 
-        rRoll.nMod = rAction.modifier or 0;
-        rRoll.bWeapon = rAction.bWeapon;
-        if (rActor.itemPath and rActor.itemPath ~= "") then
-            rRoll.itemPath = rActor.itemPath;
-        end
-        local bADV = rAction.bADV or false;
-        local bDIS = rAction.bDIS or false;
-        
-        
-        -- Build the description label
-        rRoll.sDesc = "[ATTACK";
-        if rAction.order and rAction.order > 1 then
-            rRoll.sDesc = rRoll.sDesc .. " #" .. rAction.order;
-        end
-        if rAction.range then
-            rRoll.sDesc = rRoll.sDesc .. " (" .. rAction.range .. ")";
-        end
-        rRoll.sDesc = rRoll.sDesc .. "] " .. rAction.label;
-
-        -- Add crit range
-        if rAction.nCritRange then
-            rRoll.sDesc = rRoll.sDesc .. " [CRIT " .. rAction.nCritRange .. "]";
-        end
-        
-        -- Add ability modifiers
-        if rAction.stat then
-            local sAbilityEffect = DataCommon.ability_ltos[rAction.stat];
-            if sAbilityEffect then
-                rRoll.sDesc = rRoll.sDesc .. " [MOD:" .. sAbilityEffect .. "]";
-            end
-
-            -- Check for armor non-proficiency
-            local sActorType, nodeActor = ActorManager.getTypeAndNode(rActor);
-            if sActorType == "pc" then
-                if StringManager.contains({"strength", "dexterity"}, rAction.stat) then
-                    if DB.getValue(nodeActor, "defenses.ac.prof", 1) == 0 then
-                        rRoll.sDesc = rRoll.sDesc .. " " .. Interface.getString("roll_msg_armor_nonprof");
-                        bDIS = true;
-                    end
-                end
-            end
-        end
-        
-        -- Add advantage/disadvantage tags
-        if bADV then
-            rRoll.sDesc = rRoll.sDesc .. " [ADV]";
-        end
-        if bDIS then
-            rRoll.sDesc = rRoll.sDesc .. " [DIS]";
-        end
-    else
-        rRoll.sDesc = "[ATTACK][BASIC]";
+  if (rAction) then 
+    rRoll.nMod = rAction.modifier or 0;
+    rRoll.bWeapon = rAction.bWeapon;
+    if (rActor.itemPath and rActor.itemPath ~= "") then
+      rRoll.itemPath = rActor.itemPath;
     end
+    local bADV = rAction.bADV or false;
+    local bDIS = rAction.bDIS or false;
+    
+    
+    -- Build the description label
+    rRoll.sDesc = "[ATTACK";
+    if rAction.order and rAction.order > 1 then
+        rRoll.sDesc = rRoll.sDesc .. " #" .. rAction.order;
+    end
+    if rAction.range then
+        rRoll.sDesc = rRoll.sDesc .. " (" .. rAction.range .. ")";
+    end
+    rRoll.sDesc = rRoll.sDesc .. "] " .. rAction.label;
+
+    -- Add crit range
+    if rAction.nCritRange then
+        rRoll.sDesc = rRoll.sDesc .. " [CRIT " .. rAction.nCritRange .. "]";
+    end
+    
+    -- Add ability modifiers
+    if rAction.stat then
+      local sAbilityEffect = DataCommon.ability_ltos[rAction.stat];
+      if sAbilityEffect then
+          rRoll.sDesc = rRoll.sDesc .. " [MOD:" .. sAbilityEffect .. "]";
+      end
+
+      -- Check for armor non-proficiency
+      local sActorType, nodeActor = ActorManager.getTypeAndNode(rActor);
+      if sActorType == "pc" then
+        if StringManager.contains({"strength", "dexterity"}, rAction.stat) then
+          if DB.getValue(nodeActor, "defenses.ac.prof", 1) == 0 then
+              rRoll.sDesc = rRoll.sDesc .. " " .. Interface.getString("roll_msg_armor_nonprof");
+              bDIS = true;
+          end
+        end
+      end
+    end
+    
+    -- Add advantage/disadvantage tags
+    if bADV then
+        rRoll.sDesc = rRoll.sDesc .. " [ADV]";
+    end
+    if bDIS then
+        rRoll.sDesc = rRoll.sDesc .. " [DIS]";
+    end
+  else
+    rRoll.sDesc = "[ATTACK][BASIC]";
+  end
 	return rRoll;
 end
 
 function performRoll(draginfo, rActor, rAction)
+Debug.console("manager_action_attack.lua","performRoll","draginfo",draginfo);
 	local rRoll = getRoll(rActor, rAction);
 
     if (draginfo and rActor.itemPath and rActor.itemPath ~= "") then
@@ -474,13 +475,13 @@ function onAttack(rSource, rTarget, rRoll)
 	elseif nDefenseVal and nDefenseVal ~= 0 then
 --Debug.console("manager_action_attack.lua","onAttack","nDefenseVal",nDefenseVal);
 		if rAction.nTotal >= nDefenseVal then
-            rMessage.font = "hitfont";
-            rMessage.icon = "chat_hit";
+      rMessage.font = "hitfont";
+      rMessage.icon = "chat_hit";
 			rAction.sResult = "hit";
 			table.insert(rAction.aMessages, "[HIT]");
 		else
-            rMessage.font = "missfont";
-            rMessage.icon = "chat_miss";
+      rMessage.font = "missfont";
+      rMessage.icon = "chat_miss";
 			rAction.sResult = "miss";
 			table.insert(rAction.aMessages, "[MISS]");
 		end
@@ -609,25 +610,16 @@ end
 
 -- get the base attach bonus using THACO value
 function getBaseAttack(rActor)
-
-    --print ("manager_action_attack.lua: getBaseAttack");
-
 	local nBaseAttack = 20 - getTHACO(rActor);
-	
-    --print ("manager_action_attack.lua: getBaseAttack, nBaseAttack :" .. nBaseAttack);
-	
 	return nBaseAttack;
 end
 
 function getTHACO(rActor)
-    --print ("manager_action_attack.lua: getTHACO");
 	local nTHACO = 20;
-	
 	local sActorType, nodeActor = ActorManager.getTypeAndNode(rActor);
 	if not nodeActor then
 		return 0;
 	end
-	
 	-- get pc thaco value
 	if ActorManager.isPC(nodeActor) then
 		nTHACO = DB.getValue(nodeActor, "combat.thaco.score", 20);
@@ -635,7 +627,6 @@ function getTHACO(rActor)
 	-- npc thaco calcs
 		nTHACO = DB.getValue(nodeActor, "thaco", 20);
 	end
-
 	return nTHACO
 end
 

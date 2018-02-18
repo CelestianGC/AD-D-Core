@@ -298,35 +298,34 @@
     
 	<template name="number_charthaco">
 		<basicnumber>
-            <script>
-				function action(draginfo)
-                    local nodeChar = getDatabaseNode();
-                    local rActor = ActorManager.getActor("pc", nodeChar);
-                    ActionAttack.performRoll(draginfo, rActor, nil);        
-					return true;
-				end
-				
-				function onDragStart(button, x, y, draginfo)
-					return action(draginfo);
-				end
-					
-				function onDoubleClick(x,y)
-					return action();
-				end
-            </script>
-            <frame name="fielddark" offset="7,5,7,5" />
-            <stateframe>
-                <hover name="rowshade" offset="7,5,7,5" />
-            </stateframe>
-            <cursor hover="hand" />
-            <rollable />
+      <script>
+      function action(draginfo)
+        local nodeChar = getDatabaseNode().getChild("....");
+        local rActor = ActorManager.getActor("pc", nodeChar);
+        ActionAttack.performRoll(draginfo, rActor, nil);        
+        return true;
+      end
+
+      function onDragStart(button, x, y, draginfo)
+        return action(draginfo);
+      end
+
+      function onDoubleClick(x,y)
+        return action();
+      end
+      </script>
+      <frame name="fielddark" offset="7,5,7,5" />
+      <stateframe>
+          <hover name="rowshade" offset="7,5,7,5" />
+      </stateframe>
+      <cursor hover="hand" />
+      <rollable />
 			<showemptywidget />
-			<!-- <frame name="fieldlight" offset="7,5,7,5" /> -->
-			<showemptywidget />
-            <min>-10</min>
-            <max>30</max>
-            <default>20</default>
-			<font>reference-b-large</font>
+        <!-- <frame name="fieldlight" offset="7,5,7,5" /> -->
+      <min>-10</min>
+      <max>30</max>
+      <default>20</default>
+      <font>reference-b-large</font>
 		</basicnumber>
 	</template>
 
