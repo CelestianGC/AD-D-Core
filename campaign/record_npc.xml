@@ -645,7 +645,7 @@
 			</string_columnh>
 
       <label_column name="clone_to_character_label">
-        <static text="CLONE TO CHARACTER (test)" />
+        <static textres="npc_label_clone_to_pc" />
       </label_column>
  			<buttoncontrol name="clone_to_character">
 				<anchored to="clone_to_character_label" position="righthigh" offset="10,0" width="20" height="20"/>

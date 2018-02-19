@@ -35,7 +35,7 @@
 
       <label name="clone_to_npc_label">
         <anchored position="insidebottomleft" offset="10,10" />
-        <static text="CLONE TO NPC (test)" />
+        <static textres="char_label_clone_to_npc" />
       </label>
  			<buttoncontrol name="clone_to_npc">
 				<anchored to="clone_to_npc_label" position="righthigh" offset="10,0" width="20" height="20"/>
