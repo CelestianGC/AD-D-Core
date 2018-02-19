@@ -42,6 +42,61 @@ Debug.console("manager_action_turnundead.lua","performRoll","draginfo",draginfo)
 	ActionsManager.performAction(draginfo, rActor, rRoll);
 end
 
+
+-- modRoll function
+function modRoll(rSource, rTarget, rRoll)
+	local aAddDesc = {};
+	local aAddDice = {};
+	local nAddMod = 0;
+  local bEffects = false;
+
+Debug.console("manager_action_turnundead.lua","modRoll","rTarget",rTarget);
+
+    if rSource then
+      -- apply turn roll modifiers
+      -- -- Get roll effect modifiers
+      local nEffectCount;
+      aAddDice, nAddMod, nEffectCount = EffectManager5E.getEffectsBonus(rSource, {"TURN"}, false);
+      if (nEffectCount > 0) then
+          bEffects = true;
+      end
+      rRoll.nMod = rRoll.nMod + nAddMod;
+      
+      -- apply turn level adjustment?
+      aAddDice, nAddMod, nEffectCount = EffectManager5E.getEffectsBonus(rSource, {"TURNLEVEL"}, false);
+      if (nEffectCount > 0) then
+          bEffects = true;
+      end
+      rRoll.nTarget = rRoll.nTarget + nAddMod;
+    end
+    
+    -- If effects happened, then add note
+    if bEffects then
+      local sEffects = "";
+      local sMod = StringManager.convertDiceToString(aAddDice, nAddMod, true);
+      if sMod ~= "" then
+          sEffects = "[" .. Interface.getString("effects_tag") .. " " .. sMod .. "]";
+      else
+          sEffects = "[" .. Interface.getString("effects_tag") .. "]";
+      end
+      table.insert(aAddDesc, sEffects);
+    end
+	if #aAddDesc > 0 then
+		rRoll.sDesc = rRoll.sDesc .. " " .. table.concat(aAddDesc, " ");
+	end
+	
+	ActionsManager2.encodeDesktopMods(rRoll);
+	for _,vDie in ipairs(aAddDice) do
+		if vDie:sub(1,1) == "-" then
+			table.insert(rRoll.aDice, "-p" .. vDie:sub(3));
+		else
+			table.insert(rRoll.aDice, "p" .. vDie:sub(2));
+		end
+	end
+
+	ActionsManager2.encodeAdvantage(rRoll, false, false);
+end
+
 function onRoll(rSource, rTarget, rRoll)
 	ActionsManager2.decodeAdvantage(rRoll);
 
@@ -99,12 +154,6 @@ function onRoll(rSource, rTarget, rRoll)
         rTurn.nHD = nMaxHD;
         -- collected all the data into rTurn, now stuff into aHDTurn
         table.insert(aHDTurn,rTurn);
-        -- if this HD max is larger, save it
-        -- if nMaxHD > nMaxHDDestroyed and (nTurnValue == -2 or nTurnValue == -3) then
-          -- nMaxHDDestroyed = nMaxHD;
-        -- elseif nMaxHD > nMaxHDTurned then
-          -- nMaxHDTurned = nMaxHD;
-        -- end
 
         local sTurnedType = "\r\n[" .. sTurnString;
         sTurn = sTurn .. sTurnedType .. sTurnedResult .. "]";
@@ -135,9 +184,6 @@ function onRoll(rSource, rTarget, rRoll)
     --rMessage.text = rMessage.text .. sTurnHeader .. sTurn;
     --rMessage.text = rMessage.text .. sTurnHeader;
 
-      
-  --Debug.console("manager_action_turnundead.lua","onRoll","rTarget",rTarget);
-  Debug.console("manager_action_turnundead.lua","onRoll","bTurnedSome",bTurnedSome);  
     -- if we have a dice count we turned something so roll it
     if (bTurnedSome) then
       table.insert(aTurnDice,'d6');
@@ -147,7 +193,6 @@ function onRoll(rSource, rTarget, rRoll)
       table.insert(aExtraTurn,'d4');
       
       local nodeTargets = ActorManagerADND.getTargetNodes(rSource);
-      --local nodeTargets = TargetingManager.getFullTargets(rSource);
       local aTargets = nil;
       local bTurnedNPC = false;
       if (nodeTargets ~= nil) then
@@ -180,14 +225,14 @@ function onRoll(rSource, rTarget, rRoll)
                 if (sCreatureType:match("undead") ~= nil and nLevel <= aHDTurn[i].nHD 
                       and not getAlreadyTurned(aTurnedList,node)) then
                   bTurnedNPC = true;
-                  -- check if nTurnBaseUsed < nTurnBase then nTurnBaseUsed +1 and mark target turned/destroyed
-                  if (nTurnBase > 0) then
-                    nTurnBase = nTurnBase - 1;
+                  -- if check if nTurnExtraUsed < nTurnExtra then nTurnExtraUsed +1 and mark target turned/destroyed
+                  if (nTurnExtra > 0) then
+                    nTurnExtra = nTurnExtra - 1;
                     handleTurn(rSource, node,rMessage,(bDestroy or bDestroyPlus));
                     table.insert(aTurnedList,node);
-                  -- elseif check if nTurnExtraUsed < nTurnExtra then nTurnExtraUsed +1 and mark target turned/destroyed
-                  elseif (nTurnExtra > 0) then
-                    nTurnExtra = nTurnExtra - 1;
+                  -- check if nTurnBaseUsed < nTurnBase then nTurnBaseUsed +1 and mark target turned/destroyed
+                  elseif (nTurnBase > 0) then
+                    nTurnBase = nTurnBase - 1;
                     handleTurn(rSource, node,rMessage,(bDestroy or bDestroyPlus));
                     table.insert(aTurnedList,node);
                   else
@@ -201,7 +246,6 @@ function onRoll(rSource, rTarget, rRoll)
           -- no targets
           rMessage.text = rMessage.text .. " [NO TARGETS]";
         end
-
       end
       if (not bTurnedNPC) then
         rMessage.font = "failfont";
@@ -213,6 +257,15 @@ function onRoll(rSource, rTarget, rRoll)
 	Comm.deliverChatMessage(rMessage);
 end
 
+-- pass list of nodes with a "HD" record and sort by HD
+function sortByLevel(nodes)
+  local aSorted = {};
+  for _,node in pairs(nodes) do
+    table.insert(aSorted, node);
+  end        
+  table.sort(aSorted, function (a, b) return DB.getValue(a,"level",1) < DB.getValue(b,"level",1) end);
+  return aSorted;
+end
 -- flip through list of already turned nodes and 
 -- return true if the node passed already exists in it
 function getAlreadyTurned(aTurnedList,node)
@@ -227,9 +280,7 @@ function getAlreadyTurned(aTurnedList,node)
 end
 -- handle turning a creature
 function handleTurn(rSource, nodeTurn,rMessage,bDestroy)
-Debug.console("manager_action_turnundead.lua","handleTurn","nodeTurn",nodeTurn);
   local rTarget = ActorManager.getActor("ct",nodeTurn);
-  
   local sName = DB.getValue(nodeTurn,"name","NO-NAME");
   if (bDestroy) then
     notifyApplyObliteration(rSource,rTarget);
@@ -239,7 +290,7 @@ Debug.console("manager_action_turnundead.lua","handleTurn","nodeTurn",nodeTurn);
     rMessage.text = rMessage.text .."\r\nTurned " .. sName .. "!";
   end
 end
-
+-- notify OOB to take control and handle this node update
 function notifyApplyObliteration(rSource, rTarget)
 	local msgOOB = {};
 	msgOOB.type = OOB_MSGTYPE_APPLYOBLITERATE;
@@ -249,6 +300,7 @@ function notifyApplyObliteration(rSource, rTarget)
 	
 	Comm.deliverOOBMessage(msgOOB, "");
 end
+-- oob takes control and makes change (sends to apply)
 function handleApplyObliteration(msgOOB)
 	local rSource = ActorManager.getActor(msgOOB.sSourceType, msgOOB.sSourceNode);
 	local rTarget = ActorManager.getActor(msgOOB.sTargetType, msgOOB.sTargetNode);
@@ -259,6 +311,7 @@ function handleApplyObliteration(msgOOB)
 	local nTotal = tonumber(msgOOB.nTotal) or 0;
 	applyObliteration(rSource, rTarget);
 end
+-- Obliterate rTarget (set Wounds to max HP+1 and kill it)
 function applyObliteration(rSource, rTarget)
     -- obliterate undead
     local nodeTurn = ActorManager.getCTNode(rTarget);
@@ -266,6 +319,7 @@ function applyObliteration(rSource, rTarget)
     DB.setValue(nodeTurn,"wounds","number",nHPMax+1);
 end
 
+-- notify OOB to take control and handle this node update
 function notifyApplyTurn(rSource, rTarget)
 	local msgOOB = {};
 	msgOOB.type = OOB_MSGTYPE_APPLYTURN;
@@ -275,6 +329,7 @@ function notifyApplyTurn(rSource, rTarget)
 	
 	Comm.deliverOOBMessage(msgOOB, "");
 end
+-- oob takes control and makes change (sends to apply)
 function handleApplyTurned(msgOOB)
 	local rSource = ActorManager.getActor(msgOOB.sSourceType, msgOOB.sSourceNode);
 	local rTarget = ActorManager.getActor(msgOOB.sTargetType, msgOOB.sTargetNode);
@@ -285,73 +340,10 @@ function handleApplyTurned(msgOOB)
 	local nTotal = tonumber(msgOOB.nTotal) or 0;
 	applyTurnedState(rSource, rTarget);
 end
+-- TURN rTarget (apply turn effect)
 function applyTurnedState(rSource, rTarget)
   -- turn undead
   if not EffectManager5E.hasEffect(rTarget, "Turned") then
     EffectManager.addEffect("", "", ActorManager.getCTNode(rTarget), { sName = "Turned", nDuration = 0 }, true);
   end
-end
-
--- pass list of nodes with a "HD" record and sort by HD
-function sortByLevel(nodes)
-  local aSorted = {};
-  for _,node in pairs(nodes) do
-    table.insert(aSorted, node);
-  end        
-  table.sort(aSorted, function (a, b) return DB.getValue(a,"level",1) < DB.getValue(b,"level",1) end);
-  return aSorted;
-end
-
--- modRoll function
-function modRoll(rSource, rTarget, rRoll)
-	local aAddDesc = {};
-	local aAddDice = {};
-	local nAddMod = 0;
-  local bEffects = false;
-
-Debug.console("manager_action_turnundead.lua","modRoll","rTarget",rTarget);
-
-    if rSource then
-      -- apply turn roll modifiers
-      -- -- Get roll effect modifiers
-      local nEffectCount;
-      aAddDice, nAddMod, nEffectCount = EffectManager5E.getEffectsBonus(rSource, {"TURN"}, false);
-      if (nEffectCount > 0) then
-          bEffects = true;
-      end
-      rRoll.nMod = rRoll.nMod + nAddMod;
-      
-      -- apply turn level adjustment?
-      aAddDice, nAddMod, nEffectCount = EffectManager5E.getEffectsBonus(rSource, {"TURNLEVEL"}, false);
-      if (nEffectCount > 0) then
-          bEffects = true;
-      end
-      rRoll.nTarget = rRoll.nTarget + nAddMod;
-    end
-    
-    -- If effects happened, then add note
-    if bEffects then
-      local sEffects = "";
-      local sMod = StringManager.convertDiceToString(aAddDice, nAddMod, true);
-      if sMod ~= "" then
-          sEffects = "[" .. Interface.getString("effects_tag") .. " " .. sMod .. "]";
-      else
-          sEffects = "[" .. Interface.getString("effects_tag") .. "]";
-      end
-      table.insert(aAddDesc, sEffects);
-    end
-	if #aAddDesc > 0 then
-		rRoll.sDesc = rRoll.sDesc .. " " .. table.concat(aAddDesc, " ");
-	end
-	
-	ActionsManager2.encodeDesktopMods(rRoll);
-	for _,vDie in ipairs(aAddDice) do
-		if vDie:sub(1,1) == "-" then
-			table.insert(rRoll.aDice, "-p" .. vDie:sub(3));
-		else
-			table.insert(rRoll.aDice, "p" .. vDie:sub(2));
-		end
-	end
-
-	ActionsManager2.encodeAdvantage(rRoll, false, false);
 end
