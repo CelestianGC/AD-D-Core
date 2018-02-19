@@ -317,7 +317,8 @@ condcomps = {
 	["prone"] = "cond_prone",
 	["restrained"] = "cond_restrained",
 	["stunned"] = "cond_stunned",
-	["unconscious"] = "cond_unconscious"
+	["unconscious"] = "cond_unconscious",
+  ["turned"] = "cond_paralyzed",
 };
 
 -- Other visible effect types for token widgets

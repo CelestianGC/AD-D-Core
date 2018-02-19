@@ -344,6 +344,6 @@ end
 function applyTurnedState(rSource, rTarget)
   -- turn undead
   if not EffectManager5E.hasEffect(rTarget, "Turned") then
-    EffectManager.addEffect("", "", ActorManager.getCTNode(rTarget), { sName = "Turned", nDuration = 0 }, true);
+    EffectManager.addEffect("", "", ActorManager.getCTNode(rTarget), { sName = "Turned", nDuration = 0, sSource = rSource.sCTNode }, true);
   end
 end
