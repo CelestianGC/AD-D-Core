@@ -23,14 +23,12 @@
 			<sub_record_header name="header">
 				<class>npc_header</class>
 			</sub_record_header>
-
 			<frame_record_content_tabbed name="contentframe" />
-
-            <!-- this is so some parts of the bits we include from character sheets -->
-            <!-- do not complain, that's why invisible. Revisit and remove/fix? test subwindow_record instead -->
-            <!-- --celestian -->
-            <anchor_title_charsheet name="contentanchor" />
-            <stringu name="name">
+      <!-- this is so some parts of the bits we include from character sheets -->
+      <!-- do not complain, that's why invisible. Revisit and remove/fix? test subwindow_record instead -->
+      <!-- --celestian -->
+      <anchor_title_charsheet name="contentanchor" />
+      <stringu name="name">
 				<invisible />
 				<anchored to="contentanchor" position="insidetop" offset="0,0" height="0" />
 			</stringu>
@@ -247,62 +245,34 @@
 							<anchored to="morale_label" />
 			</string_column_npc_remainder>
 
-			<line_column />
-
-			<label_column name="organization_label">
-				<static textres="npc_label_organization" />
+			<label_column name="xp_label">
+				<static textres="xp" />
 			</label_column>
-			<string_column name="organization" />
-
-			<label_column name="diet_label">
-				<static textres="npc_label_diet" />
-			</label_column>
-			<string_columnh name="diet" >
-				<anchored width="120">
-					<right merge="delete" />
-				</anchored>
-			</string_columnh>
-
-			<label_npc name="frequency_label">
-				<static textres="npc_label_frequency" />
-				<anchored to="diet" position="right" offset="10,0" />
-			</label_npc>
-			<string_column_npc_remainder name="frequency">
-							<anchored to="frequency_label" />
-			</string_column_npc_remainder>
-
-			<label_column name="activity_label">
-				<static textres="npc_label_activity" />
-			</label_column>
-			<string_columnh name="activity" >
-				<anchored width="120">
-					<right merge="delete" />
-				</anchored>
-			</string_columnh>
-
-			<label_npc name="climate_label">
-				<static textres="npc_label_climate" />
-				<anchored to="activity" position="right" offset="10,0" />
-			</label_npc>
-			<string_column_npc_remainder name="climate">
-							<anchored to="climate_label" />
-			</string_column_npc_remainder>
-
-			
-			<label_column name="numberappearing_label">
-				<static textres="npc_label_numberappearing" />
-			</label_column>
-			<string_column name="numberappearing" />
-
-			<label_column name="intelligence_label">
-				<static textres="npc_label_intelligence" />
-			</label_column>
-			<string_column name="intelligence_text" />
-
-			<label_column name="treasure_label">
-				<static textres="npc_label_treasure" />
-			</label_column>
-			<string_column name="treasure" />
+      
+			<number_column name="xp" />
+      
+      <label name="clone_to_character_label">
+        <anchored to="xp" position="righthigh" offset="10,0" width="150" />
+        <static text="CLONE TO CHAR (test)" />
+      </label>
+ 			<buttoncontrol name="clone_to_character">
+				<anchored to="clone_to_character_label" position="righthigh" offset="10,0" width="20" height="20"/>
+        <icon normal="button_expand" pressed="button_dialog_ok" />
+				<script>
+					function onButtonPress()
+						if User.isHost() then
+              local node = window.getDatabaseNode();
+              local nodeTarget = DB.createChild("charsheet");
+              DB.copyNode(node, nodeTarget);
+              
+              local w = Interface.openWindow("charsheet", nodeTarget.getNodeName());
+              if w and w.name then
+                w.name.setFocus();
+              end
+            end
+					end
+				</script>
+			</buttoncontrol>
 
 			
 			<line_column />
@@ -319,29 +289,20 @@
 			</label_npc_abilityscore>
 
 			<number_npc_abilityscore name="strengthpercent" source="abilities.strength.percentbase">
-				<!-- <script>
-					function onValueChanged()
-                        local node = getDatabaseNode();
-                        local nodeNPC = node.getChild("....");
-                        AbilityScoreADND.detailsUpdate(nodeNPC);
-                        AbilityScoreADND.detailsPercentUpdate(nodeNPC);
-                        AbilityScoreADND.updateStrength(nodeNPC);
-					end
-				</script> -->
-                <default>0</default>
-                <min> 0 </min>
-                <max> 100 </max>
+        <default>0</default>
+        <min> 0 </min>
+        <max> 100 </max>
 				<font>arial-regular-7</font>
-                <tooltip textres="npc_label_strengthpercent_tooltip" />
-                <anchored merge="replace" to="strength" width="30" height="25">
-					<top />
-					<left anchor="right" relation="relative" offset="10" />
+        <tooltip textres="npc_label_strengthpercent_tooltip" />
+        <anchored merge="replace" to="strength" width="30" height="25">
+          <top />
+          <left anchor="right" relation="relative" offset="10" />
 				</anchored>
 				<target>strength</target>
 			</number_npc_abilityscore>
 			<label_npc_abilityscore>
-                <font>arial-regular-7</font>
-                <tooltip textres="npc_label_strengthpercent_tooltip" />
+        <font>arial-regular-7</font>
+        <tooltip textres="npc_label_strengthpercent_tooltip" />
 				<anchored to="strengthpercent" />
 				<static textres="npc_label_strengthpercent" />
 			</label_npc_abilityscore>
@@ -589,7 +550,66 @@
 					end
 				</script>
 			</list_editor_advanced_effects>
-            <line_column />
+
+			<line_column />
+
+			<label_column name="organization_label">
+				<static textres="npc_label_organization" />
+			</label_column>
+			<string_column name="organization" />
+
+			<label_column name="diet_label">
+				<static textres="npc_label_diet" />
+			</label_column>
+			<string_columnh name="diet" >
+				<anchored width="120">
+					<right merge="delete" />
+				</anchored>
+			</string_columnh>
+
+			<label_npc name="frequency_label">
+				<static textres="npc_label_frequency" />
+				<anchored to="diet" position="right" offset="10,0" />
+			</label_npc>
+			<string_column_npc_remainder name="frequency">
+							<anchored to="frequency_label" />
+			</string_column_npc_remainder>
+
+			<label_column name="activity_label">
+				<static textres="npc_label_activity" />
+			</label_column>
+			<string_columnh name="activity" >
+				<anchored width="120">
+					<right merge="delete" />
+				</anchored>
+			</string_columnh>
+
+			<label_npc name="climate_label">
+				<static textres="npc_label_climate" />
+				<anchored to="activity" position="right" offset="10,0" />
+			</label_npc>
+			<string_column_npc_remainder name="climate">
+							<anchored to="climate_label" />
+			</string_column_npc_remainder>
+
+			
+			<label_column name="numberappearing_label">
+				<static textres="npc_label_numberappearing" />
+			</label_column>
+			<string_column name="numberappearing" />
+
+			<label_column name="intelligence_label">
+				<static textres="npc_label_intelligence" />
+			</label_column>
+			<string_column name="intelligence_text" />
+
+			<label_column name="treasure_label">
+				<static textres="npc_label_treasure" />
+			</label_column>
+			<string_column name="treasure" />
+
+
+      <line_column />
             <!-- end effects -->
             
 			<label_column name="savingthrows_label">
@@ -634,7 +654,21 @@
 			</label_column>
 			<string_columnh name="languages" />
 			
-<!-- 			<label_column name="effect_combat_label">
+      <label_column name="challenge_label">
+				<static textres="npc_label_challenge" />
+        <!-- hide CR, not used in AD&D --celestian -->
+        <invisible />
+			</label_column>
+      
+			<string_columnh name="cr" >
+				<anchored width="20">
+        <right merge="delete" />
+				</anchored>
+        <!-- hide CR, not used in AD&D --celestian -->
+        <invisible />
+			</string_columnh>
+
+      <!-- 			<label_column name="effect_combat_label">
 				<static textres="npc_label_effects" />
                 <tooltip textres="npc_label_effects_tooltip" />
                 </label_column>
@@ -642,26 +676,6 @@
                 <tooltip textres="npc_label_effects_tooltip" />
             </string_columnh>
  -->			
-			<label_column name="challenge_label">
-				<static textres="npc_label_challenge" />
-            <!-- hide CR, not used in AD&D --celestian -->
-                <invisible />
-			</label_column>
-			<string_columnh name="cr" >
-				<anchored width="20">
-					<right merge="delete" />
-				</anchored>
-            <!-- hide CR, not used in AD&D --celestian -->
-                <invisible />
-			</string_columnh>
-			
-			<label_column_right name="xp_label">
-				<anchored to="cr" />
-				<static textres="xp" />
-			</label_column_right>
-			<number_column_right name="xp">
-				<anchored to="cr" />
-			</number_column_right>
 			
 <!-- 			<header_column name="header_actions">
 				<static textres="npc_header_actions" />
