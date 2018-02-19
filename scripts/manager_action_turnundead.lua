@@ -38,7 +38,6 @@ end
 -- TargetDC is the level of cleric attempting turn
 function performRoll(draginfo, rActor)
 	local rRoll = getRoll(rActor);
-Debug.console("manager_action_turnundead.lua","performRoll","draginfo",draginfo);	
 	ActionsManager.performAction(draginfo, rActor, rRoll);
 end
 
@@ -49,38 +48,35 @@ function modRoll(rSource, rTarget, rRoll)
 	local aAddDice = {};
 	local nAddMod = 0;
   local bEffects = false;
-
-Debug.console("manager_action_turnundead.lua","modRoll","rTarget",rTarget);
-
-    if rSource then
-      -- apply turn roll modifiers
-      -- -- Get roll effect modifiers
-      local nEffectCount;
-      aAddDice, nAddMod, nEffectCount = EffectManager5E.getEffectsBonus(rSource, {"TURN"}, false);
-      if (nEffectCount > 0) then
-          bEffects = true;
-      end
-      rRoll.nMod = rRoll.nMod + nAddMod;
-      
-      -- apply turn level adjustment?
-      aAddDice, nAddMod, nEffectCount = EffectManager5E.getEffectsBonus(rSource, {"TURNLEVEL"}, false);
-      if (nEffectCount > 0) then
-          bEffects = true;
-      end
-      rRoll.nTarget = rRoll.nTarget + nAddMod;
+  if rSource then
+    -- apply turn roll modifiers
+    -- -- Get roll effect modifiers
+    local nEffectCount;
+    aAddDice, nAddMod, nEffectCount = EffectManager5E.getEffectsBonus(rSource, {"TURN"}, false);
+    if (nEffectCount > 0) then
+        bEffects = true;
     end
+    rRoll.nMod = rRoll.nMod + nAddMod;
     
-    -- If effects happened, then add note
-    if bEffects then
-      local sEffects = "";
-      local sMod = StringManager.convertDiceToString(aAddDice, nAddMod, true);
-      if sMod ~= "" then
-          sEffects = "[" .. Interface.getString("effects_tag") .. " " .. sMod .. "]";
-      else
-          sEffects = "[" .. Interface.getString("effects_tag") .. "]";
-      end
-      table.insert(aAddDesc, sEffects);
+    -- apply turn level adjustment?
+    aAddDice, nAddMod, nEffectCount = EffectManager5E.getEffectsBonus(rSource, {"TURNLEVEL"}, false);
+    if (nEffectCount > 0) then
+        bEffects = true;
     end
+    rRoll.nTarget = rRoll.nTarget + nAddMod;
+  end
+  
+  -- If effects happened, then add note
+  if bEffects then
+    local sEffects = "";
+    local sMod = StringManager.convertDiceToString(aAddDice, nAddMod, true);
+    if sMod ~= "" then
+        sEffects = "[" .. Interface.getString("effects_tag") .. " " .. sMod .. "]";
+    else
+        sEffects = "[" .. Interface.getString("effects_tag") .. "]";
+    end
+    table.insert(aAddDesc, sEffects);
+  end
 	if #aAddDesc > 0 then
 		rRoll.sDesc = rRoll.sDesc .. " " .. table.concat(aAddDesc, " ");
 	end
@@ -120,7 +116,6 @@ function onRoll(rSource, rTarget, rRoll)
 
     rMessage.text = rMessage.text .. "[as Level " .. nClericLevel .. "] " .. nTotal;
     local bTurnedSome = false;
-    local bTurnedExtra = false;
     local sTurn = "";
     for i=1, nMaxTurnHD,1 do
       local rTurn = {};
@@ -140,7 +135,6 @@ function onRoll(rSource, rTarget, rRoll)
             rTurn.bDestroy = true
         elseif (nTurnValue == -3) then
             sTurnedResult = "(DESTROY!)";
-            bTurnedExtra = true;
             rTurn.bDestroyPlus = true
         end
         
@@ -160,30 +154,13 @@ function onRoll(rSource, rTarget, rRoll)
         bTurnedSome = true;
       end
     end
-    local sTurnAmountRoll = "";
-    local sTurnHeader = "";
     if (bTurnedSome) then
       rMessage.font = "successfont";
       rMessage.icon = "chat_success";
-
-      --sTurnAmountRoll = "\r\n(roll 2d6 for number affected, lowest HD first)";
-      sTurnHeader = "\r\nTurn can affect:";
-      -- table.insert(aTurnDice,'d6');
-      -- table.insert(aTurnDice,'d6');
-    else
-      -- rMessage.font = "failfont";
-      -- rMessage.icon = "chat_fail";
-      -- rMessage.text = rMessage.text .. " [NOTHING TURNED!]";
     end
-    if (bTurnedExtra) then
-        --sTurnAmountRoll = sTurnAmountRoll .. "(add 2d4 more extra)";
-        --table.insert(aTurnDice,'d4');
-        --table.insert(aTurnDice,'d4');
-    end
-    --rMessage.text = rMessage.text .. sTurnHeader .. sTurn .. sTurnAmountRoll;
-    --rMessage.text = rMessage.text .. sTurnHeader .. sTurn;
-    --rMessage.text = rMessage.text .. sTurnHeader;
 
+    Debug.console("manager_action_turnundead.lua","onRoll","sTurn=",sTurn);
+    
     -- if we have a dice count we turned something so roll it
     if (bTurnedSome) then
       table.insert(aTurnDice,'d6');
@@ -202,6 +179,7 @@ function onRoll(rSource, rTarget, rRoll)
         if (#aTargets > 0) then 
           local aTurnedList = {};
           local nTurnBase = StringManager.evalDice(aTurnDice, 0);
+          Debug.console("manager_action_turnundead.lua","onRoll","Turned Slots, 2d6, nTurnBase=",nTurnBase);
           -- flip through #aHDTurn
           for i=1, #aHDTurn do
             local nTurnExtra = 0;
@@ -211,13 +189,14 @@ function onRoll(rSource, rTarget, rRoll)
             if bDestroyPlus then
             -- destroy+ turn (add 2d4)
               nTurnExtra = StringManager.evalDice(aExtraTurn, 0);
+              Debug.console("manager_action_turnundead.lua","onRoll","Gained extra turn, 2d4, nTurnExtra=",nTurnExtra," For HD=",aHDTurn[i].nHD);
             end
             -- flip through sorted Targets
             local aTurnIDs = {};
             for nID=1,#aTargets do
               local sNodeName = aTargets[nID];
               if (sNodeName ~= nil) then
-                local node = DB.findNode(aTargets[nID]);
+                local node = DB.findNode(sNodeName);
                 -- if target.HD <= aHDTurn.nHD
                 local nLevel = DB.getValue(node,"level",9999);
                 local sCreatureType = DB.getValue(node,"type",""):lower();
