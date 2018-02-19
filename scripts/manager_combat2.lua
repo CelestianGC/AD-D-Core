@@ -372,26 +372,27 @@ function addNPC(sClass, nodeNPC, sName)
         DB.setValue(nodeEntry, "init", "number", nInitMod);
     end
 
-	-- Set current hit points
-	local sOptHRNH = OptionsManager.getOption("HRNH");
-	local nHP = DB.getValue(nodeNPC, "hp", 0);
-	local sHD = StringManager.trim(DB.getValue(nodeNPC, "hd", ""));
-	if sOptHRNH == "max" and sHD ~= "" then
-    -- max hp
-		nHP = StringManager.evalDiceString(sHD, true, true);
-	elseif sOptHRNH == "random" and sHD ~= "" then
-		nHP = math.max(StringManager.evalDiceString(sHD, true), 1);
-    elseif sOptHRNH == "80plus" and sHD ~= "" then        
-        -- roll hp, if it's less than 80% of what max then set to 80% of max
-        -- i.e. if hp max is 100, 80% of that is 80. If the random is less than
-        -- that the value will be set to 80.
-        local nMaxHP = StringManager.evalDiceString(sHD, true, true);
-        local n80 = math.floor(nMaxHP * 0.8);
-        nHP = math.max(StringManager.evalDiceString(sHD, true), 1);
-        if (nHP < n80) then
-            nHP = n80;
-        end
-	end
+	-- -- Set current hit points
+	-- local sOptHRNH = OptionsManager.getOption("HRNH");
+	-- local nHP = DB.getValue(nodeNPC, "hp", 0);
+	-- local sHD = StringManager.trim(DB.getValue(nodeNPC, "hd", ""));
+	-- if sOptHRNH == "max" and sHD ~= "" then
+    -- -- max hp
+		-- nHP = StringManager.evalDiceString(sHD, true, true);
+	-- elseif sOptHRNH == "random" and sHD ~= "" then
+		-- nHP = math.max(StringManager.evalDiceString(sHD, true), 1);
+    -- elseif sOptHRNH == "80plus" and sHD ~= "" then        
+        -- -- roll hp, if it's less than 80% of what max then set to 80% of max
+        -- -- i.e. if hp max is 100, 80% of that is 80. If the random is less than
+        -- -- that the value will be set to 80.
+        -- local nMaxHP = StringManager.evalDiceString(sHD, true, true);
+        -- local n80 = math.floor(nMaxHP * 0.8);
+        -- nHP = math.max(StringManager.evalDiceString(sHD, true), 1);
+        -- if (nHP < n80) then
+            -- nHP = n80;
+        -- end
+	-- end
+  local nHP = rollNPCHitPoints(nodeNPC);
 	DB.setValue(nodeEntry, "hptotal", "number", nHP);
 	
 	
@@ -517,6 +518,31 @@ function addNPC(sClass, nodeNPC, sName)
     setSpecialDefenseAttack(nodeEntry);
     
 	return nodeEntry;
+end
+
+-- generate hitpoint value for NPC and return it
+function rollNPCHitPoints(nodeNPC)
+	-- Set current hit points
+	local sOptHRNH = OptionsManager.getOption("HRNH");
+	local nHP = DB.getValue(nodeNPC, "hp", 0);
+	local sHD = StringManager.trim(DB.getValue(nodeNPC, "hd", ""));
+	if sOptHRNH == "max" and sHD ~= "" then
+    -- max hp
+		nHP = StringManager.evalDiceString(sHD, true, true);
+	elseif sOptHRNH == "random" and sHD ~= "" then
+		nHP = math.max(StringManager.evalDiceString(sHD, true), 1);
+    elseif sOptHRNH == "80plus" and sHD ~= "" then        
+        -- roll hp, if it's less than 80% of what max then set to 80% of max
+        -- i.e. if hp max is 100, 80% of that is 80. If the random is less than
+        -- that the value will be set to 80.
+        local nMaxHP = StringManager.evalDiceString(sHD, true, true);
+        local n80 = math.floor(nMaxHP * 0.8);
+        nHP = math.max(StringManager.evalDiceString(sHD, true), 1);
+        if (nHP < n80) then
+            nHP = n80;
+        end
+	end
+  return nHP
 end
 
 -- review this to deal with AD&D monster/spells descriptions better? -celestian

@@ -33,6 +33,27 @@
 				</script>
 			</button_iedit>
 
+      <label name="clone_to_npc_label">
+        <anchored position="insidebottomleft" offset="10,10" />
+        <static text="CLONE TO NPC (test)" />
+      </label>
+ 			<buttoncontrol name="clone_to_npc">
+				<anchored to="clone_to_npc_label" position="righthigh" offset="10,0" width="20" height="20"/>
+        <icon normal="button_expand" pressed="button_dialog_ok" />
+				<script>
+					function onButtonPress()
+						if User.isHost() then
+              local node = window.getDatabaseNode();
+              local nodeTarget = ConvertManagerADND.convertToNPC(node);
+              local w = Interface.openWindow("npc", nodeTarget.getNodeName());
+              if w and w.name then
+                w.name.setFocus();
+              end
+            end
+					end
+				</script>
+			</buttoncontrol>
+      
 			<subwindow name="contents">
 				<anchored>
 					<top offset="20" />

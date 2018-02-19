@@ -5,7 +5,7 @@
   attribution and copyright information.
 -->
 
-<root version="3.0" release="23" logo="logo.png">
+<root version="3.0" release="24" logo="logo.png">
 	<announcement text="AD&amp;D Core v2018.02.16 For Fantasy Grounds\r--by Celestian 2017-2018" font="emotefont" icon="rulesetlogo_ADnD" />
 
 	<!-- Attributes -->
@@ -161,6 +161,7 @@
   <script name="ActionTurn" file="scripts/manager_action_turnundead.lua" />
   <script name="WindowManagerADND" file="scripts/windowmanager.lua" />
   <script name="AbilityScoreADND" file="scripts/manager_abilityscores.lua" />
+  <script name="ConvertManagerADND" file="scripts/manager_convert_adnd.lua" />
 
   <!--  This replaces the CoreRPG EffectManager. 
         3.3.4 added setInitAscending() and allowed us to stop using this -->

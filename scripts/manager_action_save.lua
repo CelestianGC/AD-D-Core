@@ -16,10 +16,6 @@ function onInit()
 	ActionsManager.registerResultHandler("concentration", onConcentrationRoll);
 end
 
-
-
-
-
 function handleApplySave(msgOOB)
 	local rSource = ActorManager.getActor(msgOOB.sSourceType, msgOOB.sSourceNode);
 	local rOrigin = ActorManager.getActor(msgOOB.sTargetType, msgOOB.sTargetNode);
@@ -703,6 +699,7 @@ function setNPCSave(nodeEntry, sSave, nodeNPC)
     --Debug.console("manager_action_save.lua", "setNPCSave", "nSaveScore", nSaveScore);
     
     DB.setValue(nodeEntry, "saves." .. sSave .. ".score", "number", nSaveScore);
+    DB.setValue(nodeEntry, "saves." .. sSave .. ".base", "number", nSaveScore);
 
     --Debug.console("manager_action_save.lua", "setNPCSave", "setValue Done");
 
