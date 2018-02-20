@@ -18,6 +18,16 @@
 					end
 				end
 			end
+      
+      function onInit()
+        if User.isHost() then
+          clone_to_npc_label.setVisible(true);
+          clone_to_npc.setVisible(true);
+        else
+          clone_to_npc_label.setVisible(false);
+          clone_to_npc.setVisible(false);
+        end
+      end
 		</script>
 		<sheetdata>
 			<button_iedit name="logs_iedit">
