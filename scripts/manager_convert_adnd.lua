@@ -43,9 +43,12 @@ function convertToPC(nodeNPC)
   DB.setValue(nodePC, "defenses.ac.total", "number", DB.getValue(nodeNPC, "ac", 10));
   -- set movebase/speed in proper place
   local sMove = DB.getValue(nodeNPC, "speed","");
-  local nMove = sMove:match("%d+");
+  local nMove = sMove:match("%d+"); -- grab first digit we can find, thats the speed!
   DB.setValue(nodePC, "speed.total", "number", nMove);
   DB.setValue(nodePC, "speed.base", "number", nMove);
+  
+  DB.setValue(nodeNPC, "combat.thaco.score", "number", DB.getValue(nodePC, "thaco", 20));
+  --DB.setValue(nodeNPC, "combat.thaco.base", "number", DB.getValue(nodePC, "thaco", 20));
   
   return nodePC;
 end
@@ -76,6 +79,8 @@ function convertToNPC(nodePCIncoming)
   -- copy nodeNPC into PC node
   DB.copyNode(nodePC, nodeNPC);
   
+  DB.setValue(nodeNPC, "type","string","Humanoid");
+  
   -- set nHP to hp value for npc
 	DB.setValue(nodeNPC, "hptotal", "number", nHP);
 	DB.setValue(nodeNPC, "hp", "number", nHP);
@@ -92,6 +97,7 @@ function convertToNPC(nodePCIncoming)
   -- set special defense
   DB.setValue(nodeNPC, "specialDefense", "string", DB.getValue(nodePC,"special",""));
   
+  -- delete temporary copy we made to make the clone
   DB.deleteNode(nodePC.getPath());
   return nodeNPC;
 end

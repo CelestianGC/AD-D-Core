@@ -397,11 +397,11 @@ function onInit()
     
     -- default turn dice size 
 	nDefaultTurnDice = {"d20"};
-  nDefaultTurnUndeadMaxHD = 13;
+  nDefaultTurnUndeadMaxHD = 13; -- this is actually the number of turn_name_index entries
   -- index of the turns 1-13
-  turn_name_index ={ 
-      "Skeleton or 1HD",
-      "Zombie or 1-2HD",
+  turn_name_index ={      -- make sure the HD listing is XXHD or X-XHD, 
+      "Skeleton or 1HD",  -- we need the number it from of HD for the 
+      "Zombie or 1-2HD",  -- turn undead automation.
       "Ghoul or 2HD",
       "Shadow or 3-4HD",
       "Wight or 5HD",
@@ -411,8 +411,8 @@ function onInit()
       "Spectre or 8HD",
       "Vampire or 9HD",
       "Ghost or 10HD",
-      "Lich or 11HD+",
-      "Special++"
+      "Lich or 11-15HD+", -- 11++ doesn't work so I added 11-15 so the max HD is 15 this will work on
+      "Special 20HD++"    -- "special" doesn't translate so added 20+ HD
   };
     
     -- cap of turn improvement
