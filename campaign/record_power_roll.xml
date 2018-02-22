@@ -804,7 +804,7 @@
 			<basicnumber name="castermax">
 				<anchored to="label_wrap1" position="righthigh" offset="-1,1" width="20" height="20" />
 				<hideonvalue>0</hideonvalue>
-        <default>10</default>
+        <default>0</default>
 			</basicnumber>
 			<label name="label_wrap2">
 				<anchored to="castermax" position="righthigh" offset="3,0" width="10" />
