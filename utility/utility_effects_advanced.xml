@@ -308,17 +308,29 @@
             <!-- duration dice -->
 			<basicdice name="durdice">
 				<anchored width="50" height="20">
-					<top parent="columnanchor" anchor="bottom" relation="relative" offset="7" />
+					<top parent="columnanchor" anchor="bottom" relation="relative" offset="17" />
 					<left offset="5" />
 				</anchored>
 				<hideonvalue value="0" />
-                <tooltip textres="power_label_duration_dice_tooltip" />
-            </basicdice>
+        <tooltip textres="power_label_duration_dice_tooltip" />
+      </basicdice>
+      <label_fieldtop>
+        <anchored to="durdice" />
+        <static textres="item_label_effects_dice" />
+        <tooltip textres="item_effects_dice_tooltip" />
+      </label_fieldtop>
+        
             <!-- duration modifier -->
 			<advanced_effect_number name="durmod">
 				<anchored to="durdice" position="righthigh" offset="10,0" width="20" height="20" />
                 <tooltip textres="power_label_duration_mod_tooltip" />
 			</advanced_effect_number>
+      <label_fieldtop>
+        <anchored to="durmod" />
+        <static textres="text_MOD" />
+        <tooltip textres="item_label_effects_mod_tooltip" />
+      </label_fieldtop>
+      
             <!-- duration unit -->
 			<button_stringcycler name="durunit">
 				<anchored to="durmod" position="righthigh" offset="10,0" width="40" height="20" />
@@ -328,6 +340,12 @@
 					<values>minute|hour|day</values>
 				</parameters>
 			</button_stringcycler>
+      <label_fieldtop>
+        <anchored to="durunit" />
+        <static textres="item_label_effects_unit" />
+        <tooltip textres="item_label_effects_unit_tooltip" />
+      </label_fieldtop>
+      
             <!-- show/hide effect -->
 			<button_stringcycler name="visibility">
 				<anchored to="durunit" position="righthigh" offset="10,0" width="40" height="20" />
@@ -338,12 +356,23 @@
 				</parameters>
                 <tooltip textres="item_label_effect_visible_tooltip" />
 			</button_stringcycler>
+      <label_fieldtop>
+        <anchored to="visibility" />
+        <static textres="item_label_effect_visible" />
+        <tooltip textres="item_label_effect_visible_tooltip" />
+      </label_fieldtop>
 
             <!-- weapon/attack effect only? -->
 			<button_checkbox name="actiononly">
 				<anchored to="visibility" position="righthigh" offset="10,0" width="10" height="20" />
-				<tooltip textres="item_label_effect_attackonly" />
+				<tooltip textres="item_label_effect_attackonly_tooltip" />
 			</button_checkbox>
+      <label>
+        <font>sheetlabelmini</font>
+        <anchored to="actiononly" position="righthigh" offset="2,0"/>
+				<static textres="item_label_effect_attackonly" />
+				<tooltip textres="item_label_effect_attackonly_tooltip" />
+      </label>
             
 		</sheetdata>
 	</windowclass>
