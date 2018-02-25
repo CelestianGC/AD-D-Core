@@ -11,10 +11,10 @@
         <!-- <margins control="15,0,0,0" /> -->
 		<sheetdata>
 			<anchor_title_charsheet name="contentanchor" >
-                <anchored>
-                    <top offset="15" />
-                </anchored>
-            </anchor_title_charsheet>
+        <anchored>
+          <top offset="15" />
+        </anchored>
+      </anchor_title_charsheet>
             
 			<stringc_charclasslevel name="classlevel">
 				<anchored to="contentanchor" height="20">

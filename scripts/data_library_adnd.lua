@@ -12,4 +12,13 @@ function onInit()
 	LibraryData.setRecordTypeInfo("feat", nil);
 	LibraryData.setRecordTypeInfo("vehicle", nil);
   --
+  
+  if User.isHost()  then
+    Comm.registerSlashHandler("readycheck", processReadyCheck);
+  end
+
+end
+
+function processReadyCheck(sCommand, sParams)
+	Interface.openWindow("readycheck", "readycheck");
 end

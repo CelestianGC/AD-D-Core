@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<!-- 
+  Please see the license.html file included with this distribution for 
+  attribution and copyright information.
+-->
+
+<root>
+  <windowclass name="readycheck" >
+    <frame>charsheethelper</frame>
+    <placement>
+      <size width="700" height="550" />
+    </placement>
+    <sizelimits>
+      <minimum width="700" height="550" />
+      <dynamic />
+    </sizelimits>
+    <minimize>minimized_npc</minimize>
+    <nodelete />
+    <script file="utility/scripts/readycheck.lua" />
+    <sheetdata>
+			<windowtitlebar_char name="title">
+				<prefix>readycheck_window_title</prefix>
+			</windowtitlebar_char>
+      <anchor_title_charsheet name="contentanchor" />
+			<anchor_column name="columnanchor" />
+			<genericcontrol name="rightanchor">
+				<anchored width="0" height="20">
+					<top parent="columnanchor" anchor="bottom" relation="relative" offset="4" />
+					<right offset="-15" />
+				</anchored>
+			</genericcontrol>
+			<genericcontrol name="leftanchor">
+				<anchored width="0" height="20">
+					<top parent="columnanchor" anchor="bottom" relation="relative" offset="4" />
+					<left offset="-15" />
+				</anchored>
+			</genericcontrol>
+			<genericcontrol name="contentframe">
+				<anchored to="contentanchor">
+					<top anchor="bottom" offset="0" />
+					<left />
+					<right />
+					<bottom parent="" offset="-30" />
+				</anchored>
+			</genericcontrol>
+
+			<subwindow_record name="main">
+				<anchored>
+					<top offset="20" />
+					<bottom offset="-35" />
+					<left offset="15" />
+					<right offset="-15" />
+				</anchored>
+				<class>ready_check_main</class>
+				<activate />
+				<fastinit />
+			</subwindow_record>
+
+			<scrollbar_record>
+				<target>main</target>
+			</scrollbar_record>
+
+			<resize_charsheethelper />
+			<close_charsheethelper />
+      
+    </sheetdata>
+  </windowclass>
+
+  <!-- ready check main window -->
+  <windowclass name="ready_check_main">
+    <sheetdata>
+      <anchor_column name="columnanchor" />
+      <ready_check_list name="list">
+        <datasource>connectedlist</datasource>
+        <class>ready_check_entry</class>
+      </ready_check_list>
+    </sheetdata>
+  </windowclass>
+  
+  <template name="ready_check_list">
+    <windowlist name="list">
+      <anchored>
+        <top parent="columnanchor" anchor="bottom" relation="relative" offset="20" />
+        <left />
+        <right />
+      </anchored>
+      <allowdelete />
+      <child></child>
+      <child><backcolor>1A40301E</backcolor></child>
+      <noscroll />
+  <!--     <script>
+        function onInit()
+          registerMenuItem(Interface.getString("list_menu_createitem"), "insert", 5);
+        end
+        
+        function onMenuSelection(selection)
+          if selection == 5 then
+            self.addEntry(true);
+          end
+        end
+        
+        function onListChanged()
+          update();
+        end
+
+        function update()
+          local bEditMode = (window.list_iedit.getValue() == 1);
+          for _,w in pairs(getWindows()) do
+            w.idelete.setVisibility(bEditMode);
+          end
+        end
+        
+        function addEntry(bFocus)
+          return createWindow();
+        end
+      </script> -->
+    </windowlist>
+  </template>
+
+  <windowclass name="ready_check_entry">
+		<margins control="0,0,0,5" />
+    <script>
+      function onInit()
+        Debug.console("utility_readycheck.xml","ready_check_entry","getDatabaseNode()",getDatabaseNode());
+      end
+    </script>
+    <sheetdata>
+			<anchor_column name="columnanchor" />
+
+			<stringu name="name">
+        <anchored position="insidetopleft" offset="5,20" width="125" height="20" />
+			</stringu>
+      
+    </sheetdata>
+  </windowclass>
+</root>

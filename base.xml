@@ -59,6 +59,7 @@
 	<includefile source="utility/utility_effects.xml" />
 	<includefile source="utility/template_utility_advanced.xml" />
 	<includefile source="utility/utility_effects_advanced.xml" />
+	<includefile source="utility/utility_readycheck.xml" />
 	
 	<!-- Reference -->
 	<includefile source="ref/template_ref.xml" />
@@ -162,6 +163,7 @@
   <script name="WindowManagerADND" file="scripts/windowmanager.lua" />
   <script name="AbilityScoreADND" file="scripts/manager_abilityscores.lua" />
   <script name="ConvertManagerADND" file="scripts/manager_convert_adnd.lua" />
+  <script name="ConnectionManagerADND" file="scripts/manager_connection_adnd.lua" />
 
   <!--  This replaces the CoreRPG EffectManager. 
         3.3.4 added setInitAscending() and allowed us to stop using this -->
