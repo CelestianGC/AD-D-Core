@@ -1,4 +1,8 @@
 -- data library for ad&d core ruleset
+--
+--
+--
+
 function onInit()
   DesktopManager.showDockTitleText(true);
   DesktopManager.setDockTitleFont("sidebar");
@@ -12,13 +16,21 @@ function onInit()
 	LibraryData.setRecordTypeInfo("feat", nil);
 	LibraryData.setRecordTypeInfo("vehicle", nil);
   --
-  
   if User.isHost()  then
     Comm.registerSlashHandler("readycheck", processReadyCheck);
   end
-
 end
 
 function processReadyCheck(sCommand, sParams)
-	Interface.openWindow("readycheck", "readycheck");
+  if User.isHost() then
+    local wWindow = Interface.openWindow("readycheck","");
+    if wWindow then
+      local aList = ConnectionManagerADND.getUserLoggedInList();
+      -- share this window with every person connected.
+      for _,name in pairs(aList) do
+        wWindow.share(name);
+      end
+    end
+  end
 end
+

@@ -34,3 +34,28 @@ function onLoginManagement(sUser,bLogin)
   end
 end
 
+-- get a list of users.
+function getUserLoggedInList()
+  local aList = {}
+    for _,node in pairs(DB.getChildren("connectedlist")) do
+      local sName = DB.getValue(node,"name","");
+      if sName and sName ~= "" then
+        table.insert(aList,sName);
+      end
+    end
+  return aList;
+end
+
+-- get a string list of users
+function getUserLoggedInAsString()
+  local sUsers = "";
+  local aList = getUserLoggedInList();
+  for _,name in pairs(aList) do
+    if sUsers == "" then
+      sUsers = name;
+    else
+      sUsers = sUsers .. "," .. name;
+    end
+  end
+  return sUsers;
+end

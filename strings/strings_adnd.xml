@@ -646,5 +646,7 @@
   
   <!-- readycheck -->
 	<string name="readycheck_window_title">Ready Check</string>    
+	<string name="readycheck_button_label">I AM READY!</string>    
+	<string name="readycheck_button_label_tooltip">The DM has asked if you are ready, are you?</string>    
   
 </root>
