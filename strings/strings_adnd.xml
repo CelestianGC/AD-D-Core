@@ -591,8 +591,8 @@
   <string name="option_val_disabled">Disabled</string>
   <string name="option_label_HOUSE_RULE_INIT_EACH_ROUND">CT: Auto-Roll Init Each Round</string>
   <string name="option_val_title">Title+Tooltip</string>
-  <string name="option_label_RIP">Show RIP on tokens to Players</string>
-  <string name="option_label_RIP_DM">Show RIP on tokens to DM</string>
+  <string name="option_label_RIP">RIP: Show on tokens to Players</string>
+  <string name="option_label_RIP_DM">RIP: Show on tokens to DM</string>
   <string name="option_val_80plus">80%+</string>
 
   <string name="option_label_ADND_AE_EDIT">PC: Adv. Effect Edit</string>
@@ -600,7 +600,7 @@
   <string name="option_label_ADND_AE_disabled">Disabled</string>
     
   <!-- ding/ring on private message  -->
-  <string name="option_label_ADND_PM_DING">DING on Whisper Received</string>
+  <string name="option_label_ADND_PM_DING">Whisper: DING on Received</string>
   <string name="option_label_ADND_PM_DING_enabled">Enabled</string>
   <string name="option_label_ADND_PM_DING_disabled">Disabled</string>
     

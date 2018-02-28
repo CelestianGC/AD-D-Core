@@ -54,6 +54,6 @@ function seeIfEveryoneIsReady()
   -- DING dm that everyone is ready?
   if bEveryoneReady then
     Debug.console("ready_check_host.lua","EVERYONE READY!");
-    User.ringBell();
+    --User.ringBell(); -- this rings everyone, not just DM/GM/Host ;(
   end
 end
