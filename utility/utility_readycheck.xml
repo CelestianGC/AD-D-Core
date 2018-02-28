@@ -9,7 +9,7 @@
   <windowclass name="readycheck" >
     <frame>charsheethelper</frame>
     <placement>
-      <size width="200" height="300" />
+      <size width="300" height="300" />
     </placement>
     <sizelimits>
       <minimum width="200" height="200" />
@@ -46,12 +46,6 @@
 			</genericcontrol>
 
 			<subwindow_record name="main">
-        <script>
-          function readyPressed(sUser,nCheck)
-            Debug.console("utility_readycheck.xml","main","TESTING");
-            window.readyPressed(sUser,nCheck);
-          end
-        </script>
 				<anchored>
 					<top offset="20" />
 					<bottom offset="-35" />
@@ -100,12 +94,6 @@
       
       <!-- User visible -->
       <subwindow name="main_user">
-        <script>
-          function readyPressed(sUser,nCheck)
-            Debug.console("utility_readycheck.xml","main_user","TESTING");
-            window.parentcontrol.readyPressed(sUser,nCheck);
-          end
-        </script>
         <anchored>
           <top parent="columnanchor" anchor="bottom" relation="relative" offset="20" />
           <left />
