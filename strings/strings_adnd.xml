@@ -599,6 +599,10 @@
   <string name="option_label_ADND_AE_enabled">Enabled</string>
   <string name="option_label_ADND_AE_disabled">Disabled</string>
     
+  <!-- ding/ring on private message  -->
+  <string name="option_label_ADND_PM_DING">DING on Whisper Received</string>
+  <string name="option_label_ADND_PM_DING_enabled">Enabled</string>
+  <string name="option_label_ADND_PM_DING_disabled">Disabled</string>
     
 
 	<!-- Armor Table -->

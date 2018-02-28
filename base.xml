@@ -164,6 +164,7 @@
   <script name="AbilityScoreADND" file="scripts/manager_abilityscores.lua" />
   <script name="ConvertManagerADND" file="scripts/manager_convert_adnd.lua" />
   <script name="ConnectionManagerADND" file="scripts/manager_connection_adnd.lua" />
+  <script name="ChatManagerADND" file="scripts/manager_chat_adnd.lua" />
 
   <!--  This replaces the CoreRPG EffectManager. 
         3.3.4 added setInitAscending() and allowed us to stop using this -->
