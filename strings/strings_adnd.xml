@@ -404,7 +404,8 @@
 	<string name="check">Check</string>
 	<string name="dmg">Damage</string>
 	<string name="heal">Heal</string>
-	<string name="init">Initiative</string>
+	<string name="init">Init</string>
+	<string name="initiative">Initiative</string>
 	<string name="save">Save</string>
 
 	<string name="acid">Acid</string>

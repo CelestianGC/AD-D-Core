@@ -44,6 +44,9 @@
 				<static textres="ct_label_status" />
 			</label_ct_right>
 			<label_ct_right name="label_wounds" insertbefore="label_init">
+        <anchored >
+          <right offset="-30" />
+        </anchored>
 				<static textres="ct_label_wounds" />
 				<tooltip textres="ct_tooltip_wounds" />
 			</label_ct_right>
