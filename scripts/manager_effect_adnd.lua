@@ -3,7 +3,12 @@
 -- Effects on Items, apply to character in CT
 --
 --
+OOB_MSGTYPE_EFFECTADD = "addeffect";
+OOB_MSGTYPE_EFFECTDELETE = "deleteeffect";
 function onInit()
+  OOBManager.registerOOBMsgHandler(OOB_MSGTYPE_EFFECTADD, handleEffectAdd);
+  OOBManager.registerOOBMsgHandler(OOB_MSGTYPE_EFFECTDELETE, handleEffectDelete);
+
     --CoreRPG replacements
     ActionsManager.decodeActors = decodeActors;
 
@@ -27,6 +32,67 @@ function onInit()
     -- option in house rule section, enable/disable allow PCs to edit advanced effects.
 	OptionsManager.registerOption2("ADND_AE_EDIT", false, "option_header_houserule", "option_label_ADND_AE_EDIT", "option_entry_cycler", 
 			{ labels = "option_label_ADND_AE_enabled" , values = "enabled", baselabel = "option_label_ADND_AE_disabled", baseval = "disabled", default = "disabled" });    
+end
+
+-- notify oob to deal with this
+function notifyEffectAdd(nodeEntry, rEffect)
+	local msgOOB = {};
+	msgOOB.type = OOB_MSGTYPE_EFFECTADD;
+  msgOOB.nodeEntry = nodeEntry.getPath();
+
+  msgOOB.effectDuration = rEffect.nDuration;
+  msgOOB.effectName     = rEffect.sName;
+  msgOOB.effectLabel    = rEffect.sLabel;
+  msgOOB.effectUnit     = rEffect.sUnits;
+  msgOOB.effectInit     = rEffect.nInit;
+  msgOOB.effectSource   = rEffect.sSource or nil;
+  msgOOB.effectDMOnly   = rEffect.nGMOnly;
+  msgOOB.effectApply    = rEffect.sApply or nil;
+
+	Comm.deliverOOBMessage(msgOOB, "");
+end
+
+-- oob takes control and makes change (sends to apply)
+function handleEffectAdd(msgOOB)
+  local nodeEntry = DB.findNode(msgOOB.nodeEntry);
+
+  local rEffect     = {};
+  rEffect.nDuration = msgOOB.effectDuration;
+  rEffect.sName     = msgOOB.effectName;
+  rEffect.sLabel    = msgOOB.effectLabel; 
+  rEffect.sUnits    = msgOOB.effectUnit;
+  rEffect.nInit     = msgOOB.effectInit;
+  rEffect.sSource   = msgOOB.effectSource;
+  rEffect.nGMOnly   = msgOOB.effectDMOnly;
+  rEffect.sApply    = msgOOB.effectApply;
+
+  local bFound = false;
+  for _,nodeEffect in pairs(DB.getChildren(nodeEntry, "effects")) do
+    local sEffSource = DB.getValue(nodeEffect, "source_name", "");
+    if (sEffSource == rEffect.sSource) then
+      bFound = true;
+    end -- was active
+  end -- nodeEffect for
+  if not bFound then
+    EffectManager.addEffect("", "", nodeEntry, rEffect, false);
+  end
+end
+
+-- notify oob to deal with this
+function notifyEffectDelete(nodeEffect)
+	local msgOOB = {};
+	msgOOB.type = OOB_MSGTYPE_EFFECTDELETE;
+  msgOOB.nodeEffect = nodeEffect.getPath();
+
+	Comm.deliverOOBMessage(msgOOB, "");
+end
+
+-- oob takes control and makes change (sends to apply)
+function handleEffectDelete(msgOOB)
+  local nodeEffect = DB.findNode(msgOOB.nodeEffect);
+  if nodeEffect ~= nil then
+    nodeEffect.delete();
+  end
 end
 
 -- add the effect if the item is equipped and doesn't exist already
@@ -98,9 +164,9 @@ function updateItemEffect(nodeItem,nodeItemEffect, sName, nodeChar, sUser, bEqui
                     bFound = true;
 --Debug.console("manager_effect_adnd.lua","updateItemEffect","bFound!!!",bFound);
                     if (not bEquipped) then
-                        sendEffectRemovedMessage(nodeChar, nodeEffect, sLabel, nDMOnly, sUser)
---Debug.console("manager_effect_adnd.lua","updateItemEffect","!!!bEquipped",bEquipped);
-                        nodeEffect.delete();
+                        sendEffectRemovedMessage(nodeChar, nodeEffect, sLabel, nDMOnly, sUser);
+                        notifyEffectDelete(nodeEffect);
+                        --nodeEffect.delete();
                         break;
                     end -- not equipped
                 end -- effect source == item source
@@ -145,10 +211,9 @@ function updateItemEffect(nodeItem,nodeItemEffect, sName, nodeChar, sUser, bEqui
             rEffect.sSource = sItemSource;
             rEffect.nGMOnly = nDMOnly;
             rEffect.sApply = "";
---Debug.console("manager_effect_adnd.lua","updateItemEffect","rEffect",rEffect);
-            --EffectManager.addEffect(sUser, "", nodeChar, rEffect, true);
-            EffectManager.addEffect("", "", nodeChar, rEffect, false);
-            sendEffectAddedMessage(nodeChar, rEffect, sLabel, nDMOnly, sUser)
+            --EffectManager.addEffect("", "", nodeChar, rEffect, false);
+            sendEffectAddedMessage(nodeChar, rEffect, sLabel, nDMOnly, sUser);
+            notifyEffectAdd(nodeChar,rEffect);
         end
     end
 end
@@ -198,7 +263,12 @@ function updateCharEffect(nodeCharEffect,nodeEntry)
     rEffect.nGMOnly = nDMOnly;
     rEffect.sApply = "";
     --EffectManager.addEffect("", "", nodeEntry, rEffect, true);
-    EffectManager.addEffect("", "", nodeEntry, rEffect, false);
+    
+    -- Move this to OOB?
+    --EffectManager.addEffect("", "", nodeEntry, rEffect, false);
+    notifyEffectAdd(nodeEntry,rEffect);
+    --
+    
     sendEffectAddedMessage(nodeEntry, rEffect, sLabel, nDMOnly, sUser);
 end
 
