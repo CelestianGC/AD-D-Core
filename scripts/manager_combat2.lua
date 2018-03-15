@@ -1197,7 +1197,7 @@ function addPC(nodePC)
 
     -- make sure active users get ownership of their CT nodes
     -- otherwise effects applied by items/etc won't work.
-    AccessManagerADND.manageCTOwners(nodeEntry);
+    -- AccessManagerADND.manageCTOwners(nodeEntry);
 end
 --
 --	COMBAT ACTION FUNCTIONS
