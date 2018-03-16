@@ -60,19 +60,15 @@ end
 
 -- run from addHandler for updated item effect options
 function inventoryUpdateItemEffects(nodeField)
-Debug.console("manager_effect_adnd.lua","inventoryUpdateItemEffects","nodeField",nodeField);
 		updateItemEffects(DB.getChild(nodeField, ".."));
 end
 -- update single item from edit for *.effect handler
 function updateItemEffectsForEdit(nodeField)
-Debug.console("manager_effect_adnd.lua","updateItemEffectsForEdit","nodeField",nodeField);
     checkEffectsAfterEdit(DB.getChild(nodeField, ".."));
 end
 -- find the effect for this source and delete and re-build
 function checkEffectsAfterEdit(itemNode)
     local nodeChar = DB.getChild(itemNode, ".....");
-Debug.console("manager_effect_adnd.lua","checkEffectsAfterEdit","nodeChar",nodeChar);
-Debug.console("manager_effect_adnd.lua","checkEffectsAfterEdit","itemNode",itemNode);
     local nodeCT = CharManager.getCTNodeByNodeChar(nodeChar);
     if nodeCT then
         for _,nodeEffect in pairs(DB.getChildren(nodeCT, "effects")) do
@@ -93,8 +89,6 @@ end
 -- when items are deleted and then clears that effect if it's missing.
 function updateFromDeletedInventory(node)
     local nodeChar = DB.getChild(node, "..");
-Debug.console("manager_effect_adnd.lua","updateFromDeletedInventory","node",node);
-Debug.console("manager_effect_adnd.lua","updateFromDeletedInventory","nodeChar",nodeChar);
     local bisNPC = (not ActorManager.isPC(nodeChar));
     local nodeTarget = nodeChar;
     local nodeCT = CharManager.getCTNodeByNodeChar(nodeChar);
@@ -114,7 +108,6 @@ end
 -- when items are deleted and then clears that effect if it's missing.
 function checkEffectsAfterDelete(nodeChar)
     local sUser = User.getUsername();
-Debug.console("manager_effect_adnd.lua","checkEffectsAfterDelete","nodeChar",nodeChar);
     for _,nodeEffect in pairs(DB.getChildren(nodeChar, "effects")) do
         local sLabel = DB.getValue(nodeEffect, "label", "");
         local sEffSource = DB.getValue(nodeEffect, "source_name", "");
@@ -158,7 +151,6 @@ function updateItemEffects(nodeItem)
     if not nodeChar then
         return;
     end
-    local sUser = User.getUsername();
     local sName = DB.getValue(nodeItem, "name", "");
     -- we swap the node to the combat tracker node
     -- so the "effect" is written to the right node
@@ -186,12 +178,12 @@ function updateItemEffects(nodeItem)
 -- Debug.console("manager_effect_adnd.lua","updateItemEffects","nIdentified",nIdentified);
 
     for _,nodeItemEffect in pairs(DB.getChildren(nodeItem, "effectlist")) do
-        updateItemEffect(nodeItem,nodeItemEffect, sName, nodeChar, sUser, bEquipped, nIdentified);
+        updateItemEffect(nodeItem,nodeItemEffect, sName, nodeChar, bEquipped, nIdentified);
     end -- for item's effects list
 end
 
 -- update single effect for item
-function updateItemEffect(nodeItem,nodeItemEffect, sName, nodeChar, sUser, bEquipped, nIdentified)
+function updateItemEffect(nodeItem,nodeItemEffect, sName, nodeChar, bEquipped, nIdentified)
 --Debug.console("manager_effect_adnd.lua","updateItemEffect","User.isHost()",User.isHost());
     local sCharacterName = DB.getValue(nodeChar, "name", "");
     local sItemSource = nodeItemEffect.getPath();
@@ -219,7 +211,7 @@ function updateItemEffect(nodeItem,nodeItemEffect, sName, nodeChar, sUser, bEqui
                     bFound = true;
 --Debug.console("manager_effect_adnd.lua","updateItemEffect","bFound!!!",bFound);
                     if (not bEquipped) then
-                        sendEffectRemovedMessage(nodeChar, nodeEffect, sLabel, nDMOnly, sUser);
+                        sendEffectRemovedMessage(nodeChar, nodeEffect, sLabel, nDMOnly);
                         --notifyEffectDelete(nodeEffect);
                         nodeEffect.delete();
                         break;
@@ -267,7 +259,7 @@ function updateItemEffect(nodeItem,nodeItemEffect, sName, nodeChar, sUser, bEqui
             rEffect.nGMOnly = nDMOnly;
             rEffect.sApply = "";
             EffectManager.addEffect("", "", nodeChar, rEffect, false);
-            sendEffectAddedMessage(nodeChar, rEffect, sLabel, nDMOnly, sUser);
+            sendEffectAddedMessage(nodeChar, rEffect, sLabel, nDMOnly);
             --notifyEffectAdd(nodeChar,rEffect);
         end
     end
@@ -285,7 +277,6 @@ end
 -- nodeCharEffect: node in effectlist on PC/NPC
 -- nodeEntry: node in combat tracker for PC/NPC
 function updateCharEffect(nodeCharEffect,nodeEntry)
-    local sUser = User.getUsername();
     local sName = DB.getValue(nodeEntry, "name", "");
     local sLabel = DB.getValue(nodeCharEffect, "effect", "");
     local bActionOnly = (DB.getValue(nodeCharEffect, "actiononly", 0)==1);
@@ -321,27 +312,45 @@ function updateCharEffect(nodeCharEffect,nodeEntry)
     
     --notifyEffectAdd(nodeEntry,rEffect);
     EffectManager.addEffect("", "", nodeEntry, rEffect, false);
-    sendEffectAddedMessage(nodeEntry, rEffect, sLabel, nDMOnly, sUser);
+    sendEffectAddedMessage(nodeEntry, rEffect, sLabel, nDMOnly);
+end
+
+-- get the Connected Player's name that has this identity
+function getUserFromNode(node)
+  local sNodePath = node.getPath();
+  local _, sRecord = DB.getValue(node, "link", "", "");    
+  local sUser = nil;
+  for _,vUser in ipairs(User.getActiveUsers()) do
+    for _,vIdentity in ipairs(User.getActiveIdentities(vUser)) do
+      if (sRecord == ("charsheet." .. vIdentity)) then
+        sUser = vUser;
+        break;
+      end
+    end
+  end
+  return sUser;
 end
 
 -- build message to send that effect removed
-function sendEffectRemovedMessage(nodeChar, nodeEffect, sLabel, nDMOnly, sUser)
-    local sCharacterName = DB.getValue(nodeChar, "name", "");
-	-- Build output message
-	local msg = ChatManager.createBaseMessage(ActorManager.getActorFromCT(nodeChar),sUser);
-    local msg = {font = "msgfont", icon = "roll_effect"};
-    msg.text = "Advanced Effect ['" .. sLabel .. "'] ";
-    msg.text = msg.text .. "removed [from " .. sCharacterName .. "]";
-    -- HANDLE APPLIED BY SETTING
-    local sEffSource = DB.getValue(nodeEffect, "source_name", "");    
-    if sEffSource and sEffSource ~= "" then
-        msg.text = msg.text .. " [by " .. DB.getValue(DB.findNode(sEffSource), "name", "") .. "]";
-    end
-
-    sendRawMessage(nDMOnly,sUser,msg);
+function sendEffectRemovedMessage(nodeChar, nodeEffect, sLabel, nDMOnly)
+  local sUser = getUserFromNode(nodeChar);
+--Debug.console("manager_effect_adnd.lua","sendEffectRemovedMessage","sUser",sUser);  
+  local sCharacterName = DB.getValue(nodeChar, "name", "");
+  -- Build output message
+  local msg = ChatManager.createBaseMessage(ActorManager.getActorFromCT(nodeChar),sUser);
+  msg.text = "Advanced Effect ['" .. sLabel .. "'] ";
+  msg.text = msg.text .. "removed [from " .. sCharacterName .. "]";
+  -- HANDLE APPLIED BY SETTING
+  local sEffSource = DB.getValue(nodeEffect, "source_name", "");    
+  if sEffSource and sEffSource ~= "" then
+      msg.text = msg.text .. " [by " .. DB.getValue(DB.findNode(sEffSource), "name", "") .. "]";
+  end
+  sendRawMessage(sUser,nDMOnly,msg);
 end
 -- build message to send that effect added
-function sendEffectAddedMessage(nodeCT, rNewEffect, sLabel, nDMOnly, sUser)
+function sendEffectAddedMessage(nodeCT, rNewEffect, sLabel, nDMOnly)
+  local sUser = getUserFromNode(nodeCT);
+--Debug.console("manager_effect_adnd.lua","sendEffectAddedMessage","sUser",sUser);  
 	-- Build output message
 	local msg = ChatManager.createBaseMessage(ActorManager.getActorFromCT(nodeCT),sUser);
 	msg.text = "Advanced Effect ['" .. rNewEffect.sName .. "'] ";
@@ -349,27 +358,27 @@ function sendEffectAddedMessage(nodeCT, rNewEffect, sLabel, nDMOnly, sUser)
 	if rNewEffect.sSource and rNewEffect.sSource ~= "" then
 		msg.text = msg.text .. " [by " .. DB.getValue(DB.findNode(rNewEffect.sSource), "name", "") .. "]";
 	end
-    sendRawMessage(nDMOnly,sUser,msg);
+    sendRawMessage(sUser,nDMOnly,msg);
 end
 -- send message
-function sendRawMessage(nDMOnly,sUser, msg)
--- Debug.console("manager_effect_adnd.lua","sendRawMessage","nDMOnly",nDMOnly);
--- Debug.console("manager_effect_adnd.lua","sendRawMessage","sUser",sUser);
--- Debug.console("manager_effect_adnd.lua","sendRawMessage","msg",msg);
--- Debug.console("manager_effect_adnd.lua","sendRawMessage","User.isHost()",User.isHost());
--- Debug.console("manager_effect_adnd.lua","sendRawMessage","User.getCurrentIdentity()",User.getCurrentIdentity());
--- printstack();
-    if nDMOnly == 1 and User.isHost() then
-        msg.secret = true;
-        Comm.addChatMessage(msg);
-    elseif nDMOnly ~= 1 then 
-        if sUser ~= "" then
-            Comm.addChatMessage(msg);
-            --Comm.deliverChatMessage(msg, sUser);
-        else
-            Comm.deliverChatMessage(msg);
-        end
-    end
+function sendRawMessage(sUser, nDMOnly, msg)
+  local sIdentity = nil;
+  if sUser and sUser ~= "" then 
+    sIdentity = User.getCurrentIdentity(sUser) or nil;
+  end
+  if sIdentity then
+    msg.icon = "portrait_" .. User.getCurrentIdentity(sUser) .. "_chat";
+  else
+    msg.font = "msgfont";
+    msg.icon = "roll_effect";
+  end
+  if nDMOnly == 1 then
+      msg.secret = true;
+      Comm.addChatMessage(msg);
+  elseif nDMOnly ~= 1 then 
+      --Comm.addChatMessage(msg);
+      Comm.deliverChatMessage(msg);
+  end
 end
 
 -- pass effect to here to see if the effect is being triggered
