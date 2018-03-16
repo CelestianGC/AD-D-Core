@@ -3,12 +3,7 @@
 -- Effects on Items, apply to character in CT
 --
 --
-OOB_MSGTYPE_EFFECTADD = "addeffect";
-OOB_MSGTYPE_EFFECTDELETE = "deleteeffect";
 function onInit()
-  OOBManager.registerOOBMsgHandler(OOB_MSGTYPE_EFFECTADD, handleEffectAdd);
-  OOBManager.registerOOBMsgHandler(OOB_MSGTYPE_EFFECTDELETE, handleEffectDelete);
-
   if User.isHost() then
     DB.addHandler("charsheet.*.inventorylist.*.carried", "onUpdate", inventoryUpdateItemEffects);
     DB.addHandler("charsheet.*.inventorylist.*.effectlist.*.effect", "onUpdate", updateItemEffectsForEdit);
