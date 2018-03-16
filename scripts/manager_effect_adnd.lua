@@ -9,6 +9,17 @@ function onInit()
   OOBManager.registerOOBMsgHandler(OOB_MSGTYPE_EFFECTADD, handleEffectAdd);
   OOBManager.registerOOBMsgHandler(OOB_MSGTYPE_EFFECTDELETE, handleEffectDelete);
 
+  if User.isHost() then
+    DB.addHandler("charsheet.*.inventorylist.*.carried", "onUpdate", inventoryUpdateItemEffects);
+    DB.addHandler("charsheet.*.inventorylist.*.effectlist.*.effect", "onUpdate", updateItemEffectsForEdit);
+    DB.addHandler("charsheet.*.inventorylist.*.effectlist.*.durdice", "onUpdate", updateItemEffectsForEdit);
+    DB.addHandler("charsheet.*.inventorylist.*.effectlist.*.durmod", "onUpdate", updateItemEffectsForEdit);
+    DB.addHandler("charsheet.*.inventorylist.*.effectlist.*.name", "onUpdate", updateItemEffectsForEdit);
+    DB.addHandler("charsheet.*.inventorylist.*.effectlist.*.durunit", "onUpdate", updateItemEffectsForEdit);
+    DB.addHandler("charsheet.*.inventorylist.*.effectlist.*.visibility", "onUpdate", updateItemEffectsForEdit);
+    DB.addHandler("charsheet.*.inventorylist.*.effectlist.*.actiononly", "onUpdate", updateItemEffectsForEdit);
+    DB.addHandler("charsheet.*.inventorylist.*", "onChildDeleted", updateFromDeletedInventory);
+  end
     --CoreRPG replacements
     ActionsManager.decodeActors = decodeActors;
 
@@ -34,66 +45,110 @@ function onInit()
 			{ labels = "option_label_ADND_AE_enabled" , values = "enabled", baselabel = "option_label_ADND_AE_disabled", baseval = "disabled", default = "disabled" });    
 end
 
--- notify oob to deal with this
-function notifyEffectAdd(nodeEntry, rEffect)
-	local msgOOB = {};
-	msgOOB.type = OOB_MSGTYPE_EFFECTADD;
-  msgOOB.nodeEntry = nodeEntry.getPath();
+function onClose()
+  -- DB.removeHandler("charsheet.*.inventorylist.*.carried", "onUpdate", inventoryUpdateItemEffects);
+  -- DB.removeHandler("charsheet.*.inventorylist.*.effectlist.*.effect", "onUpdate", updateItemEffectsForEdit);
+  -- DB.removeHandler("charsheet.*.inventorylist.*.effectlist.*.durdice", "onUpdate", updateItemEffectsForEdit);
+  -- DB.removeHandler("charsheet.*.inventorylist.*.effectlist.*.durmod", "onUpdate", updateItemEffectsForEdit);
+  -- DB.removeHandler("charsheet.*.inventorylist.*.effectlist.*.name", "onUpdate", updateItemEffectsForEdit);
+  -- DB.removeHandler("charsheet.*.inventorylist.*.effectlist.*.durunit", "onUpdate", updateItemEffectsForEdit);
+  -- DB.removeHandler("charsheet.*.inventorylist.*.effectlist.*.visibility", "onUpdate", updateItemEffectsForEdit);
+  -- DB.removeHandler("charsheet.*.inventorylist.*.effectlist.*.actiononly", "onUpdate", updateItemEffectsForEdit);
+  -- DB.removeHandler("charsheet.*.inventorylist.*", "onChildDeleted", updateFromDeletedInventory);
+end
+------------------------------------------------------
 
-  msgOOB.effectDuration = rEffect.nDuration;
-  msgOOB.effectName     = rEffect.sName;
-  msgOOB.effectLabel    = rEffect.sLabel;
-  msgOOB.effectUnit     = rEffect.sUnits;
-  msgOOB.effectInit     = rEffect.nInit;
-  msgOOB.effectSource   = rEffect.sSource or nil;
-  msgOOB.effectDMOnly   = rEffect.nGMOnly;
-  msgOOB.effectApply    = rEffect.sApply or nil;
-
-	Comm.deliverOOBMessage(msgOOB, "");
+-- run from addHandler for updated item effect options
+function inventoryUpdateItemEffects(nodeField)
+Debug.console("manager_effect_adnd.lua","inventoryUpdateItemEffects","nodeField",nodeField);
+		updateItemEffects(DB.getChild(nodeField, ".."));
+end
+-- update single item from edit for *.effect handler
+function updateItemEffectsForEdit(nodeField)
+Debug.console("manager_effect_adnd.lua","updateItemEffectsForEdit","nodeField",nodeField);
+    checkEffectsAfterEdit(DB.getChild(nodeField, ".."));
+end
+-- find the effect for this source and delete and re-build
+function checkEffectsAfterEdit(itemNode)
+    local nodeChar = DB.getChild(itemNode, ".....");
+Debug.console("manager_effect_adnd.lua","checkEffectsAfterEdit","nodeChar",nodeChar);
+Debug.console("manager_effect_adnd.lua","checkEffectsAfterEdit","itemNode",itemNode);
+    local nodeCT = CharManager.getCTNodeByNodeChar(nodeChar);
+    if nodeCT then
+        for _,nodeEffect in pairs(DB.getChildren(nodeCT, "effects")) do
+            local sLabel = DB.getValue(nodeEffect, "label", "");
+            local sEffSource = DB.getValue(nodeEffect, "source_name", "");
+            -- see if the node exists and if it's in an inventory node
+            local nodeFound = DB.findNode(sEffSource);
+--Debug.console("manager_effect_adnd.lua","checkEffectsAfterEdit","sEffSource",sEffSource);
+--Debug.console("manager_effect_adnd.lua","checkEffectsAfterEdit","nodeFound",nodeFound);
+            if nodeFound and nodeFound == itemNode and string.match(sEffSource,"inventorylist") then
+                nodeEffect.delete();
+                updateItemEffects(DB.getChild(itemNode, "..."));
+            end
+        end
+    end
+end
+-- this checks to see if an effect is missing a associated item that applied the effect 
+-- when items are deleted and then clears that effect if it's missing.
+function updateFromDeletedInventory(node)
+    local nodeChar = DB.getChild(node, "..");
+Debug.console("manager_effect_adnd.lua","updateFromDeletedInventory","node",node);
+Debug.console("manager_effect_adnd.lua","updateFromDeletedInventory","nodeChar",nodeChar);
+    local bisNPC = (not ActorManager.isPC(nodeChar));
+    local nodeTarget = nodeChar;
+    local nodeCT = CharManager.getCTNodeByNodeChar(nodeChar);
+    -- if we're already in a combattracker situation (npcs)
+    if bisNPC and string.match(nodeChar.getPath(),"^combattracker") then
+        nodeCT = nodeChar;
+    end
+    if nodeCT then
+        -- check that we still have the combat effect source item
+        -- otherwise remove it
+        checkEffectsAfterDelete(nodeCT);
+    end
+	--onEncumbranceChanged();
 end
 
--- oob takes control and makes change (sends to apply)
-function handleEffectAdd(msgOOB)
-  local nodeEntry = DB.findNode(msgOOB.nodeEntry);
-
-  local rEffect     = {};
-  rEffect.nDuration = msgOOB.effectDuration;
-  rEffect.sName     = msgOOB.effectName;
-  rEffect.sLabel    = msgOOB.effectLabel; 
-  rEffect.sUnits    = msgOOB.effectUnit;
-  rEffect.nInit     = msgOOB.effectInit;
-  rEffect.sSource   = msgOOB.effectSource;
-  rEffect.nGMOnly   = msgOOB.effectDMOnly;
-  rEffect.sApply    = msgOOB.effectApply;
-
-  local bFound = false;
-  for _,nodeEffect in pairs(DB.getChildren(nodeEntry, "effects")) do
-    local sEffSource = DB.getValue(nodeEffect, "source_name", "");
-    if (sEffSource == rEffect.sSource) then
-      bFound = true;
-    end -- was active
-  end -- nodeEffect for
-  if not bFound then
-    EffectManager.addEffect("", "", nodeEntry, rEffect, false);
-  end
+-- this checks to see if an effect is missing a associated item that applied the effect 
+-- when items are deleted and then clears that effect if it's missing.
+function checkEffectsAfterDelete(nodeChar)
+    local sUser = User.getUsername();
+Debug.console("manager_effect_adnd.lua","checkEffectsAfterDelete","nodeChar",nodeChar);
+    for _,nodeEffect in pairs(DB.getChildren(nodeChar, "effects")) do
+        local sLabel = DB.getValue(nodeEffect, "label", "");
+        local sEffSource = DB.getValue(nodeEffect, "source_name", "");
+        -- see if the node exists and if it's in an inventory node
+        local nodeFound = DB.findNode(sEffSource);
+        local bDeleted = ((nodeFound == nil) and string.match(sEffSource,"inventorylist"));
+        if (bDeleted) then
+            local msg = {font = "msgfont", icon = "roll_effect"};
+            msg.text = "Effect ['" .. sLabel .. "'] ";
+            msg.text = msg.text .. "removed [from " .. DB.getValue(nodeChar, "name", "") .. "]";
+            -- HANDLE APPLIED BY SETTING
+            if sEffSource and sEffSource ~= "" then
+                msg.text = msg.text .. " [by Deletion]";
+            end
+            if EffectManager.isGMEffect(nodeChar, nodeEffect) then
+                if sUser == "" then
+                    msg.secret = true;
+                    Comm.addChatMessage(msg);
+                elseif sUser ~= "" then
+                    Comm.addChatMessage(msg);
+                    Comm.deliverChatMessage(msg, sUser);
+                end
+            else
+                Comm.deliverChatMessage(msg);
+            end
+            nodeEffect.delete();
+        end
+        
+    end
 end
 
--- notify oob to deal with this
-function notifyEffectDelete(nodeEffect)
-	local msgOOB = {};
-	msgOOB.type = OOB_MSGTYPE_EFFECTDELETE;
-  msgOOB.nodeEffect = nodeEffect.getPath();
 
-	Comm.deliverOOBMessage(msgOOB, "");
-end
+---------------------------------------
 
--- oob takes control and makes change (sends to apply)
-function handleEffectDelete(msgOOB)
-  local nodeEffect = DB.findNode(msgOOB.nodeEffect);
-  if nodeEffect ~= nil then
-    nodeEffect.delete();
-  end
-end
 
 -- add the effect if the item is equipped and doesn't exist already
 function updateItemEffects(nodeItem)
@@ -165,8 +220,8 @@ function updateItemEffect(nodeItem,nodeItemEffect, sName, nodeChar, sUser, bEqui
 --Debug.console("manager_effect_adnd.lua","updateItemEffect","bFound!!!",bFound);
                     if (not bEquipped) then
                         sendEffectRemovedMessage(nodeChar, nodeEffect, sLabel, nDMOnly, sUser);
-                        notifyEffectDelete(nodeEffect);
-                        --nodeEffect.delete();
+                        --notifyEffectDelete(nodeEffect);
+                        nodeEffect.delete();
                         break;
                     end -- not equipped
                 end -- effect source == item source
@@ -211,9 +266,9 @@ function updateItemEffect(nodeItem,nodeItemEffect, sName, nodeChar, sUser, bEqui
             rEffect.sSource = sItemSource;
             rEffect.nGMOnly = nDMOnly;
             rEffect.sApply = "";
-            --EffectManager.addEffect("", "", nodeChar, rEffect, false);
+            EffectManager.addEffect("", "", nodeChar, rEffect, false);
             sendEffectAddedMessage(nodeChar, rEffect, sLabel, nDMOnly, sUser);
-            notifyEffectAdd(nodeChar,rEffect);
+            --notifyEffectAdd(nodeChar,rEffect);
         end
     end
 end
@@ -264,11 +319,8 @@ function updateCharEffect(nodeCharEffect,nodeEntry)
     rEffect.sApply = "";
     --EffectManager.addEffect("", "", nodeEntry, rEffect, true);
     
-    -- Move this to OOB?
-    --EffectManager.addEffect("", "", nodeEntry, rEffect, false);
-    notifyEffectAdd(nodeEntry,rEffect);
-    --
-    
+    --notifyEffectAdd(nodeEntry,rEffect);
+    EffectManager.addEffect("", "", nodeEntry, rEffect, false);
     sendEffectAddedMessage(nodeEntry, rEffect, sLabel, nDMOnly, sUser);
 end
 

@@ -27,14 +27,14 @@ function onInit()
 	DB.addHandler(DB.getPath(node, "*.carried"), "onUpdate", onCarriedChanged);
 	DB.addHandler(DB.getPath(node, "*.weight"), "onUpdate", onEncumbranceChanged);
 	DB.addHandler(DB.getPath(node, "*.count"), "onUpdate", onEncumbranceChanged);
-	DB.addHandler(DB.getPath(node, "*.effectlist.*.effect"), "onUpdate", updateItemEffectsForEdit);
-	DB.addHandler(DB.getPath(node, "*.effectlist.*.durdice"), "onUpdate", updateItemEffectsForEdit);
-	DB.addHandler(DB.getPath(node, "*.effectlist.*.durmod"), "onUpdate", updateItemEffectsForEdit);
-	DB.addHandler(DB.getPath(node, "*.effectlist.*.name"), "onUpdate", updateItemEffectsForEdit);
-	DB.addHandler(DB.getPath(node, "*.effectlist.*.durunit"), "onUpdate", updateItemEffectsForEdit);
-	DB.addHandler(DB.getPath(node, "*.effectlist.*.visibility"), "onUpdate", updateItemEffectsForEdit);
-	DB.addHandler(DB.getPath(node, "*.effectlist.*.actiononly"), "onUpdate", updateItemEffectsForEdit);
-	DB.addHandler(DB.getPath(node), "onChildDeleted", updateFromDeletedInventory);
+	-- DB.addHandler(DB.getPath(node, "*.effectlist.*.effect"), "onUpdate", updateItemEffectsForEdit);
+	-- DB.addHandler(DB.getPath(node, "*.effectlist.*.durdice"), "onUpdate", updateItemEffectsForEdit);
+	-- DB.addHandler(DB.getPath(node, "*.effectlist.*.durmod"), "onUpdate", updateItemEffectsForEdit);
+	-- DB.addHandler(DB.getPath(node, "*.effectlist.*.name"), "onUpdate", updateItemEffectsForEdit);
+	-- DB.addHandler(DB.getPath(node, "*.effectlist.*.durunit"), "onUpdate", updateItemEffectsForEdit);
+	-- DB.addHandler(DB.getPath(node, "*.effectlist.*.visibility"), "onUpdate", updateItemEffectsForEdit);
+	-- DB.addHandler(DB.getPath(node, "*.effectlist.*.actiononly"), "onUpdate", updateItemEffectsForEdit);
+	-- DB.addHandler(DB.getPath(node), "onChildDeleted", updateFromDeletedInventory);
 end
 
 function onClose()
@@ -50,14 +50,14 @@ function onClose()
 	DB.removeHandler(DB.getPath(node, "*.carried"), "onUpdate", onCarriedChanged);
 	DB.removeHandler(DB.getPath(node, "*.weight"), "onUpdate", onEncumbranceChanged);
 	DB.removeHandler(DB.getPath(node, "*.count"), "onUpdate", onEncumbranceChanged);
-	DB.removeHandler(DB.getPath(node, "*.effectlist.*.effect"), "onUpdate", updateItemEffectsForEdit);
-	DB.removeHandler(DB.getPath(node, "*.effectlist.*.durdice"), "onUpdate", updateItemEffectsForEdit);
-	DB.removeHandler(DB.getPath(node, "*.effectlist.*.durmod"), "onUpdate", updateItemEffectsForEdit);
-	DB.removeHandler(DB.getPath(node, "*.effectlist.*.name"), "onUpdate", updateItemEffectsForEdit);
-	DB.removeHandler(DB.getPath(node, "*.effectlist.*.durunit"), "onUpdate", updateItemEffectsForEdit);
-	DB.removeHandler(DB.getPath(node, "*.effectlist.*.visibility"), "onUpdate", updateItemEffectsForEdit);
-	DB.removeHandler(DB.getPath(node, "*.effectlist.*.actiononly"), "onUpdate", updateItemEffectsForEdit);
-	DB.removeHandler(DB.getPath(node),"onChildDeleted", updateFromDeletedInventory);
+	-- DB.removeHandler(DB.getPath(node, "*.effectlist.*.effect"), "onUpdate", updateItemEffectsForEdit);
+	-- DB.removeHandler(DB.getPath(node, "*.effectlist.*.durdice"), "onUpdate", updateItemEffectsForEdit);
+	-- DB.removeHandler(DB.getPath(node, "*.effectlist.*.durmod"), "onUpdate", updateItemEffectsForEdit);
+	-- DB.removeHandler(DB.getPath(node, "*.effectlist.*.name"), "onUpdate", updateItemEffectsForEdit);
+	-- DB.removeHandler(DB.getPath(node, "*.effectlist.*.durunit"), "onUpdate", updateItemEffectsForEdit);
+	-- DB.removeHandler(DB.getPath(node, "*.effectlist.*.visibility"), "onUpdate", updateItemEffectsForEdit);
+	-- DB.removeHandler(DB.getPath(node, "*.effectlist.*.actiononly"), "onUpdate", updateItemEffectsForEdit);
+	-- DB.removeHandler(DB.getPath(node),"onChildDeleted", updateFromDeletedInventory);
 end
 
 function onMenuSelection(selection)
@@ -119,7 +119,7 @@ function onCarriedChanged(nodeField)
 		end
 	end
 	
-    updateItemEffects(nodeField);
+    --updateItemEffects(nodeField);
 	onEncumbranceChanged();
 end
 
@@ -178,100 +178,100 @@ function onDrop(x, y, draginfo)
 end
 
 -- update single item from edit for *.effect handler
-function updateItemEffectsForEdit(nodeField)
---Debug.console("char_invlist.lua","updateItemEffectsForEdit","nodeField",nodeField);
-    checkEffectsAfterEdit(DB.getChild(nodeField, ".."));
-end
+-- function updateItemEffectsForEdit(nodeField)
+-- --Debug.console("char_invlist.lua","updateItemEffectsForEdit","nodeField",nodeField);
+    -- checkEffectsAfterEdit(DB.getChild(nodeField, ".."));
+-- end
 
--- run from addHandler for deleted child
-function updateItemEffects(nodeField)
---Debug.console("char_invlist.lua","updateItemEffects","User.isHost()",User.isHost());
-	if EffectManagerADND.updateItemEffects then
-		EffectManagerADND.updateItemEffects(DB.getChild(nodeField, ".."));
-	end
-end
+-- -- run from addHandler for deleted child
+-- function updateItemEffects(nodeField)
+-- --Debug.console("char_invlist.lua","updateItemEffects","User.isHost()",User.isHost());
+	-- if EffectManagerADND.updateItemEffects then
+		-- EffectManagerADND.updateItemEffects(DB.getChild(nodeField, ".."));
+	-- end
+-- end
 
--- this checks to see if an effect is missing a associated item that applied the effect 
--- when items are deleted and then clears that effect if it's missing.
-function updateFromDeletedInventory(node)
-    local nodeChar = DB.getChild(node, "..");
-    local bisNPC = (not ActorManager.isPC(nodeChar));
-    local nodeTarget = nodeChar;
-    local nodeCT = CharManager.getCTNodeByNodeChar(nodeChar);
-    -- if we're already in a combattracker situation (npcs)
-    if bisNPC and string.match(nodeChar.getPath(),"^combattracker") then
-        nodeCT = nodeChar;
-    end
-    if nodeCT then
-        -- check that we still have the combat effect source item
-        -- otherwise remove it
-        checkEffectsAfterDelete(nodeCT);
-    end
-    -- if not string.match(nodeChar.getPath(),"^combattracker") then
-        -- -- item effects
-        -- DB.deleteChildren(nodeChar,"effects");
-        -- -- rebuild item effects
-        -- --for _,nodeItem in pairs(DB.getChildren(nodeChar, "inventorylist")) do
-         -- --EffectManagerADND.updateItemEffects(nodeItem);
-        -- --end
-        -- -- end
+-- -- this checks to see if an effect is missing a associated item that applied the effect 
+-- -- when items are deleted and then clears that effect if it's missing.
+-- function updateFromDeletedInventory(node)
+    -- local nodeChar = DB.getChild(node, "..");
+    -- local bisNPC = (not ActorManager.isPC(nodeChar));
+    -- local nodeTarget = nodeChar;
+    -- local nodeCT = CharManager.getCTNodeByNodeChar(nodeChar);
+    -- -- if we're already in a combattracker situation (npcs)
+    -- if bisNPC and string.match(nodeChar.getPath(),"^combattracker") then
+        -- nodeCT = nodeChar;
     -- end
-	onEncumbranceChanged();
-end
+    -- if nodeCT then
+        -- -- check that we still have the combat effect source item
+        -- -- otherwise remove it
+        -- checkEffectsAfterDelete(nodeCT);
+    -- end
+    -- -- if not string.match(nodeChar.getPath(),"^combattracker") then
+        -- -- -- item effects
+        -- -- DB.deleteChildren(nodeChar,"effects");
+        -- -- -- rebuild item effects
+        -- -- --for _,nodeItem in pairs(DB.getChildren(nodeChar, "inventorylist")) do
+         -- -- --EffectManagerADND.updateItemEffects(nodeItem);
+        -- -- --end
+        -- -- -- end
+    -- -- end
+	-- onEncumbranceChanged();
+-- end
 
--- this checks to see if an effect is missing a associated item that applied the effect 
--- when items are deleted and then clears that effect if it's missing.
-function checkEffectsAfterDelete(nodeChar)
-    local sUser = User.getUsername();
-    for _,nodeEffect in pairs(DB.getChildren(nodeChar, "effects")) do
-        local sLabel = DB.getValue(nodeEffect, "label", "");
-        local sEffSource = DB.getValue(nodeEffect, "source_name", "");
-        -- see if the node exists and if it's in an inventory node
-        local nodeFound = DB.findNode(sEffSource);
-        local bDeleted = ((nodeFound == nil) and string.match(sEffSource,"inventorylist"));
-        if (bDeleted) then
-            local msg = {font = "msgfont", icon = "roll_effect"};
-            msg.text = "Effect ['" .. sLabel .. "'] ";
-            msg.text = msg.text .. "removed [from " .. DB.getValue(nodeChar, "name", "") .. "]";
-            -- HANDLE APPLIED BY SETTING
-            if sEffSource and sEffSource ~= "" then
-                msg.text = msg.text .. " [by Deletion]";
-            end
-            if EffectManager.isGMEffect(nodeChar, nodeEffect) then
-                if sUser == "" then
-                    msg.secret = true;
-                    Comm.addChatMessage(msg);
-                elseif sUser ~= "" then
-                    Comm.addChatMessage(msg);
-                    Comm.deliverChatMessage(msg, sUser);
-                end
-            else
-                Comm.deliverChatMessage(msg);
-            end
-            nodeEffect.delete();
-        end
+-- -- this checks to see if an effect is missing a associated item that applied the effect 
+-- -- when items are deleted and then clears that effect if it's missing.
+-- function checkEffectsAfterDelete(nodeChar)
+    -- local sUser = User.getUsername();
+    -- for _,nodeEffect in pairs(DB.getChildren(nodeChar, "effects")) do
+        -- local sLabel = DB.getValue(nodeEffect, "label", "");
+        -- local sEffSource = DB.getValue(nodeEffect, "source_name", "");
+        -- -- see if the node exists and if it's in an inventory node
+        -- local nodeFound = DB.findNode(sEffSource);
+        -- local bDeleted = ((nodeFound == nil) and string.match(sEffSource,"inventorylist"));
+        -- if (bDeleted) then
+            -- local msg = {font = "msgfont", icon = "roll_effect"};
+            -- msg.text = "Effect ['" .. sLabel .. "'] ";
+            -- msg.text = msg.text .. "removed [from " .. DB.getValue(nodeChar, "name", "") .. "]";
+            -- -- HANDLE APPLIED BY SETTING
+            -- if sEffSource and sEffSource ~= "" then
+                -- msg.text = msg.text .. " [by Deletion]";
+            -- end
+            -- if EffectManager.isGMEffect(nodeChar, nodeEffect) then
+                -- if sUser == "" then
+                    -- msg.secret = true;
+                    -- Comm.addChatMessage(msg);
+                -- elseif sUser ~= "" then
+                    -- Comm.addChatMessage(msg);
+                    -- Comm.deliverChatMessage(msg, sUser);
+                -- end
+            -- else
+                -- Comm.deliverChatMessage(msg);
+            -- end
+            -- nodeEffect.delete();
+        -- end
         
-    end
-end
+    -- end
+-- end
 
--- find the effect for this source and delete and re-build
-function checkEffectsAfterEdit(itemNode)
-    local nodeChar = DB.getChild(itemNode, ".....");
---Debug.console("char_invlist.lua","checkEffectsAfterEdit","nodeChar",nodeChar);
---Debug.console("char_invlist.lua","checkEffectsAfterEdit","itemNode",itemNode);
-    local nodeCT = CharManager.getCTNodeByNodeChar(nodeChar);
-    if nodeCT then
-        for _,nodeEffect in pairs(DB.getChildren(nodeCT, "effects")) do
-            local sLabel = DB.getValue(nodeEffect, "label", "");
-            local sEffSource = DB.getValue(nodeEffect, "source_name", "");
-            -- see if the node exists and if it's in an inventory node
-            local nodeFound = DB.findNode(sEffSource);
---Debug.console("char_invlist.lua","checkEffectsAfterEdit","sEffSource",sEffSource);
---Debug.console("char_invlist.lua","checkEffectsAfterEdit","nodeFound",nodeFound);
-            if nodeFound and nodeFound == itemNode and string.match(sEffSource,"inventorylist") then
-                nodeEffect.delete();
-                EffectManagerADND.updateItemEffects(DB.getChild(itemNode, "..."));
-            end
-        end
-    end
-end
+-- -- find the effect for this source and delete and re-build
+-- function checkEffectsAfterEdit(itemNode)
+    -- local nodeChar = DB.getChild(itemNode, ".....");
+-- --Debug.console("char_invlist.lua","checkEffectsAfterEdit","nodeChar",nodeChar);
+-- --Debug.console("char_invlist.lua","checkEffectsAfterEdit","itemNode",itemNode);
+    -- local nodeCT = CharManager.getCTNodeByNodeChar(nodeChar);
+    -- if nodeCT then
+        -- for _,nodeEffect in pairs(DB.getChildren(nodeCT, "effects")) do
+            -- local sLabel = DB.getValue(nodeEffect, "label", "");
+            -- local sEffSource = DB.getValue(nodeEffect, "source_name", "");
+            -- -- see if the node exists and if it's in an inventory node
+            -- local nodeFound = DB.findNode(sEffSource);
+-- --Debug.console("char_invlist.lua","checkEffectsAfterEdit","sEffSource",sEffSource);
+-- --Debug.console("char_invlist.lua","checkEffectsAfterEdit","nodeFound",nodeFound);
+            -- if nodeFound and nodeFound == itemNode and string.match(sEffSource,"inventorylist") then
+                -- nodeEffect.delete();
+                -- EffectManagerADND.updateItemEffects(DB.getChild(itemNode, "..."));
+            -- end
+        -- end
+    -- end
+-- end
