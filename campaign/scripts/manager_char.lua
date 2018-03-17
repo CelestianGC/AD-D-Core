@@ -543,7 +543,6 @@ function removeFromPowerDB(nodeItem)
 	local bFound = false;
 	for _,v in pairs(DB.getChildren(nodeItem, "...powers")) do
 		local sClass, sRecord = DB.getValue(v, "shortcut", "", "");
-Debug.console("removeFromPowerDB","sRecord",sRecord);  
 		if sRecord == sItemNode or sRecord == sItemNode2 then
 			bFound = true;
 			v.delete();
@@ -2339,7 +2338,7 @@ function addAdvancement(nodeChar,nodeAdvance,nodeClass)
         DB.setValue(nodeChar,"turn.total","number",nTurnLevel);
     end
     
-    -- spells
+    -- spell slots
     local nodeSpells = nodeAdvance.getChild("spells");
     local nodeArcaneSlots = nil;
     local nodeDivineSlots = nil;
@@ -2351,7 +2350,6 @@ function addAdvancement(nodeChar,nodeAdvance,nodeClass)
     -- arcane
     if (nodeArcaneSlots) then
       local bNewArcaneSlots = hasSpellSlots(nodeArcaneSlots,"arcane");
-Debug.console("manager_char.lua","applyEXPToActiveClasses","bNewArcaneSlots",bNewArcaneSlots);    
       -- set the "spell level" so we can access it in spells
       if bNewArcaneSlots then
         local nCurrentSpellLevel = DB.getValue(nodeChar,"arcane.totalLevel",0);
@@ -2371,7 +2369,6 @@ Debug.console("manager_char.lua","applyEXPToActiveClasses","bNewArcaneSlots",bNe
     -- divine
     if (nodeDivineSlots) then
       local bNewDivineSlots = hasSpellSlots(nodeDivineSlots,"divine");
-Debug.console("manager_char.lua","applyEXPToActiveClasses","bNewDivineSlots",bNewDivineSlots);    
         -- set the "spell level" so we can access it in spells 
       if bNewDivineSlots then
         local nCurrentSpellLevel = DB.getValue(nodeChar,"divine.totalLevel",0);
@@ -2389,12 +2386,54 @@ Debug.console("manager_char.lua","applyEXPToActiveClasses","bNewDivineSlots",bNe
       end
     end
 
-        -- effects
-    local nodeEffects = nodeAdvance.getChild("effectlist");
-    addEffectFeature(nodeEffects,nodeChar);
-    
-    -- calculate hit points for new level (deals with single/multi/dual classing).
-    updateHPForLevel(nodeChar,nodeClass,nodeAdvance);
+  -- effects
+  local nodeEffects = nodeAdvance.getChild("effectlist");
+  addEffectFeature(nodeEffects,nodeChar);
+
+  -- add attack abilities for this level if there are any
+  addAttackAbilities(nodeAdvance,nodeChar);
+  
+  -- add spell/power abilities for this level if there are any
+  addPowerAbilities(nodeAdvance,nodeChar);
+
+  -- calculate hit points for new level (deals with single/multi/dual classing).
+  updateHPForLevel(nodeChar,nodeClass,nodeAdvance);
+end
+
+-- add attacks/weapon style abilities
+function addAttackAbilities(nodeAdvance,nodeChar)
+  local bItemHasWeapons = (DB.getChildCount(nodeAdvance, "weaponlist") > 0);
+Debug.console("manager_char.lua","addAttackAbilities","bItemHasWeapons",bItemHasWeapons);  
+  if (bItemHasWeapons) then
+    local nodeWeapons = nodeChar.createChild("weaponlist");
+    if not nodeWeapons then
+      return;
+    end
+    for _,v in pairs(DB.getChildren(nodeAdvance, "weaponlist")) do
+      local nodeWeapon = nodeWeapons.createChild();
+      DB.copyNode(v,nodeWeapon);
+      --DB.setValue(nodeWeapon, "shortcut", "windowreference", "item", "....inventorylist." .. nodeItem.getName());
+    end
+  end
+end
+
+-- add spells/powers
+function addPowerAbilities(nodeAdvance,nodeChar)
+  local bItemHasPowers = (DB.getChildCount(nodeAdvance, "powers") > 0); 
+Debug.console("manager_char.lua","addAttackAbilities","bItemHasPowers",bItemHasPowers);  
+  if (bItemHasPowers) then 
+    local nodePowers = nodeChar.createChild("powers");
+    if not nodePowers then
+      return;
+    end
+    for _,v in pairs(DB.getChildren(nodeAdvance, "powers")) do
+      local nodePower = nodePowers.createChild();
+      DB.copyNode(v,nodePower);
+      --DB.setValue(nodePower, "description","formattedtext",DB.getValue(nodeItem,"description",""));
+      --DB.setValue(nodePower, "shortcut", "windowreference", "item", "....inventorylist." .. nodeItem.getName());
+      DB.setValue(nodePower, "locked", "number", 1); -- want this to start locked
+    end
+  end
 end
 
 -- add advanced effects to character

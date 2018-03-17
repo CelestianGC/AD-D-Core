@@ -693,59 +693,99 @@
 			<anchor_column name="columnanchor" />
 			<anchor_listitem_column_right name="rightanchor" />
 			<button_listitem_column_delete name="idelete" />
-
-            <hn name="level" />
+      <hn name="level" />
 			<hs name="name" />
  			<class_advancement_label name="advancement_entry_label">
-                <anchored height="13">
-                    <top parent="columnanchor" anchor="bottom" relation="relative" offset="9" />
-                    <left offset="5" />
-                    <right offset="-30"/>
-                </anchored>
-            </class_advancement_label> 
+        <anchored height="13">
+          <top parent="columnanchor" anchor="bottom" relation="relative" offset="9" />
+          <left offset="5" />
+        </anchored>
+      </class_advancement_label> 
 		</sheetdata>
 	</windowclass>
 	
     <!-- start advancement edit windows-->
-    <!-- skill edit window -->
-    <windowclass name="reference_class_advancement">
-		<frame>recordsheet</frame>
-		<placement>
-			<size width="380" height="320" />
-		</placement>
-		<sizelimits>
-			<minimum width="300" height="300" />
-			<dynamic />
-		</sizelimits>
-		<nodelete />
-		<playercontrol />
-		<minimize>minimized_reference</minimize>
-		<tooltip control="level" />
-		<sheetdata>
-			<sub_record_header name="header">
-				<class>ref_classadvacement_header</class>
-			</sub_record_header>
-
-			<frame_record_content />
-
-			<sub_ref_content name="content">
+  <windowclass name="reference_class_advancement">
+    <frame>recordsheet</frame>
+    <placement>
+      <size width="380" height="350" />
+    </placement>
+    <sizelimits>
+      <minimum width="300" height="300" />
+      <dynamic />
+    </sizelimits>
+    <nodelete />
+    <playercontrol />
+    <minimize>minimized_reference</minimize>
+    <tooltip control="level" />
+    <sheetdata>
+    
+      <sub_record_header name="header">
+        <class>ref_classadvacement_header</class>
+      </sub_record_header>
+      <frame_record_content />
+      
+<!--       <sub_ref_content name="content">
+        <class>class_advancement_editor_main</class>
+        <activate />
+      </sub_ref_content>
+      <scrollbar_ref_content /> -->
+      
+      <!-- -->
+			<subwindow_record name="main">
 				<class>class_advancement_editor_main</class>
 				<activate />
-			</sub_ref_content>
-            <scrollbar_ref_content />
+			</subwindow_record>
+
+			<subwindow_record name="weaponactions">
+				<class>charsheet_actions_weapons</class>
+                
+			</subwindow_record>
+
+			<subwindow_record name="spellactions">
+				<class>charsheet_actions_powers</class>
+			</subwindow_record>
             
-			<resize_recordsheet />
-			<close_recordsheet />
-		</sheetdata>
+			<scrollbar_record>
+				<target>main</target>
+			</scrollbar_record>
+			<scrollbar_record>
+				<target>weaponactions</target>
+			</scrollbar_record>
+			<scrollbar_record>
+				<target>spellactions</target>
+			</scrollbar_record>
+
+			<tabs_recordsheet>
+				<tab>
+					<icon>tab_main</icon>
+					<subwindow>main</subwindow>
+				</tab>
+        <tab>
+          <icon>tab_weapons</icon>
+          <subwindow>weaponactions</subwindow>
+        </tab>
+        <tab>
+          <icon>tab_powers</icon>
+          <subwindow>spellactions</subwindow>
+        </tab>
+			</tabs_recordsheet>
+      <!-- -->
+      
+      <resize_recordsheet />
+      <close_recordsheet />
+    </sheetdata>
 	</windowclass>
+  
+  
 	<windowclass name="class_advancement_editor_main">
-        <script>
-            function onInit()
-                level.setFocus();
-            end
-        </script>
+    <script>
+      function onInit()
+        level.setFocus();
+      end
+    </script>
 		<sheetdata>
-			<anchor_column name="columnanchor" />
+    <anchor_column name="columnanchor" />
 
 <!-- 			<label_column name="name_label" >
 				<static textres="skill_label_name" />
@@ -757,18 +797,18 @@
 				<static textres="classfeature_label_level" />
 			</label_column>
 			<number_class_column name="level" >
-                <anchored width="20" />
+        <anchored width="20" />
 			</number_class_column>
 
 			<label name="thaco_label">
-                <anchored to="level" position="righthigh" offset="10,0" />
+        <anchored to="level" position="righthigh" offset="10,0" />
 				<static textres="thaco" />
-                <tooltip textres="class_thaco_tooltip" />
+        <tooltip textres="class_thaco_tooltip" />
 			</label>
 			<number_class name="thaco">
-                <anchored to="thaco_label" position="righthigh" offset="10,0" width="20" />
-                <tooltip textres="class_thaco_tooltip" />
-            </number_class>
+        <anchored to="thaco_label" position="righthigh" offset="10,0" width="20" />
+        <tooltip textres="class_thaco_tooltip" />
+      </number_class>
 
 			<label name="turn_label">
                 <anchored to="thaco" position="righthigh" offset="10,0" />
@@ -1085,24 +1125,12 @@
 				<static textres="char_abilities_label_advancedeffects"/>
 				<center />
 			</header_column>
-<!-- 			<label_charframetop name="advancedeffectstitle">
-				<anchored to="saves_label" height="20">
-					<top  anchor="bottom" relation="relative" offset="15" />
-					<left parent="" offset="15"/>
-					<right parent="" offset="-15"/>
-				</anchored>
-				<static textres="char_abilities_label_advancedeffects" />
-				<icons>char_abilities</icons>
-				<target>header_effects</target>
-			</label_charframetop> -->
-
 
 			<button_iedit name="effects_iedit">
 				<anchored to="advancedeffectstitle" position="insidetopright" offset="-5,0" />
  				<script>
 					function onValueChanged()
 						local bEditMode = (getValue() == 1);
-						
 						window.effects_list_iadd.setVisible(bEditMode);
 						window.effects_list.update();
 					end
@@ -1114,25 +1142,23 @@
 			</button_iadd>
             
 			<list_editor_advanced_effects name="effects_list">
-                <anchored>
-                    <top parent="advancedeffectstitle" anchor="bottom" relation="relative" offset="0" />
-                    <left />
-                    <right />
-                </anchored>
+        <anchored>
+          <top parent="advancedeffectstitle" anchor="bottom" relation="relative" offset="0" />
+          <left />
+          <right />
+        </anchored>
 				<datasource>.effectlist</datasource>
 				<class>advanced_effects_entry</class>
 				<script>
 					function addEntry(bFocus)
 						local n = getWindowCount();
-						
 						local w = createWindow();
 						return w;
 					end
 				</script>
 			</list_editor_advanced_effects>
-            <!-- end advanced effects entry -->
-            
-            </sheetdata>
+      <!-- end advanced effects entry -->
+    </sheetdata>
 	</windowclass>
     <!-- end advancement edit windows-->
 </root>

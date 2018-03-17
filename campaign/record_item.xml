@@ -54,16 +54,15 @@
 					<icon>tab_main</icon>
 					<subwindow>main</subwindow>
 				</tab>
-                <tab>
-                    <icon>tab_weapons</icon>
-                    <subwindow>weaponactions</subwindow>
-                </tab>
-                <tab>
-                    <icon>tab_powers</icon>
-                    <subwindow>spellactions</subwindow>
-                </tab>
+        <tab>
+          <icon>tab_weapons</icon>
+          <subwindow>weaponactions</subwindow>
+        </tab>
+        <tab>
+          <icon>tab_powers</icon>
+          <subwindow>spellactions</subwindow>
+        </tab>
 			</tabs_recordsheet>
-
 			<resize_recordsheet />
 			<close_recordsheet />
 		</sheetdata>
@@ -77,10 +76,10 @@
 		<margins control="0,0,0,2" />
 		<script file="campaign/scripts/item_main.lua" />
 		<sheetdata>
-            <hs name="rateofattack" />
-            <hs name="range"/>
-            <hs name="reach" />
-            <hs name="knockdown" />
+      <hs name="rateofattack" />
+      <hs name="range"/>
+      <hs name="reach" />
+      <hs name="knockdown" />
                 
 			<anchor_column name="columnanchor" />
 			
