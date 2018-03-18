@@ -2140,7 +2140,7 @@ function canMemorizeSpell(nodeSpell)
 --Debug.console("manager_power.lua","canMemorizeSpell","spell:",string.match(sNodePath,"^spell"));    
 --Debug.console("manager_power.lua","canMemorizeSpell","item:",string.match(sNodePath,"^item"));    
     -- if this is coming from spell record then no, nothing will memorize
-    if string.match(sNodePath,"^spell") ~= nil or string.match(sNodePath,"^item") ~= nil then
+    if string.match(sNodePath,"^spell") ~= nil or string.match(sNodePath,"^item") ~= nil or string.match(sNodePath,"^class") ~= nil then
             bCanMemorize = false;
     end
 --Debug.console("manager_power.lua","canMemorizeSpell","bCanMemorize2",bCanMemorize);    

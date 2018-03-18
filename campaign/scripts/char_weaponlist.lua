@@ -38,7 +38,7 @@ function onModeChanged()
     --celestian
     
     -- if this is a item record, we don't go into prepmode for carried
-    if string.match(node.getPath(),"^item") then
+    if string.match(node.getPath(),"^item") or string.match(node.getPath(),"^class") then
         bPrepMode = false;
     end
     

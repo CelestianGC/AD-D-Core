@@ -110,7 +110,7 @@
 				local nodeChar = getDatabaseNode();
 				local sMode = DB.getValue(nodeChar, "powermode", "");
                 local bIsItem = false;
-                if string.match(nodeChar.getPath(),"^item") then
+                if string.match(nodeChar.getPath(),"^item") or string.match(nodeChar.getPath(),"^class") then
                     bIsItem = true;
                 end
     
