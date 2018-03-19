@@ -58,7 +58,7 @@
 					<subwindow>text</subwindow>
 				</tab>
 				<tab>
-					<icon>tab_other</icon>
+					<icon>tab_advance</icon>
 					<subwindow>stats</subwindow>
 				</tab>
 			</tabs_recordsheet>
