@@ -2922,13 +2922,25 @@ end
 function getActiveClassMaxLevel(nodeChar)
 	local nMaxLevel = 0;
 	for _,nodeClass in pairs(DB.getChildren(nodeChar, "classes")) do
-        local bClassActive = (DB.getValue(nodeClass, "classactive", 0) ~= 0);
-        local nLevel = DB.getValue(nodeClass, "level", 0);
-        if (bClassActive and nLevel > nMaxLevel) then
-            nMaxLevel = nLevel;
-        end
+    local bClassActive = (DB.getValue(nodeClass, "classactive", 0) ~= 0);
+    local nLevel = DB.getValue(nodeClass, "level", 0);
+    if (bClassActive and nLevel > nMaxLevel) then
+      nMaxLevel = nLevel;
     end
-    
+  end
+    return nMaxLevel;
+end
+
+-- get class level by name
+function getClassLevelByName(nodeChar,sClassName) 
+	local nMaxLevel = 0;
+	for _,nodeClass in pairs(DB.getChildren(nodeChar, "classes")) do
+    local nLevel = DB.getValue(nodeClass, "level", 0);
+    local sClass = DB.getValue(nodeClass, "name", "<unknown>");
+    if (sClass:lower() == sClassName:lower()) then
+      nMaxLevel = nLevel;
+    end
+   end
     return nMaxLevel;
 end
 

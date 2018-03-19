@@ -617,7 +617,11 @@ function getLevelBasedDiceValues(nodeCaster, isPC, node, nodeAction)
       nCasterLevel = DB.getValue(nodeCaster, "divine.totalLevel",1);
     else
       if (isPC) then
-        nCasterLevel = CharManager.getActiveClassMaxLevel(nodeCaster);
+        -- use spelltype name and match it with class and return that level
+        nCasterLevel = CharManager.getClassLevelByName(nodeCaster,sSpellType);
+        if (nCasterLevel <= 0) then
+          nCasterLevel = CharManager.getActiveClassMaxLevel(nodeCaster);
+        end
       else
         nCasterLevel = DB.getValue(nodeCaster, "level",1);
       end
