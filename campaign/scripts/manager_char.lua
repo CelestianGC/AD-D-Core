@@ -2403,7 +2403,7 @@ end
 -- add attacks/weapon style abilities
 function addAttackAbilities(nodeAdvance,nodeChar)
   local bItemHasWeapons = (DB.getChildCount(nodeAdvance, "weaponlist") > 0);
-Debug.console("manager_char.lua","addAttackAbilities","bItemHasWeapons",bItemHasWeapons);  
+--Debug.console("manager_char.lua","addAttackAbilities","bItemHasWeapons",bItemHasWeapons);  
   if (bItemHasWeapons) then
     local nodeWeapons = nodeChar.createChild("weaponlist");
     if not nodeWeapons then
@@ -2420,7 +2420,7 @@ end
 -- add spells/powers
 function addPowerAbilities(nodeAdvance,nodeChar)
   local bItemHasPowers = (DB.getChildCount(nodeAdvance, "powers") > 0); 
-Debug.console("manager_char.lua","addAttackAbilities","bItemHasPowers",bItemHasPowers);  
+--Debug.console("manager_char.lua","addAttackAbilities","bItemHasPowers",bItemHasPowers);  
   if (bItemHasPowers) then 
     local nodePowers = nodeChar.createChild("powers");
     if not nodePowers then
