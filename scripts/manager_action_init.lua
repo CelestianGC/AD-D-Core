@@ -4,9 +4,11 @@
 --
 
 OOB_MSGTYPE_APPLYINIT = "applyinit";
+OOB_MSGTYPE_EFFECTADD = "applyaddeffect";
 
 function onInit()
 	OOBManager.registerOOBMsgHandler(OOB_MSGTYPE_APPLYINIT, handleApplyInit);
+	OOBManager.registerOOBMsgHandler(OOB_MSGTYPE_EFFECTADD, handleEffectAdd);
 
 	ActionsManager.registerModHandler("init", modRoll);
 	ActionsManager.registerResultHandler("init", onResolve);
@@ -35,6 +37,51 @@ function notifyApplyInit(rSource, nTotal)
 
 	Comm.deliverOOBMessage(msgOOB, "");
 end
+
+-- notify oob to deal with this 
+function notifyEffectAdd(nodePath, rEffect) 
+  local msgOOB = {}; 
+  msgOOB.type = OOB_MSGTYPE_EFFECTADD; 
+  msgOOB.nodeEntry = nodePath; 
+ 
+  msgOOB.effectDuration = rEffect.nDuration; 
+  msgOOB.effectName     = rEffect.sName; 
+  msgOOB.effectLabel    = rEffect.sLabel; 
+  msgOOB.effectUnit     = rEffect.sUnits; 
+  msgOOB.effectInit     = rEffect.nInit; 
+  msgOOB.effectSource   = rEffect.sSource or nil; 
+  msgOOB.effectDMOnly   = rEffect.nGMOnly; 
+  msgOOB.effectApply    = rEffect.sApply or nil; 
+ 
+  Comm.deliverOOBMessage(msgOOB, ""); 
+end 
+ 
+-- oob takes control and makes change (sends to apply) 
+function handleEffectAdd(msgOOB) 
+  local nodeEntry = DB.findNode(msgOOB.nodeEntry); 
+  local rEffect     = {}; 
+  rEffect.nDuration = msgOOB.effectDuration; 
+  rEffect.sName     = msgOOB.effectName; 
+  rEffect.sLabel    = msgOOB.effectLabel;  
+  rEffect.sUnits    = msgOOB.effectUnit; 
+  rEffect.nInit     = msgOOB.effectInit; 
+  rEffect.sSource   = msgOOB.effectSource; 
+  rEffect.nGMOnly   = msgOOB.effectDMOnly; 
+  rEffect.sApply    = msgOOB.effectApply; 
+ 
+  local bFound = false; 
+  for _,nodeEffect in pairs(DB.getChildren(nodeEntry, "effects")) do 
+    local sEffSource = DB.getValue(nodeEffect, "source_name", ""); 
+    local sLabel = DB.getValue(nodeEffect,"label","");
+    if (sLabel == rEffect.sName and sEffSource == rEffect.sSource) then 
+      bFound = true; 
+      break;
+    end -- was active 
+  end -- nodeEffect for 
+  if not bFound then 
+    EffectManager.addEffect("", "", nodeEntry, rEffect, false); 
+  end 
+end 
 
 function getRoll(rActor, bSecretRoll, rItem)
 	local rRoll = {};
@@ -274,33 +321,14 @@ function applySpellCastingConcentration(rSource,rRoll)
     rEffect.sLabel = sEffectString;
     rEffect.sUnits = "rnd";
     rEffect.nInit = nTotal;
-    rEffect.sSource = nodeChar.getPath();
+--    rEffect.sSource = nodeChar.getPath();
+    rEffect.sSource = rSource.sCTNode;
     rEffect.nGMOnly = nDMOnly;
     rEffect.sApply = "action";
-
-    
-    -- need to do some error checking to make sure we only add it once
-    -- verify existing "effect_source" and "label" isn't the same as this one.
-    local bFound = false;
-    for _,nodeEffect in pairs(DB.getChildren(nodeChar, "effects")) do
-        local sLabel = DB.getValue(nodeEffect,"label","");
-        local sSource = DB.getValue(nodeEffect,"source_name","");
-        if (sLabel == sEffectFullName and sSource == nodeChar.getPath()) then
-            -- set nInit to match new initiative rolled
-            DB.setValue(nodeEffect,"init","number",nTotal);
-            bFound = true;
-            break;
-        end
-    end -- for item's effects list
-    
-    if bFound then
-        -- effect already exists
-        return;
-    end
-    
     -- lastly add effect
     local sUser = User.getUsername();
     local sIdentity = User.getCurrentIdentity(sUser);
-    EffectManager.addEffect(sUser, sIdentity, nodeChar, rEffect, true);
+    --EffectManager.addEffect(sUser, sIdentity, nodeChar, rEffect, true);
+    notifyEffectAdd(rSource.sCTNode, rEffect)
 end
 
