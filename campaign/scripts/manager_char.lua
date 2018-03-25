@@ -594,6 +594,18 @@ function addToWeaponDB(nodeItem)
 	-- Set new weapons as equipped
 	DB.setValue(nodeItem, "carried", "number", 2);
     
+  -- Determine identification
+  local nItemID = 0;
+  if LibraryData.getIDState("item", nodeItem, true) then
+      nItemID = 1;
+  end
+  
+  -- Grab some information from the source node to populate the new weapon entries
+  local nBonus = 0;
+  if nItemID == 1 then
+      nBonus = DB.getValue(nodeItem, "bonus", 0);
+  end
+  
     local sName;
     if nItemID == 1 then
         sName = DB.getValue(nodeItem, "name", "");
@@ -604,27 +616,28 @@ function addToWeaponDB(nodeItem)
         end
         sName = "** " .. sName .. " **";
     end
+    local sNameOriginal = DB.getValue(nodeItem, "name", "");
+    local sNameUnidentified = sName;
     if (bItemHasWeapons) then
         for _,v in pairs(DB.getChildren(nodeItem, "weaponlist")) do
             local nodeWeapon = nodeWeapons.createChild();
             DB.copyNode(v,nodeWeapon);
+            -- set various items specific to this item
+            -- local sWeaponName = DB.getValue(nodeWeapon,"name","");
+            -- local sWeaponNameFinal = sWeaponName;
             DB.setValue(nodeWeapon, "shortcut", "windowreference", "item", "....inventorylist." .. nodeItem.getName());
+            -- if the attack name is the same as the weapon then we'll hide it if unidentified with
+            -- the same name we used for the item listed in inventory
+            -- if (sNameOriginal == sWeaponName) and nItemID ~= 1 then
+              -- sWeaponNameFinal = sNameUnidentified;
+            -- end
+            DB.setValue(nodeWeapon,"name","string",sWeaponNameFinal);
+            -- first time check.
+            onIDOptionChanged(nodeWeapon);
+            --DB.setValue(nodeWeapon, "isidentified", "number", nItemID);
         end
     else
         local nSpeedFactor = DB.getValue(nodeItem, "speedfactor", 0);
-        
-        -- Determine identification
-        local nItemID = 0;
-        if LibraryData.getIDState("item", nodeItem, true) then
-            nItemID = 1;
-        end
-        
-        -- Grab some information from the source node to populate the new weapon entries
-        local nBonus = 0;
-        if nItemID == 1 then
-            nBonus = DB.getValue(nodeItem, "bonus", 0);
-        end
-
         -- Handle special weapon properties
         local aWeaponProps = StringManager.split(DB.getValue(nodeItem, "properties", ""):lower(), ",", true);
         

@@ -149,7 +149,7 @@ function getRoll(rActor, rAction)
 end
 
 function performRoll(draginfo, rActor, rAction)
-Debug.console("manager_action_attack.lua","performRoll","draginfo",draginfo);
+--Debug.console("manager_action_attack.lua","performRoll","draginfo",draginfo);
 	local rRoll = getRoll(rActor, rAction);
 
     if (draginfo and rActor.itemPath and rActor.itemPath ~= "") then
@@ -201,7 +201,7 @@ function modAttack(rSource, rTarget, rRoll)
 	local aAttackFilter = {};
 
 -- Debug.console("manager_action_attack.lua","modAttack","rSource",rSource);
-Debug.console("manager_action_attack.lua","modAttack","rTarget",rTarget);
+--Debug.console("manager_action_attack.lua","modAttack","rTarget",rTarget);
 -- Debug.console("manager_action_attack.lua","modAttack","rRoll",rRoll);
     local nBaseAttack = 0;
     rRoll.nBaseAttack = nBaseAttack;

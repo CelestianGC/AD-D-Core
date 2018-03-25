@@ -172,7 +172,7 @@
  	<!-- <script name="EffectManager" file="scripts/manager_effect_CoreRPG.lua" /> -->
 
 	<!-- Override CoreRPG item manager for npc inventory requirements, items for npcs/etc -->
-  <script name="ItemManager" file="scripts/manager_item.lua" />
+  <script name="ItemManager" file="scripts/manager_item_CoreRPG.lua" />
     
 
 </root>
