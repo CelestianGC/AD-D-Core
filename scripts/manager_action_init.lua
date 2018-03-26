@@ -19,6 +19,7 @@ function handleApplyInit(msgOOB)
 	local nTotal = tonumber(msgOOB.nTotal) or 0;
 
 	DB.setValue(ActorManager.getCTNode(rSource), "initresult", "number", nTotal);
+  DB.setValue(ActorManager.getCTNode(rSource), "initrolled", "number", 1);
 end
 
 function notifyApplyInit(rSource, nTotal)
@@ -82,6 +83,21 @@ function handleEffectAdd(msgOOB)
     EffectManager.addEffect("", "", nodeEntry, rEffect, false); 
   end 
 end 
+
+-- we use initrolled flag for setting icon on portrait of PCs to know they
+-- have rolled initiative for this new round
+-- set initiative rolled to false
+function resetInitRolledForRest(nodeChar)
+Debug.console("manager_action_init.lua","resetInitRolledForRest","nodeChar",nodeChar);  
+  local nodeCT = CombatManager.getCTFromNode(nodeChar.getPath());
+Debug.console("manager_action_init.lua","resetInitRolledForRest","nodeCT",nodeCT);  
+  DB.setValue(nodeCT, "initrolled", "number", 0);
+end
+-- new round, reset rolled state
+function resetInitRolledForNewRound(nodeCT)
+Debug.console("manager_action_init.lua","resetInitRolledForNewRound","nodeCT",nodeCT);
+  DB.setValue(nodeCT, "initrolled", "number", 0);
+end
 
 function getRoll(rActor, bSecretRoll, rItem)
 	local rRoll = {};

@@ -934,6 +934,7 @@ end
 --
 
 function rest(nodeChar, bLong)
+  ActionInit.resetInitRolledForRest(nodeChar);
 	PowerManager.resetPowers(nodeChar, bLong);
 	resetHealth(nodeChar, bLong);
 end

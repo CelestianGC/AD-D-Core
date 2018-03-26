@@ -52,7 +52,7 @@
 	<script name="Options5E" file="scripts/data_options_5E.lua" />
 	<includefile source="desktop/desktop_classes.xml" />
 	<includefile source="desktop/desktop_local.xml" />
-	
+  
 	<!-- Utility -->
 	<includefile source="utility/template_utility.xml" />
 	<includefile source="utility/utility_modifiers.xml" />
@@ -119,6 +119,7 @@
 	<includefile source="ps/ps.xml" />
 	<includefile source="ps/ps_main.xml" />
 	<includefile source="ps/ps_xp.xml" />
+  
 	<script name="PartyManager2" file="ps/scripts/manager_ps2.lua" />
 
   <!-- AD&D specific setting, this needs to be above manager_version2 or the updates wont work properly  -->
@@ -166,6 +167,7 @@
   <script name="ConvertManagerADND" file="scripts/manager_convert_adnd.lua" />
   <script name="ConnectionManagerADND" file="scripts/manager_connection_adnd.lua" />
   <script name="ChatManagerADND" file="scripts/manager_chat_adnd.lua" />
+  <script name="ManagerCharlistADND" file="scripts/manager_charlist_adnd.lua" />
 
   <!--  This replaces the CoreRPG EffectManager. 
         3.3.4 added setInitAscending() and allowed us to stop using this -->

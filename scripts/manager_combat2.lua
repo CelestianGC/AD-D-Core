@@ -941,6 +941,14 @@ function rollEntryInit(nodeEntry)
 		return;
 	end
 	
+  -- toggle the rolled init value to false till
+  -- until PC actually rolls.
+  local rActor = ActorManager.getActorFromCT(nodeEntry);
+  local sActorType, nodeActor = ActorManager.getTypeAndNode(rActor);    
+  if (sActorType == "pc") then
+    ActionInit.resetInitRolledForNewRound(nodeEntry);
+  end
+  
 	-- Start with the base initiative bonus
 	local nInit = DB.getValue(nodeEntry, "init", 0);
 	

@@ -214,10 +214,14 @@
  	<icon name="tab_details" file="graphics/tabs/tab_details.png" />
   <icon name="tab_advance" file="graphics/tabs/tab_advancement.png" />
     
-    <!-- chat -->
-   	<icon name="chat_hit" file="graphics/icons/roll_attack_hit.png" />
-   	<icon name="chat_miss" file="graphics/icons/roll_attack_miss.png" />
-   	<icon name="chat_success" file="graphics/icons/check_success.png" />
-   	<icon name="chat_fail" file="graphics/icons/check_fail.png" />
+  <!-- chat -->
+  <icon name="chat_hit" file="graphics/icons/roll_attack_hit.png" />
+  <icon name="chat_miss" file="graphics/icons/roll_attack_miss.png" />
+  <icon name="chat_success" file="graphics/icons/check_success.png" />
+  <icon name="chat_fail" file="graphics/icons/check_fail.png" />
+
+    <!-- charlist_ -->
+ 	<icon name="init_rolled" file="graphics/icons/check_fail.png" />
+
 
 </root>
