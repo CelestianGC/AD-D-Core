@@ -6,17 +6,17 @@
 --
 
 function onInit()
-  --if User.isHost() then
+  if User.isHost() then
     DB.addHandler("combattracker.list.*.initrolled", "onUpdate", onUpdate);
     CharacterListManager.addDecorator("init_rolled", addInitiativeWidget);
-  --end
+  end
 end
 
 function onUpdate(nodeInit)
-Debug.console("manager_charlist_adnd.lua","onUpdate","sIdentity",sIdentity);
+--Debug.console("manager_charlist_adnd.lua","onUpdate","sIdentity",sIdentity);
   local nodeCT = nodeInit.getChild("..");
   local sIdentity = getIdentityFromCTNode(nodeCT);
-Debug.console("manager_charlist_adnd.lua","onUpdate","sIdentity",sIdentity);
+--Debug.console("manager_charlist_adnd.lua","onUpdate","sIdentity",sIdentity);
 	updateWidgets(sIdentity);
 end
 

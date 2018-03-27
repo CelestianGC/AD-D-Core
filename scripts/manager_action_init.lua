@@ -88,14 +88,12 @@ end
 -- have rolled initiative for this new round
 -- set initiative rolled to false
 function resetInitRolledForRest(nodeChar)
-Debug.console("manager_action_init.lua","resetInitRolledForRest","nodeChar",nodeChar);  
+--Debug.console("manager_action_init.lua","resetInitRolledForRest","nodeChar",nodeChar);  
   local nodeCT = CombatManager.getCTFromNode(nodeChar.getPath());
-Debug.console("manager_action_init.lua","resetInitRolledForRest","nodeCT",nodeCT);  
   DB.setValue(nodeCT, "initrolled", "number", 0);
 end
 -- new round, reset rolled state
 function resetInitRolledForNewRound(nodeCT)
-Debug.console("manager_action_init.lua","resetInitRolledForNewRound","nodeCT",nodeCT);
   DB.setValue(nodeCT, "initrolled", "number", 0);
 end
 

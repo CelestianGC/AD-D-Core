@@ -130,7 +130,7 @@
 	<script name="GameSystem" file="scripts/manager_gamesystem.lua" />
 	<script name="CampaignDataManager2" file="scripts/manager_campaigndata2.lua" />
 	<script name="DataSpell" file="scripts/data_spell.lua" />
-	<script name="CharacterListManager_Inspiration" file="scripts/manager_charlist_inspiration.lua" />
+	<!-- <script name="CharacterListManager_Inspiration" file="scripts/manager_charlist_inspiration.lua" /> -->
 	<script name="ActorManager2" file="scripts/manager_actor2.lua" />
 	<script name="CombatManager2" file="scripts/manager_combat2.lua" />
 	<script name="EffectManager5E" file="scripts/manager_effect_5E.lua" />
