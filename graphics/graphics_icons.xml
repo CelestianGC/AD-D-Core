@@ -223,5 +223,9 @@
     <!-- charlist_ -->
  	<icon name="init_rolled" file="graphics/icons/check_fail.png" />
 
+  <!-- npc extras -->
+  <icon name="button_npc_import" file="graphics/buttons/button_import.png" />
+  <icon name="button_npc_import_down" file="graphics/buttons/button_import_down.png" />
+  
 
 </root>

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<!-- 
+  Please see the license.html file included with this distribution for 
+  attribution and copyright information.
+-->
+
+<root>
+	<template name="button_npc_import">
+		<buttoncontrol insertbefore="filter_sharedonly">
+			<anchored to="rightanchor" width="20" height="20">
+				<top />
+				<right anchor="left" relation="relative" offset="-5" />
+			</anchored>
+			<icon normal="button_npc_import" pressed="button_npc_import_down" />
+			<tooltip textres="npc_import_tooltip" />
+			<script>
+                function onButtonPress()
+                    if User.isHost() then
+                        Interface.openWindow("npc_import_window", "");
+                    end
+                end
+            </script>
+			<invisible />
+		</buttoncontrol>
+	</template>
+</root>

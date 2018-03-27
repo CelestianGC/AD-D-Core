@@ -529,6 +529,12 @@
 	<string name="ps_label_surprise_tooltip">Surprise value for character.</string>
     
 	<!-- NPCs -->
+  <string name="npc_import_tooltip">Import NPC from text.</string>
+  <string name="npc_import_window_title">IMPORT NPC</string>
+  <string name="npc_import_text_title">IMPORT TEXT</string>
+  <string name="npc_import_text_button">Import</string>
+  <string name="npc_import_text_helptext">Paste in the text of the NPC you want to create. </string>
+  
 	<string name="npc_label_clone_to_pc">CLONE TO PC (test)</string>	
 	<string name="npc_label_hitdice">Hit Dice</string>	
 	<string name="npc_label_thaco">THACO</string>	

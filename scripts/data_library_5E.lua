@@ -134,15 +134,16 @@ aRecords = {
 		aDataMap = { "npc", "reference.npcdata" }, 
 		aDisplayIcon = { "button_people", "button_people_down" },
 		-- sRecordDisplayClass = "npc", 
+    aGMEditButtons = { "button_npc_import" };
 		aGMListButtons = { "button_npc_letter", "button_npc_hd", "button_npc_type" };
 		aCustomFilters = {
---			["Type"] = { sField = "type", fGetValue = getNPCTypeValue },
-            ["HitDice"] = { sField = "hitDice", fGetValue = getNPCHitDice,fSort = sortNPCHitDice },
+--		["Type"] = { sField = "type", fGetValue = getNPCTypeValue },
+      ["HitDice"] = { sField = "hitDice", fGetValue = getNPCHitDice,fSort = sortNPCHitDice },
 			["Type"] = { sField = "type", sType = "string" },
 			["Organization"] = { sField = "organization", sType = "string" },
 			["Activity"] = { sField = "activity", sType = "string" },
 			["Diet"] = { sField = "diet", sType = "string" },
---			["Frequency"] = { sField = "frequency", sType = "string", fSort = sortNPCCRValues },
+--		["Frequency"] = { sField = "frequency", sType = "string", fSort = sortNPCCRValues },
 			["Frequency"] = { sField = "frequency", sType = "string"},
 			["Climate"] = { sField = "climate", sType = "string" },
 		},

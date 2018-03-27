@@ -74,6 +74,7 @@
 	<includefile source="campaign/template_campaign_adnd.xml" />
 	<includefile source="campaign/template_char.xml" />
 	<includefile source="campaign/template_power.xml" />
+	<includefile source="campaign/template_npc.xml" />
 
 	<includefile source="campaign/record_char.xml" />
 	<includefile source="campaign/record_char_main.xml" />
