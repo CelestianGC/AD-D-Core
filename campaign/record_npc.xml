@@ -852,7 +852,7 @@
 
 	<windowclass name="npc_import_window">
     <margins control="2,2,2,2" />
-		<frame>chatbox</frame>
+		<frame>charsheethelper</frame>
 		<placement>
 			<size width="320" height="300" />
 		</placement>
