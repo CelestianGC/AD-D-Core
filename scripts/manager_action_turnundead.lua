@@ -261,6 +261,7 @@ end
 function handleTurn(rSource, nodeTurn,rMessage,bDestroy)
   local rTarget = ActorManager.getActor("ct",nodeTurn);
   local sName = DB.getValue(nodeTurn,"name","NO-NAME");
+
   if (bDestroy) then
     notifyApplyObliteration(rSource,rTarget);
     rMessage.text = rMessage.text .."\r\nObliterated " .. sName .. "!";
@@ -274,8 +275,13 @@ function notifyApplyObliteration(rSource, rTarget)
 	local msgOOB = {};
 	msgOOB.type = OOB_MSGTYPE_APPLYOBLITERATE;
 	
-	msgOOB.sSourceNode = ActorManager.getCTNodeName(rSource);
-	msgOOB.sTargetNode = ActorManager.getCTNodeName(rTarget);
+	local sSourceType, sSourceNode = ActorManager.getTypeAndNodeName(rSource);
+	msgOOB.sSourceType = sSourceType;
+	msgOOB.sSourceNode = sSourceNode;
+
+	local sTargetType, sTargetNode = ActorManager.getTypeAndNodeName(rTarget);
+	msgOOB.sTargetType = sTargetType;
+	msgOOB.sTargetNode = sTargetNode;
 	
 	Comm.deliverOOBMessage(msgOOB, "");
 end
@@ -295,16 +301,37 @@ function applyObliteration(rSource, rTarget)
     -- obliterate undead
     local nodeTurn = ActorManager.getCTNode(rTarget);
     local nHPMax = DB.getValue(nodeTurn,"hptotal",0);
-    DB.setValue(nodeTurn,"wounds","number",nHPMax+1);
+    --DB.setValue(nodeTurn,"wounds","number",nHPMax+1);
+    ActionDamage.applyDamage(rSource, rTarget, false, "[OBLITERATION]", nHPMax+1);
 end
+
+-- function applyChange(sAdjustmentType)
+-- local node = window.getDatabaseNode();
+-- local rActor = ActorManager.getActorFromCT(node);
+-- local nAdjustment = self.getValue();
+-- if (sAdjustmentType == "heal") then
+    -- nAdjustment = -(nAdjustment);
+-- end
+-- if (nAdjustment ~= 0) then
+    -- ActionDamage.applyDamage(nil, rActor, CombatManager.isCTHidden(node), "DM manually applied adjustment-NOTSHOWN.", nAdjustment);
+-- end
+-- setValue(0);
+-- window.close();
+-- end
+
 
 -- notify OOB to take control and handle this node update
 function notifyApplyTurn(rSource, rTarget)
 	local msgOOB = {};
 	msgOOB.type = OOB_MSGTYPE_APPLYTURN;
 	
-	msgOOB.sSourceNode = ActorManager.getCTNodeName(rSource);
-	msgOOB.sTargetNode = ActorManager.getCTNodeName(rTarget);
+	local sSourceType, sSourceNode = ActorManager.getTypeAndNodeName(rSource);
+	msgOOB.sSourceType = sSourceType;
+	msgOOB.sSourceNode = sSourceNode;
+
+	local sTargetType, sTargetNode = ActorManager.getTypeAndNodeName(rTarget);
+	msgOOB.sTargetType = sTargetType;
+	msgOOB.sTargetNode = sTargetNode;
 	
 	Comm.deliverOOBMessage(msgOOB, "");
 end
@@ -312,9 +339,6 @@ end
 function handleApplyTurned(msgOOB)
 	local rSource = ActorManager.getActor(msgOOB.sSourceType, msgOOB.sSourceNode);
 	local rTarget = ActorManager.getActor(msgOOB.sTargetType, msgOOB.sTargetNode);
-	if rTarget then
-		rTarget.nOrder = msgOOB.nTargetOrder;
-	end
 	
 	local nTotal = tonumber(msgOOB.nTotal) or 0;
 	applyTurnedState(rSource, rTarget);
@@ -323,6 +347,6 @@ end
 function applyTurnedState(rSource, rTarget)
   -- turn undead
   if not EffectManager5E.hasEffect(rTarget, "Turned") then
-    EffectManager.addEffect("", "", ActorManager.getCTNode(rTarget), { sName = "Turned", nDuration = 0, sSource = rSource.sCTNode }, true);
+    EffectManager.addEffect("", "", ActorManager.getCTNode(rTarget), { sName = "Turned", nDuration = 0, sSource = rSource.sCTNode, nGMOnly = 0 }, true);
   end
 end
