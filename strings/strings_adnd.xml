@@ -527,7 +527,13 @@
 	<string name="ps_default_groupsave">Paralyzation</string>
 	<string name="ps_label_surprise">Surprise</string>
 	<string name="ps_label_surprise_tooltip">Surprise value for character.</string>
-    
+  <!-- powers -->
+  <string name="power_import_tooltip">Import Spell/Power from text.</string>
+  <string name="power_import_window_title">IMPORT POWER</string>
+  <string name="power_import_text_title">IMPORT TEXT</string>
+  <string name="power_import_text_button">Import</string>
+  <string name="power_import_text_helptext">Paste in the text of the Spell/Power you want to create. </string>
+  
 	<!-- NPCs -->
   <string name="npc_import_tooltip">Import NPC from text.</string>
   <string name="npc_import_window_title">IMPORT NPC</string>

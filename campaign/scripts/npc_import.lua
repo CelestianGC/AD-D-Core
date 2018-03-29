@@ -21,8 +21,8 @@ Debug.console("npc_import.lua","createTable","node",node);
     return node;
 end
 
-function importTextAsNPC()
-    local sText = npcimporttext.getValue() or "";
+function processImportText()
+    local sText = importtext.getValue() or "";
     if (sText ~= "") then
       local aNPCText = {};
       for sLine in string.gmatch(sText, '([^\r\n]+)') do
@@ -38,7 +38,7 @@ function importTextAsNPC()
                         {"no. appearing","numberappearing"},
                         {"size","size"},
                         {"move","speed"},
-                        {"armour class|ac|armorclass","ac"},
+                        {"armour class","ac"},
                         {"ac","ac"},
                         {"armorclass","ac"},
                         {"armour class","actext"},
@@ -130,7 +130,7 @@ Debug.console("npc_import.lua","importTextAsNPC","END sParagraph",sParagraph);
         sDescription = sDescription .. "<p>" .. sParagraph .."</p>";
       end
       -- fix some NPC values that need it
-      setDescription(nodeNPC,sDescription);
+      setDescription(nodeNPC,sDescription,"text");
       setHD(nodeNPC);
       setAC(nodeNPC);
       setActionWeapon(nodeNPC);
@@ -236,9 +236,9 @@ Debug.console("npc_import.lua","setAC","sAC",sAC);
   DB.setValue(nodeNPC,"ac","number",nAC);
 end
 
--- set description of npc
-function setDescription(nodeNPC,sDescription)
-  DB.setValue(nodeNPC,"text","formattedtext",sDescription);
+-- set description
+function setDescription(nodeSpell,sDescription, sTag)
+  DB.setValue(nodeSpell,sTag,"formattedtext",sDescription);
 end
 
 -- set npc name

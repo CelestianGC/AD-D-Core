@@ -286,5 +286,23 @@
 		</genericcontrol>
 	</template>
     
+	<template name="button_power_import">
+		<buttoncontrol insertbefore="filter_sharedonly">
+			<anchored to="rightanchor" width="20" height="20">
+				<top />
+				<right anchor="left" relation="relative" offset="-5" />
+			</anchored>
+			<icon normal="button_import" pressed="button_import_down" />
+			<tooltip textres="power_import_tooltip" />
+			<script>
+                function onButtonPress()
+                    if User.isHost() then
+                        Interface.openWindow("power_import_window", "");
+                    end
+                end
+            </script>
+			<invisible />
+		</buttoncontrol>
+	</template>
 
 </root>

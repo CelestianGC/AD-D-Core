@@ -12,7 +12,7 @@
 				<top />
 				<right anchor="left" relation="relative" offset="-5" />
 			</anchored>
-			<icon normal="button_npc_import" pressed="button_npc_import_down" />
+			<icon normal="button_import" pressed="button_import_down" />
 			<tooltip textres="npc_import_tooltip" />
 			<script>
                 function onButtonPress()

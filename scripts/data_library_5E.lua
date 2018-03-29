@@ -216,8 +216,9 @@ aRecords = {
 		aDataMap = { "spell", "reference.spelldata" }, 
 		aDisplayIcon = { "button_spells", "button_spells_down" },
 		sRecordDisplayClass = "power", 
+    aGMEditButtons = { "button_power_import" };
 		aGMListButtons = { "button_spells_arcane_player", "button_spells_school_player","button_spells_divine_player","button_spells_sphere_player" };
-        aPlayerListButtons = { "button_spells_school_player", "button_spells_sphere_player" };
+    aPlayerListButtons = { "button_spells_school_player", "button_spells_sphere_player" };
 		aCustomFilters = {
 			["Sphere"] = { sField = "sphere", fGetValue = getSpellSphereValue },
 			["School"] = { sField = "school", fGetValue = getSpellSchoolValue },

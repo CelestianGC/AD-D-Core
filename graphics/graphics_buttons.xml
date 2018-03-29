@@ -191,5 +191,9 @@
 	<icon name="button_toggle_self" file="graphics/buttons/button_toggle_self.png" />
 	<icon name="button_action_memorize" file="graphics/buttons/button_action_memorize.png" />
 	<icon name="button_action_memorize_down" file="graphics/buttons/button_action_memorize_down.png" />
+  <!-- import -->
+  <icon name="button_import" file="graphics/buttons/button_import.png" />
+  <icon name="button_import_down" file="graphics/buttons/button_import_down.png" />
+  
 
 </root>

@@ -860,11 +860,6 @@
 			<minimum width="220" height="300" />
 			<dynamic />
 		</sizelimits>
-    <!-- <script>
-      function onInit()
-        contents.subwindow.tableimporttext.setFocus();
-      end
-    </script> -->
 		<sheetdata>
       <windowtitlebar name="title">
           <prefix>npc_import_window_title</prefix>
@@ -910,8 +905,8 @@
       </anchored>
       <script>
         function onButtonPress()
-          window.contents.subwindow.importTextAsNPC();
-          window.contents.subwindow.npcimporttext.setValue("");
+          window.contents.subwindow.processImportText();
+          window.contents.subwindow.importtext.setValue("");
           window.close();
         end
       </script>
@@ -938,7 +933,7 @@
 			<anchor_column name="columnanchor" />
 			<anchor_left />
       <anchor_right />
-      <stringu name="npcimporttext">
+      <stringu name="importtext">
         <anchored>
             <top parent="columnanchor" anchor="bottom" relation="relative" offset="5" />
             <left offset="15" />
