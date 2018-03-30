@@ -7,30 +7,6 @@ function onInit()
 --Debug.console("power_import.lua","onInit","getDatabaseNode",getDatabaseNode());
 end
 
--- ignore case
--- doesn't work if s contains % []
-function nocase2 (s)
-  s = string.gsub(s, "%a", function (c)
-        return string.format("[%s%s]", string.lower(c),
-                                       string.upper(c))
-      end)
-  return s
-end
-function nocase(pattern)
-  -- find an optional '%' (group 1) followed by any character (group 2)
-  local p = pattern:gsub("(%%?)(.)", function(percent, letter)
-    if percent ~= "" or not letter:match("%a") then
-      -- if the '%' matched, or `letter` is not a letter, return "as is"
-      return percent .. letter
-    else
-      -- else, return a case-insensitive character class of the matched letter
-      return string.format("[%s%s]", letter:lower(), letter:upper())
-    end
-
-  end)
-  return p
-end
-
 function createBlankPower()
     local node = DB.createChild("spell"); 
 Debug.console("power_import.lua","createTable","node",node);    
@@ -90,7 +66,7 @@ Debug.console("power_import.lua","processImportText","sLine",sLine);
         local sFilter = sFind[3];
         if (string.match(sLine:lower(),sMatch)) then
           bProcessed = true;
-          setTextValue(nodeSpell,sLine,sMatch,sValue,sFilter);
+          ManagerImportADND.setTextValue(nodeSpell,sLine,sMatch,sValue,sFilter);
         end
       end
       for _, sFind in ipairs(number_matches) do
@@ -99,14 +75,14 @@ Debug.console("power_import.lua","processImportText","sLine",sLine);
         local sFilter = sFind[3];
         if (string.match(sLine:lower(),sMatch)) then
           bProcessed = true;
-          setNumberValue(nodeSpell,sLine,sMatch,sValue,sFilter);
+          ManagerImportADND.setNumberValue(nodeSpell,sLine,sMatch,sValue,sFilter);
         end
       end
 
       -- we use the first line as the name as default
       if (DB.getValue(nodeSpell,"name","") == "") then
         bProcessed = true;
-        setName(nodeSpell,sLine)
+        ManagerImportADND.setName(nodeSpell,sLine)
       end
       -- otherwise this line is going to be considered description
       if not bProcessed then
@@ -125,7 +101,7 @@ Debug.console("power_import.lua","processImportText","END sParagraph",sParagraph
       sDescription = sDescription .. "<p>" .. sParagraph .."</p>";
     end
     -- fix some values that need it
-    setDescription(nodeSpell,sDescription,"description");
+    ManagerImportADND.setDescription(nodeSpell,sDescription,"description");
     -- set castinginitiative by using castingtime 
     setCastingInitiative(nodeSpell);
     -- set type Arcane/Divine
@@ -144,48 +120,7 @@ Debug.console("power_import.lua","processImportText","END sParagraph",sParagraph
   end
 end
 
--- set generic text value
-function setTextValue(nodeSpell,sLine,sMatch,sValue,sFilter)
-  local sFound = string.match(sLine,nocase(sMatch) .. "(.*)$");
-  sFound = StringManager.trim(sFound);
-  if (sFound ~= nil and sFilter ~= nil) then
-Debug.console("power_import.lua","setTextValue","sFilter",sFilter);    
-    sFound = string.match(sFound,nocase(sFilter));
-  end
-  if sFound ~= nil then
-Debug.console("power_import.lua","setTextValue","sValue",sValue);    
-Debug.console("power_import.lua","setTextValue","sFound",sFound);    
-    DB.setValue(nodeSpell,sValue,"string",StringManager.capitalize(sFound));
-  end
-end
-
--- set generic number value
-function setNumberValue(nodeSpell,sLine,sMatch,sValue,sFilter)
-  local sFound = string.match(sLine,nocase(sMatch) .. "(.*)$");
-  sFound = StringManager.trim(sFound);
-  if (sFound ~= nil and sFilter ~= nil) then
-Debug.console("power_import.lua","setNumberValue","sFilter",sFilter);    
-    sFound = string.match(sFound,nocase(sFilter));
-  end
-  if sFound ~= nil then
-    local nFound = tonumber(sFound) or 0;
-Debug.console("power_import.lua","setNumberValue","sValue",sValue);    
-Debug.console("power_import.lua","setNumberValue","nFound",nFound);    
-    DB.setValue(nodeSpell,sValue,"number",nFound);
-  end
-end
-
--- set description
-function setDescription(nodeSpell,sDescription, sTag)
-  DB.setValue(nodeSpell,sTag,"formattedtext",sDescription);
-end
-
--- set name
-function setName(nodeSpell,sName)
-  DB.setValue(nodeSpell,"name","string",StringManager.capitalize(sName));
-end
-
--- set name
+-- set Source
 function setSource(nodeSpell,sName)
   DB.setValue(nodeSpell,"source","string",StringManager.capitalize(sName));
 end

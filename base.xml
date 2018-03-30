@@ -169,6 +169,7 @@
   <script name="ConnectionManagerADND" file="scripts/manager_connection_adnd.lua" />
   <script name="ChatManagerADND" file="scripts/manager_chat_adnd.lua" />
   <script name="ManagerCharlistADND" file="scripts/manager_charlist_adnd.lua" />
+  <script name="ManagerImportADND" file="scripts/manager_import_adnd.lua" />
 
   <!--  This replaces the CoreRPG EffectManager. 
         3.3.4 added setInitAscending() and allowed us to stop using this -->

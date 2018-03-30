@@ -33,48 +33,42 @@ function processImportText()
       -- find the first value in the text line and take it's value
       -- and put it in the second value of the nodeNPC
       local text_matches = {
-                        {"frequency","frequency"},
-                        {"no. encountered","numberappearing"},
-                        {"no. appearing","numberappearing"},
-                        {"size","size"},
-                        {"move","speed"},
-                        {"armour class","ac"},
-                        {"ac","ac"},
-                        {"armorclass","ac"},
-                        {"armour class","actext"},
-                        {"ac","actext"},
-                        {"armorclass","actext"},
-                        {"hit dice","hitDice"},
-                        {"hitdice","hitDice"},
-                        {"hd","hitDice"},
-                        {"hit dice","hdtext"},
-                        {"hitdice","hdtext"},
-                        {"hd","hdtext"},
-                        -- {"hit dice","hd"},
-                        -- {"hitdice","hd"},
-                        -- {"hd","hd"},
-                        {"attacks","numberattacks"},
-                        {"no. of attacks","numberattacks"},
-                        {"damage","damage"},
-                        {"damage/attack","damage"},
-                        {"special attacks","specialAttacks"},
-                        {"special defences","specialDefense"},
-                        {"special defenses","specialDefense"},
-                        {"magic resistance","magicresistance"},
-                        {"lair probability","inlair"},
-                        {"intelligence","intelligence_text"},
-                        {"alignment","alignment"},
-                        {"morale","morale"},
-                        -- {"treasure","treasure"},
-                        {"diet","diet"},
-                        {"organization","organization"},
-                        {"climate/terrain","climate"},
-                        {"active time","activity"},
-                        {"type","type"},
+                        {"^frequency:","frequency"},
+                        {"^no. encountered:","numberappearing"},
+                        {"^no. appearing:","numberappearing"},
+                        {"^size:","size"},
+                        {"^move:","speed"},
+                        {"^armour class:","actext"},
+                        {"^ac:","actext"},
+                        {"^armorclass:","actext"},
+                        {"^hit dice:","hitDice"},
+                        {"^hitdice:","hitDice"},
+                        {"^hd:","hitDice"},
+                        {"^hit dice:","hdtext"},
+                        {"^hitdice:","hdtext"},
+                        {"^hd:","hdtext"},
+                        {"^attacks:","numberattacks"},
+                        {"^no. of attacks:","numberattacks"},
+                        {"^damage:","damage"},
+                        {"^damage/attack:","damage"},
+                        {"^special attacks:","specialAttacks"},
+                        {"^special defences:","specialDefense"},
+                        {"^special defenses:","specialDefense"},
+                        {"^magic resistance:","magicresistance"},
+                        {"^lair probability:","inlair"},
+                        {"^intelligence:","intelligence_text"},
+                        {"^alignment:","alignment"},
+                        {"^morale:","morale"},
+                        -- {"treasure:","treasure"},
+                        {"^diet:","diet"},
+                        {"^organization:","organization"},
+                        {"^climate/terrain:","climate"},
+                        {"^active time:","activity"},
+                        {"^type:","type"},
                         };
       local number_matches = {
-                        {"thaco","thaco"},
-                        {"thac0","thaco"},
+                        {"^thaco:","thaco"},
+                        {"^thac0:","thaco"},
                         };
       local sDescription = "";
       local sParagraph = "";
@@ -85,17 +79,17 @@ Debug.console("npc_import.lua","importTextAsNPC","sLine",sLine);
         for _, sFind in ipairs(text_matches) do
           local sMatch = sFind[1];
           local sValue = sFind[2];
-          if (string.match(sLine:lower(),"^".. sMatch .. ":")) then
+          if (string.match(sLine:lower(),sMatch)) then
             bProcessed = true;
-            setTextValue(nodeNPC,sLine,sMatch,sValue);
+            ManagerImportADND.setTextValue(nodeNPC,sLine,sMatch,sValue);
           end
         end
         for _, sFind in ipairs(number_matches) do
           local sMatch = sFind[1];
           local sValue = sFind[2];
-          if (string.match(sLine:lower(),"^".. sMatch .. ":")) then
+          if (string.match(sLine:lower(),sMatch)) then
             bProcessed = true;
-            setNumberValue(nodeNPC,sLine,sMatch,sValue);
+            ManagerImportADND.setNumberValue(nodeNPC,sLine,sMatch,sValue);
           end
         end
         -- 2e mm uses "xp value" and has commas and spaces you gotta clean out
@@ -111,7 +105,7 @@ Debug.console("npc_import.lua","importTextAsNPC","sLine",sLine);
         -- we use the first line as the name as default
         if (DB.getValue(nodeNPC,"name","") == "") then
           bProcessed = true;
-          setName(nodeNPC,sLine)
+          ManagerImportADND.setName(nodeNPC,sLine)
         end
         -- otherwise this line is going to be considered description
         if not bProcessed then
@@ -130,32 +124,12 @@ Debug.console("npc_import.lua","importTextAsNPC","END sParagraph",sParagraph);
         sDescription = sDescription .. "<p>" .. sParagraph .."</p>";
       end
       -- fix some NPC values that need it
-      setDescription(nodeNPC,sDescription,"text");
+      ManagerImportADND.setDescription(nodeNPC,sDescription,"text");
       setHD(nodeNPC);
       setAC(nodeNPC);
       setActionWeapon(nodeNPC);
       
     end
-end
-
-function setTextValue(nodeNPC,sLine,sMatch,sValue)
-  local sFound = string.match(sLine:lower(),"^" .. sMatch .. ":(.*)$");
-  sFound = StringManager.trim(sFound);
-  if sFound ~= nil then
-Debug.console("npc_import.lua","setTextValue","sValue",sValue);    
-Debug.console("npc_import.lua","setTextValue","sFound",sFound);    
-    DB.setValue(nodeNPC,sValue,"string",StringManager.capitalize(sFound));
-  end
-end
-function setNumberValue(nodeNPC,sLine,sMatch,sValue)
-  local sFound = string.match(sLine:lower(),"^" .. sMatch .. ":(.*)$");
-  sFound = StringManager.trim(sFound);
-  if sFound ~= nil then
-    local nFound = tonumber(sFound) or 0;
-Debug.console("npc_import.lua","setNumberValue","sValue",sValue);    
-Debug.console("npc_import.lua","setNumberValue","nFound",nFound);    
-    DB.setValue(nodeNPC,sValue,"number",nFound);
-  end
 end
 
 -- this parses up "level/xp: 6/1,000+10/hp" style entries and calculates exp based on max hp
@@ -225,25 +199,17 @@ end
 -- set numeric value of ac
 function setAC(nodeNPC)
   local sACText = DB.getValue(nodeNPC,"actext","");
+Debug.console("npc_import.lua","setAC","sACText",sACText); 
   local nAC = 10;
   if (sACText ~= "") then
     if (string.match(sACText,"%d+")) then
       local sAC = sACText:match("^(%-?%d+)"); -- grab first number
-Debug.console("npc_import.lua","setAC","sAC",sAC); 
       nAC = tonumber(sAC) or 10;
     end
   end
+Debug.console("npc_import.lua","setAC","nAC",nAC); 
+Debug.console("npc_import.lua","setAC","nodeNPC",nodeNPC); 
   DB.setValue(nodeNPC,"ac","number",nAC);
-end
-
--- set description
-function setDescription(nodeSpell,sDescription, sTag)
-  DB.setValue(nodeSpell,sTag,"formattedtext",sDescription);
-end
-
--- set npc name
-function setName(nodeNPC,sName)
-  DB.setValue(nodeNPC,"name","string",StringManager.capitalize(sName));
 end
 
 -- apply "damage" string and do best effort to parse and make action/weapons
