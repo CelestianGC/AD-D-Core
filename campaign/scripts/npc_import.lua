@@ -36,9 +36,11 @@ function processImportText()
                         {"^frequency:","frequency"},
                         {"^no. encountered:","numberappearing"},
                         {"^no. appearing:","numberappearing"},
+                        {"^number encountered:","numberappearing"},
                         {"^size:","size"},
                         {"^move:","speed"},
                         {"^armour class:","actext"},
+                        {"^armor class:","actext"},
                         {"^ac:","actext"},
                         {"^armorclass:","actext"},
                         {"^hit dice:","hitDice"},
@@ -48,12 +50,14 @@ function processImportText()
                         {"^hitdice:","hdtext"},
                         {"^hd:","hdtext"},
                         {"^attacks:","numberattacks"},
+                        {"^attack:","numberattacks"},
                         {"^no. of attacks:","numberattacks"},
                         {"^damage:","damage"},
                         {"^damage/attack:","damage"},
                         {"^special attacks:","specialAttacks"},
                         {"^special defences:","specialDefense"},
                         {"^special defenses:","specialDefense"},
+                        {"^special:","specialDefense"},
                         {"^magic resistance:","magicresistance"},
                         {"^lair probability:","inlair"},
                         {"^intelligence:","intelligence_text"},
@@ -100,7 +104,12 @@ Debug.console("npc_import.lua","importTextAsNPC","sLine",sLine);
         -- osric uses "level/xp: 6/1,000+10/hp" style exp entry
         if (string.match(sLine:lower(),"^level/xp:")) then
           bProcessed = true;
-          setExpLevel(nodeNPC,sLine);
+          setExpLevelOSRIC(nodeNPC,sLine);
+        end
+        -- Swords and Wizadry uses "Challenge Level/XP: 4/120" style exp entry
+        if (string.match(sLine:lower(),"^challenge level/xp:")) then
+          bProcessed = true;
+          setExpLevelSW(nodeNPC,sLine);
         end
         -- we use the first line as the name as default
         if (DB.getValue(nodeNPC,"name","") == "") then
@@ -133,7 +142,7 @@ Debug.console("npc_import.lua","importTextAsNPC","END sParagraph",sParagraph);
 end
 
 -- this parses up "level/xp: 6/1,000+10/hp" style entries and calculates exp based on max hp
-function setExpLevel(nodeNPC,sLine)
+function setExpLevelOSRIC(nodeNPC,sLine)
   local sFound = string.match(sLine:lower(),"^level/xp:(.*)$");
   sFound = sFound:gsub(" ",""); -- remove ALL spaces
   sFound = sFound:gsub(",",""); -- remove ALL commas
@@ -153,6 +162,21 @@ function setExpLevel(nodeNPC,sLine)
     local nPerHPTotal = nPerHP * nMaxHP;
     nEXP = nEXP + nPerHPTotal;
   end
+  DB.setValue(nodeNPC,"xp","number",nEXP);
+end
+
+-- "Challenge Level/XP: 4/120"
+function setExpLevelSW(nodeNPC,sLine)
+  local sFound = string.match(sLine:lower(),"^challenge level/xp:(.*)$");
+  sFound = sFound:gsub(" ",""); -- remove ALL spaces
+  sFound = sFound:gsub(",",""); -- remove ALL commas
+  local sLevel, sEXP = string.match(sFound:lower(),"^(%d+)\/(%d+)");
+  local nLevel = tonumber(sLevel) or 0;
+  if (nLevel > 0) then
+    DB.setValue(nodeNPC,"level","number",nLevel);
+    DB.setValue(nodeNPC,"thaco","number",(21-nLevel)); -- best guess, OSRIC/SW doesn't use THACO
+  end
+  local nEXP = tonumber(sEXP) or 0;
   DB.setValue(nodeNPC,"xp","number",nEXP);
 end
 
@@ -207,35 +231,53 @@ Debug.console("npc_import.lua","setAC","sACText",sACText);
       nAC = tonumber(sAC) or 10;
     end
   end
-Debug.console("npc_import.lua","setAC","nAC",nAC); 
-Debug.console("npc_import.lua","setAC","nodeNPC",nodeNPC); 
   DB.setValue(nodeNPC,"ac","number",nAC);
 end
 
 -- apply "damage" string and do best effort to parse and make action/weapons
 function setActionWeapon(nodeNPC)
   local sDamageRaw = DB.getValue(nodeNPC,"damage","");
+  local sAttacksRaw = DB.getValue(nodeNPC,"numberattacks","");
   sDamageRaw = string.gsub(sDamageRaw:lower(),"by weapon","");
-  if (sDamageRaw ~= "") then
-    local nCount = 0;
+  if (sDamageRaw ~= "" or sAttacksRaw ~= "") then
     local aAttacks = StringManager.split(sDamageRaw, "/", true);
-    local nodeWeapons = nodeNPC.createChild("weaponlist");    
-    for _,sAttack in pairs(aAttacks) do 
-      nCount = nCount + 1;
-      local nSpeedFactor = getSpeedFactorFromSize(nodeNPC);
-      local aDice, sMod = StringManager.convertStringToDice(sAttack);
-      local nMod = tonumber(sMod) or 0;
-      local nodeWeapon = nodeWeapons.createChild();
-      local sAttckName = "Attack #" .. nCount
-      DB.setValue(nodeWeapon,"name","string",sAttckName);
-      DB.setValue(nodeWeapon,"speedfactor","number",nSpeedFactor);
-      local nodeDamageLists = nodeWeapon.createChild("damagelist"); 
-      local nodeDamage = nodeDamageLists.createChild();
-      DB.setValue(nodeDamage,"dice","dice",aDice);
-      DB.setValue(nodeDamage,"bonus","number",nMod);
-      DB.setValue(nodeDamage,"stat","string","base");
-      DB.setValue(nodeDamage,"type","string","slashing");
-    end -- end for
+    if #aAttacks < 1 then
+      for sDice in string.gmatch(sDamageRaw,"%d+[dD]%d+") do
+        table.insert(aAttacks, sDice)
+      end
+      for sDice in string.gmatch(sDamageRaw,"%d+[dD]%d+][%+-]%d+") do
+        table.insert(aAttacks, sDice)
+      end
+    end
+    if #aAttacks < 1 then
+      for sDice in string.gmatch(sAttacksRaw,"%d+[dD]%d+") do
+        table.insert(aAttacks, sDice)
+      end
+      for sDice in string.gmatch(sAttacksRaw,"%d+[dD]%d+][%+-]%d+") do
+        table.insert(aAttacks, sDice)
+      end
+    end
+    if #aAttacks > 0 then
+Debug.console("npc_import.lua","setActionWeapon","aAttacks-->",aAttacks);       
+      local nodeWeapons = nodeNPC.createChild("weaponlist");  
+      local nCount = 0;
+      for _,sAttack in pairs(aAttacks) do 
+        nCount = nCount + 1;
+        local nSpeedFactor = getSpeedFactorFromSize(nodeNPC);
+        local aDice, sMod = StringManager.convertStringToDice(sAttack);
+        local nMod = tonumber(sMod) or 0;
+        local nodeWeapon = nodeWeapons.createChild();
+        local sAttckName = "Attack #" .. nCount
+        DB.setValue(nodeWeapon,"name","string",sAttckName);
+        DB.setValue(nodeWeapon,"speedfactor","number",nSpeedFactor);
+        local nodeDamageLists = nodeWeapon.createChild("damagelist"); 
+        local nodeDamage = nodeDamageLists.createChild();
+        DB.setValue(nodeDamage,"dice","dice",aDice);
+        DB.setValue(nodeDamage,"bonus","number",nMod);
+        DB.setValue(nodeDamage,"stat","string","base");
+        DB.setValue(nodeDamage,"type","string","slashing");
+      end -- end for
+    end
   end
 end
 

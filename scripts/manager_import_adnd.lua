@@ -70,7 +70,7 @@ function setName(node,sName)
   DB.setValue(node,"name","string",StringManager.capitalize(sName));
 end
 
--- clean up the annomiles left over from copy/pasting text from a PDF, fi re to fire, fl oor to floor
+-- clean up the anomalies left over from copy/pasting text from a PDF, fi re to fire, fl oor to floor
 function cleanDescription(sDesc)
   local sCleanDesc = string.gsub(sDesc,nocase("fi "),"fi");
   sCleanDesc = string.gsub(sCleanDesc,nocase("fl "),"fl");
@@ -78,23 +78,22 @@ function cleanDescription(sDesc)
 end
 
 function contextHighlight(sText)
-  local sWordsMatch = "[%s%w%d%+-]+";
-  -- highlight resistance
-  local sHighlighted = string.gsub(sText,nocase("resistance to (%w+)"),"<b>resistance to %1</b>");
-  -- highlight immune/immunity
-  sHighlighted = string.gsub(sHighlighted,nocase("immune to (%w+)"),"<b>immune to %1</b>");
-  sHighlighted = string.gsub(sHighlighted,nocase("immunity to (%w+)"),"<b>immunity to %1</b>");
-  -- vulnerability/vulnerable
-  sHighlighted = string.gsub(sHighlighted,nocase("vulnerable to (%w+)"),"<b>vulnerable to %1</b>");
-  sHighlighted = string.gsub(sHighlighted,nocase("vulnerability to (%w+)"),"<b>vulnerability to %1</b>");
-  -- saving throw
-  sHighlighted = string.gsub(sHighlighted,nocase("saving throw (" .. sWordsMatch ..")"),"<b>saving throw %1</b>");
-  sHighlighted = string.gsub(sHighlighted,nocase("saving throws (" .. sWordsMatch ..")"),"<b>saving throws %1</b>");
-  -- damage
-  sHighlighted = string.gsub(sHighlighted,nocase("(" .. sWordsMatch ..") damage"),"<b>%1 damage</b>");
-  --sHighlighted = string.gsub(sHighlighted,nocase("(%d+d%d+) points of damage"),"<b>%1 points of damage</b>");
-  -- Treasure:
-  sHighlighted = string.gsub(sHighlighted,nocase("Treasure: "),"<h>%Treasure: </h><p></p>");
+  local sHighlighted = sText;
+  local sWordsMatch = "[%s%w%d%+-,%(%)%%/]+"; -- get numbers, dice also
+  local sWordsMatchONLY = "[%s%w,%%]+"; --(dont want  number or dice), used in sAfter search
+  -- these items we get words before and after and bold it
+  local aSurrounded = {"saving throw","damage","attack","victim","inflict","cause","regain","stun","paraly","regen","drain","reduce","unconscious"};
+  -- these items we get words after and bold it
+  local aAfter = {"resist","immun","vulnerab","only affect","only effect"};
+  
+  for _,sFindMatch in pairs(aSurrounded) do
+    sHighlighted = string.gsub(sHighlighted,nocase("(" .. sWordsMatch ..")".. sFindMatch .."(" .. sWordsMatch ..")"),"<b>%1".. sFindMatch .."%2</b>");
+  end
+  for _,sFindMatch in pairs(aAfter) do
+    sHighlighted = string.gsub(sHighlighted,nocase(sFindMatch .. "(" .. sWordsMatchONLY ..")"),"<b>".. sFindMatch .. "%1</b>");
+  end
+  -- -- Treasure:
+  -- sHighlighted = string.gsub(sHighlighted,nocase("Treasure: "),"<h>Treasure: </h><p></p>");
 
 Debug.console("manager_import.lua","contextHighlight","sHighlighted",sHighlighted);      
   return sHighlighted;
