@@ -221,7 +221,7 @@
   <icon name="chat_fail" file="graphics/icons/check_fail.png" />
 
     <!-- charlist_ -->
- 	<icon name="init_rolled" file="graphics/icons/check_fail.png" />
+ 	<icon name="init_rolled" file="graphics/icons/d10_dice_notdone_small.png" />
 
 
 </root>
