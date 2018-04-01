@@ -60,10 +60,12 @@ function processImportText()
                         {"^special:","specialDefense"},
                         {"^magic resistance:","magicresistance"},
                         {"^lair probability:","inlair"},
+                        {"^%% in lair:","inlair"},
                         {"^intelligence:","intelligence_text"},
                         {"^alignment:","alignment"},
                         {"^morale:","morale"},
                         -- {"treasure:","treasure"},
+                        {"^treasure type:","treasure"},
                         {"^diet:","diet"},
                         {"^organization:","organization"},
                         {"^climate/terrain:","climate"},
@@ -228,6 +230,9 @@ Debug.console("npc_import.lua","setAC","sACText",sACText);
   if (sACText ~= "") then
     if (string.match(sACText,"%d+")) then
       local sAC = sACText:match("^(%-?%d+)"); -- grab first number
+      if not sAC or sAC == "" then
+        sAC = sACText:match("(%-?%d+)"); -- grab any number if we got nothing
+      end
       nAC = tonumber(sAC) or 10;
     end
   end
@@ -245,7 +250,7 @@ function setActionWeapon(nodeNPC)
       for sDice in string.gmatch(sDamageRaw,"%d+[dD]%d+") do
         table.insert(aAttacks, sDice)
       end
-      for sDice in string.gmatch(sDamageRaw,"%d+[dD]%d+][%+-]%d+") do
+      for sDice in string.gmatch(sDamageRaw, "%d+[dD]%d+[%+-]%d+") do
         table.insert(aAttacks, sDice)
       end
     end
@@ -253,8 +258,32 @@ function setActionWeapon(nodeNPC)
       for sDice in string.gmatch(sAttacksRaw,"%d+[dD]%d+") do
         table.insert(aAttacks, sDice)
       end
-      for sDice in string.gmatch(sAttacksRaw,"%d+[dD]%d+][%+-]%d+") do
+      for sDice in string.gmatch(sAttacksRaw,"%d+[dD]%d+[%+-]%d+") do
         table.insert(aAttacks, sDice)
+      end
+    end
+    if #aAttacks > 0 then -- this will try and fix 1-4, 1-8, 2-8 damage dice
+      for nIndex,sAttack in pairs(aAttacks) do 
+        if (string.match(sAttack,"(%d+)([-])(%d+)")) then
+          local sCount, sSign, sSize = string.match(sAttack,"^(%d+)([-])(%d+)$");
+          local nCount = tonumber(sCount) or 1;
+          local nSize = tonumber(sSize) or 1;
+          local sRemainder = "";
+          if nCount > 1 then
+            local nSizeAdjusted = math.ceil(nSize/nCount);
+Debug.console("npc_import.lua","setActionWeapon","nSizeAdjusted",nSizeAdjusted);       
+            local nRemainder = nSize - (nSizeAdjusted*nCount);
+Debug.console("npc_import.lua","setActionWeapon","nRemainder",nRemainder);       
+            if nRemainder > 0 then
+              sRemainder = "+" .. nRemainder;
+            elseif nRemainder < 0 then
+              sRemainder = nRemainder;
+            end
+            nSize = nSizeAdjusted;
+          end
+          aAttacks[nIndex] = nCount .. "d" .. nSize .. sRemainder;
+Debug.console("npc_import.lua","setActionWeapon","aAttacks[nIndex]",aAttacks[nIndex]);       
+        end
       end
     end
     if #aAttacks > 0 then
