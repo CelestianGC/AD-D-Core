@@ -247,33 +247,43 @@ function setActionWeapon(nodeNPC)
   if (sDamageRaw ~= "" or sAttacksRaw ~= "") then
     local aAttacks = StringManager.split(sDamageRaw, "/", true);
     if #aAttacks < 1 then
-      for sDice in string.gmatch(sDamageRaw,"%d+[dD]%d+") do
+      for sDice in string.gmatch(sAttacksRaw,"%d+[dD]%d+[%+-]%d+") do
+Debug.console("npc_import.lua","setActionWeapon","sDice1",sDice);                  
         table.insert(aAttacks, sDice)
       end
-      for sDice in string.gmatch(sDamageRaw, "%d+[dD]%d+[%+-]%d+") do
+      for sDice, sOther in string.gmatch(sAttacksRaw,"(%d+[dD]%d+)([^%d%+-])") do
+Debug.console("npc_import.lua","setActionWeapon","sDice2",sDice);                  
+Debug.console("npc_import.lua","setActionWeapon","sOther1",sOther);                  
         table.insert(aAttacks, sDice)
       end
     end
     if #aAttacks < 1 then
-      for sDice in string.gmatch(sAttacksRaw,"%d+[dD]%d+") do
+      for sDice in string.gmatch(sAttacksRaw,"%d+[dD]%d+[%+-]%d+") do
+Debug.console("npc_import.lua","setActionWeapon","sDice3",sDice);                  
         table.insert(aAttacks, sDice)
       end
-      for sDice in string.gmatch(sAttacksRaw,"%d+[dD]%d+[%+-]%d+") do
+      for sDice, sOther in string.gmatch(sAttacksRaw,"(%d+[dD]%d+)([^%d%+-])") do
+Debug.console("npc_import.lua","setActionWeapon","sDice4",sDice);                  
+Debug.console("npc_import.lua","setActionWeapon","sOther2",sOther);                  
         table.insert(aAttacks, sDice)
       end
     end
-    if #aAttacks > 0 then -- this will try and fix 1-4, 1-8, 2-8 damage dice
+    if #aAttacks > 0 then
+
+  -- this will try and fix 1-4, 1-8, 2-8 damage dice
       for nIndex,sAttack in pairs(aAttacks) do 
-        if (string.match(sAttack,"(%d+)([-])(%d+)")) then
+  Debug.console("npc_import.lua","setActionWeapon","nIndex",nIndex);            
+  Debug.console("npc_import.lua","setActionWeapon","sAttack",sAttack);            
+        if (string.match(sAttack,"^(%d+)([-])(%d+)$")) then
           local sCount, sSign, sSize = string.match(sAttack,"^(%d+)([-])(%d+)$");
           local nCount = tonumber(sCount) or 1;
           local nSize = tonumber(sSize) or 1;
           local sRemainder = "";
           if nCount > 1 then
             local nSizeAdjusted = math.ceil(nSize/nCount);
-Debug.console("npc_import.lua","setActionWeapon","nSizeAdjusted",nSizeAdjusted);       
+  Debug.console("npc_import.lua","setActionWeapon","nSizeAdjusted",nSizeAdjusted);       
             local nRemainder = nSize - (nSizeAdjusted*nCount);
-Debug.console("npc_import.lua","setActionWeapon","nRemainder",nRemainder);       
+  Debug.console("npc_import.lua","setActionWeapon","nRemainder",nRemainder);       
             if nRemainder > 0 then
               sRemainder = "+" .. nRemainder;
             elseif nRemainder < 0 then
@@ -282,11 +292,11 @@ Debug.console("npc_import.lua","setActionWeapon","nRemainder",nRemainder);
             nSize = nSizeAdjusted;
           end
           aAttacks[nIndex] = nCount .. "d" .. nSize .. sRemainder;
-Debug.console("npc_import.lua","setActionWeapon","aAttacks[nIndex]",aAttacks[nIndex]);       
+  Debug.console("npc_import.lua","setActionWeapon","aAttacks[nIndex]",aAttacks[nIndex]);       
         end
       end
-    end
-    if #aAttacks > 0 then
+      -- end dice fix
+      
 Debug.console("npc_import.lua","setActionWeapon","aAttacks-->",aAttacks);       
       local nodeWeapons = nodeNPC.createChild("weaponlist");  
       local nCount = 0;
