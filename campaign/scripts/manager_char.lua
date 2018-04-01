@@ -612,28 +612,18 @@ function addToWeaponDB(nodeItem)
     else
         sName = DB.getValue(nodeItem, "nonid_name", "");
         if sName == "" then
-Debug.console("manager_char.lua","addToWeaponDB","sName",sName);        
             sName = Interface.getString("item_unidentified");
         end
         sName = "** " .. sName .. " **";
     end
     local sNameOriginal = DB.getValue(nodeItem, "name", "");
     local sNameUnidentified = sName;
-Debug.console("manager_char.lua","addToWeaponDB","sNameOriginal",sNameOriginal);            
-Debug.console("manager_char.lua","addToWeaponDB","sNameUnidentified",sNameUnidentified);            
     if (bItemHasWeapons) then
         for _,v in pairs(DB.getChildren(nodeItem, "weaponlist")) do
             local nodeWeapon = nodeWeapons.createChild();
             DB.copyNode(v,nodeWeapon);
             -- set various items specific to this item
-            -- local sWeaponName = DB.getValue(nodeWeapon,"name","");
-            -- local sWeaponNameFinal = sWeaponName;
             DB.setValue(nodeWeapon, "shortcut", "windowreference", "item", "....inventorylist." .. nodeItem.getName());
-            -- if the attack name is the same as the weapon then we'll hide it if unidentified with
-            -- the same name we used for the item listed in inventory
-            -- if (sNameOriginal == sWeaponName) and nItemID ~= 1 then
-              -- sWeaponNameFinal = sNameUnidentified;
-            -- end
             DB.setValue(nodeWeapon,"name","string",sName);
             -- first time check.
             onIDOptionChanged(nodeWeapon);
