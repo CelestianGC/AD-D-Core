@@ -612,12 +612,15 @@ function addToWeaponDB(nodeItem)
     else
         sName = DB.getValue(nodeItem, "nonid_name", "");
         if sName == "" then
+Debug.console("manager_char.lua","addToWeaponDB","sName",sName);        
             sName = Interface.getString("item_unidentified");
         end
         sName = "** " .. sName .. " **";
     end
     local sNameOriginal = DB.getValue(nodeItem, "name", "");
     local sNameUnidentified = sName;
+Debug.console("manager_char.lua","addToWeaponDB","sNameOriginal",sNameOriginal);            
+Debug.console("manager_char.lua","addToWeaponDB","sNameUnidentified",sNameUnidentified);            
     if (bItemHasWeapons) then
         for _,v in pairs(DB.getChildren(nodeItem, "weaponlist")) do
             local nodeWeapon = nodeWeapons.createChild();
@@ -631,7 +634,7 @@ function addToWeaponDB(nodeItem)
             -- if (sNameOriginal == sWeaponName) and nItemID ~= 1 then
               -- sWeaponNameFinal = sNameUnidentified;
             -- end
-            DB.setValue(nodeWeapon,"name","string",sWeaponNameFinal);
+            DB.setValue(nodeWeapon,"name","string",sName);
             -- first time check.
             onIDOptionChanged(nodeWeapon);
             --DB.setValue(nodeWeapon, "isidentified", "number", nItemID);
