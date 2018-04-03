@@ -608,6 +608,11 @@
   <string name="option_label_RIP">RIP: Show on tokens to Players</string>
   <string name="option_label_RIP_DM">RIP: Show on tokens to DM</string>
   <string name="option_val_80plus">80%+</string>
+  
+  <string name="option_label_HR_CRIT">Attack:Damage Bonus on Critical</string>
+  <string name="option_val_hr_crit_doubledice">Double Dice</string>
+  <string name="option_val_hr_crit_maxdmg">Max DMG</string>
+  <string name="option_val_hr_crit_none">None</string>
 
   <string name="option_label_ADND_AE_EDIT">PC: Adv. Effect Edit</string>
   <string name="option_label_ADND_AE_enabled">Enabled</string>

@@ -258,8 +258,18 @@ function modDamage(rSource, rTarget, rRoll)
 	end
 	
 	-- Handle critical
-	if bCritical then
+  -- no bonus for crit hit
+	if bCritical and OptionsManager.isOption("HouseRule_CRIT_TYPE", "none") then 
+		rRoll.bCritical = false;
+    rRoll.sCriticalType = "none";
+  -- max damage for crit hit
+	elseif bCritical and OptionsManager.isOption("HouseRule_CRIT_TYPE", "max") then
 		rRoll.bCritical = true;
+    rRoll.sCriticalType = "max";
+  -- double damage dice for crit hit
+  elseif bCritical then
+		rRoll.bCritical = true;
+    rRoll.sCriticalType = "doubledice";
 		table.insert(aAddDesc, "[CRITICAL]");
 		
 		-- Double the dice, and add extra critical dice
@@ -426,7 +436,7 @@ end
 
 function onDamage(rSource, rTarget, rRoll)
 	-- Handle max damage
-	local bMax = rRoll.sDesc:match("%[MAX%]");
+	local bMax = rRoll.sDesc:match("%[MAX%]") or rRoll.sCriticalType:match("max");
 	if bMax then
 		for _,vDie in ipairs(rRoll.aDice) do
 			local sSign, sColor, sDieSides = vDie.type:match("^([%-%+]?)([dDrRgGbBpP])([%dF]+)");
