@@ -54,11 +54,11 @@ function onHover(tokenCT, nodeCT, bOver)
 		sOptHealth = OptionsManager.getOption("TNPCH");
 	end
 
-    -- DM can see NPC effects and healthbars
-    if User.isHost() then
-		sOptEffects = OptionsManager.getOption("DM_SHOW_NPC_EFFECTS");
-		sOptHealth = OptionsManager.getOption("DM_SHOW_NPC_HEALTHBAR");
-    end
+  -- DM can see NPC effects and healthbars
+  if User.isHost() then
+    sOptEffects = OptionsManager.getOption("DM_SHOW_NPC_EFFECTS");
+    sOptHealth = OptionsManager.getOption("DM_SHOW_NPC_HEALTHBAR");
+  end
     
 	local aWidgets = {};
 	if sOptHealth == "barhover" then
@@ -94,17 +94,30 @@ function updateTooltip(tokenCT, nodeCT)
 		sOptTE = OptionsManager.getOption("TNPCE");
 		sOptTH = OptionsManager.getOption("TNPCH");
 	end
-    -- DM can see NPC effects and healthbars
-    if User.isHost() then
-		sOptTE = OptionsManager.getOption("DM_SHOW_NPC_EFFECTS");
-		sOptTH = OptionsManager.getOption("DM_SHOW_NPC_HEALTHBAR");
-    end
+  -- DM can see NPC effects and healthbars
+  if User.isHost() then
+    sOptTE = OptionsManager.getOption("DM_SHOW_NPC_EFFECTS");
+    sOptTH = OptionsManager.getOption("DM_SHOW_NPC_HEALTHBAR");
+  end
 
     local aTooltip = {};
     -- changed this to include "on" also so that it's title+tooltip --celestian
 	if sOptTNAM == "tooltip" or sOptTNAM == "on" then
-		table.insert(aTooltip, DB.getValue(nodeCT, "name", ""));
+
+  -- tried this, doesn't work. when user loads it resets the tooltip for everyone
+  -- if (User.isHost()) then
+      -- local sName = DB.getValue(nodeCT, "name", "");
+      -- local sNameHidden = DB.getValue(nodeCT, "name_hidden", "");
+      -- if (sNameHidden and sNameHidden ~= "") then
+        -- sName = sName .. " " .. sNameHidden;
+      -- end
+-- Debug.console("manager_token2.lua","updateTooltip","sName1",sName);
+      -- table.insert(aTooltip_DM, sName);
+    -- else
+      table.insert(aTooltip, DB.getValue(nodeCT, "name", ""));
+--    end
 	end
+  
 	if sOptTH == "tooltip" then
 		local sStatus;
 		_, sStatus = ActorManager2.getPercentWounded2("ct", nodeCT);
@@ -116,8 +129,7 @@ function updateTooltip(tokenCT, nodeCT)
 			table.insert(aTooltip, v.sLabel);
 		end
 	end
-	
-	tokenCT.setName(table.concat(aTooltip, "\r"));
+  tokenCT.setName(table.concat(aTooltip, "\r"));
 end
 
 function updateFaction(tokenCT, nodeCT)
@@ -141,10 +153,10 @@ function updateHealthHelper(tokenCT, nodeCT)
 	else
 		sOptTH = OptionsManager.getOption("TNPCH");
 	end
-    -- DM can see NPC effects and healthbars
-    if User.isHost() then
-		sOptTH = OptionsManager.getOption("DM_SHOW_NPC_HEALTHBAR");
-    end
+  -- DM can see NPC effects and healthbars
+  if User.isHost() then
+    sOptTH = OptionsManager.getOption("DM_SHOW_NPC_HEALTHBAR");
+  end
 	
 	local aWidgets = getWidgetList(tokenCT, "health");
 	
@@ -292,10 +304,10 @@ function updateEffectsHelper(tokenCT, nodeCT)
 	else
 		sOptTE = OptionsManager.getOption("TNPCE");
 	end
-    -- DM can see NPC effects and healthbars
-    if User.isHost() then
-		sOptTE = OptionsManager.getOption("DM_SHOW_NPC_EFFECTS");
-    end
+  -- DM can see NPC effects and healthbars
+  if User.isHost() then
+    sOptTE = OptionsManager.getOption("DM_SHOW_NPC_EFFECTS");
+  end
 
 	local aWidgets = getWidgetList(tokenCT, "effect");
 	

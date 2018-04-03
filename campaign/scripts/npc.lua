@@ -5,6 +5,10 @@
 
 function onInit()
 	CampaignDataManager2.updateNPCSpells(getDatabaseNode());
+  local sPowerMode = DB.getValue(getDatabaseNode(),"powermode","");
+  if (sPowerMode and sPowerMode == "") then 
+    DB.setValue(getDatabaseNode(),"powermode","string","standard");
+  end
 end
 
 function onLockChanged()

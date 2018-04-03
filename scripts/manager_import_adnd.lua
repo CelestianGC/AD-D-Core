@@ -82,18 +82,20 @@ function contextHighlight(sText)
   local sWordsMatch = "[%s%w%d%+-,%(%)%%/']+"; -- get numbers, dice also
   local sWordsMatchONLY = "[%s%w,%%/']+"; --(dont want  number or dice), used in sAfter search
   -- these items we get words before and after and bold it
-  local aSurrounded = {"saving throw","damage","attack","victim","inflict","cause","regain","stun","paraly","regen","drain","reduce","unconscious"};
+  local aSurrounded = {"saving throw","damage","attack","victim","inflict","cause","regain","stun","paraly","regen","drain","reduce","unconscious","have any effect"};
   -- these items we get words after and bold it
-  local aAfter = {"resist","immun","vulnerab","only affect","only effect","hit only","hit by only","damage by only","damage only"};
+  local aAfter = {"resist","immun","vulnerab","can only be","only affect","only effect","hit only","hit by only","damage by only","damage only"};
   
+  -- -- Treasure:
+  sHighlighted = string.gsub(sHighlighted,nocase("^([%w%s,/]+):"),"<i><u>%1:</u></i>");
+  sHighlighted = string.gsub(sHighlighted,nocase("<p>([%w%s,/]+):"),"<p><i><u>%1:</u></i>");
+
   for _,sFindMatch in pairs(aAfter) do
     sHighlighted = string.gsub(sHighlighted,sFindMatch .. "(" .. nocase(sWordsMatchONLY) ..")","<u>".. sFindMatch .. "%1</u>");
   end
   for _,sFindMatch in pairs(aSurrounded) do
     sHighlighted = string.gsub(sHighlighted,"(" .. nocase(sWordsMatch) ..")".. sFindMatch .."(" .. nocase(sWordsMatch) ..")","<b>%1".. sFindMatch .."%2</b>");
   end
-  -- -- Treasure:
-  -- sHighlighted = string.gsub(sHighlighted,nocase("Treasure: "),"<h>Treasure: </h><p></p>");
 
 Debug.console("manager_import.lua","contextHighlight","sHighlighted",sHighlighted);      
   return sHighlighted;

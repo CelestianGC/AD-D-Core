@@ -39,6 +39,7 @@ function processImportText()
                         {"^number encountered:","numberappearing"},
                         {"^size:","size"},
                         {"^move:","speed"},
+                        {"^movement:","speed"},
                         {"^armour class:","actext"},
                         {"^armor class:","actext"},
                         {"^ac:","actext"},
@@ -54,6 +55,8 @@ function processImportText()
                         {"^no. of attacks:","numberattacks"},
                         {"^damage:","damage"},
                         {"^damage/attack:","damage"},
+                        {"^damag.attack:","damage"},
+                        {"^damag..attack:","damage"},
                         {"^special attacks:","specialAttacks"},
                         {"^special defences:","specialDefense"},
                         {"^special defenses:","specialDefense"},
@@ -69,7 +72,9 @@ function processImportText()
                         {"^diet:","diet"},
                         {"^organization:","organization"},
                         {"^climate/terrain:","climate"},
+                        {"^climat.terrain:","climate"},
                         {"^active time:","activity"},
+                        {"^activity cycle:","activity"},
                         {"^type:","type"},
                         };
       local number_matches = {
@@ -242,27 +247,38 @@ end
 -- apply "damage" string and do best effort to parse and make action/weapons
 function setActionWeapon(nodeNPC)
   local sDamageRaw = DB.getValue(nodeNPC,"damage","");
-  local sAttacksRaw = DB.getValue(nodeNPC,"numberattacks","");
   sDamageRaw = string.gsub(sDamageRaw:lower(),"by weapon","");
+  sDamageRaw = string.gsub(sDamageRaw:lower(),"or","");
+  local sAttacksRaw = DB.getValue(nodeNPC,"numberattacks","");
+  sAttacksRaw = string.gsub(sAttacksRaw:lower(),"by weapon","");
+  sAttacksRaw = string.gsub(sAttacksRaw:lower(),"or","");
+  local aAttacks = {};
+  
+Debug.console("npc_import.lua","setActionWeapon","sDamageRaw",sDamageRaw);                  
+Debug.console("npc_import.lua","setActionWeapon","sAttacksRaw",sAttacksRaw);                  
+
   if (sDamageRaw ~= "" or sAttacksRaw ~= "") then
-    local aAttacks = StringManager.split(sDamageRaw, "/", true);
+    if (string.match(sDamageRaw,"/")) then
+      aAttacks = StringManager.split(sDamageRaw, "/", true);
+Debug.console("npc_import.lua","setActionWeapon","aAttacks1",aAttacks);                  
+    end
     if #aAttacks < 1 then
-      for sDice in string.gmatch(sAttacksRaw,"%d+[dD]%d+[%+-]%d+") do
+      for sDice in string.gmatch(sDamageRaw,"%d+[dD-]%d+[%+-]%d+") do
 Debug.console("npc_import.lua","setActionWeapon","sDice1",sDice);                  
         table.insert(aAttacks, sDice)
       end
-      for sDice, sOther in string.gmatch(sAttacksRaw,"(%d+[dD]%d+)([^%d%+-])") do
+      for sDice, sOther in string.gmatch(sDamageRaw,"(%d+[dD-]%d+)([^%d%+-])") do
 Debug.console("npc_import.lua","setActionWeapon","sDice2",sDice);                  
 Debug.console("npc_import.lua","setActionWeapon","sOther1",sOther);                  
         table.insert(aAttacks, sDice)
       end
     end
     if #aAttacks < 1 then
-      for sDice in string.gmatch(sAttacksRaw,"%d+[dD]%d+[%+-]%d+") do
+      for sDice in string.gmatch(sAttacksRaw,"%d+[dD-]%d+[%+-]%d+") do
 Debug.console("npc_import.lua","setActionWeapon","sDice3",sDice);                  
         table.insert(aAttacks, sDice)
       end
-      for sDice, sOther in string.gmatch(sAttacksRaw,"(%d+[dD]%d+)([^%d%+-])") do
+      for sDice, sOther in string.gmatch(sAttacksRaw,"(%d+[dD-]%d+)([^%d%+-])") do
 Debug.console("npc_import.lua","setActionWeapon","sDice4",sDice);                  
 Debug.console("npc_import.lua","setActionWeapon","sOther2",sOther);                  
         table.insert(aAttacks, sDice)

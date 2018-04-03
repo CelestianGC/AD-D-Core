@@ -1,6 +1,8 @@
 function onInit()
     -- use the onDoubleClick here instead of CoreRPG version
-    Token.onDoubleClick = onDoubleClick;
+    
+    --- disabled for now, will revisit when export will export TOKENS on the map
+    --Token.onDoubleClick = onDoubleClick;
 end
 
 function onDoubleClick(tokenMap, vImage)
