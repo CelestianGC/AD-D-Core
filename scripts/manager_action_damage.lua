@@ -266,6 +266,7 @@ function modDamage(rSource, rTarget, rRoll)
 	elseif bCritical and OptionsManager.isOption("HouseRule_CRIT_TYPE", "max") then
 		rRoll.bCritical = true;
     rRoll.sCriticalType = "max";
+		table.insert(aAddDesc, "[CRITICAL]");
   -- double damage dice for crit hit
   elseif bCritical then
 		rRoll.bCritical = true;
