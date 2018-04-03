@@ -125,6 +125,7 @@ function modDamage(rSource, rTarget, rRoll)
 	local nPreEffectClauses = #(rRoll.clauses);
 	
 	-- Determine critical
+  rRoll.sCriticalType = "";
 	local bCritical = ModifierStack.getModifierKey("DMG_CRIT") or Input.isShiftPressed();
 	if ActionAttack.isCrit(rSource, rTarget) then
 		bCritical = true;
@@ -267,6 +268,17 @@ function modDamage(rSource, rTarget, rRoll)
 		rRoll.bCritical = true;
     rRoll.sCriticalType = "max";
 		table.insert(aAddDesc, "[CRITICAL]");
+		local aNewClauses = {};
+    -- add "critical" to damage type
+		for kClause,vClause in ipairs(rRoll.clauses) do
+      if (vClause.dmgtype and vClause.dmgtype == "") then
+        vClause.dmgtype = "critical";
+      else
+        vClause.dmgtype = vClause.dmgtype .. ",critical";
+      end
+			table.insert(aNewClauses, vClause);
+    end
+    rRoll.clauses = aNewClauses;
   -- double damage dice for crit hit
   elseif bCritical then
 		rRoll.bCritical = true;
