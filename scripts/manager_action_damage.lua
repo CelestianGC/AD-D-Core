@@ -259,14 +259,16 @@ function modDamage(rSource, rTarget, rRoll)
 	end
 	
 	-- Handle critical
+  local sOptCritType = OptionsManager.getOption("HouseRule_CRIT_TYPE");
   -- no bonus for crit hit
-	if bCritical and OptionsManager.isOption("HouseRule_CRIT_TYPE", "none") then 
+	if bCritical and sOptCritType == "none" then 
 		rRoll.bCritical = false;
     rRoll.sCriticalType = "none";
   -- max damage for crit hit
-	elseif bCritical and OptionsManager.isOption("HouseRule_CRIT_TYPE", "max") then
+  -- or x2 damage for crit hit
+	elseif bCritical and (sOptCritType == "max" or sOptCritType == "timestwo") then
 		rRoll.bCritical = true;
-    rRoll.sCriticalType = "max";
+    rRoll.sCriticalType = sOptCritType;
 		table.insert(aAddDesc, "[CRITICAL]");
 		local aNewClauses = {};
     -- add "critical" to damage type
@@ -282,7 +284,7 @@ function modDamage(rSource, rTarget, rRoll)
   -- double damage dice for crit hit
   elseif bCritical then
 		rRoll.bCritical = true;
-    rRoll.sCriticalType = "doubledice";
+    rRoll.sCriticalType = sOptCritType;
 		table.insert(aAddDesc, "[CRITICAL]");
 		
 		-- Double the dice, and add extra critical dice
@@ -466,6 +468,24 @@ function onDamage(rSource, rTarget, rRoll)
 				end
 				
 				vDie.result = nResult;
+				if sColor == "d" or sColor == "D" then
+					if sSign == "-" then
+						vDie.type = "-b" .. sDieSides;
+					else
+						vDie.type = "b" .. sDieSides;
+					end
+				end
+			end
+		end
+	end
+
+  local bXTwoDamage = rRoll.sCriticalType:match("timestwo");
+  -- crit == x2, so we double the result of all rolls
+	if rRoll.bCritical and bXTwoDamage then
+		for _,vDie in ipairs(rRoll.aDice) do
+			local sSign, sColor, sDieSides = vDie.type:match("^([%-%+]?)([dDrRgGbBpP])([%dF]+)");
+			if sDieSides then
+				vDie.result = vDie.result * 2 or 0;
 				if sColor == "d" or sColor == "D" then
 					if sSign == "-" then
 						vDie.type = "-b" .. sDieSides;

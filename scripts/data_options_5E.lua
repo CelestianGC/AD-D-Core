@@ -78,6 +78,6 @@ function registerOptions()
 			{ labels = "option_val_variant", values = "variant", baselabel = "option_val_standard", baseval = "", default = "" });
 
   OptionsManager.registerOption2("HouseRule_CRIT_TYPE", false, "option_header_houserule", "option_label_HR_CRIT", "option_entry_cycler", 
-			{ labels = "option_val_hr_crit_maxdmg|option_val_hr_crit_none", values = "max|none", baselabel = "option_val_hr_doubledice", baseval = "doubledice", default = "doubledice" });
+			{ labels = "option_val_hr_crit_maxdmg|option_val_hr_crit_timestwo|option_val_hr_crit_none", values = "max|timestwo|none", baselabel = "option_val_hr_crit_doubledice", baseval = "doubledice", default = "doubledice" });
 
 end
