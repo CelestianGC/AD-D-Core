@@ -32,7 +32,12 @@ function updateControl(sControl, bReadOnly, bID)
 	if not self[sControl] then
 		return false;
 	end
-		
+
+	-- added test because items have attacks now but not other features
+  if not self[sControl].update then
+    return false;
+  end
+  
 	if not bID then
 		return self[sControl].update(bReadOnly, true);
 	end
