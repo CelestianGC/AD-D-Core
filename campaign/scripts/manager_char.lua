@@ -626,6 +626,7 @@ function addToWeaponDB(nodeItem)
             DB.setValue(nodeWeapon, "shortcut", "windowreference", "item", "....inventorylist." .. nodeItem.getName());
             DB.setValue(nodeWeapon,"name","string",sName);
             -- first time check.
+Debug.console("manager_char.lua","addToWeaponDB","nodeWeapon",nodeWeapon);            
             onIDOptionChanged(nodeWeapon);
             --DB.setValue(nodeWeapon, "isidentified", "number", nItemID);
         end
@@ -848,12 +849,21 @@ end
 
 function initWeaponIDTracking()
 	OptionsManager.registerCallback("MIID", onIDOptionChanged);
+  -- watch PC items
 	DB.addHandler("charsheet.*.inventorylist.*.isidentified", "onUpdate", onItemIDChanged);
+  -- to watch npc updates
+	DB.addHandler("combattracker.list.*.inventorylist.*.isidentified", "onUpdate", onItemIDChanged);
 end
 
 function onIDOptionChanged()
 	for _,vChar in pairs(DB.getChildren("charsheet")) do
 		for _,vWeapon in pairs(DB.getChildren(vChar, "weaponlist")) do
+			checkWeaponIDChange(vWeapon);
+		end
+	end
+  -- to get npcs in the CT also
+	for _,vNPC in pairs(DB.getChildren("combattracker.list")) do
+		for _,vWeapon in pairs(DB.getChildren(vNPC, "weaponlist")) do
 			checkWeaponIDChange(vWeapon);
 		end
 	end
@@ -878,16 +888,18 @@ function checkWeaponIDChange(nodeWeapon)
 		return;
 	end
 	local nodeItem = DB.findNode(sRecord);
+
 	if not nodeItem then
 		return;
 	end
 	
+
 	local bItemID = LibraryData.getIDState("item", DB.findNode(sRecord), true);
 	local bWeaponID = (DB.getValue(nodeWeapon, "isidentified", 1) == 1);
 	if bItemID == bWeaponID then
 		return;
 	end
-	
+
 	local sName;
 	if bItemID then
 		sName = DB.getValue(nodeItem, "name", "");
@@ -900,7 +912,24 @@ function checkWeaponIDChange(nodeWeapon)
 	end
 	DB.setValue(nodeWeapon, "name", "string", sName);
 	
-	local nBonus = 0;
+  
+  -- need to look at this someday and figure out how to adjust bonuses with new AD&DB
+  -- style for when an item is not identified. Right now it takes the items "bonus" value
+  -- but we've taken that for armor/shield/etc types and not just flat weapon bonuses.
+  -- left it as is for now but not happy with it. -- celestian
+  
+  -- local aDamageNodes = UtilityManager.getSortedTable(DB.getChildren(nodeWeapon, "damagelist"));
+-- Debug.console("manager_char.lua","checkWeaponIDChange","nBonus",nBonus);   
+-- Debug.console("manager_char.lua","checkWeaponIDChange","nodeItem",nodeItem);   
+  -- for index,nodeDMG in ipairs(DB.getChildren(nodeWeapon, "damagelist")) do
+    -- local nBonus = DB.getValue(nodeDMG,"bonus",0);
+    -- if bItemID then 
+      -- DB.setValue(aDamageNodes[index], "bonus", "number", DB.getValue(aDamageNodes[index], "bonus", 0) + nBonus);
+    -- else 
+      -- DB.setValue(aDamageNodes[index], "bonus", "number", DB.getValue(aDamageNodes[index], "bonus", 0) - nBonus);
+    -- end
+  -- end
+    
 	if bItemID then
 		DB.setValue(nodeWeapon, "attackbonus", "number", DB.getValue(nodeWeapon, "attackbonus", 0) + DB.getValue(nodeItem, "bonus", 0));
 		local aDamageNodes = UtilityManager.getSortedTable(DB.getChildren(nodeWeapon, "damagelist"));
@@ -915,6 +944,7 @@ function checkWeaponIDChange(nodeWeapon)
 		end
 	end
 	
+
 	if bItemID then
 		DB.setValue(nodeWeapon, "isidentified", "number", 1);
 	else

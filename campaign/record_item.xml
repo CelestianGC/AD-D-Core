@@ -211,9 +211,8 @@
 			<basicnumber name="acbase" source="ac">
 				<anchored to="armortype" position="righthigh" offset="15,0" width="40"  height="20"/>
 				<gmeditonly />
-                <default>0</default>
-                <hideonvalue>0</hideonvalue>
-                <gmeditonly />
+        <default>10</default>
+        <gmeditonly />
 			</basicnumber>
 
 			<label name="acbase_top_label">
