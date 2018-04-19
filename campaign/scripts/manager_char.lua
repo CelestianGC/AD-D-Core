@@ -626,7 +626,7 @@ function addToWeaponDB(nodeItem)
             DB.setValue(nodeWeapon, "shortcut", "windowreference", "item", "....inventorylist." .. nodeItem.getName());
             DB.setValue(nodeWeapon,"name","string",sName);
             -- first time check.
-Debug.console("manager_char.lua","addToWeaponDB","nodeWeapon",nodeWeapon);            
+--Debug.console("manager_char.lua","addToWeaponDB","nodeWeapon",nodeWeapon);            
             onIDOptionChanged(nodeWeapon);
             --DB.setValue(nodeWeapon, "isidentified", "number", nItemID);
         end

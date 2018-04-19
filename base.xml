@@ -137,7 +137,9 @@
 	<script name="EffectManager5E" file="scripts/manager_effect_5E.lua" />
 	<script name="ItemManager2" file="scripts/manager_item2.lua" />
 	<script name="PowerManager" file="scripts/manager_power.lua" />
-	<script name="TokenManager2" file="scripts/manager_token2.lua" />
+	<!-- <script name="TokenManager2" file="scripts/manager_token2.lua" /> -->
+  <script name="TokenManager" file="scripts/manager_token_CoreRPG.3.3.5.lua" />
+  <script name="TokenManager2" file="scripts/manager_token2_5E.3.3.5.lua" />
 	<script name="VersionManager2" file="scripts/manager_version2.lua" />
 	<script name="ActionsManager2" file="scripts/manager_actions2.lua" />
 	<script name="ActionGeneral" file="scripts/manager_action_general.lua" />
