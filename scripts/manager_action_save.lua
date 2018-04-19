@@ -537,7 +537,7 @@ function getConcentrationEffects(rSource)
 	local nodeCTSource = ActorManager.getCTNode(rSource);
 	if nodeCTSource then
 		local sCTNodeSource = nodeCTSource.getPath();
-		for _,nodeCT in pairs(DB.getChildren(CombatManager.CT_LIST)) do
+		for _,nodeCT in pairs(CombatManager.getCombatantNodes()) do
 			local sCTNode = nodeCT.getPath();
 			for _,nodeEffect in pairs(DB.getChildren(nodeCT, "effects")) do
 				local bSourceMatch = false;
@@ -650,7 +650,7 @@ function applyConcentrationRoll(rSource, rAction)
 		msgLong.text = msgLong.text .. " [FAILURE]";
 	end
 	
-	ActionsManager.messageResult(rAction.bSecret, rSource, nil, msgLong, msgShort);
+	ActionsManager.outputResult(rAction.bSecret, rSource, nil, msgLong, msgShort);
 	
 	-- On failed concentration check, remove all effects with the same source creature
 	if rAction.nTotal < rAction.nTarget then

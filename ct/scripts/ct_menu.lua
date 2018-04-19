@@ -62,7 +62,7 @@ function onMenuSelection(selection, subselection, subsubselection)
 		end
 		if selection == 5 then
 			if subselection == 7 then
-				CombatManager2.resetEffects();
+				CombatManager.resetCombatantEffects();
 			elseif subselection == 5 then
 				CombatManager2.clearExpiringEffects();
 			end

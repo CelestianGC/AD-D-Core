@@ -67,19 +67,26 @@ function notifyApplyHRFC(sTable)
 end
 
 function onTargeting(rSource, aTargeting, rRolls)
-	if OptionsManager.isOption("RMMT", "multi") then
+	local bRemoveOnMiss = false;
+	local sOptRMMT = OptionsManager.getOption("RMMT");
+	if sOptRMMT == "on" then
+		bRemoveOnMiss = true;
+	elseif sOptRMMT == "multi" then
 		local aTargets = {};
 		for _,vTargetGroup in ipairs(aTargeting) do
 			for _,vTarget in ipairs(vTargetGroup) do
 				table.insert(aTargets, vTarget);
 			end
 		end
-		if #aTargets > 1 then
-			for _,vRoll in ipairs(rRolls) do
-				vRoll.bRemoveOnMiss = "true";
-			end
+		bRemoveOnMiss = (#aTargets > 1);
+	end
+	
+	if bRemoveOnMiss then
+		for _,vRoll in ipairs(rRolls) do
+			vRoll.bRemoveOnMiss = "true";
 		end
 	end
+
 	return aTargeting;
 end
 
@@ -505,14 +512,7 @@ function onAttack(rSource, rTarget, rRoll)
 	-- REMOVE TARGET ON MISS OPTION
 	if rTarget then
 		if (rAction.sResult == "miss" or rAction.sResult == "fumble") then
-			local bRemoveTarget = false;
-			if OptionsManager.isOption("RMMT", "on") then
-				bRemoveTarget = true;
-			elseif rRoll.bRemoveOnMiss then
-				bRemoveTarget = true;
-			end
-			
-			if bRemoveTarget then
+			if rRoll.bRemoveOnMiss then
 				TargetingManager.removeTarget(ActorManager.getCTNodeName(rSource), ActorManager.getCTNodeName(rTarget));
 			end
 		end
@@ -556,7 +556,7 @@ function applyAttack(rSource, rTarget, bSecret, sAttackType, sDesc, nTotal, sRes
 		msgLong.icon = "roll_attack";
 	end
 		
-	ActionsManager.messageResult(bSecret, rSource, rTarget, msgLong, msgShort);
+	ActionsManager.outputResult(bSecret, rSource, rTarget, msgLong, msgShort);
 end
 
 aCritState = {};

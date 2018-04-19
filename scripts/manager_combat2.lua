@@ -856,6 +856,7 @@ function resetInit()
 		DB.setValue(vChild, "initresult", "number", 0);
 		DB.setValue(vChild, "reaction", "number", 0);
 	end
+	CombatManager.callForEachCombatant(resetCombatantInit);
 end
 
 function resetEffects()
@@ -889,28 +890,24 @@ function resetHealth(nodeCT, bLong)
 	end
 end
 
-function clearExpiringEffects(bLong)
-	for _,vChild in pairs(DB.getChildren(CombatManager.CT_LIST)) do
-		local nodeEffects = vChild.getChild("effects");
-		if nodeEffects then
-			for _, vEffect in pairs(nodeEffects.getChildren()) do
-				local sLabel = DB.getValue(vEffect, "label", "");
-				local nDuration = DB.getValue(vEffect, "duration", 0);
-				local sApply = DB.getValue(vEffect, "apply", "");
-				
-				if nDuration ~= 0 or sApply ~= "" or sLabel == "" then
-					vEffect.delete();
-				end
-			end
+function clearExpiringEffects()
+	function checkEffectExpire(nodeEffect)
+		local sLabel = DB.getValue(nodeEffect, "label", "");
+		local nDuration = DB.getValue(nodeEffect, "duration", 0);
+		local sApply = DB.getValue(nodeEffect, "apply", "");
+		
+		if nDuration ~= 0 or sApply ~= "" or sLabel == "" then
+			nodeEffect.delete();
 		end
 	end
+	CombatManager.callForEachCombatantEffect(checkEffectExpire);
 end
 
 function rest(bLong)
 	CombatManager.resetInit();
-	clearExpiringEffects(bLong);
+	clearExpiringEffects();
 
-	for _,vChild in pairs(DB.getChildren(CombatManager.CT_LIST)) do
+	for _,vChild in pairs(CombatManager.getCombatantNodes()) do
 		local bHandled = false;
 		local sClass, sRecord = DB.getValue(vChild, "link", "", "");
 		if sClass == "charsheet" and sRecord ~= "" then

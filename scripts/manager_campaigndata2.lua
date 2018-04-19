@@ -72,29 +72,31 @@ function addPregenChar(nodeSource)
 	for _,v in pairs(DB.getChildren(nodeTarget, "featurelist")) do
 		local sName = DB.getValue(v, "name", "");
 		local _, sRecord = DB.getValue(v, "link", "", "");
-		local nodeFeatureSource = lookupCharData(sRecord, aRefModules);
-		if nodeFeatureSource then
-			DB.copyNode(nodeFeatureSource, v);
-			
-			DB.setValue(v, "name", "string", sName);
-			DB.setValue(v, "locked", "number", 1);
-		else
-			Debug.chat("FEATURE", sRecord);
-			bMissingData = true;
+		if sRecord ~= "" then
+			local nodeFeatureSource = lookupCharData(sRecord, aRefModules);
+			if nodeFeatureSource then
+				DB.copyNode(nodeFeatureSource, v);
+				
+				DB.setValue(v, "name", "string", sName);
+				DB.setValue(v, "locked", "number", 1);
+			else
+				bMissingData = true;
+			end
 		end
 	end
 	for _,v in pairs(DB.getChildren(nodeTarget, "traitlist")) do
 		local sName = DB.getValue(v, "name", "");
 		local _, sRecord = DB.getValue(v, "link", "", "");
-		local nodeTraitSource = lookupCharData(sRecord, aRefModules);
-		if nodeTraitSource then
-			DB.copyNode(nodeTraitSource, v);
-			
-			DB.setValue(v, "name", "string", sName);
-			DB.setValue(v, "locked", "number", 1);
-		else
-			Debug.chat("TRAIT", sRecord);
-			bMissingData = true;
+		if sRecord ~= "" then
+			local nodeTraitSource = lookupCharData(sRecord, aRefModules);
+			if nodeTraitSource then
+				DB.copyNode(nodeTraitSource, v);
+				
+				DB.setValue(v, "name", "string", sName);
+				DB.setValue(v, "locked", "number", 1);
+			else
+				bMissingData = true;
+			end
 		end
 	end
 	
@@ -102,19 +104,20 @@ function addPregenChar(nodeSource)
 	for _,v in pairs(DB.getChildren(nodeTarget, "inventorylist")) do
 		local sName = DB.getValue(v, "name", "");
 		local _, sRecord = DB.getValue(v, "link", "", "");
-		local nodeItemSource = lookupCharData(sRecord, aRefModules);
-		if nodeItemSource then
-			DB.copyNode(nodeItemSource, v);
-			
-			DB.setValue(v, "name", "string", sName);
-			DB.setValue(v, "isidentified", "number", 1)
-			DB.setValue(v, "locked", "number", 1);
-			DB.setValue(v, "carried", "number", 1);
-			
-			CharManager.addToWeaponDB(v);
-		else
-			Debug.chat("ITEM", sRecord);
-			bMissingData = true;
+		if sRecord ~= "" then
+			local nodeItemSource = lookupCharData(sRecord, aRefModules);
+			if nodeItemSource then
+				DB.copyNode(nodeItemSource, v);
+				
+				DB.setValue(v, "name", "string", sName);
+				DB.setValue(v, "isidentified", "number", 1)
+				DB.setValue(v, "locked", "number", 1);
+				DB.setValue(v, "carried", "number", 1);
+				
+				CharManager.addToWeaponDB(v);
+			else
+				bMissingData = true;
+			end
 		end
 	end
 	
@@ -125,88 +128,104 @@ function addPregenChar(nodeSource)
 	for _,v in pairs(DB.getChildren(nodeTarget, "cantriplist")) do
 		local sName = DB.getValue(v, "name", "");
 		local _, sRecord = DB.getValue(v, "link", "", "");
-		local nodeSpellSource = lookupCharData(sRecord, aRefModules);
-		if nodeSpellSource then
+		if sRecord == "" then
 			local nodePower = nodePowers.createChild();
-			
-			DB.copyNode(nodeSpellSource, nodePower);
-			
-			DB.setValue(nodePower, "name", "string", sName);
-			DB.setValue(nodePower, "group", "string", Interface.getString("power_label_groupspells"));
-			DB.setValue(nodePower, "prepared", "number", 1);
-
-			DB.setValue(nodePower, "locked", "number", 1);
-			DB.setValue(nodePower, "parse", "number", 1);
-			
-			bHasSpells = true;
+			DB.copyNode(v, nodePower);
 		else
-			Debug.chat("POWER", sRecord);
-			bMissingData = true;
+			local nodeSpellSource = lookupCharData(sRecord, aRefModules);
+			if nodeSpellSource then
+				local nodePower = nodePowers.createChild();
+				
+				DB.copyNode(nodeSpellSource, nodePower);
+				
+				DB.setValue(nodePower, "name", "string", sName);
+				DB.setValue(nodePower, "group", "string", Interface.getString("power_label_groupspells"));
+				DB.setValue(nodePower, "prepared", "number", 1);
+
+				DB.setValue(nodePower, "locked", "number", 1);
+				DB.setValue(nodePower, "parse", "number", 1);
+				
+				bHasSpells = true;
+			else
+				bMissingData = true;
+			end
 		end
 	end
 	for _,v in pairs(DB.getChildren(nodeTarget, "domainspells")) do
 		local sName = DB.getValue(v, "name", "");
 		local _, sRecord = DB.getValue(v, "link", "", "");
-		local nodeSpellSource = lookupCharData(sRecord, aRefModules);
-		if nodeSpellSource then
+		if sRecord == "" then
 			local nodePower = nodePowers.createChild();
-			
-			DB.copyNode(nodeSpellSource, nodePower);
-			
-			DB.setValue(nodePower, "name", "string", sName);
-			DB.setValue(nodePower, "group", "string", Interface.getString("power_label_groupspells"));
-			DB.setValue(nodePower, "prepared", "number", 1);
-
-			DB.setValue(nodePower, "locked", "number", 1);
-			DB.setValue(nodePower, "parse", "number", 1);
-			
-			bHasSpells = true;
+			DB.copyNode(v, nodePower);
 		else
-			Debug.chat("SPELL DOMAIN", sRecord);
-			bMissingData = true;
+			local nodeSpellSource = lookupCharData(sRecord, aRefModules);
+			if nodeSpellSource then
+				local nodePower = nodePowers.createChild();
+				
+				DB.copyNode(nodeSpellSource, nodePower);
+				
+				DB.setValue(nodePower, "name", "string", sName);
+				DB.setValue(nodePower, "group", "string", Interface.getString("power_label_groupspells"));
+				DB.setValue(nodePower, "prepared", "number", 1);
+
+				DB.setValue(nodePower, "locked", "number", 1);
+				DB.setValue(nodePower, "parse", "number", 1);
+				
+				bHasSpells = true;
+			else
+				bMissingData = true;
+			end
 		end
 	end
 	for _,v in pairs(DB.getChildren(nodeTarget, "spellslist")) do
 		local sName = DB.getValue(v, "name", "");
 		local _, sRecord = DB.getValue(v, "link", "", "");
-		local nodeSpellSource = lookupCharData(sRecord, aRefModules);
-		if nodeSpellSource then
+		if sRecord == "" then
 			local nodePower = nodePowers.createChild();
-			
-			DB.copyNode(nodeSpellSource, nodePower);
-			
-			DB.setValue(nodePower, "name", "string", sName);
-			DB.setValue(nodePower, "group", "string", Interface.getString("power_label_groupspells"));
-			DB.setValue(nodePower, "prepared", "number", 1);
-
-			DB.setValue(nodePower, "locked", "number", 1);
-			DB.setValue(nodePower, "parse", "number", 1);
-			
-			bHasSpells = true;
+			DB.copyNode(v, nodePower);
 		else
-			Debug.chat("SPELL", sRecord);
-			bMissingData = true;
+			local nodeSpellSource = lookupCharData(sRecord, aRefModules);
+			if nodeSpellSource then
+				local nodePower = nodePowers.createChild();
+				
+				DB.copyNode(nodeSpellSource, nodePower);
+				
+				DB.setValue(nodePower, "name", "string", sName);
+				DB.setValue(nodePower, "group", "string", Interface.getString("power_label_groupspells"));
+				DB.setValue(nodePower, "prepared", "number", 1);
+
+				DB.setValue(nodePower, "locked", "number", 1);
+				DB.setValue(nodePower, "parse", "number", 1);
+				
+				bHasSpells = true;
+			else
+				bMissingData = true;
+			end
 		end
 	end
 	for _,v in pairs(DB.getChildren(nodeTarget, "spellbook")) do
 		local sName = DB.getValue(v, "name", "");
 		local _, sRecord = DB.getValue(v, "link", "", "");
-		local nodeSpellSource = lookupCharData(sRecord, aRefModules);
-		if nodeSpellSource then
+		if sRecord == "" then
 			local nodePower = nodePowers.createChild();
-			
-			DB.copyNode(nodeSpellSource, nodePower);
-			
-			DB.setValue(nodePower, "name", "string", sName);
-			DB.setValue(nodePower, "group", "string", Interface.getString("power_label_groupspells"));
-
-			DB.setValue(nodePower, "locked", "number", 1);
-			DB.setValue(nodePower, "parse", "number", 1);
-			
-			bHasSpells = true;
+			DB.copyNode(v, nodePower);
 		else
-			Debug.chat("SPELL BOOK", sRecord);
-			bMissingData = true;
+			local nodeSpellSource = lookupCharData(sRecord, aRefModules);
+			if nodeSpellSource then
+				local nodePower = nodePowers.createChild();
+				
+				DB.copyNode(nodeSpellSource, nodePower);
+				
+				DB.setValue(nodePower, "name", "string", sName);
+				DB.setValue(nodePower, "group", "string", Interface.getString("power_label_groupspells"));
+
+				DB.setValue(nodePower, "locked", "number", 1);
+				DB.setValue(nodePower, "parse", "number", 1);
+				
+				bHasSpells = true;
+			else
+				bMissingData = true;
+			end
 		end
 	end
 	if bHasSpells then
@@ -246,6 +265,16 @@ function addPregenChar(nodeSource)
 	end
 end
 
+function onEncounterGenerated(nodeEncounter)
+	CombatManager2.calcBattleCR(nodeEncounter);
+end
+
+function sanitize(s)
+	local sSanitized = StringManager.trim(s:gsub("%s%(.*%)$", ""));
+	sSanitized = sSanitized:gsub("[.,-():'’/?+–]", "_"):gsub("%s", ""):lower();
+	return sSanitized
+end
+
 -- Check to see if NPC has no spell entries defined, but a spellcasting trait. If so, then attempt to lookup and add spells.
 function updateNPCSpells(nodeNPC)
 	if not nodeNPC then
@@ -263,7 +292,7 @@ function updateNPCSpells(nodeNPC)
 		local sTraitName = StringManager.trim(DB.getValue(v, "name", ""):lower());
 		if sTraitName == "spellcasting" then
 			updateNPCSpellcasting(nodeNPC, v);
-		elseif sTraitName == "innate spellcasting" then
+		elseif sTraitName:match("^innate spellcasting") then
 			updateNPCInnateSpellcasting(nodeNPC, v);
 		end
 	end
@@ -271,34 +300,25 @@ end
 
 function updateNPCSpellcasting(nodeNPC, nodeTrait)
 	local aError = {};
-	local aSpellcasting = {};
-	aSpellcasting.bInnate = false; 
-	
-	local sDesc = DB.getValue(nodeTrait, "desc", ""):lower();
-	aSpellcasting.sDC = sDesc:match("spell save dc (%d+)");
-	aSpellcasting.sAtk = sDesc:match("([+-]%d+) to hit with spell attacks");
-		
-    
-	local aLines = StringManager.split(DB.getValue(nodeTrait, "desc", ""), "\n");
-	for _,sLine in ipairs(aLines) do
-		local sLineLower = sLine:lower();
-		local nLevel = tonumber(sLineLower:match("^([1-9])[snrt][tdh] level")) or -1;
-		if nLevel == -1 and sLineLower:match("^cantrips") then
-			nLevel = 0;
-		end
-		if nLevel >= 0 then
-			local aSpells = StringManager.split(sLine:match(":(.*)$"), ",", true);
-			if #aSpells > 0 then
-				aSpellcasting[nLevel] = aSpells;
-			end
-		end
-	end
-	
-	for i = 0,9 do
-		if aSpellcasting[i] then
-			for _,sSpell in ipairs(aSpellcasting[i]) do
-				if not updateNPCSpellHelper(sSpell, nodeNPC, aSpellcasting) then
-					table.insert(aError, sSpell);
+
+	local rActor = ActorManager.getActor("", nodeNPC);
+	if rActor then
+		local aPowerGroup = PowerManager.getPowerGroupRecord(rActor, nil, false);
+		if aPowerGroup then
+			for i = 0,9 do
+				if aPowerGroup[i] then
+					for _,sSpell in ipairs(aPowerGroup[i]) do
+						if not updateNPCSpellHelper(sSpell, nodeNPC, aPowerGroup) then
+							table.insert(aError, sSpell);
+						end
+					end
+				end
+				if (i > 0) then
+					if aPowerGroup[i] and aPowerGroup[i]["slots"] then
+						DB.setValue(nodeNPC, "spellslots.level" .. i, "number", aPowerGroup[i]["slots"]);
+					else
+						DB.setValue(nodeNPC, "spellslots.level" .. i, "number", 0);
+					end
 				end
 			end
 		end
@@ -310,37 +330,48 @@ function updateNPCSpellcasting(nodeNPC, nodeTrait)
 	end
 end
 
--- review this to deal with AD&D monster/spells -celestian
-function updateNPCInnateSpellcasting(nodeNPC, nodeTrait)
-	local aError = {};
-	local aSpellcasting = {};
-	aSpellcasting.bInnate = true; 
+function resetNPCSpellcastingSlots(nodeNPC, nodeTrait)
+	if not nodeNPC then
+		return;
+	end
+	if nodeNPC.isReadOnly() then
+		return;
+	end
 	
-	local sDesc = DB.getValue(nodeTrait, "desc", ""):lower();
-	aSpellcasting.sDC = sDesc:match("spell save dc (%d+)");
-	aSpellcasting.sAtk = sDesc:match("([+-]%d+) to hit with spell attacks");
-
-
-	local aLines = StringManager.split(DB.getValue(nodeTrait, "desc", ""), "\n");
-	for _,sLine in ipairs(aLines) do
-		local sLineLower = sLine:lower();
-		local nCastAmount = tonumber(sLineLower:match("^([1-9])/day")) or -1;
-		if nCastAmount == -1 and sLineLower:match("^at will") then
-			nCastAmount = 0;
-		end
-		if nCastAmount >= 0 then
-			local aSpells = StringManager.split(sLine:match(":(.*)$"), ",", true);
-			if #aSpells > 0 then
-				aSpellcasting[nCastAmount] = aSpells;
+	for _,v in pairs(DB.getChildren(nodeNPC, "traits")) do
+		local sTraitName = StringManager.trim(DB.getValue(v, "name", ""):lower());
+		if sTraitName == "spellcasting" then
+			local rActor = ActorManager.getActor("", nodeNPC);
+			if rActor then
+				local aPowerGroup = PowerManager.getPowerGroupRecord(rActor, nil, false);
+				if aPowerGroup then
+					for i = 1,9 do
+						if aPowerGroup[i] and aPowerGroup[i]["slots"] then
+							DB.setValue(nodeNPC, "spellslots.level" .. i, "number", aPowerGroup[i]["slots"]);
+						else
+							DB.setValue(nodeNPC, "spellslots.level" .. i, "number", 0);
+						end
+					end
+				end
 			end
 		end
 	end
-	
-	for i = 0,9 do
-		if aSpellcasting[i] then
-			for _,sSpell in ipairs(aSpellcasting[i]) do
-				if not updateNPCSpellHelper(sSpell, nodeNPC, aSpellcasting, i) then
-					table.insert(aError, sSpell);
+end
+
+function updateNPCInnateSpellcasting(nodeNPC, nodeTrait)
+	local aError = {};
+
+	local rActor = ActorManager.getActor("", nodeNPC);
+	if rActor then
+		local aPowerGroup = PowerManager.getPowerGroupRecord(rActor, nil, true);
+		if aPowerGroup then
+			for i = 0,9 do
+				if aPowerGroup[i] then
+					for _,sSpell in ipairs(aPowerGroup[i]) do
+						if not updateNPCSpellHelper(sSpell, nodeNPC, aPowerGroup, i) then
+							table.insert(aError, sSpell);
+						end
+					end
 				end
 			end
 		end
@@ -352,13 +383,11 @@ function updateNPCInnateSpellcasting(nodeNPC, nodeTrait)
 	end
 end
 
-function sanitize(s)
-	local sSanitized = StringManager.trim(s:gsub("%s%(.*%)$", ""));
-	sSanitized = sSanitized:gsub("[.,-():'’/?+–]", "_"):gsub("%s", ""):lower();
-	return sSanitized
-end
-
 function updateNPCSpellHelper(sSpell, nodeNPC, aSpellcasting, nDaily)
+	local sCleaned = sSpell:lower();
+	if sCleaned:match("%*$") then sCleaned = sCleaned:sub(1, #sCleaned - 1); end
+	sCleaned = StringManager.trim(sCleaned);
+	
 	-- Remove any excess parenthetical text
 	-- Then convert spell name using algorithm used by Par5E to create valid XML tags for spells
 	-- (Remove all whitespace, converts to lowercase and replaces punctuation with _ char)
@@ -367,7 +396,6 @@ function updateNPCSpellHelper(sSpell, nodeNPC, aSpellcasting, nDaily)
 	-- See if we can find a matching node in any loaded module. If not, we're done.
 	local nodeRefSpell = DB.findNode("reference.spelldata." .. sSanitized .. "@*");
 	if not nodeRefSpell then
-		local sCleaned = StringManager.trim(sSpell:lower());
 		for _,v in pairs(DB.getChildren("spell")) do
 			local sCheckCleaned = StringManager.trim(DB.getValue(v, "name", ""):lower());
 			if sCleaned == sCheckCleaned then
@@ -444,39 +472,7 @@ function updateNPCSpellHelper(sSpell, nodeNPC, aSpellcasting, nDaily)
 	sRefDesc = sRefDesc:gsub("\r", "");
 	sRefDesc = sRefDesc:gsub("\\r$", "");
 	
-	if aSpellcasting.sAtk then
-		sRefDesc = sRefDesc:gsub("ranged spell attack", "ranged spell attack (" .. aSpellcasting.sAtk .. " to hit)");
-		sRefDesc = sRefDesc:gsub("melee spell attack", "melee spell attack (" .. aSpellcasting.sAtk .. " to hit)");
-	end
-
-	if aSpellcasting.sDC then
-		if sRefDesc:match("spell save DC %d+") then
-			sRefDesc = sRefDesc:gsub("spell save DC %d+", "spell save DC " .. aSpellcasting.sDC);
-		else
-			sRefDesc = sRefDesc:gsub("spell save DC", "spell save DC " .. aSpellcasting.sDC);
-		end
-		sRefDesc = sRefDesc:gsub("Strength saving throw([^s])", "DC " .. aSpellcasting.sDC .. " Strength saving throw%1");
-		sRefDesc = sRefDesc:gsub("Dexterity saving throw([^s])", "DC " .. aSpellcasting.sDC .. " Dexterity saving throw%1");
-		sRefDesc = sRefDesc:gsub("Constitution saving throw([^s])", "DC " .. aSpellcasting.sDC .. " Constitution saving throw%1");
-		sRefDesc = sRefDesc:gsub("Intelligence saving throw([^s])", "DC " .. aSpellcasting.sDC .. " Intelligence saving throw%1");
-		sRefDesc = sRefDesc:gsub("Wisdom saving throw([^s])", "DC " .. aSpellcasting.sDC .. " Wisdom saving throw%1");
-		sRefDesc = sRefDesc:gsub("Charisma saving throw([^s])", "DC " .. aSpellcasting.sDC .. " Charisma saving throw%1");
-
-        -- AD&D save types
-		sRefDesc = sRefDesc:gsub("Poison saving throw([^s])", "DC " .. aSpellcasting.sDC .. " Poison saving throw%1");
-		sRefDesc = sRefDesc:gsub("Paralyzation saving throw([^s])", "DC " .. aSpellcasting.sDC .. " Paralyzation saving throw%1");
-		sRefDesc = sRefDesc:gsub("Death saving throw([^s])", "DC " .. aSpellcasting.sDC .. " Death saving throw%1");
-		sRefDesc = sRefDesc:gsub("Rod saving throw([^s])", "DC " .. aSpellcasting.sDC .. " Rod saving throw%1");
-		sRefDesc = sRefDesc:gsub("Staff saving throw([^s])", "DC " .. aSpellcasting.sDC .. " Staff saving throw%1");
-		sRefDesc = sRefDesc:gsub("Wand saving throw([^s])", "DC " .. aSpellcasting.sDC .. " Wand saving throw%1");
-		sRefDesc = sRefDesc:gsub("Petrification saving throw([^s])", "DC " .. aSpellcasting.sDC .. " Petrification saving throw%1");
-		sRefDesc = sRefDesc:gsub("Polymorph saving throw([^s])", "DC " .. aSpellcasting.sDC .. " Polymorph saving throw%1");
-		sRefDesc = sRefDesc:gsub("Breath saving throw([^s])", "DC " .. aSpellcasting.sDC .. " Breath saving throw%1");
-		sRefDesc = sRefDesc:gsub("Spell saving throw([^s])", "DC " .. aSpellcasting.sDC .. " Spell saving throw%1");
-	end
-
 	sDesc = sDesc .. "\r" .. sRefDesc;
 	DB.setValue(nodeSpell, "desc", "string", sDesc);
-	
 	return true;
 end

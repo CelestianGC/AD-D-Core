@@ -1435,7 +1435,7 @@ function messageDamage(rSource, rTarget, bSecret, sDamageType, sDamageDesc, sTot
 		msgLong.text = msgLong.text .. " " .. sExtraResult;
 	end
 	
-	ActionsManager.messageResult(bSecret, rSource, rTarget, msgLong, msgShort);
+	ActionsManager.outputResult(bSecret, rSource, rTarget, msgLong, msgShort);
 end
 
 --
