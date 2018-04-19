@@ -113,11 +113,11 @@
 				<static textres="char_label_stats" />
 			</label>
 			
-            <button_charabiltiesdetail name="abilities_details">
-                <tooltip textres="ability_details_tooltip" />
-				<anchored to="statstitle" position="insidetopright" offset="90,0">
-				</anchored>
-            </button_charabiltiesdetail>
+    <button_charabiltiesdetail name="abilities_details">
+      <tooltip textres="ability_details_tooltip" />
+      <anchored to="statstitle" position="insidetopright" offset="90,0">
+      </anchored>
+    </button_charabiltiesdetail>
             
 			<!-- Ability STR -->
 			<number_charabilityscore2 name="strength" source="abilities.strength.score" >

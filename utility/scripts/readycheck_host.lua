@@ -38,6 +38,13 @@ function updateCheck()
   local node = getDatabaseNode();
   local nCheck = DB.getValue(node,"ready_check_select",0);
   ready_check_select.setValue(nCheck);
+  if (nCheck ~= 0) then
+    ready_check_select.setVisible(false);
+    ready_check_select_ready.setVisible(true);
+  else
+    ready_check_select.setVisible(true);
+    ready_check_select_ready.setVisible(false);
+  end
   seeIfEveryoneIsReady();
 end
 

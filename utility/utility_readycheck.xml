@@ -120,10 +120,17 @@
         <font>reference-b-large</font>
 			</label>
  
-      <button_checkbox name="ready_check_select">
-				<anchored to="name_label" position="left" offset="2,0" width="10" />
-				<tooltip text="ARE YOU READY???" />
-			</button_checkbox>
+		<buttoncontrol name="ready_check_select">
+				<anchored to="name_label" position="left" offset="2,0" width="50"/>
+				<tooltip text="ARE THEY READY???" />
+			<state icon="chat_fail" pressed="chat_fail" />
+		</buttoncontrol>
+		<buttoncontrol name="ready_check_select_ready">
+				<anchored to="name_label" position="left" offset="2,0" width="50"/>
+				<tooltip text="THEY ARE READY???" />
+			<state icon="chat_success" pressed="chat_success" />
+      <invisible />
+		</buttoncontrol>
       
     </sheetdata>
   </windowclass>
