@@ -1020,7 +1020,6 @@ function updateForInitiative(nodeField)
   local nInitResult = DB.getValue(nodeCT,"initresult",0);
   for _,nodeEffect in pairs(DB.getChildren(nodeCT, "effects")) do
     local nInit = DB.getValue(nodeEffect,"init",0);
-    Debug.console("manager_effect_adnd.lua","updateForInitiative","nodeEffect",nodeEffect);
     if (nInit ~= 0) then 
       -- change effect init to the new value rolled
       DB.setValue(nodeEffect,"init","number", nInitResult);

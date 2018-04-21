@@ -568,7 +568,7 @@
 	<string name="npc_label_effects_tooltip">Effects applied to NPC when placed into combat tracker.</string>	
     
     <!-- Chat -->
-	<string name="message_notmemorized">Tried to cast spell not memorized.</string>
+	<string name="message_notmemorized">Cast a spell NOT memorized.</string>
 	<string name="message_nomoreslots">Tried to memorize a spell but had with no more spell slots left.</string>
 	<string name="message_youmemorize">Memorized </string>
 	<string name="message_encumbrance_changed">'%s' is at '%s' encumbrance. Movebase now %d.</string>

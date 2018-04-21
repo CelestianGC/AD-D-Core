@@ -2389,24 +2389,25 @@ function removeMemorizedSpell(draginfo, node)
         local nUsedDivine = DB.getValue(nodeChar, "powermeta.pactmagicslots" .. nLevel .. ".used", 0);
         local nMaxDivine = DB.getValue(nodeChar, "powermeta.pactmagicslots" .. nLevel .. ".max", 0);
 
-        if (nMemorized > 0 or bisNPC) then
-            if (nMemorized < 1) then -- sanity check, to make sure memorize never less than 0.
-                nMemorized = 1;
-            end
-            DB.setValue(nodeSpell,"memorized","number",(nMemorized-1));
-            if (isArcaneSpellType(sSpellType) or isArcaneSpellType(sSource)) then
-                local nLeftOver = (nUsedArcane - 1);
-                if nLeftOver < 0 then nLeftOver = 0; end
-                DB.setValue(nodeChar,"powermeta.spellslots" .. nLevel .. ".used","number",nLeftOver);
-            elseif (isDivineSpellType(sSpellType) or isDivineSpellType(sSource)) then
-                local nLeftOver = (nUsedDivine - 1);
-                if nLeftOver < 0 then nLeftOver = 0; end
-                DB.setValue(nodeChar,"powermeta.pactmagicslots" .. nLevel .. ".used","number",nLeftOver);
-            end
-        else
-            -- didnt have any more memorized copies of the spell to cast
-            bSuccess = false;
-   			ChatManager.Message(Interface.getString("message_notmemorized"), true, ActorManager.getActor("pc", nodeChar));
+        -- we dont stop them from casting the spell but we do 
+        -- spam text that they didnt have it memorized
+        if (nMemorized <= 0 and not bisNPC and not User.isHost()) then
+          -- didnt have any more memorized copies of the spell to cast
+          --bSuccess = false;
+          ChatManager.Message(Interface.getString("message_notmemorized"), true, ActorManager.getActor("pc", nodeChar));
+        end
+        if (nMemorized < 1) then -- sanity check, to make sure memorize never less than 0.
+            nMemorized = 1;
+        end
+        DB.setValue(nodeSpell,"memorized","number",(nMemorized-1));
+        if (isArcaneSpellType(sSpellType) or isArcaneSpellType(sSource)) then
+            local nLeftOver = (nUsedArcane - 1);
+            if nLeftOver < 0 then nLeftOver = 0; end
+            DB.setValue(nodeChar,"powermeta.spellslots" .. nLevel .. ".used","number",nLeftOver);
+        elseif (isDivineSpellType(sSpellType) or isDivineSpellType(sSource)) then
+            local nLeftOver = (nUsedDivine - 1);
+            if nLeftOver < 0 then nLeftOver = 0; end
+            DB.setValue(nodeChar,"powermeta.pactmagicslots" .. nLevel .. ".used","number",nLeftOver);
         end
     end
 
