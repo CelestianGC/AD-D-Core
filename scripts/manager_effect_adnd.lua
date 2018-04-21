@@ -3,6 +3,7 @@
 -- Effects on Items, apply to character in CT
 --
 --
+
 function onInit()
   if User.isHost() then
     -- watch the combatracker/npc inventory list
@@ -29,10 +30,10 @@ function onInit()
   end
     --CoreRPG replacements
     ActionsManager.decodeActors = decodeActors;
-
     -- AD&D Core ONLY!!! (need this because we use Ascending initiative, not high to low
     EffectManager.setInitAscending(true);
-
+    CombatManager.addCombatantFieldChangeHandler("initresult", "onUpdate", updateForInitiative);
+    
     -- used for AD&D Core ONLY
     EffectManager5E.evalAbilityHelper = evalAbilityHelper;
     EffectManager5E.checkConditional = checkConditional; -- this is for ARMOR() effect type
@@ -454,9 +455,6 @@ end
 --
 --          REPLACEMENT FUNCTIONS
 --
-
-
-
 -- CoreRPG EffectManager manager_effect_adnd.lua 
 -- AD&D CORE ONLY
 local aEffectVarMap = {
@@ -473,115 +471,6 @@ function manager_effect_onInit()
 	--CombatManager.setCustomInitChange(manager_effect_processEffects);
 	OOBManager.registerOOBMsgHandler(OOB_MSGTYPE_APPLYEFF, handleApplyEffect);
 	OOBManager.registerOOBMsgHandler(OOB_MSGTYPE_EXPIREEFF, handleExpireEffect);
-end
-
--- replace CoreRPG EffectManager manager_effect_adnd.lua processEffects() with this
--- AD&D CORE ONLY
--- we use this because we use initiative low to high. Lowest goes first... 
--- because of that we have to manage effects differently 
--- if we do not do this effects with "action" will not expire on that players turn as it should
--- Specifically
--- if nEffInit >= nCurrentInit and nEffInit <= nNewInit then
--- where 5E and others use
--- if nEffInit < nCurrentInit and nEffInit >= nNewInit then
-function manager_effect_processEffects(nodeCurrentActor, nodeNewActor)
---Debug.console("manager_effect_adnd.lua","manager_effect_processEffects","nodeCurrentActor",nodeCurrentActor);
---Debug.console("manager_effect_adnd.lua","manager_effect_processEffects","nodeNewActor",nodeNewActor);
-        	-- Get sorted combatant list
-	local aEntries = CombatManager.getSortedCombatantList();
-	if #aEntries == 0 then
-		return;
-	end
-		
-	-- Set up current and new initiative values for effect processing
-	local nCurrentInit = -10000;
-	if nodeCurrentActor then
-		nCurrentInit = DB.getValue(nodeCurrentActor, "initresult", 0); 
-	end
-	local nNewInit = 10000;
-	if nodeNewActor then
-		nNewInit = DB.getValue(nodeNewActor, "initresult", 0);
-	end
-	
-	-- For each actor, advance durations, and process start of turn special effects
-	local bProcessSpecialStart = (nodeCurrentActor == nil);
-	local bProcessSpecialEnd = (nodeCurrentActor == nil);
-	for i = 1,#aEntries do
-		local nodeActor = aEntries[i];
-		
-		if nodeActor == nodeCurrentActor then
-			bProcessSpecialEnd = true;
-		elseif nodeActor == nodeNewActor then
-			bProcessSpecialEnd = false;
-		end
-
-		-- Check each effect
-		for _,nodeEffect in pairs(DB.getChildren(nodeActor, "effects")) do
-			-- Make sure effect is active
-			local nActive = DB.getValue(nodeEffect, "isactive", 0);
-			if (nActive ~= 0) then
-				if bProcessSpecialStart then
-					if EffectManager.fCustomOnEffectActorStartTurn then
-						EffectManager.fCustomOnEffectActorStartTurn(nodeActor, nodeEffect);
-					end
-				end
-
-				if aEffectVarMap["nInit"] then
-                    -- change init to match current init of player, this changes each round
-                    -- this only matches when the actor and new actor are the same (meaning it's their turn
-                    if (nodeActor == nodeNewActor) then
-                        DB.setValue(nodeEffect,aEffectVarMap["nInit"].sDBField,"number",nNewInit);
-                    end
-                    --
-					local nEffInit = DB.getValue(nodeEffect, aEffectVarMap["nInit"].sDBField, aEffectVarMap["nInit"].vDBDefault or 0);
-
--- Debug.console("manager_effect_adnd.lua","manager_effect_processEffects","nEffInit",nEffInit);
--- Debug.console("manager_effect_adnd.lua","manager_effect_processEffects","nCurrentInit",nCurrentInit);
--- Debug.console("manager_effect_adnd.lua","manager_effect_processEffects","nNewInit",nNewInit);
-				
-					-- Apply start of effect initiative changes
-					if nEffInit > nCurrentInit and nEffInit <= nNewInit then
---Debug.console("manager_effect_adnd.lua","manager_effect_processEffects","Apply start of effect initiative changes");
-						-- Start turn
-						local bHandled = false;
-						if fCustomOnEffectStartTurn then
-							bHandled = EffectManager.fCustomOnEffectStartTurn(nodeActor, nodeEffect, nCurrentInit, nNewInit);
-						end
-						if not bHandled and aEffectVarMap["nDuration"] then
-							local nDuration = DB.getValue(nodeEffect, aEffectVarMap["nDuration"].sDBField, 0);
-							if nDuration > 0 then
-								nDuration = nDuration - 1;
---Debug.console("manager_effect_adnd.lua","manager_effect_processEffects","nDuration",nDuration);
-								if nDuration <= 0 then
-									EffectManager.expireEffect(nodeActor, nodeEffect, 0);
-								else
-									DB.setValue(nodeEffect, "duration", "number", nDuration);
-								end
-							end
-						end
-						
-					-- Apply end of effect initiative changes
-					elseif nEffInit <= nCurrentInit and nEffInit > nNewInit then
-						if EffectManager.fCustomOnEffectEndTurn then
-							bHandled = EffectManager.fCustomOnEffectEndTurn(nodeActor, nodeEffect, nCurrentInit, nNewInit);
-						end
-					end
-				end
-				
-				if bProcessSpecialEnd then
-					if EffectManager.fCustomOnEffectActorEndTurn then
-						EffectManager.fCustomOnEffectActorEndTurn(nodeActor, nodeEffect);
-					end
-				end
-			end -- END ACTIVE EFFECT CHECK
-         end -- END EFFECT LOOP
-		
-		if nodeActor == nodeCurrentActor then
-			bProcessSpecialStart = true;
-		elseif nodeActor == nodeNewActor then
-			bProcessSpecialStart = false;
-		end
-	end -- END ACTOR LOOP
 end
 
 -- replace 5E EffectManager5E manager_effect_5E.lua evalAbilityHelper() with this
@@ -1123,4 +1012,18 @@ function manager_power_performAction(draginfo, rActor, rAction, nodePower)
 		ActionsManager.performMultiAction(draginfo, rActor, rRolls[1].sType, rRolls);
 	end
 	return true;
+end
+
+-- when player's initiative changes we run this to update effect for new "initiative" if it's not 0
+function updateForInitiative(nodeField)
+  local nodeCT = nodeField.getParent();
+  local nInitResult = DB.getValue(nodeCT,"initresult",0);
+  for _,nodeEffect in pairs(DB.getChildren(nodeCT, "effects")) do
+    local nInit = DB.getValue(nodeEffect,"init",0);
+    Debug.console("manager_effect_adnd.lua","updateForInitiative","nodeEffect",nodeEffect);
+    if (nInit ~= 0) then 
+      -- change effect init to the new value rolled
+      DB.setValue(nodeEffect,"init","number", nInitResult);
+    end
+  end
 end

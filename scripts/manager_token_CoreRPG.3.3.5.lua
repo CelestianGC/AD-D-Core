@@ -859,51 +859,6 @@ function updateHealthHelper(tokenCT, nodeCT)
 			end
 		end
 	end
-  -- show rip on tokens
-  local bOptionShowRIP = OptionsManager.isOption("COMBAT_SHOW_RIP", "on");
-  local bOptionShowRIP_DM = OptionsManager.isOption("COMBAT_SHOW_RIP_DM", "on");
-  -- new stuff, adds indicator for "DEAD" on the token. -celestian
-  --local nPercentHealth = ActorManager2.getPercentWounded2("ct", nodeCT);
-  local widgetDeathIndicator = tokenCT.findWidget("deathindicator");
-  local nWidth, nHeight = tokenCT.getSize();
-  local sName = DB.getValue(nodeCT,"name","Unknown");
-  local sDeathTokenName = "token_dead";
-  -- some tweaks I might apply at some point --celestian 
-  -- this should let someone add randomness to the token
-  -- sDeathTokenName = sDeathTokenName .. tostring(math.random(5)); -- creates token_dead0,token_dead1,token_dead2,token_dead3,token_dead4,token_dead5 string
-
-  -- this makes a PC token different than NPC
-  local rActor = ActorManager.getActorFromCT(nodeCT);
-  local sActorType, nodeActor = ActorManager.getTypeAndNode(rActor);    
--- Debug.console("manager_token2.lua","updateHealthHelper","rActor",rActor);
--- Debug.console("manager_token2.lua","updateHealthHelper","sActorType",sActorType);
--- Debug.console("manager_token2.lua","updateHealthHelper","nodeActor",nodeActor);
-  local nHPMax = DB.getValue(nodeActor,"hptotal",0);
-  local nWounds = DB.getValue(nodeActor,"wounds",0);
-  if sActorType == "pc" then
-    sDeathTokenName = "token_dead_pc";
-    nHPMax = DB.getValue(nodeActor,"hp.total",0);
-    nWounds = DB.getValue(nodeActor,"hp.wounds",0);
-  end
-  -- display if health 0 or lower and option on
-  local bPlayDead = ((nWounds >= nHPMax) and (bOptionShowRIP));
-  if User.isHost() then
-    bPlayDead = ((nWounds >= nHPMax) and (bOptionShowRIP_DM));
-  end
--- Debug.console("manager_token2.lua","updateHealthHelper","nHPMax",nHPMax);
--- Debug.console("manager_token2.lua","updateHealthHelper","nWounds",nWounds);
--- Debug.console("manager_token2.lua","updateHealthHelper","bPlayDead",bPlayDead);
-  if not widgetDeathIndicator then
-    widgetDeathIndicator = tokenCT.addBitmapWidget(sDeathTokenName);
-    widgetDeathIndicator.setBitmap(sDeathTokenName);
-    widgetDeathIndicator.setName("deathindicator");
-    widgetDeathIndicator.setTooltipText(sName .. " has fallen, as if dead.");
-    widgetDeathIndicator.setSize(nWidth-20, nHeight-20);
-  end
-  -- nPercentHealth is the percent of damage, 1 = 100% or more so dead
-  -- widgetDeathIndicator.setVisible(nPercentHealth>=1);
-  widgetDeathIndicator.setVisible(bPlayDead);
-  -- end new stuff
 end
 
 function updateHealthBarScale(tokenCT, nodeCT)

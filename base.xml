@@ -132,6 +132,8 @@
 	<script name="CampaignDataManager2" file="scripts/manager_campaigndata2.lua" />
 	<script name="DataSpell" file="scripts/data_spell.lua" />
 	<!-- <script name="CharacterListManager_Inspiration" file="scripts/manager_charlist_inspiration.lua" /> -->
+  
+  <!-- <script name="EffectManager" file="scripts/manager_effect_CoreRPG.3.3.5.lua" /> -->
 	<script name="ActorManager2" file="scripts/manager_actor2.lua" />
 	<script name="CombatManager2" file="scripts/manager_combat2.lua" />
 	<script name="EffectManager5E" file="scripts/manager_effect_5E.lua" />
@@ -172,6 +174,7 @@
   <script name="ChatManagerADND" file="scripts/manager_chat_adnd.lua" />
   <script name="ManagerCharlistADND" file="scripts/manager_charlist_adnd.lua" />
   <script name="ManagerImportADND" file="scripts/manager_import_adnd.lua" />
+  <script name="TokenManagerDeathIndicator" file="scripts/manager_token_DeathIndicator.lua" />
 
   <!--  This replaces the CoreRPG EffectManager. 
         3.3.4 added setInitAscending() and allowed us to stop using this -->
