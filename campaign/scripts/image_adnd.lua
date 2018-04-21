@@ -9,20 +9,15 @@ function onInit()
 	end
 	
 	onCursorModeChanged();
-
-	window.updateDisplay();
+	onGridStateChanged();
 end
 
 function onCursorModeChanged(sTool)
-	if window.toolbar.subwindow then
-		window.toolbar.subwindow.toolbar_draw.onValueChanged();
-		window.toolbar.subwindow.toggle_targetselect.updateDisplay();
-		window.toolbar.subwindow.toggle_select.updateDisplay();
-	end
+	window.onCursorModeChanged();
 end
 
 function onGridStateChanged(gridtype)
-	window.updateDisplay();
+	window.onGridStateChanged();
 end
 
 function onTargetSelect(aTargets)
@@ -64,20 +59,6 @@ end
 
 function onDrop(x, y, draginfo)
 	local sDragType = draginfo.getType();
-
-    -- Determine image viewpoint
-    -- Handle zoom factor (>100% or <100%) and offset drop coordinates
-    local vpx, vpy, vpz = getViewpoint();
-    x = x / vpz;
-    y = y / vpz;
-    
-    -- If grid, then snap drop point and adjust drop spread
-    local nDropSpread = 15;
-    if hasGrid() then
-        x, y = snapToGrid(x, y);
-        nDropSpread = getGridSize();
-    end
-    
     -- commented out for now. FG doesn't allow export of <tokens> to modules
     -- so it's pointless for now --celestian
     
@@ -114,6 +95,19 @@ function onDrop(x, y, draginfo)
 	if sDragType == "combattrackerff" then
 		-- Grab faction data from drag object
 		local sFaction = draginfo.getStringData();
+
+		-- Determine image viewpoint
+		-- Handle zoom factor (>100% or <100%) and offset drop coordinates
+		local vpx, vpy, vpz = getViewpoint();
+		x = x / vpz;
+		y = y / vpz;
+		
+		-- If grid, then snap drop point and adjust drop spread
+		local nDropSpread = 15;
+		if hasGrid() then
+			x, y = snapToGrid(x, y);
+			nDropSpread = getGridSize();
+		end
 
 		-- Get the CT window
 		local ctwnd = Interface.findWindow("combattracker_host", "combattracker");
