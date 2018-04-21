@@ -12,7 +12,12 @@ function onInit()
   -- for when options are toggled in settings.
 	DB.addHandler("options.COMBAT_SHOW_RIP", "onUpdate", updateCTEntries);
 	DB.addHandler("options.COMBAT_SHOW_RIP_DM", "onUpdate", updateCTEntries);  
-  -- for when FG starts.
+  Interface.onDesktopInit = onDesktopInit
+end
+
+-- we do this to delay it till things are loaded
+-- otherwise cold start map tokens come back nil
+function onDesktopInit()
   updateCTEntries();
 end
 
