@@ -130,7 +130,7 @@
 	<script name="CampaignDataManager2" file="scripts/manager_campaigndata2.lua" />
 	<script name="DataSpell" file="scripts/data_spell.lua" />
 	<script name="ActorManager2" file="scripts/manager_actor2.lua" />
-	<script name="CombatManager2" file="scripts/manager_combat2.lua" />
+	<script name="CombatManager2" file="scripts/manager_combat2_5e_3.3.5.lua" />
 	<script name="EffectManager5E" file="scripts/manager_effect_5E.lua" />
 	<script name="ItemManager2" file="scripts/manager_item2.lua" />
 	<script name="PowerManager" file="scripts/manager_power.lua" />
@@ -164,6 +164,7 @@
  	<script name="EffectManagerADND" file="scripts/manager_effect_adnd.lua" />
   <!-- AccessManagerADND removed, this was used for effects for players but moved to OOB style -->
  	<!-- <script name="AccessManagerADND" file="scripts/manager_access_adnd.lua" /> -->
+  <!-- <script name="CombatManagerADND" file="scripts/manager_combat_adnd.lua" /> -->
  	<script name="TokenManagerADND" file="scripts/manager_token_adnd.lua" />
  	<script name="ActorManagerADND" file="scripts/manager_actor_adnd.lua" />
   <script name="ActionSurprise" file="scripts/manager_action_surprise.lua" />

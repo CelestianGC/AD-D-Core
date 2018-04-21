@@ -8,7 +8,6 @@ function onInit()
     CombatManager.setCustomSort(sortfuncADnD);
 
 	CombatManager.setCustomDrop(onDrop);
-
 	CombatManager.setCustomAddPC(addPC);
 	CombatManager.setCustomAddNPC(addNPC);
 	CombatManager.setCustomNPCSpaceReach(getNPCSpaceReach);
@@ -852,15 +851,15 @@ end
 --
 
 function resetInit()
-	for _,vChild in pairs(DB.getChildren(CombatManager.CT_LIST)) do
-		DB.setValue(vChild, "initresult", "number", 0);
-		DB.setValue(vChild, "reaction", "number", 0);
+	function resetCombatantInit(nodeCT)
+		DB.setValue(nodeCT, "initresult", "number", 0);
+		DB.setValue(nodeCT, "reaction", "number", 0);
 	end
 	CombatManager.callForEachCombatant(resetCombatantInit);
 end
 
 function resetEffects()
-	for _,vChild in pairs(DB.getChildren(CombatManager.CT_LIST)) do
+	for _,vChild in pairs(CombatManager.getCombatantNodes()) do
 		local nodeEffects = vChild.getChild("effects");
 		if nodeEffects then
 			for _, vEffect in pairs(nodeEffects.getChildren()) do
@@ -870,6 +869,7 @@ function resetEffects()
 	end
 end
 
+-- only run for npcs, so, can restore hp/etc.
 function resetHealth(nodeCT, bLong)
 	if bLong then
 		DB.setValue(nodeCT, "wounds", "number", 0);
@@ -985,7 +985,7 @@ function rollEntryInit(nodeEntry)
 		
 	-- Iterate through list looking for other creature's with same name
 	local nLastInit = nil;
-	for _,vChild in pairs(DB.getChildren(CombatManager.CT_LIST)) do
+	for _,vChild in pairs(CombatManager.getCombatantNodes()) do
 		if vChild.getName() ~= nodeEntry.getName() then
 			local sTemp = CombatManager.stripCreatureNumber(DB.getValue(vChild, "name", ""));
 			if sTemp == sStripName then
@@ -1007,7 +1007,7 @@ function rollEntryInit(nodeEntry)
 end
 
 function rollInit(sType)
-	for _,vChild in pairs(DB.getChildren(CombatManager.CT_LIST)) do
+	for _,vChild in pairs(CombatManager.getCombatantNodes()) do
 		local bRoll = true;
 		if sType then
 			local sClass,_ = DB.getValue(vChild, "link", "", "");
@@ -1023,7 +1023,7 @@ function rollInit(sType)
 		end
 	end
 
-	for _,vChild in pairs(DB.getChildren(CombatManager.CT_LIST)) do
+	for _,vChild in pairs(CombatManager.getCombatantNodes()) do
 		local bRoll = true;
 		if sType then
 			local sClass,_ = DB.getValue(vChild, "link", "", "");

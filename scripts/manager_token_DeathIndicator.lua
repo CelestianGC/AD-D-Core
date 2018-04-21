@@ -18,7 +18,8 @@ end
 
 function updateCTEntries()
 	for _,node in pairs(CombatManager.getCombatantNodes()) do
-		updateHealth(node.getChild("wounds"));
+Debug.console("manager_token_DeathIndicator.lua","updateCTEntries","node",node);   
+  updateHealth(node.getChild("wounds"));
 	end
 end
 
@@ -26,6 +27,8 @@ end
 function updateHealth(nodeField)
 	local nodeCT = nodeField.getParent();
 	local tokenCT = CombatManager.getTokenFromCT(nodeCT);
+Debug.console("manager_token_DeathIndicator.lua","updateHealth","nodeCT",nodeCT);       
+Debug.console("manager_token_DeathIndicator.lua","updateHealth","tokenCT",tokenCT);     
   if (tokenCT) then
     -- Percent Damage, Status String, Wound Color
     local pDmg, pStatus, sColor = TokenManager2.getHealthInfo(nodeCT);
@@ -59,6 +62,7 @@ function updateHealth(nodeField)
     if User.isHost() then
       bPlayDead = ((pDmg >= 1) and (bOptionShowRIP_DM));
     end
+Debug.console("manager_token_DeathIndicator.lua","updateHealth","bPlayDead",bPlayDead);       
     widgetDeathIndicator.setVisible(bPlayDead);
   end
 end
