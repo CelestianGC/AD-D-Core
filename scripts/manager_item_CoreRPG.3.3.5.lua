@@ -120,7 +120,7 @@ function handleAnyDrop(vTarget, draginfo)
 				return false;
 			end
 			local sClass, sRecord = draginfo.getShortcutData();
-			if sClass ~= "item" then
+			if not LibraryData.isRecordDisplayClass("item", sClass) then
 				return false;
 			end
 			local sSourceType = getItemSourceType(sRecord);
@@ -277,6 +277,19 @@ function compareFields(node1, node2, bTop)
 					if not compareFields(vChild1, vChild2, false) then
 						return false;
 					end
+				elseif sType == "dice" then
+					local diceChild1 = vChild1.getValue() or {};
+					local diceChild2 = vChild2.getValue() or {};
+					if #diceChild1 ~= #diceChild2 then
+						return false;
+					end
+					table.sort(diceChild1, function(a,b) return a<b end);
+					table.sort(diceChild2, function(a,b) return a<b end);
+					for kDie,vDie in ipairs(diceChild1) do
+						if (vDie ~= diceChild2[kDie]) then
+							return false;
+						end
+					end
 				else
 					if vChild1.getValue() ~= vChild2.getValue() then
 						return false;
@@ -286,6 +299,8 @@ function compareFields(node1, node2, bTop)
 				if sType == "number" and vChild1.getValue() == 0 then
 					-- DEFAULT MATCH
 				elseif sType == "string" and vChild1.getValue() == "" then
+					-- DEFAULT MATCH
+				elseif sType == "dice" and #(vChild1.getValue() or {}) == 0 then
 					-- DEFAULT MATCH
 				else
 					return false;
@@ -987,6 +1002,13 @@ function onInventorySortUpdate(cList)
 				w.name.setAnchor("left", nil, "left", "absolute", 35 + (10 * (#aSortPath - 1)));
 			else
 				w.name.setAnchor("left", nil, "left", "absolute", 35);
+			end
+		end
+		if w.nonid_name then
+			if bContained then
+				w.nonid_name.setAnchor("left", nil, "left", "absolute", 35 + (10 * (#aSortPath - 1)));
+			else
+				w.nonid_name.setAnchor("left", nil, "left", "absolute", 35);
 			end
 		end
 	end

@@ -139,9 +139,11 @@
 	<script name="EffectManager5E" file="scripts/manager_effect_5E.lua" />
 	<script name="ItemManager2" file="scripts/manager_item2.lua" />
 	<script name="PowerManager" file="scripts/manager_power.lua" />
-	<!-- <script name="TokenManager2" file="scripts/manager_token2.lua" /> -->
+	
+<!-- Override "TokenManager" We do this because I have special flags to show bars/effects to DM only
+  and players only. Not just "on for all, or off for all" -->
   <script name="TokenManager" file="scripts/manager_token_CoreRPG.3.3.5.lua" />
-  <script name="TokenManager2" file="scripts/manager_token2_5E.3.3.5.lua" />
+  <script name="TokenManager2" file="scripts/manager_token2.lua" />
 	<script name="VersionManager2" file="scripts/manager_version2.lua" />
 	<script name="ActionsManager2" file="scripts/manager_actions2.lua" />
 	<script name="ActionGeneral" file="scripts/manager_action_general.lua" />
@@ -156,6 +158,8 @@
 	<script name="ActionRecovery" file="scripts/manager_action_recovery.lua" />
 	<script name="ActionSave" file="scripts/manager_action_save.lua" />
 	<script name="ActionSkill" file="scripts/manager_action_skill.lua" />
+	<!-- Override CoreRPG item manager for npc inventory requirements, items for npcs/etc -->
+  <script name="ItemManager" file="scripts/manager_item_CoreRPG.3.3.5.lua" />
 
     <!-- AD&D specific settings -->
  	<script name="LibraryDataADND" file="scripts/data_library_adnd.lua" />
@@ -180,8 +184,6 @@
         3.3.4 added setInitAscending() and allowed us to stop using this -->
  	<!-- <script name="EffectManager" file="scripts/manager_effect_CoreRPG.lua" /> -->
 
-	<!-- Override CoreRPG item manager for npc inventory requirements, items for npcs/etc -->
-  <script name="ItemManager" file="scripts/manager_item_CoreRPG.lua" />
     
 
 </root>
