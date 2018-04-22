@@ -51,12 +51,14 @@ Debug.console("manager_token_DeathIndicator.lua","updateHealth","tokenCT",tokenC
     local widgetDeathIndicator = tokenCT.findWidget("deathindicator");
     if not widgetDeathIndicator then
       local nWidth, nHeight = tokenCT.getSize();
+      local nScale = tokenCT.getScale();
       local sName = DB.getValue(nodeCT,"name","Unknown");
       widgetDeathIndicator = tokenCT.addBitmapWidget(sDeathTokenName);
       widgetDeathIndicator.setBitmap(sDeathTokenName);
       widgetDeathIndicator.setName("deathindicator");
       widgetDeathIndicator.setTooltipText(sName .. " has fallen, as if dead.");
       widgetDeathIndicator.setSize(nWidth-20, nHeight-20);
+      --widgetDeathIndicator.setFrame(sDeathTokenName, 5, 5, 5, 5);
     end
     
     -- show rip on tokens
