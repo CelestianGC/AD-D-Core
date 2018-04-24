@@ -33,6 +33,8 @@ function onInit()
     -- AD&D Core ONLY!!! (need this because we use Ascending initiative, not high to low
     EffectManager.setInitAscending(true);
     CombatManager.addCombatantFieldChangeHandler("initresult", "onUpdate", updateForInitiative);
+    CombatManager.addCombatantFieldChangeHandler("initrolled", "onUpdate", updateForInitiativeRolled);
+    
     
     -- used for AD&D Core ONLY
     EffectManager5E.evalAbilityHelper = evalAbilityHelper;
@@ -1014,8 +1016,20 @@ function manager_power_performAction(draginfo, rActor, rAction, nodePower)
 	return true;
 end
 
--- when player's initiative changes we run this to update effect for new "initiative" if it's not 0
+-- these functions we run with initiative value changes
 function updateForInitiative(nodeField)
+  updateEffectsForNewInitiative(nodeField);
+end
+
+-- run these functions when initiative is ROLLED
+function updateForInitiativeRolled(nodeField)
+  if ManagerCharlistADND then
+    ManagerCharlistADND.onUpdate(nodeField);
+  end
+end
+
+-- when player's initiative changes we run this to update effect for new "initiative" if it's not 0
+function updateEffectsForNewInitiative(nodeField)
   local nodeCT = nodeField.getParent();
   local nInitResult = DB.getValue(nodeCT,"initresult",0);
   for _,nodeEffect in pairs(DB.getChildren(nodeCT, "effects")) do

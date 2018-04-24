@@ -7,16 +7,18 @@
 
 function onInit()
   if User.isHost() then
-    DB.addHandler("combattracker.list.*.initrolled", "onUpdate", onUpdate);
+    --DB.addHandler("combattracker.list.*.initrolled", "onUpdate", onUpdate);
     CharacterListManager.addDecorator("init_rolled", addInitiativeWidget);
   end
 end
 
-function onUpdate(nodeInit)
+function onUpdate(nodeField)
 --Debug.console("manager_charlist_adnd.lua","onUpdate","sIdentity",sIdentity);
-  local nodeCT = nodeInit.getChild("..");
+  --local nodeCT = nodeInit.getChild("..");
+  local nodeCT = nodeField.getParent();
   local sIdentity = getIdentityFromCTNode(nodeCT);
---Debug.console("manager_charlist_adnd.lua","onUpdate","sIdentity",sIdentity);
+Debug.console("manager_charlist_adnd.lua","onUpdate","nodeCT",nodeCT);
+Debug.console("manager_charlist_adnd.lua","onUpdate","sIdentity",sIdentity);
 	updateWidgets(sIdentity);
 end
 
@@ -64,4 +66,18 @@ function getIdentityFromCTNode(nodeCT)
 end
 function getIdentityFromCharNode(nodeChar)
   return nodeChar.getName();
+end
+
+-- this toggles all initrolled values off
+-- used for "new round" or when rest initiated
+function turnOffInitRolled()
+  for _,vChild in pairs(CombatManager.getCombatantNodes()) do
+    -- toggle the rolled init value to false till
+    -- until PC actually rolls.
+    local rActor = ActorManager.getActorFromCT(vChild);
+    local sActorType, nodeActor = ActorManager.getTypeAndNode(rActor);    
+    if (sActorType == "pc") then
+      DB.setValue(vChild, "initrolled", "number", 0);
+    end
+  end
 end

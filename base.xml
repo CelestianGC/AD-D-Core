@@ -18,10 +18,10 @@
 	<!-- Layers -->
 	<importruleset source="CoreRPG" />
 	
-    <importinfo>
-        <acceptfrom ruleset="5E" />
-        <acceptfrom ruleset="CoreRPG" />
-    </importinfo>
+  <importinfo>
+      <acceptfrom ruleset="5E" />
+      <acceptfrom ruleset="CoreRPG" />
+  </importinfo>
     
 	<!-- Tabletop settings -->
 	<includefile source="gameelements.xml" />

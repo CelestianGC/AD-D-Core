@@ -5,8 +5,9 @@
 
 function onInit()
     -- use our AD&D sort function --celestian
-    CombatManager.setCustomSort(sortfuncADnD);
-
+  CombatManager.setCustomSort(sortfuncADnD);
+  setCustomRestStart(ManagerCharlistADND.turnOffInitRolled);
+  
 	CombatManager.setCustomDrop(onDrop);
 	CombatManager.setCustomAddPC(addPC);
 	CombatManager.setCustomAddNPC(addNPC);
@@ -29,6 +30,21 @@ function onHRDistanceChanged()
 		Interface.setDistanceDiagMult(1);
 	end
 end
+
+
+-- custom on rest start --celestian
+local aCustomRestStart = {};
+function setCustomRestStart(fRestStart)
+	table.insert(aCustomRestStart, fRestStart);
+end
+function onRestStartEvent(nodeCT)
+	if #aCustomRestStart > 0 then
+		for _,fCustomRestStart in ipairs(aCustomRestStart) do
+			fCustomRestStart(nodeCT);
+		end
+	end
+end
+
 
 --
 --
@@ -90,6 +106,8 @@ function onRoundStart(nCurrent)
 	if OptionsManager.isOption("HouseRule_InitEachRound", "on") then
 		rollInit();
 	end
+
+  ManagerCharlistADND.turnOffInitRolled();
 end
 
 function onTurnStart(nodeEntry)
@@ -908,6 +926,9 @@ function rest(bLong)
 	clearExpiringEffects();
 
 	for _,vChild in pairs(CombatManager.getCombatantNodes()) do
+    -- custom on rest-start events
+    onRestStartEvent(vChild);
+    
 		local bHandled = false;
 		local sClass, sRecord = DB.getValue(vChild, "link", "", "");
 		if sClass == "charsheet" and sRecord ~= "" then
@@ -938,14 +959,6 @@ function rollEntryInit(nodeEntry)
 		return;
 	end
 	
-  -- toggle the rolled init value to false till
-  -- until PC actually rolls.
-  local rActor = ActorManager.getActorFromCT(nodeEntry);
-  local sActorType, nodeActor = ActorManager.getTypeAndNode(rActor);    
-  if (sActorType == "pc") then
-    ActionInit.resetInitRolledForNewRound(nodeEntry);
-  end
-  
 	-- Start with the base initiative bonus
 	local nInit = DB.getValue(nodeEntry, "init", 0);
 	

@@ -6,8 +6,8 @@ function onInit()
   
   CombatManager.addCombatantFieldChangeHandler("wounds", "onUpdate", updateHealth);
   CombatManager.addCombatantFieldChangeHandler("tokenrefid", "onUpdate", updateHealth);
-	--DB.addHandler("options.COMBAT_SHOW_RIP", "onUpdate", TokenManager.onOptionChanged);
-	--DB.addHandler("options.COMBAT_SHOW_RIP_DM", "onUpdate", TokenManager.onOptionChanged);  
+	DB.addHandler("options.COMBAT_SHOW_RIP", "onUpdate", TokenManager.onOptionChanged);
+	DB.addHandler("options.COMBAT_SHOW_RIP_DM", "onUpdate", TokenManager.onOptionChanged);
   
   -- for when options are toggled in settings.
 	DB.addHandler("options.COMBAT_SHOW_RIP", "onUpdate", updateCTEntries);
@@ -23,7 +23,7 @@ end
 
 function updateCTEntries()
 	for _,node in pairs(CombatManager.getCombatantNodes()) do
-Debug.console("manager_token_DeathIndicator.lua","updateCTEntries","node",node);   
+--Debug.console("manager_token_DeathIndicator.lua","updateCTEntries","node",node);   
   updateHealth(node.getChild("wounds"));
 	end
 end
@@ -32,8 +32,6 @@ end
 function updateHealth(nodeField)
 	local nodeCT = nodeField.getParent();
 	local tokenCT = CombatManager.getTokenFromCT(nodeCT);
-Debug.console("manager_token_DeathIndicator.lua","updateHealth","nodeCT",nodeCT);       
-Debug.console("manager_token_DeathIndicator.lua","updateHealth","tokenCT",tokenCT);     
   if (tokenCT) then
     -- Percent Damage, Status String, Wound Color
     local pDmg, pStatus, sColor = TokenManager2.getHealthInfo(nodeCT);
@@ -69,7 +67,6 @@ Debug.console("manager_token_DeathIndicator.lua","updateHealth","tokenCT",tokenC
     if User.isHost() then
       bPlayDead = ((pDmg >= 1) and (bOptionShowRIP_DM));
     end
-Debug.console("manager_token_DeathIndicator.lua","updateHealth","bPlayDead",bPlayDead);       
     widgetDeathIndicator.setVisible(bPlayDead);
   end
 end
