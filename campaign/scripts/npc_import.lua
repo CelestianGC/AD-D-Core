@@ -109,7 +109,7 @@ Debug.console("npc_import.lua","importTextAsNPC","sLine",sLine);
           setExperience(nodeNPC,sLine);
         end
         -- osric uses "level/xp: 6/1,000+10/hp" style exp entry
-        if (string.match(sLine:lower(),"^level/xp:")) then
+        if (string.match(sLine:lower(),"^level/x%.?p%.?:")) then
           bProcessed = true;
           setExpLevelOSRIC(nodeNPC,sLine);
         end
@@ -150,7 +150,7 @@ end
 
 -- this parses up "level/xp: 6/1,000+10/hp" style entries and calculates exp based on max hp
 function setExpLevelOSRIC(nodeNPC,sLine)
-  local sFound = string.match(sLine:lower(),"^level/xp:(.*)$");
+  local sFound = string.match(sLine:lower(),"^level/x%.?p%.?:(.*)$");
   sFound = sFound:gsub(" ",""); -- remove ALL spaces
   sFound = sFound:gsub(",",""); -- remove ALL commas
   local sLevel, sEXP, sPerHP = string.match(sFound:lower(),"^(%d+)\/(%d+)%+(%d+)\/");
