@@ -34,6 +34,7 @@ function processImportText()
       -- and put it in the second value of the nodeNPC
       local text_matches = {
                         {"^frequency:","frequency"},
+                        {"^rarity:","frequency"},
                         {"^no. encountered:","numberappearing"},
                         {"^no. appearing:","numberappearing"},
                         {"^number encountered:","numberappearing"},
