@@ -853,6 +853,7 @@ function initWeaponIDTracking()
 	DB.addHandler("charsheet.*.inventorylist.*.isidentified", "onUpdate", onItemIDChanged);
   -- to watch npc updates
 	DB.addHandler("combattracker.list.*.inventorylist.*.isidentified", "onUpdate", onItemIDChanged);
+  DB.addHandler("npc.*.inventorylist.*.isidentified", "onUpdate", onItemIDChanged);
 end
 
 function onIDOptionChanged()
@@ -863,6 +864,11 @@ function onIDOptionChanged()
 	end
   -- to get npcs in the CT also
 	for _,vNPC in pairs(DB.getChildren("combattracker.list")) do
+		for _,vWeapon in pairs(DB.getChildren(vNPC, "weaponlist")) do
+			checkWeaponIDChange(vWeapon);
+		end
+	end
+	for _,vNPC in pairs(DB.getChildren("npc")) do
 		for _,vWeapon in pairs(DB.getChildren(vNPC, "weaponlist")) do
 			checkWeaponIDChange(vWeapon);
 		end
