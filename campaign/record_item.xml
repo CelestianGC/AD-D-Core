@@ -39,15 +39,15 @@
 				<class>charsheet_actions_powers</class>
 			</subwindow_record>
             
-			<scrollbar_record>
+			<scrollbar_record_item>
 				<target>main</target>
-			</scrollbar_record>
-			<scrollbar_record>
+			</scrollbar_record_item>
+			<scrollbar_record_item>
 				<target>weaponactions</target>
-			</scrollbar_record>
-			<scrollbar_record>
+			</scrollbar_record_item>
+			<scrollbar_record_item>
 				<target>spellactions</target>
-			</scrollbar_record>
+			</scrollbar_record_item>
 
 			<tabs_recordsheet>
 				<tab>
@@ -73,7 +73,7 @@
 	</windowclass>
 
 	<windowclass name="item_main">
-		<margins control="0,0,0,2" />
+		<margins control="0,2,10,2" />
 		<script file="campaign/scripts/item_main.lua" />
 		<sheetdata>
       <hs name="rateofattack" />

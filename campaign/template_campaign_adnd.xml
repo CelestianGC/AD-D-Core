@@ -689,4 +689,10 @@
             <center />
         </label>
     </template>
+	<template name="scrollbar_record_item">
+		<scrollbar>
+			<anchored to="contentframe" offset="-15,-10,-10,0"/>
+		</scrollbar>
+	</template>
+    
 </root>
