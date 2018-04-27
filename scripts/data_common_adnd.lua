@@ -66,20 +66,27 @@
     -- used in effects to denote that these types of modifiers are not added up
     -- and to use the "best" (highest) one.
     basetypes = {
-        "BSTR",
-        "BDEX",
-        "BINT",
-        "BCHA",
-        "BCON",
-        "BWIS",
-        "BPSTR",
-        "BPDEX",
-        "BPINT",
-        "BPCHA",
-        "BPCON",
-        "BPWIS",
-        "BAC",
+      "BSTR",
+      "BDEX",
+      "BINT",
+      "BCHA",
+      "BCON",
+      "BWIS",
+      "BPSTR",
+      "BPDEX",
+      "BPINT",
+      "BPCHA",
+      "BPCON",
+      "BPWIS",
     };
+    
+    -- base effect, take LOWEST (low AC is good remember)
+    lowtypes = {
+      "BAC",  -- base AC
+      "BRAC", -- base ranged AC (attack is via range)
+      "BMAC" -- base melee AC
+    };
+    
     -- also added these effect tags
     --"TURN",
     --"TURNLEVEL",

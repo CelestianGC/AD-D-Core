@@ -115,6 +115,7 @@ function getRoll(rActor, rAction)
     end
     if rAction.range then
         rRoll.sDesc = rRoll.sDesc .. " (" .. rAction.range .. ")";
+        rRoll.range = rAction.range;
     end
     rRoll.sDesc = rRoll.sDesc .. "] " .. rAction.label;
 
@@ -423,6 +424,8 @@ end
 function onAttack(rSource, rTarget, rRoll)
 	ActionsManager2.decodeAdvantage(rRoll);
 
+--Debug.console("manager_action_attack.lua","onAttack","range",rRoll.range);
+  
 	local rMessage = ActionsManager.createActionMessage(rSource, rRoll);
 	rMessage.text = string.gsub(rMessage.text, " %[MOD:[^]]*%]", "");
 

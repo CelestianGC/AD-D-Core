@@ -431,52 +431,110 @@ function getDefenseValue(rAttacker, rDefender, rRoll)
 	local nDefense = 10;
 	local sDefenseStat = "dexterity";
 
+  local nACTemp = 0;
+  local nACBase = 10;
+  local nACArmor = 0;
+  local nACShield = 0;
+  local nACMisc = 0;
+  
+Debug.console("manager_actor2.lua","getDefenseValue","rRoll.range",rRoll.range);  
+
+  local bAttackRanged = (rRoll.range and rRoll.range == "R");
+  local bAttackMelee = (rRoll.range and rRoll.range == "M");
+
+  local nBaseRangeAC = 10;
+  local nRangeACEffect = 0;
+  local nRangeACMod = 0;
+  local nRangeACModEffect = 0;
+
+  local nBaseMeleeAC = 10;
+  local nMeleeACEffect = 0;
+  local nMeleeACMod = 0;
+  local nMeleeACModEffect = 0;
+  
 	local sDefenderType, nodeDefender = ActorManager.getTypeAndNode(rDefender);
 	if not nodeDefender then
 		return nil, 0, 0, false, false;
 	end
 
-    -- grab BAC value if exists in effects
-    local nBonusACBase, nBonusACEffects = EffectManager5E.getEffectsBonus(rDefender, "BAC",true);
+  -- grab BAC value if exists in effects
+  local nBonusACBase, nBonusACEffects = EffectManager5E.getEffectsBonus(rDefender, "BAC",true);
 
-        -- if PC
+  if (bAttackMelee) then
+    nBaseMeleeAC, nMeleeACEffect = EffectManager5E.getEffectsBonus(rDefender, "BMAC",true);
+    nMeleeACMod, nMeleeACModEffect = EffectManager5E.getEffectsBonus(rDefender, "MAC",true);
+  end
+  
+  if (bAttackRanged) then
+    nBaseRangeAC, nRangeACEffect = EffectManager5E.getEffectsBonus(rDefender, "BRAC",true);
+    nRangeACMod, nRangeACModEffect = EffectManager5E.getEffectsBonus(rDefender, "RAC",true);
+  end
+  
+  -- if PC
 	if sDefenderType == "pc" then
-        local nodeDefender = DB.findNode(rDefender.sCreatureNode);
-        -- new nDefense Calc
-		-- nDefense = DB.getValue(nodeDefender, "defenses.ac.total", 10);
+    local nodeDefender = DB.findNode(rDefender.sCreatureNode);
+    -- new nDefense Calc
+    -- nDefense = DB.getValue(nodeDefender, "defenses.ac.total", 10);
 
-        -- we get dex down a ways for pc and npc
-        --local nDexBonus = ActorManager2.getAbilityBonus(rDefender, "dexterity","defenseadj");
-        local nACTemp = DB.getValue(nodeDefender, "defenses.ac.temporary",0);
-        local nACBase = DB.getValue(nodeDefender, "defenses.ac.base",10);
-        local nACArmor = DB.getValue(nodeDefender, "defenses.ac.armor",0);
-        local nACShield = DB.getValue(nodeDefender, "defenses.ac.shield",0);
-        local nACMisc = DB.getValue(nodeDefender, "defenses.ac.misc",0);
-        -- use BAC style effects if exist
-        if nBonusACEffects > 0 then
-            if nBonusACBase < nACBase then
-                nACBase = nBonusACBase;
-            end
-        end
+    -- we get dex down a ways for pc and npc
+    --local nDexBonus = ActorManager2.getAbilityBonus(rDefender, "dexterity","defenseadj");
+    nACTemp = DB.getValue(nodeDefender, "defenses.ac.temporary",0);
+    nACBase = DB.getValue(nodeDefender, "defenses.ac.base",10);
+    nACArmor = DB.getValue(nodeDefender, "defenses.ac.armor",0);
+    nACShield = DB.getValue(nodeDefender, "defenses.ac.shield",0);
+    nACMisc = DB.getValue(nodeDefender, "defenses.ac.misc",0);
+    
 -- Debug.console("manager_actor2.lua","getDefenseValue","nACBase2",nACBase);
 -- Debug.console("manager_actor2.lua","getDefenseValue","nACTemp",nACTemp);
 -- Debug.console("manager_actor2.lua","getDefenseValue","nACArmor",nACArmor);
 -- Debug.console("manager_actor2.lua","getDefenseValue","nACShield",nACShield);
 -- Debug.console("manager_actor2.lua","getDefenseValue","nACMisc",nACMisc);
-        nDefense = nACBase + nACTemp + nACArmor + nACShield + nACMisc;
-        --
+    --
 --		sDefenseStat = DB.getValue(nodeDefender, "ac.sources.ability", "");
+    nDefense = nACBase;
 	else
-        -- ELSE NPC
+    -- ELSE NPC
 		nDefense = DB.getValue(nodeDefender, "ac", 10);
-        -- use BAC style effects if exist
-        if nBonusACEffects > 0 then
-            if nBonusACBase < nDefense then
-                nDefense = nBonusACBase;
-            end
-        end
 	end
 
+-- Debug.console("manager_actor2.lua","getDefenseValue","nBonusACBase",nBonusACBase);
+-- Debug.console("manager_actor2.lua","getDefenseValue","nBaseMeleeAC",nBaseMeleeAC);
+-- Debug.console("manager_actor2.lua","getDefenseValue","nBaseRangeAC",nBaseRangeAC);
+-- Debug.console("manager_actor2.lua","getDefenseValue","nMeleeACMod",nMeleeACMod);
+-- Debug.console("manager_actor2.lua","getDefenseValue","nRangeACMod",nRangeACMod);
+
+  -- use BAC style effects if exist
+  if nBonusACEffects > 0 then
+    if nBonusACBase < nDefense then
+      nDefense = nBonusACBase;
+    end
+  end
+  if (bAttackMelee and nMeleeACEffect > 0) then
+    if (nBaseMeleeAC < nDefense) then
+      nDefense = nBaseMeleeAC;
+    end
+  end
+  if (bAttackRanged and nRangeACEffect > 0) then
+    if (nBaseRangeAC < nDefense) then
+      nDefense = nBaseRangeAC;
+    end
+  end
+  if (bAttackMelee and nMeleeACModEffect > 0) then
+    nACTemp = nACTemp + (nACTemp - nMeleeACMod); -- (minus the mod, +3 is good, so we reduce AC by 3, -3 would be worse)
+  end
+  if (bAttackRanged and nRangeACModEffect > 0) then
+    nACTemp = nACTemp + (nACTemp - nRangeACMod); -- (minus the mod, +3 is good, so we reduce AC by 3, -3 would be worse)
+  end
+  -- 
+  
+	if sDefenderType == "pc" then
+    nDefense = nDefense + nACTemp + nACArmor + nACShield + nACMisc;
+  else -- npc
+    nDefense = nDefense + nACTemp; -- nACTemp are "modifiders"
+  end
+  
+--Debug.console("manager_actor2.lua","getDefenseValue","nDefense",nDefense);
+  
 	nDefenseStatMod = getAbilityBonus(rDefender, sDefenseStat, "defenseadj");
     nDefense = nDefense + nDefenseStatMod;
     

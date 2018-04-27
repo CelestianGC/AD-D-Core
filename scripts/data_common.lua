@@ -298,7 +298,9 @@ bonuscomps = {
 	"DEX",
 	"INT",
 	"WIS",
-	"CHA"
+	"CHA",
+  "MAC", -- ranged AC (when being attacked by range weapon)
+  "RAC"  -- melee AC (when being attacked by melee)
 };
 
 -- Condition effect types for token widgets

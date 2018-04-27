@@ -662,11 +662,18 @@ function getEffectsBonusByType(rActor, aEffectType, bAddEmptyBonus, aFilter, rFi
 			-- LOOK FOR ENERGY OR BONUS TYPES
 			local dmg_type = nil;
 			local mod_type = nil;
-            -- -- this handles the BSTR, BPSTR/etc style abilites settings --celestian
-            -- this doesn't seem to be needed anymore.
-            -- if (StringManager.contains(DataCommonADND.basetypes, v2.type)) then
-                -- mod_type = v2.type;
-            -- end
+      local low_type = nil;
+      -- this handles the BSTR, BPSTR/etc style abilites settings --celestian
+
+      -- get highest value base
+      if (StringManager.contains(DataCommonADND.basetypes, v2.type)) then
+        mod_type = v2.type;
+      end
+      -- get lowest value base
+      if (StringManager.contains(DataCommonADND.lowtypes, v2.type)) then
+        low_type = v2.type;
+      end
+      
 			for _,v3 in pairs(v2.remainder) do
 				if StringManager.contains(DataCommon.dmgtypes, v3) or StringManager.contains(DataCommon.conditions, v3) or v3 == "all" then
 					dmg_type = v3;
@@ -679,7 +686,7 @@ function getEffectsBonusByType(rActor, aEffectType, bAddEmptyBonus, aFilter, rFi
 			
 			-- IF MODIFIER TYPE IS UNTYPED, THEN APPEND MODIFIERS
 			-- (SUPPORTS DICE)
-			if dmg_type or not mod_type then
+			if dmg_type or (not mod_type and not low_type) then
 				-- ADD EFFECT RESULTS 
 				local new_key = dmg_type or "";
 				local new_results = results[new_key] or {dice = {}, mod = 0, remainder = {}};
@@ -699,7 +706,13 @@ function getEffectsBonusByType(rActor, aEffectType, bAddEmptyBonus, aFilter, rFi
 
 				-- SET THE NEW DICE RESULTS BASED ON ENERGY TYPE
 				results[new_key] = new_results;
-
+      
+      elseif (low_type) then -- get lowest base value, used for base AC (low is good)
+        if (not bonuses[low_type]) then
+          bonuses[low_type] = v2.mod;
+        elseif (v2.mod < bonuses[low_type]) then
+          bonuses[low_type] = v2.mod;
+        end
 			-- OTHERWISE, TRACK BONUSES AND PENALTIES BY MODIFIER TYPE 
 			-- (IGNORE DICE, ONLY TAKE BIGGEST BONUS AND/OR PENALTY FOR EACH MODIFIER TYPE)
 			else
