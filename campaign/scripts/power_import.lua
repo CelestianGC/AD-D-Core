@@ -39,6 +39,7 @@ function processImportText()
                       {"^casting time:","castingtime"},
                       {"^components:","components"},
                       {"^area of effect:","aoe"},
+                      {"^effect:","aoe"},
                       {"^duration:","duration"},
                       {"^school:","school"},
                       {"^sphere:","sphere"},
