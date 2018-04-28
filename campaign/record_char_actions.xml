@@ -121,6 +121,7 @@
 
 
 	<windowclass name="charsheet_actions_weapons">
+    <margins control="0,0,15,7" />
 		<script>
 			function onDrop(x, y, draginfo)
 				if contents.subwindow.weapons.onDrop(x, y, draginfo) then
@@ -179,6 +180,7 @@
 
 
 	<windowclass name="charsheet_actions_powers">
+    <margins control="0,0,15,7" />
 		<script>
             function onInit()
                 local node = getDatabaseNode();

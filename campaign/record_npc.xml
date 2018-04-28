@@ -88,10 +88,10 @@
 					<icon>tab_details</icon>
 					<subwindow>text</subwindow>
 				</tab>
-                <tab>
-                    <icon>tab_actions</icon>
-                    <subwindow>combat</subwindow>
-                </tab>
+        <tab>
+            <icon>tab_actions</icon>
+            <subwindow>combat</subwindow>
+        </tab>
 			</tabs_recordsheet>
 			
 			<resize_recordsheet />
