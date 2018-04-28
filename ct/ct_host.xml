@@ -728,7 +728,7 @@
 			</number_ct>
 			<label name="spacelabel">
 				<anchored to="space" position="lefthigh" offset="10,0"/>
-				<static textres="ct_label_size" />
+				<static textres="ct_label_token_size" />
 			</label>
 
 			<number_ct name="reach">
@@ -763,8 +763,16 @@
 				<anchored to="hitDice" position="righthigh" offset="50,1" />
 			</string_ct_field>
 			<label name="moralelabel">
-				<anchored to="morale" position="lefthigh" offset="5,-2"/>
+				<anchored to="morale" position="lefthigh" offset="4,-2"/>
 				<static textres="ct_label_morale" />
+			</label>
+
+			<string_ct_field name="size">
+				<anchored to="morale" position="righthigh" offset="35,1" />
+			</string_ct_field>
+			<label name="sizelabel">
+				<anchored to="size" position="lefthigh" offset="4,-2"/>
+				<static textres="ct_label_size" />
 			</label>
 
 			<frame_ctsub name="frame_spacing">

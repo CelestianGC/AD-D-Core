@@ -155,8 +155,9 @@
 	<string name="ct_tooltip_defense">Defense</string>
 	<string name="ct_tooltip_reactionon">Reaction Used</string>
 	<string name="ct_tooltip_reactionoff">Reaction Not Used</string>
-	<string name="ct_tooltip_size">Size</string>
-	<string name="ct_tooltip_reach">Reach</string>
+	<string name="ct_tooltip_text_size">Size</string>
+	<string name="ct_tooltip_size">Token Size</string>
+	<string name="ct_tooltip_reach">Token Reach</string>
 	<string name="ct_tooltip_effecton">Active</string>
 	<string name="ct_tooltip_effectoff">Inactive</string>
 	<string name="ct_tooltip_effectskip">Skip One Use</string>

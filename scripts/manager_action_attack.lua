@@ -491,7 +491,7 @@ function onAttack(rSource, rTarget, rRoll)
 			rAction.sResult = "hit";
       local sHitText = "[HIT]";
       if (rAction.nFirstDie == 20) then
-        sHitText = "[AUTOMATIC-HIT]";
+        sHitText = "[AUTOMATIC HIT]";
       end
 			table.insert(rAction.aMessages, sHitText);
 		else

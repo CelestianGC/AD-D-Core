@@ -397,12 +397,15 @@ function setSpacingVisible(v)
 	hitDicelabel.setVisible(v);
 	
 	if (bNPC) then
---        level.setVisible(v);
---        levellabel.setVisible(v);
-    end
+--level.setVisible(v);
+--levellabel.setVisible(v);
+  end
     
 	morale.setVisible(v);
 	moralelabel.setVisible(v);
+
+	size.setVisible(v);
+	sizelabel.setVisible(v);
 
 	frame_spacing.setVisible(v);
 end

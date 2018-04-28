@@ -295,6 +295,9 @@
   <string name="power_label_customvalue_tooltip">Value multipled by CL result added to total.</string>
 
    	<!-- Combat Tracker -->
+	<string name="ct_label_token_size">Size</string>
+  <string name="ct_label_token_reach">Reach</string>
+  
 	<string name="ct_label_damage">Atks</string>
 	<string name="ct_label_speed">Mv</string>
 	<string name="ct_label_morale">Morale</string>
