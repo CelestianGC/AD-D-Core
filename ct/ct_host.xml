@@ -722,7 +722,7 @@
 					<top parent="name" anchor="bottom" relation="relative" offset="8" />
 					<left parent="spacingicon" anchor="right" offset="42" />
 				</anchored>
-				<description textres="ct_tooltip_size" />
+        <tooltip textres="ct_label_token_size_tooltip" />
 				<hideonvalue value="0" />
 				<default>5</default>
 			</number_ct>
@@ -733,7 +733,7 @@
 
 			<number_ct name="reach">
 				<anchored to="space" position="righthigh" offset="55,0" />
-				<description textres="ct_tooltip_reach" />
+        <tooltip textres="ct_label_token_reach_tooltip" />
 				<hideonvalue value="0" />
 				<default>5</default>
 			</number_ct>
@@ -761,6 +761,7 @@
  -->
 			<string_ct_field name="morale">
 				<anchored to="hitDice" position="righthigh" offset="50,1" />
+        <tooltip textres="ct_label_morale" />
 			</string_ct_field>
 			<label name="moralelabel">
 				<anchored to="morale" position="lefthigh" offset="4,-2"/>
@@ -769,6 +770,7 @@
 
 			<string_ct_field name="size">
 				<anchored to="morale" position="righthigh" offset="35,1" />
+        <tooltip textres="ct_label_size" />
 			</string_ct_field>
 			<label name="sizelabel">
 				<anchored to="size" position="lefthigh" offset="4,-2"/>

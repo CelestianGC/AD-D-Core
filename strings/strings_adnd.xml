@@ -297,6 +297,8 @@
    	<!-- Combat Tracker -->
 	<string name="ct_label_token_size">Size</string>
   <string name="ct_label_token_reach">Reach</string>
+	<string name="ct_label_token_size_tooltip">Token size on map</string>
+  <string name="ct_label_token_reach_tooltip">Token reach on map</string>
   
 	<string name="ct_label_damage">Atks</string>
 	<string name="ct_label_speed">Mv</string>
