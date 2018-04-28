@@ -1096,12 +1096,12 @@
 				<class>power_item_spellrecord</class>
 			</subwindow_record>
             
-			<scrollbar_record>
+			<scrollbar_record_power>
 				<target>contents</target>
-			</scrollbar_record>
-			<scrollbar_record>
+			</scrollbar_record_power>
+			<scrollbar_record_power>
 				<target>spellactions</target>
-			</scrollbar_record>
+			</scrollbar_record_power>
 
 			<tabs_recordsheet>
 				<tab>
@@ -1336,7 +1336,8 @@
     
   <!-- list actions for this spell in the spell record --celestian -->
 	<windowclass name="power_item_spellrecord">
-		<margins control="0,0,0,2" />
+		<!-- <margins control="0,0,0,2" /> -->
+    <margins control="0,0,15,7" />
 		<script file="campaign/scripts/power_item.lua" />
 		<sheetdata>
 			<hs name="group" />
