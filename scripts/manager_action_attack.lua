@@ -484,11 +484,16 @@ function onAttack(rSource, rTarget, rRoll)
 		table.insert(rAction.aMessages, "[AUTOMATIC MISS]");
 	elseif nDefenseVal and nDefenseVal ~= 0 then
 --Debug.console("manager_action_attack.lua","onAttack","nDefenseVal",nDefenseVal);
-		if rAction.nTotal >= nDefenseVal then
+    -- nFirstDie = natural roll, nat 20 == auto-hit, if you can't crit you can still hit on a 20
+		if rAction.nTotal >= nDefenseVal or rAction.nFirstDie == 20 then
       rMessage.font = "hitfont";
       rMessage.icon = "chat_hit";
 			rAction.sResult = "hit";
-			table.insert(rAction.aMessages, "[HIT]");
+      local sHitText = "[HIT]";
+      if (rAction.nFirstDie == 20) then
+        sHitText = "[AUTOMATIC-HIT]";
+      end
+			table.insert(rAction.aMessages, sHitText);
 		else
       rMessage.font = "missfont";
       rMessage.icon = "chat_miss";
