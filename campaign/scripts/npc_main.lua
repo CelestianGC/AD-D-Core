@@ -129,18 +129,64 @@ function onSummaryChanged()
 	local sSize = size.getValue();
 	local sType = type.getValue();
 	local sAlign = alignment.getValue();
+  --
+  local sAC = ac.getValue();
+  local sHitDice = hitDice.getValue();
+  local sSpeed = speed.getValue();
+  local sTHACO = thaco.getValue();
+  local sNumAtks = numberattacks.getValue();
+  local sDamage = damage.getValue();
+  local sSpecialD = specialDefense.getValue();
+  local sSpecialA = specialAttacks.getValue();
+  local sMR = magicresistance.getValue();
+  local sMorale = morale.getValue();
+  local sXP = xp.getValue();
 	
 	local aText = {};
-	if sSize ~= "" then
-		table.insert(aText, sSize);
-	end
 	if sType ~= "" then
-		table.insert(aText, sType);
+		table.insert(aText, "Type: " .. sType);
+	end
+	if sSize ~= "" then
+		table.insert(aText, ", SZ: " .. sSize);
 	end
 	if sAlign ~= "" then
-		table.insert(aText, ", " .. sAlign);
+		table.insert(aText, "\rAL: " .. sAlign);
 	end
-	
+	if sHitDice ~= "" then
+		table.insert(aText, "\rHD: " .. sHitDice);
+	end
+	if sMorale ~= "" then
+		table.insert(aText, ", Morale: " .. sMorale);
+	end
+	if sAC ~= "" then
+		table.insert(aText, "\rAC: " .. sAC);
+	end
+	if sSpeed ~= "" then
+		table.insert(aText, ", MV: " .. sSpeed);
+	end
+	if sTHACO ~= "" then
+		table.insert(aText, "\rTHACO: " .. sTHACO);
+	end
+	if sNumAtks ~= "" then
+		table.insert(aText, ", #ATK: " .. sNumAtks);
+	end
+	if sDamage ~= "" then
+		table.insert(aText, ", DMG: " .. sDamage);
+	end
+	if sSpecialD ~= "" and sSpecialD:lower() ~= "nil" then
+		table.insert(aText, "\rSD: " .. sSpecialD);
+	end
+	if sSpecialA ~= "" and sSpecialA:lower() ~= "nil" then
+		table.insert(aText, "\rSA: " .. sSpecialA);
+	end
+	if sMR ~= "" then
+		table.insert(aText, "\rMR: " .. sMR);
+	end
+
+	if sXP ~= "" then
+		table.insert(aText, "\rXP: " .. sXP);
+	end
+  
 	summary_label.setValue(table.concat(aText, " "));
 end
 
@@ -148,6 +194,10 @@ function updateControl(sControl, bReadOnly, bForceHide)
 	if not self[sControl] then
 		return false;
 	end
+-- Debug.console("npc_main.lua","updateControl","self",self);  
+-- Debug.console("npc_main.lua","updateControl","sControl",sControl);  
+-- Debug.console("npc_main.lua","updateControl","bReadOnly",bReadOnly);  
+-- Debug.console("npc_main.lua","updateControl","bForceHide",bForceHide);  
 	
 	return self[sControl].update(bReadOnly, bForceHide);
 end
@@ -158,14 +208,24 @@ function update()
 	updateControl("size", bReadOnly, bReadOnly);
 	updateControl("type", bReadOnly, bReadOnly);
 	updateControl("alignment", bReadOnly, bReadOnly);
+  updateControl("ac", bReadOnly, bReadOnly);
+  updateControl("actext", bReadOnly, bReadOnly);
+  updateControl("hp", bReadOnly, bReadOnly);
+  updateControl("hd", bReadOnly, bReadOnly);
+  updateControl("hitDice", bReadOnly, bReadOnly);
+  updateControl("hdtext", bReadOnly, bReadOnly);
+  updateControl("thaco", bReadOnly, bReadOnly);
+  updateControl("speed", bReadOnly, bReadOnly);
+	updateControl("numberattacks", bReadOnly, bReadOnly);
+  updateControl("damage", bReadOnly, bReadOnly);
+  updateControl("specialDefense", bReadOnly, bReadOnly);
+  updateControl("specialAttacks", bReadOnly, bReadOnly);
+  updateControl("magicresistance", bReadOnly, bReadOnly);
+  updateControl("morale", bReadOnly, bReadOnly);
+  updateControl("xp", bReadOnly, bReadOnly);
 	summary_label.setVisible(bReadOnly);
-	
-	ac.setReadOnly(bReadOnly);
-	actext.setReadOnly(bReadOnly);
-	hp.setReadOnly(bReadOnly);
-	hd.setReadOnly(bReadOnly);
-	speed.setReadOnly(bReadOnly);
-	
+  --npc_line_editmode.setVisible(not bReadOnly);
+  
 	updateControl("strength", bReadOnly);
 	updateControl("constitution", bReadOnly);
 	updateControl("dexterity", bReadOnly);
@@ -184,6 +244,19 @@ function update()
 	updateControl("challengerating", bReadOnly);
 	updateControl("effect_combat", bReadOnly);
 	
+	
+	ac.setReadOnly(bReadOnly);
+	actext.setReadOnly(bReadOnly);
+	hp.setReadOnly(bReadOnly);
+	hd.setReadOnly(bReadOnly);
+  hitDice.setReadOnly(bReadOnly);
+  thaco.setReadOnly(bReadOnly);
+  numberattacks.setReadOnly(bReadOnly);
+  damage.setReadOnly(bReadOnly);
+  specialAttacks.setReadOnly(bReadOnly);
+  specialDefense.setReadOnly(bReadOnly);
+	speed.setReadOnly(bReadOnly);
+
 	cr.setReadOnly(bReadOnly);
 	xp.setReadOnly(bReadOnly);
 	

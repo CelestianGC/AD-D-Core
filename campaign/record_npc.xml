@@ -12,7 +12,7 @@
 			<size width="480" height="550" />
 		</placement>
 		<sizelimits>
-			<minimum width="480" height="400" />
+			<minimum width="480" height="250" />
 			<dynamic />
 		</sizelimits>
 		<minimize>minimized_npc</minimize>
@@ -110,6 +110,8 @@
 		<sheetdata>
 			<anchor_column name="columnanchor" />
 			
+<!-- 			<line_column name="npc_line_summary" /> -->
+			
 			<label_column name="size_label">
 				<static textres="npc_label_size" />
 			</label_column>
@@ -143,45 +145,44 @@
 				</script>
 			</string_columnh>
 			
-			<label_column name="summary_label">
-				<anchored>
-					<top relation="relative" />
-				</anchored>
-				<font>reference-b-large</font>
-			</label_column>
-			
-			<line_column />
-			
 			<label_column name="ac_label">
 				<static textres="armorclass" />
 			</label_column>
-			<number_column name="ac" />
+			<number_columnh name="ac">
+        <script>
+          function onValueChanged()
+            window.onSummaryChanged();
+          end
+        </script>
+			</number_columnh>
+
 			
 			<string_column_npc_remainder name="actext">
-				<anchored to="ac" />
+				<anchored to="ac"/>
 			</string_column_npc_remainder>
 
 			<label_column name="hp_label">
 				<static textres="hitpoints" />
 			</label_column>
-			<number_column name="hp" />
+			<number_columnh name="hp" />
 			<string_column_npc_remainder name="hd">
 				<anchored to="hp" />
 			</string_column_npc_remainder>
 
-			<label_column name="hitdice_label">
+			<label_column name="hitDice_label">
 				<static textres="npc_label_hitdice" />
 			</label_column>
-			<string_column_left name="hitDice" >
-                <script>
-                    function onValueChanged()
-                        local node = getDatabaseNode();
-                        local nodeNPC = node.getChild("..");
-                        CombatManager2.updateNPCSaves(nodeNPC, nodeNPC, true);
-                        CombatManager2.updateNPCLevels(nodeNPC, true);
-                    end
-                </script>
-            </string_column_left>
+			<string_column_left_adnd name="hitDice" >
+        <script>
+          function onValueChanged()
+            local node = getDatabaseNode();
+            local nodeNPC = node.getChild("..");
+            CombatManager2.updateNPCSaves(nodeNPC, nodeNPC, true);
+            CombatManager2.updateNPCLevels(nodeNPC, true);
+            window.onSummaryChanged();
+          end
+        </script>
+      </string_column_left_adnd>
 			<string_column_npc_remainder name="hdtext" >
 				<anchored to="hitDice" />
 			</string_column_npc_remainder>
@@ -189,9 +190,14 @@
 			<label_column name="thaco_label">
 				<static textres="npc_label_thaco" />
 			</label_column>
-			<number_column name="thaco">
-                <default>20</default>
-            </number_column>
+			<number_columnh name="thaco">
+        <script>
+          function onValueChanged()
+            window.onSummaryChanged();
+          end
+        </script>
+        <default>20</default>
+      </number_columnh>
 
 			<label_npc name="speed_label">
 				<anchored to="thaco" position="right" offset="10,0"/>
@@ -199,6 +205,11 @@
 			</label_npc>
 			<string_column_npc_remainder name="speed">
 				<anchored to="speed_label" />
+        <script>
+          function onValueChanged()
+            window.onSummaryChanged();
+          end
+        </script>
 			</string_column_npc_remainder>
 
 			<label_column name="numberattacks_label">
@@ -208,6 +219,11 @@
 				<anchored width="120">
 					<right merge="delete" />
 				</anchored>
+        <script>
+          function onValueChanged()
+            window.onSummaryChanged();
+          end
+        </script>
 			</string_columnh>
 
 
@@ -217,17 +233,36 @@
 			</label_npc>
 			<string_column_npc_remainder name="damage">
 				<anchored to="damage_label" />
+        <script>
+          function onValueChanged()
+            window.onSummaryChanged();
+          end
+        </script>
 			</string_column_npc_remainder>
 
 			<label_column name="specialDefense_label">
 				<static textres="npc_label_specialDefense" />
 			</label_column>
-			<string_column name="specialDefense" />
+			<string_columnh name="specialDefense">
+        <script>
+          function onValueChanged()
+            window.onSummaryChanged();
+          end
+        </script>
+			</string_columnh>
+      
 
 			<label_column name="specialAttacks_label">
 				<static textres="npc_label_specialAttacks" />
 			</label_column>
-			<string_column name="specialAttacks" />
+			<string_columnh name="specialAttacks">
+        <script>
+          function onValueChanged()
+            window.onSummaryChanged();
+          end
+        </script>
+			</string_columnh>
+      
 
 			<label_column name="magicresistance_label">
 				<static textres="npc_label_magicresistance" />
@@ -236,6 +271,11 @@
 				<anchored width="120">
 					<right merge="delete" />
 				</anchored> 
+        <script>
+          function onValueChanged()
+            window.onSummaryChanged();
+          end
+        </script>
 			</string_columnh>
 			<label_npc name="morale_label">
 				<static textres="npc_label_morale" />
@@ -243,15 +283,37 @@
 			</label_npc>
 			<string_column_npc_remainder name="morale">
 							<anchored to="morale_label" />
+        <script>
+          function onValueChanged()
+            window.onSummaryChanged();
+          end
+        </script>
 			</string_column_npc_remainder>
 
 			<label_column name="xp_label">
 				<static textres="xp" />
 			</label_column>
       
-			<number_column name="xp" />
+			<number_columnh name="xp">
+        <script>
+          function onValueChanged()
+            window.onSummaryChanged();
+          end
+        </script>
+			</number_columnh>
       
-			<line_column />
+      
+			<label name="summary_label">
+				<anchored height="175">
+					<top parent="columnanchor" anchor="bottom" offset="7" relation="relative" />
+          <left />
+				</anchored>
+				<font>reference-b-large</font>
+        <multilinespacing>20</multilinespacing>
+			</label>
+			
+			<line_column name="npc_line_editmode"/>
+      
 			<number_npc_abilityscore name="strength" source="abilities.strength.base">
 				<anchored merge="replace" width="40" height="30">
 					<top parent="columnanchor" anchor="bottom" relation="relative" offset="12" />
@@ -811,7 +873,8 @@
 				<datasource>.spells</datasource>
 				<class>npc_power</class>
 			</list_npcactions>
- -->		</sheetdata>
+ -->		
+    </sheetdata>
 	</windowclass>
 
 	<windowclass name="npc_power">

@@ -699,5 +699,25 @@
 			<anchored to="contentframe" offset="-15,-10,-10,0"/>
 		</scrollbar>
 	</template>
+	<template name="string_column_npc_remainder">
+		<basicstring>
+      <script file="common/scripts/column_string.lua" />
+			<anchored position="righthigh" offset="10,0" height="20">
+				<right parent="" offset="-5" />
+			</anchored>
+		</basicstring>
+	</template>
+	<template name="label_column_adnd">
+		<label>
+		</label>
+	</template>
+	<template name="string_column_left_adnd">
+		<string_column>
+    <script file="common/scripts/column_string.lua" />
+			<anchored width="60">
+				<right merge="delete" />
+			</anchored>
+		</string_column>
+	</template>
     
 </root>
