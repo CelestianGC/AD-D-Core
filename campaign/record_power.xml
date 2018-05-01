@@ -525,8 +525,8 @@
 							setValue(1);
 							setVisible(true);
 						else
-                            setValue(0);
-                            setVisible(false);
+              setValue(0);
+              setVisible(false);
 						end
 					end
 				</script>
@@ -560,7 +560,7 @@
 				<class>power_memorization</class>
 				<activate />
 				<fastinit />
-                <invisible />
+        <invisible />
 			</subwindow>
                
 			<list_poweraction name="actions">
@@ -687,7 +687,7 @@
 					<top offset="5"/>
 					<left anchor="right" relation="relative" offset="2" />
 				</anchored>
-                <tooltip textres="power_label_memorize_tooltip" />
+        <tooltip textres="power_label_memorize_tooltip" />
 				<icon normal="button_action_memorize" pressed="button_action_memorize_down" />
 			</button_powermemorize>
 			<label name="memorizelabel">
@@ -696,15 +696,15 @@
 					<left anchor="right" relation="relative" offset="2" />
 				</anchored>
 				<static textres="power_label_memorize" />
-                <tooltip textres="power_label_memorize_tooltip" />
+        <tooltip textres="power_label_memorize_tooltip" />
 			</label>
  			<basicnumber name="memorizedcount" source="memorized">
 				<anchored to="leftanchor" width="25" height="18">
 					<top offset="5"/>
 					<left anchor="right" relation="relative" offset="10" />
 				</anchored>
-                <readonly />
-                <tooltip textres="power_label_memorizecount_tooltip" />
+        <readonly />
+        <tooltip textres="power_label_memorizecount_tooltip" />
 			</basicnumber> 
         </sheetdata>
     </windowclass>
@@ -714,8 +714,8 @@
 		<margins control="0,0,0,5" />
 		<script file="campaign/scripts/power_action.lua" />
 		<sheetdata>
-            <anchor_right />
-            <anchor_left />
+      <anchor_right />
+      <anchor_left />
             
 			<hn name="order" />
 			<hs name="type">
@@ -731,15 +731,15 @@
 			</button_idelete>
 			<!-- CAST -->
 			<button_poweraction name="castbutton">
-                <tooltip textres="power_label_cast_tooltip" />
+        <tooltip textres="power_label_cast_tooltip" />
 				<anchored to="leftanchor" height="18">
 					<top offset="5"/>
 					<left anchor="right" relation="relative" offset="5" />
 				</anchored>
-
 			</button_poweraction>
+      
 			<label name="castlabel">
-                <tooltip textres="power_label_cast_tooltip" />
+        <tooltip textres="power_label_cast_tooltip" />
 				<anchored to="leftanchor" height="18">
 					<top offset="5"/>
 					<left anchor="right" relation="relative" offset="2" />
@@ -815,9 +815,9 @@
           <tooltip textres="power_label_hidespell_tooltip" />
           <icon normal="button_dialog_cancel" pressed="button_dialog_cancel_down" />
           <script>
-              function onButtonPress()
-                  window.hideSpellPressed()
-              end
+            function onButtonPress()
+              window.hideSpellPressed()
+            end
           </script>
       </button_powermemorize>
 			<label name="hidespelllabel">

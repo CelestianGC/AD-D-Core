@@ -299,8 +299,9 @@ bonuscomps = {
 	"INT",
 	"WIS",
 	"CHA",
-  "MAC", -- ranged AC (when being attacked by range weapon)
-  "RAC"  -- melee AC (when being attacked by melee)
+  "MELEEAC",  -- ranged AC (when being attacked by range weapon)
+  "RANGEAC",  -- melee AC (when being attacked by melee)
+  "MAC",      -- Mental AC
 };
 
 -- Condition effect types for token widgets
@@ -379,11 +380,11 @@ dmgtypes = {
 	"silver",
 	"slashing",
 	"critical", -- SPECIAL DAMAGE TYPES
-    "magic +1", --+1 weapons
-    "magic +2", --+2 weapons
-    "magic +3", --+3 weapons
-    "magic +4", --+4 weapons
-    "magic +5", --+5 weapons
+  "magic +1", --+1 weapons
+  "magic +2", --+2 weapons
+  "magic +3", --+3 weapons
+  "magic +4", --+4 weapons
+  "magic +5", --+5 weapons
 };
 
 specialdmgtypes = {

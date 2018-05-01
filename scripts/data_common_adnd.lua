@@ -82,9 +82,10 @@
     
     -- base effect, take LOWEST (low AC is good remember)
     lowtypes = {
-      "BAC",  -- base AC
-      "BRAC", -- base ranged AC (attack is via range)
-      "BMAC" -- base melee AC
+      "BAC",      -- base AC
+      "BRANGEAC", -- base ranged AC (attack is via range)
+      "BMELEEAC", -- base melee AC
+      "BMAC",     -- base mental AC
     };
     
     -- also added these effect tags

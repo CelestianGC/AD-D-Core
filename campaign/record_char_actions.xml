@@ -468,25 +468,23 @@
 	<windowclass name="charsheet_actions_contents_weapons">
 		<margins control="0,0,0,2" />
 		<script>
-            function onInit()
-                local node = getDatabaseNode();
-                if not string.match(node.getPath(),"^charsheet") and not User.isHost() then
-                    return;
-                end				
-                registerMenuItem(Interface.getString("list_menu_createitem"), "insert", 5);
-                onModeChanged();
-            end
-            
-			function onModeChanged()
-				weapons.onModeChanged();
-			end
-            function onMenuSelection(selection, subselection)
-                if selection == 5 then
-                    weapons.addEntry(true);
-                end
-            end                    
-
-        </script>
+      function onInit()
+        local node = getDatabaseNode();
+        if not string.match(node.getPath(),"^charsheet") and not User.isHost() then
+          return;
+        end				
+        registerMenuItem(Interface.getString("list_menu_createitem"), "insert", 5);
+        onModeChanged();
+      end
+      function onModeChanged()
+        weapons.onModeChanged();
+      end
+      function onMenuSelection(selection, subselection)
+        if selection == 5 then
+          weapons.addEntry(true);
+        end
+      end                    
+    </script>
 		<sheetdata>
 			<anchor_column name="columnanchor" />
 			<genericcontrol name="leftanchor">
@@ -602,26 +600,25 @@
 	<windowclass name="charsheet_actions_contents_powers">
 		<margins control="0,0,0,2" />
 		<script>
-            function onInit()
-                local node = getDatabaseNode();
-                if not string.match(node.getPath(),"^charsheet") and not User.isHost() then
-                    return;
-                end				
-                registerMenuItem(Interface.getString("list_menu_createitem"), "insert", 5);
-                onModeChanged();
-            end
+      function onInit()
+        local node = getDatabaseNode();
+        if not string.match(node.getPath(),"^charsheet") and not User.isHost() then
+          return;
+        end				
+        registerMenuItem(Interface.getString("list_menu_createitem"), "insert", 5);
+        onModeChanged();
+      end
             
 			function onModeChanged()
 				spellslots_prep.subwindow.onModeChanged();
 				spellslots_cast.subwindow.onModeChanged();
 				actions.subwindow.onModeChanged();
 			end
-            function onMenuSelection(selection, subselection)
-                if selection == 5 then
-                    actions.subwindow.powers.addEntry(true);
-                end
-            end                    
-            
+      function onMenuSelection(selection, subselection)
+        if selection == 5 then
+          actions.subwindow.powers.addEntry(true);
+        end
+      end                    
 		</script>
 		<sheetdata>
 			<anchor_column name="columnanchor" />

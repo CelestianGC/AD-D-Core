@@ -461,13 +461,13 @@ Debug.console("manager_actor2.lua","getDefenseValue","rRoll.range",rRoll.range);
   local nBonusACBase, nBonusACEffects = EffectManager5E.getEffectsBonus(rDefender, "BAC",true);
 
   if (bAttackMelee) then
-    nBaseMeleeAC, nMeleeACEffect = EffectManager5E.getEffectsBonus(rDefender, "BMAC",true);
-    nMeleeACMod, nMeleeACModEffect = EffectManager5E.getEffectsBonus(rDefender, "MAC",true);
+    nBaseMeleeAC, nMeleeACEffect = EffectManager5E.getEffectsBonus(rDefender, "BMELEEAC",true);
+    nMeleeACMod, nMeleeACModEffect = EffectManager5E.getEffectsBonus(rDefender, "MELEEAC",true);
   end
   
   if (bAttackRanged) then
-    nBaseRangeAC, nRangeACEffect = EffectManager5E.getEffectsBonus(rDefender, "BRAC",true);
-    nRangeACMod, nRangeACModEffect = EffectManager5E.getEffectsBonus(rDefender, "RAC",true);
+    nBaseRangeAC, nRangeACEffect = EffectManager5E.getEffectsBonus(rDefender, "BRANGEAC",true);
+    nRangeACMod, nRangeACModEffect = EffectManager5E.getEffectsBonus(rDefender, "RANGEAC",true);
   end
   
   -- if PC
