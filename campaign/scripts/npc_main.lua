@@ -205,25 +205,46 @@ end
 function update()
 	local bReadOnly = WindowManager.getReadOnlyState(getDatabaseNode());
 
-	updateControl("size", bReadOnly, bReadOnly);
-	updateControl("type", bReadOnly, bReadOnly);
-	updateControl("alignment", bReadOnly, bReadOnly);
-  updateControl("ac", bReadOnly, bReadOnly);
-  updateControl("actext", bReadOnly, bReadOnly);
+	updateControl("size", bReadOnly);
+	updateControl("type", bReadOnly);
+	updateControl("alignment", bReadOnly);
+  updateControl("ac", bReadOnly);
+  updateControl("actext", bReadOnly);
   updateControl("hp", bReadOnly, bReadOnly);
   updateControl("hd", bReadOnly, bReadOnly);
   updateControl("hitDice", bReadOnly, bReadOnly);
-  updateControl("hdtext", bReadOnly, bReadOnly);
-  updateControl("thaco", bReadOnly, bReadOnly);
-  updateControl("speed", bReadOnly, bReadOnly);
-	updateControl("numberattacks", bReadOnly, bReadOnly);
-  updateControl("damage", bReadOnly, bReadOnly);
-  updateControl("specialDefense", bReadOnly, bReadOnly);
-  updateControl("specialAttacks", bReadOnly, bReadOnly);
-  updateControl("magicresistance", bReadOnly, bReadOnly);
-  updateControl("morale", bReadOnly, bReadOnly);
-  updateControl("xp", bReadOnly, bReadOnly);
-	summary_label.setVisible(bReadOnly);
+  updateControl("hdtext", bReadOnly);
+  updateControl("thaco", bReadOnly);
+  updateControl("speed", bReadOnly);
+	updateControl("numberattacks", bReadOnly);
+  updateControl("damage", bReadOnly);
+  updateControl("specialDefense", bReadOnly);
+  updateControl("specialAttacks", bReadOnly);
+  updateControl("magicresistance", bReadOnly);
+  updateControl("morale", bReadOnly);
+  updateControl("xp", bReadOnly);
+
+	-- updateControl("size", bReadOnly, bReadOnly);
+	-- updateControl("type", bReadOnly, bReadOnly);
+	-- updateControl("alignment", bReadOnly, bReadOnly);
+  -- updateControl("ac", bReadOnly, bReadOnly);
+  -- updateControl("actext", bReadOnly, bReadOnly);
+  -- updateControl("hp", bReadOnly, bReadOnly);
+  -- updateControl("hd", bReadOnly, bReadOnly);
+  -- updateControl("hitDice", bReadOnly, bReadOnly);
+  -- updateControl("hdtext", bReadOnly, bReadOnly);
+  -- updateControl("thaco", bReadOnly, bReadOnly);
+  -- updateControl("speed", bReadOnly, bReadOnly);
+	-- updateControl("numberattacks", bReadOnly, bReadOnly);
+  -- updateControl("damage", bReadOnly, bReadOnly);
+  -- updateControl("specialDefense", bReadOnly, bReadOnly);
+  -- updateControl("specialAttacks", bReadOnly, bReadOnly);
+  -- updateControl("magicresistance", bReadOnly, bReadOnly);
+  -- updateControl("morale", bReadOnly, bReadOnly);
+  -- updateControl("xp", bReadOnly, bReadOnly);
+  --summary_label.setVisible(bReadOnly);
+  
+	summary_label.setVisible(false); -- dont use this anymore, just hide it all the time
   --npc_line_editmode.setVisible(not bReadOnly);
   
 	updateControl("strength", bReadOnly);
@@ -244,7 +265,15 @@ function update()
 	updateControl("challengerating", bReadOnly);
 	updateControl("effect_combat", bReadOnly);
 	
-	
+	updateControl("organization", bReadOnly);
+	updateControl("diet", bReadOnly);
+	updateControl("frequency", bReadOnly);
+	updateControl("activity", bReadOnly);
+	updateControl("climate", bReadOnly);
+	updateControl("numberappearing", bReadOnly);
+	updateControl("intelligence_text", bReadOnly);
+	updateControl("treasure", bReadOnly);
+
 	ac.setReadOnly(bReadOnly);
 	actext.setReadOnly(bReadOnly);
 	hp.setReadOnly(bReadOnly);
@@ -260,6 +289,15 @@ function update()
 	cr.setReadOnly(bReadOnly);
 	xp.setReadOnly(bReadOnly);
 	
+  organization.setReadOnly(bReadOnly);
+  diet.setReadOnly(bReadOnly);
+  frequency.setReadOnly(bReadOnly);
+  activity.setReadOnly(bReadOnly);
+  climate.setReadOnly(bReadOnly);
+  numberappearing.setReadOnly(bReadOnly);
+  intelligence_text.setReadOnly(bReadOnly);
+  treasure.setReadOnly(bReadOnly);
+
 	-- if bReadOnly then
 		-- if traits_iedit then
 			-- traits_iedit.setValue(0);

@@ -594,7 +594,7 @@
 			<label_column name="organization_label">
 				<static textres="npc_label_organization" />
 			</label_column>
-			<string_column name="organization" />
+			<string_columnh name="organization" />
 
 			<label_column name="diet_label">
 				<static textres="npc_label_diet" />
@@ -634,17 +634,17 @@
 			<label_column name="numberappearing_label">
 				<static textres="npc_label_numberappearing" />
 			</label_column>
-			<string_column name="numberappearing" />
+			<string_columnh name="numberappearing" />
 
 			<label_column name="intelligence_label">
 				<static textres="npc_label_intelligence" />
 			</label_column>
-			<string_column name="intelligence_text" />
+			<string_columnh name="intelligence_text" />
 
 			<label_column name="treasure_label">
 				<static textres="npc_label_treasure" />
 			</label_column>
-			<string_column name="treasure" />
+			<string_columnh name="treasure" />
 
 
       <line_column />

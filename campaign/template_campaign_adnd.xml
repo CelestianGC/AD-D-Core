@@ -719,5 +719,14 @@
 			</anchored>
 		</string_column>
 	</template>
+	<template name="number_column_right_adnd">
+		<basicnumber>
+      <script file="common/scripts/column_number.lua" />
+			<anchored width="40" height="20">
+				<top />
+				<right parent="" offset="-5" />
+			</anchored>
+		</basicnumber>
+	</template>
     
 </root>

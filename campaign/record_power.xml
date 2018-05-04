@@ -1196,6 +1196,14 @@
 		<sheetdata>
 			<anchor_column name="columnanchor" />
 
+			<label_column name="summary_label">
+				<anchored>
+					<top relation="relative" offset="7" />
+				</anchored>
+				<font>reference-b-large</font>
+			</label_column>
+
+      
 			<label_column name="shortdescription_label">
 				<static textres="ref_label_shortdescription" />
 			</label_column>
@@ -1206,20 +1214,20 @@
 			<line_column name="divider" />
 
 			<label_column name="type_label">
-                <script>
-                        function onValueChanged()
-                            window.update();
-                        end
-                </script>
+        <script>
+          function onValueChanged()
+            window.update();
+          end
+        </script>
 				<static textres="ref_label_type" />
 			</label_column>
 			<string_columnh name="type">
 				<gmeditonly />
-                <script>
-                        function onValueChanged()
-                            window.update();
-                        end
-                </script>
+        <script>
+          function onValueChanged()
+            window.update();
+          end
+        </script>
 			</string_columnh>
 			
 			<label_column name="level_label">
@@ -1248,28 +1256,43 @@
 			</string_columnh>
 			
 			<label_column name="sphere_label">
-                <script>
-                        function onValueChanged()
-                            window.update();
-                        end
-                </script>
 				<static textres="ref_label_sphere" />
 			</label_column>
 			<string_columnh name="sphere">
 				<gmeditonly />
-                <script>
-                        function onValueChanged()
-                            window.update();
-                        end
-                </script>
+          <script>
+            function onValueChanged()
+              window.onSummaryChanged();
+            end
+          </script>
 			</string_columnh>
 
-			<label_column name="summary_label">
-				<anchored>
-					<top relation="relative" offset="7" />
-				</anchored>
-				<font>reference-b-large</font>
+			<label_column name="discipline_label">
+				<static textres="ref_label_discipline" />
 			</label_column>
+			<string_columnh name="discipline">
+				<gmeditonly />
+          <script>
+            function onValueChanged()
+              window.onSummaryChanged();
+            end
+          </script>
+			</string_columnh>
+
+			<label_column name="disciplinetype_label">
+				<static textres="ref_label_disciplinetype" />
+			</label_column>
+			<string_columnh name="disciplinetype" >
+				<gmeditonly />
+      </string_columnh>
+
+			<label_column name="prerequisite_label">
+				<static textres="ref_label_prerequisite" />
+			</label_column>
+			<string_columnh name="prerequisite" >
+				<gmeditonly />
+      </string_columnh>
+
 
 			<line_column name="divider2" />
 
@@ -1278,7 +1301,7 @@
 			</label_column>
 			<string_columnh name="castingtime" >
 				<gmeditonly />
-            </string_columnh>
+      </string_columnh>
 
 			<label_column name="range_label">
 				<static textres="ref_label_range" />
@@ -1315,8 +1338,31 @@
 			</label_column>
 			<string_columnh name="save" >
 				<gmeditonly />
-            </string_columnh>
+      </string_columnh>
 
+			<label_column name="mac_label">
+				<static textres="ref_label_mac" />
+			</label_column>
+			<number_columnh name="mac" >
+				<gmeditonly />
+        <default>10</default>
+      </number_columnh>
+
+			<label_column name="pspcost_label">
+				<static textres="ref_label_pspcost" />
+			</label_column>
+			<number_columnh name="pspcost" >
+				<gmeditonly />
+      </number_columnh>
+
+			<label name="pspfail_label">
+        <anchored to="pspcost" position="insidetopright" offset="-80,0"/>
+				<static textres="ref_label_pspfail" />
+			</label>
+			<number_column_right_adnd name="pspfail" >
+        <anchored to="pspfail_label" />
+				<gmeditonly />
+      </number_column_right_adnd>
 
 			<ft_columnh name="description" >
 							<gmeditonly />

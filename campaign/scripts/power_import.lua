@@ -45,6 +45,8 @@ function processImportText()
                       {"^sphere:","sphere"},
                       {"^type:","type"},
                       
+                      {"^prerequisite:","prerequisite"},
+                      
                       {"^arcane ","school","(.*)$"},
                       {"^phantasmal ","school","(.*)$"},
                       {"^druidic ","sphere","(.*)$"},
@@ -53,6 +55,9 @@ function processImportText()
                       };
     local number_matches = {
                       {"^level:","level","(%d+)$"},
+                      {"^mac:","mac","(%d+)"},
+                      {"^psp cost:","pspcost","(%d+)/%d+$"},
+                      {"^psp cost:","pspfail","%d+/(%d+)$"},
                       };
     local nodeSpell = createBlankPower();
     local sDescription = "";
@@ -118,6 +123,9 @@ Debug.console("power_import.lua","processImportText","END sParagraph",sParagraph
 
     -- setup spell actions
     setActions(nodeSpell)
+
+    -- for psionics
+    setDisciplines(nodeSpell)
   end
 end
 
@@ -142,12 +150,40 @@ function setType(nodeSpell)
     local sType = "Arcane";
     local sSphere = DB.getValue(nodeSpell,"sphere","");
     local sSchool = DB.getValue(nodeSpell,"school","");
+    local sPrerequisite = DB.getValue(nodeSpell,"prerequisite","");
+    local nPSPCost = DB.getValue(nodeSpell,"pspcost",0);
+    local nPSPCostFail = DB.getValue(nodeSpell,"pspfail",0);
+    local nMAC = DB.getValue(nodeSpell,"mac",0);
     if (sSphere ~= "") then
       sType = "Divine"
     elseif (sSchool ~= "") then -- this isn't necessary since we default to this but...
       sType = "Arcane"
+    elseif sPrerequisite ~= "" or nPSPCost ~= 0 or nPSPCostFail ~= 0 or nMAC ~= 0 then
+      sType = "Psionic"
     end
     DB.setValue(nodeSpell,"type","string",sType);
+end
+
+function setDisciplines(nodeSpell)
+  local sNameOriginal = DB.getValue(nodeSpell,"name","");
+  local sType = DB.getValue(nodeSpell,"type","");
+  if (sType ~= "") then
+    local sName, sDiscipline, sPsionicType = string.match(sNameOriginal,"^(.*)%((%w+) (%w+)%)$");
+    sName = StringManager.trim(sName);
+    sDiscipline = StringManager.trim(sDiscipline);
+    sPsionicType = StringManager.trim(sPsionicType);
+    sDiscipline = StringManager.capitalize(sDiscipline);
+    sPsionicType = StringManager.capitalize(sPsionicType);
+
+    Debug.console("power_import.lua","setDisciplines","sNameOriginal",sNameOriginal); 
+    Debug.console("power_import.lua","setDisciplines","sName",sName); 
+    Debug.console("power_import.lua","setDisciplines","sDiscipline",sDiscipline); 
+    Debug.console("power_import.lua","setDisciplines","sPsionicType",sPsionicType); 
+    
+    DB.setValue(nodeSpell,"name","string",sName);
+    DB.setValue(nodeSpell,"discipline","string",sDiscipline);
+    DB.setValue(nodeSpell,"disciplinetype","string",sPsionicType);
+  end
 end
 
 function setReverse(nodeSpell)
