@@ -392,8 +392,8 @@ function updatePowerWindowUses(nodeChar, w)
             end
             -- nil kludge tweak --celestian
 			if rGroup and 
-                (nTotalCast >= nAvailable) and 
-                                (nAvailable > 0) then 
+        (nTotalCast >= nAvailable) and 
+          (nAvailable > 0) then 
 				bShow = false;
 			elseif (nCast >= nPrepared) and (nPrepared > 0) then
 				bShow = false;
