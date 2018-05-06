@@ -314,6 +314,7 @@
 	<string name="char_label_nextlevel">NEXT LEVEL</string>
 	
 	<string name="char_combatcalc_title">COMBAT CALC</string>
+  <string name="char_combat_psionic_title">PSIONIC COMBAT</string>
 	<string name="char_label_initdetail">Init:</string>
 	<string name="char_label_initmisc">Misc</string>
 	<string name="char_label_speeddetail">Speed:</string>

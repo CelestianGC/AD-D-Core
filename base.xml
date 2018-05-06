@@ -179,6 +179,6 @@
   <script name="ManagerImportADND" file="scripts/manager_import_adnd.lua" />
   <script name="TokenManagerDeathIndicator" file="scripts/manager_token_DeathIndicator.lua" />
   <script name="SingleWindowManager" file="scripts/singlewindow.lua" />
-  <script name="ManagerMTHACO" file="scripts/manager_mthaco_adnd.lua" />
+  <script name="ManagerPsionics" file="scripts/manager_psionics_adnd.lua" />
 
 </root>

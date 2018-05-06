@@ -451,6 +451,18 @@
 				<invisible />
 			</subwindow>
 
+			<subwindow name="psionic_stats">
+				<anchored>
+					<top parent="columnanchor" anchor="bottom" relation="relative" offset="3" />
+					<left />
+					<right />
+				</anchored>
+				<class>psionic_power_stats</class>
+				<activate />
+				<fastinit />
+				<invisible />
+			</subwindow>
+
 			<subwindow name="actions">
 				<anchored>
 					<top parent="columnanchor" anchor="bottom" relation="relative" offset="0" />
@@ -646,6 +658,18 @@
 				<invisible />
 			</subwindow>
 
+			<subwindow name="psionic_stats">
+				<anchored>
+					<top parent="columnanchor" anchor="bottom" relation="relative" offset="3" />
+					<left />
+					<right />
+				</anchored>
+				<class>psionic_power_stats</class>
+				<activate />
+				<fastinit />
+				<invisible />
+			</subwindow>
+
 			<subwindow name="actions">
 				<anchored>
 					<top parent="columnanchor" anchor="bottom" relation="relative" offset="0" />
@@ -724,4 +748,312 @@
 			<close_charsheethelper />
 		</sheetdata>
 	</windowclass>
+
+  <!-- psionic combat stats for power window -->
+	<windowclass name="psionic_power_stats">
+    <margins control="0,0,0,2" />
+			<script>
+				function onInit()
+          local node = getDatabaseNode();
+          ManagerPsionics.updatePsionicStats(node);
+				end
+			</script>
+		<sheetdata>
+			<anchor_column name="columnanchor" />
+			
+			<label_charframetop name="slotstitle">
+				<anchored height="20">
+					<top parent="columnanchor" anchor="bottom" relation="relative" offset="15" />
+					<left offset="15" />
+					<right offset="-10" />
+				</anchored>
+				<icons>char_powers</icons>
+				<static text="Psionic Power Stats" />
+			</label_charframetop>
+
+			<label name="psionic_powers_label">
+				<anchored width="80">
+					<top parent="columnanchor" anchor="bottom" relation="current" offset="17" />
+					<left offset="40" />
+				</anchored>
+				<static text="Psionic" />
+			</label>
+
+      <!-- level -->
+      <basicnumber name="psionic" source="psionic.totalLevel">
+        <anchored to="psionic_powers_label"  position="lefthigh" offset="10,0" width="20" height="20" />
+        <tooltip text="Psionic levels" />
+      </basicnumber>
+
+      <number_basic name="mac_score" source="combat.mac.score">
+        <anchored to="psionic_powers_label" position="right" offset="10,0" />
+        <readonly />
+      </number_basic>
+			<label_fieldtop name="label_mac_score">
+				<anchored to="mac_score" />
+				<static text="MAC" />
+      </label_fieldtop>
+      
+      <number_basic name="psp_score" source="combat.psp.score">
+        <anchored to="mac_score" position="right" offset="10,0" />
+        <readonly />
+      </number_basic>
+			<label_fieldtop name="label_psp_score">
+				<anchored to="psp_score" />
+				<static text="PSP" />
+      </label_fieldtop>
+
+      <number_basic name="mthaco_score" source="combat.mthaco.score">
+        <anchored to="psp_score" position="right" offset="10,0" />
+        <readonly />
+      </number_basic>
+			<label_fieldtop name="label_mthaco_score">
+				<anchored to="mthaco_score" />
+				<static text="MTHACO" />
+      </label_fieldtop>
+      
+
+      <button_combat_psionic_details>
+        <anchored to="mthaco_score" position="righthigh" offset="5,0" />
+      </button_combat_psionic_details>
+      
+		</sheetdata>
+	</windowclass>
+  
+  <!-- end psionic combat power window-->
+
+  <!-- psionic combat details panel -->
+  
+	<template name="button_combat_psionic_details">
+		<buttoncontrol>
+			<anchored width="20" height="20" />
+			<state icon="button_details" pressed="button_details_down" />
+			<script>
+				function onButtonPress()
+        local node = window.getDatabaseNode();
+        Debug.console("record_char_combat.xml","button_combat_psionic_details","node-->>",node);
+					Interface.openWindow("combat_psionic_details", window.getDatabaseNode());
+				end
+			</script>
+		</buttoncontrol>
+	</template>
+
+  <windowclass name="combat_psionic_details">
+		<frame>charsheethelper</frame>
+		<placement>
+			<size width="440" height="280" />
+		</placement>
+		<nodelete />
+		<playercontrol />
+		<sheetdata>
+			<windowtitlebar_char name="title">
+				<prefix>char_combat_psionic_title</prefix>
+			</windowtitlebar_char>
+			<anchor_title_charsheethelper name="contentanchor" />
+
+			<anchor_column name="columnanchor">
+				<anchored to="contentanchor" position="below" offset="0,-5" />
+			</anchor_column>
+			<anchor_left />
+      <anchor_right />
+
+      <!-- MAC Mental Armor Class -->
+      <label name="label_details_mac">
+				<anchored width="60">
+					<top parent="columnanchor" anchor="bottom" relation="relative" offset="20" />
+					<left offset="30" />
+				</anchored>
+				<static text="Mental AC" />
+        <tooltip text="Mental Armor Class" />
+      </label>
+      
+      <number_basic name="mac_base" source="combat.mac.base">
+        <anchored to="label_details_mac" position="right" offset="10,0" />
+        <default>10</default>
+      </number_basic>
+			<label_fieldtop name="label_mac_base">
+				<anchored to="mac_base" />
+				<static text="Base" />
+      </label_fieldtop>
+      
+      <number_basic name="mac_basemod" source="combat.mac.basemod">
+        <anchored to="mac_base" position="right" offset="10,0" />
+        <default>99</default>
+        <hideonvalue>99</hideonvalue>
+      </number_basic>
+			<label_fieldtop name="label_mac_basemod">
+				<anchored to="mac_basemod" />
+				<static text="B-Mod" />
+      </label_fieldtop>
+      
+      <text_plus name="plus_mac_basemod">
+        <anchored to="mac_basemod" position="righthigh" offset="50" />
+      </text_plus>
+      
+      <number_basic name="mac_mod" source="combat.mac.mod">
+        <anchored to="plus_mac_basemod" position="right" offset="10,0" />
+      </number_basic>
+			<label_fieldtop name="label_mac_mod">
+				<anchored to="mac_mod" />
+				<static text="Mod" />
+      </label_fieldtop>
+      
+      <text_plus name="plus_mac_mod">
+        <anchored to="mac_mod" position="righthigh" offset="10" />
+      </text_plus>
+      
+      <number_basic name="mac_tempmod" source="combat.mac.tempmod">
+        <anchored to="plus_mac_mod" position="right" offset="5,0" />
+      </number_basic>
+			<label_fieldtop name="label_mac_tempmod">
+				<anchored to="mac_tempmod" />
+				<static text="Temp" />
+      </label_fieldtop>
+      
+      <text_equal name="equal_mac_tempmod">
+        <anchored to="mac_tempmod" position="righthigh" offset="10" />
+      </text_equal>
+      
+      <number_basic name="mac_score" source="combat.mac.score">
+        <anchored to="equal_mac_tempmod" position="right" offset="5,0" />
+      </number_basic>
+			<label_fieldtop name="label_mac_score">
+				<anchored to="mac_score" />
+				<static text="Total" />
+      </label_fieldtop>
+      
+      <!-- PSP -->
+      <label name="label_details_psp">
+				<anchored width="60">
+					<top parent="columnanchor" anchor="bottom" relation="relative" offset="20" />
+					<left offset="30" />
+				</anchored>
+				<static text="PS Points" />
+        <tooltip text="Psionic Strength Points" />
+      </label>
+      
+      <number_basic name="psp_base" source="combat.psp.base">
+        <anchored to="label_details_psp" position="right" offset="10,0" />
+      </number_basic>
+			<label_fieldtop name="label_psp_base">
+				<anchored to="psp_base" />
+				<static text="Base" />
+      </label_fieldtop>
+      
+      <number_basic name="psp_basemod" source="combat.psp.basemod">
+        <anchored to="psp_base" position="right" offset="10,0" />
+      </number_basic>
+			<label_fieldtop name="label_psp_basemod">
+				<anchored to="psp_basemod" />
+				<static text="B-Mod" />
+      </label_fieldtop>
+      
+      <text_plus name="plus_psp_basemod">
+        <anchored to="psp_basemod" position="righthigh" offset="50" />
+      </text_plus>
+      
+      <number_basic name="psp_mod" source="combat.psp.mod">
+        <anchored to="plus_psp_basemod" position="right" offset="10,0" />
+      </number_basic>
+			<label_fieldtop name="label_psp_mod">
+				<anchored to="psp_mod" />
+				<static text="Mod" />
+      </label_fieldtop>
+      
+      <text_plus name="plus_psp_mod">
+        <anchored to="psp_mod" position="righthigh" offset="10" />
+      </text_plus>
+      
+      <number_basic name="psp_tempmod" source="combat.psp.tempmod">
+        <anchored to="plus_psp_mod" position="right" offset="5,0" />
+      </number_basic>
+			<label_fieldtop name="label_psp_tempmod">
+				<anchored to="psp_tempmod" />
+				<static text="Temp" />
+      </label_fieldtop>
+      
+      <text_equal name="equal_psp_tempmod">
+        <anchored to="psp_tempmod" position="righthigh" offset="10" />
+      </text_equal>
+      
+      <number_basic name="psp_score" source="combat.psp.score">
+        <anchored to="equal_psp_tempmod" position="right" offset="5,0" />
+      </number_basic>
+			<label_fieldtop name="label_psp_score">
+				<anchored to="psp_score" />
+				<static text="Total" />
+      </label_fieldtop>
+      
+      
+      <!-- MTHACO -->
+      <label name="label_details_mthaco">
+				<anchored width="60">
+					<top parent="columnanchor" anchor="bottom" relation="relative" offset="20" />
+					<left offset="30" />
+				</anchored>
+				<static text="MTHACO" />
+        <tooltip text="Mental To Hit AC Zero" />
+      </label>
+      
+      <number_basic name="mthaco_base" source="combat.mthaco.base">
+        <anchored to="label_details_mthaco" position="right" offset="10,0" />
+        <default>20</default>
+      </number_basic>
+			<label_fieldtop name="label_mthaco_base">
+				<anchored to="mthaco_base" />
+				<static text="Base" />
+      </label_fieldtop>
+      
+      <number_basic name="mthaco_basemod" source="combat.mthaco.basemod">
+        <anchored to="mthaco_base" position="right" offset="10,0" />
+        <default>99</default>
+        <hideonvalue>99</hideonvalue>
+      </number_basic>
+			<label_fieldtop name="label_mthaco_basemod">
+				<anchored to="mthaco_basemod" />
+				<static text="B-Mod" />
+      </label_fieldtop>
+      
+      <text_plus name="plus_mthaco_basemod">
+        <anchored to="mthaco_basemod" position="righthigh" offset="50" />
+      </text_plus>
+      
+      <number_basic name="mthaco_mod" source="combat.mthaco.mod">
+        <anchored to="plus_mthaco_basemod" position="right" offset="10,0" />
+      </number_basic>
+			<label_fieldtop name="label_mthaco_mod">
+				<anchored to="mthaco_mod" />
+				<static text="Mod" />
+      </label_fieldtop>
+      
+      <text_plus name="plus_mthaco_mod">
+        <anchored to="mthaco_mod" position="righthigh" offset="10" />
+      </text_plus>
+      
+      <number_basic name="mthaco_tempmod" source="combat.mthaco.tempmod">
+        <anchored to="plus_mthaco_mod" position="right" offset="5,0" />
+      </number_basic>
+			<label_fieldtop name="label_mthaco_tempmod">
+				<anchored to="mthaco_tempmod" />
+				<static text="Temp" />
+      </label_fieldtop>
+      
+      <text_equal name="equal_mthaco_tempmod">
+        <anchored to="mthaco_tempmod" position="righthigh" offset="10" />
+      </text_equal>
+      
+      <number_basic name="mthaco_score" source="combat.mthaco.score">
+        <anchored to="equal_mthaco_tempmod" position="right" offset="5,0" />
+      </number_basic>
+			<label_fieldtop name="label_mthaco_score">
+				<anchored to="mthaco_score" />
+				<static text="Total" />
+      </label_fieldtop>
+
+			<close_charsheethelper />
+		</sheetdata>
+  </windowclass>  
+  <!-- END psionic combat details panel -->
+  
+  
 </root>

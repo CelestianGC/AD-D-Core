@@ -23,7 +23,7 @@
 	
     <!-- Power slot cast -->
 	<windowclass name="power_slots_cast">
-        <margins control="0,0,0,0" />
+    <margins control="0,0,0,0" />
 		<script file="campaign/scripts/power_slots_cast.lua" />
 		<sheetdata>
 			<anchor_column name="columnanchor" />
