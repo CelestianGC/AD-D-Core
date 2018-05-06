@@ -381,16 +381,16 @@ function updatePowerWindowUses(nodeChar, w)
 	-- ABILITY GROUP
 	else
 		if sMode == "combat" then
-            -- got alert of compare number with nil here... test
-            -- there is some edge case where one of these is nil
-            -- so this will make sure it doesn't happen.
-            if nTotalCast == nil then
-                nTotalCast = 0;
-            end
-            if nAvailable == nil then
-                nAvailable = 0;
-            end
-            -- nil kludge tweak --celestian
+      -- got alert of compare number with nil here... test
+      -- there is some edge case where one of these is nil
+      -- so this will make sure it doesn't happen.
+      if nTotalCast == nil then
+          nTotalCast = 0;
+      end
+      if nAvailable == nil then
+          nAvailable = 0;
+      end
+      -- nil kludge tweak --celestian
 			if rGroup and 
         (nTotalCast >= nAvailable) and 
           (nAvailable > 0) then 
@@ -407,12 +407,12 @@ function updatePowerWindowUses(nodeChar, w)
 	w.setFilter(bShow);
 	
 	if bCaster then
-		 if w.header.subwindow.prepared.getValue() > 1 then
-			 w.header.subwindow.prepared.setValue(1);
-		 end
-		 w.header.subwindow.prepared.setVisible(false);
-		w.header.subwindow.usesperiod.setVisible(false);
-		w.header.subwindow.counter.setVisible(false);
+   if w.header.subwindow.prepared.getValue() > 1 then
+     w.header.subwindow.prepared.setValue(1);
+   end
+    w.header.subwindow.prepared.setVisible(false);
+    w.header.subwindow.usesperiod.setVisible(false);
+    w.header.subwindow.counter.setVisible(false);
 		if sMode == "preparation" then
 			if nLevel == 0 then
 				--w.header.subwindow.preparedcheck.setVisible(false);

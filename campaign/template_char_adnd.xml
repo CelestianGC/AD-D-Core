@@ -713,13 +713,13 @@
             </basicnumber>
     </template>
     <template name="speed_mod_plus">
-            <label>
-                <anchored >
-                    <top parent="label_speeddetail_base" />
-                    <left parent="label_speeddetail_base" anchor="right" relation="relative" offset="10" />
-                </anchored>
-                <static text="+" />
-            </label>
+      <label>
+        <anchored >
+          <top parent="label_speeddetail_base" />
+          <left parent="label_speeddetail_base" anchor="right" relation="relative" offset="10" />
+        </anchored>
+        <static text="+" />
+      </label>
     </template>            
     
     <template name="speed_number_total">
@@ -961,4 +961,31 @@
   
 	</template>
 
+  <template name="number_basic">
+    <basicnumber>
+      <anchored width="30" />
+      <frame name="fielddark" offset="7,5,7,5" />
+      <stateframe>
+        <hover name="rowshade" offset="7,5,7,5" />
+      </stateframe>
+      <cursor hover="hand" />
+      <font>arial-regular-8</font>
+      <hideonvalue>0</hideonvalue>
+      <default>0</default>
+    </basicnumber>
+  </template>
+  <template name="text_plus">
+    <label>
+      <anchored width="10" />
+      <static text="+" />
+    </label>
+  </template>            
+  <template name="text_equal">
+    <label>
+      <anchored width="10" />
+      <static text="=" />
+    </label>
+  </template>            
+
+  
 </root>

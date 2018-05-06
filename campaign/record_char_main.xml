@@ -801,9 +801,9 @@
 				</anchored>
 			</button_charcombatcalc>
 
-            <genericcontrol name="combatanchor">
-                <anchored to="charisma" position="belowleft" offset="0,35" width="45" height="40" />
-            </genericcontrol>
+      <genericcontrol name="combatanchor">
+        <anchored to="charisma" position="belowleft" offset="0,35" width="45" height="40" />
+      </genericcontrol>
 
             <!-- 			THACO/AC/INIT/MOVE  -->
 			<number_chartotalac_defaults name="ac2" source="defenses.ac.total">
@@ -1535,29 +1535,15 @@
 
             
 			<!-- Speed Detail -->
-            <label name="label_speeddetail_base">
+      <label name="label_speeddetail_base">
 				<anchored width="60">
 					<top parent="columnanchor" anchor="bottom" relation="relative" offset="20" />
 					<left offset="30" />
 				</anchored>
-<!--                 <anchored height="18" width="30">
-                    <top parent="columnanchor" anchor="bottom" relation="relative" offset="20" />
-                    <left parent="leftanchor" anchor="right" relation="relative" offset="30" />
-                    <right parent="rightanchor" anchor="left" relation="relative" offset="-410" />
-                </anchored> -->
 				<static textres="char_label_speeddetail" />
-                <tooltip textres="char_label_speeddetail_tooltip" />
-            </label>
+        <tooltip textres="char_label_speeddetail_tooltip" />
+      </label>
 
-			<!-- <label name="label_speeddetail">
-				<anchored width="60">
-					<top parent="columnanchor" anchor="bottom" relation="relative" offset="20" />
-					<left offset="30" />
-				</anchored>
-				<static textres="char_label_speeddetail" />
-			</label> -->
-            
-            
             <speed_number_base name="speedbase" source="speed.base">
             </speed_number_base>
 
@@ -1621,9 +1607,70 @@
 			<label_fieldtop name="label_speedtotal">
 				<anchored to="speed_total" />
 				<static text="Total" />
-            </label_fieldtop>
+      </label_fieldtop>
             
-            
+      <label name="label_details_mthaco">
+				<anchored width="60">
+					<top parent="columnanchor" anchor="bottom" relation="relative" offset="20" />
+					<left offset="30" />
+				</anchored>
+				<static text="MTHACO" />
+        <tooltip textres="char_label_speeddetail_tooltip" />
+      </label>
+      
+      <number_basic name="mthaco_base" source="combat.mthaco.base">
+        <anchored to="label_details_mthaco" position="right" offset="10,0" />
+        <default>20</default>
+      </number_basic>
+			<label_fieldtop name="label_mthaco_base">
+				<anchored to="mthaco_base" />
+				<static text="Base" />
+      </label_fieldtop>
+      
+      <number_basic name="mthaco_basemod" source="combat.mthaco.basemod">
+        <anchored to="mthaco_base" position="right" offset="10,0" />
+      </number_basic>
+			<label_fieldtop name="label_mthaco_basemod">
+				<anchored to="mthaco_basemod" />
+				<static text="B-Mod" />
+      </label_fieldtop>
+      
+      <text_plus name="plus_mthaco_basemod">
+        <anchored to="mthaco_basemod" position="righthigh" offset="50" />
+      </text_plus>
+      
+      <number_basic name="mthaco_mod" source="combat.mthaco.mod">
+        <anchored to="plus_mthaco_basemod" position="right" offset="10,0" />
+      </number_basic>
+			<label_fieldtop name="label_mthaco_mod">
+				<anchored to="mthaco_mod" />
+				<static text="Mod" />
+      </label_fieldtop>
+      
+      <text_plus name="plus_mthaco_mod">
+        <anchored to="mthaco_mod" position="righthigh" offset="10" />
+      </text_plus>
+      
+      <number_basic name="mthaco_tempmod" source="combat.mthaco.tempmod">
+        <anchored to="plus_mthaco_mod" position="right" offset="5,0" />
+      </number_basic>
+			<label_fieldtop name="label_mthaco_tempmod">
+				<anchored to="mthaco_tempmod" />
+				<static text="Temp" />
+      </label_fieldtop>
+      
+      <text_equal name="equal_mthaco_tempmod">
+        <anchored to="mthaco_tempmod" position="righthigh" offset="10" />
+      </text_equal>
+      
+      <number_basic name="mthaco_score" source="combat.mthaco.score">
+        <anchored to="equal_mthaco_tempmod" position="right" offset="5,0" />
+      </number_basic>
+			<label_fieldtop name="label_mthaco_score">
+				<anchored to="mthaco_score" />
+				<static text="Total" />
+      </label_fieldtop>
+
 			<close_charsheethelper />
 		</sheetdata>
 	</windowclass>
@@ -1727,15 +1774,15 @@
                 </script>
             </windowtitlebar>
             
-            <genericcontrol name="contentanchor" >
-                <anchored height="0">
+    <genericcontrol name="contentanchor" >
+      <anchored height="0">
                     <top parent="title" anchor="bottom" offset="0" />
                     <left parent="" anchor="left" offset="20" />
                     <right parent="" anchor="right" offset="-20" />
                 </anchored>
-                <disabled />
-            </genericcontrol>
-			<genericcontrol name="leftanchor">
+      <disabled />
+    </genericcontrol>
+    <genericcontrol name="leftanchor">
 				<anchored width="0" height="0">
 					<top offset="90" />
 					<top />
@@ -1746,7 +1793,7 @@
 			</genericcontrol>
 
             <!-- strength base -->
-            <label_ability_details_stat name="strength_label">
+    <label_ability_details_stat name="strength_label">
 				<anchored>
 					<top offset="5" />
                     <left offset="30" />
@@ -1755,66 +1802,66 @@
             </label_ability_details_stat>
 
             
-            <ability_number_base name="strength_base" source="abilities.strength.base">
+    <ability_number_base name="strength_base" source="abilities.strength.base">
                 <tooltip textres="charsheet_abilities_base_tooltip" />
 				<anchored to="strength_label" />
             </ability_number_base>
-			<label_fieldtop name="label_ability_strbase_top">
-                <tooltip textres="charsheet_abilities_base_tooltip" />
-				<anchored to="strength_base" />
-				<static text="Base" />
-			</label_fieldtop>
-            
-            <!-- strength basemod -->
-            <ability_number_base name="strength_base_mod" source="abilities.strength.basemod">
-                <tooltip textres="charsheet_abilities_basemod_tooltip" />
-                <gmeditonly />
-                <default>0</default>
-				<anchored to="strength_label" />
-            </ability_number_base>
-			<label_fieldtop name="label_ability_strbasemod_top">
-                <tooltip textres="charsheet_abilities_basemod_tooltip" />
-				<anchored to="strength_base_mod" />
-				<static text="Base" />
-			</label_fieldtop>
-			<label_fieldtop name="label_ability_strbasemod_top_top">
-                <tooltip textres="charsheet_abilities_basemod_tooltip" />
-				<anchored to="label_ability_strbasemod_top" />
-				<static text="Mod" />
-			</label_fieldtop>
+    <label_fieldtop name="label_ability_strbase_top">
+              <tooltip textres="charsheet_abilities_base_tooltip" />
+      <anchored to="strength_base" />
+      <static text="Base" />
+    </label_fieldtop>
+          
+          <!-- strength basemod -->
+    <ability_number_base name="strength_base_mod" source="abilities.strength.basemod">
+        <tooltip textres="charsheet_abilities_basemod_tooltip" />
+        <gmeditonly />
+        <default>0</default>
+        <anchored to="strength_label" />
+    </ability_number_base>
+    <label_fieldtop name="label_ability_strbasemod_top">
+      <tooltip textres="charsheet_abilities_basemod_tooltip" />
+      <anchored to="strength_base_mod" />
+      <static text="Base" />
+    </label_fieldtop>
+    <label_fieldtop name="label_ability_strbasemod_top_top">
+      <tooltip textres="charsheet_abilities_basemod_tooltip" />
+      <anchored to="label_ability_strbasemod_top" />
+      <static text="Mod" />
+    </label_fieldtop>
 
-            <!-- strength mods -->
-            <label_plus>
-                <anchored to="strength_label"/>
-            </label_plus>
-            <ability_number_mod name="strength_mod" source="abilities.strength.adjustment">
-                <tooltip textres="charsheet_abilities_adjustment_tooltip" />
-				<anchored to="strength_label" />
-            </ability_number_mod>
-			<label_fieldtop name="label_ability_strmod_top">
-                <tooltip textres="charsheet_abilities_adjustment_tooltip" />
-				<anchored to="strength_mod" />
-				<static text="Mod" />
-			</label_fieldtop>
+          <!-- strength mods -->
+    <label_plus>
+        <anchored to="strength_label"/>
+    </label_plus>
+    <ability_number_mod name="strength_mod" source="abilities.strength.adjustment">
+      <tooltip textres="charsheet_abilities_adjustment_tooltip" />
+      <anchored to="strength_label" />
+    </ability_number_mod>
+    <label_fieldtop name="label_ability_strmod_top">
+      <tooltip textres="charsheet_abilities_adjustment_tooltip" />
+      <anchored to="strength_mod" />
+      <static text="Mod" />
+    </label_fieldtop>
 
-            <!-- strength temp mods -->
-            <label_plus>
-                <anchored to="strength_label"/>
-            </label_plus>
-            <ability_number_mod name="strength_temp" source="abilities.strength.tempmod">
-                <tooltip textres="charsheet_abilities_tempmod_tooltip" />
-				<anchored to="strength_label" />
-            </ability_number_mod>
-			<label_fieldtop name="label_ability_strtempmod_top">
-                <tooltip textres="charsheet_abilities_tempmod_tooltip" />
-				<anchored to="strength_temp" />
-				<static text="Mod" />
-			</label_fieldtop>
-			<label_fieldtop name="label_ability_strtempmod_top_top">
-                <tooltip textres="charsheet_abilities_tempmod_tooltip" />
-				<anchored to="label_ability_strtempmod_top" />
-				<static text="Temp." />
-			</label_fieldtop>
+          <!-- strength temp mods -->
+    <label_plus>
+      <anchored to="strength_label"/>
+    </label_plus>
+    <ability_number_mod name="strength_temp" source="abilities.strength.tempmod">
+      <tooltip textres="charsheet_abilities_tempmod_tooltip" />
+      <anchored to="strength_label" />
+    </ability_number_mod>
+    <label_fieldtop name="label_ability_strtempmod_top">
+      <tooltip textres="charsheet_abilities_tempmod_tooltip" />
+      <anchored to="strength_temp" />
+      <static text="Mod" />
+    </label_fieldtop>
+    <label_fieldtop name="label_ability_strtempmod_top_top">
+      <tooltip textres="charsheet_abilities_tempmod_tooltip" />
+      <anchored to="label_ability_strtempmod_top" />
+      <static text="Temp." />
+    </label_fieldtop>
 
             <!-- strength total -->
             <ability_details_total name="strength_total" source="abilities.strength.score">
