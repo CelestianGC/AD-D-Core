@@ -100,7 +100,7 @@
 	
     <!-- action tab, spell prep mode -->
 	<windowclass name="power_slots_prep">
-        <margins control="0,4,0,2" />
+    <margins control="0,4,0,2" />
 		<script>
 			function onInit()
 				onModeChanged();
@@ -109,11 +109,11 @@
 			function onModeChanged()
 				local nodeChar = getDatabaseNode();
 				local sMode = DB.getValue(nodeChar, "powermode", "");
-                local bIsItem = false;
-                if string.match(nodeChar.getPath(),"^item") or string.match(nodeChar.getPath(),"^class") then
-                    bIsItem = true;
-                end
-    
+        local bIsItem = false;
+        if string.match(nodeChar.getPath(),"^item") 
+          or string.match(nodeChar.getPath(),"^class") then
+            bIsItem = true;
+        end
 				if sMode == "preparation" and not bIsItem then
 					parentcontrol.setVisible(true);
 				else

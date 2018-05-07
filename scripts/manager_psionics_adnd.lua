@@ -116,3 +116,22 @@ function updateMTHACO(node)
   DB.setValue(nodeChar,"combat.mthaco.score","number",nMTHACO_SCORE);
 end
 
+function getPSPMax(node)
+  local nPSPMax = DB.getValue(node,"combat.psp.score",0);
+  return nPSPMax;
+end
+
+function getPSPExpended(node)
+  local nPSPExpended = DB.getValue(node,"combat.psp.expended",0);
+  return nPSPExpended;
+end
+function getPSPUsed(node)
+  return getPSPExpended(node);
+end
+
+function getPSPRemaining(node)
+  local nPSPMax = getPSPMax(node);
+  local nPSPUsed = getPSPExpended(node);
+  
+  return nPSPMax - nPSPUsed;
+end

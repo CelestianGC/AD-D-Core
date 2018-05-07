@@ -751,12 +751,26 @@
 
   <!-- psionic combat stats for power window -->
 	<windowclass name="psionic_power_stats">
-    <margins control="0,0,0,2" />
+    <margins control="0,4,0,2" />
 			<script>
 				function onInit()
           local node = getDatabaseNode();
           ManagerPsionics.updatePsionicStats(node);
+          onModeChanged();
 				end
+        function onModeChanged()
+          local nodeChar = getDatabaseNode();
+          local bIsItem = false;
+          if string.match(nodeChar.getPath(),"^item") 
+            or string.match(nodeChar.getPath(),"^class") then
+              bIsItem = true;
+          end
+          if not bIsItem then
+            parentcontrol.setVisible(true);
+          else
+            parentcontrol.setVisible(false);
+          end
+        end
 			</script>
 		<sheetdata>
 			<anchor_column name="columnanchor" />
@@ -803,8 +817,18 @@
 				<static text="PSP" />
       </label_fieldtop>
 
-      <number_basic name="mthaco_score" source="combat.mthaco.score">
+      <number_basic name="psp_expended" source="combat.psp.expended">
         <anchored to="psp_score" position="right" offset="10,0" />
+        <tooltip text="Used PSP Points" />
+      </number_basic>
+			<label_fieldtop name="label_psp_expended">
+				<anchored to="psp_expended" />
+				<static text="Used" />
+        <tooltip text="Used PSP Points" />
+      </label_fieldtop>
+
+      <number_basic name="mthaco_score" source="combat.mthaco.score">
+        <anchored to="psp_expended" position="right" offset="10,0" />
         <readonly />
       </number_basic>
 			<label_fieldtop name="label_mthaco_score">
