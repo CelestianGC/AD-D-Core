@@ -105,7 +105,8 @@
 	<includefile source="campaign/record_skill.xml" />
 	<includefile source="campaign/record_story_adnd.xml" />
 	<includefile source="campaign/template_char_adnd.xml" />
-
+  <includefile source="desktop/template_desktop_adnd.xml" />
+  
 	<!-- Forge -->
 	<includefile source="forge/template_forge.xml" />
 	<includefile source="forge/forge_item.xml" />

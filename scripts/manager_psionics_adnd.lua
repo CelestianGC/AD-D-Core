@@ -6,47 +6,49 @@
 --
 
 function onInit()
-  -- charsheet updates
-  DB.addHandler("charsheet.*.combat.mthaco.base","onUpdate", updateMTHACO);
-  DB.addHandler("charsheet.*.combat.mthaco.basemod","onUpdate", updateMTHACO);
-  DB.addHandler("charsheet.*.combat.mthaco.mod","onUpdate", updateMTHACO);
-  DB.addHandler("charsheet.*.combat.mthaco.tempmod","onUpdate", updateMTHACO);
-  DB.addHandler("charsheet.*.combat.psp.base","onUpdate", updatePSP);
-  DB.addHandler("charsheet.*.combat.psp.basemod","onUpdate", updatePSP);
-  DB.addHandler("charsheet.*.combat.psp.mod","onUpdate", updatePSP);
-  DB.addHandler("charsheet.*.combat.psp.tempmod","onUpdate", updatePSP);
-  DB.addHandler("charsheet.*.combat.mac.base","onUpdate", updateMAC);
-  DB.addHandler("charsheet.*.combat.mac.basemod","onUpdate", updateMAC);
-  DB.addHandler("charsheet.*.combat.mac.mod","onUpdate", updateMAC);
-  DB.addHandler("charsheet.*.combat.mac.tempmod","onUpdate", updateMAC);
-  
-  -- combattracker updates
-  DB.addHandler("combattracker.list.*.combat.mthaco.base","onUpdate", updateMTHACO);
-  DB.addHandler("combattracker.list.*.combat.mthaco.basemod","onUpdate", updateMTHACO);
-  DB.addHandler("combattracker.list.*.combat.mthaco.mod","onUpdate", updateMTHACO);
-  DB.addHandler("combattracker.list.*.combat.mthaco.tempmod","onUpdate", updateMTHACO);
-  DB.addHandler("combattracker.list.*.combat.psp.base","onUpdate", updatePSP);
-  DB.addHandler("combattracker.list.*.combat.psp.basemod","onUpdate", updatePSP);
-  DB.addHandler("combattracker.list.*.combat.psp.mod","onUpdate", updatePSP);
-  DB.addHandler("combattracker.list.*.combat.psp.tempmod","onUpdate", updatePSP);
-  DB.addHandler("combattracker.list.*.combat.mac.base","onUpdate", updateMAC);
-  DB.addHandler("combattracker.list.*.combat.mac.basemod","onUpdate", updateMAC);
-  DB.addHandler("combattracker.list.*.combat.mac.mod","onUpdate", updateMAC);
-  DB.addHandler("combattracker.list.*.combat.mac.tempmod","onUpdate", updateMAC);
+  if User.isHost() then
+    -- charsheet updates
+    DB.addHandler("charsheet.*.combat.mthaco.base","onUpdate", updateMTHACO);
+    DB.addHandler("charsheet.*.combat.mthaco.basemod","onUpdate", updateMTHACO);
+    DB.addHandler("charsheet.*.combat.mthaco.mod","onUpdate", updateMTHACO);
+    DB.addHandler("charsheet.*.combat.mthaco.tempmod","onUpdate", updateMTHACO);
+    DB.addHandler("charsheet.*.combat.psp.base","onUpdate", updatePSP);
+    DB.addHandler("charsheet.*.combat.psp.basemod","onUpdate", updatePSP);
+    DB.addHandler("charsheet.*.combat.psp.mod","onUpdate", updatePSP);
+    DB.addHandler("charsheet.*.combat.psp.tempmod","onUpdate", updatePSP);
+    DB.addHandler("charsheet.*.combat.mac.base","onUpdate", updateMAC);
+    DB.addHandler("charsheet.*.combat.mac.basemod","onUpdate", updateMAC);
+    DB.addHandler("charsheet.*.combat.mac.mod","onUpdate", updateMAC);
+    DB.addHandler("charsheet.*.combat.mac.tempmod","onUpdate", updateMAC);
+    
+    -- combattracker updates
+    DB.addHandler("combattracker.list.*.combat.mthaco.base","onUpdate", updateMTHACO);
+    DB.addHandler("combattracker.list.*.combat.mthaco.basemod","onUpdate", updateMTHACO);
+    DB.addHandler("combattracker.list.*.combat.mthaco.mod","onUpdate", updateMTHACO);
+    DB.addHandler("combattracker.list.*.combat.mthaco.tempmod","onUpdate", updateMTHACO);
+    DB.addHandler("combattracker.list.*.combat.psp.base","onUpdate", updatePSP);
+    DB.addHandler("combattracker.list.*.combat.psp.basemod","onUpdate", updatePSP);
+    DB.addHandler("combattracker.list.*.combat.psp.mod","onUpdate", updatePSP);
+    DB.addHandler("combattracker.list.*.combat.psp.tempmod","onUpdate", updatePSP);
+    DB.addHandler("combattracker.list.*.combat.mac.base","onUpdate", updateMAC);
+    DB.addHandler("combattracker.list.*.combat.mac.basemod","onUpdate", updateMAC);
+    DB.addHandler("combattracker.list.*.combat.mac.mod","onUpdate", updateMAC);
+    DB.addHandler("combattracker.list.*.combat.mac.tempmod","onUpdate", updateMAC);
 
-  -- npc entry updates
-  DB.addHandler("npc.*.combat.mthaco.base","onUpdate", updateMTHACO);
-  DB.addHandler("npc.*.combat.mthaco.basemod","onUpdate", updateMTHACO);
-  DB.addHandler("npc.*.combat.mthaco.mod","onUpdate", updateMTHACO);
-  DB.addHandler("npc.*.combat.mthaco.tempmod","onUpdate", updateMTHACO);
-  DB.addHandler("npc.*.combat.psp.base","onUpdate", updatePSP);
-  DB.addHandler("npc.*.combat.psp.basemod","onUpdate", updatePSP);
-  DB.addHandler("npc.*.combat.psp.mod","onUpdate", updatePSP);
-  DB.addHandler("npc.*.combat.psp.tempmod","onUpdate", updatePSP);
-  DB.addHandler("npc.*.combat.mac.base","onUpdate", updateMAC);
-  DB.addHandler("npc.*.combat.mac.basemod","onUpdate", updateMAC);
-  DB.addHandler("npc.*.combat.mac.mod","onUpdate", updateMAC);
-  DB.addHandler("npc.*.combat.mac.tempmod","onUpdate", updateMAC);
+    -- npc entry updates
+    DB.addHandler("npc.*.combat.mthaco.base","onUpdate", updateMTHACO);
+    DB.addHandler("npc.*.combat.mthaco.basemod","onUpdate", updateMTHACO);
+    DB.addHandler("npc.*.combat.mthaco.mod","onUpdate", updateMTHACO);
+    DB.addHandler("npc.*.combat.mthaco.tempmod","onUpdate", updateMTHACO);
+    DB.addHandler("npc.*.combat.psp.base","onUpdate", updatePSP);
+    DB.addHandler("npc.*.combat.psp.basemod","onUpdate", updatePSP);
+    DB.addHandler("npc.*.combat.psp.mod","onUpdate", updatePSP);
+    DB.addHandler("npc.*.combat.psp.tempmod","onUpdate", updatePSP);
+    DB.addHandler("npc.*.combat.mac.base","onUpdate", updateMAC);
+    DB.addHandler("npc.*.combat.mac.basemod","onUpdate", updateMAC);
+    DB.addHandler("npc.*.combat.mac.mod","onUpdate", updateMAC);
+    DB.addHandler("npc.*.combat.mac.tempmod","onUpdate", updateMAC);
+  end
 end
 
 function onClose()

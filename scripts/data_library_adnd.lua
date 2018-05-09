@@ -16,6 +16,7 @@ function onInit()
 	LibraryData.setRecordTypeInfo("feat", nil);
 	LibraryData.setRecordTypeInfo("vehicle", nil);
   --
+
   if User.isHost()  then
     Comm.registerSlashHandler("readycheck", processReadyCheck);
     Comm.registerSlashHandler("updateadnd", processUpdateADND);

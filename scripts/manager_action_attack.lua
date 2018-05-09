@@ -7,6 +7,11 @@ OOB_MSGTYPE_APPLYATK = "applyatk";
 OOB_MSGTYPE_APPLYHRFC = "applyhrfc";
 
 function onInit()
+  -- replace default roll with adnd_roll to allow
+  -- control-dice click to prompt for manual roll
+  ActionsManager.roll = adnd_roll;
+  --
+
 	OOBManager.registerOOBMsgHandler(OOB_MSGTYPE_APPLYATK, handleApplyAttack);
 	OOBManager.registerOOBMsgHandler(OOB_MSGTYPE_APPLYHRFC, handleApplyHRFC);
 
@@ -211,8 +216,8 @@ function modAttack(rSource, rTarget, rRoll)
 -- Debug.console("manager_action_attack.lua","modAttack","rSource",rSource);
 --Debug.console("manager_action_attack.lua","modAttack","rTarget",rTarget);
 -- Debug.console("manager_action_attack.lua","modAttack","rRoll",rRoll);
-    local nBaseAttack = 0;
-    rRoll.nBaseAttack = nBaseAttack;
+  local nBaseAttack = 0;
+  rRoll.nBaseAttack = nBaseAttack;
 
 	if rSource then
 		-- Determine attack type
@@ -309,7 +314,7 @@ function modAttack(rSource, rTarget, rRoll)
 
 		-- Get Base Attack modifier
 		nBaseAttack = getBaseAttack(rSource);
-        rRoll.nBaseAttack = nBaseAttack;
+    rRoll.nBaseAttack = nBaseAttack;
 		
 		-- Get ability modifiers
 		local nBonusStat, nBonusEffects = ActorManager2.getAbilityEffectsBonus(rSource, sActionStat,"hitadj");
@@ -359,34 +364,34 @@ function modAttack(rSource, rTarget, rRoll)
 		end
 
 		-- If effects, then add them
-		if bEffects then
-			local sEffects = "";
-			local sMod = StringManager.convertDiceToString(aAddDice, nAddMod, true);
-			if sMod ~= "" then
-				sEffects = "[" .. Interface.getString("effects_tag") .. " " .. sMod .. "]";
-			else
-				sEffects = "[" .. Interface.getString("effects_tag") .. "]";
-			end
-			table.insert(aAddDesc, sEffects);
-		end
+    if bEffects then
+      local sEffects = "";
+      local sMod = StringManager.convertDiceToString(aAddDice, nAddMod, true);
+      if sMod ~= "" then
+        sEffects = "[" .. Interface.getString("effects_tag") .. " " .. sMod .. "]";
+      else
+        sEffects = "[" .. Interface.getString("effects_tag") .. "]";
+      end
+      table.insert(aAddDesc, sEffects);
+    end
 
     -- add THACO for this attack so drag/drop will be able to get it --celestian
     local nTHACO = 20 - rRoll.nBaseAttack;	
-	rRoll.sDesc = rRoll.sDesc .. " [THACO(" ..nTHACO.. ")] ";
+    rRoll.sDesc = rRoll.sDesc .. " [THACO(" ..nTHACO.. ")] ";
 
-	else
-        -- no rSource, they are drag/dropping the roll
-        -- this will grab the THACO from the roll and use it at least --celestian
-        local sTHACO = string.match(rRoll.sDesc, "%[THACO.*%((%d+)%)%]") or "20";
-        if not sTHACO then
-            sTHACO = "20";
-        end
-        local nTHACO = tonumber(sTHACO) or 20;
-        if nTHACO < 1 then
-            nTHACO = 20;
-        end
-        rRoll.nBaseAttack = 20 - nTHACO;
+	else    -- no rSource, they are drag/dropping the roll
+  
+    -- this will grab the THACO from the roll and use it at least --celestian
+    local sTHACO = string.match(rRoll.sDesc, "%[THACO.*%((%d+)%)%]") or "20";
+    if not sTHACO then
+        sTHACO = "20";
     end
+    local nTHACO = tonumber(sTHACO) or 20;
+    if nTHACO < 1 then
+        nTHACO = 20;
+    end
+    rRoll.nBaseAttack = 20 - nTHACO;
+  end
 	
 	if bSuperiorCover then
 		nAddMod = nAddMod - 5;
@@ -660,3 +665,23 @@ function canCrit(nBaB,nAscendingAC,nRange)
 --Debug.console("manager_action_attack.lua","canCrit","bCanCrit",bCanCrit);    
     return bCanCrit;
 end
+
+-- replace default roll with adnd_roll to allow
+-- control-dice click to prompt for manual roll
+function adnd_roll(rSource, vTargets, rRoll, bMultiTarget)
+	if #(rRoll.aDice) > 0 then
+		if not rRoll.bTower and (OptionsManager.isOption("MANUALROLL", "on") or (User.isHost() and Input.isControlPressed())) then
+			local wManualRoll = Interface.openWindow("manualrolls", "");
+			wManualRoll.addRoll(rRoll, rSource, vTargets);
+		else
+			local rThrow = ActionsManager.buildThrow(rSource, vTargets, rRoll, bMultiTarget);
+			Comm.throwDice(rThrow);
+		end
+	else
+		if bMultiTarget then
+			ActionsManager.handleResolution(rRoll, rSource, vTargets);
+		else
+			ActionsManager.handleResolution(rRoll, rSource, { vTargets });
+		end
+	end
+end 

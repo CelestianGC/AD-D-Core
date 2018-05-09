@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<!-- 
+  Please see the license.html file included with this distribution for 
+  attribution and copyright information.
+-->
+
+<root>
+	
+	<template name="chatwindow_step">
+		<chatwindow name="chat"  merge="join">
+			<script file="desktop/scripts/chat_window_adnd.lua" mergerule="replace"/>
+		</chatwindow>
+	</template>
+
+</root>
