@@ -39,6 +39,9 @@
 	<icon name="roll_damage" file="graphics/icons/roll_damage.png" />
 	<icon name="roll_heal" file="graphics/icons/roll_heal.png" />
 
+	<icon name="roll_dmg_psp" file="graphics/icons/roll_damage.png" />
+	<icon name="roll_heal_psp" file="graphics/icons/roll_heal.png" />
+
 	<icon name="d4ricon" file="graphics/icons/d4_ricon.png" />
 	<icon name="d6ricon" file="graphics/icons/d6_ricon.png" />
 	<icon name="d8ricon" file="graphics/icons/d8_ricon.png" />
@@ -77,6 +80,8 @@
 	<icon name="spell_heal" file="graphics/icons/spell_heal.png" />
 	<icon name="spell_effect" file="graphics/icons/spell_effect.png" />
 	<icon name="caster_prep" file="graphics/icons/caster_prep.png" />
+	<icon name="spell_dmg_psp" file="graphics/icons/spell_damage.png" />
+	<icon name="spell_heal_psp" file="graphics/icons/spell_heal.png" />
 
 	<!-- Combat Tracker -->
 	<icon name="ct_faction_empty" file="graphics/icons/ct_faction_empty.png" />

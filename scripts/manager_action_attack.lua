@@ -238,6 +238,8 @@ function modAttack(rSource, rTarget, rRoll)
 			table.insert(aAttackFilter, "melee");
 		elseif sAttackType == "R" then
 			table.insert(aAttackFilter, "ranged");
+		elseif sAttackType == "P" then
+			table.insert(aAttackFilter, "psionic");
 		end
 		if bOpportunity then
 			table.insert(aAttackFilter, "opportunity");

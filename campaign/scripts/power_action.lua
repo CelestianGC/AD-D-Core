@@ -27,6 +27,7 @@ function onInit()
   local nodeChar = node.getChild(".....");
   DB.addHandler(DB.getPath(nodeChar, "arcane.totalLevel"), "onUpdate", onDataChanged);
   DB.addHandler(DB.getPath(nodeChar, "divine.totalLevel"), "onUpdate", onDataChanged);
+  DB.addHandler(DB.getPath(nodeChar, "psionic.totalLevel"), "onUpdate", onDataChanged);
   
 	onDataChanged();
 end
@@ -44,6 +45,7 @@ function onClose()
   local nodeChar = node.getChild(".....");
   DB.removeHandler(DB.getPath(nodeChar, "arcane.totalLevel"), "onUpdate", onDataChanged);
   DB.removeHandler(DB.getPath(nodeChar, "divine.totalLevel"), "onUpdate", onDataChanged);
+  DB.removeHandler(DB.getPath(nodeChar, "psionic.totalLevel"), "onUpdate", onDataChanged);
 end
 
 function onMenuSelection(selection, subselection)
@@ -72,6 +74,8 @@ function updateDisplay()
 	local bShowDamage = (sType == "damage");
 	local bShowHeal = (sType == "heal");
 	local bShowEffect = (sType == "effect");
+	local bShowDamagePSP = (sType == "damage_psp");
+	local bShowHealPSP = (sType == "heal_psp");
 
 --Debug.console("power_action.lua","updateDisplay","node",node);
 --Debug.console("power_action.lua","updateDisplay","nodeSpell",nodeSpell);
@@ -165,6 +169,19 @@ function updateDisplay()
 	healview.setVisible(bShowHeal);
 	healdetail.setVisible(bShowHeal);
 
+-- psionic nonsense
+	damagepspbutton.setVisible(bShowDamagePSP);
+	damagepsplabel.setVisible(bShowDamagePSP);
+	damagepspview.setVisible(bShowDamagePSP);
+	damagepspdetail.setVisible(bShowDamagePSP);
+
+	healpspbutton.setVisible(bShowHealPSP);
+	healpsplabel.setVisible(bShowHealPSP);
+	healpspview.setVisible(bShowHealPSP);
+	healpspdetail.setVisible(bShowHealPSP);
+
+-- end psionic nonsense
+
 	effectbutton.setVisible(bShowEffect);
 	effectlabel.setVisible(bShowEffect);
 	effectview.setVisible(bShowEffect);
@@ -199,6 +216,10 @@ function onDataChanged()
 		onHealChanged();
 	elseif sType == "effect" then
 		onEffectChanged();
+	elseif sType == "damage_psp" then
+		onDamagePSPChanged();
+	elseif sType == "heal_psp" then
+		onHealPSPChanged();
 	end
 end
 
@@ -213,6 +234,8 @@ function onCastChanged()
 		sAttack = Interface.getString("melee");
 	elseif sAttackType == "ranged" then
 		sAttack = Interface.getString("ranged");
+	elseif sAttackType == "psionic" then
+		sAttack = Interface.getString("psionic");
 	end
 	
 	if sAttack ~= "" then
@@ -298,6 +321,16 @@ end
 function onHealChanged()
 	local sHeal = PowerManager.getActionHealText(getDatabaseNode());
 	healview.setValue(sHeal);
+end
+
+function onHealPSPChanged()
+	local sHeal = PowerManager.getActionHealPSPText(getDatabaseNode());
+	healpspview.setValue(sHeal);
+end
+
+function onDamagePSPChanged()
+	local sDamage = PowerManager.getActionDamagePSPText(getDatabaseNode());
+	damagepspview.setValue(sDamage);
 end
 
 function onEffectChanged()

@@ -254,8 +254,10 @@ function getPowerRoll(rActor, nodeAction, sSubRoll)
 		
 			if sAttackType == "melee" then
 				rAction.range = "M";
-			else
+			elseif sAttackType == "ranged" then
 				rAction.range = "R";
+			elseif sAttackType == "psionic" then
+				rAction.range = "P";
 			end
 			
 			local nGroupMod, sGroupStat = getGroupAttackBonus(rActor, nodeAction, "base");
@@ -310,9 +312,14 @@ function getPowerRoll(rActor, nodeAction, sSubRoll)
 			rAction.savemod = 0;
 		end
 		
-	elseif sType == "damage" then
+	elseif sType == "damage_psp" then
+		rAction.clauses = getActionDamagePSP(rActor, nodeAction);
+	elseif sType == "heal_psp" then
+		rAction.sTargeting = DB.getValue(nodeAction, "healtargeting", "");
+		rAction.subtype = DB.getValue(nodeAction, "healtype", "");
+		rAction.clauses = getActionHealPSP(rActor, nodeAction);
+  elseif sType == "damage" then
 		rAction.clauses = getActionDamage(rActor, nodeAction);
-		
 	elseif sType == "heal" then
 		rAction.sTargeting = DB.getValue(nodeAction, "healtargeting", "");
 		rAction.subtype = DB.getValue(nodeAction, "healtype", "");
@@ -615,6 +622,8 @@ function getLevelBasedDiceValues(nodeCaster, isPC, node, nodeAction)
       nCasterLevel = DB.getValue(nodeCaster, "arcane.totalLevel",1);
     elseif (sSpellType == "divine") then
       nCasterLevel = DB.getValue(nodeCaster, "divine.totalLevel",1);
+    elseif (sSpellType == "psionic") then
+      nCasterLevel = DB.getValue(nodeCaster, "psionic.totalLevel",1);
     else
       if (isPC) then
         -- use spelltype name and match it with class and return that level
@@ -2239,6 +2248,9 @@ function parsePCPower(nodePower)
 	end
 end
 
+function canMemorizeSpellType(nLevel, sSpellType)
+  return (nLevel>0 and (isArcaneSpellType(sSpellType) or isDivineSpellType(sSpellType) and not isPsionicPowerType(sSpellType)) );
+end
 -- return true if the spell can be memorized.
 function canMemorizeSpell(nodeSpell)
 --Debug.console("manager_power.lua","canMemorizeSpell","nodeSpell",nodeSpell);
@@ -2251,8 +2263,8 @@ function canMemorizeSpell(nodeSpell)
 --Debug.console("manager_power.lua","canMemorizeSpell","sGroup",sGroup);
 --Debug.console("manager_power.lua","canMemorizeSpell","sNodePath",sNodePath);    
 
-    local bCanMemorize = 
-        (nLevel>0 and (isArcaneSpellType(sSpellType) or isDivineSpellType(sSpellType)))
+    local bCanMemorize = canMemorizeSpellType(nLevel, sSpellType);
+        --(nLevel>0 and (isArcaneSpellType(sSpellType) or isDivineSpellType(sSpellType) and not isPsionicPowerType(sSpellType)) )
 
 --Debug.console("manager_power.lua","canMemorizeSpell","bCanMemorize1",bCanMemorize);    
         
@@ -2294,7 +2306,8 @@ function memorizeSpell(draginfo, nodeSpell)
     local sDuration = DB.getValue(nodeSpell, "duration", "");
     local nMemorized = DB.getValue(nodeSpell, "memorized", 0);
     
-    if (nLevel>0 and (isArcaneSpellType(sSpellType) or isArcaneSpellType(sSource) or isDivineSpellType(sSpellType) or isDivineSpellType(sSource)) ) then
+    --if (nLevel>0 and (isArcaneSpellType(sSpellType) or isArcaneSpellType(sSource) or isDivineSpellType(sSpellType) or isDivineSpellType(sSource)and not isPsionicPowerType(sSpellType)) ) then
+    if canMemorizeSpellType(nLevel, sSpellType) then
         local nUsedArcane = DB.getValue(nodeChar, "powermeta.spellslots" .. nLevel .. ".used", 0);
         local nMaxArcane = DB.getValue(nodeChar, "powermeta.spellslots" .. nLevel .. ".max", 0);
         local nUsedDivine = DB.getValue(nodeChar, "powermeta.pactmagicslots" .. nLevel .. ".used", 0);
@@ -2347,7 +2360,8 @@ function incrementUse(draginfo, node)
             DB.setValue(nodeSpell, "cast","number", (nCast+1));
             bHadCharge = true;
         else
-            bHadCharge = false;
+            --bHadCharge = false;
+            bHadCharge = true; -- we let the effect happen and just spam with text error
             local sFormat = Interface.getString("message_nouseleft");
             local sMsg = string.format(sFormat, DB.getValue(nodeSpell, "name", ""));
             ChatManager.Message(sMsg, true, ActorManager.getActor("pc", nodeChar));            
@@ -2417,19 +2431,17 @@ end
 -- return try if spelltype is valid arcane spell type, this is strictly because I also wanted
 -- to also allow the 5e spells if someone happened to use them and 5e uses "source" not type
 function isArcaneSpellType(sSpellType)
+  local bValid = false;
+  local aArcane = {};
+      aArcane[1] = "arcane";
+      aArcane[2] = "wizard";
+  local nMaxArcane = 2;
 
-
-    local bValid = false;
-    local aArcane = {};
-        aArcane[1] = "arcane";
-        aArcane[2] = "wizard";
-    local nMaxArcane = 2;
-
-    for i = 1, nMaxArcane do
-        if string.find(sSpellType,aArcane[i]) then
-            bValid = true;
-            break;
-        end
+  for i = 1, nMaxArcane do
+      if string.find(sSpellType,aArcane[i]) then
+          bValid = true;
+          break;
+      end
 	end        
     return bValid
 end
@@ -2451,6 +2463,12 @@ function isDivineSpellType(sSpellType)
         end
 	end        
     return bValid
+end
+function isPsionicPowerType(sSpellType)
+Debug.console("manager_power.lua","isPsionicPowerType","sSpellType",sSpellType);
+  local sTypeLower = sSpellType:lower();
+  local bValid = sTypeLower:match("psionic");
+  return bValid
 end
 
 -- bits of code to sort out level for duration values
@@ -2513,3 +2531,115 @@ function getLevelBasedDurationValue(nodeAction)
 
   return nDurationValue;
 end
+
+-- psionic nonsense
+function getActionDamagePSP(rActor, nodeAction)
+	if not nodeAction then
+		return {};
+	end
+
+  local nodeCaster = DB.findNode(rActor.sCreatureNode);
+  local isPC = (rActor.sType == "pc");
+  
+	local clauses = {};
+	local aDamageNodes = UtilityManager.getSortedTable(DB.getChildren(nodeAction, "damagepsplist"));
+	for _,v in ipairs(aDamageNodes) do
+    local sDmgAbility = DB.getValue(v, "stat", "");
+    local sDmgType = DB.getValue(v, "type", "");
+    
+    local nodeCaster = DB.findNode(rActor.sCreatureNode);
+    local isPC = (rActor.sType == "pc");
+    local nDmgMod, aDmgDice = getLevelBasedDiceValues(nodeCaster,isPC, nodeAction, v)
+    
+    local nDmgStatMod;
+    nDmgStatMod, sDmgAbility = getGroupDamageHealBonus(rActor, nodeAction, sDmgAbility);
+    nDmgMod = nDmgMod + nDmgStatMod;
+
+    table.insert(clauses, { dice = aDmgDice, stat = sDmgAbility, modifier = nDmgMod, dmgtype = sDmgType });
+	end
+
+	return clauses;
+end
+
+function getActionDamagePSPText(nodeAction)
+	local nodeActor = nodeAction.getChild(".....")
+	local rActor = ActorManager.getActor("", nodeActor);
+
+	local clauses = PowerManager.getActionDamagePSP(rActor, nodeAction);
+	
+Debug.console("manager_power.lua","getActionDamagePSPText","clauses",clauses);
+  
+	local aOutput = {};
+	local aDamage = ActionDamage.getDamageStrings(clauses);
+	for _,rDamage in ipairs(aDamage) do
+		local sDice = StringManager.convertDiceToString(rDamage.aDice, rDamage.nMod);
+		if sDice ~= "" then
+			if rDamage.sType ~= "" then
+				table.insert(aOutput, string.format("%s %s", sDice, rDamage.sType));
+			else
+				table.insert(aOutput, sDice);
+			end
+		end
+	end
+	
+	return table.concat(aOutput, " + ");
+end
+
+function getActionHealPSP(rActor, nodeAction)
+	if not nodeAction then
+		return;
+	end
+	
+	local clauses = {};
+	local aHealNodes = UtilityManager.getSortedTable(DB.getChildren(nodeAction, "healpsplist"));
+	for _,v in ipairs(aHealNodes) do
+		local sAbility = DB.getValue(v, "stat", "");
+		-- local aDice = DB.getValue(v, "dice", {});
+		-- local nMod = DB.getValue(v, "bonus", 0);
+
+    local nodeCaster = DB.findNode(rActor.sCreatureNode);
+    local isPC = (rActor.sType == "pc");
+    local nMod,aDice = getLevelBasedDiceValues(nodeCaster,isPC, nodeAction, v)
+		
+		local nStatMod;
+		nStatMod, sAbility = getGroupDamageHealBonus(rActor, nodeAction, sAbility);
+		nMod = nMod + nStatMod;
+		
+    
+		table.insert(clauses, { dice = aDice, stat = sAbility, modifier = nMod });
+	end
+
+	return clauses;
+end
+
+
+function getActionHealPSPText(nodeAction)
+	local nodeActor = nodeAction.getChild(".....")
+	local rActor = ActorManager.getActor("", nodeActor);
+
+	local clauses = PowerManager.getActionHealPSP(rActor, nodeAction);
+	
+	local aHealDice = {};
+	local nHealMod = 0;
+	for _,vClause in ipairs(clauses) do
+		for _,vDie in ipairs(vClause.dice) do
+			table.insert(aHealDice, vDie);
+		end
+		nHealMod = nHealMod + vClause.modifier;
+	end
+	
+  Debug.console("manager_power.lua","getActionHealPSPText","aHealDice",aHealDice);
+  
+	local sHeal = StringManager.convertDiceToString(aHealDice, nHealMod);
+	if DB.getValue(nodeAction, "healtype", "") == "temp" then
+		sHeal = sHeal .. " temporary";
+	end
+	
+	local sTargeting = DB.getValue(nodeAction, "healtargeting", "");
+	if sTargeting == "self" then
+		sHeal = sHeal .. " [SELF]";
+	end
+	
+	return sHeal;
+end
+

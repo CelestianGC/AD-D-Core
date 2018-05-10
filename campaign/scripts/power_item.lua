@@ -35,6 +35,9 @@ function onInit()
 		registerMenuItem(Interface.getString("power_menu_adddamage"), "radial_damage", 3, 3);
 		registerMenuItem(Interface.getString("power_menu_addheal"), "radial_heal", 3, 4);
 		registerMenuItem(Interface.getString("power_menu_addeffect"), "radial_effect", 3, 5);
+
+		registerMenuItem(Interface.getString("power_menu_adddmg_psp"), "radial_dmg_psp", 3, 6);
+		registerMenuItem(Interface.getString("power_menu_addheal_psp"), "radial_heal_psp", 3, 8);
 		
 		-- disabled, we don't reparse in AD&D Core right now --celestian
         --registerMenuItem(Interface.getString("power_menu_reparse"), "textlist", 4);
@@ -179,6 +182,7 @@ end
 
 -- add action for spell/item
 function createAction(sType)
+Debug.console("power_item.lua","createAction","sType",sType);
 	local nodeAttack = getDatabaseNode();
 	if nodeAttack then
 		local nodeActions = nodeAttack.createChild("actions");
@@ -192,6 +196,8 @@ function createAction(sType)
 end
 
 function onMenuSelection(selection, subselection)
+Debug.console("power_item.lua","onMenuSelection","selection",selection);
+Debug.console("power_item.lua","onMenuSelection","subselection",subselection);
 	if selection == 6 and subselection == 7 then
         cleanUpMemorization(getDatabaseNode());
 		getDatabaseNode().delete();
@@ -212,6 +218,12 @@ function onMenuSelection(selection, subselection)
 			activatedetail.setValue(1);
 		elseif subselection == 5 then
 			createAction("effect");
+			activatedetail.setValue(1);
+		elseif subselection == 6 then
+			createAction("damage_psp");
+			activatedetail.setValue(1);
+		elseif subselection == 8 then
+			createAction("heal_psp");
 			activatedetail.setValue(1);
 		end
 	end

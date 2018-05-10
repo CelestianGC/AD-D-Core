@@ -259,6 +259,9 @@
 	<string name="char_abilities_label_advancedeffects">ADVANCED EFFECTS</string>
     
     <!-- Actions -->
+	<string name="power_menu_adddmg_psp">Add Damage PSP</string>
+	<string name="power_menu_addheal_psp">Add Heal PSP</string>
+    
 	<string name="power_label_spellcastingslots">Arcane</string>
 	<string name="power_label_arcane_level_tooltip">Arcane spellcasting level.</string>
   
@@ -403,6 +406,7 @@
 	<string name="base">Base</string>
 	<string name="base_percent">Base %</string>
 
+  <string name="psionic">Psionic</string>
 	<string name="ac">AC</string>
 	<string name="bac">Base AC</string>
 	<string name="atk">Attack</string>

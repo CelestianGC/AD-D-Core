@@ -11,6 +11,9 @@
 	<icon name="radial_damage" file="graphics/radial/icon_damage.png" />
 	<icon name="radial_heal" file="graphics/radial/icon_plus.png" />
 	<icon name="radial_effect" file="graphics/radial/icon_effect.png" />
+
+	<icon name="radial_dmg_psp" file="graphics/radial/icon_damage.png" />
+	<icon name="radial_heal_psp" file="graphics/radial/icon_plus.png" />
 	
 	<!-- Party Sheet -->
 	<icon name="all" file="graphics/radial/icon_all.png" />

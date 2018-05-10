@@ -95,8 +95,8 @@
 				</anchored>
 				<parameters>
 					<defaultlabelres>dash</defaultlabelres>
-					<labelsres>melee|ranged</labelsres>
-					<values>melee|ranged</values>
+					<labelsres>melee|ranged|psionic</labelsres>
+					<values>melee|ranged|psionic</values>
 				</parameters>
 			</button_stringcycler>
 			<label_fieldtop>
@@ -106,10 +106,7 @@
 			<button_stringcycler name="atkbase">
 				<anchored to="atktype" position="righthigh" offset="10,0" width="80" height="20" />
 				<parameters>
-<!-- 					<defaultlabelres>power_label_atkbase_group</defaultlabelres>
-					<labelsres>power_label_atkbase_ability|power_label_atkbase_fixed</labelsres>
-					<values>ability|fixed</values> -->
-                    <defaultlabelres>dash</defaultlabelres>
+          <defaultlabelres>dash</defaultlabelres>
 					<labelsres>power_label_atkbase_fixed|power_label_atkbase_ability</labelsres>
 					<values>fixed|ability</values>
 				</parameters>
@@ -229,6 +226,7 @@
 			<close_charsheethelper />
 		</sheetdata>
 	</windowclass>
+
 	<windowclass name="power_damage_editor_main">
 		<script>
 			function onDrop(x, y, draginfo)
@@ -334,7 +332,6 @@
 				</anchored>
 			</button_idelete>
 
-      <!-- add dice string and parse <level> for "{level}d6" fireball damage? --celestian -->
       <cycler_casterlevel_type name="castertype">
         <anchored position="insidetopleft" offset="5,1" width="25" height="20" />
       </cycler_casterlevel_type>
@@ -888,4 +885,298 @@
 			</button_stringcycler>
 		</sheetdata>
 	</windowclass>
+  
+  <!-- psionic nonsense dmg psp -->
+	<windowclass name="power_damage_psp_editor">
+		<frame>charsheethelper</frame>
+		<placement>
+			<size width="450" height="250" />
+		</placement>
+		<sizelimits>
+			<minimum width="450" height="250" />
+			<dynamic />
+		</sizelimits>
+		<nodelete />
+		<playercontrol />
+		<minimize>minimized_char</minimize>
+		<tooltip control="name" />
+		<sheetdata>
+			<windowtitlebar_char name="title">
+				<resource>power_title_damage</resource>
+			</windowtitlebar_char>
+			<anchor_title_charsheethelper name="contentanchor" />
+			
+			<genericcontrol name="contentframe">
+				<anchored to="contentanchor">
+					<top anchor="bottom" offset="0" />
+					<left />
+					<right />
+					<bottom parent="" offset="-30" />
+				</anchored>
+			</genericcontrol>
+
+			<subwindow_record name="main">
+				<class>power_damage_psp_editor_main</class>
+				<activate />
+				<fastinit />
+			</subwindow_record>
+
+			<scrollbar_record>
+				<target>main</target>
+			</scrollbar_record>
+
+			<resize_charsheethelper />
+			<close_charsheethelper />
+		</sheetdata>
+	</windowclass>
+
+	<windowclass name="power_damage_psp_editor_main">
+		<script>
+			function onDrop(x, y, draginfo)
+				local sDragType = draginfo.getType();
+				
+				if sDragType == "dice" then
+					local w = list.addEntry(true);
+					for _, vDie in ipairs(draginfo.getDieList()) do
+						w.dice.addDie(vDie.type);
+					end
+					return true;
+				elseif sDragType == "number" then
+					local w = list.addEntry(true);
+					w.bonus.setValue(draginfo.getNumberData());
+					return true;
+				end
+			end
+		</script>
+		<sheetdata>
+			<anchor_column name="columnanchor" />
+			
+			<label_column name="name_label">
+				<static textres="power_label_name" />
+			</label_column>
+			<stringcontrol name="name">
+				<anchored>
+					<top parent="columnanchor" anchor="bottom" relation="relative" offset="7" />
+					<left offset="97" />
+					<right offset="-5" />
+				</anchored>
+				<multilinespacing>20</multilinespacing>
+				<font>sheettext</font>
+				<readonly />
+			</stringcontrol>
+			
+			<header_column name="header_damage">
+				<static textres="power_header_damage" />
+				<center />
+			</header_column>
+			<button_iedit name="list_iedit">
+				<anchored to="header_damage" position="insidetopright" offset="-5,0" />
+				<target>list</target>
+			</button_iedit>
+			<button_iadd name="list_iadd">
+				<anchored to="list_iedit" position="lefthigh" offset="5,0" />
+				<target>list</target>
+			</button_iadd>
+
+			<list_editor name="list">
+				<datasource>.damagepsplist</datasource>
+				<class>power_damage_entry</class>
+			</list_editor>
+			
+			<label_fieldtop>
+				<anchored to="list" position="aboveleft" offset="5,1" width="20" />
+				<static textres="power_label_castertype" />
+        <tooltip textres="power_label_castertype_tooltip" />
+			</label_fieldtop>
+			<label_fieldtop>
+				<anchored to="list" position="aboveleft" offset="40,1" width="25" />
+				<static textres="power_label_casterlevelmax" />
+        <tooltip textres="power_label_casterlevelmax_tooltip" />
+			</label_fieldtop>
+			<label_fieldtop>
+				<anchored to="list" position="aboveleft" offset="90,1" width="60" />
+				<static textres="weapon_label_dmgdice" />
+			</label_fieldtop>
+			<label_fieldtop>
+				<anchored to="list" position="aboveleft" offset="165,1" width="60" />
+				<static textres="weapon_label_customdmgdice" />
+			</label_fieldtop>
+			<label_fieldtop>
+				<anchored to="list" position="aboveleft" offset="245,1" width="30" />
+				<static textres="weapon_label_dmgstat" />
+			</label_fieldtop>
+			<label_fieldtop>
+				<anchored to="list" position="aboveleft" offset="290,1" width="35" />
+				<static textres="weapon_label_dmgbonus" />
+			</label_fieldtop>
+			<label_fieldtop>
+				<anchored to="list" position="aboveright" offset="5,1">
+					<left offset="310" />
+				</anchored>
+				<static textres="weapon_label_dmgtype" />
+			</label_fieldtop>
+		</sheetdata>
+	</windowclass>
+  
+  <!-- psionic nonsense, heal psp-->  
+	<windowclass name="power_heal_psp_editor">
+		<frame>charsheethelper</frame>
+		<placement>
+			<size width="400" height="350" />
+		</placement>
+		<sizelimits>
+			<minimum width="400" height="250" />
+			<dynamic />
+		</sizelimits>
+		<nodelete />
+		<playercontrol />
+		<minimize>minimized_char</minimize>
+		<tooltip control="name" />
+		<sheetdata>
+			<windowtitlebar_char name="title">
+				<resource>power_title_heal</resource>
+			</windowtitlebar_char>
+			<anchor_title_charsheethelper name="contentanchor" />
+			
+			<genericcontrol name="contentframe">
+				<anchored to="contentanchor">
+					<top anchor="bottom" offset="0" />
+					<left />
+					<right />
+					<bottom parent="" offset="-30" />
+				</anchored>
+			</genericcontrol>
+
+			<subwindow_record name="main">
+				<class>power_heal_psp_editor_main</class>
+				<activate />
+				<fastinit />
+			</subwindow_record>
+
+			<scrollbar_record>
+				<target>main</target>
+			</scrollbar_record>
+
+			<resize_charsheethelper />
+			<close_charsheethelper />
+		</sheetdata>
+	</windowclass>
+	<windowclass name="power_heal_psp_editor_main">
+		<script>
+			function onDrop(x, y, draginfo)
+				local sDragType = draginfo.getType();
+				
+				if sDragType == "dice" then
+					local w = list.addEntry(true);
+					for _, vDie in ipairs(draginfo.getDieList()) do
+						w.dice.addDie(vDie.type);
+					end
+					return true;
+				elseif sDragType == "number" then
+					local w = list.addEntry(true);
+					w.bonus.setValue(draginfo.getNumberData());
+					return true;
+				end
+			end
+		</script>
+		<sheetdata>
+			<anchor_column name="columnanchor" />
+			
+			<label_column name="name_label">
+				<static textres="power_label_name" />
+			</label_column>
+			<stringcontrol name="name">
+				<anchored>
+					<top parent="columnanchor" anchor="bottom" relation="relative" offset="7" />
+					<left offset="97" />
+					<right offset="-5" />
+				</anchored>
+				<multilinespacing>20</multilinespacing>
+				<font>sheettext</font>
+				<readonly />
+			</stringcontrol>
+
+			<header_column name="header_other">
+				<static textres="power_header_heal_other" />
+				<center />
+			</header_column>
+			
+			<label_column name="healtargeting_label">
+				<static textres="power_label_targeting" />
+			</label_column>
+			<button_stringcycler name="healtargeting">
+				<anchored width="60" height="20">
+					<top parent="columnanchor" anchor="bottom" relation="relative" offset="7" />
+					<left offset="97" />
+				</anchored>
+				<parameters>
+					<defaultlabelres>power_label_targetnormal</defaultlabelres>
+					<labelsres>power_label_targetself</labelsres>
+					<values>self</values>
+				</parameters>
+			</button_stringcycler>
+			
+			<label_column name="healtype_label">
+				<static textres="power_label_healtype" />
+			</label_column>
+			<button_stringcycler name="healtype">
+				<anchored width="40" height="20">
+					<top parent="columnanchor" anchor="bottom" relation="relative" offset="7" />
+					<left offset="97" />
+				</anchored>
+				<parameters>
+					<defaultlabelres>power_label_healtypenormal</defaultlabelres>
+					<labelsres>power_label_healtypetemp</labelsres>
+					<values>temp</values>
+				</parameters>
+			</button_stringcycler>
+
+			<header_column name="header_heal">
+				<static textres="power_header_heal" />
+				<center />
+			</header_column>
+			<button_iedit name="list_iedit">
+				<anchored to="header_heal" position="insidetopright" offset="-5,0" />
+				<target>list</target>
+			</button_iedit>
+			<button_iadd name="list_iadd">
+				<anchored to="list_iedit" position="lefthigh" offset="5,0" />
+				<target>list</target>
+			</button_iadd>
+
+			<list_editor name="list">
+				<datasource>.healpsplist</datasource>
+				<class>power_heal_entry</class>
+			</list_editor>
+
+			<label_fieldtop>
+				<anchored to="list" position="aboveleft" offset="5,1" width="20" />
+				<static textres="power_label_castertype" />
+        <tooltip textres="power_label_castertype_tooltip" />
+			</label_fieldtop>
+			<label_fieldtop>
+				<anchored to="list" position="aboveleft" offset="40,1" width="25" />
+				<static textres="power_label_casterlevelmax" />
+        <tooltip textres="power_label_casterlevelmax_tooltip" />
+			</label_fieldtop>
+			<label_fieldtop>
+				<anchored to="list" position="aboveleft" offset="90,1" width="60" />
+				<static textres="weapon_label_dmgdice" />
+			</label_fieldtop>
+			<label_fieldtop>
+				<anchored to="list" position="aboveleft" offset="165,1" width="60" />
+				<static textres="weapon_label_customdmgdice" />
+			</label_fieldtop>
+			<label_fieldtop>
+				<anchored to="list" position="aboveleft" offset="245,1" width="30" />
+				<static textres="weapon_label_dmgstat" />
+			</label_fieldtop>
+			<label_fieldtop>
+				<anchored to="list" position="aboveleft" offset="290,1" width="35" />
+				<static textres="weapon_label_dmgbonus" />
+			</label_fieldtop>
+
+		</sheetdata>
+	</windowclass>
+  
 </root>

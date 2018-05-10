@@ -44,6 +44,10 @@ function updateViews()
 		onHealChanged();
 	elseif sType == "effect" then
 		onEffectChanged();
+	elseif sType == "damage_psp" then
+		onDamagePSPChanged();
+	elseif sType == "heal_psp" then
+		onHealPSPChanged();
 	end
 end
 
@@ -60,6 +64,8 @@ function onCastChanged()
 		sAttack = "ATK: Melee";
 	elseif sAttackType == "ranged" then
 		sAttack = "ATK: Ranged";
+	elseif sAttackType == "psionic" then
+		sAttack = "ATK: Psionic";
 	end
 
 	if sAttack ~= "" then
@@ -144,6 +150,16 @@ end
 function onHealChanged()
 	local sHeal = PowerManager.getActionHealText(getDatabaseNode());
 	button.setTooltipText("HEAL: " .. sHeal);
+end
+
+function onDamagePSPChanged()
+	local sDamage = PowerManager.getActionDamagePSPText(getDatabaseNode());
+	button.setTooltipText("PSP DMG: " .. sDamage);
+end
+
+function onHealPSPChanged()
+	local sHeal = PowerManager.getActionHealPSPText(getDatabaseNode());
+	button.setTooltipText("PSP HEAL: " .. sHeal);
 end
 
 function onEffectChanged()

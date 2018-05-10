@@ -119,6 +119,8 @@ function modDamage(rSource, rTarget, rRoll)
 		table.insert(aAttackFilter, "ranged");
 	elseif rRoll.range == "M" then
 		table.insert(aAttackFilter, "melee");
+	elseif rRoll.range == "P" then
+		table.insert(aAttackFilter, "psionic");
 	end
 	
 	-- Track how many damage clauses before effects applied
@@ -361,8 +363,10 @@ function modDamage(rSource, rTarget, rRoll)
 				local nodePC = ActorManager.getCreatureNode(rSource);
 				if rRoll.range == "R" then
 					nCritDice = DB.getValue(nodePC, "weapon.critdicebonus.ranged", 0);
-				else
+				elseif rRoll.range == "M" then
 					nCritDice = DB.getValue(nodePC, "weapon.critdicebonus.melee", 0);
+				elseif rRoll.range == "P" then
+					--nCritDice = DB.getValue(nodePC, "weapon.critdicebonus.melee", 0);
 				end
 			end
 			
