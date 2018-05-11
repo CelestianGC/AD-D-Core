@@ -65,6 +65,7 @@ function processImportText()
                         {"^magic resistance:","magicresistance"},
                         {"^lair probability:","inlair"},
                         {"^%% in lair:","inlair"},
+                        {"^in lair:","inlair"},
                         {"^intelligence:","intelligence_text"},
                         {"^alignment:","alignment"},
                         {"^morale:","morale"},
@@ -114,6 +115,12 @@ Debug.console("npc_import.lua","importTextAsNPC","sLine",sLine);
           bProcessed = true;
           setExpLevelOSRIC(nodeNPC,sLine);
         end
+        -- TSR1 uses "level/xp value: VII/1,000+10/hp"
+        if (string.match(sLine:lower(),"^level/xp value:")) then
+          bProcessed = true;
+          setExpLevelTSR1(nodeNPC,sLine);
+        end
+        
         -- Swords and Wizadry uses "Challenge Level/XP: 4/120" style exp entry
         if (string.match(sLine:lower(),"^challenge level/xp:")) then
           bProcessed = true;
@@ -129,7 +136,7 @@ Debug.console("npc_import.lua","importTextAsNPC","sLine",sLine);
           sParagraph = sParagraph .. " " .. sLine;
           -- check for period 
           -- if so sDescription = sDescription .. sParagraph .."\n";
-          if sLine:match("%.$") then
+          if sLine:match("%..?$") then
             sDescription = sDescription .. "<p>" .. sParagraph .."</p>";
 Debug.console("npc_import.lua","importTextAsNPC","END sParagraph",sParagraph);
             sParagraph = "";
@@ -160,6 +167,30 @@ function setExpLevelOSRIC(nodeNPC,sLine)
     DB.setValue(nodeNPC,"level","number",nLevel);
     DB.setValue(nodeNPC,"thaco","number",(21-nLevel)); -- best guess, OSRIC doesn't use THACO
   end
+  local nEXP = tonumber(sEXP) or 0;
+  local nPerHP = tonumber(sPerHP) or 0;
+  if (nPerHP > 0) then
+    -- nMaxHP presumes we've received HD field already otherwise this wont work
+    setHD(nodeNPC);
+    local sHD = DB.getValue(nodeNPC,"hd","1d1");
+    local nMaxHP = StringManager.evalDiceString(sHD, true, true);
+    local nPerHPTotal = nPerHP * nMaxHP;
+    nEXP = nEXP + nPerHPTotal;
+  end
+  DB.setValue(nodeNPC,"xp","number",nEXP);
+end
+
+-- this parses up "level/xp value: VII/1,000+10/hp" style entries and calculates exp based on max hp
+function setExpLevelTSR1(nodeNPC,sLine)
+  local sFound = string.match(sLine:lower(),"^level/xp value:(.*)$");
+  sFound = sFound:gsub(" ",""); -- remove ALL spaces
+  sFound = sFound:gsub(",",""); -- remove ALL commas
+  local sLevel, sEXP, sPerHP = string.match(sFound:lower(),"^(.+)\/(%d+)%+(%d+)\/");
+  local nLevel = tonumber(sLevel) or 0;
+  -- if (nLevel > 0) then
+    -- DB.setValue(nodeNPC,"level","number",nLevel);
+    -- DB.setValue(nodeNPC,"thaco","number",(21-nLevel)); -- best guess, OSRIC doesn't use THACO
+  -- end
   local nEXP = tonumber(sEXP) or 0;
   local nPerHP = tonumber(sPerHP) or 0;
   if (nPerHP > 0) then
@@ -253,6 +284,8 @@ function setActionWeapon(nodeNPC)
   local sAttacksRaw = DB.getValue(nodeNPC,"numberattacks","");
   sAttacksRaw = string.gsub(sAttacksRaw:lower(),"by weapon","");
   sAttacksRaw = string.gsub(sAttacksRaw:lower(),"or","");
+  sAttacksRaw = StringManager.trim(sAttacksRaw);
+  sDamageRaw = StringManager.trim(sDamageRaw);
   local aAttacks = {};
   
 Debug.console("npc_import.lua","setActionWeapon","sDamageRaw",sDamageRaw);                  
@@ -264,6 +297,7 @@ Debug.console("npc_import.lua","setActionWeapon","sAttacksRaw",sAttacksRaw);
 Debug.console("npc_import.lua","setActionWeapon","aAttacks1",aAttacks);                  
     end
     if #aAttacks < 1 then
+Debug.console("npc_import.lua","setActionWeapon","aAttacks2",aAttacks);     
       for sDice in string.gmatch(sDamageRaw,"%d+[dD-]%d+[%+-]%d+") do
 Debug.console("npc_import.lua","setActionWeapon","sDice1",sDice);                  
         table.insert(aAttacks, sDice)
@@ -273,8 +307,13 @@ Debug.console("npc_import.lua","setActionWeapon","sDice2",sDice);
 Debug.console("npc_import.lua","setActionWeapon","sOther1",sOther);                  
         table.insert(aAttacks, sDice)
       end
+      for sDice in string.gmatch(sDamageRaw,"(%d+[dD-]%d+)") do
+Debug.console("npc_import.lua","setActionWeapon","sDice5",sDice);                  
+        table.insert(aAttacks, sDice)
+      end
     end
     if #aAttacks < 1 then
+Debug.console("npc_import.lua","setActionWeapon","aAttacks3",aAttacks);         
       for sDice in string.gmatch(sAttacksRaw,"%d+[dD-]%d+[%+-]%d+") do
 Debug.console("npc_import.lua","setActionWeapon","sDice3",sDice);                  
         table.insert(aAttacks, sDice)
@@ -282,6 +321,10 @@ Debug.console("npc_import.lua","setActionWeapon","sDice3",sDice);
       for sDice, sOther in string.gmatch(sAttacksRaw,"(%d+[dD-]%d+)([^%d%+-])") do
 Debug.console("npc_import.lua","setActionWeapon","sDice4",sDice);                  
 Debug.console("npc_import.lua","setActionWeapon","sOther2",sOther);                  
+        table.insert(aAttacks, sDice)
+      end
+      for sDice in string.gmatch(sAttacksRaw,"(%d+[dD-]%d+)") do
+Debug.console("npc_import.lua","setActionWeapon","sDice6",sDice);                  
         table.insert(aAttacks, sDice)
       end
     end
