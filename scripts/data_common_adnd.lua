@@ -193,10 +193,10 @@ function onInit()
     aWisdom[10]  =    { 0, "None", 15, "None"};
     aWisdom[11]  =    { 0, "None", 10, "None"};
     aWisdom[12]  =    { 0, "None", 5, "None"};
-    aWisdom[13]  =    { 0, "None", 0, "None"};
-    aWisdom[14]  =    { 0, "1", 0, "None"};
+    aWisdom[13]  =    { 0, "1x1", 0, "None"};
+    aWisdom[14]  =    { 0, "2x1", 0, "None"};
     aWisdom[15]  =    { 1, "2x1", 0, "None"};
-    aWisdom[16]  =    { 2, "2x1,2x1", 0, "None"};
+    aWisdom[16]  =    { 2, "2x1,1x2", 0, "None"};
     aWisdom[17]  =    { 3, "2x1,2x2", 0, "None"};
     aWisdom[18]  =    { 4, "Various", 0, "None"};
     aWisdom[19]  =    { 4, "Various", 0, "Various"};
