@@ -103,6 +103,13 @@ function getRoll(rActor, rAction)
 	rRoll.nMod = 0;
 	rRoll.bWeapon = false;
 
+  -- psionics, we need to hand these off since modRoll doesn't keep rAction
+  rRoll.bPsionic               = (rAction.Psionic_DisciplineType ~= nil)
+  rRoll.Psionic_DisciplineType = rAction.Psionic_DisciplineType or "";
+  rRoll.Psionic_MAC            = rAction.Psionic_MAC or 10;
+  rRoll.Psionic_PSP            = rAction.Psionic_PSP or 0;
+  rRoll.Psionic_PSPOnFail      = rAction.Psionic_PSPOnFail or 0;
+
   if (rAction) then 
     rRoll.nMod = rAction.modifier or 0;
     rRoll.bWeapon = rAction.bWeapon;
@@ -178,6 +185,8 @@ function modAttack(rSource, rTarget, rRoll)
 	local aAddDesc = {};
 	local aAddDice = {};
 	local nAddMod = 0;
+  
+  local bPsionicPower = rRoll.bPsionic;
 	
 	-- Check for opportunity attack
 	local bOpportunity = ModifierStack.getModifierKey("ATT_OPP") or Input.isShiftPressed();
@@ -240,6 +249,7 @@ function modAttack(rSource, rTarget, rRoll)
 			table.insert(aAttackFilter, "ranged");
 		elseif sAttackType == "P" then
 			table.insert(aAttackFilter, "psionic");
+      bPsionicPower = true;
 		end
 		if bOpportunity then
 			table.insert(aAttackFilter, "opportunity");
@@ -315,8 +325,13 @@ function modAttack(rSource, rTarget, rRoll)
 		end
 
 		-- Get Base Attack modifier
-		nBaseAttack = getBaseAttack(rSource);
-    rRoll.nBaseAttack = nBaseAttack;
+    if (bPsionicPower) then
+      nBaseAttack = getBaseAttackPsionic(rSource);
+      rRoll.nBaseAttack = nBaseAttack;
+    else 
+      nBaseAttack = getBaseAttack(rSource);
+      rRoll.nBaseAttack = nBaseAttack;
+    end
 		
 		-- Get ability modifiers
 		local nBonusStat, nBonusEffects = ActorManager2.getAbilityEffectsBonus(rSource, sActionStat,"hitadj");
@@ -379,13 +394,19 @@ function modAttack(rSource, rTarget, rRoll)
 
     -- add THACO for this attack so drag/drop will be able to get it --celestian
     local nTHACO = 20 - rRoll.nBaseAttack;	
-    rRoll.sDesc = rRoll.sDesc .. " [THACO(" ..nTHACO.. ")] ";
+    if (bPsionicPower) then
+      rRoll.sDesc = rRoll.sDesc .. " [MTHACO(" ..nTHACO.. ")] ";
+    end
+      rRoll.sDesc = rRoll.sDesc .. " [THACO(" ..nTHACO.. ")] ";
 
 	else    -- no rSource, they are drag/dropping the roll
   
     -- this will grab the THACO from the roll and use it at least --celestian
     local sTHACO = string.match(rRoll.sDesc, "%[THACO.*%((%d+)%)%]") or "20";
-    if not sTHACO then
+    if not sTHACO then -- try for MTHACO then...
+      sTHACO = string.match(rRoll.sDesc, "%[MTHACO.*%((%d+)%)%]") or "20";
+    end
+    if not sTHACO then -- if still nothing, just set to 20
         sTHACO = "20";
     end
     local nTHACO = tonumber(sTHACO) or 20;
@@ -628,7 +649,6 @@ function getBaseAttack(rActor)
 	local nBaseAttack = 20 - getTHACO(rActor);
 	return nBaseAttack;
 end
-
 function getTHACO(rActor)
 	local nTHACO = 20;
 	local sActorType, nodeActor = ActorManager.getTypeAndNode(rActor);
@@ -644,6 +664,21 @@ function getTHACO(rActor)
 	end
 	return nTHACO
 end
+-- get the base attach bonus using MTHACO value
+function getBaseAttackPsionic(rActor)
+	local nBaseAttack = 20 - getMTHACO(rActor);
+	return nBaseAttack;
+end
+function getMTHACO(rActor)
+	local nTHACO = 20;
+	local sActorType, nodeActor = ActorManager.getTypeAndNode(rActor);
+	if not nodeActor then
+		return 0;
+	end
+  nTHACO = DB.getValue(nodeActor, "combat.mthaco.score", 20);
+	return nTHACO
+end
+
 
 -- return true if the creature doesn't need a natural 20 to hit the target AC -- celestian
 -- this assumes nBaB is base attack bonus and ascending AC values, not THACO and decending AC

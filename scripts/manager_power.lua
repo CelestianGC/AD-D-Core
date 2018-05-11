@@ -258,6 +258,10 @@ function getPowerRoll(rActor, nodeAction, sSubRoll)
 				rAction.range = "R";
 			elseif sAttackType == "psionic" then
 				rAction.range = "P";
+        rAction.Psionic_DisciplineType = DB.getValue(nodeAction,"disciplinetype","");
+        rAction.Psionic_MAC = DB.getValue(nodeAction,"mac",10);
+        rAction.Psionic_PSP = DB.getValue(nodeAction,"pspcost",0);
+        rAction.Psionic_PSPOnFail = DB.getValue(nodeAction,"pspfail",0);
 			end
 			
 			local nGroupMod, sGroupStat = getGroupAttackBonus(rActor, nodeAction, "base");

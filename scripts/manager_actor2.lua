@@ -421,6 +421,8 @@ function getDefenseValue(rAttacker, rDefender, rRoll)
 		return nil, 0, 0, false, false;
 	end
 	
+  local bPsionic = rRoll.bPsionic;
+  
 	-- Base calculations
 	local sAttack = rRoll.sDesc;
 	
@@ -428,213 +430,239 @@ function getDefenseValue(rAttacker, rDefender, rRoll)
 	local bOpportunity = string.match(sAttack, "%[OPPORTUNITY%]");
 	local nCover = tonumber(string.match(sAttack, "%[COVER %-(%d)%]")) or 0;
 
+  -- Effects
+  local nAttackEffectMod = 0;
+  local nDefenseEffectMod = 0;
+  local bADV = false;
+  local bDIS = false;
+  
 	local nDefense = 10;
 	local sDefenseStat = "dexterity";
 
-  local nACTemp = 0;
-  local nACBase = 10;
-  local nACArmor = 0;
-  local nACShield = 0;
-  local nACMisc = 0;
-  
-Debug.console("manager_actor2.lua","getDefenseValue","rRoll.range",rRoll.range);  
-
-  local bAttackRanged = (rRoll.range and rRoll.range == "R");
-  local bAttackMelee = (rRoll.range and rRoll.range == "M");
-
-  local nBaseRangeAC = 10;
-  local nRangeACEffect = 0;
-  local nRangeACMod = 0;
-  local nRangeACModEffect = 0;
-
-  local nBaseMeleeAC = 10;
-  local nMeleeACEffect = 0;
-  local nMeleeACMod = 0;
-  local nMeleeACModEffect = 0;
-  
-	local sDefenderType, nodeDefender = ActorManager.getTypeAndNode(rDefender);
-	if not nodeDefender then
-		return nil, 0, 0, false, false;
-	end
-
-  -- grab BAC value if exists in effects
-  local nBonusACBase, nBonusACEffects = EffectManager5E.getEffectsBonus(rDefender, "BAC",true);
-
-  if (bAttackMelee) then
-    nBaseMeleeAC, nMeleeACEffect = EffectManager5E.getEffectsBonus(rDefender, "BMELEEAC",true);
-    nMeleeACMod, nMeleeACModEffect = EffectManager5E.getEffectsBonus(rDefender, "MELEEAC",true);
+  local sDefenderType, nodeDefender = ActorManager.getTypeAndNode(rDefender);
+  if not nodeDefender then
+    return nil, 0, 0, false, false;
   end
-  
-  if (bAttackRanged) then
-    nBaseRangeAC, nRangeACEffect = EffectManager5E.getEffectsBonus(rDefender, "BRANGEAC",true);
-    nRangeACMod, nRangeACModEffect = EffectManager5E.getEffectsBonus(rDefender, "RANGEAC",true);
-  end
-  
-  -- if PC
-	if sDefenderType == "pc" then
-    local nodeDefender = DB.findNode(rDefender.sCreatureNode);
-    -- new nDefense Calc
-    -- nDefense = DB.getValue(nodeDefender, "defenses.ac.total", 10);
 
-    -- we get dex down a ways for pc and npc
-    --local nDexBonus = ActorManager2.getAbilityBonus(rDefender, "dexterity","defenseadj");
-    nACTemp = DB.getValue(nodeDefender, "defenses.ac.temporary",0);
-    nACBase = DB.getValue(nodeDefender, "defenses.ac.base",10);
-    nACArmor = DB.getValue(nodeDefender, "defenses.ac.armor",0);
-    nACShield = DB.getValue(nodeDefender, "defenses.ac.shield",0);
-    nACMisc = DB.getValue(nodeDefender, "defenses.ac.misc",0);
+  if bPsionc then -- calculate defenses for psionics
+    if rRoll.Psionic_DisciplineType:match("attack") then -- mental attack
+      nDefense = DB.getValue(nodeDefender,"combat.mac.score",10);
+      -- need to get effects/adjustments for MAC/BMAC/etc.
+      -- grab BAC value if exists in effects
+      local nBonusMACBase, nBonusMACBaseEffects = EffectManager5E.getEffectsBonus(rDefender, "BMAC",true);
+      if (nBonusMACBaseEffects > 0 and nBonusMACBase < nDefense) then
+        nDefense = nBonusMACBase;
+      end
+      local nBonusMAC, nBonusMACEffects = EffectManager5E.getEffectsBonus(rDefender, "MAC",true);
+      if (nBonusMACEffects > 0) then
+        nDefense = nDefense + nBonusMAC;
+      end
+    else -- using a power with a MAC
+      nDefense = rRoll.Psionic_MAC;
+    end
+    -- this is to convert decending AC (below MAC 10 stuff) to ascending MAC
+    -- 20 - (-5) = 25, 20 - 5 = 15 and so on
+    if (nDefense < 10) then
+      nDefense = (20 - nDefense);
+    end
+
+  else -- calculate defenses for melee/range attacks
+    local nACTemp = 0;
+    local nACBase = 10;
+    local nACArmor = 0;
+    local nACShield = 0;
+    local nACMisc = 0;
     
--- Debug.console("manager_actor2.lua","getDefenseValue","nACBase2",nACBase);
--- Debug.console("manager_actor2.lua","getDefenseValue","nACTemp",nACTemp);
--- Debug.console("manager_actor2.lua","getDefenseValue","nACArmor",nACArmor);
--- Debug.console("manager_actor2.lua","getDefenseValue","nACShield",nACShield);
--- Debug.console("manager_actor2.lua","getDefenseValue","nACMisc",nACMisc);
-    --
---		sDefenseStat = DB.getValue(nodeDefender, "ac.sources.ability", "");
-    nDefense = nACBase;
-	else
-    -- ELSE NPC
-		nDefense = DB.getValue(nodeDefender, "ac", 10);
-	end
+  --Debug.console("manager_actor2.lua","getDefenseValue","rRoll.range",rRoll.range);  
 
--- Debug.console("manager_actor2.lua","getDefenseValue","nBonusACBase",nBonusACBase);
--- Debug.console("manager_actor2.lua","getDefenseValue","nBaseMeleeAC",nBaseMeleeAC);
--- Debug.console("manager_actor2.lua","getDefenseValue","nBaseRangeAC",nBaseRangeAC);
--- Debug.console("manager_actor2.lua","getDefenseValue","nMeleeACMod",nMeleeACMod);
--- Debug.console("manager_actor2.lua","getDefenseValue","nRangeACMod",nRangeACMod);
+    local bAttackRanged = (rRoll.range and rRoll.range == "R");
+    local bAttackMelee = (rRoll.range and rRoll.range == "M");
 
-  -- use BAC style effects if exist
-  if nBonusACEffects > 0 then
-    if nBonusACBase < nDefense then
-      nDefense = nBonusACBase;
+    local nBaseRangeAC = 10;
+    local nRangeACEffect = 0;
+    local nRangeACMod = 0;
+    local nRangeACModEffect = 0;
+
+    local nBaseMeleeAC = 10;
+    local nMeleeACEffect = 0;
+    local nMeleeACMod = 0;
+    local nMeleeACModEffect = 0;
+    
+    -- grab BAC value if exists in effects
+    local nBonusACBase, nBonusACEffects = EffectManager5E.getEffectsBonus(rDefender, "BAC",true);
+
+    if (bAttackMelee) then
+      nBaseMeleeAC, nMeleeACEffect = EffectManager5E.getEffectsBonus(rDefender, "BMELEEAC",true);
+      nMeleeACMod, nMeleeACModEffect = EffectManager5E.getEffectsBonus(rDefender, "MELEEAC",true);
     end
-  end
-  if (bAttackMelee and nMeleeACEffect > 0) then
-    if (nBaseMeleeAC < nDefense) then
-      nDefense = nBaseMeleeAC;
+    
+    if (bAttackRanged) then
+      nBaseRangeAC, nRangeACEffect = EffectManager5E.getEffectsBonus(rDefender, "BRANGEAC",true);
+      nRangeACMod, nRangeACModEffect = EffectManager5E.getEffectsBonus(rDefender, "RANGEAC",true);
     end
-  end
-  if (bAttackRanged and nRangeACEffect > 0) then
-    if (nBaseRangeAC < nDefense) then
-      nDefense = nBaseRangeAC;
+    
+    -- if PC
+    if sDefenderType == "pc" then
+      local nodeDefender = DB.findNode(rDefender.sCreatureNode);
+      -- new nDefense Calc
+      -- nDefense = DB.getValue(nodeDefender, "defenses.ac.total", 10);
+
+      -- we get dex down a ways for pc and npc
+      --local nDexBonus = ActorManager2.getAbilityBonus(rDefender, "dexterity","defenseadj");
+      nACTemp = DB.getValue(nodeDefender, "defenses.ac.temporary",0);
+      nACBase = DB.getValue(nodeDefender, "defenses.ac.base",10);
+      nACArmor = DB.getValue(nodeDefender, "defenses.ac.armor",0);
+      nACShield = DB.getValue(nodeDefender, "defenses.ac.shield",0);
+      nACMisc = DB.getValue(nodeDefender, "defenses.ac.misc",0);
+      
+  -- Debug.console("manager_actor2.lua","getDefenseValue","nACBase2",nACBase);
+  -- Debug.console("manager_actor2.lua","getDefenseValue","nACTemp",nACTemp);
+  -- Debug.console("manager_actor2.lua","getDefenseValue","nACArmor",nACArmor);
+  -- Debug.console("manager_actor2.lua","getDefenseValue","nACShield",nACShield);
+  -- Debug.console("manager_actor2.lua","getDefenseValue","nACMisc",nACMisc);
+      --
+  --		sDefenseStat = DB.getValue(nodeDefender, "ac.sources.ability", "");
+      nDefense = nACBase;
+    else
+      -- ELSE NPC
+      nDefense = DB.getValue(nodeDefender, "ac", 10);
     end
-  end
-  if (bAttackMelee and nMeleeACModEffect > 0) then
-    nACTemp = nACTemp + (nACTemp - nMeleeACMod); -- (minus the mod, +3 is good, so we reduce AC by 3, -3 would be worse)
-  end
-  if (bAttackRanged and nRangeACModEffect > 0) then
-    nACTemp = nACTemp + (nACTemp - nRangeACMod); -- (minus the mod, +3 is good, so we reduce AC by 3, -3 would be worse)
-  end
-  -- 
-  
-	if sDefenderType == "pc" then
-    nDefense = nDefense + nACTemp + nACArmor + nACShield + nACMisc;
-  else -- npc
-    nDefense = nDefense + nACTemp; -- nACTemp are "modifiders"
-  end
-  
---Debug.console("manager_actor2.lua","getDefenseValue","nDefense",nDefense);
-  
-	nDefenseStatMod = getAbilityBonus(rDefender, sDefenseStat, "defenseadj");
+
+  -- Debug.console("manager_actor2.lua","getDefenseValue","nBonusACBase",nBonusACBase);
+  -- Debug.console("manager_actor2.lua","getDefenseValue","nBaseMeleeAC",nBaseMeleeAC);
+  -- Debug.console("manager_actor2.lua","getDefenseValue","nBaseRangeAC",nBaseRangeAC);
+  -- Debug.console("manager_actor2.lua","getDefenseValue","nMeleeACMod",nMeleeACMod);
+  -- Debug.console("manager_actor2.lua","getDefenseValue","nRangeACMod",nRangeACMod);
+
+    -- use BAC style effects if exist
+    if nBonusACEffects > 0 then
+      if nBonusACBase < nDefense then
+        nDefense = nBonusACBase;
+      end
+    end
+    if (bAttackMelee and nMeleeACEffect > 0) then
+      if (nBaseMeleeAC < nDefense) then
+        nDefense = nBaseMeleeAC;
+      end
+    end
+    if (bAttackRanged and nRangeACEffect > 0) then
+      if (nBaseRangeAC < nDefense) then
+        nDefense = nBaseRangeAC;
+      end
+    end
+    if (bAttackMelee and nMeleeACModEffect > 0) then
+      nACTemp = nACTemp + (nACTemp - nMeleeACMod); -- (minus the mod, +3 is good, so we reduce AC by 3, -3 would be worse)
+    end
+    if (bAttackRanged and nRangeACModEffect > 0) then
+      nACTemp = nACTemp + (nACTemp - nRangeACMod); -- (minus the mod, +3 is good, so we reduce AC by 3, -3 would be worse)
+    end
+    -- 
+    
+    if sDefenderType == "pc" then
+      nDefense = nDefense + nACTemp + nACArmor + nACShield + nACMisc;
+    else -- npc
+      nDefense = nDefense + nACTemp; -- nACTemp are "modifiders"
+    end
+    
+  --Debug.console("manager_actor2.lua","getDefenseValue","nDefense",nDefense);
+    
+    nDefenseStatMod = getAbilityBonus(rDefender, sDefenseStat, "defenseadj");
     nDefense = nDefense + nDefenseStatMod;
+      
+    -- Debug.console("manager_actor2.lua","getDefenseValue","nDefense",nDefense);
+    -- Debug.console("manager_actor2.lua","getDefenseValue","nDefenseStatMod",nDefenseStatMod);
     
--- Debug.console("manager_actor2.lua","getDefenseValue","nDefense",nDefense);
--- Debug.console("manager_actor2.lua","getDefenseValue","nDefenseStatMod",nDefenseStatMod);
+    -- this is to convert decending AC (below AC 10 stuff) to ascending AC
+    -- 20 - (-5) = 25, 20 - 5 = 15 and so on
+    if (nDefense < 10) then
+      nDefense = (20 - nDefense);
+    end
+    
+    if ActorManager.hasCT(rDefender) then
+      local nBonusAC = 0;
+      local nBonusStat = 0;
+      local nBonusSituational = 0;
+      
+      local aAttackFilter = {};
+      if sAttackType == "M" then
+        table.insert(aAttackFilter, "melee");
+      elseif sAttackType == "R" then
+        table.insert(aAttackFilter, "ranged");
+      end
+      if bOpportunity then
+        table.insert(aAttackFilter, "opportunity");
+      end
 
-	-- this is to convert decending AC (below AC 10 stuff) to ascending AC
-	-- 20 - (-5) = 25, 20 - 5 = 15 and so on
-	if (nDefense < 10) then
-		nDefense = (20 - nDefense);
-	end
-	
-	-- Effects
-	local nAttackEffectMod = 0;
-	local nDefenseEffectMod = 0;
-	local bADV = false;
-	local bDIS = false;
-	if ActorManager.hasCT(rDefender) then
-		local nBonusAC = 0;
-		local nBonusStat = 0;
-		local nBonusSituational = 0;
-		
-		local aAttackFilter = {};
-		if sAttackType == "M" then
-			table.insert(aAttackFilter, "melee");
-		elseif sAttackType == "R" then
-			table.insert(aAttackFilter, "ranged");
-		end
-		if bOpportunity then
-			table.insert(aAttackFilter, "opportunity");
-		end
-
-		local aBonusTargetedAttackDice, nBonusTargetedAttack = EffectManager5E.getEffectsBonus(rAttacker, "ATK", false, aAttackFilter, rDefender, true);
-		nAttackEffectMod = nAttackEffectMod + StringManager.evalDice(aBonusTargetedAttackDice, nBonusTargetedAttack);
-					
-		local aACEffects, nACEffectCount = EffectManager5E.getEffectsBonusByType(rDefender, {"AC"}, true, aAttackFilter, rAttacker);
-		for _,v in pairs(aACEffects) do
-			nBonusAC = nBonusAC + v.mod;
-		end
-		
-		nBonusStat = getAbilityEffectsBonus(rDefender, sDefenseStat);
-		
-		local bProne = false;
-		if EffectManager5E.hasEffect(rAttacker, "ADVATK", rDefender, true) then
-			bADV = true;
-		end
-		if EffectManager5E.hasEffect(rAttacker, "DISATK", rDefender, true) then
-			bDIS = true;
-		end
-		if EffectManager5E.hasEffect(rAttacker, "Invisible", rDefender, true) then
-			bADV = true;
-		end
-		if EffectManager5E.hasEffect(rDefender, "GRANTADVATK", rAtracker) then
-			bADV = true;
-		end
-		if EffectManager5E.hasEffect(rDefender, "GRANTDISATK", rAtracker) then
-			bDIS = true;
-		end
-		if EffectManager5E.hasEffect(rDefender, "Invisible", rAttacker) then
-			bDIS = true;
-		end
-		if EffectManager5E.hasEffect(rDefender, "Paralyzed", rAttacker) then
-			bADV = true;
-		end
-		if EffectManager5E.hasEffect(rDefender, "Prone", rAttacker) then
-			bProne = true;
-		end
-		if EffectManager5E.hasEffect(rDefender, "Restrained", rAttacker) then
-			bADV = true;
-		end
-		if EffectManager5E.hasEffect(rDefender, "Stunned", rAttacker) then
-			bADV = true;
-		end
-		if EffectManager5E.hasEffect(rDefender, "Unconscious", rAttacker) then
-			bADV = true;
-			bProne = true;
-		end
-		
-		if bProne then
-			if sAttackType == "M" then
-				bADV = true;
-			elseif sAttackType == "R" then
-				bDIS = true;
-			end
-		end
-		
-		if nCover < 5 then
-			local aCover = EffectManager5E.getEffectsByType(rDefender, "SCOVER", aAttackFilter, rAttacker);
-			if #aCover > 0 or EffectManager5E.hasEffect(rDefender, "SCOVER", rAttacker) then
-				nBonusSituational = nBonusSituational + 5 - nCover;
-			elseif nCover < 2 then
-				aCover = EffectManager5E.getEffectsByType(rDefender, "COVER", aAttackFilter, rAttacker);
-				if #aCover > 0 or EffectManager5E.hasEffect(rDefender, "COVER", rAttacker) then
-					nBonusSituational = nBonusSituational + 2 - nCover;
-				end
-			end
-		end
-		
-		nDefenseEffectMod = nBonusAC + nBonusStat + nBonusSituational;
-	end
+      local aBonusTargetedAttackDice, nBonusTargetedAttack = EffectManager5E.getEffectsBonus(rAttacker, "ATK", false, aAttackFilter, rDefender, true);
+      nAttackEffectMod = nAttackEffectMod + StringManager.evalDice(aBonusTargetedAttackDice, nBonusTargetedAttack);
+            
+      local aACEffects, nACEffectCount = EffectManager5E.getEffectsBonusByType(rDefender, {"AC"}, true, aAttackFilter, rAttacker);
+      for _,v in pairs(aACEffects) do
+        nBonusAC = nBonusAC + v.mod;
+      end
+      
+      nBonusStat = getAbilityEffectsBonus(rDefender, sDefenseStat);
+      
+      local bProne = false;
+      if EffectManager5E.hasEffect(rAttacker, "ADVATK", rDefender, true) then
+        bADV = true;
+      end
+      if EffectManager5E.hasEffect(rAttacker, "DISATK", rDefender, true) then
+        bDIS = true;
+      end
+      if EffectManager5E.hasEffect(rAttacker, "Invisible", rDefender, true) then
+        bADV = true;
+      end
+      if EffectManager5E.hasEffect(rDefender, "GRANTADVATK", rAtracker) then
+        bADV = true;
+      end
+      if EffectManager5E.hasEffect(rDefender, "GRANTDISATK", rAtracker) then
+        bDIS = true;
+      end
+      if EffectManager5E.hasEffect(rDefender, "Invisible", rAttacker) then
+        bDIS = true;
+      end
+      if EffectManager5E.hasEffect(rDefender, "Paralyzed", rAttacker) then
+        bADV = true;
+      end
+      if EffectManager5E.hasEffect(rDefender, "Prone", rAttacker) then
+        bProne = true;
+      end
+      if EffectManager5E.hasEffect(rDefender, "Restrained", rAttacker) then
+        bADV = true;
+      end
+      if EffectManager5E.hasEffect(rDefender, "Stunned", rAttacker) then
+        bADV = true;
+      end
+      if EffectManager5E.hasEffect(rDefender, "Unconscious", rAttacker) then
+        bADV = true;
+        bProne = true;
+      end
+      
+      if bProne then
+        if sAttackType == "M" then
+          bADV = true;
+        elseif sAttackType == "R" then
+          bDIS = true;
+        end
+      end
+      
+      if nCover < 5 then
+        local aCover = EffectManager5E.getEffectsByType(rDefender, "SCOVER", aAttackFilter, rAttacker);
+        if #aCover > 0 or EffectManager5E.hasEffect(rDefender, "SCOVER", rAttacker) then
+          nBonusSituational = nBonusSituational + 5 - nCover;
+        elseif nCover < 2 then
+          aCover = EffectManager5E.getEffectsByType(rDefender, "COVER", aAttackFilter, rAttacker);
+          if #aCover > 0 or EffectManager5E.hasEffect(rDefender, "COVER", rAttacker) then
+            nBonusSituational = nBonusSituational + 2 - nCover;
+          end
+        end
+      end
+      
+      nDefenseEffectMod = nBonusAC + nBonusStat + nBonusSituational;
+    end
+    
+  end -- end if bPsionic
 	
 	-- Results
 	return nDefense, nAttackEffectMod, nDefenseEffectMod, bADV, bDIS;
