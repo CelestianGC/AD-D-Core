@@ -104,7 +104,12 @@ function getRoll(rActor, rAction)
 	rRoll.bWeapon = false;
 
   -- psionics, we need to hand these off since modRoll doesn't keep rAction
-  rRoll.bPsionic               = (rAction.Psionic_DisciplineType ~= nil)
+--Debug.console("manger_action_attack.lua","modAttack","rAction.Psionic_DisciplineType",rAction.Psionic_DisciplineType);                    	
+  
+  if (rAction.Psionic_DisciplineType ~= nil) then
+    rRoll.bPsionic             = 'true';
+  end
+--Debug.console("manger_action_attack.lua","modAttack","rRoll.bPsionic",rRoll.bPsionic);     
   rRoll.Psionic_DisciplineType = rAction.Psionic_DisciplineType or "";
   rRoll.Psionic_MAC            = rAction.Psionic_MAC or 10;
   rRoll.Psionic_PSP            = rAction.Psionic_PSP or 0;
@@ -186,8 +191,8 @@ function modAttack(rSource, rTarget, rRoll)
 	local aAddDice = {};
 	local nAddMod = 0;
   
-  local bPsionicPower = rRoll.bPsionic;
-	
+  local bPsionicPower =  rRoll.bPsionic == "true";
+
 	-- Check for opportunity attack
 	local bOpportunity = ModifierStack.getModifierKey("ATT_OPP") or Input.isShiftPressed();
 
@@ -396,8 +401,9 @@ function modAttack(rSource, rTarget, rRoll)
     local nTHACO = 20 - rRoll.nBaseAttack;	
     if (bPsionicPower) then
       rRoll.sDesc = rRoll.sDesc .. " [MTHACO(" ..nTHACO.. ")] ";
-    end
+    else
       rRoll.sDesc = rRoll.sDesc .. " [THACO(" ..nTHACO.. ")] ";
+    end
 
 	else    -- no rSource, they are drag/dropping the roll
   
@@ -451,14 +457,13 @@ end
 
 function onAttack(rSource, rTarget, rRoll)
 	ActionsManager2.decodeAdvantage(rRoll);
-
---Debug.console("manager_action_attack.lua","onAttack","range",rRoll.range);
   
+
 	local rMessage = ActionsManager.createActionMessage(rSource, rRoll);
 	rMessage.text = string.gsub(rMessage.text, " %[MOD:[^]]*%]", "");
 
 	local bIsSourcePC = (rSource and rSource.sType == "pc");
-    
+  local bPsionic = rRoll.bPsionic == "true";
 	local rAction = {};
 	rAction.nTotal = ActionsManager.total(rRoll);
 
@@ -481,17 +486,33 @@ function onAttack(rSource, rTarget, rRoll)
 	end
     local bCanCrit = true;
 	-- insert AC hit
-    if rSource ~= nil then
-        local nACHit = (20 - rAction.nTotal);
-        if (nDefenseVal and nDefenseVal ~= 0) then
-            -- adjust bCanCrit based on target AC, if they need roll+bab 20 to hit target ac then they cant crit
-            bCanCrit = canCrit(rRoll.nBaseAttack,nDefenseVal);
-            local nTargetAC = (20 - nDefenseVal);
-            rMessage.text = rMessage.text .. "[Hit-AC: " .. nACHit .. " vs. ".. nTargetAC .." ]" .. table.concat(rAction.aMessages, " ");
+--Debug.console("manager_action_attack.lua","onAttack","nDefenseVal",nDefenseVal);
+  local nACHit = (20 - rAction.nTotal);
+  
+  if rTarget ~= nil then
+    if (nDefenseVal and nDefenseVal ~= 0) then
+        -- adjust bCanCrit based on target AC, if they need roll+bab 20 to hit target ac then they cant crit
+        bCanCrit = (not bPsionic and canCrit(rRoll.nBaseAttack,nDefenseVal));
+        local nTargetAC = (20 - nDefenseVal);
+        if (bPsionic) then
+          rMessage.text = rMessage.text .. "[Hit-MAC: " .. nACHit .. " vs. ".. nTargetAC .." ]" .. table.concat(rAction.aMessages, " ");
+        else
+          rMessage.text = rMessage.text .. "[Hit-AC: " .. nACHit .. " vs. ".. nTargetAC .." ]" .. table.concat(rAction.aMessages, " ");
         end
-        table.insert(rAction.aMessages, string.format("[AC: %d ]" , nACHit) );
-        --rMessage.text = rMessage.text .. "[AC: " .. nACHit .. " ]" .. table.concat(rAction.aMessages, " ");
     end
+  elseif nDefenseVal and bPsionic and not rRoll.Psionic_DisciplineType:match("attack") then -- no source but nDefenseVal and not a psionic attack (it's a power)
+    bCanCrit = false;
+    local nTargetAC = (20 - nDefenseVal);
+    rMessage.text = rMessage.text .. "[Hit-MAC: " .. nACHit .. " vs. ".. nTargetAC .." ]" .. table.concat(rAction.aMessages, " ");
+  end
+  
+  if (bPsionic) then
+    bCanCrit = false;
+    table.insert(rAction.aMessages, string.format("[MAC: %d ]" , nACHit) );
+  else
+    table.insert(rAction.aMessages, string.format("[AC: %d ]" , nACHit) );
+  end
+    
 	
 	local sCritThreshold = string.match(rRoll.sDesc, "%[CRIT (%d+)%]");
 	local nCritThreshold = tonumber(sCritThreshold) or 20;
@@ -510,24 +531,28 @@ function onAttack(rSource, rTarget, rRoll)
 	elseif rAction.nFirstDie == 1 then
 		rAction.sResult = "fumble";
 		table.insert(rAction.aMessages, "[AUTOMATIC MISS]");
-	elseif nDefenseVal and nDefenseVal ~= 0 then
---Debug.console("manager_action_attack.lua","onAttack","nDefenseVal",nDefenseVal);
-    -- nFirstDie = natural roll, nat 20 == auto-hit, if you can't crit you can still hit on a 20
-		if rAction.nTotal >= nDefenseVal or rAction.nFirstDie == 20 then
-      rMessage.font = "hitfont";
-      rMessage.icon = "chat_hit";
-			rAction.sResult = "hit";
-      local sHitText = "[HIT]";
-      if (rAction.nFirstDie == 20) then
-        sHitText = "[AUTOMATIC HIT]";
+	elseif nDefenseVal and nDefenseVal ~= 0 then 
+    if (rTarget == nil and rRoll.Psionic_DisciplineType:match("attack")) then
+      -- psionic attacks only work with a target, powers however have target MACs so... this lovely confusing mess.
+    else
+  --Debug.console("manager_action_attack.lua","onAttack","nDefenseVal",nDefenseVal);
+      -- nFirstDie = natural roll, nat 20 == auto-hit, if you can't crit you can still hit on a 20
+      if rAction.nTotal >= nDefenseVal or rAction.nFirstDie == 20 then
+        rMessage.font = "hitfont";
+        rMessage.icon = "chat_hit";
+        rAction.sResult = "hit";
+        local sHitText = "[HIT]";
+        if (rAction.nFirstDie == 20) then
+          sHitText = "[AUTOMATIC HIT]";
+        end
+        table.insert(rAction.aMessages, sHitText);
+      else
+        rMessage.font = "missfont";
+        rMessage.icon = "chat_miss";
+        rAction.sResult = "miss";
+        table.insert(rAction.aMessages, "[MISS]");
       end
-			table.insert(rAction.aMessages, sHitText);
-		else
-      rMessage.font = "missfont";
-      rMessage.icon = "chat_miss";
-			rAction.sResult = "miss";
-			table.insert(rAction.aMessages, "[MISS]");
-		end
+    end
 	end
 
 	if not rTarget then

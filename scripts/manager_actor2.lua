@@ -416,12 +416,33 @@ function getDefenseAdvantage(rAttacker, rDefender, aAttackFilter)
 	return bADV, bDIS;
 end
 
+-- this is to convert decending AC (below MAC 10 stuff) to ascending AC
+-- 20 - (-5) = 25, 20 - 5 = 15 and so on
+function ascendingDefense(nDefense)
+    if (nDefense < 10) then
+      nDefense = (20 - nDefense);
+    end
+  return nDefense;
+end
+
 function getDefenseValue(rAttacker, rDefender, rRoll)
-	if not rDefender or not rRoll then
+	local nDefense = 10;
+  local bPsionic = false;
+  
+  if (rRoll) then -- need to get defense value from psionic power
+    bPsionic = rRoll.bPsionic == "true";
+    if (bPsionic) then
+      nDefense = tonumber(rRoll.Psionic_MAC) or 10;
+      nDefense = ascendingDefense(nDefense);
+    end
+  end
+  
+	if not rDefender and rRoll and bPsionic then -- no defender but psionic power target
+    return nDefense, 0, 0, false, false;
+	elseif not rDefender or not rRoll then
 		return nil, 0, 0, false, false;
 	end
 	
-  local bPsionic = rRoll.bPsionic;
   
 	-- Base calculations
 	local sAttack = rRoll.sDesc;
@@ -436,7 +457,6 @@ function getDefenseValue(rAttacker, rDefender, rRoll)
   local bADV = false;
   local bDIS = false;
   
-	local nDefense = 10;
 	local sDefenseStat = "dexterity";
 
   local sDefenderType, nodeDefender = ActorManager.getTypeAndNode(rDefender);
@@ -444,7 +464,7 @@ function getDefenseValue(rAttacker, rDefender, rRoll)
     return nil, 0, 0, false, false;
   end
 
-  if bPsionc then -- calculate defenses for psionics
+  if bPsionic then -- calculate defenses for psionics
     if rRoll.Psionic_DisciplineType:match("attack") then -- mental attack
       nDefense = DB.getValue(nodeDefender,"combat.mac.score",10);
       -- need to get effects/adjustments for MAC/BMAC/etc.
@@ -458,13 +478,9 @@ function getDefenseValue(rAttacker, rDefender, rRoll)
         nDefense = nDefense + nBonusMAC;
       end
     else -- using a power with a MAC
-      nDefense = rRoll.Psionic_MAC;
+      nDefense = tonumber(rRoll.Psionic_MAC) or 10;
     end
-    -- this is to convert decending AC (below MAC 10 stuff) to ascending MAC
-    -- 20 - (-5) = 25, 20 - 5 = 15 and so on
-    if (nDefense < 10) then
-      nDefense = (20 - nDefense);
-    end
+    nDefense = ascendingDefense(nDefense);
 
   else -- calculate defenses for melee/range attacks
     local nACTemp = 0;
@@ -572,11 +588,7 @@ function getDefenseValue(rAttacker, rDefender, rRoll)
     -- Debug.console("manager_actor2.lua","getDefenseValue","nDefense",nDefense);
     -- Debug.console("manager_actor2.lua","getDefenseValue","nDefenseStatMod",nDefenseStatMod);
     
-    -- this is to convert decending AC (below AC 10 stuff) to ascending AC
-    -- 20 - (-5) = 25, 20 - 5 = 15 and so on
-    if (nDefense < 10) then
-      nDefense = (20 - nDefense);
-    end
+    nDefense = ascendingDefense(nDefense);
     
     if ActorManager.hasCT(rDefender) then
       local nBonusAC = 0;

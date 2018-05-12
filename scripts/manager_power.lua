@@ -258,10 +258,13 @@ function getPowerRoll(rActor, nodeAction, sSubRoll)
 				rAction.range = "R";
 			elseif sAttackType == "psionic" then
 				rAction.range = "P";
-        rAction.Psionic_DisciplineType = DB.getValue(nodeAction,"disciplinetype","");
-        rAction.Psionic_MAC = DB.getValue(nodeAction,"mac",10);
-        rAction.Psionic_PSP = DB.getValue(nodeAction,"pspcost",0);
-        rAction.Psionic_PSPOnFail = DB.getValue(nodeAction,"pspfail",0);
+        local nodeSpell = nodeAction.getChild("...");
+        rAction.Psionic_DisciplineType = DB.getValue(nodeSpell,"disciplinetype","");
+        rAction.Psionic_DisciplineType = rAction.Psionic_DisciplineType:lower();
+--Debug.console("manager_power.lua","getPowerRoll","Psionic_DisciplineType",DB.getValue(nodeSpell,"disciplinetype",""));                
+        rAction.Psionic_MAC = DB.getValue(nodeSpell,"mac",10);
+        rAction.Psionic_PSP = DB.getValue(nodeSpell,"pspcost",0);
+        rAction.Psionic_PSPOnFail = DB.getValue(nodeSpell,"pspfail",0);
 			end
 			
 			local nGroupMod, sGroupStat = getGroupAttackBonus(rActor, nodeAction, "base");
@@ -2353,24 +2356,29 @@ function incrementUse(draginfo, node)
 	if not nodeChar then
 		return false;
 	end
-    local sActionType = DB.getValue(node,"type","");
-    local bisNPC = (not ActorManager.isPC(nodeChar));
-    local bHadCharge = true;
-    local nPrepared = DB.getValue(nodeSpell, "prepared", 0);
-    local sGroup = DB.getValue(nodeSpell, "group", ""):lower();
-    if not string.match(sGroup,"^spells") and sActionType == "cast" then
-        local nCast = DB.getValue(nodeSpell, "cast", 0);
-        if (nPrepared >= (nCast+1) or bisNPC) then -- ignore check for npcs
-            DB.setValue(nodeSpell, "cast","number", (nCast+1));
-            bHadCharge = true;
-        else
-            --bHadCharge = false;
-            bHadCharge = true; -- we let the effect happen and just spam with text error
-            local sFormat = Interface.getString("message_nouseleft");
-            local sMsg = string.format(sFormat, DB.getValue(nodeSpell, "name", ""));
-            ChatManager.Message(sMsg, true, ActorManager.getActor("pc", nodeChar));            
-        end
-    end
+
+  local sGroup = DB.getValue(nodeSpell, "group", ""):lower();
+  --local sSpellType = DB.getValue(nodeSpell, "type", ""):lower();
+  local bPsionic = string.match(sGroup,"^psionic"); --(sSpellType:match("psionic));
+  local bSpellCasting = string.match(sGroup,"^spells");
+
+  local sActionType = DB.getValue(node,"type","");
+  local bisNPC = (not ActorManager.isPC(nodeChar));
+  local bHadCharge = true;
+  local nPrepared = DB.getValue(nodeSpell, "prepared", 0);
+  if not bPsionic and not bSpellCasting and sActionType == "cast" then
+      local nCast = DB.getValue(nodeSpell, "cast", 0);
+      if (nPrepared >= (nCast+1) or bisNPC) then -- ignore check for npcs
+          DB.setValue(nodeSpell, "cast","number", (nCast+1));
+          bHadCharge = true;
+      else
+          --bHadCharge = false;
+          bHadCharge = true; -- we let the effect happen and just spam with text error
+          local sFormat = Interface.getString("message_nouseleft");
+          local sMsg = string.format(sFormat, DB.getValue(nodeSpell, "name", ""));
+          ChatManager.Message(sMsg, true, ActorManager.getActor("pc", nodeChar));            
+      end
+  end
 
     return bHadCharge;
 end
@@ -2571,7 +2579,7 @@ function getActionDamagePSPText(nodeAction)
 
 	local clauses = PowerManager.getActionDamagePSP(rActor, nodeAction);
 	
-Debug.console("manager_power.lua","getActionDamagePSPText","clauses",clauses);
+--Debug.console("manager_power.lua","getActionDamagePSPText","clauses",clauses);
   
 	local aOutput = {};
 	local aDamage = ActionDamage.getDamageStrings(clauses);
@@ -2632,7 +2640,7 @@ function getActionHealPSPText(nodeAction)
 		nHealMod = nHealMod + vClause.modifier;
 	end
 	
-  Debug.console("manager_power.lua","getActionHealPSPText","aHealDice",aHealDice);
+  --Debug.console("manager_power.lua","getActionHealPSPText","aHealDice",aHealDice);
   
 	local sHeal = StringManager.convertDiceToString(aHealDice, nHealMod);
 	if DB.getValue(nodeAction, "healtype", "") == "temp" then
