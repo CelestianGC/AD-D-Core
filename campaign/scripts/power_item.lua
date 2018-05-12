@@ -182,7 +182,7 @@ end
 
 -- add action for spell/item
 function createAction(sType)
-Debug.console("power_item.lua","createAction","sType",sType);
+--Debug.console("power_item.lua","createAction","sType",sType);
 	local nodeAttack = getDatabaseNode();
 	if nodeAttack then
 		local nodeActions = nodeAttack.createChild("actions");
@@ -196,8 +196,8 @@ Debug.console("power_item.lua","createAction","sType",sType);
 end
 
 function onMenuSelection(selection, subselection)
-Debug.console("power_item.lua","onMenuSelection","selection",selection);
-Debug.console("power_item.lua","onMenuSelection","subselection",subselection);
+--Debug.console("power_item.lua","onMenuSelection","selection",selection);
+--Debug.console("power_item.lua","onMenuSelection","subselection",subselection);
 	if selection == 6 and subselection == 7 then
         cleanUpMemorization(getDatabaseNode());
 		getDatabaseNode().delete();

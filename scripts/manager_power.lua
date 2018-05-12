@@ -105,12 +105,19 @@ function addPower(sClass, nodeSource, nodeCreature, sGroup)
         
     -- add "cast" action, set to group "Spells" if nothing found
     if (not bHasActions) then
+        local sType = DB.getValue(nodeNewPower,"type",""):lower();
+        
 --Debug.console("manager_power.lua","addPower","nodeNewPower",nodeNewPower);    
         -- setup at least cast
         local nodeActions = nodeNewPower.createChild("actions");
         local nodeAction = nodeActions.createChild();        
         DB.setValue(nodeAction, "type", "string", "cast");
-        DB.setValue(nodeAction, "savetype", "string", "spell");      
+        if (sType:match("psionic")) then
+          --<atktype type="string">psionic</atktype>
+          DB.setValue(nodeAction, "atktype", "string", "psionic");      
+        else
+          DB.setValue(nodeAction, "savetype", "string", "spell");      
+        end
         
         -- -- add these so that spells copied from other players/sources
         -- -- get setup immediately --celestian

@@ -555,15 +555,26 @@ end
 
 function onDrop(x, y, draginfo)
 	if draginfo.isType("shortcut") then
-		local sClass = draginfo.getShortcutData();
+--Debug.console("power_page.lua","onDrop","draginfo",draginfo);  
+		local sClass, sRecord = draginfo.getShortcutData();
 		if sClass == "reference_spell" or sClass == "power" then
 			bUpdatingGroups = true;
 			draginfo.setSlot(2);
 			local sGroup = draginfo.getStringData();
 			draginfo.setSlot(1);
 			if sGroup == "" then
-				sGroup = Interface.getString("power_label_groupspells");
+        -- try and load spell/power and if psionic type, set group to that
+        local nodeSpell = DB.findNode(sRecord);
+        if (nodeSpell) then
+          local sType = DB.getValue(nodeSpell,"type",""):lower();
+          if (sType:match("psionic")) then
+            sGroup = "Psionics";
+          end
+        end
 			end
+			if sGroup == "" then
+        sGroup = Interface.getString("power_label_groupspells");
+      end
 			PowerManager.addPower(sClass, draginfo.getDatabaseNode(), getDatabaseNode(), sGroup);
 			bUpdatingGroups = false;
 			onPowerGroupChanged();
