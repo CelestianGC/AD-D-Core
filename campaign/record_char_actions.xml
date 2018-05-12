@@ -855,7 +855,6 @@
 			<script>
 				function onButtonPress()
         local node = window.getDatabaseNode();
-        Debug.console("record_char_combat.xml","button_combat_psionic_details","node-->>",node);
 					Interface.openWindow("combat_psionic_details", window.getDatabaseNode());
 				end
 			</script>
@@ -865,7 +864,7 @@
   <windowclass name="combat_psionic_details">
 		<frame>charsheethelper</frame>
 		<placement>
-			<size width="440" height="280" />
+			<size width="400" height="220" />
 		</placement>
 		<nodelete />
 		<playercontrol />
@@ -911,7 +910,7 @@
       </label_fieldtop>
       
       <text_plus name="plus_mac_basemod">
-        <anchored to="mac_basemod" position="righthigh" offset="50" />
+        <anchored to="mac_basemod" position="righthigh" offset="10" />
       </text_plus>
       
       <number_basic name="mac_mod" source="combat.mac.mod">
@@ -973,7 +972,7 @@
       </label_fieldtop>
       
       <text_plus name="plus_psp_basemod">
-        <anchored to="psp_basemod" position="righthigh" offset="50" />
+        <anchored to="psp_basemod" position="righthigh" offset="10" />
       </text_plus>
       
       <number_basic name="psp_mod" source="combat.psp.mod">
@@ -1039,7 +1038,7 @@
       </label_fieldtop>
       
       <text_plus name="plus_mthaco_basemod">
-        <anchored to="mthaco_basemod" position="righthigh" offset="50" />
+        <anchored to="mthaco_basemod" position="righthigh" offset="10" />
       </text_plus>
       
       <number_basic name="mthaco_mod" source="combat.mthaco.mod">

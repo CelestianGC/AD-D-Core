@@ -772,27 +772,27 @@
 			</label_charframetop>
  -->
 			
-            <label name="combat_label">
+      <label name="combat_label">
+      <!-- <frame name="adnd_combaticon" /> -->
+        <anchored to="charisma">
+          <top anchor="bottom" relation="relative" offset="5" />
+          <left offset="40" />
+          <right offset="95" />
+        </anchored>
+        <center />
+        <static text="COMBAT" />
+        <font>arial-bold-12</font>
+      </label>
+      <label name="combaticon">
 				<!-- <frame name="adnd_combaticon" /> -->
-				<anchored to="charisma">
-					<top anchor="bottom" relation="relative" offset="5" />
-					<left offset="40" />
-					<right offset="95" />
-				</anchored>
-                <center />
-                <static text="*COMBAT*" />
-                <font>arial-bold-12</font>
-            </label>
-            <label name="combaticon">
-				<!-- <frame name="adnd_combaticon" /> -->
-                <frame name="adnd_swordicon" />
+        <frame name="adnd_swordicon" />
 				<anchored to="combat_label">
 					<top offset="-3" />
 					<left anchor="right" offset="5" />
 					<right offset="300" />
 				</anchored>
-                <center />
-            </label>
+        <center />
+      </label>
 			<!-- 	Magnify button -->
 			<button_charcombatcalc name="button_combatcalc">
 				<anchored to="combat_label" width="30" height="30">
@@ -805,10 +805,10 @@
         <anchored to="charisma" position="belowleft" offset="0,35" width="45" height="40" />
       </genericcontrol>
 
-            <!-- 			THACO/AC/INIT/MOVE  -->
+      <!-- 			THACO/AC/INIT/MOVE  -->
 			<number_chartotalac_defaults name="ac2" source="defenses.ac.total">
 				<readonly />
-                <anchored to="combatanchor" position="insidetopleft" offset="5,0" width="30" height="30" />
+        <anchored to="combatanchor" position="insidetopleft" offset="5,0" width="30" height="30" />
 <!-- 				<anchored to="combatanchor" width="30" height="30">
 					<top parent="combatanchor" />
 					<left anchor="right" relation="relative" offset="5" />
@@ -821,16 +821,15 @@
 			</label_combatscores>
 
 			<number_charthaco_charsheet name="thaco" source="combat.thaco.score">
-				<anchored to="combatanchor" width="40" height="30">
+				<anchored to="combatanchor" width="30" height="30">
 					<top parent="combatanchor" offset="4,0" />
 					<left anchor="right" relation="relative" offset="0" />
 				</anchored>
 			</number_charthaco_charsheet>
-			<label_combatscores>
-                <anchored to="thaco" offset="-2,-2" />
+      <label_combatscores>
+        <anchored to="thaco" position="aboveleft" offset="-8,-3" width="45"/>
 				<static textres="thaco" />
-			</label_combatscores>
-
+      </label_combatscores>
 			
 			<number_charinit_charsheet name="initiative" source="initiative.total">
 				<readonly />
@@ -840,36 +839,34 @@
 				</anchored>
 			</number_charinit_charsheet>
 			<label_combatscores>
-                <anchored to="initiative" position="insidetopleft" offset="0,-10" width="30"/>
+        <anchored to="initiative" position="aboveleft" offset="-1,-3" width="30"/>
 				<static textres="char_label_initiative" />
 			</label_combatscores>
 			
-
-            <surprise_number_total_charsheet name="sheet_surprise_total" source="surprise.total">
+      <surprise_number_total_charsheet name="sheet_surprise_total" source="surprise.total">
 				<anchored to="combatanchor" width="30" height="30">
 					<top parent="combatanchor" offset="4" />
 					<left anchor="right" relation="relative" offset="15" />
 				</anchored>
-                <tooltip textres="char_label_surprisetotal_tooltip" />
-                <font>reference-b-large</font>
-            </surprise_number_total_charsheet>
-            
+        <tooltip textres="char_label_surprisetotal_tooltip" />
+        <font>reference-b-large</font>
+      </surprise_number_total_charsheet>
 			<label_combatscores>
-                <anchored to="sheet_surprise_total" position="insidetopleft" offset="-9,-10" width="50"/>
+        <anchored to="sheet_surprise_total" position="aboveleft" offset="-11,-3" width="50"/>
 				<static textres="char_label_surprise" />
-                <tooltip textres="char_label_surprise_tooltip" />
+        <tooltip textres="char_label_surprise_tooltip" />
 			</label_combatscores>
 
 			<number_charspeed_defaults_charsheet name="speed" source="speed.total">
 				<readonly />
-				<anchored to="combatanchor" width="40" height="30">
-					<top parent="combatanchor" />
-					<left anchor="right" relation="relative" offset="22" />
+				<anchored to="combatanchor" width="30" height="30">
+					<top parent="combatanchor" offset="4" />
+					<left anchor="right" relation="relative" offset="15" />
 				</anchored>
 				<static textres="char_label_speed" />
 			</number_charspeed_defaults_charsheet>
 			<label_combatscores>
-				<anchored to="speed" />
+        <anchored to="speed" position="aboveleft" offset="-5,-3" width="40"/>
 				<static textres="char_label_speed" />
 			</label_combatscores>
 
@@ -904,7 +901,7 @@
 			
 			<number_charwounds_charsheet name="wounds" source="hp.wounds">
 				<anchored to="combatanchor" width="40" height="30">
-					<top parent="combatanchor" />
+					<top parent="combatanchor" offset="4" />
 					<left anchor="right" relation="relative" offset="35" />
 				</anchored>
 				<font>reference-b-large</font>
@@ -917,8 +914,8 @@
 			
 			<number_hptotal_charsheet name="hp" source="hp.total">
 				<anchored to="combatanchor" width="40" height="30">
-					<top parent="combatanchor" />
-					<left anchor="right" relation="relative" offset="5" />
+					<top parent="combatanchor" offset="4" />
+					<left anchor="right" relation="relative" offset="10" />
 				</anchored>
 				<font>reference-b-large</font>
 				<description textres="hp" />
@@ -936,8 +933,8 @@
 
 			<number_hptemp_charsheet>
 				<anchored to="combatanchor" width="40" height="30">
-					<top parent="combatanchor" />
-					<left anchor="right" relation="relative" offset="5" />
+					<top parent="combatanchor" offset="4" />
+					<left anchor="right" relation="relative" offset="10" />
 				</anchored>
             </number_hptemp_charsheet>
 			<label_combatscores>
@@ -1609,15 +1606,19 @@
 				<static text="Total" />
       </label_fieldtop>
             
-      <label name="label_details_mthaco">
-				<anchored width="60">
+      <label name="label_details_psionicpowers">
+				<anchored width="100">
 					<top parent="columnanchor" anchor="bottom" relation="relative" offset="20" />
 					<left offset="30" />
 				</anchored>
-				<static text="MTHACO" />
-        <tooltip textres="char_label_speeddetail_tooltip" />
+				<static text="Psionic Powers" />
+        <tooltip text="Psionic Power ratings." />
       </label>
-      
+
+      <button_combat_psionic_details>
+        <anchored to="label_details_psionicpowers" position="righthigh" offset="5,0" />
+      </button_combat_psionic_details>
+<!--       
       <number_basic name="mthaco_base" source="combat.mthaco.base">
         <anchored to="label_details_mthaco" position="right" offset="10,0" />
         <default>20</default>
@@ -1671,7 +1672,8 @@
 				<static text="Total" />
       </label_fieldtop>
 
-			<close_charsheethelper />
+ -->			
+      <close_charsheethelper />
 		</sheetdata>
 	</windowclass>
 	

@@ -1279,8 +1279,12 @@ function applyDamage(rSource, rTarget, bSecret, sDamage, nTotal)
 			if nRemainder >= (nTotalHP+10) then
 				table.insert(aNotifications, "[INSTANT DEATH]");
 				nDeathSaveFail = 3;
-			elseif nRemainder > 0 then
-				table.insert(aNotifications, "[DAMAGE EXCEEDS HIT POINTS BY " .. nRemainder.. "]");
+			elseif nRemainder > 0 or nWounds == nTotalHP then
+        if nRemainder > 0 then
+          table.insert(aNotifications, "[DAMAGE EXCEEDS HIT POINTS BY " .. nRemainder.. "]");
+        else
+          table.insert(aNotifications, "[DAMAGE EXCEEDS HIT POINTS]");
+        end
 				if nPrevWounds >= nTotalHP then
 					if rDamageOutput.bCritical then
 						nDeathSaveFail = nDeathSaveFail + 2;
@@ -1397,14 +1401,14 @@ function applyDamage(rSource, rTarget, bSecret, sDamage, nTotal)
 			-- ActionSave.performConcentrationRoll(nil, rTarget, nTargetDC);
 		-- else
 			ActionSave.expireConcentrationEffects(rTarget);
-            local sLmsg = {font = "msgfont"};
-            sLmsg.icon = "roll_cast";
-            sLmsg.text = string.format(Interface.getString("message_concentration_failed"), rTarget.sName);
-            
-            local sSmsg = {font = "msgfont"};
-            sSmsg.text = string.format("%s's spell casting interrupted.", rTarget.sName);
-            
-            ActionsManager.messageResult(bSecret, nil, rTarget, sLmsg, sSmsg);
+      local sLmsg = {font = "msgfont"};
+      sLmsg.icon = "roll_cast";
+      sLmsg.text = string.format(Interface.getString("message_concentration_failed"), rTarget.sName);
+      
+      local sSmsg = {font = "msgfont"};
+      sSmsg.text = string.format("%s's spell casting interrupted.", rTarget.sName);
+      
+      ActionsManager.messageResult(bSecret, nil, rTarget, sLmsg, sSmsg);
 		end
 	end
 end
