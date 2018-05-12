@@ -155,7 +155,6 @@
 					if subroll then
 						sSubRoll = subroll[1];
 					end
-					
 					PowerManager.performAction(draginfo, window.getDatabaseNode(), sSubRoll);
 				end
 

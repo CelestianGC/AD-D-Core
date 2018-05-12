@@ -23,6 +23,8 @@ actions = {
 	["skill"] = { bUseModStack = true },
   ["turnundead"] = { sIcon = "action_attack", bUseModStack = true },
   ["surprise"] = { bUseModStack = true },
+	["damage_psp"] = { sIcon = "action_damage", sTargeting = "all", bUseModStack = true },
+	["heal_psp"] = { sIcon = "action_heal", sTargeting = "all", bUseModStack = true },
 };
 
 targetactions = {
@@ -34,6 +36,8 @@ targetactions = {
 	"heal",
 	"effect",
   --"turnundead",
+	"damage_psp",
+	"heal_psp",
 };
 
 currencies = { "PP", "GP", "EP", "SP", "CP" };

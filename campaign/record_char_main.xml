@@ -872,7 +872,6 @@
 
             <!-- special move/defense string -->
 			<string_labeled name="speedspecial" source="speed.special">
-				<readonly />
 				<anchored to="combatanchor">
 					<top anchor="bottom" relation="relative" offset="0" />
 					<left offset="0" />
@@ -942,7 +941,7 @@
 				<static textres="char_label_hptemp" />
 			</label_combatscores>
 			<label>
-				<anchored to="wounds" position="lefthigh" offset="5,5" />
+				<anchored to="wounds" position="lefthigh" offset="10,5" />
 				<static textres="hp" />
 			</label>
 			

@@ -6,7 +6,7 @@
 -->
 
 <root version="3.0" release="24" logo="logo.png">
-	<announcement text="AD&amp;D Core v2018.05.05 For Fantasy Grounds\r--by Celestian 2017-2018" font="emotefont" icon="rulesetlogo_ADnD" />
+	<announcement text="AD&amp;D Core v2018.05.12 For Fantasy Grounds\r--by Celestian 2017-2018" font="emotefont" icon="rulesetlogo_ADnD" />
 
 	<!-- Attributes -->
 	<description>
@@ -181,5 +181,7 @@
   <script name="TokenManagerDeathIndicator" file="scripts/manager_token_DeathIndicator.lua" />
   <script name="SingleWindowManager" file="scripts/singlewindow.lua" />
   <script name="ManagerPsionics" file="scripts/manager_psionics_adnd.lua" />
+	<script name="ActionDamagePSP" file="scripts/manager_action_damagepsp.lua" />
+	<script name="ActionHealPSP" file="scripts/manager_action_healpsp.lua" />
 
 </root>

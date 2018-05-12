@@ -827,8 +827,18 @@
         <tooltip text="Used PSP Points" />
       </label_fieldtop>
 
-      <number_basic name="mthaco_score" source="combat.mthaco.score">
+      <number_basic name="psp_temporary" source="combat.psp.temporary">
         <anchored to="psp_expended" position="right" offset="10,0" />
+        <tooltip text="Temp PSP Points" />
+      </number_basic>
+			<label_fieldtop name="label_psp_temporary">
+				<anchored to="psp_temporary" />
+				<static text="Temp" />
+        <tooltip text="Temp PSP Points" />
+      </label_fieldtop>
+
+      <number_basic name="mthaco_score" source="combat.mthaco.score">
+        <anchored to="psp_temporary" position="right" offset="10,0" />
         <readonly />
       </number_basic>
 			<label_fieldtop name="label_mthaco_score">
@@ -999,7 +1009,7 @@
         <anchored to="psp_tempmod" position="righthigh" offset="10" />
       </text_equal>
       
-      <number_basic name="psp_score" source="combat.psp.score">
+      <number_basic name="psp_score" source="combat.psp.score"> 
         <anchored to="equal_psp_tempmod" position="right" offset="5,0" />
       </number_basic>
 			<label_fieldtop name="label_psp_score">

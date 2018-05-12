@@ -376,11 +376,14 @@ function performAction(draginfo, nodeAction, sSubRoll)
 		return;
 	end
 
+--Debug.console("manager_power.lua","performAction","nodeAction",nodeAction);
+--Debug.console("manager_power.lua","performAction","sSubRoll",sSubRoll);
+  
     -- add itemPath to rActor so that when effects are checked we can 
     -- make compare against action only effects
     local nodeWeapon = nodeAction.getChild("...");
     local _, sRecord = DB.getValue(nodeWeapon, "shortcut", "", "");
-	rActor.itemPath = sRecord;
+    rActor.itemPath = sRecord;
     if (draginfo and rActor.itemPath and rActor.itemPath ~= "") then
         draginfo.setMetaData("itemPath",rActor.itemPath);
     end
@@ -388,6 +391,7 @@ function performAction(draginfo, nodeAction, sSubRoll)
     
     -- capture this and increment spells used -celestian
   	local sType = DB.getValue(nodeAction, "type", "");
+--Debug.console("manager_power.lua","performAction","sType",sType);    
     if sType == "cast" then 
         if not removeMemorizedSpell(draginfo,nodeAction) then 
             -- spell wasn't memorized so stop here
@@ -401,6 +405,7 @@ function performAction(draginfo, nodeAction, sSubRoll)
         -- no uses left, stop
         return;
     end
+
     
     local rAction = getPowerRoll(rActor, nodeAction, sSubRoll);
     
@@ -408,27 +413,25 @@ function performAction(draginfo, nodeAction, sSubRoll)
     local rRolls = {};
 
     if rAction.type == "cast" then
-        
-        if not rAction.subtype then
-            table.insert(rRolls, ActionPower.getPowerCastRoll(rActor, rAction));
-        end
-        
-        if not rAction.subtype or rAction.subtype == "atk" then
-            if rAction.range then
-                table.insert(rRolls, ActionAttack.getRoll(rActor, rAction));
-            end
-        end
+      if not rAction.subtype then
+          table.insert(rRolls, ActionPower.getPowerCastRoll(rActor, rAction));
+      end
+      
+      if not rAction.subtype or rAction.subtype == "atk" then
+          if rAction.range then
+              table.insert(rRolls, ActionAttack.getRoll(rActor, rAction));
+          end
+      end
 
-        if not rAction.subtype or rAction.subtype == "save" then
-            if rAction.save and rAction.save ~= "" then
-                local rRoll = ActionPower.getSaveVsRoll(rActor, rAction);
-                if not rAction.subtype then
-                    rRoll.sType = "powersave";
-                end
-                table.insert(rRolls, rRoll);
-            end
-        end
-        
+      if not rAction.subtype or rAction.subtype == "save" then
+          if rAction.save and rAction.save ~= "" then
+              local rRoll = ActionPower.getSaveVsRoll(rActor, rAction);
+              if not rAction.subtype then
+                  rRoll.sType = "powersave";
+              end
+              table.insert(rRolls, rRoll);
+          end
+      end
     elseif rAction.type == "damage" then
         table.insert(rRolls, ActionDamage.getRoll(rActor, rAction));
         
@@ -440,6 +443,12 @@ function performAction(draginfo, nodeAction, sSubRoll)
         if rRoll then
             table.insert(rRolls, rRoll);
         end
+    elseif rAction.type == "damage_psp" then
+        table.insert(rRolls, ActionDamagePSP.getRoll(rActor, rAction));
+        
+    elseif rAction.type == "heal_psp" then
+        table.insert(rRolls, ActionHealPSP.getRoll(rActor, rAction));
+
     end
     
     if #rRolls > 0 then
@@ -2582,7 +2591,7 @@ function getActionDamagePSPText(nodeAction)
 --Debug.console("manager_power.lua","getActionDamagePSPText","clauses",clauses);
   
 	local aOutput = {};
-	local aDamage = ActionDamage.getDamageStrings(clauses);
+	local aDamage = ActionDamagePSP.getDamageStrings(clauses);
 	for _,rDamage in ipairs(aDamage) do
 		local sDice = StringManager.convertDiceToString(rDamage.aDice, rDamage.nMod);
 		if sDice ~= "" then

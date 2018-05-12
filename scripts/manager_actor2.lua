@@ -874,3 +874,64 @@ function isCreatureType(rActor, sTypeCheck)
 	end
 	return bReturn;
 end
+
+--- psionic nonsense
+function getPercentWoundedPSP(rActor)
+	local sActorType, nodeActor = ActorManager.getTypeAndNode(rActor);
+
+	if sActorType == "pc" then
+		return getPercentWounded2PSP("pc", nodeActor);
+	elseif sActorType == "ct" then
+		return getPercentWounded2PSP("ct", nodeActor);
+	end
+	
+	return 0, "";
+end
+
+function getPercentWounded2PSP(sNodeType, node)
+	local nHP, nWounds;
+  nHP = DB.getValue(nodeTarget, "combat.psp.score", 0);
+  nWounds = DB.getValue(nodeTarget, "combat.psp.expended", 0);
+  
+	local nPercentWounded = 0;
+	if nHP > 0 then
+		nPercentWounded = nWounds / nHP;
+	end
+	
+	local sStatus;
+    local nLeftOverHP = (nHP - nWounds);
+	if nPercentWounded >= 1 then
+    if nLeftOverHP <= 0 then
+          sStatus = "Opened";
+    else
+      if not EffectManager5E.hasEffect(rActor, "OpenedMind") then
+          sStatus = "OpenedMind";
+      end
+      if nLeftOverHP < 1 then
+          sStatus = sStatus .. " (" .. nLeftOverHP .. ")";
+      end
+		end
+	elseif OptionsManager.isOption("WNDC", "detailed") then
+		if nPercentWounded >= .75 then
+			sStatus = "Critical";
+		elseif nPercentWounded >= .5 then
+			sStatus = "Heavy";
+		elseif nPercentWounded >= .25 then
+			sStatus = "Moderate";
+		elseif nPercentWounded > 0 then
+			sStatus = "Light";
+		else
+			sStatus = "Healthy";
+		end
+	else
+		if nPercentWounded >= .5 then
+			sStatus = "Heavy";
+		elseif nPercentWounded > 0 then
+			sStatus = "Wounded";
+		else
+			sStatus = "Healthy";
+		end
+	end
+	
+	return nPercentWounded, sStatus;
+end
