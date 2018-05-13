@@ -541,9 +541,7 @@ function onAttack(rSource, rTarget, rRoll)
 	elseif rAction.nFirstDie == 1 then
 		rAction.sResult = "fumble";
     if bPsionic then 
-      if not updatePsionicPoints(rSource,tonumber(rRoll.Psionic_PSPOnFail)) then
-        table.insert(rAction.aMessages, "[**INSUFFICIENT-PSP**]");
-      end
+      table.insert(rAction.aMessages,adjustPSPs(rSource,tonumber(rRoll.Psionic_PSPOnFail)));
     end
 		table.insert(rAction.aMessages, "[AUTOMATIC MISS]");
 	elseif nDefenseVal and nDefenseVal ~= 0 then 
@@ -563,9 +561,7 @@ function onAttack(rSource, rTarget, rRoll)
         table.insert(rAction.aMessages, sHitText);
       else
         if bPsionic then 
-          if not updatePsionicPoints(rSource,tonumber(rRoll.Psionic_PSPOnFail)) then
-            table.insert(rAction.aMessages, "[**INSUFFICIENT-PSP**]");
-          end
+          table.insert(rAction.aMessages,adjustPSPs(rSource,tonumber(rRoll.Psionic_PSPOnFail)));
         end
         rMessage.font = "missfont";
         rMessage.icon = "chat_miss";
@@ -768,6 +764,17 @@ function adnd_roll(rSource, vTargets, rRoll, bMultiTarget)
 	end
 end 
 
+-- return PSP cost string
+function adjustPSPs(rSource,nPSPCost,bAdditive)
+  local sText = ""
+  if not updatePsionicPoints(rSource,nPSPCost,bAdditive) then
+    sText = "[**INSUFFICIENT-PSP**]";
+  else
+    sText = "[PSPCOST:" .. nPSPCost .. "]";
+  end
+end
+
+-- actually adjust the psp cost here
 function updatePsionicPoints(rSource,nAdjustment,bAdditive)
   local sSourceCT = ActorManager.getCreatureNodeName(rSource);
   local node = DB.findNode(sSourceCT);
