@@ -95,11 +95,11 @@ function getRoll(rActor, rAction)
 end
 
 function performRoll(draginfo, rActor, rAction)
-Debug.console("manager_action_damagepsp.lua","performRoll","draginfo",draginfo);
-Debug.console("manager_action_damagepsp.lua","performRoll","rActor",rActor);
-Debug.console("manager_action_damagepsp.lua","performRoll","rAction",rAction);
+--Debug.console("manager_action_damagepsp.lua","performRoll","draginfo",draginfo);
+--Debug.console("manager_action_damagepsp.lua","performRoll","rActor",rActor);
+--Debug.console("manager_action_damagepsp.lua","performRoll","rAction",rAction);
 	local rRoll = getRoll(rActor, rAction);
-Debug.console("manager_action_damagepsp.lua","performRoll","rRoll",rRoll);
+--Debug.console("manager_action_damagepsp.lua","performRoll","rRoll",rRoll);
 
     if (draginfo and rActor.itemPath and rActor.itemPath ~= "") then
         draginfo.setMetaData("itemPath",rActor.itemPath);
@@ -109,12 +109,12 @@ Debug.console("manager_action_damagepsp.lua","performRoll","rRoll",rRoll);
 end
 
 function modDamage(rSource, rTarget, rRoll)
-Debug.console("manager_action_damagepsp.lua","modDamage","rSource",rSource);
-Debug.console("manager_action_damagepsp.lua","modDamage","rTarget",rTarget);
-Debug.console("manager_action_damagepsp.lua","modDamage","rRoll",rRoll);
+--Debug.console("manager_action_damagepsp.lua","modDamage","rSource",rSource);
+--Debug.console("manager_action_damagepsp.lua","modDamage","rTarget",rTarget);
+--Debug.console("manager_action_damagepsp.lua","modDamage","rRoll",rRoll);
 	decodeDamageTypes(rRoll);
 	CombatManager2.addRightClickDiceToClauses(rRoll);
-Debug.console("manager_action_damagepsp.lua","modDamage","rRoll2",rRoll);
+--Debug.console("manager_action_damagepsp.lua","modDamage","rRoll2",rRoll);
 	
 	-- Set up
 	local aAddDesc = {};
@@ -419,9 +419,9 @@ function onDamageRoll(rSource, rRoll)
 end
 
 function onDamage(rSource, rTarget, rRoll)
-Debug.console("manager_action_damagepsp.lua","onDamage","rSource",rSource);
-Debug.console("manager_action_damagepsp.lua","onDamage","rTarget",rTarget);
-Debug.console("manager_action_damagepsp.lua","onDamage","rRoll",rRoll);
+--Debug.console("manager_action_damagepsp.lua","onDamage","rSource",rSource);
+--Debug.console("manager_action_damagepsp.lua","onDamage","rTarget",rTarget);
+--Debug.console("manager_action_damagepsp.lua","onDamage","rRoll",rRoll);
 
 	-- Handle max damage
 	local bMax = rRoll.sDesc:match("%[MAX%]") or rRoll.sCriticalType:match("max");
@@ -501,8 +501,8 @@ function encodeDamageTypes(rRoll)
 end
 
 function decodeDamageTypes(rRoll, bFinal)
-Debug.console("manager_action_damagepsp.lua","decodeDamageTypes","rRoll",rRoll);
-Debug.console("manager_action_damagepsp.lua","decodeDamageTypes","bFinal",bFinal);
+--Debug.console("manager_action_damagepsp.lua","decodeDamageTypes","rRoll",rRoll);
+--Debug.console("manager_action_damagepsp.lua","decodeDamageTypes","bFinal",bFinal);
 
 	-- Process each type clause in the damage description (INITIAL ROLL)
 	local nMainDieIndex = 0;
@@ -667,7 +667,7 @@ end
 
 -- Collapse damage clauses by damage type (in the original order, if possible)
 function getDamageStrings(clauses)
-Debug.console("manager_action_damagepsp.lua","getDamageStrings","clauses",clauses);
+--Debug.console("manager_action_damagepsp.lua","getDamageStrings","clauses",clauses);
 	local aOrderedTypes = {};
 	local aDmgTypes = {};
 	for _,vClause in ipairs(clauses) do
@@ -693,7 +693,7 @@ Debug.console("manager_action_damagepsp.lua","getDamageStrings","clauses",clause
 end
 
 function getDamageTypesFromString(sDamageTypes)
-Debug.console("manager_action_damagepsp.lua","getDamageTypesFromString","sDamageTypes",sDamageTypes);
+--Debug.console("manager_action_damagepsp.lua","getDamageTypesFromString","sDamageTypes",sDamageTypes);
 	local sLower = string.lower(sDamageTypes);
 	local aSplit = StringManager.split(sLower, ",", true);
 	
@@ -712,9 +712,9 @@ end
 --
 
 function getReductionType(rSource, rTarget, sEffectType)
-Debug.console("manager_action_damagepsp.lua","getReductionType","rSource",rSource);
-Debug.console("manager_action_damagepsp.lua","getReductionType","rTarget",rTarget);
-Debug.console("manager_action_damagepsp.lua","getReductionType","sEffectType",sEffectType);
+--Debug.console("manager_action_damagepsp.lua","getReductionType","rSource",rSource);
+--Debug.console("manager_action_damagepsp.lua","getReductionType","rTarget",rTarget);
+--Debug.console("manager_action_damagepsp.lua","getReductionType","sEffectType",sEffectType);
 
 	local aEffects = EffectManager5E.getEffectsByType(rTarget, sEffectType, {}, rSource);
 	
@@ -849,10 +849,10 @@ function checkNumericalReductionType(aReduction, aDmgType, nLimit)
 end
 
 function getDamageAdjust(rSource, rTarget, nDamage, rDamageOutput)
-Debug.console("manager_action_damagepsp.lua","getDamageAdjust","rSource",rSource);
-Debug.console("manager_action_damagepsp.lua","getDamageAdjust","rTarget",rTarget);
-Debug.console("manager_action_damagepsp.lua","getDamageAdjust","nDamage",nDamage);
-Debug.console("manager_action_damagepsp.lua","getDamageAdjust","rDamageOutput",rDamageOutput);
+--Debug.console("manager_action_damagepsp.lua","getDamageAdjust","rSource",rSource);
+--Debug.console("manager_action_damagepsp.lua","getDamageAdjust","rTarget",rTarget);
+--Debug.console("manager_action_damagepsp.lua","getDamageAdjust","nDamage",nDamage);
+--Debug.console("manager_action_damagepsp.lua","getDamageAdjust","rDamageOutput",rDamageOutput);
 
 	local nDamageAdjust = 0;
 	local bVulnerable = false;
@@ -950,8 +950,8 @@ end
 
 function decodeDamageText(nDamage, sDamageDesc)
 	local rDamageOutput = {};
-Debug.console("manager_action_damagepsp.lua","decodeDamageText","nDamage",nDamage);
-Debug.console("manager_action_damagepsp.lua","decodeDamageText","sDamageDesc",sDamageDesc);
+--Debug.console("manager_action_damagepsp.lua","decodeDamageText","nDamage",nDamage);
+--Debug.console("manager_action_damagepsp.lua","decodeDamageText","sDamageDesc",sDamageDesc);
 	
 	if string.match(sDamageDesc, "%[RECOVERY") then
 		rDamageOutput.sType = "recovery";
@@ -1025,10 +1025,10 @@ function applyDamage(rSource, rTarget, bSecret, sDamage, nTotal)
 		return;
 	end
 
-Debug.console("manager_action_damagepsp.lua","applyDamage","rSource",rSource);
-Debug.console("manager_action_damagepsp.lua","applyDamage","rTarget",rTarget);
-Debug.console("manager_action_damagepsp.lua","applyDamage","sDamage",sDamage);
-Debug.console("manager_action_damagepsp.lua","applyDamage","nTotal",nTotal);
+--Debug.console("manager_action_damagepsp.lua","applyDamage","rSource",rSource);
+--Debug.console("manager_action_damagepsp.lua","applyDamage","rTarget",rTarget);
+--Debug.console("manager_action_damagepsp.lua","applyDamage","sDamage",sDamage);
+--Debug.console("manager_action_damagepsp.lua","applyDamage","nTotal",nTotal);
 
 	local nRemainder = 0;
 

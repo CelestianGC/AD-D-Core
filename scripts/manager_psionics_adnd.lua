@@ -137,3 +137,27 @@ function getPSPRemaining(node)
   
   return nPSPMax - nPSPUsed;
 end
+
+-- use some PSPs, return false if not enough
+function removePSP(node,nAmount)
+  local nCurrent = getPSPRemaining(node);
+  if (nCurrent >= nAmount) then
+    local nUsed = getPSPUsed(node);
+    nUsed = nUsed + nAmount;
+    DB.setValue(node,"combat.psp.expended","number",nUsed);
+  else
+    -- not enough, set used to max and call it done
+    DB.setValue(node,"combat.psp.expended","number",getPSPMax(node));
+    return false;
+  end
+  return true;
+end
+-- grant some PSPs
+function addPSP(node,nAmount)
+  local nUsed = getPSPExpended(node);
+  nUsed = nUsed - nAmount;
+  if (nUsed < 0) then
+    nUsed = 0;
+  end
+  DB.setValue(node,"combat.psp.expended","number",nUsed);
+end

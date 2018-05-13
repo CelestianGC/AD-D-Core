@@ -862,7 +862,7 @@
 					<top offset="5"/>
 					<left anchor="right" relation="relative" offset="5" />
 				</anchored>
-				<icon normal="button_action_damage" pressed="button_action_damage_down" />
+				<icon normal="button_action_damage_psp" pressed="button_action_damage_down_psp" />
 			</button_poweraction>
 			<label name="damagepsplabel">
 				<anchored to="damagepspbutton" position="righthigh" offset="5,0" width="55" />
@@ -906,7 +906,7 @@
 					<top offset="5"/>
 					<left anchor="right" relation="relative" offset="5" />
 				</anchored>
-				<icon normal="button_action_heal" pressed="button_action_heal_down" />
+				<icon normal="button_action_heal_psp" pressed="button_action_heal_down_psp" />
 			</button_poweraction>
 			<label name="healpsplabel">
 				<anchored to="healpspbutton" position="righthigh" offset="5,0" width="55" />

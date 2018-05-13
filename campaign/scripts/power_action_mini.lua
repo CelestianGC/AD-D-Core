@@ -30,6 +30,10 @@ function updateDisplay()
 		button.setIcons("button_action_heal", "button_action_heal_down");
 	elseif sType == "effect" then
 		button.setIcons("button_action_effect", "button_action_effect_down");
+	elseif sType == "damage_psp" then
+		button.setIcons("button_action_damage_psp", "button_action_damage_down_psp");
+	elseif sType == "heal_psp" then
+		button.setIcons("button_action_heal_psp", "button_action_heal_down_psp");
 	end
 end
 

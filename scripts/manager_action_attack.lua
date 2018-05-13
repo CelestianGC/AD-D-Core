@@ -263,10 +263,19 @@ function modAttack(rSource, rTarget, rRoll)
 		-- Get attack effect modifiers
 		local bEffects = false;
 		local nEffectCount;
-		aAddDice, nAddMod, nEffectCount = EffectManager5E.getEffectsBonus(rSource, {"ATK"}, false, aAttackFilter);
-		if (nEffectCount > 0) then
-			bEffects = true;
-		end
+    
+    -- add check for psionic and then look for "PSIATK" modifier
+    if bPsionicPower then
+      aAddDice, nAddMod, nEffectCount = EffectManager5E.getEffectsBonus(rSource, {"PSIATK"}, false, aAttackFilter);
+      if (nEffectCountPSP > 0) then
+        bEffects = true;
+      end
+    else -- otherwise get normal ATK mods
+      aAddDice, nAddMod, nEffectCount = EffectManager5E.getEffectsBonus(rSource, {"ATK"}, false, aAttackFilter);
+      if (nEffectCount > 0) then
+        bEffects = true;
+      end
+    end
 		
 		-- Get condition modifiers
 		if (EffectManager5E.hasEffect(rSource, "ADVATK", rTarget)) then
@@ -524,12 +533,18 @@ function onAttack(rSource, rTarget, rRoll)
 	if #(rRoll.aDice) > 0 then
 		rAction.nFirstDie = rRoll.aDice[1].result or 0;
 	end
+  
 	if rAction.nFirstDie >= nCritThreshold and bCanCrit then
 		rAction.bSpecial = true;
 		rAction.sResult = "crit";
 		table.insert(rAction.aMessages, "[CRITICAL HIT]");
 	elseif rAction.nFirstDie == 1 then
 		rAction.sResult = "fumble";
+    if bPsionic then 
+      if not updatePsionicPoints(rSource,tonumber(rRoll.Psionic_PSPOnFail)) then
+        table.insert(rAction.aMessages, "[**INSUFFICIENT-PSP**]");
+      end
+    end
 		table.insert(rAction.aMessages, "[AUTOMATIC MISS]");
 	elseif nDefenseVal and nDefenseVal ~= 0 then 
     if (rTarget == nil and rRoll.Psionic_DisciplineType:match("attack")) then
@@ -547,6 +562,11 @@ function onAttack(rSource, rTarget, rRoll)
         end
         table.insert(rAction.aMessages, sHitText);
       else
+        if bPsionic then 
+          if not updatePsionicPoints(rSource,tonumber(rRoll.Psionic_PSPOnFail)) then
+            table.insert(rAction.aMessages, "[**INSUFFICIENT-PSP**]");
+          end
+        end
         rMessage.font = "missfont";
         rMessage.icon = "chat_miss";
         rAction.sResult = "miss";
@@ -747,3 +767,17 @@ function adnd_roll(rSource, vTargets, rRoll, bMultiTarget)
 		end
 	end
 end 
+
+function updatePsionicPoints(rSource,nAdjustment,bAdditive)
+  local sSourceCT = ActorManager.getCreatureNodeName(rSource);
+  local node = DB.findNode(sSourceCT);
+  if (node) then
+    if (bAdditive) then
+      ManagerPsionics.addPSP(node,nAdjustment);
+      return true;
+    else
+      return ManagerPsionics.removePSP(node,nAdjustment);
+    end
+  end
+  return false;
+end

@@ -302,6 +302,7 @@ bonuscomps = {
   "MELEEAC",  -- ranged AC (when being attacked by range weapon)
   "RANGEAC",  -- melee AC (when being attacked by melee)
   "MAC",      -- Mental AC
+  "PSIAFK",
 };
 
 -- Condition effect types for token widgets
@@ -346,7 +347,8 @@ targetableeffectcomps = {
 	"DMG",
 	"IMMUNE",
 	"VULN",
-	"RESIST"
+	"RESIST",
+  "PSIATK",
 };
 
 connectors = {
@@ -357,7 +359,8 @@ connectors = {
 -- Range types supported
 rangetypes = {
 	"melee",
-	"ranged"
+	"ranged",
+  "psionic"
 };
 
 -- Damage types supported

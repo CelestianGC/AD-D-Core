@@ -170,6 +170,11 @@
 	<icon name="button_statpointmode" file="graphics/buttons/button_statpointmode.png" />
 	<icon name="button_statpointmode_down" file="graphics/buttons/button_statpointmode_down.png" />
 
+	<icon name="button_action_damage_psp" file="graphics/buttons/button_action_damage_psp.png" />
+	<icon name="button_action_damage_down_psp" file="graphics/buttons/button_action_damage_down_psp.png" />
+	<icon name="button_action_heal_psp" file="graphics/buttons/button_action_heal_psp.png" />
+	<icon name="button_action_heal_down_psp" file="graphics/buttons/button_action_heal_down_psp.png" />
+
 	<!-- Powers -->
 	<icon name="power_weapon" file="graphics/icons/power_weapon.png" />
 	<icon name="power_casterspontaneous" file="graphics/icons/power_casterspontaneous.png" />
