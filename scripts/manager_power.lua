@@ -245,17 +245,30 @@ function getPowerRoll(rActor, nodeAction, sSubRoll)
 	end
 	
 	local sType = DB.getValue(nodeAction, "type", "");
-	
+  local sAttackType = DB.getValue(nodeAction, "atktype", "");
 	local rAction = {};
 	rAction.type = sType;
 	rAction.label = DB.getValue(nodeAction, "...name", "");
 	rAction.order = getPowerActionOutputOrder(nodeAction);
 	
+  local nodeSpell = nodeAction.getChild("...");
+	local sSpellType = DB.getValue(nodeSpell, "type", ""):lower();
+  local nPSPCost = DB.getValue(nodeSpell,"pspcost",0);
+  local nPSPCostFail = DB.getValue(nodeSpell,"pspfail",0);
+  local nMAC = DB.getValue(nodeSpell,"mac",10);
+  local sDiscipline = DB.getValue(nodeSpell,"discipline","");
+  local sDisciplineType = DB.getValue(nodeSpell,"disciplinetype","");
+  if ((sDiscipline ~= "" and nPSPCost > 0) or (sSpellType == "psionic") or (sAttackType == "psionic") ) then
+    rAction.Psionic_Source = nodeSpell.getPath();
+  end
+  rAction.Psionic_DisciplineType = sDisciplineType:lower();
+  rAction.Psionic_MAC = nMAC;
+  rAction.Psionic_PSP = nPSPCost;
+  rAction.Psionic_PSPOnFail = nPSPCostFail;
+  
 	if sType == "cast" then
 		rAction.subtype = sSubRoll;
 		rAction.onmissdamage = DB.getValue(nodeAction, "onmissdamage", "");
-		
-		local sAttackType = DB.getValue(nodeAction, "atktype", "");
 		if sAttackType ~= "" then
 			local nGroupMod, sGroupStat = getGroupAttackBonus(rActor, nodeAction, "");
 		
@@ -265,13 +278,6 @@ function getPowerRoll(rActor, nodeAction, sSubRoll)
 				rAction.range = "R";
 			elseif sAttackType == "psionic" then
 				rAction.range = "P";
-        local nodeSpell = nodeAction.getChild("...");
-        rAction.Psionic_DisciplineType = DB.getValue(nodeSpell,"disciplinetype","");
-        rAction.Psionic_DisciplineType = rAction.Psionic_DisciplineType:lower();
---Debug.console("manager_power.lua","getPowerRoll","Psionic_DisciplineType",DB.getValue(nodeSpell,"disciplinetype",""));                
-        rAction.Psionic_MAC = DB.getValue(nodeSpell,"mac",10);
-        rAction.Psionic_PSP = DB.getValue(nodeSpell,"pspcost",0);
-        rAction.Psionic_PSPOnFail = DB.getValue(nodeSpell,"pspfail",0);
 			end
 			
 			local nGroupMod, sGroupStat = getGroupAttackBonus(rActor, nodeAction, "base");
@@ -415,10 +421,25 @@ function performAction(draginfo, nodeAction, sSubRoll)
 
     
     local rAction = getPowerRoll(rActor, nodeAction, sSubRoll);
-    
+
+    -- expend PSPs if not psionic attack
+    if (rAction.type ~= "cast" and rAction.Psionic_Source) then
+      local nPSPCost = tonumber(rAction.Psionic_PSP);
+      local sPSPCost = ""..nPSPCost;
+      if not ActionAttack.updatePsionicPoints(rActor,nPSPCost) then
+        sPSPCost = "INSUFFCIENT-PSP REMAINING!";
+      end
+     	local rMessage = {};
+      rMessage.text = rActor.sName .. ": expend psp->" .. sPSPCost;
+      rMessage.secret = true;
+      rMessage.font = "missfont";
+      rMessage.icon = "power_casterspontaneous";
+      Comm.deliverChatMessage(rMessage);
+    end
+
     local sRollType = nil;
     local rRolls = {};
-
+    
     if rAction.type == "cast" then
       if not rAction.subtype then
           table.insert(rRolls, ActionPower.getPowerCastRoll(rActor, rAction));
@@ -2493,7 +2514,6 @@ function isDivineSpellType(sSpellType)
     return bValid
 end
 function isPsionicPowerType(sSpellType)
-Debug.console("manager_power.lua","isPsionicPowerType","sSpellType",sSpellType);
   local sTypeLower = sSpellType:lower();
   local bValid = sTypeLower:match("psionic");
   return bValid

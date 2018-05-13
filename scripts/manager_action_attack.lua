@@ -267,7 +267,7 @@ function modAttack(rSource, rTarget, rRoll)
     -- add check for psionic and then look for "PSIATK" modifier
     if bPsionicPower then
       aAddDice, nAddMod, nEffectCount = EffectManager5E.getEffectsBonus(rSource, {"PSIATK"}, false, aAttackFilter);
-      if (nEffectCountPSP > 0) then
+      if (nEffectCount > 0) then
         bEffects = true;
       end
     else -- otherwise get normal ATK mods
@@ -537,6 +537,9 @@ function onAttack(rSource, rTarget, rRoll)
 	if rAction.nFirstDie >= nCritThreshold and bCanCrit then
 		rAction.bSpecial = true;
 		rAction.sResult = "crit";
+    -- if bPsionic then 
+      -- table.insert(rAction.aMessages,adjustPSPs(rSource,tonumber(rRoll.Psionic_PSP)));
+    -- end
 		table.insert(rAction.aMessages, "[CRITICAL HIT]");
 	elseif rAction.nFirstDie == 1 then
 		rAction.sResult = "fumble";
@@ -558,6 +561,9 @@ function onAttack(rSource, rTarget, rRoll)
         if (rAction.nFirstDie == 20) then
           sHitText = "[AUTOMATIC HIT]";
         end
+        -- if bPsionic then 
+          -- table.insert(rAction.aMessages,adjustPSPs(rSource,tonumber(rRoll.Psionic_PSP)));
+        -- end
         table.insert(rAction.aMessages, sHitText);
       else
         if bPsionic then 
@@ -772,6 +778,7 @@ function adjustPSPs(rSource,nPSPCost,bAdditive)
   else
     sText = "[PSPCOST:" .. nPSPCost .. "]";
   end
+  return sText;
 end
 
 -- actually adjust the psp cost here

@@ -436,14 +436,13 @@ function getDefenseValue(rAttacker, rDefender, rRoll)
       nDefense = ascendingDefense(nDefense);
     end
   end
-  
+
 	if not rDefender and rRoll and bPsionic then -- no defender but psionic power target
     return nDefense, 0, 0, false, false;
 	elseif not rDefender or not rRoll then
 		return nil, 0, 0, false, false;
 	end
 	
-  
 	-- Base calculations
 	local sAttack = rRoll.sDesc;
 	
