@@ -152,6 +152,8 @@ function getWisdomProperties(nodeChar)
     dbAbility.spellbonus = DataCommonADND.aWisdom[nScore][2];
     dbAbility.failure = DataCommonADND.aWisdom[nScore][3];
     dbAbility.immunity = DataCommonADND.aWisdom[nScore][4];
+    dbAbility.mac_base = DataCommonADND.aWisdom[nScore][5];
+    dbAbility.psp_bonus = DataCommonADND.aWisdom[nScore][6];
     
     local sBonus_TT = "Bonus spells granted by high wisdom. ";
     local sImmunity_TT = "Immunity to spells granted by high wisdom. ";
@@ -190,6 +192,7 @@ function getConstitutionProperties(nodeChar)
     dbAbility.resurrectionsurvival = DataCommonADND.aConstitution[nScore][3];
     dbAbility.poisonadj = DataCommonADND.aConstitution[nScore][4];
     dbAbility.regeneration = DataCommonADND.aConstitution[nScore][5];
+    dbAbility.psp_bonus = DataCommonADND.aConstitution[nScore][6];
 
 --Debug.console("manager_abilityscores.lua","getConstitutionProperties","dbAbility",dbAbility);
     return dbAbility;
@@ -244,6 +247,9 @@ function getIntelligenceProperties(nodeChar)
     dbAbility.learn = DataCommonADND.aIntelligence[nScore][3];
     dbAbility.maxlevel = DataCommonADND.aIntelligence[nScore][4];
     dbAbility.illusion = DataCommonADND.aIntelligence[nScore][5];
+    dbAbility.mac_adjustment = DataCommonADND.aIntelligence[nScore][6];
+    dbAbility.psp_bonus = DataCommonADND.aIntelligence[nScore][7];
+    dbAbility.mthaco_bonus = DataCommonADND.aIntelligence[nScore][8];
 
     local sImmunity_TT = "Immune to these level of Illusion spells. ";
     if (nScore >= 19) then
@@ -295,6 +301,7 @@ function updateWisdom(nodeChar)
     DB.setValue(nodeChar, "abilities.wisdom.spellbonus", "string", dbAbility.spellbonus);
     DB.setValue(nodeChar, "abilities.wisdom.failure", "number", dbAbility.failure);
     DB.setValue(nodeChar, "abilities.wisdom.immunity", "string", dbAbility.immunity);
+    DB.setValue(nodeChar, "combat.mac.base", "number", dbAbility.mac_base);
     DB.setValue(nodeChar, "abilities.wisdom.score", "number", nScore);
     return dbAbility;
 end
@@ -332,6 +339,8 @@ function updateIntelligence(nodeChar)
     DB.setValue(nodeChar, "abilities.intelligence.learn", "number", dbAbility.learn);
     DB.setValue(nodeChar, "abilities.intelligence.maxlevel", "string", dbAbility.maxlevel);
     DB.setValue(nodeChar, "abilities.intelligence.illusion", "string", dbAbility.illusion);
+    DB.setValue(nodeChar, "combat.mac.mod", "number", dbAbility.mac_adjustment);
+    DB.setValue(nodeChar, "combat.mthaco.mod", "number", dbAbility.mthaco_bonus);
     DB.setValue(nodeChar, "abilities.intelligence.score", "number", nScore);
     return dbAbility;
 end

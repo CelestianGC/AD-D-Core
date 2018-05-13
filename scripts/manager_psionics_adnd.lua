@@ -113,6 +113,9 @@ function updateMTHACO(node)
   if (nMTHACO > nMTHACO_BaseMod) then 
     nMTHACO = nMTHACO_BaseMod;
   end
+
+  nMTHACO_Mod     = -(nMTHACO_Mod); -- flip values, +1  is improvement to thaco
+  nMTHACO_TempMod = -(nMTHACO_TempMod);
   local nMTHACO_SCORE = nMTHACO + nMTHACO_Mod + nMTHACO_TempMod;
 
   DB.setValue(nodeChar,"combat.mthaco.score","number",nMTHACO_SCORE);
