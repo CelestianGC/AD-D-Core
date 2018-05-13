@@ -686,7 +686,7 @@
 				<static textres="npc_label_senses" />
 			</label_column>
 			<string_columnh name="senses" />
-			
+
 			<label_column name="languages_label">
 				<static textres="npc_label_languages" />
 			</label_column>
@@ -705,10 +705,20 @@
         <!-- hide CR, not used in AD&D --celestian -->
         <invisible />
 			</string_columnh>
-
-      <label_column name="clone_to_character_label">
-        <static textres="npc_label_clone_to_pc" />
+      <line_column />
+      
+      <label_column name="psionicpowers_label">
+				<static text="Psionic Powers" />
+        <tooltip text="Psionic Power ratings." />
       </label_column>
+      <button_combat_psionic_details name="psionicpowers">
+        <anchored to="psionicpowers_label" position="righthigh" offset="5,0" />
+      </button_combat_psionic_details>      
+      
+      <label name="clone_to_character_label">
+        <anchored to="psionicpowers" position="righthigh" offset="15,0" width="75" />
+        <static textres="npc_label_clone_to_pc" />
+      </label>
  			<buttoncontrol name="clone_to_character">
 				<anchored to="clone_to_character_label" position="righthigh" offset="10,0" width="20" height="20"/>
         <icon normal="button_expand" pressed="button_dialog_ok" />
@@ -726,7 +736,7 @@
 				</script>
 			</buttoncontrol>
 
-      
+			
       <!-- 			<label_column name="effect_combat_label">
 				<static textres="npc_label_effects" />
                 <tooltip textres="npc_label_effects_tooltip" />

@@ -323,7 +323,7 @@
 	<string name="char_label_notes_bonds">RELATIONSHIPS</string>
 	<string name="char_label_notes_flaws">FAULTS</string>
   
-  <string name="char_label_clone_to_npc">CLONE TO NPC (TEST)</string>
+  <string name="char_label_clone_to_npc">CLONE TO NPC</string>
 
     <!-- char inventory -->
 	<string name="char_label_encumbrancerank">Load</string>
@@ -556,7 +556,7 @@
   <string name="npc_import_text_button">Import</string>
   <string name="npc_import_text_helptext">Paste in the text of the NPC you want to create. </string>
   
-	<string name="npc_label_clone_to_pc">CLONE TO PC (test)</string>	
+	<string name="npc_label_clone_to_pc">CLONE TO PC</string>	
 	<string name="npc_label_hitdice">Hit Dice</string>	
 	<string name="npc_label_thaco">THACO</string>	
 

@@ -62,8 +62,8 @@
 				<skipempty />
 				<readonly />
 				<noscroll />
-                <child></child>
-                <child><backcolor>1A40301E</backcolor></child>
+        <child></child>
+        <child><backcolor>1A40301E</backcolor></child>
 				<columns width="90" fillwidth="true"/>
 			</windowlist>
 			

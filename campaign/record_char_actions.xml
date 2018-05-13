@@ -404,20 +404,20 @@
             </label>
 
 			<list_charweapon name="weapons">
-                <script>
-                    function onInit()
-                        local node = getDatabaseNode();
-                        if not string.match(node.getPath(),"^charsheet") and not User.isHost() then
-                            return;
-                        end				
-                        registerMenuItem(Interface.getString("list_menu_createitem"), "insert", 5);
-                    end
-                    function onMenuSelection(selection, subselection)
-                        if selection == 5 then
-                            addEntry(true);
-                        end
-                    end                    
-                </script>
+        <script>
+            function onInit()
+              local node = getDatabaseNode();
+              if not string.match(node.getPath(),"^charsheet") and not User.isHost() then
+                  return;
+              end				
+              registerMenuItem(Interface.getString("list_menu_createitem"), "insert", 5);
+            end
+            function onMenuSelection(selection, subselection)
+              if selection == 5 then
+                  addEntry(true);
+              end
+            end                    
+        </script>
 				<anchored>
 					<top parent="columnanchor" anchor="bottom" relation="relative" offset="2" />
 					<left offset="10" />
@@ -755,21 +755,24 @@
 			<script>
 				function onInit()
           local node = getDatabaseNode();
+          DB.addHandler(DB.getPath(node, "combat.psp.base"), "onUpdate", onModeChanged);
           ManagerPsionics.updatePsionicStats(node);
           onModeChanged();
 				end
+        function onClose()
+          local node = getDatabaseNode();
+          DB.removeHandler(DB.getPath(node, "combat.psp.base"), "onUpdate", onModeChanged);
+        end
         function onModeChanged()
           local nodeChar = getDatabaseNode();
-          local bIsItem = false;
+          local bShowPsionics = true;
+          local nBasePSP = DB.getValue(nodeChar,"combat.psp.base",0);
           if string.match(nodeChar.getPath(),"^item") 
-            or string.match(nodeChar.getPath(),"^class") then
-              bIsItem = true;
+            or string.match(nodeChar.getPath(),"^class")
+            or nBasePSP == 0 then
+              bShowPsionics = false;
           end
-          if not bIsItem then
-            parentcontrol.setVisible(true);
-          else
-            parentcontrol.setVisible(false);
-          end
+          parentcontrol.setVisible(bShowPsionics);
         end
 			</script>
 		<sheetdata>
