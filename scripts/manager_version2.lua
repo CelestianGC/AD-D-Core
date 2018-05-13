@@ -4,7 +4,7 @@
 --
 
 local rsname = "AD&D Core";
-local rsmajorversion = 24;
+local rsmajorversion = 25;
 
 function onInit()
 	if User.isHost() or User.isLocal() then
@@ -115,6 +115,9 @@ function updateCampaign()
 		end
 		if major < 24 then
       updateNPCs24();
+		end
+		if major < 25 then
+      updateNPCPsionics();
 		end
 	end
 --Debug.console("manager_version2.lua","updateCampaign","major",major);
@@ -623,4 +626,19 @@ function updateNPCs24()
 	for _,nodeNPC in pairs(DB.getChildren("npc")) do
     CombatManager2.updateNPCSaves(nodeNPC, nodeNPC, true);
 	end
+end
+
+function updateNPCPsionics()
+  for _,nodeNPC in pairs(DB.getChildren("npc")) do
+Debug.console("manager_version2.lua","updateNPCPsionics","npc-name",DB.getValue(nodeNPC,"name","NO-NAME"));
+Debug.console("manager_version2.lua","updateNPCPsionics","nodeNPC",nodeNPC);
+  local nMTHACO = DB.getValue(nodeNPC,"combat.mthaco.base",20);
+    DB.setValue(nodeNPC,"combat.mthaco.base","number",nMTHACO);
+    AbilityScoreADND.updateStrength(nodeNPC);
+    AbilityScoreADND.updateDexterity(nodeNPC);
+    AbilityScoreADND.updateWisdom(nodeNPC);
+    AbilityScoreADND.updateConstitution(nodeNPC);
+    AbilityScoreADND.updateCharisma(nodeNPC);
+    AbilityScoreADND.updateIntelligence(nodeNPC);
+  end -- for
 end
