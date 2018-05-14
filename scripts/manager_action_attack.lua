@@ -104,9 +104,9 @@ function getRoll(rActor, rAction)
 	rRoll.bWeapon = false;
 
   -- psionics, we need to hand these off since modRoll doesn't keep rAction
---Debug.console("manger_action_attack.lua","modAttack","rAction.Psionic_DisciplineType",rAction.Psionic_DisciplineType);                    	
+Debug.console("manger_action_attack.lua","modAttack","rAction.Psionic_DisciplineType",rAction.Psionic_DisciplineType);                    	
   
-  if (rAction.Psionic_DisciplineType ~= nil) then
+  if (rAction.Psionic_DisciplineType ~= nil and rAction.Psionic_DisciplineType ~= "") then
     rRoll.bPsionic             = 'true';
   end
 --Debug.console("manger_action_attack.lua","modAttack","rRoll.bPsionic",rRoll.bPsionic);     
@@ -190,9 +190,9 @@ function modAttack(rSource, rTarget, rRoll)
 	local aAddDesc = {};
 	local aAddDice = {};
 	local nAddMod = 0;
-  
+Debug.console("manager_action_attack.lua","modAttack","rRoll.bPsionic",rRoll.bPsionic);  
   local bPsionicPower =  rRoll.bPsionic == "true";
-
+Debug.console("manager_action_attack.lua","modAttack","bPsionicPower1",bPsionicPower);
 	-- Check for opportunity attack
 	local bOpportunity = ModifierStack.getModifierKey("ATT_OPP") or Input.isShiftPressed();
 
@@ -255,6 +255,7 @@ function modAttack(rSource, rTarget, rRoll)
 		elseif sAttackType == "P" then
 			table.insert(aAttackFilter, "psionic");
       bPsionicPower = true;
+Debug.console("manager_action_attack.lua","modAttack","bPsionicPower2",bPsionicPower);      
 		end
 		if bOpportunity then
 			table.insert(aAttackFilter, "opportunity");
