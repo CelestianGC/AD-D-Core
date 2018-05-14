@@ -2327,17 +2327,6 @@ function addAdvancement(nodeChar,nodeAdvance,nodeClass)
     --profs
     local nWeaponProfs = DB.getValue(nodeAdvance,"weaponprofs",0);
     local nNonWeaponProfs = DB.getValue(nodeAdvance,"nonweaponprofs",0);
-    local nodeProfs = nodeChar.getChild("proficiencies");
-    local nodeWeaponProfs = nil;
-    local nodeNonWeaponProfs = nil;
-    if (not nodeProfs) then
-        nodeProfs = nodeChar.createChild("proficiencies");    
-        nodeWeaponProfs = nodeCombat.createChild("weapon");
-        nodeNonWeaponProfs = nodeCombat.createChild("nonweapon");
-    else
-        nodeWeaponProfs = nodeCombat.getChild("weapon");
-        nodeNonWeaponProfs = nodeCombat.getChild("nonweapon");
-    end
     local nPrevWeaponProf = DB.getValue(nodeChar,"proficiencies.weapon.max",0);
     DB.setValue(nodeChar,"proficiencies.weapon.max","number", nWeaponProfs+nPrevWeaponProf);
     local nPrevNonWeaponProf = DB.getValue(nodeChar,"proficiencies.nonweapon.max",0);

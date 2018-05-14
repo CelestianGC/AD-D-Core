@@ -1022,38 +1022,26 @@ function rollEntryInit(nodeEntry)
 end
 
 function rollInit(sType)
-	for _,vChild in pairs(CombatManager.getCombatantNodes()) do
-		local bRoll = true;
-		if sType then
-			local sClass,_ = DB.getValue(vChild, "link", "", "");
-			if sType == "npc" and sClass == "charsheet" then
-				bRoll = false;
-			elseif sType == "pc" and sClass ~= "charsheet" then
-				bRoll = false;
-			end
-		end
-		
-		if bRoll then
-			DB.setValue(vChild, "initresult", "number", 10000);
-		end
-	end
-
-	for _,vChild in pairs(CombatManager.getCombatantNodes()) do
-		local bRoll = true;
-		if sType then
-			local sClass,_ = DB.getValue(vChild, "link", "", "");
-			if sType == "npc" and sClass == "charsheet" then
-				bRoll = false;
-			elseif sType == "pc" and sClass ~= "charsheet" then
-				bRoll = false;
-			end
-		end
-		
-		if bRoll then
-			rollEntryInit(vChild);
-		end
-	end
+	CombatManager.rollTypeInit(sType, rollEntryInit);
 end
+
+-- function rollInit(sType)
+	-- for _,vChild in pairs(CombatManager.getCombatantNodes()) do
+		-- local bRoll = true;
+		-- if sType then
+			-- local sClass,_ = DB.getValue(vChild, "link", "", "");
+			-- if sType == "npc" and sClass == "charsheet" then
+				-- bRoll = false;
+			-- elseif sType == "pc" and sClass ~= "charsheet" then
+				-- bRoll = false;
+			-- end
+		-- end
+		
+		-- if bRoll then
+			-- rollEntryInit(vChild);
+		-- end
+	-- end
+-- end
 
 --
 --
