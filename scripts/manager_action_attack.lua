@@ -537,14 +537,11 @@ function onAttack(rSource, rTarget, rRoll)
 	if rAction.nFirstDie >= nCritThreshold and bCanCrit then
 		rAction.bSpecial = true;
 		rAction.sResult = "crit";
-    -- if bPsionic then 
-      -- table.insert(rAction.aMessages,adjustPSPs(rSource,tonumber(rRoll.Psionic_PSP)));
-    -- end
 		table.insert(rAction.aMessages, "[CRITICAL HIT]");
 	elseif rAction.nFirstDie == 1 then
 		rAction.sResult = "fumble";
-    if bPsionic then 
-      table.insert(rAction.aMessages,adjustPSPs(rSource,tonumber(rRoll.Psionic_PSPOnFail)));
+    if bPsionic then
+      rMessage.text = rMessage.text .. adjustPSPs(rSource,tonumber(rRoll.Psionic_PSPOnFail));
     end
 		table.insert(rAction.aMessages, "[AUTOMATIC MISS]");
 	elseif nDefenseVal and nDefenseVal ~= 0 then 
@@ -567,7 +564,7 @@ function onAttack(rSource, rTarget, rRoll)
         table.insert(rAction.aMessages, sHitText);
       else
         if bPsionic then 
-          table.insert(rAction.aMessages,adjustPSPs(rSource,tonumber(rRoll.Psionic_PSPOnFail)));
+          rMessage.text = rMessage.text .. adjustPSPs(rSource,tonumber(rRoll.Psionic_PSPOnFail));
         end
         rMessage.font = "missfont";
         rMessage.icon = "chat_miss";

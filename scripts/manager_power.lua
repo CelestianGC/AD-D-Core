@@ -418,7 +418,6 @@ function performAction(draginfo, nodeAction, sSubRoll)
         -- no uses left, stop
         return;
     end
-
     
     local rAction = getPowerRoll(rActor, nodeAction, sSubRoll);
 
