@@ -661,11 +661,11 @@ function getLevelBasedDiceValues(nodeCaster, isPC, node, nodeAction)
   local nCasterLevel = 1;
   local sSpellType = DB.getValue(nodeSpell, "type", ""):lower();
   --if (isPC) then
-    if (sSpellType == "arcane") then
+    if (sSpellType:match("arcane")) then
       nCasterLevel = DB.getValue(nodeCaster, "arcane.totalLevel",1);
-    elseif (sSpellType == "divine") then
+    elseif (sSpellType:match("divine")) then
       nCasterLevel = DB.getValue(nodeCaster, "divine.totalLevel",1);
-    elseif (sSpellType == "psionic") then
+    elseif (sSpellType:match("psionic")) then
       nCasterLevel = DB.getValue(nodeCaster, "psionic.totalLevel",1);
     else
       if (isPC) then
@@ -2531,10 +2531,12 @@ function getLevelBasedDurationValue(nodeAction)
   local sSpellType = DB.getValue(nodeSpell, "type", ""):lower();
 --Debug.console("manager_power.lua","getLevelBasedDurationValue","nodeAction",nodeAction);  
   --if (isPC) then
-    if (sSpellType == "arcane") then
-      nCasterLevel = DB.getValue(nodeCaster, "arcane.totalLevel",1); 
-    elseif (sSpellType == "divine") then
+    if (sSpellType:match("arcane")) then
+      nCasterLevel = DB.getValue(nodeCaster, "arcane.totalLevel",1);
+    elseif (sSpellType:match("divine")) then
       nCasterLevel = DB.getValue(nodeCaster, "divine.totalLevel",1);
+    elseif (sSpellType:match("psionic")) then
+      nCasterLevel = DB.getValue(nodeCaster, "psionic.totalLevel",1);
     else
       if (isPC) then
         nCasterLevel = CharManager.getActiveClassMaxLevel(nodeCaster);

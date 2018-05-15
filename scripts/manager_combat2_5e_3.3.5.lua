@@ -309,6 +309,7 @@ function updateNPCLevels(nodeNPC, bForceUpdate)
       local nLevel = CombatManager2.getNPCLevelFromHitDice(nodeNPC);
       DB.setValue(nodeNPC, "arcane.totalLevel","number",nLevel);
       DB.setValue(nodeNPC, "divine.totalLevel","number",nLevel);
+      DB.setValue(nodeNPC, "psionic.totalLevel","number",nLevel);
       DB.setValue(nodeNPC, "level","number",nLevel);
     end
 end
