@@ -302,7 +302,7 @@ bonuscomps = {
   "MELEEAC",  -- ranged AC (when being attacked by range weapon)
   "RANGEAC",  -- melee AC (when being attacked by melee)
   "MAC",      -- Mental AC
-  "PSIAFK",
+  "PSIATK",
 };
 
 -- Condition effect types for token widgets

@@ -38,7 +38,10 @@ function onInit()
     
     -- used for AD&D Core ONLY
     EffectManager5E.evalAbilityHelper = evalAbilityHelper;
-    EffectManager5E.checkConditional = checkConditional; -- this is for ARMOR() effect type
+    
+    -- this is for ARMOR() effect type
+    --IFT: ARMOR(plate,platemail);ATK: 2 and it will then give you +2 to hit versus targets that are wearing plate/platemail armor.
+    EffectManager5E.checkConditional = checkConditional; 
     
     -- 5E effects replacements
     EffectManager5E.checkConditionalHelper = checkConditionalHelper;
