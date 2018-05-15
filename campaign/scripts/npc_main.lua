@@ -212,8 +212,8 @@ function update()
   updateControl("actext", bReadOnly);
   updateControl("hp", bReadOnly, bReadOnly);
   updateControl("hd", bReadOnly, bReadOnly);
-  updateControl("hitDice", bReadOnly, bReadOnly);
-  updateControl("hdtext", bReadOnly);
+  updateControl("hitDice", bReadOnly);
+  updateControl("hdtext", bReadOnly,bReadOnly);
   updateControl("thaco", bReadOnly);
   updateControl("speed", bReadOnly);
 	updateControl("numberattacks", bReadOnly);
