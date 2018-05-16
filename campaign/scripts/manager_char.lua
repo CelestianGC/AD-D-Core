@@ -2441,6 +2441,13 @@ function addAdvancement(nodeChar,nodeAdvance,nodeClass)
     ChatManager.SystemMessage("Psionic power level improved to " .. nLevel);
     ChatManager.SystemMessage("Gained [" .. nPSPGained .. "] addiontional Psionic strength points.");
   end
+  local nMTHACO = DB.getValue(nodeAdvance,"mthaco",0);
+  local nodeMTHACO = nodeCombat.createChild("mthaco"); -- make sure these exist
+  local nCurrentMTHACO = DB.getValue(nodeChar,"combat.mthaco.base",20);
+  if nMTHACO ~= 0 and nMTHACO < nCurrentMTHACO then
+      DB.setValue(nodeChar,"combat.mthaco.score","number",nMTHACO);
+      ChatManager.SystemMessage("MTHACO updated to new value of " .. nMTHACO);
+  end
   -- end psionic
   
   -- effects

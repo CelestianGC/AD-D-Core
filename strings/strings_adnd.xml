@@ -18,6 +18,7 @@
     <string name="rogue">Rogue</string>
 
 	<string name="thaco">THACO</string>
+	<string name="mthaco">MTHACO</string>
 	<string name="percent">%</string>
 	<string name="dice">Dice</string>
 	<string name="dicetext">Text</string>
@@ -363,6 +364,7 @@
 	<string name="class_spellslots_divine_tooltip">Divine spell slots ADDED to current total slots for this level.</string>
 	<string name="class_saves_tooltip">Saves applied for this level. If value set here is higher than current value on character sheet or set to 0 no changes will be made otherwise value as listed will be used.</string>
 	<string name="class_thaco_tooltip">To Hit Armor Class Zero value. If this value is higher than character sheet value or set to zero will be ignored. If lower than character sheet value will be used.</string>
+	<string name="class_mthaco_tooltip">Mental To Hit Armor Class Zero value. If this value is higher than character sheet value or set to zero will be ignored. If lower than character sheet value will be used.</string>
 	<string name="class_turn_tooltip">Turn level for this class level.</string>
   <string name="class_expneeded_label">XP Needed</string>
   <string name="class_expneeded_tooltip">Experience needed to gain another level in this class.</string>

@@ -895,6 +895,17 @@
         <displaysign />
         <tooltip textres="class_psp_adjustment_tooltip" />
       </number_class>
+			<label name="mthaco_label">
+        <anchored to="pspadjustment" position="righthigh" offset="10,0" />
+				<static textres="mthaco" />
+        <tooltip textres="class_mthaco_tooltip" />
+			</label>
+			<number_class name="mthaco">
+        <anchored to="mthaco_label" position="righthigh" offset="10,0" width="20" />
+        <tooltip textres="class_mthaco_tooltip" />
+      </number_class>
+            
+            
             
 			<label_column name="profs_label">
 				<static text="Proficiencies" />
