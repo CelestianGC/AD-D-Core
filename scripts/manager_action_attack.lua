@@ -540,7 +540,8 @@ function onAttack(rSource, rTarget, rRoll)
 	elseif rAction.nFirstDie == 1 then
 		rAction.sResult = "fumble";
     if bPsionic then
-      rMessage.text = rMessage.text .. adjustPSPs(rSource,tonumber(rRoll.Psionic_PSPOnFail));
+      local sAdjustPSPText = adjustPSPs(rSource,tonumber(rRoll.Psionic_PSPOnFail));
+      rMessage.text = rMessage.text .. sAdjustPSPText;
     end
 		table.insert(rAction.aMessages, "[AUTOMATIC MISS]");
 	elseif nDefenseVal and nDefenseVal ~= 0 then 
@@ -562,8 +563,9 @@ function onAttack(rSource, rTarget, rRoll)
         -- end
         table.insert(rAction.aMessages, sHitText);
       else
-        if bPsionic then 
-          rMessage.text = rMessage.text .. adjustPSPs(rSource,tonumber(rRoll.Psionic_PSPOnFail));
+        if bPsionic then
+          local sAdjustPSPText = adjustPSPs(rSource,tonumber(rRoll.Psionic_PSPOnFail));
+          rMessage.text = rMessage.text .. sAdjustPSPText;
         end
         rMessage.font = "missfont";
         rMessage.icon = "chat_miss";
