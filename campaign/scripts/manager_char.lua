@@ -3208,23 +3208,15 @@ function getPSPRollForAdvancement(nodeChar,nodeAdvance,nLevel)
     local sPSPDice = StringManager.convertDiceToString(aPSPDice,nPSPAdjustment);
     local nPSPBonuses = getWisIntConPSPBonus(nodeChar,nodeAdvance);
     if aPSPDice ~= nil then
-Debug.console("manager_char.lua","getPSPRollForAdvancement","aPSPDice",aPSPDice);
         -- level 1 gets +15 psp
         if nLevel == 1 then
           nRollResults = StringManager.evalDice(aPSPDice, nPSPAdjustment+nPSPBonuses)+15;
-Debug.console("manager_char.lua","getPSPRollForAdvancement","nRollResults1",nRollResults);
         else
           nRollResults = StringManager.evalDice(aPSPDice, nPSPAdjustment+nPSPBonuses);
-Debug.console("manager_char.lua","getPSPRollForAdvancement","nRollResults2",nRollResults);
         end
     elseif nPSPAdjustment > 0 then
-Debug.console("manager_char.lua","getPSPRollForAdvancement","nPSPAdjustment",nPSPAdjustment);
         nRollResults = nPSPAdjustment+nPSPBonuses;
-Debug.console("manager_char.lua","getPSPRollForAdvancement","nRollResults3",nRollResults);
     end
-
-Debug.console("manager_char.lua","getPSPRollForAdvancement","nRollResults4",nRollResults);
-    
     return nRollResults;
 end
 -- get Wisdom/Intelligence/Consitution bonus for this character/class for PSionic strength points
@@ -3237,12 +3229,6 @@ function getWisIntConPSPBonus(nodeChar,nodeAdvance)
     local nIntBonus = dbAbilityInt.psp_bonus;
     local dbAbilityCon = AbilityScoreADND.getConstitutionProperties(nodeChar);
     local nConBonus = dbAbilityCon.psp_bonus;
-
-Debug.console("manager_char.lua","getWisIntConPSPBonus","aPSPDice",aPSPDice);
-Debug.console("manager_char.lua","getWisIntConPSPBonus","nWisBonus",nWisBonus);
-Debug.console("manager_char.lua","getWisIntConPSPBonus","nIntBonus",nIntBonus);
-Debug.console("manager_char.lua","getWisIntConPSPBonus","nConBonus",nConBonus);
-    
     -- no more con/int bonuses once we stop using dice
     if (aPSPDice == nil) then
       nConBonus = 0;
