@@ -749,13 +749,6 @@
       </sub_record_header>
       <frame_record_content />
       
-<!--       <sub_ref_content name="content">
-        <class>class_advancement_editor_main</class>
-        <activate />
-      </sub_ref_content>
-      <scrollbar_ref_content /> -->
-      
-      <!-- -->
 			<subwindow_record name="main">
 				<class>class_advancement_editor_main</class>
 				<activate />
@@ -770,15 +763,15 @@
 				<class>charsheet_actions_powers</class>
 			</subwindow_record>
             
-			<scrollbar_record>
+			<scrollbar_record_classadvancement>
 				<target>main</target>
-			</scrollbar_record>
-			<scrollbar_record>
+			</scrollbar_record_classadvancement>
+			<scrollbar_record_item>
 				<target>weaponactions</target>
-			</scrollbar_record>
-			<scrollbar_record>
+			</scrollbar_record_item>
+			<scrollbar_record_power>
 				<target>spellactions</target>
-			</scrollbar_record>
+			</scrollbar_record_power>
 
 			<tabs_recordsheet>
 				<tab>
@@ -803,6 +796,7 @@
   
   
 	<windowclass name="class_advancement_editor_main">
+  <margins control="0,2,10,2" />
     <script>
       function onInit()
         level.setFocus();
