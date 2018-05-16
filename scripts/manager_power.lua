@@ -389,8 +389,8 @@ function performAction(draginfo, nodeAction, sSubRoll)
 		return;
 	end
 
---Debug.console("manager_power.lua","performAction","nodeAction",nodeAction);
---Debug.console("manager_power.lua","performAction","sSubRoll",sSubRoll);
+Debug.console("manager_power.lua","performAction","nodeAction",nodeAction);
+Debug.console("manager_power.lua","performAction","sSubRoll",sSubRoll);
   
     -- add itemPath to rActor so that when effects are checked we can 
     -- make compare against action only effects
@@ -660,7 +660,6 @@ function getLevelBasedDiceValues(nodeCaster, isPC, node, nodeAction)
   local nodeSpell = node.getChild("...");
   local nCasterLevel = 1;
   local sSpellType = DB.getValue(nodeSpell, "type", ""):lower();
-  --if (isPC) then
     if (sSpellType:match("arcane")) then
       nCasterLevel = DB.getValue(nodeCaster, "arcane.totalLevel",1);
     elseif (sSpellType:match("divine")) then
@@ -678,10 +677,6 @@ function getLevelBasedDiceValues(nodeCaster, isPC, node, nodeAction)
         nCasterLevel = DB.getValue(nodeCaster, "level",1);
       end
     end
-  --else
-    -- is NPC
---    nCasterLevel = DB.getValue(nodeCaster, "level",1);
---  end
   -- if castertype ~= "" then setup the dice
   if (sCasterType ~= nil) then
     -- make sure nCasterLevel is not larger than max size
@@ -2530,7 +2525,6 @@ function getLevelBasedDurationValue(nodeAction)
   local nodeSpell = nodeAction.getChild("...");
   local sSpellType = DB.getValue(nodeSpell, "type", ""):lower();
 --Debug.console("manager_power.lua","getLevelBasedDurationValue","nodeAction",nodeAction);  
-  --if (isPC) then
     if (sSpellType:match("arcane")) then
       nCasterLevel = DB.getValue(nodeCaster, "arcane.totalLevel",1);
     elseif (sSpellType:match("divine")) then
@@ -2544,11 +2538,6 @@ function getLevelBasedDurationValue(nodeAction)
         nCasterLevel = DB.getValue(nodeCaster, "level",1);
       end
     end
-  --else
-    -- is NPC
---    nCasterLevel = DB.getValue(nodeCaster, "level",1);
---  end
-
 --Debug.console("manager_power.lua","getLevelBasedDurationValue","nodeCaster",nodeCaster);  
 --Debug.console("manager_power.lua","getLevelBasedDurationValue","nCasterLevel",nCasterLevel);  
 

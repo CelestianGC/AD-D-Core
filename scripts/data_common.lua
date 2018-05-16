@@ -303,6 +303,7 @@ bonuscomps = {
   "RANGEAC",  -- melee AC (when being attacked by melee)
   "MAC",      -- Mental AC
   "PSIATK",
+  "DMGPSP",
 };
 
 -- Condition effect types for token widgets
@@ -333,7 +334,8 @@ othercomps = {
 	["RESIST"] = "cond_resist",
 	["VULN"] = "cond_vuln",
 	["REGEN"] = "cond_regen",
-	["DMGO"] = "cond_ongoing"
+	["DMGO"] = "cond_ongoing",
+  ["DMGPSPO"] = "cond_ongoing",
 };
 
 -- Effect components which can be targeted

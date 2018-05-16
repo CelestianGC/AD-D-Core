@@ -37,7 +37,10 @@ function onInit()
     
     
     -- used for AD&D Core ONLY
+    --ActionsManager.resolveAction = resolveAction;
     EffectManager5E.evalAbilityHelper = evalAbilityHelper;
+    EffectManager.setCustomOnEffectActorStartTurn(onEffectActorStartTurn);
+    EffectManager5E.applyOngoingDamageAdjustment = applyOngoingDamageAdjustment;
     
     -- this is for ARMOR() effect type
     --IFT: ARMOR(plate,platemail);ATK: 2 and it will then give you +2 to hit versus targets that are wearing plate/platemail armor.
@@ -1043,3 +1046,108 @@ function updateEffectsForNewInitiative(nodeField)
     end
   end
 end
+
+---- replace for Psionic nonsense
+function onEffectActorStartTurn(nodeActor, nodeEffect)
+	local sEffName = DB.getValue(nodeEffect, "label", "");
+	local aEffectComps = EffectManager.parseEffect(sEffName);
+    for _,sEffectComp in ipairs(aEffectComps) do
+		local rEffectComp = EffectManager5E.parseEffectComp(sEffectComp);
+		-- Conditionals
+		if rEffectComp.type == "IFT" then
+			break;
+		elseif rEffectComp.type == "IF" then
+			local rActor = ActorManager.getActorFromCT(nodeActor);
+			if not EffectManager5E.checkConditional(rActor, nodeEffect, rEffectComp.remainder) then
+				break;
+			end
+		
+		-- Ongoing damage and regeneration
+		elseif rEffectComp.type == "DMGO" or rEffectComp.type == "REGEN" or rEffectComp.type == "DMGPSPO" then
+			local nActive = DB.getValue(nodeEffect, "isactive", 0);
+			if nActive == 2 then
+				DB.setValue(nodeEffect, "isactive", "number", 1);
+			else
+				applyOngoingDamageAdjustment(nodeActor, nodeEffect, rEffectComp);
+			end
+
+		-- NPC power recharge
+		elseif rEffectComp.type == "RCHG" then
+			local nActive = DB.getValue(nodeEffect, "isactive", 0);
+			if nActive == 2 then
+				DB.setValue(nodeEffect, "isactive", "number", 1);
+			else
+				EffectManager5E.applyRecharge(nodeActor, nodeEffect, rEffectComp);
+			end
+		end
+	end
+end
+
+function applyOngoingDamageAdjustment(nodeActor, nodeEffect, rEffectComp)
+	if #(rEffectComp.dice) == 0 and rEffectComp.mod == 0 then
+		return;
+	end
+	
+	local rTarget = ActorManager.getActor("ct", nodeActor);
+	if rEffectComp.type == "REGEN" then
+		local nPercentWounded = ActorManager2.getPercentWounded2("ct", nodeActor);
+		
+		-- If not wounded, then return
+		if nPercentWounded <= 0 then
+			return;
+		end
+		-- Regeneration does not work once creature falls below 1 hit point
+		if nPercentWounded >= 1 then
+			return;
+		end
+		
+		local rAction = {};
+		rAction.label = "Regeneration";
+		rAction.clauses = {};
+		
+		local aClause = {};
+		aClause.dice = rEffectComp.dice;
+		aClause.modifier = rEffectComp.mod;
+		table.insert(rAction.clauses, aClause);
+		
+		local rRoll = ActionHeal.getRoll(nil, rAction);
+		if EffectManager.isGMEffect(nodeActor, nodeEffect) then
+			rRoll.bSecret = true;
+		end
+		ActionsManager.actionDirect(nil, "heal", { rRoll }, { { rTarget } });
+	elseif rEffectComp.type == "DMGO" then
+		local rAction = {};
+		rAction.label = "Ongoing damage";
+		rAction.clauses = {};
+		
+		local aClause = {};
+		aClause.dice = rEffectComp.dice;
+		aClause.modifier = rEffectComp.mod;
+		aClause.dmgtype = string.lower(table.concat(rEffectComp.remainder, ","));
+		table.insert(rAction.clauses, aClause);
+		
+		local rRoll = ActionDamage.getRoll(nil, rAction);
+		if EffectManager.isGMEffect(nodeActor, nodeEffect) then
+			rRoll.bSecret = true;
+		end
+		ActionsManager.actionDirect(nil, "damage", { rRoll }, { { rTarget } });
+	elseif rEffectComp.type == "DMGPSPO" then
+		local rAction = {};
+		rAction.label = "Ongoing PSP expenditure";
+		rAction.clauses = {};
+		
+		local aClause = {};
+		aClause.dice = rEffectComp.dice;
+		aClause.modifier = rEffectComp.mod;
+		aClause.dmgtype = string.lower(table.concat(rEffectComp.remainder, ","));
+		table.insert(rAction.clauses, aClause);
+		
+		local rRoll = ActionDamagePSP.getRoll(nil, rAction);
+		if EffectManager.isGMEffect(nodeActor, nodeEffect) then
+			rRoll.bSecret = true;
+		end
+		ActionsManager.actionDirect(nil, "damage_psp", { rRoll }, { { rTarget } });
+	end
+end
+
+---- end psionic work

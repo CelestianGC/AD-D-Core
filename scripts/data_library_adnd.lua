@@ -80,18 +80,21 @@ function processUpdateADND()
         -- end
       -- end
     -- end
-  for _,nodeNPC in pairs(DB.getChildren("npc")) do
-  Debug.console("data_library_adnd.lua","processUpdateADND","npc-name",DB.getValue(nodeNPC,"name","NO-NAME"));
-  Debug.console("data_library_adnd.lua","processUpdateADND","nodeNPC",nodeNPC);
-  local nMTHACO = DB.getValue(nodeNPC,"combat.mthaco.base",20);
-    DB.setValue(nodeNPC,"combat.mthaco.base","number",nMTHACO);
-    AbilityScoreADND.updateStrength(nodeNPC);
-    AbilityScoreADND.updateDexterity(nodeNPC);
-    AbilityScoreADND.updateWisdom(nodeNPC);
-    AbilityScoreADND.updateConstitution(nodeNPC);
-    AbilityScoreADND.updateCharisma(nodeNPC);
-    AbilityScoreADND.updateIntelligence(nodeNPC);
-  end -- for
-  
+
+    -- this was to add psionic stats for all npcs that didnt have them
+  -- for _,nodeNPC in pairs(DB.getChildren("npc")) do
+  -- Debug.console("data_library_adnd.lua","processUpdateADND","npc-name",DB.getValue(nodeNPC,"name","NO-NAME"));
+  -- Debug.console("data_library_adnd.lua","processUpdateADND","nodeNPC",nodeNPC);
+  -- local nMTHACO = DB.getValue(nodeNPC,"combat.mthaco.base",20);
+    -- DB.setValue(nodeNPC,"combat.mthaco.base","number",nMTHACO);
+    -- AbilityScoreADND.updateStrength(nodeNPC);
+    -- AbilityScoreADND.updateDexterity(nodeNPC);
+    -- AbilityScoreADND.updateWisdom(nodeNPC);
+    -- AbilityScoreADND.updateConstitution(nodeNPC);
+    -- AbilityScoreADND.updateCharisma(nodeNPC);
+    -- AbilityScoreADND.updateIntelligence(nodeNPC);
+  -- end -- for
+  local w = Interface.openWindow("url","https://www.fantasygrounds.com/");
+Debug.console("data_library_adnd.lua","processUpdateADND","w=",w);
   end
 end

@@ -114,6 +114,8 @@ function onEffectTextDecode(sEffect, rEffect)
 end
 
 function onEffectActorStartTurn(nodeActor, nodeEffect)
+Debug.console("manager_effect_5E.lua","onEffectActorStartTurn","nodeActor",nodeActor);
+Debug.console("manager_effect_5E.lua","onEffectActorStartTurn","nodeEffect",nodeEffect);
 	local sEffName = DB.getValue(nodeEffect, "label", "");
 	local aEffectComps = EffectManager.parseEffect(sEffName);
     for _,sEffectComp in ipairs(aEffectComps) do
