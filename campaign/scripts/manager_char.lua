@@ -2170,13 +2170,13 @@ function addClassRef(nodeChar, sClass, sRecord)
 		nodeClass = nodeList.createChild();
 	end
 	if not bExistingClass then
-        -- Add proficiencies
-        for _,v in pairs(DB.getChildren(nodeSource, "proficiencies")) do
-            addClassProficiencyDB(nodeChar, "reference_classproficiency", v.getPath());
-        end
-        for _,v in pairs(DB.getChildren(nodeSource, "nonweaponprof")) do
-            addClassProficiencyDB(nodeChar, "reference_classproficiency", v.getPath());
-        end
+    -- Add proficiencies
+    for _,v in pairs(DB.getChildren(nodeSource, "proficiencies")) do
+        addClassProficiencyDB(nodeChar, "reference_classproficiency", v.getPath());
+    end
+    for _,v in pairs(DB.getChildren(nodeSource, "nonweaponprof")) do
+        addClassProficiencyDB(nodeChar, "reference_classproficiency", v.getPath());
+    end
 	end
 
 	-- Calculate current spell slots before levelling up
@@ -2204,9 +2204,10 @@ function addClassRef(nodeChar, sClass, sRecord)
   -- this will make sure penalty is at least -6. If multiclass/dual class the class
   -- with the least penalty will be used.
   local nCharWeaponPenalty = DB.getValue(nodeChar,"proficiencies.weapon.penalty",-10);
-  local nClassWeaponPenalty = DB.getValue(nodeClass,"weapon_penalty",-6);
-  if (nClassWeaponPenalty > nCharWeaponPenalty) then
+  local nClassWeaponPenalty = DB.getValue(nodeSource,"weapon_penalty",-6);
+  if (nClassWeaponPenalty > nCharWeaponPenalty or (nCharWeaponPenalty == 0)) then
     DB.setValue(nodeChar,"proficiencies.weapon.penalty","number",nClassWeaponPenalty);
+    ChatManager.SystemMessage("Weapon non-proficiency penalty set to " .. nClassWeaponPenalty);    
   end
   -- end weapon prof penalty
   
@@ -2335,12 +2336,12 @@ function addAdvancement(nodeChar,nodeAdvance,nodeClass)
     local nPrevWeaponProf = DB.getValue(nodeChar,"proficiencies.weapon.max",0);
     DB.setValue(nodeChar,"proficiencies.weapon.max","number", nWeaponProfs+nPrevWeaponProf);
     if (nWeaponProfs > 0) then
-      ChatManager.SystemMessage("Gained weapon proficiency slot " .. nWeaponProfs);
+      ChatManager.SystemMessage("Gained weapon proficiency slot(s): " .. nWeaponProfs);
     end
     local nPrevNonWeaponProf = DB.getValue(nodeChar,"proficiencies.nonweapon.max",0);
     DB.setValue(nodeChar,"proficiencies.nonweapon.max","number", nNonWeaponProfs+nPrevNonWeaponProf);
     if (nNonWeaponProfs > 0) then
-      ChatManager.SystemMessage("Gained weapon proficiency slot " .. nNonWeaponProfs);
+      ChatManager.SystemMessage("Gained non-weapon proficiency slot(s): " .. nNonWeaponProfs);
     end
     
     --saves
@@ -3205,28 +3206,43 @@ function getPSPRollForAdvancement(nodeChar,nodeAdvance,nLevel)
     local aPSPDice = DB.getValue(nodeAdvance,"psp.dice");
     local nPSPAdjustment = DB.getValue(nodeAdvance,"psp.adjustment");
     local sPSPDice = StringManager.convertDiceToString(aPSPDice,nPSPAdjustment);
-    local nPSPBonuses = getWisIntConPSPBonus(nodeChar);
+    local nPSPBonuses = getWisIntConPSPBonus(nodeChar,nodeAdvance);
     if aPSPDice ~= nil then
-        -- level 1 gets max hp
+Debug.console("manager_char.lua","getPSPRollForAdvancement","aPSPDice",aPSPDice);
+        -- level 1 gets +15 psp
         if nLevel == 1 then
-          nRollResults = StringManager.evalDice(aPSPDice, nPSPAdjustment)+15;
+          nRollResults = StringManager.evalDice(aPSPDice, nPSPAdjustment+nPSPBonuses)+15;
+Debug.console("manager_char.lua","getPSPRollForAdvancement","nRollResults1",nRollResults);
         else
-          nRollResults = StringManager.evalDice(aPSPDice, nPSPAdjustment);
+          nRollResults = StringManager.evalDice(aPSPDice, nPSPAdjustment+nPSPBonuses);
+Debug.console("manager_char.lua","getPSPRollForAdvancement","nRollResults2",nRollResults);
         end
     elseif nPSPAdjustment > 0 then
+Debug.console("manager_char.lua","getPSPRollForAdvancement","nPSPAdjustment",nPSPAdjustment);
         nRollResults = nPSPAdjustment+nPSPBonuses;
+Debug.console("manager_char.lua","getPSPRollForAdvancement","nRollResults3",nRollResults);
     end
+
+Debug.console("manager_char.lua","getPSPRollForAdvancement","nRollResults4",nRollResults);
     
     return nRollResults;
 end
 -- get Wisdom/Intelligence/Consitution bonus for this character/class for PSionic strength points
-function getWisIntConPSPBonus(nodeChar)
+function getWisIntConPSPBonus(nodeChar,nodeAdvance)
     -- Add hit points based on level added
     local aPSPDice = DB.getValue(nodeAdvance,"psp.dice");
-    local nWisBonus = getWisdomProperties(nodeChar).dbAbility.psp_bonus;
-    local nIntBonus = getIntelligenceProperties(nodeChar).dbAbility.psp_bonus;
-    local nConBonus = getConstitutionProperties(nodeChar).dbAbility.psp_bonus;
+    local dbAbilityWis = AbilityScoreADND.getWisdomProperties(nodeChar);
+    local nWisBonus = dbAbilityWis.psp_bonus;
+    local dbAbilityInt = AbilityScoreADND.getIntelligenceProperties(nodeChar);
+    local nIntBonus = dbAbilityInt.psp_bonus;
+    local dbAbilityCon = AbilityScoreADND.getConstitutionProperties(nodeChar);
+    local nConBonus = dbAbilityCon.psp_bonus;
 
+Debug.console("manager_char.lua","getWisIntConPSPBonus","aPSPDice",aPSPDice);
+Debug.console("manager_char.lua","getWisIntConPSPBonus","nWisBonus",nWisBonus);
+Debug.console("manager_char.lua","getWisIntConPSPBonus","nIntBonus",nIntBonus);
+Debug.console("manager_char.lua","getWisIntConPSPBonus","nConBonus",nConBonus);
+    
     -- no more con/int bonuses once we stop using dice
     if (aPSPDice == nil) then
       nConBonus = 0;
