@@ -2201,6 +2201,15 @@ function addClassRef(nodeChar, sClass, sRecord)
 		nTotalLevel = nTotalLevel + DB.getValue(vClass, "level", 0);
 	end
 	
+  -- this will make sure penalty is at least -6. If multiclass/dual class the class
+  -- with the least penalty will be used.
+  local nCharWeaponPenalty = DB.getValue(nodeChar,"proficiencies.weapon.penalty",-10);
+  local nClassWeaponPenalty = DB.getValue(nodeClass,"weapon_penalty",-6);
+  if (nClassWeaponPenalty > nCharWeaponPenalty) then
+    DB.setValue(nodeChar,"proficiencies.weapon.penalty","number",nClassWeaponPenalty);
+  end
+  -- end weapon prof penalty
+  
     -- get "advancement" fields, look for matching level and process.
     local bHadAdvancement = false;
     for _,nodeAdvance in pairs(DB.getChildren(nodeSource, "advancement")) do
@@ -2300,6 +2309,7 @@ end
 -- process hp/spellslots/saves/thaco/weaponprof and nonweaponprof slots
 function addAdvancement(nodeChar,nodeAdvance,nodeClass)
     local sClassName = DB.getValue(nodeClass,"name","");
+    local sClassNameLower = sClassName:lower();
     local nLevel = DB.getValue(nodeClass, "level",0);
     -- get thaco from nodeAdvance or use thaco that exists already if not
     -- class settings
@@ -2311,17 +2321,12 @@ function addAdvancement(nodeChar,nodeAdvance,nodeClass)
     -- character settings
     -- thaco
     local nTHACO = DB.getValue(nodeAdvance,"thaco",0);
-    local nodeCombat = nodeChar.getChild("combat");
-    local nodeTHACO = nil;
-    if (not nodeCombat) then
-        nodeCombat = nodeChar.createChild("combat");    
-        nodeTHACO = nodeCombat.createChild("thaco");
-    else
-        nodeTHACO = nodeCombat.getChild("thaco");
-    end
+    local nodeCombat = nodeChar.createChild("combat"); -- make sure these exist
+    local nodeTHACO = nodeCombat.createChild("thaco"); -- make sure these exist
     local nCurrentTHACO = DB.getValue(nodeChar,"combat.thaco.score",20);
     if nTHACO ~= 0 and nTHACO < nCurrentTHACO then
         DB.setValue(nodeChar,"combat.thaco.score","number",nTHACO);
+        ChatManager.SystemMessage("THACO updated to new value of " .. nTHACO);
     end
     
     --profs
@@ -2329,9 +2334,15 @@ function addAdvancement(nodeChar,nodeAdvance,nodeClass)
     local nNonWeaponProfs = DB.getValue(nodeAdvance,"nonweaponprofs",0);
     local nPrevWeaponProf = DB.getValue(nodeChar,"proficiencies.weapon.max",0);
     DB.setValue(nodeChar,"proficiencies.weapon.max","number", nWeaponProfs+nPrevWeaponProf);
+    if (nWeaponProfs > 0) then
+      ChatManager.SystemMessage("Gained weapon proficiency slot " .. nWeaponProfs);
+    end
     local nPrevNonWeaponProf = DB.getValue(nodeChar,"proficiencies.nonweapon.max",0);
     DB.setValue(nodeChar,"proficiencies.nonweapon.max","number", nNonWeaponProfs+nPrevNonWeaponProf);
-  
+    if (nNonWeaponProfs > 0) then
+      ChatManager.SystemMessage("Gained weapon proficiency slot " .. nNonWeaponProfs);
+    end
+    
     --saves
     local bDualClassOverHump = 
         (hasInActiveClass(nodeChar) and getInActiveClassMaxLevel(nodeChar) < nLevel);
@@ -2366,7 +2377,8 @@ function addAdvancement(nodeChar,nodeAdvance,nodeClass)
     local nTurnLevel = DB.getValue(nodeAdvance,"turnlevel",0);    
     local nCurrentTurnLevel = DB.getValue(nodeChar,"turn.total",0);
     if nCurrentTurnLevel < nTurnLevel then
-        DB.setValue(nodeChar,"turn.total","number",nTurnLevel);
+      DB.setValue(nodeChar,"turn.total","number",nTurnLevel);
+      ChatManager.SystemMessage("Turning improves by " .. nTurnLevel);
     end
     
     -- spell slots
@@ -2385,15 +2397,16 @@ function addAdvancement(nodeChar,nodeAdvance,nodeClass)
       if bNewArcaneSlots then
         local nCurrentSpellLevel = DB.getValue(nodeChar,"arcane.totalLevel",0);
         if nCurrentSpellLevel < nLevel then
-            DB.setValue(nodeChar,"arcane.totalLevel","number",nLevel);
+          DB.setValue(nodeChar,"arcane.totalLevel","number",nLevel);
+          ChatManager.SystemMessage("Arcane spellcasting level improved to " .. nLevel);
         end
       end
       for i = 1, 9 do
           local nSlots = DB.getValue(nodeArcaneSlots,"level" .. i,0);
           if (nSlots > 0) then
-              local nCurrentSlots = DB.getValue(nodeChar, "powermeta.spellslots" .. i .. ".max",0);
-              local nAdjustedSlots = nCurrentSlots + nSlots;
-              DB.setValue(nodeChar, "powermeta.spellslots" .. i .. ".max", "number", nAdjustedSlots);
+            local nCurrentSlots = DB.getValue(nodeChar, "powermeta.spellslots" .. i .. ".max",0);
+            local nAdjustedSlots = nCurrentSlots + nSlots;
+            DB.setValue(nodeChar, "powermeta.spellslots" .. i .. ".max", "number", nAdjustedSlots);
           end
       end
     end
@@ -2404,7 +2417,8 @@ function addAdvancement(nodeChar,nodeAdvance,nodeClass)
       if bNewDivineSlots then
         local nCurrentSpellLevel = DB.getValue(nodeChar,"divine.totalLevel",0);
         if nCurrentSpellLevel < nLevel then
-            DB.setValue(nodeChar,"divine.totalLevel","number",nLevel);
+          DB.setValue(nodeChar,"divine.totalLevel","number",nLevel);
+          ChatManager.SystemMessage("Divine spellcasting level improved to " .. nLevel);
         end
       end
       for i = 1, 7 do
@@ -2417,6 +2431,18 @@ function addAdvancement(nodeChar,nodeAdvance,nodeClass)
       end
     end
 
+    
+  -- psionic nonsense
+  local nPSPGained = getPSPRollForAdvancement(nodeChar,nodeAdvance,nLevel);
+  local nPSPBase = DB.getValue(nodeChar,"combat.psp.base",0);
+  DB.setValue(nodeChar,"combat.psp.base","number",nPSPGained+nPSPBase);
+  if nPSPGained > 0 then
+    DB.setValue(nodeChar,"psionic.totalLevel","number",nLevel);
+    ChatManager.SystemMessage("Psionic power level improved to " .. nLevel);
+    ChatManager.SystemMessage("Gained [" .. nPSPGained .. "] addiontional Psionic strength points.");
+  end
+  -- end psionic
+  
   -- effects
   local nodeEffects = nodeAdvance.getChild("effectlist");
   addEffectFeature(nodeEffects,nodeChar);
@@ -3164,4 +3190,40 @@ function hasSpellSlots(nodeSpellSlots, sSpellType)
       end
   end
   return bHasNewSlots;
+end
+
+-- get Psionic strength point calculations for new level 
+function getPSPRollForAdvancement(nodeChar,nodeAdvance,nLevel)
+    local nRollResults = 0;
+    local aPSPDice = DB.getValue(nodeAdvance,"psp.dice");
+    local nPSPAdjustment = DB.getValue(nodeAdvance,"psp.adjustment");
+    local sPSPDice = StringManager.convertDiceToString(aPSPDice,nPSPAdjustment);
+    local nPSPBonuses = getWisIntConPSPBonus(nodeChar);
+    if aPSPDice ~= nil then
+        -- level 1 gets max hp
+        if nLevel == 1 then
+          nRollResults = StringManager.evalDice(aPSPDice, nPSPAdjustment)+15;
+        else
+          nRollResults = StringManager.evalDice(aPSPDice, nPSPAdjustment);
+        end
+    elseif nPSPAdjustment > 0 then
+        nRollResults = nPSPAdjustment+nPSPBonuses;
+    end
+    
+    return nRollResults;
+end
+-- get Wisdom/Intelligence/Consitution bonus for this character/class for PSionic strength points
+function getWisIntConPSPBonus(nodeChar)
+    -- Add hit points based on level added
+    local aPSPDice = DB.getValue(nodeAdvance,"psp.dice");
+    local nWisBonus = getWisdomProperties(nodeChar).dbAbility.psp_bonus;
+    local nIntBonus = getIntelligenceProperties(nodeChar).dbAbility.psp_bonus;
+    local nConBonus = getConstitutionProperties(nodeChar).dbAbility.psp_bonus;
+
+    -- no more con/int bonuses once we stop using dice
+    if (aPSPDice == nil) then
+      nConBonus = 0;
+      nIntBonus = 0; 
+    end    
+    return nWisBonus+nIntBonus+nConBonus;
 end

@@ -84,9 +84,12 @@
    	<string name="char_label_mod_tooltip">Modifier applied to this value.</string>
 	<string name="char_label_background">KIT</string>
 	<string name="char_label_speed">MOVE</string>
-  	<string name="char_label_surprise">SUPRISE</string>
-  	<string name="char_label_surprise_tooltip">Surprise check value. A check rolled of this or lesser value indicates surprise.</string>
-  	<string name="char_abilityscore_actual_tooltip">Actual ability score before effects.</string>
+  <string name="char_label_surprise">SUPRISE</string>
+  <string name="char_label_surprise_tooltip">Surprise check value. A check rolled of this or lesser value indicates surprise.</string>
+  <string name="char_abilityscore_actual_tooltip">Actual ability score before effects.</string>
+
+ 	<string name="char_label_weapon_penalty">Weapon</string>
+ 	<string name="char_label_weapon_penalty_tooltip">Penalty when using weapon character is not proficienct with.</string>
 
 	<string name="char_label_speeddetail">Move:</string>
 	<string name="char_label_speeddetail_tooltip">Movement values. How fast the character can move.</string>
@@ -366,7 +369,12 @@
   <string name="class_hpgained_label">HP Gained</string>
   <string name="class_hpgained_tooltip">Hit point dice and adjustment, or just adjustment for static value.</string>
 
-    <!-- RACE -->
+  <string name="class_pspgained_label">PSP Gained</string>
+  <string name="class_pspgained_tooltip">Psionic Strength Point dice and adjustment, or just adjustment for static value.</string>
+	<string name="class_psp_dice_tooltip">Dice rolled for Psionic Strength Points at this level.</string>
+	<string name="class_psp_adjustment_tooltip">Adjustment applied to Psionic Strength Point dice rolled or straight value gained for Psionic Strength Points for this level.</string>
+
+  <!-- RACE -->
 	<string name="race_header_traits">RACE TRAITS</string>
 	<string name="race_header_proficiencies">RACE WEAPON PROFICIENCIES</string>
 	<string name="char_abilities_label_proficiencies">WEAPON PROFICIENCIES</string>

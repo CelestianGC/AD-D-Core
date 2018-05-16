@@ -974,12 +974,14 @@
       <default>0</default>
     </basicnumber>
   </template>
+  
   <template name="text_plus">
     <label>
       <anchored width="10" />
       <static text="+" />
     </label>
-  </template>            
+  </template>     
+  
   <template name="text_equal">
     <label>
       <anchored width="10" />
