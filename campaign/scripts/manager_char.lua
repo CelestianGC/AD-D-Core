@@ -3204,7 +3204,7 @@ end
 function getPSPRollForAdvancement(nodeChar,nodeAdvance,nLevel)
     local nRollResults = 0;
     local aPSPDice = DB.getValue(nodeAdvance,"psp.dice");
-    local nPSPAdjustment = DB.getValue(nodeAdvance,"psp.adjustment");
+    local nPSPAdjustment = DB.getValue(nodeAdvance,"psp.adjustment",0);
     local sPSPDice = StringManager.convertDiceToString(aPSPDice,nPSPAdjustment);
     local nPSPBonuses = getWisIntConPSPBonus(nodeChar,nodeAdvance);
     if aPSPDice ~= nil then
