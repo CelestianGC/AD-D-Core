@@ -29,8 +29,9 @@ function onInit()
 	DB.addHandler(DB.getPath(sWeaponPath, "damagelist.*.dice"), "onUpdate", onDamageChanged);
 	DB.addHandler(DB.getPath(sWeaponPath, "damagelist.*.stat"), "onUpdate", onDamageChanged);
 	DB.addHandler(DB.getPath(sWeaponPath, "damagelist.*.bonus"), "onUpdate", onDamageChanged);
-	DB.addHandler(DB.getPath(sWeaponPath, "proflist.*.dmgadj"), "onUpdate", onAttackChanged);
+	DB.addHandler(DB.getPath(sWeaponPath, "proflist.*.dmgadj"), "onUpdate", onDamageChanged);
 	DB.addHandler(DB.getPath(sCreaturePath, "abilities.*.dmgadj"), "onUpdate", onDamageChanged);
+  
 
     -- item record first time tweaks
     -- give it a name of the item
@@ -62,8 +63,10 @@ function onClose()
 	DB.removeHandler(DB.getPath(sWeaponPath, "damagelist.*.dice"), "onUpdate", onDamageChanged);
 	DB.removeHandler(DB.getPath(sWeaponPath, "damagelist.*.stat"), "onUpdate", onDamageChanged);
 	DB.removeHandler(DB.getPath(sWeaponPath, "damagelist.*.bonus"), "onUpdate", onDamageChanged);
-	DB.removeHandler(DB.getPath(sWeaponPath, "proflist.*.dmgadj"), "onUpdate", onAttackChanged);
+	DB.removeHandler(DB.getPath(sWeaponPath, "proflist.*.dmgadj"), "onUpdate", onDamageChanged);
 	DB.removeHandler(DB.getPath(sCreaturePath, "abilities.*.dmgadj"), "onUpdate", onDamageChanged);
+  
+  DB.removeHandler(DB.getPath(sWeaponPath, "proflist.*.profselected"), "onUpdate", onAttackChanged);
 end
 
 -- the create is handled in record_char_actions.xml, charsheet_actions_contents->weapons
@@ -123,11 +126,18 @@ end
 -- get all the +hit modifiers from the profs 
 -- attached to this weapon
 function getToHitProfs(nodeWeapon)
-    local nMod = 0;
+  local nodeChar = nodeWeapon.getChild("...");
+  local nMod = 0;
+  -- if no profs applied to weapon, then assume they use
+  -- not-proficiency penalty with it
+  if (DB.getChildCount(nodeWeapon,"proflist")< 1) then
+    nMod = DB.getValue(nodeChar,"proficiencies.weapon.penalty",0);
+  else
     for _,v in pairs(DB.getChildren(nodeWeapon, "proflist")) do
-        nMod = nMod + DB.getValue(v, "hitadj", 0)
+      nMod = nMod + DB.getValue(v, "hitadj", 0)
     end
-    return nMod;
+  end
+  return nMod;
 end
 
 function onDamageChanged(p1, p2)
@@ -218,7 +228,7 @@ function onAttackAction(draginfo)
 	end
 	rAction.modifier = DB.getValue(nodeWeapon, "attackbonus", 0) + ActorManager2.getAbilityBonus(rActor, rAction.stat, "hitadj");
 	
-    rAction.modifier = rAction.modifier + getToHitProfs(nodeWeapon);
+  rAction.modifier = rAction.modifier + getToHitProfs(nodeWeapon);
     
 	rAction.bWeapon = true;
 	
