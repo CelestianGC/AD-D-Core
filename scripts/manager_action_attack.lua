@@ -109,7 +109,9 @@ function getRoll(rActor, rAction)
   if (rAction.Psionic_DisciplineType ~= nil and rAction.Psionic_DisciplineType ~= "") then
     rRoll.bPsionic             = 'true';
   end
---Debug.console("manger_action_attack.lua","modAttack","rRoll.bPsionic",rRoll.bPsionic);     
+--Debug.console("manger_action_attack.lua","modAttack","rRoll.bPsionic",rRoll.bPsionic);   
+  rRoll.sSpellSource           = rAction.sSpellSource or "";
+  rRoll.Psionic_Source         = rAction.Psionic_Source or "";
   rRoll.Psionic_DisciplineType = rAction.Psionic_DisciplineType or "";
   rRoll.Psionic_MAC            = rAction.Psionic_MAC or 10;
   rRoll.Psionic_PSP            = rAction.Psionic_PSP or 0;
@@ -253,7 +255,6 @@ function modAttack(rSource, rTarget, rRoll)
 		elseif sAttackType == "P" then
 			table.insert(aAttackFilter, "psionic");
       bPsionicPower = true;
-Debug.console("manager_action_attack.lua","modAttack","bPsionicPower2",bPsionicPower);      
 		end
 		if bOpportunity then
 			table.insert(aAttackFilter, "opportunity");
@@ -275,7 +276,7 @@ Debug.console("manager_action_attack.lua","modAttack","bPsionicPower2",bPsionicP
         bEffects = true;
       end
     end
-		
+
 		-- Get condition modifiers
 		if (EffectManager5E.hasEffect(rSource, "ADVATK", rTarget)) then
 			bADV = true;

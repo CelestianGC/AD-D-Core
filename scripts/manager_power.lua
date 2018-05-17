@@ -261,6 +261,9 @@ function getPowerRoll(rActor, nodeAction, sSubRoll)
   if ((sDiscipline ~= "" and nPSPCost > 0) or (sSpellType == "psionic") or (sAttackType == "psionic") ) then
     rAction.Psionic_Source = nodeSpell.getPath();
   end
+  if (sSpellType and sSpellType ~= "") then
+    rAction.sSpellSource = nodeSpell.getPath(); -- incase we need to use this elsewhere...
+  end
   rAction.Psionic_DisciplineType = sDisciplineType:lower();
   rAction.Psionic_MAC = nMAC;
   rAction.Psionic_PSP = nPSPCost;

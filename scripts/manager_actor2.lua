@@ -481,6 +481,23 @@ function getDefenseValue(rAttacker, rDefender, rRoll)
     end
     nDefense = ascendingDefense(nDefense);
 
+Debug.console("manager_actor2.lua","getDefenseValue","rRoll.Psionic_DisciplineType",rRoll.Psionic_DisciplineType);
+Debug.console("manager_actor2.lua","getDefenseValue","rRoll.sSpellSource",rRoll.sSpellSource);
+    -- if psionic attack, check psionic defenses
+    if rRoll.Psionic_DisciplineType == "attack" then
+Debug.console("manager_actor2.lua","getDefenseValue","rRoll.sSpellSource",rRoll.sSpellSource);
+      local nodeSpell = DB.findNode(rRoll.sSpellSource);
+Debug.console("manager_actor2.lua","getDefenseValue","nodeSpell",nodeSpell);
+      if (nodeSpell) then
+        local sSpellName = DB.getValue(nodeSpell,"name",""):lower();
+Debug.console("manager_actor2.lua","getDefenseValue","sSpellName",sSpellName);
+        if sSpellName ~= "" then 
+          nAttackEffectMod = getPsionicAttackVersusDefenseMode(rDefender,rAttacker,sSpellName,nAttackEffectMod);
+Debug.console("manager_actor2.lua","getDefenseValue","nAttackEffectMod",nAttackEffectMod);
+        end
+      end
+    end
+
   else -- calculate defenses for melee/range attacks
     local nACTemp = 0;
     local nACBase = 10;
@@ -650,7 +667,7 @@ function getDefenseValue(rAttacker, rDefender, rRoll)
         bProne = true;
       end
       
-      if bProne then
+    if bProne then
         if sAttackType == "M" then
           bADV = true;
         elseif sAttackType == "R" then
@@ -933,4 +950,71 @@ function getPercentWounded2PSP(sNodeType, node)
 	end
 	
 	return nPercentWounded, sStatus;
+end
+
+--
+-- lots of psionic attack/defense nonsense
+--
+-- attack name to index
+psionic_attack_index = {
+    ["mind thrust"] = 1,
+    ["ego whip"] = 2,
+    ["id insinuation"] = 3,
+    ["psychic crush"] = 4,
+    ["psionic blast"] = 5,
+};
+-- defense name to index
+psionic_defense_index = {
+    ["mind blank"] = 1,
+    ["thought shield"] = 2,
+    ["mental barrier"] = 3,
+    ["intellect fortress"] = 4,
+    ["tower of iron will"] = 5,
+};
+-- this stores the modifiers for attack mode versus a defense mode
+psionic_attack_v_defense_table = {};
+psionic_attack_v_defense_table[1] = { 5, 3,-2,-3,-5};
+psionic_attack_v_defense_table[2] = { 3, 4, 2,-4,-3};
+psionic_attack_v_defense_table[3] = {-5,-3,-1, 2, 5};
+psionic_attack_v_defense_table[4] = { 1,-4, 4,-1,-2};
+psionic_attack_v_defense_table[5] = {-3, 2,-5, 4, 3};
+-- get a attack modifier value with an attack type versus a defense type
+function getPsionicAttackVersusDefenseMode(rDefender,rAttacker,sSpellName,nAttackEffectMod)
+  local nAttackMod = nAttackEffectMod;
+  local nAtkIndex = getPsionicAttackIndex(sSpellName);
+  local nDefIndex = getPsionicDefenseIndex(rDefender,rAttacker);
+Debug.console("manager_actor2.lua","getPsionicAttackVersusDefenseMode","nAtkIndex",nAtkIndex);  
+Debug.console("manager_actor2.lua","getPsionicAttackVersusDefenseMode","nDefIndex",nDefIndex);    
+  if (nAtkIndex > 0 and nDefIndex > 0) then
+    -- get the modifier for the attack type versus index using psionic_attack_v_defense_table
+    local nAdjustment = psionic_attack_v_defense_table[nAtkIndex][nDefIndex];
+Debug.console("manager_actor2.lua","getPsionicAttackVersusDefenseMode","nAdjustment",nAdjustment);  
+    nAttackMod = nAttackMod + nAdjustment;
+  end
+  return nAttackMod;
+end
+--get the psionic attack index # of this attack name
+function getPsionicAttackIndex(sName)
+  local nIndex = 0;
+  for sValue,index in pairs(psionic_attack_index) do
+    if (sValue == sName) then
+      nIndex = index;
+      break;
+    end
+  end
+
+  return nIndex;
+end
+--flip through all of the psionic defenses and find (first) one that is
+--exists in the defense psionic_defense_index and return it's index. 
+function getPsionicDefenseIndex(rDefender,rAttacker)
+  local nIndex = 0;
+  for sValue,index in pairs(psionic_defense_index) do
+    if EffectManager5E.hasEffect(rDefender, sValue, rAttacker) then
+      nIndex = index;
+      break;
+    end
+  end
+
+  return nIndex;
 end
