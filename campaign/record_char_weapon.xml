@@ -498,16 +498,15 @@
 			</button_idelete>
 
 			<number_adjustment name="hitadj">
-                <readonly />
-				<!-- <anchored to="label_plus" position="righthigh" offset="2,0" width="35" height="20" /> -->
-                <anchored position="insidetopleft" offset="5,2" width="35" height="20" />
+        <readonly />
+        <anchored position="insidetopleft" offset="5,2" width="35" height="20" />
 			</number_adjustment>
 			<label name="label_plus2">
 				<anchored to="hitadj" position="righthigh" offset="10,0" width="15" />
 				<static>&amp;</static>
 			</label>
 			<number_adjustment name="dmgadj">
-                <readonly />
+        <readonly />
 				<anchored to="label_plus2" position="righthigh" offset="2,0" width="35" height="20" />
 			</number_adjustment>
 
@@ -516,13 +515,9 @@
 				<anchored to="dmgadj" position="righthigh" offset="10,0" height="20">
 					<right parent="rightanchor" anchor="left" relation="relative" offset="-5" />
 				</anchored>
-
-				<!-- <anchored position="insidetopleft" offset="5,2" width="200" height="20" /> -->
-				<!-- <default textres="weapon_label_profdefault" /> -->
 				<script file="campaign/scripts/prof_select.lua"/>
 			</combobox>
-            
-            
+      
 
         </sheetdata>
 	</windowclass>

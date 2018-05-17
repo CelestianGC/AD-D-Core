@@ -30,8 +30,8 @@ function updateAdjustments(node)
     -- update hit/dmg modifiers for prof
     -- flip through proflist
     local nodeChar = node.getChild("......");
-    local sFindName = window.profselected.getValue();
-    local prof = getProf(nodeChar,sFindName);
+    local sSource = window.profselected.getValue();
+    local prof = getProf(nodeChar,sSource);
     
     if prof then
         local nHitAdj = prof.hitadj;
@@ -39,7 +39,7 @@ function updateAdjustments(node)
         window.hitadj.setValue(nHitAdj);
         window.dmgadj.setValue(nDMGAdj);
     else
-    --Debug.console("prof_select.lua","updateAdjustments","!prof");
+--Debug.console("prof_select.lua","updateAdjustments","!prof");
     end
 end
 
@@ -55,8 +55,9 @@ function updateAllAdjustments()
     setProfList(nodeChar);
     
     for _,v in pairs(DB.getChildren(nodeWeapon, "proflist")) do
-        local svName = DB.getValue(v,"profselected","Unnamed");
-        local prof = getProf(nodeChar,svName);
+        --local svName = DB.getValue(v,"profselected","Unnamed");
+        local sSource = DB.getValue(v,"profselected","");
+        local prof = getProf(nodeChar,sSource);
         if prof then 
             local nHitAdj = prof.hitadj;
             local nDMGAdj = prof.dmgadj;
@@ -68,52 +69,25 @@ end
 
 -- fill in the drop down list values
 function setProfList(nodeChar)
+    clear(); -- (removed existing items in list)
     -- sort through player's list of profs and add them
     -- proficiencylist
-    local aProfs = {};
-    local bNonProf = false;
     for _,v in pairs(DB.getChildren(nodeChar, "proficiencylist")) do
-        local sName = DB.getValue(v, "name", "");
-        local sNameLower = sName:lower();
-        if (sName ~= "") then
-            -- at some point this will be a default prof, applies 
-            -- the non-proficiency adjustment
-            if StringManager.contains({"not-prof", "non-prof","non prof", "not prof"}, sNameLower) then
-                bNonProf = true;
-            end
-            -- add to list of profs
-            table.insert(aProfs,sName);
-        end
+      local sName = DB.getValue(v, "name", "");
+      add(v.getPath(),sName);
     end
-    
-    -- if not bNonProf then
-            -- table.insert(aProfs,"Not-Proficient");
-    -- end
-    
-    clear(); -- (removed existing items in list)
-    addItems(aProfs); -- add prof list to drop down
 end
 
 -- get prof hit/dmg adjustments by name of prof
-function getProf(nodeChar,sFindName)
-    local sFindNameLower = sFindName:lower();
-    local prof = {};
-    prof.name = sFindName;
-    
-    local bFoundMatch = false;
-    for _,v in pairs(DB.getChildren(nodeChar, "proficiencylist")) do
-        local sName = DB.getValue(v, "name", "");
-        local sNameLower = sName:lower();
-        if (sNameLower == sFindNameLower) then
-            bFoundMatch = true;
-            prof.hitadj = DB.getValue(v,"hitadj",0);
-            prof.dmgadj = DB.getValue(v,"dmgadj",0);
-            break;
-        end
-    end
-    
-    if bFoundMatch then
-        return prof;
+function getProf(nodeChar,sSource)
+    local nodeProf = DB.findNode(sSource);
+    if (nodeProf) then 
+      local prof = {};
+      prof.name = DB.getValue(nodeProf,"name","");
+      prof.hitadj = DB.getValue(nodeProf,"hitadj",0);
+      prof.dmgadj = DB.getValue(nodeProf,"dmgadj",0);
+      prof.source = sSource;
+      return prof;
     else
         return nil;
     end
