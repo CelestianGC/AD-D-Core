@@ -101,6 +101,28 @@
         "barbarian",        
     };
     
+--
+-- lots of psionic attack/defense nonsense
+--
+-- attack name to index
+psionic_attack_index = {
+    ["mind thrust"] = 1,
+    ["ego whip"] = 2,
+    ["id insinuation"] = 3,
+    ["psychic crush"] = 4,
+    ["psionic blast"] = 5,
+};
+-- defense name to index
+psionic_defense_index = {
+    ["mind blank"] = 1,
+    ["thought shield"] = 2,
+    ["mental barrier"] = 3,
+    ["intellect fortress"] = 4,
+    ["tower of iron will"] = 5,
+};
+-- this stores the modifiers for attack mode versus a defense mode
+psionic_attack_v_defense_table = {};
+    
 function onInit()
 
     -- default initiative dice size 
@@ -423,26 +445,34 @@ function onInit()
       "Special 20HD++"    -- "special" doesn't translate so added 20+ HD
   };
     
-    -- cap of turn improvement
-    nDefaultTurnUndeadMaxLevel = 14;
+  -- cap of turn improvement
+  nDefaultTurnUndeadMaxLevel = 14;
 
-    --  0 = Cannot turn
-    -- -1 = Turn
-    -- -2 = Disentigrate
-    -- -3 = Additional 2d4 creatures effected.
-    aTurnUndead[1] =  {10,13,16,19,20,0,0,0,0,0,0,0,0};
-    aTurnUndead[2] =  {7,10,13,16,19,20,0,0,0,0,0,0,0};
-    aTurnUndead[3] =  {4,7,10,13,16,19,20,0,0,0,0,0,0};
-    aTurnUndead[4] =  {-1,4,7,10,13,16,19,20,0,0,0,0,0};
-    aTurnUndead[5] =  {-1,-1,4,7,10,13,16,19,20,0,0,0,0};
-    aTurnUndead[6] =  {-2,-1,-1,4,7,10,13,16,19,20,0,0,0};
-    aTurnUndead[7] =  {-2,-2,-1,-1,4,7,10,13,16,19,20,0,0};
-    aTurnUndead[8] =  {-3,-2,-2,-1,-1,4,7,10,13,16,19,20,0};
-    aTurnUndead[9] =  {-3,-3,-2,-2,-1,-1,4,7,10,13,16,19,20};
-    aTurnUndead[10] = {-3,-3,-3,-2,-2,-1,-1,4,7,10,13,16,19};
-    aTurnUndead[11] = {-3,-3,-3,-2,-2,-1,-1,4,7,10,13,16,19};
-    aTurnUndead[12] = {-3,-3,-3,-3,-2,-2,-1,-1,4,7,10,13,16};
-    aTurnUndead[13] = {-3,-3,-3,-3,-2,-2,-1,-1,4,7,10,13,16};
-    aTurnUndead[14] = {-3,-3,-3,-3,-3,-2,-2,-1,-1,4,7,10,13};
+  --  0 = Cannot turn
+  -- -1 = Turn
+  -- -2 = Disentigrate
+  -- -3 = Additional 2d4 creatures effected.
+  aTurnUndead[1] =  {10,13,16,19,20,0,0,0,0,0,0,0,0};
+  aTurnUndead[2] =  {7,10,13,16,19,20,0,0,0,0,0,0,0};
+  aTurnUndead[3] =  {4,7,10,13,16,19,20,0,0,0,0,0,0};
+  aTurnUndead[4] =  {-1,4,7,10,13,16,19,20,0,0,0,0,0};
+  aTurnUndead[5] =  {-1,-1,4,7,10,13,16,19,20,0,0,0,0};
+  aTurnUndead[6] =  {-2,-1,-1,4,7,10,13,16,19,20,0,0,0};
+  aTurnUndead[7] =  {-2,-2,-1,-1,4,7,10,13,16,19,20,0,0};
+  aTurnUndead[8] =  {-3,-2,-2,-1,-1,4,7,10,13,16,19,20,0};
+  aTurnUndead[9] =  {-3,-3,-2,-2,-1,-1,4,7,10,13,16,19,20};
+  aTurnUndead[10] = {-3,-3,-3,-2,-2,-1,-1,4,7,10,13,16,19};
+  aTurnUndead[11] = {-3,-3,-3,-2,-2,-1,-1,4,7,10,13,16,19};
+  aTurnUndead[12] = {-3,-3,-3,-3,-2,-2,-1,-1,4,7,10,13,16};
+  aTurnUndead[13] = {-3,-3,-3,-3,-2,-2,-1,-1,4,7,10,13,16};
+  aTurnUndead[14] = {-3,-3,-3,-3,-3,-2,-2,-1,-1,4,7,10,13};
 
+  --psionic attack/defense adjustments
+  --           psionic_attack_index = psionic_defense_index
+  psionic_attack_v_defense_table[1] = { 5, 3,-2,-3,-5};
+  psionic_attack_v_defense_table[2] = { 3, 4, 2,-4,-3};
+  psionic_attack_v_defense_table[3] = {-5,-3,-1, 2, 5};
+  psionic_attack_v_defense_table[4] = { 1,-4, 4,-1,-2};
+  psionic_attack_v_defense_table[5] = {-3, 2,-5, 4, 3};
+    
 end
