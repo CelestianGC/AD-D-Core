@@ -542,6 +542,7 @@ function onAttack(rSource, rTarget, rRoll)
 		rAction.sResult = "fumble";
     if bPsionic then
       local sAdjustPSPText = adjustPSPs(rSource,tonumber(rRoll.Psionic_PSPOnFail));
+      rMessage.icon = "roll_psionic_hit";
       rMessage.text = rMessage.text .. sAdjustPSPText;
     end
 		table.insert(rAction.aMessages, "[AUTOMATIC MISS]");
@@ -559,18 +560,22 @@ function onAttack(rSource, rTarget, rRoll)
         if (rAction.nFirstDie == 20) then
           sHitText = "[AUTOMATIC HIT]";
         end
+        if bPsionic then
+          rMessage.icon = "roll_psionic_hit";
+        end
         -- if bPsionic then 
           -- table.insert(rAction.aMessages,adjustPSPs(rSource,tonumber(rRoll.Psionic_PSP)));
         -- end
         table.insert(rAction.aMessages, sHitText);
       else
-        if bPsionic then
-          local sAdjustPSPText = adjustPSPs(rSource,tonumber(rRoll.Psionic_PSPOnFail));
-          rMessage.text = rMessage.text .. sAdjustPSPText;
-        end
         rMessage.font = "missfont";
         rMessage.icon = "chat_miss";
         rAction.sResult = "miss";
+        if bPsionic then
+          local sAdjustPSPText = adjustPSPs(rSource,tonumber(rRoll.Psionic_PSPOnFail));
+          rMessage.icon = "roll_psionic_miss";
+          rMessage.text = rMessage.text .. sAdjustPSPText;
+        end
         table.insert(rAction.aMessages, "[MISS]");
       end
     end
@@ -623,21 +628,35 @@ function applyAttack(rSource, rTarget, bSecret, sAttackType, sDesc, nTotal, sRes
 	if sResults ~= "" then
 		msgLong.text = msgLong.text .. " " .. sResults;
 	end
+
+  local bPsionicPower = false;
+  local sType = string.match(sDesc, "%[ATTACK %((%w+)%)%]");
+  if sType and sType == "P" then
+    bPsionicPower = true;
+  end
 	
 	msgShort.icon = "roll_attack";
 	if string.match(sResults, "%[CRITICAL HIT%]") then
         msgLong.font = "hitfont";
 		msgLong.icon = "roll_attack_crit";
 	elseif string.match(sResults, "HIT%]") then
-        msgLong.font = "hitfont";
-		msgLong.icon = "roll_attack_hit";
+    msgLong.font = "hitfont";
+    if bPsionicPower then
+      msgLong.icon = "roll_psionic_hit";
+    else
+      msgLong.icon = "roll_attack_hit";
+    end
 	elseif string.match(sResults, "MISS%]") then
-        msgLong.font = "missfont";
-		msgLong.icon = "roll_attack_miss";
+    msgLong.font = "missfont";
+    if bPsionicPower then
+      msgLong.icon = "roll_psionic_miss";
+    else
+      msgLong.icon = "roll_attack_miss";
+    end
 	else
-		msgLong.icon = "roll_attack";
+    msgLong.icon = "roll_attack";
 	end
-		
+  
 	ActionsManager.outputResult(bSecret, rSource, rTarget, msgLong, msgShort);
 end
 
