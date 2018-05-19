@@ -127,10 +127,12 @@ end
 -- attached to this weapon
 function getToHitProfs(nodeWeapon)
   local nodeChar = nodeWeapon.getChild("...");
+  local bisPC = (ActorManager.isPC(nodeChar)); 
   local nMod = 0;
   -- if no profs applied to weapon, then assume they use
   -- not-proficiency penalty with it
-  if (DB.getChildCount(nodeWeapon,"proflist")< 1) then
+  if (bisPC and DB.getChildCount(nodeWeapon,"proflist")< 1) then 
+    -- only pc's get a non-weapon_prof penalty
     nMod = DB.getValue(nodeChar,"proficiencies.weapon.penalty",0);
   else
     for _,v in pairs(DB.getChildren(nodeWeapon, "proflist")) do

@@ -90,7 +90,7 @@
   <string name="char_abilityscore_actual_tooltip">Actual ability score before effects.</string>
 
  	<string name="char_label_weapon_penalty">Weapon</string>
- 	<string name="char_label_weapon_penalty_tooltip">Penalty when using weapon character is not proficienct with.</string>
+ 	<string name="char_label_weapon_penalty_tooltip">Penalty when using weapon character is not proficient with.</string>
 
 	<string name="char_label_speeddetail">Move:</string>
 	<string name="char_label_speeddetail_tooltip">Movement values. How fast the character can move.</string>
