@@ -40,6 +40,7 @@ function onInit()
     --ActionsManager.resolveAction = resolveAction;
     EffectManager5E.evalAbilityHelper = evalAbilityHelper;
     EffectManager.setCustomOnEffectActorStartTurn(onEffectActorStartTurn);
+    EffectManager.setCustomOnEffectAddStart(effectDiceRollValues);
     EffectManager5E.applyOngoingDamageAdjustment = applyOngoingDamageAdjustment;
     
     -- this is for ARMOR() effect type
@@ -1151,3 +1152,31 @@ function applyOngoingDamageAdjustment(nodeActor, nodeEffect, rEffectComp)
 end
 
 ---- end psionic work
+
+-- AD&D Core only function, rolls dice rolls in [xDx] boxes
+-- used for STR: [1d5] style effects, only rolled when applied.
+function effectDiceRollValues(rNewEffect)
+  local sEffectFullString = "";
+  local sName = rNewEffect.sName;
+    -- split the name/label for effect for each:
+    -- STRING: tag;STRING: tag;STRING: tag; 
+    -- to table of "STRING: tag"
+  local aEachEffect = StringManager.split(sName,";",true);
+  -- flip through each sEffectName and look for dice
+  for sLoc,sEffectName in pairs(aEachEffect) do
+  -- look for [1d6] strings in effect text
+    for sDice in string.gmatch(sEffectName,"%[%d+[dD]%d+%]") do
+      local aDice,nMod = StringManager.convertStringToDice(sDice);
+      local nRoll = StringManager.evalDice(aDice,nMod);
+      local sSep = "";
+      if sEffectFullString ~= "" then
+        sSep = ";";
+      end
+      sEffectFullString = sEffectFullString .. sSep .. sEffectName:gsub("%[%d+[dD]%d+%]",tostring(nRoll));
+    end  -- fore sDice
+  end -- for sEffectName
+  if (sEffectFullString ~= "") then
+    rNewEffect.sName = sEffectFullString;
+  end
+end
+
