@@ -1163,8 +1163,8 @@ function effectDiceRollValues(rNewEffect)
     -- to table of "STRING: tag"
   local aEachEffect = StringManager.split(sName,";",true);
   -- flip through each sEffectName and look for dice
-  for sLoc,sEffectName in pairs(aEachEffect) do
-  -- look for [1d6] strings in effect text
+  for _,sEffectName in pairs(aEachEffect) do
+    -- look for [1d6] string in effect text 
     for sDice in string.gmatch(sEffectName,"%[%d+[dD]%d+%]") do
       local aDice,nMod = StringManager.convertStringToDice(sDice);
       local nRoll = StringManager.evalDice(aDice,nMod);
@@ -1172,8 +1172,9 @@ function effectDiceRollValues(rNewEffect)
       if sEffectFullString ~= "" then
         sSep = ";";
       end
+Debug.console("manager_effect_adnd.lua","effectDiceRollValues","Dice rolled for effect:",sEffectName,"nRoll=",nRoll);
       sEffectFullString = sEffectFullString .. sSep .. sEffectName:gsub("%[%d+[dD]%d+%]",tostring(nRoll));
-    end  -- fore sDice
+    end  -- for sDice
   end -- for sEffectName
   if (sEffectFullString ~= "") then
     rNewEffect.sName = sEffectFullString;

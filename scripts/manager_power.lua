@@ -392,8 +392,8 @@ function performAction(draginfo, nodeAction, sSubRoll)
 		return;
 	end
 
-Debug.console("manager_power.lua","performAction","nodeAction",nodeAction);
-Debug.console("manager_power.lua","performAction","sSubRoll",sSubRoll);
+--Debug.console("manager_power.lua","performAction","nodeAction",nodeAction);
+--Debug.console("manager_power.lua","performAction","sSubRoll",sSubRoll);
   
     -- add itemPath to rActor so that when effects are checked we can 
     -- make compare against action only effects
