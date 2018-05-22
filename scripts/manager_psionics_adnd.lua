@@ -1,6 +1,6 @@
 --
 --
---
+-- Manager for psionic features
 --
 --
 --

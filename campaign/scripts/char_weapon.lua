@@ -22,14 +22,16 @@ function onInit()
 
 	DB.addHandler(DB.getPath(sWeaponPath, "attackstat"), "onUpdate", onAttackChanged);
 	DB.addHandler(DB.getPath(sWeaponPath, "attackbonus"), "onUpdate", onAttackChanged);
-	DB.addHandler(DB.getPath(sWeaponPath, "proflist.*.hitadj"), "onUpdate", onAttackChanged);
+
+  DB.addHandler(DB.getPath(sWeaponPath, "proflist"), "onChildUpdate", onAttackAndDamageChanged);
+	--DB.addHandler(DB.getPath(sWeaponPath, "proflist.*.hitadj"), "onUpdate", onAttackChanged);
 	DB.addHandler(DB.getPath(sCreaturePath, "abilities.*.hitadj"), "onUpdate", onAttackChanged);
 
 	DB.addHandler(DB.getPath(sWeaponPath, "damagelist.*.type"), "onUpdate", onDamageChanged);
 	DB.addHandler(DB.getPath(sWeaponPath, "damagelist.*.dice"), "onUpdate", onDamageChanged);
 	DB.addHandler(DB.getPath(sWeaponPath, "damagelist.*.stat"), "onUpdate", onDamageChanged);
 	DB.addHandler(DB.getPath(sWeaponPath, "damagelist.*.bonus"), "onUpdate", onDamageChanged);
-	DB.addHandler(DB.getPath(sWeaponPath, "proflist.*.dmgadj"), "onUpdate", onDamageChanged);
+	--DB.addHandler(DB.getPath(sWeaponPath, "proflist.*.dmgadj"), "onUpdate", onDamageChanged);
 	DB.addHandler(DB.getPath(sCreaturePath, "abilities.*.dmgadj"), "onUpdate", onDamageChanged);
   
 
@@ -56,14 +58,16 @@ function onClose()
 	
 	DB.removeHandler(DB.getPath(sWeaponPath, "attackstat"), "onUpdate", onAttackChanged);
 	DB.removeHandler(DB.getPath(sWeaponPath, "attackbonus"), "onUpdate", onAttackChanged);
-	DB.removeHandler(DB.getPath(sWeaponPath, "proflist.*.hitadj"), "onUpdate", onAttackChanged);
+  
+  DB.removeHandler(DB.getPath(sWeaponPath, "proflist"), "onChildUpdate", onAttackAndDamageChanged);
+	--DB.removeHandler(DB.getPath(sWeaponPath, "proflist.*.hitadj"), "onUpdate", onAttackChanged);
 	DB.removeHandler(DB.getPath(sCreaturePath, "abilities.*.hitadj"), "onUpdate", onAttackChanged);
 
 	DB.removeHandler(DB.getPath(sWeaponPath, "damagelist.*.type"), "onUpdate", onDamageChanged);
 	DB.removeHandler(DB.getPath(sWeaponPath, "damagelist.*.dice"), "onUpdate", onDamageChanged);
 	DB.removeHandler(DB.getPath(sWeaponPath, "damagelist.*.stat"), "onUpdate", onDamageChanged);
 	DB.removeHandler(DB.getPath(sWeaponPath, "damagelist.*.bonus"), "onUpdate", onDamageChanged);
-	DB.removeHandler(DB.getPath(sWeaponPath, "proflist.*.dmgadj"), "onUpdate", onDamageChanged);
+	--DB.removeHandler(DB.getPath(sWeaponPath, "proflist.*.dmgadj"), "onUpdate", onDamageChanged);
 	DB.removeHandler(DB.getPath(sCreaturePath, "abilities.*.dmgadj"), "onUpdate", onDamageChanged);
   
   DB.removeHandler(DB.getPath(sWeaponPath, "proflist.*.profselected"), "onUpdate", onAttackChanged);
@@ -130,7 +134,7 @@ function getToHitProfs(nodeWeapon)
   local bisPC = (ActorManager.isPC(nodeChar)); 
   local nMod = 0;
   -- if no profs applied to weapon, then assume they use
-  -- not-proficiency penalty with it
+  -- non-proficiency penalty with it
   if (bisPC and DB.getChildCount(nodeWeapon,"proflist")< 1) then 
     -- only pc's get a non-weapon_prof penalty
     nMod = DB.getValue(nodeChar,"proficiencies.weapon.penalty",0);
@@ -328,4 +332,10 @@ function onDamageActionSingle(nodeDamage, draginfo)
 	ActionDamage.performRoll(draginfo, rActor, rAction);
 	return true;
 end
+
+--
+function onAttackAndDamageChanged()
+  onAttackChanged();
+  onDamageChanged();
+end;
 
