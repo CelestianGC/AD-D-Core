@@ -264,10 +264,10 @@
 			</string_columnh>
       
 
-			<label_column name="magicresistance_label">
-				<static textres="npc_label_magicresistance" />
+			<label_column name="morale_label">
+				<static textres="npc_label_morale" />
 			</label_column>
-			<string_columnh name="magicresistance" >
+			<string_columnh name="morale" >
 				<anchored width="120">
 					<right merge="delete" />
 				</anchored> 
@@ -277,19 +277,19 @@
           end
         </script>
 			</string_columnh>
-			<label_npc name="morale_label">
-				<static textres="npc_label_morale" />
-				<anchored to="magicresistance" position="right" offset="10,0" />
+			<label_npc name="magicresistance_label">
+				<static textres="npc_label_magicresistance" />
+				<anchored to="morale" position="right" offset="10,0" />
 			</label_npc>
-			<string_column_npc_remainder name="morale">
-							<anchored to="morale_label" />
+			<string_column_npc_remainder name="magicresistance">
+        <anchored to="magicresistance_label" />
         <script>
           function onValueChanged()
             window.onSummaryChanged();
           end
         </script>
 			</string_column_npc_remainder>
-
+ 
 			<label_column name="xp_label">
 				<static textres="xp" />
 			</label_column>

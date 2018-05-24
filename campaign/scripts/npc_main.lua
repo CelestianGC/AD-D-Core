@@ -282,6 +282,7 @@ function update()
   thaco.setReadOnly(bReadOnly);
   numberattacks.setReadOnly(bReadOnly);
   damage.setReadOnly(bReadOnly);
+  morale.setReadOnly(bReadOnly);
   specialAttacks.setReadOnly(bReadOnly);
   specialDefense.setReadOnly(bReadOnly);
 	speed.setReadOnly(bReadOnly);

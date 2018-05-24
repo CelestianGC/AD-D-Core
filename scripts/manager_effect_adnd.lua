@@ -40,7 +40,7 @@ function onInit()
     --ActionsManager.resolveAction = resolveAction;
     EffectManager5E.evalAbilityHelper = evalAbilityHelper;
     EffectManager.setCustomOnEffectActorStartTurn(onEffectActorStartTurn);
-    EffectManager.setCustomOnEffectAddStart(effectDiceRollValues);
+    EffectManager.setCustomOnEffectAddStart(adndOnEffectAddStart);
     EffectManager5E.applyOngoingDamageAdjustment = applyOngoingDamageAdjustment;
     
     -- this is for ARMOR() effect type
@@ -1155,7 +1155,11 @@ end
 
 -- AD&D Core only function, rolls dice rolls in [xDx] boxes
 -- used for STR: [1d5] style effects, only rolled when applied.
-function effectDiceRollValues(rNewEffect)
+function adndOnEffectAddStart(rNewEffect)
+  -- we replaced this with adndOnEffectAddStart, so lets run it here
+  -- to get the time adjustments
+  EffectManager5E.onEffectAddStart(rNewEffect);
+  --
   local sEffectFullString = "";
   local sName = rNewEffect.sName;
     -- split the name/label for effect for each:
@@ -1170,7 +1174,7 @@ function effectDiceRollValues(rNewEffect)
       local aDice,nMod = StringManager.convertStringToDice(sDice);
       local nRoll = StringManager.evalDice(aDice,nMod);
       sNewName = sNewName:gsub("%[%d+[dD]%d+%]",tostring(nRoll));
-Debug.console("manager_effect_adnd.lua","effectDiceRollValues","Dice rolled for effect:",sEffectName,"nRoll=",nRoll);
+Debug.console("manager_effect_adnd.lua","adndOnEffectAddStart","Dice rolled for effect:",sEffectName,"nRoll=",nRoll);
     end  -- for sDice
     local sSep = "";
     if sEffectFullString ~= "" then
