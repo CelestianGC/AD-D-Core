@@ -28,6 +28,25 @@
 					function onValueChanged()
 						window.onLinkChanged();
 					end
+          
+          function onDrop(x, y, draginfo)
+            if draginfo.isType("shortcut") then
+              local node = window.getDatabaseNode();
+              local sClass, sRecord = draginfo.getShortcutData();
+              if (sClass == "encounter") then
+                local nodeEncounter = DB.findNode(sRecord);
+                if (nodeEncounter) then
+                  local sName = DB.getValue(nodeEncounter,"name","");
+                  local sText = DB.getValue(nodeEncounter,"text","");
+                  local nLocked = DB.getValue(nodeEncounter,"locked",0);
+                  DB.setValue(node,"name","string",sName);
+                  DB.setValue(node,"text","formattedtext",sText);
+                  DB.setValue(node,"locked","number",nLocked);
+                end
+              end
+              return true;
+            end
+          end
 				</script>
 			</linkfield>
 			<button_idelete name="idelete">

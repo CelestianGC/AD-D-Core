@@ -332,6 +332,11 @@
 				</anchored>
 				<icons>char_abilities</icons>
 				<static textres="char_label_combat" />
+        <script>
+          function onDrop(x, y, draginfo)
+            window.mini_combat_window.subwindow.onDrop(x,y,draginfo);
+          end
+        </script>
 			</label_charframetop>
 			<button_iadd_abilitynotes name="abilitynotes_iadd">
         <anchored to="minicombattitle" position="insidetopright" offset="3,0" />

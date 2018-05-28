@@ -752,7 +752,7 @@
         registerMenuItem(Interface.getString("list_menu_createitem"), "insert", 5);
       end
       
-      function onMenuSelection(selection)
+      function onMenuSelection(selection,subselection)
         if selection == 5 then
           self.addEntry(true);
         end
@@ -760,13 +760,6 @@
       
       function onListChanged()
         update();
-      end
-
-      function updateOLD()
-        local bEdit = (window.parentcontrol.window.abilitynotes_iedit.getValue() == 1);
-        for _,w in ipairs(getWindows()) do
-          w.idelete.setVisibility(bEdit);
-        end
       end
 
       function update(bEdit)

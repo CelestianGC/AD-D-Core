@@ -79,8 +79,8 @@
 
   <windowclass name="combat_mini_section">
     <margins control="0,2,0,2" />
+    <script file="campaign/scripts/abilitynotes.lua" />
     <sheetdata>
-      
       <!-- SURPRISE -->            
       <basicnumber name="surprise_total_roll" source="surprise.total">
         <anchored width="30" height="20"> 
@@ -191,6 +191,7 @@
   <!-- alternate version view for the combat tracker, only shows for NPCS -->
   <!-- surprise/init/turn removed -->
   <windowclass name="combat_mini_section_ct">
+    <script file="campaign/scripts/abilitynotes.lua" />
     <sheetdata>
       <list_abilitynotes name="abilitynotes">
 				<anchored>
@@ -207,6 +208,26 @@
   </windowclass>
 
   <windowclass name="abilitynotes_item">
+    <script>
+      function onInit()
+        registerMenuItem(Interface.getString("list_menu_deleteitem"), "delete", 6);
+        registerMenuItem(Interface.getString("list_menu_deleteconfirm"), "delete", 6, 7);
+      end
+      
+      function onMenuSelection(selection,subselection)
+        if selection == 5 then
+          self.addEntry(true);
+        end
+        if selection == 6 and subselection == 7 then
+          local node = getDatabaseNode();
+          if node then
+            node.delete();
+          else
+            close();
+          end
+        end
+      end
+    </script>
     <sheetdata>
       <genericcontrol name="rightanchor">
         <anchored position="insidetopright" offset="0,2" height="0" width="0" />
@@ -225,9 +246,6 @@
             if draginfo.isType("shortcut") then
               local node = window.getDatabaseNode();
               local sClass, sRecord = draginfo.getShortcutData();
-Debug.console("record_char_combat.xml","abilitynotes_item/shortcut","node",node);              
-Debug.console("record_char_combat.xml","abilitynotes_item/shortcut","sClass",sClass);
-Debug.console("record_char_combat.xml","abilitynotes_item/shortcut","sRecord",sRecord);
               if (sClass == "encounter") then
                 local nodeEncounter = DB.findNode(sRecord);
                 if (nodeEncounter) then
