@@ -203,9 +203,9 @@ function onAttackAction(draginfo)
 	local nodeChar = nodeWeapon.getChild("...")
 	local rActor = ActorManager.getActor("pc", nodeChar);
 
-    -- add itemPath to rActor so that when effects are checked we can 
-    -- make compare against action only effects
-    local _, sRecord = DB.getValue(nodeWeapon, "shortcut", "", "");
+  -- add itemPath to rActor so that when effects are checked we can 
+  -- make compare against action only effects
+  local _, sRecord = DB.getValue(nodeWeapon, "shortcut", "", "");
 	rActor.itemPath = sRecord;
 --Debug.console("char_Weapon.lua","onAttackAction","rActor",rActor);    
     --
@@ -273,16 +273,16 @@ end
 
 function onDamageActionSingle(nodeDamage, draginfo)
     
-    if not nodeDamage then
-        return false;
-    end
+  if not nodeDamage then
+    return false;
+  end
     
-    local nodeWeapon = getDatabaseNode();
+  local nodeWeapon = getDatabaseNode();
 	local nodeChar = nodeWeapon.getChild("...");
 	local rActor = ActorManager.getActor("pc", nodeChar);
-    -- add itemPath to rActor so that when effects are checked we can 
-    -- make compare against action only effects
-    local _, sRecord = DB.getValue(nodeWeapon, "shortcut", "", "");
+  -- add itemPath to rActor so that when effects are checked we can 
+  -- make compare against action only effects
+  local _, sRecord = DB.getValue(nodeWeapon, "shortcut", "", "");
 	rActor.itemPath = sRecord;
 --Debug.console("char_Weapon.lua","onDamageActionSingle","rActor",rActor);    
     --
@@ -305,18 +305,18 @@ function onDamageActionSingle(nodeDamage, draginfo)
 	
 	rAction.clauses = {};
    
-    local sDmgAbility = DB.getValue(nodeDamage, "stat", "");
-    if sDmgAbility == "base" then
-        sDmgAbility = sBaseAbility;
-    end
-    local aDmgDice = DB.getValue(nodeDamage, "dice", {});
-    local nDmgMod = DB.getValue(nodeDamage, "bonus", 0) + ActorManager2.getAbilityBonus(rActor, sDmgAbility, "damageadj");
-    local sDmgType = DB.getValue(nodeDamage, "type", "");
-    
-    nDmgMod = nDmgMod + getToDamageProfs(nodeWeapon);
+  local sDmgAbility = DB.getValue(nodeDamage, "stat", "");
+  if sDmgAbility == "base" then
+      sDmgAbility = sBaseAbility;
+  end
+  local aDmgDice = DB.getValue(nodeDamage, "dice", {});
+  local nDmgMod = DB.getValue(nodeDamage, "bonus", 0) + ActorManager2.getAbilityBonus(rActor, sDmgAbility, "damageadj");
+  local sDmgType = DB.getValue(nodeDamage, "type", "");
+  
+  nDmgMod = nDmgMod + getToDamageProfs(nodeWeapon);
 
-    table.insert(rAction.clauses, { dice = aDmgDice, stat = sDmgAbility, modifier = nDmgMod, dmgtype = sDmgType });
-	
+  table.insert(rAction.clauses, { dice = aDmgDice, stat = sDmgAbility, modifier = nDmgMod, dmgtype = sDmgType });
+
 	-- Check for reroll tag
 	local nReroll = 0;
 	for _,vProperty in ipairs(aWeaponProps) do

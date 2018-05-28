@@ -34,7 +34,7 @@
 					<left offset="15" />
 					<right offset="-10" />
 				</anchored>
-				<icons>char_powers</icons>
+				<icons>char_spells</icons>
 				<static textres="power_label_spellslots" />
 			</label_charframetop>
 
@@ -130,7 +130,7 @@
 					<left offset="15" />
 					<right offset="-10" />
 				</anchored>
-				<icons>char_powers</icons>
+				<icons>char_spells</icons>
 				<static textres="power_label_spellslots" />
 			</label_charframetop>
 
@@ -608,7 +608,7 @@
 			
 			<buttoncontrol name="link">
 				<anchored position="insidetopright" offset="27,10" width="20" height="20" />
-				<state icon="details" pressed="details_down" />
+				<state icon="details_white" pressed="details_down" />
 				<invisible />
 				<script>
 					local nodeGroup = nil;

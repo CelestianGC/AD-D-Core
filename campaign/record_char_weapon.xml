@@ -56,11 +56,11 @@
 				<invisible />
 			</genericcontrol>
 			<button_char_inv_carried name="carried">
-				<anchored to="leftanchor" width="20" height="20">
-					<top offset="5" />
-					<left anchor="right" relation="relative" offset="0" />
-				</anchored>
-				<script file="common/scripts/button_crosslink.lua" />
+      <anchored to="leftanchor" width="20" height="20">
+        <top offset="5" />
+        <left anchor="right" relation="relative" offset="0" />
+      </anchored>
+      <script file="common/scripts/button_crosslink.lua" />
 			</button_char_inv_carried>
 			
 
@@ -90,13 +90,13 @@
 			</state_charweapontype>
 
 
-            <number_actions_init name="speedfactor">
-                <tooltip textres="power_label_initiative_tooltip" />
-                <anchored height="18" width="25" >
-                    <top offset="8" />
-                    <left parent="leftanchor" anchor="right" relation="relative" offset="10" />
-                </anchored>
-            </number_actions_init>
+      <number_actions_init name="speedfactor">
+        <tooltip textres="power_label_initiative_tooltip" />
+        <anchored height="18" width="25" >
+          <top offset="8" />
+          <left parent="leftanchor" anchor="right" relation="relative" offset="10" />
+        </anchored>
+      </number_actions_init>
 
 			<genericcontrol name="attackshade">
                 <anchored height="26" width="50" >

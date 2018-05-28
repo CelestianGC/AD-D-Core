@@ -246,13 +246,10 @@
 			end
 			function update()
 				local bReadOnly = WindowManager.getReadOnlyState(getDatabaseNode());
-				hitdice.update(bReadOnly);
 				proficiencies.update(bReadOnly);
 				nonweaponprof.update(bReadOnly);
 				features.update(bReadOnly);
 				specializations.update(bReadOnly);
-				saveas.setReadOnly(bReadOnly);
-				fightas.setReadOnly(bReadOnly);
 			end
             function checkAdvancement()
                 local node = getDatabaseNode();
@@ -382,36 +379,6 @@
 				<datasource>.abilities</datasource>
 				<class>ref_class_specialization</class>
 			</list_column>
-
-            
-
-			<header_column name="misc_header">
-				<static text="Deprecated Options (ie. Start using Advacement)"/>
-				<center />
-			</header_column>
- 			<label_column name="hitdice_label">
-				<static textres="class_label_hitdice" />
-			</label_column>
-			<string_columnh name="hitdice" source="hp.hitdice.text" />
-			<label_column name="saveas_label">
-				<static textres="class_label_saveas" />
-			</label_column>
-			<class_cycler_do_as name="saveas">
-                <anchored width="45" height="20">
-                    <top parent="columnanchor" anchor="bottom" relation="relative" offset="7" />
-                    <left offset="97" />
-                </anchored>
-			</class_cycler_do_as>
-			<label_column name="fightas_label">
-				<static textres="class_label_fightas" />
-			</label_column>
-			<class_cycler_do_as name="fightas">
-                <anchored width="45" height="20">
-                    <top parent="columnanchor" anchor="bottom" relation="relative" offset="7" />
-                    <left offset="97" />
-                </anchored>
-			</class_cycler_do_as>
-
         </sheetdata>
 	</windowclass>
 
@@ -732,7 +699,7 @@
   <windowclass name="reference_class_advancement">
     <frame>recordsheet</frame>
     <placement>
-      <size width="380" height="350" />
+      <size width="380" height="380" />
     </placement>
     <sizelimits>
       <minimum width="300" height="300" />
@@ -931,14 +898,14 @@
 
 			<label_column name="spell_slots_label">
 				<static text="Spell Slots" />
-                <tooltip textres="class_spellslots_tooltip" />
+        <tooltip textres="class_spellslots_tooltip" />
 			</label_column>
-            <genericcontrol name="spell_slots_spacer">
-                <anchored height="20">
-                    <top parent="columnanchor" anchor="bottom" relation="relative" offset="7" />
-                    <left offset="97" />
-                </anchored>
-            </genericcontrol>
+      <genericcontrol name="spell_slots_spacer">
+        <anchored height="20">
+          <top parent="columnanchor" anchor="bottom" relation="relative" offset="7" />
+          <left offset="97" />
+        </anchored>
+      </genericcontrol>
             
             <!-- arcane -->
 			<label_column name="arcane_label">

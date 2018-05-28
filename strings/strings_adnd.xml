@@ -78,6 +78,7 @@
 	<string name="background">Kit</string>
 
 	<!-- Characters - Main -->
+  <string name="char_label_combat">COMBAT</string>
    	<string name="char_label_name">CHARACTER NAME</string>
    	<string name="char_label_adjustment">Adjustment</string>
    	<string name="char_label_adj">Adj.</string>

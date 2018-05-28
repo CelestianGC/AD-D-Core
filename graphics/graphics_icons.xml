@@ -12,6 +12,7 @@
 
 	<!-- Common -->
 	<icon name="details" file="graphics/icons/wheels-icon.png" />
+  <icon name="details_white" file="graphics/icons/wheels-icon-white.png" />
 	<icon name="details_down" file="graphics/icons/wheels-icon-down.png" />
 	<icon name="button_details" file="graphics/icons/wheels-icon.png" />
 	<icon name="button_details_down" file="graphics/icons/wheels-icon-down.png" />
@@ -117,6 +118,13 @@
 	<icon name="char_abilities_purple" file="graphics/icons/char_abilities_purple.png" />
 	<icon name="char_abilities_green" file="graphics/icons/char_abilities_green.png" />
 	<icon name="char_armorcheck" file="graphics/icons/char_armorcheck.png" />
+
+ 	<icon name="char_axes" file="graphics/icons/char_attacks.png" />
+	<icon name="char_mask" file="graphics/icons/char_defenses.png" />
+	<icon name="char_spells" file="graphics/icons/char_notes.png" />
+	<icon name="char_psion" file="graphics/icons/char_name.png" />
+	<icon name="char_weight" file="graphics/icons/char_inventory.png" />
+	<icon name="char_tools" file="graphics/icons/char_inventory.png" />
 
 	<icon name="char_inventory" file="graphics/icons/char_inventory.png" />		
 	<icon name="char_treasure" file="graphics/icons/char_inventory.png" />		

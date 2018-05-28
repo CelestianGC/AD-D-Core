@@ -695,15 +695,16 @@
 				<disabled />
 			</genericcontrol>
 			
-             <subwindow name="sub_actions">
-                <anchored>
-                    <top parent="name" anchor="bottom" relation="relative" offset="20" />
-                    <left parent="activeicon" anchor="right" offset="10" />
-                    <right offset="-20" />
-                </anchored>
-                <class>ct_charsheet_actions</class>
+      <subwindow name="sub_actions">
+        <anchored>
+          <top parent="name" anchor="bottom" relation="relative" offset="20" />
+          <left parent="activeicon" anchor="right" offset="10" />
+          <right offset="-20" />
+        </anchored>
+        <class>ct_charsheet_actions</class>
 				<activate />
-            </subwindow>
+        <fastinit />
+        </subwindow>
 
 			<frame_ctsub name="frame_active">
 				<anchored>
@@ -1025,24 +1026,8 @@
 	</windowclass>
 
 
-<!-- 	<windowclass name="ct_charsheet_actions">
-        <margins control="0,0,0,2" />
-		<sheetdata>
-        <anchor_column name="columnanchor" />            
-			<subwindow name="ct_contents">
-				<anchored>
-					<top parent="columnanchor" anchor="bottom" relation="relative" offset="0" />
-					<left />
-					<right />
-				</anchored>
-				<class>charsheet_actions_contents</class>
-				<activate />
-			</subwindow>
-         </sheetdata>
-	</windowclass>
- -->
 	<windowclass name="ct_charsheet_actions">
-        <margins control="0,0,0,2" />
+    <margins control="0,0,0,2" />
 		<script>
 			function onDrop(x, y, draginfo)
 				if contents.subwindow.actions.subwindow.onDrop(x, y, draginfo) then
@@ -1055,7 +1040,7 @@
 			end
 		</script>
 		<sheetdata>
-            <anchor_column name="columnanchor" />            
+      <anchor_column name="columnanchor" />            
 
 			<subwindow name="contents">
 				<anchored>
@@ -1116,7 +1101,8 @@
 						
 						window.powers_iadd.setVisible(bEditMode);
 						window.weapons_iadd.setVisible(bEditMode);
-
+            window.contents.subwindow.abilitynotes_iadd.setVisible(bEditMode);
+            
 						window.powermode_label.setVisible(not bEditMode);
 						window.powermode.setVisible(not bEditMode);
 						window.powerdisplay_label.setVisible(not bEditMode);
@@ -1126,13 +1112,14 @@
 							DB.setValue(window.getDatabaseNode(), "powerdisplaymode", "string", "action");
 						end
 
+            window.contents.subwindow.mini_combat_window.subwindow.abilitynotes.update(bEditMode)
 						window.contents.subwindow.weapons.update();
 						window.contents.subwindow.actions.subwindow.updateDisplay(bEditMode);
 					end
 				</script>
 			</button_iedit>
 			<buttoncontrol name="powers_iadd">
-                <anchored to="actions_iedit" position="lefthigh" offset="5,0" width="20" height="20" />
+        <anchored to="actions_iedit" position="lefthigh" offset="5,0" width="20" height="20" />
 				<icon normal="button_star" pressed="button_star_down" />
 				<tooltip textres="char_tooltip_actionaddpower" />
 				<invisible />
@@ -1153,13 +1140,13 @@
 					end
 				</script>
 			</buttoncontrol>
-         </sheetdata>
+    </sheetdata>
 	</windowclass>
 
 	<windowclass name="ct_charsheet_skills">
-        <margins control="0,0,0,2" />
+    <margins control="0,0,0,2" />
 		<sheetdata>
-            <anchor_column name="columnanchor" />            
+      <anchor_column name="columnanchor" />            
 			<subwindow name="contents">
 				<anchored>
 					<top parent="columnanchor" anchor="bottom" relation="relative" offset="5" />
@@ -1172,20 +1159,18 @@
 			</subwindow>
 			<scrollbar_charcontents />
 			<button_iedit name="skills_iedit">
-                <anchored to="contents" position="insidebottomright" offset="15,-20"/>
-                <tooltip textres="char_skills_tooltip_edit" />
-                <script>
-                    function onValueChanged()
-                        local bEditMode = (getValue() == 1);
-                        
-                        window.contents.subwindow.skills_iadd.setVisible(bEditMode);
-                        window.contents.subwindow.skills.update();
-                    end
-                </script>
+        <anchored to="contents" position="insidebottomright" offset="15,-20"/>
+        <tooltip textres="char_skills_tooltip_edit" />
+        <script>
+          function onValueChanged()
+            local bEditMode = (getValue() == 1);
+              
+            window.contents.subwindow.skills_iadd.setVisible(bEditMode);
+            window.contents.subwindow.skills.update();
+          end
+        </script>
 			</button_iedit>
 		</sheetdata>
 	</windowclass>
 
-
-    
 </root>

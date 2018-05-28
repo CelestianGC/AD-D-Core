@@ -28,7 +28,7 @@
 
 			<subwindow name="contents">
 				<anchored>
-					<top offset="20" />
+					<top offset="25" />
 					<bottom offset="-35" />
 					<left offset="15" />
 					<right offset="-15" />
@@ -75,7 +75,7 @@
 					<left offset="15" />
 					<right offset="-15" />
 				</anchored>
-				<icons>char_abilities_red</icons>
+				<icons>char_attacks</icons>
 			</label_charframetop>
 			<label name="profs_title_label">
 				<anchored>
@@ -83,8 +83,8 @@
 					<left offset="15" />
 					<right offset="-15" />
 				</anchored>
-                <static textres="char_profs_label" />
-                <font>subwindowsmalltitle</font>
+        <static textres="char_profs_label" />
+        <font>subwindowsmalltitle</font>
 				<center />
 			</label>
 
@@ -92,35 +92,35 @@
 			<number_profs_weapon name="weapon_proficiencies" source="proficiencies.weapon.max">
 				<anchored to="profstitle" position="insidetopleft" offset="45,25" height="15" width="20"/>
 			</number_profs_weapon>
-            <label_titlechar>
-   				<anchored to="weapon_proficiencies" position="insidetopleft" offset="-15,-25" />
-                <static textres="char_profs_weapon_label" />
-            </label_titlechar>
+      <label_titlechar>
+        <anchored to="weapon_proficiencies" position="insidetopleft" offset="-15,-25" />
+        <static textres="char_profs_weapon_label" />
+      </label_titlechar>
 			<number_profs_weapon_used name="weapon_proficiencies_used" source="proficiencies.weapon.used">
 				<anchored to="weapon_proficiencies" position="right" offset="30,0" width="20"/>
 			</number_profs_weapon_used>
-            <label_titlechar>
-   				<anchored to="weapon_proficiencies_used" position="insidetopleft" offset="-5,-25" />
-                <static textres="char_profs_used_label" />
-            </label_titlechar>
-            <!-- show nonweapon profs max and used -->
+      <label_titlechar>
+        <anchored to="weapon_proficiencies_used" position="insidetopleft" offset="-5,-25" />
+        <static textres="char_profs_used_label" />
+      </label_titlechar>
+      <!-- show nonweapon profs max and used -->
 			<number_profs_nonweapon name="nonweapon_proficiencies" source="proficiencies.nonweapon.max">
 				<anchored to="profstitle" position="insidetopright" offset="80,25" height="15" width="20"/>
 			</number_profs_nonweapon>
-            <label_titlechar>
-   				<anchored to="nonweapon_proficiencies" position="insidetopleft" offset="-30,-25" />
-                <static textres="char_profs_nonweapon_label" />
-            </label_titlechar>
+      <label_titlechar>
+        <anchored to="nonweapon_proficiencies" position="insidetopleft" offset="-30,-25" />
+        <static textres="char_profs_nonweapon_label" />
+      </label_titlechar>
  			<number_profs_nonweapon_used name="nonweapon_proficiencies_used" source="proficiencies.nonweapon.used">
 				<anchored to="nonweapon_proficiencies" position="right" offset="45,0"  width="20"/>
 			</number_profs_nonweapon_used>
-            <label_titlechar>
-   				<anchored to="nonweapon_proficiencies_used" position="insidetopleft" offset="-5,-25" />
-                <static textres="char_profs_used_label" />
-            </label_titlechar>
+      <label_titlechar>
+        <anchored to="nonweapon_proficiencies_used" position="insidetopleft" offset="-5,-25" />
+          <static textres="char_profs_used_label" />
+      </label_titlechar>
 
 
-            <!-- skills/nonweapon profs -->
+      <!-- skills/nonweapon profs -->
 			<label_charframetop name="skillstitle">
 				<anchored to="profstitle" height="20">
 					<top anchor="bottom" relation="relative" offset="27" />
@@ -152,14 +152,14 @@
 				<anchored  >
 					<top parent="skillstitle"/>
 					<!-- <left offset="35" /> -->
-                    <left />
+          <left />
 					<!-- <right parent="rightanchor" anchor="left" relation="relative" offset="-15" /> -->
-                    <right />
+          <right />
 				</anchored>
 				<!-- <static textres="char_label_skillname" /> -->
-                <!-- <static textres="char_label_skills" /> -->
-                <static textres="char_profs_nonweapon_title_label" />
-                <font>subwindowsmalltitle</font>
+        <!-- <static textres="char_label_skills" /> -->
+        <static textres="char_profs_nonweapon_title_label" />
+        <font>subwindowsmalltitle</font>
 				<center />
 			</label>
 
@@ -185,12 +185,12 @@
             <!-- weapon profs -->
 			<label_charframetop name="proficienciestitle">
 				<anchored to="skillstitle" height="20">
-					<top anchor="bottom" relation="relative" offset="7" />
+					<top anchor="bottom" relation="relative" offset="15" />
 					<left />
 					<right />
 				</anchored>
 				<static textres="char_abilities_label_proficiencies" />
-				<icons>char_abilities_purple</icons>
+				<icons>char_axes</icons>
 				<target>proficiencies</target>
 			</label_charframetop>
 			<button_iadd name="proficiencies_iadd">
@@ -211,7 +211,7 @@
             <!-- languages -->
 			<label_charframetop name="languagestitle">
 				<anchored to="proficienciestitle" height="20">
-					<top anchor="bottom" relation="relative" offset="7" />
+					<top anchor="bottom" relation="relative" offset="15" />
 					<left />
 					<right />
 				</anchored>

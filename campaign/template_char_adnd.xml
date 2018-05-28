@@ -114,34 +114,25 @@
     
 	<template name="number_charabilityscore2">
 		<basicnumber>
-<!-- 			<frame name="adnd_square" />
- 			<anchored to="statstitle" position="insidetopleft"/> 
-			<rollable />
-            <readonly />
-            <min>1</min>
-            <max>25</max>
-			<default>9</default>
-			<font>arial-bold-12</font>
-			<script file="campaign/scripts/number_abilityscore.lua" /> -->
- 			<anchored to="statstitle" position="insidetopleft"/> 
-			<rollable />
-            <readonly />
-            <min>1</min>
-            <max>25</max>
-			<default>9</default>
-			<font>arial-bold-12</font>
-			<frame name="abilityscore_box" />
-			<script file="campaign/scripts/number_abilityscore.lua" />
-        </basicnumber>
+      <anchored to="statstitle" position="insidetopleft"/> 
+      <rollable />
+      <readonly />
+      <min>1</min>
+      <max>25</max>
+      <default>9</default>
+      <font>arial-bold-12</font>
+      <frame name="abilityscore_box" />
+      <script file="campaign/scripts/number_abilityscore.lua" />
+    </basicnumber>
 	</template>
     
 	<template name="number_saves_modifier">
 		<number>
-            <anchored position="righthigh" offset="1,0" width="30" height="30"/>
-            <displaysign />
+      <anchored position="righthigh" offset="1,0" width="30" height="30"/>
+      <displaysign />
 			<center />
-            <min>-25</min>
-            <max>25</max>
+        <min>-25</min>
+        <max>25</max>
 			<default>0</default>
 			<hideonvalue>0</hideonvalue>
 			<font>arial-regular-7</font>
@@ -390,25 +381,25 @@
 			<displaysign />
 			<script>
 				function action(draginfo)
-                    local nValue = getValue();
-                    local node = getDatabaseNode();
-                    local nodePower = getDatabaseNode();
-                    nodeSpell = node.getChild("..");
-                    nodeChar = node.getChild("....");
-                    local sGroup = DB.getValue(nodeSpell, "group", ""):lower();
-                    local bIsConcentrationSpell = (string.match(sGroup,"^spell"))
-                    local sName = DB.getValue(nodeSpell,"name","");
-                    local rItem = {};
-                    rItem.sName = sName;
-                    rItem.nInit = nValue;
-                    if (bIsConcentrationSpell) then
-                        rItem.spellPath = nodeSpell.getPath();
-                    else
-                        rItem.spellPath = nil;
-                    end
+          local nValue = getValue();
+          local node = getDatabaseNode();
+          local nodePower = getDatabaseNode();
+          nodeSpell = node.getChild("..");
+          nodeChar = node.getChild("....");
+          local sGroup = DB.getValue(nodeSpell, "group", ""):lower();
+          local bIsConcentrationSpell = (string.match(sGroup,"^spell"))
+          local sName = DB.getValue(nodeSpell,"name","");
+          local rItem = {};
+          rItem.sName = sName;
+          rItem.nInit = nValue;
+          if (bIsConcentrationSpell) then
+              rItem.spellPath = nodeSpell.getPath();
+          else
+              rItem.spellPath = nil;
+          end
 					local rActor = ActorManager.getActor("pc", nodeChar);
-                    local _, sRecord = DB.getValue(nodeSpell, "shortcut", "", "");
-                    rActor.itemPath = sRecord;
+          local _, sRecord = DB.getValue(nodeSpell, "shortcut", "", "");
+          rActor.itemPath = sRecord;
 					ActionInit.performRoll(draginfo, rActor, nil, rItem);
 
 					return true;
@@ -427,8 +418,8 @@
 
 	<template name="button_charabiltiesdetail">
 		<buttoncontrol>
-			<anchored width="20" height="20" />
-			<state icon="details" pressed="details_down" />
+			<anchored width="20"/>
+			<state icon="details_white" pressed="details_down" />
 			<script>
 				function onButtonPress()
 					Interface.openWindow("charsheet_abilities_details", window.getDatabaseNode());
@@ -439,7 +430,7 @@
 	<template name="button_charasavesdetail">
 		<buttoncontrol>
 			<anchored width="20" height="20" />
-			<state icon="details" pressed="details_down" />
+			<state icon="details_white" pressed="details_down" />
 			<script>
 				function onButtonPress()
 					Interface.openWindow("charsheet_saves_details", window.getDatabaseNode());

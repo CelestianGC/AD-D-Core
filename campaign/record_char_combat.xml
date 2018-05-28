@@ -8,62 +8,132 @@
 <root>
 	<windowclass name="charsheet_combat">
 		<sheetdata>
-            <anchor_title_charsheet name="contentanchor" />
-            
-            <!-- SURPRISE -->            
-        <basicnumber name="surprise_total_roll" source="surprise.total">
-          <anchored width="30" height="18"> 
-            <top offset="35" />
-            <left offset="55" />
-          </anchored>
-          <rollable />
-          <default>3</default>
-          <script>
-            function action(draginfo)
-                local node = getDatabaseNode();
-                local nodeChar = node.getChild("...");
-                local rActor = ActorManager.getActor("pc", nodeChar);
-                ActionSurprise.performRoll(draginfo, rActor, nodeChar);
-                return true;
-            end
-            
-            function onDragStart(button, x, y, draginfo)
-                return action(draginfo);
-            end
-                
-            function onDoubleClick(x,y)
-                return action();
-            end                    
-          </script>
-                <cursor hover="hand" />
-                <gmeditonly />
-                <tooltip textres="char_label_surpriseroll_tooltip" />
-            </basicnumber>
-            <stringcontrol  name="label_surprisetotal">
-                <anchored to="surprise_total_roll"  position="aboveleft" offset="-5,1" />
-                <font>sheetlabelmini</font>
-                <center />
+      <anchor_title_charsheet name="contentanchor" />
+
+      <!-- mini combat window -->
+			<label_charframetop name="minicombattitle">
+				<anchored height="20">
+					<top offset="35" />
+					<left offset="30" />
+          <right offset="-50" />
+				</anchored>
+				<icons>char_abilities</icons>
+				<static textres="char_label_combat" />
+			</label_charframetop>
+			<button_iadd_abilitynotes name="abilitynotes_iadd">
+        <anchored to="minicombattitle" position="insidetopright" offset="5,0" />
+				<target>abilitynotes</target>
+			</button_iadd_abilitynotes>
+			<subwindow name="mini_combat_window">
+        <anchored to="minicombattitle">
+					<top anchor="bottom" />
+					<left />
+          <right />
+				</anchored>
+        <class>combat_mini_section</class>
+				<activate />
+				<fastinit />
+			</subwindow>
+    <!-- END mini combat window -->
+    
+      <sub_sheet_actions name="weapons">
+        <anchored to="contentanchor">
+          <top parent="mini_combat_window" anchor="bottom" offset="2" />
+          <left />
+          <right parent="" offset="-12,0" />
+          <bottom parent="" offset="-10" />
+        </anchored>
+				<class>charsheet_actions_weapons</class>
+        <fastinit />
+      </sub_sheet_actions>
+      
+			<sub_sheet_actions name="powers">
+        <anchored to="contentanchor">
+          <top parent="mini_combat_window" anchor="bottom" offset="2" />
+          <left />
+          <right parent="" offset="-12,0" />
+          <bottom parent="" offset="-10" />
+        </anchored>
+				<class>charsheet_actions_powers</class>
+        <fastinit />
+			</sub_sheet_actions>
+      
+      <buttongroup_tabs name="tabs">
+        <anchored width="20" height="92">
+          <top offset="120" />
+          <right offset="-9" />
+        </anchored>
+				<tab>
+					<icon>tab_weapons</icon>
+					<subwindow>weapons</subwindow>
+				</tab>
+				<tab>
+					<icon>tab_powers</icon>
+					<subwindow>powers</subwindow>
+				</tab>
+        <activate>1</activate>                
+      </buttongroup_tabs>
+      
+      </sheetdata>
+	</windowclass>
+
+  <windowclass name="combat_mini_section">
+    <margins control="0,2,0,2" />
+    <sheetdata>
+      
+      <!-- SURPRISE -->            
+      <basicnumber name="surprise_total_roll" source="surprise.total">
+        <anchored width="30" height="20"> 
+          <top offset="15" />
+          <left anchor="center" offset="-55"/>
+        </anchored>
+        <rollable />
+        <default>3</default>
+        <script>
+          function action(draginfo)
+            local node = getDatabaseNode();
+            local nodeChar = node.getChild("...");
+            local rActor = ActorManager.getActor("pc", nodeChar);
+            ActionSurprise.performRoll(draginfo, rActor, nodeChar);
+            return true;
+          end
+          
+          function onDragStart(button, x, y, draginfo)
+            return action(draginfo);
+          end
+              
+          function onDoubleClick(x,y)
+            return action();
+          end                    
+        </script>
+        <cursor hover="hand" />
+        <gmeditonly />
+        <tooltip textres="char_label_surpriseroll_tooltip" />
+      </basicnumber>
+      <stringcontrol  name="label_surprisetotal">
+        <anchored to="surprise_total_roll"  position="aboveleft" offset="-5,1" />
+        <font>sheetlabelmini</font>
+        <center />
 				<static textres="char_label_surpriseroll" />
-                <tooltip textres="char_label_surpriseroll_tooltip" />
-            </stringcontrol>
-            <!-- END SURPRISE -->
+        <tooltip textres="char_label_surpriseroll_tooltip" />
+      </stringcontrol>
+      <!-- END SURPRISE -->
 
             <!-- INIT -->
 			<number_charinit name="initiative" source="initiative.total">
-                <font>sheetlabelmini</font>
-                <anchored height="18" width="30" >
-                    <top parent="surprise_total_roll" />
-                    <left parent="surprise_total_roll" anchor="right" relation="relative" offset="15" />
-                </anchored>
+        <font>sheetlabelmini</font>
+        <anchored height="20" width="30" >
+          <top parent="surprise_total_roll" />
+          <left parent="surprise_total_roll" anchor="right" relation="relative" offset="15" />
+        </anchored>
 			</number_charinit>
-            
-            <stringcontrol>
-                <anchored to="initiative"  position="aboveleft" offset="-5,1" />
-                <font>sheetlabelmini</font>
-                <center />
+      <stringcontrol>
+        <anchored to="initiative"  position="aboveleft" offset="-5,1" />
+        <font>sheetlabelmini</font>
+        <center />
 				<static textres="char_label_initiativeroll" />
-                <tooltip textres="char_label_initiativeroll_tooltip" />
-            </stringcontrol>
+        <tooltip textres="char_label_initiativeroll_tooltip" />
+      </stringcontrol>
             <!-- END INIT -->
             
             <!-- TURN UNDEAD -->            
@@ -85,16 +155,16 @@
             return action();
           end                    
 				</script>
-                <frame name="fielddark" offset="7,5,7,5" />
-                <stateframe>
-                    <hover name="rowshade" offset="7,5,7,5" />
-                </stateframe>
-                <cursor hover="hand" />
-                <anchored height="18" width="30" >
-                    <top parent="surprise_total_roll" />
-                    <left parent="surprise_total_roll" anchor="right" relation="relative" offset="15" />
-                </anchored>
-                <rollable />
+        <frame name="fielddark" offset="7,5,7,5" />
+        <stateframe>
+            <hover name="rowshade" offset="7,5,7,5" />
+        </stateframe>
+        <cursor hover="hand" />
+        <anchored height="20" width="30" >
+          <top parent="surprise_total_roll" />
+          <left parent="surprise_total_roll" anchor="right" relation="relative" offset="15" />
+        </anchored>
+        <rollable />
 				<default>0</default>
 				<tooltip textres="char_label_turnlevel_tooltip" />
 			</basicnumber>
@@ -103,30 +173,72 @@
 				<static textres="char_label_turn" />
 				<tooltip textres="char_label_turn_tooltip" />
 			</label_fieldtop>
-            <!-- END TURN -->
-            
-      <sub_sheet_actions name="weapons">
-				<class>charsheet_actions_weapons</class>
-      </sub_sheet_actions>
-			<sub_sheet_actions name="powers">
-				<class>charsheet_actions_powers</class>
-			</sub_sheet_actions>
-      <buttongroup_tabs name="tabs">
-          <anchored width="18" height="92">
-              <top offset="50" />
-              <right offset="-9" />
-          </anchored>
-				<tab>
-					<icon>tab_weapons</icon>
-					<subwindow>weapons</subwindow>
-				</tab>
-				<tab>
-					<icon>tab_powers</icon>
-					<subwindow>powers</subwindow>
-				</tab>
-                <activate>1</activate>                
-            </buttongroup_tabs>
-         </sheetdata>
-	</windowclass>
+      <!-- END TURN -->
+      
+			<list_abilitynotes name="abilitynotes">
+				<anchored>
+					<top anchor="bottom" relation="relative" offset="40" />
+					<left />
+					<right />
+				</anchored>
+				<datasource>.abilitynoteslist</datasource>
+				<class>abilitynotes_item</class>
+			</list_abilitynotes>
+      
+    </sheetdata>        
+  </windowclass>
+  
+  <!-- alternate version view for the combat tracker, only shows for NPCS -->
+  <!-- surprise/init/turn removed -->
+  <windowclass name="combat_mini_section_ct">
+    <sheetdata>
+      <list_abilitynotes name="abilitynotes">
+				<anchored>
+					<top anchor="bottom" relation="relative" offset="1" />
+					<left />
+					<right />
+				</anchored>
+				<datasource>.abilitynoteslist</datasource>
+				<class>abilitynotes_item</class>
+				<activate />
+				<fastinit />
+			</list_abilitynotes>
+    </sheetdata>        
+  </windowclass>
 
+  <windowclass name="abilitynotes_item">
+    <sheetdata>
+      <genericcontrol name="rightanchor">
+        <anchored position="insidetopright" offset="0,2" height="0" width="0" />
+      </genericcontrol>
+
+      <!-- link button -->
+      <linkcontrol name="shortcut">
+        <anchored to="rightanchor" width="20" height="20">
+          <top offset="2"/>
+          <right anchor="left" relation="relative" offset="-5" />
+        </anchored>
+        <class>encounter</class>
+        <readonly />
+      </linkcontrol>
+
+      <!-- button delete -->
+      <button_idelete name="idelete">
+        <anchored to="rightanchor">
+          <top offset="2"/>
+          <right anchor="left" offset="-5" />
+        </anchored>
+      </button_idelete>
+
+      <string_textlistitem name="name">
+        <anchored to="rightanchor">
+          <top />
+          <left parent="" offset="15"/>
+          <right anchor="left" relation="relative" offset="-15" />
+        </anchored>
+        <multilinespacing>20</multilinespacing>
+      </string_textlistitem>
+    </sheetdata>
+  </windowclass>
+  
 </root>

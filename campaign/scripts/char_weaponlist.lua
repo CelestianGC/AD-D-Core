@@ -63,6 +63,12 @@ function addEntry(bFocus)
 	if bFocus and w then
 		w.name.setFocus();
 	end
+  -- this will add a story entry to the manually created attack so that
+  -- we can add notes there for npc info/shortcut buttons
+  if (w) then
+    local nodeWeapon = w.getDatabaseNode();
+    DB.setValue(nodeWeapon, "shortcut", "windowreference", "encounter", nodeWeapon.getPath() .. '.itemnote');
+  end
 	return w;
 end
 

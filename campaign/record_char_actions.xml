@@ -139,13 +139,15 @@
 						local bEditMode = (getValue() == 1);
 						
 						window.weapons_iadd.setVisible(bEditMode);
-
+            window.parentcontrol.window.abilitynotes_iadd.setVisible(bEditMode);
+            
 						if bEditMode then
 							DB.setValue(window.getDatabaseNode(), "powermode", "string", "standard");
 							DB.setValue(window.getDatabaseNode(), "powerdisplaymode", "string", "");
 						end
 
 						window.contents.subwindow.weapons.update();
+            window.parentcontrol.window.mini_combat_window.subwindow.abilitynotes.update(bEditMode)
 					end
 				</script>
 			</button_iedit>
@@ -175,23 +177,23 @@
 			<scrollbar_charcontents />
 	
 
-         </sheetdata>
+    </sheetdata>
 	</windowclass>
 
 
 	<windowclass name="charsheet_actions_powers">
     <margins control="0,0,15,7" />
 		<script>
-            function onInit()
-                local node = getDatabaseNode();
-                if not string.match(node.getPath(),"^charsheet") and not User.isHost() then
-                    return;
-                end				
-                local sMode = DB.getValue(node, "powermode","");
-                if (sMode == "") then
-                    DB.setValue(node, "powermode", "string", "standard");
-                end
-            end
+      function onInit()
+          local node = getDatabaseNode();
+          if not string.match(node.getPath(),"^charsheet") and not User.isHost() then
+            return;
+          end				
+          local sMode = DB.getValue(node, "powermode","");
+          if (sMode == "") then
+            DB.setValue(node, "powermode", "string", "standard");
+          end
+      end
             
 			function onDrop(x, y, draginfo)
 				if contents.subwindow.actions.subwindow.onDrop(x, y, draginfo) then
@@ -284,21 +286,19 @@
 				</script>
 			</button_stringcycler>
 
-         </sheetdata>
+    </sheetdata>
 	</windowclass>
-    
     
     
 	<windowclass name="charsheet_actions_contents">
 		<margins control="0,4,0,2" />
 		<script>
-            function onInit()
-                onModeChanged();
-            end
+      function onInit()
+        onModeChanged();
+      end
             
 			function onModeChanged()
 				weapons.onModeChanged();
-				
 				spellslots_prep.subwindow.onModeChanged();
 				spellslots_cast.subwindow.onModeChanged();
 				actions.subwindow.onModeChanged();
@@ -321,14 +321,43 @@
 				</anchored>
 				<invisible />
 			</genericcontrol>
-			
-			<label_charframetop name="weapontitle">
+
+
+      <!-- combat mini bar -->
+			<label_charframetop name="minicombattitle">
 				<anchored height="20">
 					<top parent="columnanchor" anchor="bottom" relation="relative" offset="15" />
 					<left offset="15" />
 					<right offset="-10" />
 				</anchored>
-				<icons>char_attacks</icons>
+				<icons>char_abilities</icons>
+				<static textres="char_label_combat" />
+			</label_charframetop>
+			<button_iadd_abilitynotes name="abilitynotes_iadd">
+        <anchored to="minicombattitle" position="insidetopright" offset="3,0" />
+				<!-- <anchored to="abilitynotes_iedit" position="insidetopleft" offset="-25,0" /> -->
+				<target>abilitynotes</target>
+			</button_iadd_abilitynotes>
+
+			<subwindow name="mini_combat_window">
+				<anchored>
+					<top parent="columnanchor" anchor="bottom" relation="relative" offset="8" />
+					<left offset="10" />
+					<right offset="-5" />
+				</anchored>
+        <class>combat_mini_section_ct</class>
+				<activate />
+				<fastinit />
+			</subwindow>
+      <!-- combat mini end -->
+			
+			<label_charframetop name="weapontitle">
+				<anchored height="20">
+					<top parent="columnanchor" anchor="bottom" relation="relative" offset="10" />
+					<left offset="15" />
+					<right offset="-10" />
+				</anchored>
+				<icons>char_axes</icons>
 				<!-- <static textres="char_label_weapon" /> -->
 				<script>
 					function onClickDown()
@@ -350,71 +379,72 @@
 			</label_charframetop>
 			<buttoncontrol name="weapons_global_detail">
 				<anchored to="weapontitle" position="insidetopright" offset="20,1" width="20" height="20" />
-				<state icon="details" pressed="details_down" />
+				<state icon="details_white" pressed="details_down" />
 				<script>
 					function onButtonPress()
 						Interface.openWindow("char_weaponmeta", window.getDatabaseNode());
 					end
 				</script>
 			</buttoncontrol>
-            <label name="weapons_header_label">
-                <anchored height="18">
-                    <top offset="10" />
-                    <left parent="leftanchor" anchor="right" relation="relative" offset="35" />
-                    <right parent="rightanchor" anchor="left" relation="relative" offset="-298" />
-                </anchored>
-            
-<!--                 <anchored to="weapontitle" position="insidetopleft" offset="20,1" /> -->
-                <tooltip textres="char_label_weapon_tooltip" />
-                <static textres="char_label_weapon" />
-            </label>
-            <label name="type_header_label">
-                <anchored height="18" width="30" >
-                    <top offset="10" />
-                    <left parent="weapons_header_label" anchor="right" relation="relative" offset="5" />
-                </anchored>
-
-                <!-- <anchored to="weapontitle" position="insidetopleft" offset="100,1" /> -->
-                <tooltip textres="char_label_type_tooltip" />
-                <static textres="char_label_type" />
-            </label>
-            <label name="initiative_header_label">
-                <anchored height="18" width="25" >
-                    <top offset="10" />
-                    <left parent="weapons_header_label" anchor="right" relation="relative" offset="5" />
-                </anchored>
-                <tooltip textres="char_label_initiative_tooltip" />
-                <static textres="char_label_initiative" />
-            </label>
-            <label name="attack_header_label">
-                <anchored height="18" width="25" >
-                    <top offset="10" />
-                    <left parent="weapons_header_label" anchor="right" relation="relative" offset="13" />
-                </anchored>
-                <tooltip textres="char_label_attack_tooltip" />
-                <static textres="char_label_attack" />
-            </label>
-            <label name="damage_header_label">
-                <anchored height="18" width="35" >
-                    <top offset="10" />
-                    <left parent="weapons_header_label" anchor="right" relation="relative" offset="70" />
-                </anchored>
-                <tooltip textres="char_label_damage_tooltip" />
-                <static textres="char_label_damage" />
-            </label>
+      <label name="weapons_header_label">
+        <anchored height="18">
+          <top parent="weapontitle" />
+          <left parent="leftanchor" anchor="right" relation="relative" offset="35" />
+          <right parent="rightanchor" anchor="left" relation="relative" offset="-298" />
+        </anchored>
+        <font>subwindowsmalltitle</font>
+        <tooltip textres="char_label_weapon_tooltip" />
+        <static textres="char_label_weapon" />
+      </label>
+      <label name="type_header_label">
+        <anchored height="18" width="30" >
+          <top  parent="weapontitle" />
+          <left parent="weapons_header_label" anchor="right" relation="relative" offset="5" />
+        </anchored>
+        <tooltip textres="char_label_type_tooltip" />
+        <static textres="char_label_type" />
+        <font>subwindowsmalltitle</font>
+      </label>
+      <label name="initiative_header_label">
+        <anchored height="18" width="25" >
+          <top  parent="weapontitle" />
+          <left parent="weapons_header_label" anchor="right" relation="relative" offset="5" />
+        </anchored>
+        <tooltip textres="char_label_initiative_tooltip" />
+        <static textres="char_label_initiative" />
+        <font>subwindowsmalltitle</font>
+      </label>
+      <label name="attack_header_label">
+        <anchored height="18" width="25" >
+          <top  parent="weapontitle"  />
+          <left parent="weapons_header_label" anchor="right" relation="relative" offset="13" />
+        </anchored>
+        <tooltip textres="char_label_attack_tooltip" />
+        <static textres="char_label_attack" />
+        <font>subwindowsmalltitle</font>
+      </label>
+      <label name="damage_header_label">
+        <anchored height="18" width="35" >
+          <top  parent="weapontitle" />
+          <left parent="weapons_header_label" anchor="right" relation="relative" offset="70" />
+        </anchored>
+        <tooltip textres="char_label_damage_tooltip" />
+        <static textres="char_label_damage" />
+        <font>subwindowsmalltitle</font>
+      </label>
 
 			<list_charweapon name="weapons">
         <script>
             function onInit()
               local node = getDatabaseNode();
               if not string.match(node.getPath(),"^charsheet") and not User.isHost() then
-                  return;
+                return;
               end				
               registerMenuItem(Interface.getString("list_menu_createitem"), "insert", 5);
             end
             function onMenuSelection(selection, subselection)
               if selection == 5 then
-                  addEntry(true);
+                addEntry(true);
               end
             end                    
         </script>
@@ -521,7 +551,6 @@
 					<right offset="-10" />
 				</anchored>
 				<icons>char_attacks</icons>
-				<!-- <static textres="char_label_weapon" /> -->
 				<script>
 					function onClickDown()
 						return true;
@@ -542,58 +571,59 @@
 			</label_charframetop>
 			<buttoncontrol name="weapons_global_detail">
 				<anchored to="weapontitle" position="insidetopright" offset="10,1" width="20" height="20" />
-				<state icon="details" pressed="details_down" />
+				<state icon="details_white" pressed="details_down" />
 				<script>
 					function onButtonPress()
 						Interface.openWindow("char_weaponmeta", window.getDatabaseNode());
 					end
 				</script>
 			</buttoncontrol>
-            <label name="weapons_header_label">
-                <anchored height="18">
-                    <top offset="10" />
-                    <left parent="leftanchor" anchor="right" relation="relative" offset="35" />
-                    <right parent="rightanchor" anchor="left" relation="relative" offset="-298" />
-                </anchored>
-            
-<!--                 <anchored to="weapontitle" position="insidetopleft" offset="20,1" /> -->
-                <tooltip textres="char_label_weapon_tooltip" />
-                <static textres="char_label_weapon" />
-            </label>
-            <label name="type_header_label">
-                <anchored height="18" width="30" >
-                    <top offset="10" />
-                    <left parent="weapons_header_label" anchor="right" relation="relative" offset="5" />
-                </anchored>
-
-                <!-- <anchored to="weapontitle" position="insidetopleft" offset="100,1" /> -->
-                <tooltip textres="char_label_type_tooltip" />
-                <static textres="char_label_type" />
-            </label>
-            <label name="initiative_header_label">
-                <anchored height="18" width="25" >
+      <label name="weapons_header_label">
+        <anchored height="18">
+          <top offset="10" />
+          <left parent="leftanchor" anchor="right" relation="relative" offset="35" />
+          <right parent="rightanchor" anchor="left" relation="relative" offset="-298" />
+        </anchored>
+        <font>subwindowsmalltitle</font>
+        <tooltip textres="char_label_weapon_tooltip" />
+        <static textres="char_label_weapon" />
+      </label>
+      <label name="type_header_label">
+        <anchored height="18" width="30" >
                     <top offset="10" />
                     <left parent="weapons_header_label" anchor="right" relation="relative" offset="5" />
                 </anchored>
-                <tooltip textres="char_label_initiative_tooltip" />
-                <static textres="char_label_initiative" />
-            </label>
-            <label name="attack_header_label">
-                <anchored height="18" width="25" >
-                    <top offset="10" />
-                    <left parent="weapons_header_label" anchor="right" relation="relative" offset="13" />
-                </anchored>
-                <tooltip textres="char_label_attack_tooltip" />
-                <static textres="char_label_attack" />
-            </label>
-            <label name="damage_header_label">
-                <anchored height="18" width="35" >
-                    <top offset="10" />
-                    <left parent="weapons_header_label" anchor="right" relation="relative" offset="70" />
-                </anchored>
-                <tooltip textres="char_label_damage_tooltip" />
-                <static textres="char_label_damage" />
-            </label>
+        <tooltip textres="char_label_type_tooltip" />
+        <static textres="char_label_type" />
+        <font>subwindowsmalltitle</font>
+      </label>
+      <label name="initiative_header_label">
+        <anchored height="18" width="25" >
+          <top offset="10" />
+          <left parent="weapons_header_label" anchor="right" relation="relative" offset="5" />
+        </anchored>
+        <tooltip textres="char_label_initiative_tooltip" />
+        <static textres="char_label_initiative" />
+        <font>subwindowsmalltitle</font>
+      </label>
+      <label name="attack_header_label">
+        <anchored height="18" width="25" >
+          <top offset="10" />
+          <left parent="weapons_header_label" anchor="right" relation="relative" offset="13" />
+        </anchored>
+        <tooltip textres="char_label_attack_tooltip" />
+        <static textres="char_label_attack" />
+        <font>subwindowsmalltitle</font>
+      </label>
+      <label name="damage_header_label">
+        <anchored height="18" width="35" >
+          <top offset="10" />
+          <left parent="weapons_header_label" anchor="right" relation="relative" offset="70" />
+        </anchored>
+        <tooltip textres="char_label_damage_tooltip" />
+        <static textres="char_label_damage" />
+        <font>subwindowsmalltitle</font>
+      </label>
             
 			<list_charweapon name="weapons">
 				<anchored>
@@ -784,7 +814,7 @@
 					<left offset="15" />
 					<right offset="-10" />
 				</anchored>
-				<icons>char_powers</icons>
+				<icons>char_psion</icons>
 				<static text="Psionic Power Stats" />
 			</label_charframetop>
 

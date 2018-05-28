@@ -23,7 +23,7 @@
 
 			<subwindow name="contents">
 				<anchored>
-					<top offset="20" />
+					<top offset="25" />
 					<bottom offset="-40" />
 					<left offset="15" />
 					<right offset="-15" />
@@ -59,7 +59,7 @@
 		<sheetdata>
 			<label_charframetop name="invtitle">
 				<bounds>15,10,-10,20</bounds>
-				<icons>char_inventory</icons>
+				<icons>char_tools</icons>
 				<static textres="char_label_inventory" />
 			</label_charframetop>
 
@@ -239,7 +239,7 @@
 					<left />
 					<right />
 				</anchored>
-				<icons>char_inventory</icons>
+				<icons>char_weight</icons>
 				<static textres="char_label_encumbrance" />
 			</label_charframetop>
 			<simplenumber name="encumbranceload" source="encumbrance.load">

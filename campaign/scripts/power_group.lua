@@ -35,6 +35,8 @@ function deleteGroup()
 end
 
 function setHeaderCategory(rGroup, sGroup, nLevel, bAllowDelete)
+  local sIconName = "char_spells";
+  
 	if sGroup == "" then
 		name.setValue(Interface.getString("char_label_powers"));
 		name.setIcon("char_abilities_orange");
@@ -47,7 +49,10 @@ function setHeaderCategory(rGroup, sGroup, nLevel, bAllowDelete)
 			else
 				name.setValue(sGroup .. " (" .. Interface.getString("level") .. " " .. nLevel .. ")");
 			end
-			name.setIcon("char_powers");
+      if sGroup:match("Psionic") then 
+        sIconName = "char_psion";
+      end
+			name.setIcon(sIconName);
 			level.setValue(nLevel);
 		else
 			name.setValue(sGroup);

@@ -253,7 +253,13 @@ function setHD(nodeNPC)
       sHD = sDiceCount .. "d8" .. sRemaining;
     else
       local sDiceCount = sHitDice:match("^(%d+)"); -- last try, hope we get something
-      sHD = sDiceCount .. "d8";
+Debug.console("npc_import.lua","setHD","sDiceCount",sDiceCount);       
+      if sDiceCount and sDiceCount ~= "" then
+        sHD = sDiceCount .. "d8";
+      else
+        -- no hitdice, so thaco will be 0, set to 20
+        DB.setValue(nodeNPC,"thaco","number",20);
+      end
     end
   end
   DB.setValue(nodeNPC,"hd","string",sHD);

@@ -10,7 +10,7 @@
 		<sheetdata>
 			<subwindow name="contents">
 				<anchored>
-					<top offset="20" />
+					<top offset="25" />
 					<bottom offset="-30" />
 					<left offset="15" />
 					<right offset="-15" />
@@ -27,8 +27,7 @@
 		<margins control="0,0,0,2" />
 		<sheetdata>
 			<anchor_column name="columnanchor" />
-			
-            <!-- sex/age/height/weight/size title -->
+      <!-- sex/age/height/weight/size title -->
 			<metalplate name="detailstitle">
 				<anchored height="20">
 					<top parent="columnanchor" anchor="bottom" relation="relative" offset="10" />

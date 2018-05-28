@@ -25,7 +25,7 @@
 
 			<subwindow name="contents">
 				<anchored>
-					<top offset="20" />
+					<top offset="25" />
 					<bottom offset="-40" />
 					<left offset="15" />
 					<right offset="-15" />
@@ -45,7 +45,7 @@
 			<label_charframetop name="featurestitle">
                 <bounds>15,10,-10,20</bounds>
 				<static textres="char_abilities_label_features" />
-				<icons>char_abilities_red</icons>
+				<icons>char_abilities_purple</icons>
 				<target>features</target>
 			</label_charframetop>
 			<list_abilities name="features">
@@ -96,7 +96,7 @@
 					<right />
 				</anchored>
 				<static textres="char_abilities_label_advancedeffects" />
-				<icons>char_abilities</icons>
+				<icons>char_powers</icons>
 				<target>header_effects</target>
 			</label_charframetop>
 

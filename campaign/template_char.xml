@@ -224,8 +224,8 @@
 	</template>
 	<template name="button_charcombatcalc">
 		<buttoncontrol>
-			<anchored width="20" height="20" />
-			<state icon="button_details" pressed="button_details_down" />
+			<anchored width="20"/>
+			<state icon="details_white" pressed="details_down" />
 			<script>
 				function onButtonPress()
 					Interface.openWindow("charsheet_combatcalc", window.getDatabaseNode());
@@ -739,5 +739,70 @@
 		</stringu>
 	</template>
 	
+	<template name="list_abilitynotes">
+		<list_text>
+			<child></child>
+			<child><backcolor>1A40301E</backcolor></child>
+			<allowcreate />
+			<allowdelete />
+			<sortby mergerule="replace"><control>name</control></sortby>
+			<noscroll />
+			<script>
+      function onInit()
+        registerMenuItem(Interface.getString("list_menu_createitem"), "insert", 5);
+      end
+      
+      function onMenuSelection(selection)
+        if selection == 5 then
+          self.addEntry(true);
+        end
+      end
+      
+      function onListChanged()
+        update();
+      end
+
+      function updateOLD()
+        local bEdit = (window.parentcontrol.window.abilitynotes_iedit.getValue() == 1);
+        for _,w in ipairs(getWindows()) do
+          w.idelete.setVisibility(bEdit);
+        end
+      end
+
+      function update(bEdit)
+        if bEdit == nil then 
+          if (window.parentcontrol.window.weapons.subwindow and window.parentcontrol.window.weapons.subwindow.actions_iedit) then
+            bEdit = (window.parentcontrol.window.weapons.subwindow.actions_iedit.getValue() == 1);
+          elseif (window.parentcontrol.window.parentcontrol.window.actions_iedit) then
+            bEdit = (window.parentcontrol.window.parentcontrol.window.actions_iedit.getValue() == 1);
+          end
+        end
+        for _,w in ipairs(getWindows()) do
+          w.idelete.setVisibility(bEdit);
+        end
+      end
+      
+      function addEntry(bFocus)
+        return createWindow();
+      end
+			</script>
+		</list_text>
+	</template>
+	<template name="button_iadd_abilitynotes">
+		<buttoncontrol>
+			<anchored width="20" height="20" />
+			<icon normal="button_add" pressed="button_add_down" />
+			<tooltip textres="button_add" />
+			<invisible />
+			<script>
+        function onInit()
+        end
+				function onButtonPress()
+					window.mini_combat_window.subwindow[target[1]].addEntry(true);
+				end
+			</script>
+		</buttoncontrol>
+	</template>
+
 
 </root>

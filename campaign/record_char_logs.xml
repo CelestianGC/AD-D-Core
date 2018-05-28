@@ -66,7 +66,7 @@
       
 			<subwindow name="contents">
 				<anchored>
-					<top offset="20" />
+					<top offset="25" />
 					<bottom offset="-30" />
 					<left offset="15" />
 					<right offset="-15" />
@@ -85,7 +85,7 @@
 		<sheetdata>
 			<anchor_column name="columnanchor" />
 			
-			<metalplate name="detailstitle">
+<!-- 			<metalplate name="detailstitle">
 				<anchored height="20">
 					<top parent="columnanchor" anchor="bottom" relation="relative" offset="10" />
 					<left offset="15" />
@@ -114,10 +114,10 @@
 				<anchored to="dci" offset="0,5" />
 				<static textres="char_label_dci" />
 			</label_charfieldtop>
-
+ -->
 			<label_charframetop name="adventurestitle">
 				<anchored height="20">
-					<top parent="columnanchor" anchor="bottom" relation="relative" offset="10" />
+					<top parent="columnanchor" anchor="bottom" relation="relative" offset="15" />
 					<left offset="15" />
 					<right offset="-10" />
 				</anchored>
