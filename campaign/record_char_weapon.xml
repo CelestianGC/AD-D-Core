@@ -39,9 +39,10 @@
                   local sName = DB.getValue(nodeEncounter,"name","");
                   local sText = DB.getValue(nodeEncounter,"text","");
                   local nLocked = DB.getValue(nodeEncounter,"locked",0);
-                  DB.setValue(node,"name","string",sName);
-                  DB.setValue(node,"text","formattedtext",sText);
-                  DB.setValue(node,"locked","number",nLocked);
+                  DB.setValue(node,"itemnote.name","string",sName);
+                  DB.setValue(node,"itemnote.text","formattedtext",sText);
+                  DB.setValue(node,"itemnote.locked","number",nLocked);
+                  DB.setValue(node, "shortcut", "windowreference", "encounter", node.getPath() .. '.itemnote');
                 end
               end
               return true;
