@@ -522,7 +522,7 @@
 					
 					function update()
 						if DB.getChildCount(window.getDatabaseNode(), "actions") > 0 then
-							setValue(1);
+							setValue(0);
 							setVisible(true);
 						else
               setValue(0);
@@ -530,6 +530,7 @@
 						end
 					end
 				</script>
+        <tooltip textres="char_label_activatedetail_tooltip" />
 			</button_toggledetail>
 
             <!-- spell name/group name, prep count/etc-->

@@ -499,6 +499,7 @@
 					<left />
 					<right />
 				</anchored>
+
 				<activate />
 				<fastinit />
 				<class>power_page</class>

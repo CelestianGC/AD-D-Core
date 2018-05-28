@@ -261,26 +261,18 @@ end
 function toggleDetail()
 	local status = (activatedetail.getValue() == 1);
 --Debug.console("------------power_item.lua","toggleDetail","status",status);    
-	
-    -- actions can be nil when using this in spell records --celestian
-	--if actions ~= nil then 
-        actions.setVisible(status);
-        initiative.setVisible(status);
-        local node = getDatabaseNode();
---Debug.console("power_item.lua","toggleDetail","node1",node);    
-        if PowerManager.canMemorizeSpell(node) then
---Debug.console("power_item.lua","toggleDetail","node2",node);    
-            memorization.setVisible(status);
-        else
---Debug.console("power_item.lua","toggleDetail","node3",node);    
-            memorization.setVisible(false);
-        end
-        
-        for _,v in pairs(actions.getWindows()) do
-            v.updateDisplay();
-        end
-    --end
---Debug.console("power_item.lua","toggleDetail","END");    
+  actions.setVisible(status);
+  initiative.setVisible(status);
+  local node = getDatabaseNode();
+  if PowerManager.canMemorizeSpell(node) then
+    memorization.setVisible(status);
+  else
+    memorization.setVisible(false);
+  end
+  
+  for _,v in pairs(actions.getWindows()) do
+    v.updateDisplay();
+  end
 end
 
 function getDescription(bShowFull)

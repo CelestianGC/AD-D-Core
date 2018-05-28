@@ -6,16 +6,22 @@
 -->
 
 <root>
-	<!-- Common -->
-    <string name="fighter">Fighter</string>
-    <string name="cleric">Cleric</string>
-    <string name="mage">Mage</string>
-    <string name="thief">Thief</string>
+	<!-- Decal -->
+	<string name="option_val_DDCL_adnd1">Advanced D&amp;D</string>
+	<string name="option_val_DDCL_adnd2">AD&amp;D MM</string>
+	<string name="option_val_DDCL_adnd3">AD&amp;D PHB</string>
+	<string name="option_val_DDCL_adnd4">AD&amp;D DMG</string>
 
-    <string name="warrior">Warrior</string>
-    <string name="priest">Priest</string>
-    <string name="wizard">Wizard</string>
-    <string name="rogue">Rogue</string>
+	<!-- Common -->
+  <string name="fighter">Fighter</string>
+  <string name="cleric">Cleric</string>
+  <string name="mage">Mage</string>
+  <string name="thief">Thief</string>
+
+  <string name="warrior">Warrior</string>
+  <string name="priest">Priest</string>
+  <string name="wizard">Wizard</string>
+  <string name="rogue">Rogue</string>
 
 	<string name="thaco">THACO</string>
 	<string name="mthaco">MTHACO</string>
@@ -79,11 +85,11 @@
 
 	<!-- Characters - Main -->
   <string name="char_label_combat">COMBAT</string>
-   	<string name="char_label_name">CHARACTER NAME</string>
-   	<string name="char_label_adjustment">Adjustment</string>
-   	<string name="char_label_adj">Adj.</string>
-   	<string name="char_label_mod">Mod</string>
-   	<string name="char_label_mod_tooltip">Modifier applied to this value.</string>
+  <string name="char_label_name">CHARACTER NAME</string>
+  <string name="char_label_adjustment">Adjustment</string>
+  <string name="char_label_adj">Adj.</string>
+  <string name="char_label_mod">Mod</string>
+  <string name="char_label_mod_tooltip">Modifier applied to this value.</string>
 	<string name="char_label_background">KIT</string>
 	<string name="char_label_speed">MOVE</string>
   <string name="char_label_surprise">SUPRISE</string>
@@ -101,12 +107,12 @@
 	<string name="char_label_speedbase_enc_tooltip">Encumbrance based movement value.</string>
 	<string name="char_label_speedbase_mod">Mod</string>
 	<string name="char_label_speedbase_mod_tooltip">Modifier based movement value.</string>
-    <string name="char_label_surprisedetail">Surprise:</string>
-    <string name="char_label_surprisedetail_tooltip">Surprise value and dice.</string>
-    <string name="char_label_surprisedice">Dice</string>
-    <string name="char_label_surprisedice_tooltip">The dice rolled for surprise. Default is d10 if not set.</string>
-    <string name="char_label_surprisebase">Base</string>
-    <string name="char_label_surprisebase_tooltip">Base surprise value.</string>
+  <string name="char_label_surprisedetail">Surprise:</string>
+  <string name="char_label_surprisedetail_tooltip">Surprise value and dice.</string>
+  <string name="char_label_surprisedice">Dice</string>
+  <string name="char_label_surprisedice_tooltip">The dice rolled for surprise. Default is d10 if not set.</string>
+  <string name="char_label_surprisebase">Base</string>
+  <string name="char_label_surprisebase_tooltip">Base surprise value.</string>
 	<string name="char_label_surprisetotal">Total</string>
 	<string name="char_label_surprisetotal_tooltip">Total surprise. A check rolled of this or lesser value indicates surprise.</string>
 
@@ -126,119 +132,117 @@
 	<string name="char_label_mod_temp">Temp</string>
 	<string name="char_label_mod_temp_tooltip">Temporary modifier.</string>
     
-    <string name="char_label_ability_percent">%</string>
-    <string name="char_tooltip_percentile">Percentile score of this ability.</string>
-   	<string name="CHR">CHR</string>
-
-	
-    <string name="char_label_intelligence_spelllevel">Level</string>
-    <string name="char_tooltip_intelligence_spelllevel">Spell Level lists the highest level of spells that can be cast.</string>
-    <string name="char_label_intelligence_learn">Learn</string>
-    <string name="char_tooltip_intelligence_learn">Chance to Learn Spell is the percentage probability to learn a spell</string>
-    <string name="char_label_intelligence_maxlevel">Max</string>
-    <string name="char_tooltip_intelligence_maxlevel">The maximum number of spells a wizard can know from any particular spell level</string>
-    <string name="char_label_intelligence_illusion">Illusion Imm.</string>
-    <string name="char_tooltip_intelligence_illusion">Illusions of this level that can be seen through by someone with this intelligence.</string>
-    <string name="char_label_wisdom_magicdefenseadj">Def</string>
-    <string name="char_tooltip_wisdom_magicdefenseadj">Magical Defensive Save Adjustment versus certain spells</string>
+  <string name="char_label_ability_percent">%</string>
+  <string name="char_tooltip_percentile">Percentile score of this ability.</string>
+  <string name="CHR">CHR</string>
+  <string name="char_label_intelligence_spelllevel">Level</string>
+  <string name="char_tooltip_intelligence_spelllevel">Spell Level lists the highest level of spells that can be cast.</string>
+  <string name="char_label_intelligence_learn">Learn</string>
+  <string name="char_tooltip_intelligence_learn">Chance to Learn Spell is the percentage probability to learn a spell</string>
+  <string name="char_label_intelligence_maxlevel">Max</string>
+  <string name="char_tooltip_intelligence_maxlevel">The maximum number of spells a wizard can know from any particular spell level</string>
+  <string name="char_label_intelligence_illusion">Illusion Imm.</string>
+  <string name="char_tooltip_intelligence_illusion">Illusions of this level that can be seen through by someone with this intelligence.</string>
+  <string name="char_label_wisdom_magicdefenseadj">Def</string>
+  <string name="char_tooltip_wisdom_magicdefenseadj">Magical Defensive Save Adjustment versus certain spells</string>
     
 	<string name="char_label_wisdom_spellbonus">Bonus Spells</string>
-    <string name="char_tooltip_wisdom_spellbonus">Bonus spells for high wisdom</string>
+  <string name="char_tooltip_wisdom_spellbonus">Bonus spells for high wisdom</string>
 
-    <string name="char_label_wisdom_failure">Fail</string>
-    <string name="char_tooltip_wisdom_failure">Percent chance of spell failure</string>
-    <string name="char_label_wisdom_immunity">Immunities</string>
-    <string name="char_tooltip_wisdom_immunity">Immunity to certain spells for high wisdom</string>
-    <string name="char_tooltip_charisma_maxhench">Maximum number of henchmen</string>
-    <string name="char_label_charisma_maxhench"># Henchmen</string>
-    <string name="char_tooltip_charisma_loyalty">Loyalty adjustment for followers/henchmen</string>
-    <string name="char_label_charisma_loyalty">Loyalty Adj</string>
-    <string name="char_tooltip_charisma_reaction">Reaction Adjustment</string>
-    <string name="char_label_charisma_reaction">Reaction Adj</string>
-    <string name="char_label_strength_hitadj">HIT</string>
-    <string name="char_tooltip_strength_hitadj">To Hit adjustment</string>
-    <string name="char_label_strength_dmgadj">DMG</string>
-    <string name="char_tooltip_strength_dmgadj">Damage adjustment</string>
-    <string name="char_label_strength_weightallow">Allow</string>
-    <string name="char_tooltip_strength_weightallow">Maximum Weight allowance</string>
-    <string name="char_label_strength_maxpress">Press</string>
-    <string name="char_tooltip_strength_maxpress">Maximum weight press</string>
-    <string name="char_label_strength_opendoors">Doors</string>
-    <string name="char_tooltip_strength_opendoors">Open doors (open magically barred)</string>
-    <string name="char_label_strength_bendbars">Bars</string>
-    <string name="char_tooltip_strength_bendbars">Bend bars or lift gates</string>
-	
-    <string name="char_tooltip_dexterity_reactionadj">Reaction Adjustment</string>
-    <string name="char_label_dexterity_reactionadj">Reaction Adj</string>
-    <string name="char_tooltip_dexterity_missileadj">Missile Attack Adjustment</string>
-    <string name="char_label_dexterity_missileadj">Missle Adj</string>
-    <string name="char_tooltip_dexterity_defenseadj">Defensive Adjustment</string>
-    <string name="char_label_dexterity_defenseadj">Defense</string>
-    <string name="char_tooltip_constitution_hitpointadj">Hit Point Adjustment. Non-Fighter/Fighter</string>
-    <string name="char_label_constitution_hitpointadj">HP</string>
-    <string name="char_tooltip_constitution_systemshock">System Shock Percent</string>
-    <string name="char_label_constitution_systemshock">SS</string>
-    <string name="char_tooltip_constitution_resurrectionsurvival">Resurrection Survival Percent</string>
-    <string name="char_label_constitution_resurrectionsurvival">Rez</string>
-    <string name="char_tooltip_constitution_poisonadj">Poison Save Adjustment</string>
-    <string name="char_label_constitution_poisonadj">Poison</string>
-    <string name="char_tooltip_constitution_regeneration">Regeneration</string>
-    <string name="char_label_constitution_regeneration">Regeneration</string>
+  <string name="char_label_wisdom_failure">Fail</string>
+  <string name="char_tooltip_wisdom_failure">Percent chance of spell failure</string>
+  <string name="char_label_wisdom_immunity">Immunities</string>
+  <string name="char_tooltip_wisdom_immunity">Immunity to certain spells for high wisdom</string>
+  <string name="char_tooltip_charisma_maxhench">Maximum number of henchmen</string>
+  <string name="char_label_charisma_maxhench"># Henchmen</string>
+  <string name="char_tooltip_charisma_loyalty">Loyalty adjustment for followers/henchmen</string>
+  <string name="char_label_charisma_loyalty">Loyalty Adj</string>
+  <string name="char_tooltip_charisma_reaction">Reaction Adjustment</string>
+  <string name="char_label_charisma_reaction">Reaction Adj</string>
+  <string name="char_label_strength_hitadj">HIT</string>
+  <string name="char_tooltip_strength_hitadj">To Hit adjustment</string>
+  <string name="char_label_strength_dmgadj">DMG</string>
+  <string name="char_tooltip_strength_dmgadj">Damage adjustment</string>
+  <string name="char_label_strength_weightallow">Allow</string>
+  <string name="char_tooltip_strength_weightallow">Maximum Weight allowance</string>
+  <string name="char_label_strength_maxpress">Press</string>
+  <string name="char_tooltip_strength_maxpress">Maximum weight press</string>
+  <string name="char_label_strength_opendoors">Doors</string>
+  <string name="char_tooltip_strength_opendoors">Open doors (open magically barred)</string>
+  <string name="char_label_strength_bendbars">Bars</string>
+  <string name="char_tooltip_strength_bendbars">Bend bars or lift gates</string>
 
-    <string name="char_tooltip_intelligence_languages">Number of Additional Languages (Or proficiencies) you have.</string>
-    <string name="char_label_intelligence_languages">Lang</string>
+  <string name="char_tooltip_dexterity_reactionadj">Reaction Adjustment</string>
+  <string name="char_label_dexterity_reactionadj">Reaction Adj</string>
+  <string name="char_tooltip_dexterity_missileadj">Missile Attack Adjustment</string>
+  <string name="char_label_dexterity_missileadj">Missle Adj</string>
+  <string name="char_tooltip_dexterity_defenseadj">Defensive Adjustment</string>
+  <string name="char_label_dexterity_defenseadj">Defense</string>
+  <string name="char_tooltip_constitution_hitpointadj">Hit Point Adjustment. Non-Fighter/Fighter</string>
+  <string name="char_label_constitution_hitpointadj">HP</string>
+  <string name="char_tooltip_constitution_systemshock">System Shock Percent</string>
+  <string name="char_label_constitution_systemshock">SS</string>
+  <string name="char_tooltip_constitution_resurrectionsurvival">Resurrection Survival Percent</string>
+  <string name="char_label_constitution_resurrectionsurvival">Rez</string>
+  <string name="char_tooltip_constitution_poisonadj">Poison Save Adjustment</string>
+  <string name="char_label_constitution_poisonadj">Poison</string>
+  <string name="char_tooltip_constitution_regeneration">Regeneration</string>
+  <string name="char_label_constitution_regeneration">Regeneration</string>
 
-	
-    <string name="char_tooltip_strength">Strength of the character</string>
-    <string name="char_tooltip_constitution">Constitution of the character</string>
-    <string name="char_tooltip_dexterity">Dexterity of the character</string>
-    <string name="char_tooltip_wisdom">Wisdom of the character</string>
-    <string name="char_tooltip_intelligence">Intelligence of the character</string>
-    <string name="char_tooltip_charisma">Strength of the character.</string>
-    <string name="char_tooltip_charisma">Charisma of the character.</string>
+  <string name="char_tooltip_intelligence_languages">Number of Additional Languages (Or proficiencies) you have.</string>
+  <string name="char_label_intelligence_languages">Lang</string>
 
+
+  <string name="char_tooltip_strength">Strength of the character</string>
+  <string name="char_tooltip_constitution">Constitution of the character</string>
+  <string name="char_tooltip_dexterity">Dexterity of the character</string>
+  <string name="char_tooltip_wisdom">Wisdom of the character</string>
+  <string name="char_tooltip_intelligence">Intelligence of the character</string>
+  <string name="char_tooltip_charisma">Strength of the character.</string>
+  <string name="char_tooltip_charisma">Charisma of the character.</string>
+  <string name="char_label_activatedetail_tooltip">Click to view details of power.</string>
     <!-- skill -->
 	<string name="skill_label_name">Name</string>
-    <string name="char_label_skill_base_check">Base Percent</string>
-    <string name="char_label_skill_base_check_tooltip">Base chance of a percentile skill.</string>
-    <string name="char_label_skill_type">Type</string>
-    <string name="char_label_skill_type_tooltip">The type of skill. Ability (select) or percentile.</string>
-    <string name="char_label_skill_stat_adj">Stat Modifier</string>
-    <string name="char_label_skill_stat_adj_tooltip">Adjustment applied for ability scores.</string>
-    <string name="char_label_skill_armor_adj">Armor Modifier</string>
-    <string name="char_label_skill_armor_adj_tooltip">Adjustment applied for armor worn.</string>
-    <string name="char_label_skill_mod_adj">Skill Modifiers</string>
-    <string name="char_label_skill_mod_adj_tooltip">Modifiers applied due to ease or difficulty of the skill.</string>
-    <string name="char_label_skill_misc_adj_tooltip">Adjustment applied for various reasons that do not fit any of the other areas.</string>
-    <string name="char_label_skill_class_adj">Class Modifier</string>
-    <string name="char_label_skill_class_adj_tooltip">Modifiers to a skill check based on class.</string>
-    <string name="char_label_skill_misc_adj">Miscellaneous</string>
-    <string name="char_label_skill_misc_adj_tooltip">Miscellaneous modifiers.</string>
-    <string name="char_label_skilltotal">VALUE</string>
-    <string name="skill_title">Skill</string>
-    
-    <string name="char_label_class_exp">XP</string>
-    <string name="char_label_class_exp_tooltip">Experince Earned for Each Class</string>
+  <string name="char_label_skill_base_check">Base Percent</string>
+  <string name="char_label_skill_base_check_tooltip">Base chance of a percentile skill.</string>
+  <string name="char_label_skill_type">Type</string>
+  <string name="char_label_skill_type_tooltip">The type of skill. Ability (select) or percentile.</string>
+  <string name="char_label_skill_stat_adj">Stat Modifier</string>
+  <string name="char_label_skill_stat_adj_tooltip">Adjustment applied for ability scores.</string>
+  <string name="char_label_skill_armor_adj">Armor Modifier</string>
+  <string name="char_label_skill_armor_adj_tooltip">Adjustment applied for armor worn.</string>
+  <string name="char_label_skill_mod_adj">Skill Modifiers</string>
+  <string name="char_label_skill_mod_adj_tooltip">Modifiers applied due to ease or difficulty of the skill.</string>
+  <string name="char_label_skill_misc_adj_tooltip">Adjustment applied for various reasons that do not fit any of the other areas.</string>
+  <string name="char_label_skill_class_adj">Class Modifier</string>
+  <string name="char_label_skill_class_adj_tooltip">Modifiers to a skill check based on class.</string>
+  <string name="char_label_skill_misc_adj">Miscellaneous</string>
+  <string name="char_label_skill_misc_adj_tooltip">Miscellaneous modifiers.</string>
+  <string name="char_label_skilltotal">VALUE</string>
+  <string name="skill_title">Skill</string>
+  
+  <string name="char_label_class_exp">XP</string>
+  <string name="char_label_class_exp_tooltip">Experince Earned for Each Class</string>
 
-    <string name="char_label_class_applyexp">Apply</string>
-    <string name="char_label_class_applyexp_tooltip">Apply experience you have earned to classes marked active.</string>
+  <string name="char_label_class_applyexp">Apply</string>
+  <string name="char_label_class_applyexp_tooltip">Apply experience you have earned to classes marked active.</string>
 
-    <string name="char_tooltip_classactivity">Class active or not.</string>
-    <string name="char_tooltip_classbonus">Gain 10% bonus to experience for this class.</string>
-    <string name="char_tooltip_xp">Total Experience Earned</string>
-    <string name="char_tooltip_xpneeded">Experience needed for Next Level</string>
-   	<string name="char_label_armordexterity">Dex</string>
-    <string name="char_label_class_fight">FIGHT AS</string>
-    <string name="char_label_class_fight_tooltip">Fight as what type of combatant.</string>
-    <string name="char_label_class_save">SAVE AS</string>
-    <string name="char_label_class_save_tooltip">Save as what type of class.</string>
-    <string name="char_label_initiative">INIT</string>
-    <string name="char_label_initiative_tooltip">Roll initiative using listed weapon.</string>
-    <string name="char_label_initiativeroll">Initiative</string>
-    <string name="char_label_initiativeroll_tooltip">Roll initiative.</string>
-    
-    <string name="char_label_attack">ATK</string>
-    <string name="char_label_attack_tooltip">Roll an attack using listed weapon.</string>
+  <string name="char_tooltip_classactivity">Class active or not.</string>
+  <string name="char_tooltip_classbonus">Gain 10% bonus to experience for this class.</string>
+  <string name="char_tooltip_xp">Total Experience Earned</string>
+  <string name="char_tooltip_xpneeded">Experience needed for Next Level</string>
+  <string name="char_label_armordexterity">Dex</string>
+  <string name="char_label_class_fight">FIGHT AS</string>
+  <string name="char_label_class_fight_tooltip">Fight as what type of combatant.</string>
+  <string name="char_label_class_save">SAVE AS</string>
+  <string name="char_label_class_save_tooltip">Save as what type of class.</string>
+  <string name="char_label_initiative">INIT</string>
+  <string name="char_label_initiative_tooltip">Roll initiative using listed weapon.</string>
+  <string name="char_label_initiativeroll">Initiative</string>
+  <string name="char_label_initiativeroll_tooltip">Roll initiative.</string>
+  
+  <string name="char_label_attack">ATK</string>
+  <string name="char_label_attack_tooltip">Roll an attack using listed weapon.</string>
 
 	<string name="char_label_weapon_tooltip">Weapons used.</string>
 	<string name="char_label_type">TYPE</string>
