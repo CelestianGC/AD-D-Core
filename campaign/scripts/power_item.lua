@@ -27,18 +27,18 @@ function onInit()
 -- tweak here for testing --celestian
     if windowlist == nil or not windowlist.isReadOnly() then
 --    if not windowlist.isReadOnly() then
-		registerMenuItem(Interface.getString("list_menu_deleteitem"), "delete", 6);
-		registerMenuItem(Interface.getString("list_menu_deleteconfirm"), "delete", 6, 7);
+    registerMenuItem(Interface.getString("list_menu_cloneitem"), "insert", 4);
+    registerMenuItem(Interface.getString("list_menu_deleteitem"), "delete", 6);
+    registerMenuItem(Interface.getString("list_menu_deleteconfirm"), "delete", 6, 7);
 
-		registerMenuItem(Interface.getString("power_menu_addaction"), "pointer", 3);
-		registerMenuItem(Interface.getString("power_menu_addcast"), "radial_sword", 3, 2);
-		registerMenuItem(Interface.getString("power_menu_adddamage"), "radial_damage", 3, 3);
-		registerMenuItem(Interface.getString("power_menu_addheal"), "radial_heal", 3, 4);
-		registerMenuItem(Interface.getString("power_menu_addeffect"), "radial_effect", 3, 5);
+    registerMenuItem(Interface.getString("power_menu_addaction"), "pointer", 3);
+    registerMenuItem(Interface.getString("power_menu_addcast"), "radial_sword", 3, 2);
+    registerMenuItem(Interface.getString("power_menu_adddamage"), "radial_damage", 3, 3);
+    registerMenuItem(Interface.getString("power_menu_addheal"), "radial_heal", 3, 4);
+    registerMenuItem(Interface.getString("power_menu_addeffect"), "radial_effect", 3, 5);
 
-		registerMenuItem(Interface.getString("power_menu_adddmg_psp"), "radial_dmg_psp", 3, 6);
-		registerMenuItem(Interface.getString("power_menu_addheal_psp"), "radial_heal_psp", 3, 8);
-		
+    registerMenuItem(Interface.getString("power_menu_adddmg_psp"), "radial_dmg_psp", 3, 6);
+    registerMenuItem(Interface.getString("power_menu_addheal_psp"), "radial_heal_psp", 3, 8);
 		-- disabled, we don't reparse in AD&D Core right now --celestian
         --registerMenuItem(Interface.getString("power_menu_reparse"), "textlist", 4);
 	end
@@ -203,9 +203,10 @@ function onMenuSelection(selection, subselection)
 		getDatabaseNode().delete();
 
 	elseif selection == 4 then
-		-- disabled reparse here also --celestian
-        --PowerManager.parsePCPower(getDatabaseNode());
-		--activatedetail.setValue(1);
+    local node = getDatabaseNode();
+    local nodeParent = node.getParent();
+    local nodeClone = nodeParent.createChild();
+    DB.copyNode(node,nodeClone);
 	elseif selection == 3 then
 		if subselection == 2 then
 			createAction("cast");

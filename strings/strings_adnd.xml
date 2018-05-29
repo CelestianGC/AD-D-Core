@@ -704,4 +704,5 @@
 	<string name="readycheck_button_label">I AM READY!</string>    
 	<string name="readycheck_button_label_tooltip">The DM has asked if you are ready, are you?</string>    
   
+  <string name="list_menu_cloneitem">Clone Item</string>
 </root>

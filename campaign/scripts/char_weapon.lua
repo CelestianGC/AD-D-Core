@@ -4,8 +4,9 @@
 --
 
 function onInit()
-    registerMenuItem(Interface.getString("list_menu_deleteitem"), "delete", 6);
-    registerMenuItem(Interface.getString("list_menu_deleteconfirm"), "delete", 6, 7);
+  registerMenuItem(Interface.getString("list_menu_cloneitem"), "insert", 4);
+  registerMenuItem(Interface.getString("list_menu_deleteitem"), "delete", 6);
+  registerMenuItem(Interface.getString("list_menu_deleteconfirm"), "delete", 6, 7);
 
 	onLinkChanged();
 	onTypeChanged();
@@ -75,14 +76,19 @@ end
 
 -- the create is handled in record_char_actions.xml, charsheet_actions_contents->weapons
 function onMenuSelection(selection, subselection)
-    if selection == 6 and subselection == 7 then
-        local node = getDatabaseNode();
-        if node then
-            node.delete();
-        else
-            close();
-        end
+  if selection == 4 then
+    local node = getDatabaseNode();
+    local nodeParent = node.getParent();
+    local nodeClone = nodeParent.createChild();
+    DB.copyNode(node,nodeClone);
+  elseif selection == 6 and subselection == 7 then
+    local node = getDatabaseNode();
+    if node then
+        node.delete();
+    else
+        close();
     end
+  end
 end                    
 
 local m_sClass = "";
