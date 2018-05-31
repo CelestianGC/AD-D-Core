@@ -79,7 +79,7 @@
 
   <windowclass name="combat_mini_section">
     <margins control="0,2,0,2" />
-    <script file="campaign/scripts/abilitynotes.lua" />
+    <script file="campaign/scripts/quicknotes.lua" />
     <sheetdata>
       <!-- SURPRISE -->            
       <basicnumber name="surprise_total_roll" source="surprise.total">
@@ -191,7 +191,7 @@
   <!-- alternate version view for the combat tracker, only shows for NPCS -->
   <!-- surprise/init/turn removed -->
   <windowclass name="combat_mini_section_ct">
-    <script file="campaign/scripts/abilitynotes.lua" />
+    <script file="campaign/scripts/quicknotes.lua" />
     <sheetdata>
       <list_abilitynotes name="abilitynotes">
 				<anchored>
@@ -239,14 +239,14 @@
           <top offset="2"/>
           <right anchor="left" relation="relative" offset="-5" />
         </anchored>
-        <class>encounter</class>
+        <class>quicknote</class>
         <readonly />
         <script>
           function onDrop(x, y, draginfo)
             if draginfo.isType("shortcut") then
               local node = window.getDatabaseNode();
               local sClass, sRecord = draginfo.getShortcutData();
-              if (sClass == "encounter") then
+              if (sClass == "quicknote") then
                 local nodeEncounter = DB.findNode(sRecord);
                 if (nodeEncounter) then
                   local sName = DB.getValue(nodeEncounter,"name","");

@@ -67,7 +67,7 @@ function addEntry(bFocus)
   -- we can add notes there for npc info/shortcut buttons
   if (w) then
     local nodeWeapon = w.getDatabaseNode();
-    DB.setValue(nodeWeapon, "shortcut", "windowreference", "encounter", nodeWeapon.getPath() .. '.itemnote');
+    DB.setValue(nodeWeapon, "shortcut", "windowreference", "quicknote", nodeWeapon.getPath() .. '.itemnote');
   end
 	return w;
 end

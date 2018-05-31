@@ -3,12 +3,12 @@
 --
 --
 
--- drag/drop encounter/notes entry onto a abilitynotes and create
+-- drag/drop quicknote/notes entry onto a abilitynotes and create
 function onDrop(x, y, draginfo)
   if draginfo.isType("shortcut") then
     local node = getDatabaseNode();
     local sClass, sRecord = draginfo.getShortcutData();
-    if (sClass == "encounter") then
+    if (sClass == "quicknote") then
       local nodeEncounter = DB.findNode(sRecord);
       if (nodeEncounter) then
         local nodeNotes = node.createChild("abilitynoteslist");

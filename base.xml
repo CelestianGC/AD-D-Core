@@ -106,6 +106,7 @@
 	<includefile source="campaign/record_story_adnd.xml" />
 	<includefile source="campaign/template_char_adnd.xml" />
   <includefile source="desktop/template_desktop_adnd.xml" />
+  <includefile source="campaign/record_quicknotes.xml" />
   
 	<!-- Forge -->
 	<includefile source="forge/template_forge.xml" />

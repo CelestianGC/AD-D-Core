@@ -141,7 +141,7 @@ function processUpdateADND()
         -- local sClass, sRecord = DB.getValue(nodeWeapon, "shortcut", "", "");
         -- if (sClass == "" and sRecord == "") then
           -- Debug.console("data_library_adnd.lua","processUpdateADND","npc-name",DB.getValue(nodeNPC,"name","NO-NAME"));
-          -- DB.setValue(nodeWeapon, "shortcut", "windowreference", "encounter", nodeWeapon.getPath() .. '.itemnote');
+          -- DB.setValue(nodeWeapon, "shortcut", "windowreference", "quicknote", nodeWeapon.getPath() .. '.itemnote');
         -- end
       -- end
     -- end

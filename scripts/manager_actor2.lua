@@ -474,7 +474,8 @@ function getDefenseValue(rAttacker, rDefender, rRoll)
       end
       local nBonusMAC, nBonusMACEffects = EffectManager5E.getEffectsBonus(rDefender, "MAC",true);
       if (nBonusMACEffects > 0) then
-        nDefense = nDefense + nBonusMAC;
+        -- we minus the mod because +1 is good, -1 is bad, but lower MAC is better.
+        nDefense = nDefense - nBonusMAC;
       end
     else -- using a power with a MAC
       nDefense = tonumber(rRoll.Psionic_MAC) or 10;

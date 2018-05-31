@@ -1,0 +1,52 @@
+
+
+	<?xml version="1.0" encoding="iso-8859-1"?>
+
+<!-- 
+  Please see the license.html file included with this distribution for 
+  attribution and copyright information.
+-->
+
+<root>
+  <windowclass name="quicknote">
+		<frame>storybox</frame>
+		<placement>
+			<size width="400" height="400" />
+		</placement>
+		<sizelimits>
+			<dynamic />
+		</sizelimits>
+		<minimize>minimized_encounter</minimize>
+		<playercontrol />
+		<sharable />
+		<nodelete />
+		<tooltip field="name" />
+		<script file="campaign/scripts/story.lua" />
+		<sheetdata>
+			<sub_note_header name="header">
+				<class>encounter_header</class>
+			</sub_note_header>
+
+			<frame_story_content name="contentframe" />
+
+			<ft_record name="text">
+				<anchored to="contentframe" position="over" />
+				<footer>footer_wide</footer>
+				<empty textres="ft_empty" hidereadonly="true" />
+			</ft_record>
+			<scrollbar>
+				<anchored to="text" />
+				<target>text</target>
+			</scrollbar>
+
+			<list_viewers />
+			
+			<story_page_top />
+			<story_page_prev />
+			<story_page_next />
+			
+			<resize_storybox />
+			<close_storybox />
+		</sheetdata>
+	</windowclass>
+</root>
