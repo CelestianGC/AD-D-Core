@@ -16,9 +16,11 @@ function onInit()
 end
 
 function onClose()
-	local sPath = getDatabaseNode().getPath();
-	DB.removeHandler(sPath, "onChildAdded", onChildListChanged);
-	DB.removeHandler(sPath, "onChildDeleted", onChildListChanged);
+  if (getDatabaseNode()) then
+    local sPath = getDatabaseNode().getPath();
+    DB.removeHandler(sPath, "onChildAdded", onChildListChanged);
+    DB.removeHandler(sPath, "onChildDeleted", onChildListChanged);
+  end
 end
 
 function onMenuSelection(selection)
