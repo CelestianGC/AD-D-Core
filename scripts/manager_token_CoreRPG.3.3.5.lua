@@ -31,8 +31,8 @@ function onInit()
 	Token.onDrop = onDrop;
 	Token.onScaleChanged = onScaleChanged;
 	Token.onHover = onHover;
-	Token.onDoubleClick = onDoubleClick;
-
+	--Token.onDoubleClick = onDoubleClick;
+	
 	CombatManager.addCombatantFieldChangeHandler("tokenrefid", "onUpdate", updateAttributes);
 	CombatManager.addCombatantFieldChangeHandler("friendfoe", "onUpdate", updateFaction);
 	CombatManager.addCombatantFieldChangeHandler("name", "onUpdate", updateName);
@@ -250,6 +250,23 @@ function onHover(tokenMap, bOver)
 			TokenManager2.onHover(tokenMap, nodeCT, bOver);
 		end
 	end
+end
+
+function onDoubleClickADND(tokenMap, vImage)
+  if User.isHost() and Input.isAltPressed() then
+		local ctwnd = Interface.findWindow("combattracker_host", "combattracker");
+		if ctwnd then
+      local nodeCT = CombatManager.getCTFromToken(tokenMap);
+      local sNodeID = nodeCT.getPath();
+ 			for k,v in pairs(ctwnd.list.getWindows()) do
+        if v.getDatabaseNode().getPath() == sNodeID then 
+          ctwnd.list.scrollToWindow(v);
+        end
+      end
+    end
+  else
+    super.onDoubleClick(tokenMap, vImage);
+  end
 end
 function onDoubleClick(tokenMap, vImage)
 	local nodeCT = CombatManager.getCTFromToken(tokenMap);
