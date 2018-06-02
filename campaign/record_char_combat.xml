@@ -19,6 +19,19 @@
 				</anchored>
 				<icons>char_abilities</icons>
 				<static textres="char_label_combat" />
+        <script>
+          function onInit()
+            registerMenuItem(Interface.getString("list_menu_createitem"), "insert", 5);
+          end
+          function onMenuSelection(selection,subselection)
+            if selection == 5 then
+              window.mini_combat_window.subwindow.abilitynotes.addEntry(true);
+            end
+          end
+          function onDrop(x, y, draginfo)
+            window.mini_combat_window.subwindow.onDrop(x,y,draginfo);
+          end
+        </script>
 			</label_charframetop>
 			<button_iadd_abilitynotes name="abilitynotes_iadd">
         <anchored to="minicombattitle" position="insidetopright" offset="5,0" />
