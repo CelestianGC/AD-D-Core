@@ -24,6 +24,7 @@
   <string name="rogue">Rogue</string>
 
 	<string name="thaco">THACO</string>
+  <string name="bab">BAB</string>
 	<string name="mthaco">MTHACO</string>
 	<string name="percent">%</string>
 	<string name="dice">Dice</string>
@@ -577,6 +578,7 @@
 	<string name="npc_label_clone_to_pc">CLONE TO PC</string>	
 	<string name="npc_label_hitdice">Hit Dice</string>	
 	<string name="npc_label_thaco">THACO</string>	
+	<string name="npc_label_bab">Base Attack</string>	
 
 	<string name="npc_label_strengthpercent">%</string>	
 	<string name="npc_label_strengthpercent_tooltip">Percentile score of Strength.</string>	
@@ -635,6 +637,7 @@
 	<string name="option_label_TPCE">Token: PC:Show Ally effects</string>
 	<string name="option_label_TPCH">Token: PC:Show Ally health</string>
   <string name="option_label_HREC">PC: Encumbrance: Include Coin</string>
+
   <string name="option_val_disabled">Disabled</string>
   <string name="option_label_HOUSE_RULE_INIT_EACH_ROUND">CT: Auto-Roll Init Each Round</string>
   <string name="option_val_title">Title+Tooltip</string>
@@ -648,6 +651,7 @@
   <string name="option_val_hr_crit_timestwo">x2 DMG</string>
   <string name="option_val_hr_crit_none">None</string>
   
+  <string name="option_label_HR_ASENDING_AC">Ascending AC / Base Attack Bonus</string>
 
   <string name="option_label_ADND_AE_EDIT">PC: Adv. Effect Edit</string>
   <string name="option_label_ADND_AE_enabled">Enabled</string>

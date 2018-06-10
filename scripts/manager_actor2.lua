@@ -419,9 +419,9 @@ end
 -- this is to convert decending AC (below MAC 10 stuff) to ascending AC
 -- 20 - (-5) = 25, 20 - 5 = 15 and so on
 function ascendingDefense(nDefense)
-    if (nDefense < 10) then
-      nDefense = (20 - nDefense);
-    end
+  if (nDefense < 10) then
+    nDefense = (20 - nDefense);
+  end
   return nDefense;
 end
 

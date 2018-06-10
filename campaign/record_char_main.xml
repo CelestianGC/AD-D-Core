@@ -42,18 +42,6 @@
         <static textres="char_label_classlevel" />
       </label_titlechar>
 
-      <!--       
-      <label name="class_level_label" >
-        <anchored to="classlevel" >
-          <top anchor="bottomleft" relation="relative" offset="-3" />
-          <left anchor="left" />
-          <right anchor="right" />
-        </anchored>
-        <center />
-        <static textres="char_label_classlevel" />
-        <font>arial-bold-8</font>
-      </label>
- -->
 			<button_charclasslevel name="button_classlevel">
 				<anchored to="classlevel" position="righthigh" relation="relative" offset="0,0" />
 			</button_charclasslevel>
@@ -70,19 +58,8 @@
         <static textres="char_label_race" />
       </label_titlechar>
 
-<!--       <label name="race_label" >
-        <anchored to="race" >
-          <top anchor="bottomleft" relation="relative" offset="-3" />
-          <left anchor="left" />
-          <right anchor="right" />
-        </anchored>
-        <center />
-        <static textres="char_label_race" />
-        <font>arial-bold-8</font>
-      </label>
- -->      
       <linkfield name="racelink">
-                <anchored to="race" position="righthigh" relation="relative" offset="-5,-3" width="20" height="20" />
+        <anchored to="race" position="righthigh" relation="relative" offset="-5,-3" width="20" height="20" />
 				<description field="race" />
 				<closetoggle />
 				<invisible />
@@ -112,17 +89,6 @@
         <static textres="char_label_background" />
       </label_titlechar>
 
-<!--       <label name="kit_label" >
-        <anchored to="background" >
-          <top anchor="bottomleft" relation="relative" offset="-3" />
-          <left anchor="left" />
-          <right anchor="right" />
-        </anchored>
-        <center />
-        <static textres="char_label_background" />
-        <font>arial-bold-8</font>
-      </label>
- -->      
 			<linkfield name="backgroundlink">
 				<anchored to="background" position="righthigh" relation="relative" offset="-5,-3" width="20" height="20" />
 				<description field="background" />
@@ -285,13 +251,6 @@
 				<anchored to="dexdetailframe" position="insidetopleft" offset="5,6"/>
 				<labelres>char_label_ability_percent</labelres>
 				<tooltip textres="char_tooltip_percentile" />
-				<!-- <script>
-					function onValueChanged()
-                        local rActor = ActorManager.getActor("pc", window.getDatabaseNode());
-                        local sActorType, nodeActor = ActorManager.getTypeAndNode(rActor);
-                        AbilityScoreADND.updateDexterity(nodeActor);
-					end
-				</script> -->
 			</percentile_abilityfield>
  			<label_ability_fields>
 				<anchored to="dexterity_percent" />
@@ -343,29 +302,22 @@
 				<anchored to="constitution" />
 				<static textres="CON" />
 			</label_abilityscore>
-            <label_abilityscore_actual name="con_label_actual">
-                <anchored to="constitution"/>
-                <target>constitution</target>
-            </label_abilityscore_actual>
+      <label_abilityscore_actual name="con_label_actual">
+          <anchored to="constitution"/>
+          <target>constitution</target>
+      </label_abilityscore_actual>
 			
 			<ability_fields_container name="condetailframe">
 				<anchored to="constitution" />
 			</ability_fields_container>			
 			
-            <percentile_abilityfield name="constitution_percent" source="abilities.constitution.percent">
-   				<center />
-                <min> 0 </min>
-                <max> 100 </max>
+      <percentile_abilityfield name="constitution_percent" source="abilities.constitution.percent">
+        <center />
+        <min> 0 </min>
+        <max> 100 </max>
 				<anchored to="condetailframe" position="insidetopleft" offset="5,6" />
 				<labelres>char_label_ability_percent</labelres>
 				<tooltip textres="char_tooltip_percentile" />
-				<!-- <script>
-					function onValueChanged()
-                        local rActor = ActorManager.getActor("pc", window.getDatabaseNode());
-                        local sActorType, nodeActor = ActorManager.getTypeAndNode(rActor);
-                        AbilityScoreADND.updateConstitution(nodeActor);
-					end
-				</script> -->
 			</percentile_abilityfield>
  			<label_ability_fields>
 				<anchored to="constitution_percent" />
@@ -439,29 +391,22 @@
 				<anchored to="intelligence" />
 				<static textres="INT" />
 			</label_abilityscore>
-            <label_abilityscore_actual name="int_label_actual">
-                <anchored to="intelligence"/>
-                <target>intelligence</target>
-            </label_abilityscore_actual>
+      <label_abilityscore_actual name="int_label_actual">
+          <anchored to="intelligence"/>
+          <target>intelligence</target>
+      </label_abilityscore_actual>
 			
 			<ability_fields_container name="intdetailframe">
 				<anchored to="intelligence" />
 			</ability_fields_container>			
 			
-            <percentile_abilityfield name="intelligence_percent" source="abilities.intelligence.percent">
-   				<center />
-                <min> 0 </min>
-                <max> 100 </max>
+      <percentile_abilityfield name="intelligence_percent" source="abilities.intelligence.percent">
+ 				<center />
+        <min> 0 </min>
+        <max> 100 </max>
 				<anchored to="intdetailframe" position="insidetopleft" offset="5,6" />
 				<labelres>char_label_ability_percent</labelres>
 				<tooltip textres="char_tooltip_percentile" />
-			<!-- 	<script>
-					function onValueChanged()
-                        local rActor = ActorManager.getActor("pc", window.getDatabaseNode());
-                        local sActorType, nodeActor = ActorManager.getTypeAndNode(rActor);
-                        AbilityScoreADND.updateIntelligence(nodeActor);
-					end
-				</script> -->
 			</percentile_abilityfield>
  			<label_ability_fields>
 				<anchored to="intelligence_percent" />
@@ -537,29 +482,22 @@
 				<anchored to="wisdom" />
 				<static textres="WIS" />
 			</label_abilityscore>
-            <label_abilityscore_actual name="wis_label_actual">
-                <anchored to="wisdom"/>
-                <target>wisdom</target>
-            </label_abilityscore_actual>
+      <label_abilityscore_actual name="wis_label_actual">
+          <anchored to="wisdom"/>
+          <target>wisdom</target>
+      </label_abilityscore_actual>
 			
 			<ability_fields_container name="wisdetailframe">
 				<anchored to="wisdom" />
 			</ability_fields_container>			
 			
-            <percentile_abilityfield name="wisdom_percent" source="abilities.wisdom.percent">
-   				<center />
-                <min> 0 </min>
-                <max> 100 </max>
+      <percentile_abilityfield name="wisdom_percent" source="abilities.wisdom.percent">
+        <center />
+        <min> 0 </min>
+        <max> 100 </max>
 				<anchored to="wisdetailframe" position="insidetopleft" offset="5,6" />
 				<labelres>char_label_ability_percent</labelres>
 				<tooltip textres="char_tooltip_percentile" />
-			<!-- 	<script>
-					function onValueChanged()
-                        local rActor = ActorManager.getActor("pc", window.getDatabaseNode());
-                        local sActorType, nodeActor = ActorManager.getTypeAndNode(rActor);
-                        AbilityScoreADND.updateWisdom(nodeActor);
-					end
-				</script> -->
 			</percentile_abilityfield>
  			<label_ability_fields>
 				<anchored to="wisdom_percent" />
@@ -624,26 +562,19 @@
 				<anchored to="charisma" />
 				<static textres="CHR" />
 			</label_abilityscore>
-            <label_abilityscore_actual name="cha_label_actual">
-                <anchored to="charisma"/>
-                <target>charisma</target>
-            </label_abilityscore_actual>
+      <label_abilityscore_actual name="cha_label_actual">
+          <anchored to="charisma"/>
+          <target>charisma</target>
+      </label_abilityscore_actual>
 			
 			<ability_fields_container name="chrdetailframe">
 				<anchored to="charisma" />
 			</ability_fields_container>			
 			
-            <percentile_abilityfield name="charisma_percent" source="abilities.charisma.percent">
-				<anchored to="chrdetailframe" position="insidetopleft" offset="5,6" />
+      <percentile_abilityfield name="charisma_percent" source="abilities.charisma.percent">
+        <anchored to="chrdetailframe" position="insidetopleft" offset="5,6" />
 				<labelres>char_label_ability_percent</labelres>
 				<tooltip textres="char_tooltip_percentile" />
-			<!-- 	<script>
-					function onValueChanged()
-                        local rActor = ActorManager.getActor("pc", window.getDatabaseNode());
-                        local sActorType, nodeActor = ActorManager.getTypeAndNode(rActor);
-                        AbilityScoreADND.updateCharisma(nodeActor);
-					end
-				</script> -->
 			</percentile_abilityfield>
  			<label_ability_fields>
 				<anchored to="charisma_percent" />
@@ -836,11 +767,24 @@
 					<left anchor="right" relation="relative" offset="0" />
 				</anchored>
 			</number_charthaco_charsheet>
-      <label_combatscores>
+      <label_combatscores name="thaco_label">
         <anchored to="thaco" position="aboveleft" offset="-8,-3" width="45"/>
 				<static textres="thaco" />
       </label_combatscores>
 			
+			<number_charthaco_charsheet name="bab" source="combat.bab.base">
+				<anchored to="combatanchor" width="30" height="30">
+					<top parent="combatanchor" offset="4,0" />
+					<left anchor="right" relation="relative" offset="0" />
+				</anchored>
+        <invisible />
+			</number_charthaco_charsheet>
+      <label_combatscores name="bab_label">
+        <anchored to="bab" position="aboveleft" offset="-8,-3" width="45"/>
+				<static textres="bab" />
+        <invisible />
+      </label_combatscores>
+
 			<number_charinit_charsheet name="initiative" source="initiative.total">
 				<readonly />
 				<anchored to="combatanchor" width="30" height="30">
@@ -938,7 +882,6 @@
 					<top parent="combatanchor" anchor="bottom" offset="-40" />
           <right parent="hp" anchor="left" relation="relative" offset="-10" />
 				</anchored>
-        
 				<font>reference-b-large</font>
 				<description textres="char_tooltip_wounds" />
 			</number_charwounds_charsheet>
@@ -946,7 +889,6 @@
 				<anchored to="wounds" />
 				<static textres="char_label_wounds" />
 			</label_combatscores>
-			
 
 			<label>
 				<anchored to="wounds" position="lefthigh" offset="10,5" />
@@ -971,7 +913,6 @@
 			function onDrop(x, y, draginfo)
 				if draginfo.isType("shortcut") then
 					local sClass, sRecord = draginfo.getShortcutData();
-
 					if StringManager.contains({"reference_class"}, sClass) then
 						CharManager.addInfoDB(getDatabaseNode(), sClass, sRecord);
 						return true;
@@ -996,33 +937,33 @@
 
             <!-- exp -->
 			<number_dropadd name="exp">
-                <script>
-                    function onInit()
-                        onValueChanged();
-                    end
-                    function action(draginfo)
-                        local node = getDatabaseNode();
-                        local nodeChar = node.getChild("..");
-                        CharManager.applyEXPToActiveClasses(nodeChar);
-                        onValueChanged();
-                        return true;
-                    end
-                    function onDoubleClick(x,y)
-                        return action();
-                    end    
-                    function onValueChanged()
-                        local node = getDatabaseNode();
-                        local nodeChar = node.getChild("..");
-                        local nApplyEXP = CharManager.getEXPNotApplied(nodeChar);
-                        if (nApplyEXP ~= 0) then
-                            window.apply_button.setVisible(true);
-                            window.apply_button_label.setVisible(true);
-                        else
-                            window.apply_button.setVisible(false);
-                            window.apply_button_label.setVisible(false);
-                        end
-                    end
-                </script>
+        <script>
+            function onInit()
+              onValueChanged();
+            end
+            function action(draginfo)
+              local node = getDatabaseNode();
+              local nodeChar = node.getChild("..");
+              CharManager.applyEXPToActiveClasses(nodeChar);
+              onValueChanged();
+              return true;
+            end
+            function onDoubleClick(x,y)
+              return action();
+            end    
+            function onValueChanged()
+              local node = getDatabaseNode();
+              local nodeChar = node.getChild("..");
+              local nApplyEXP = CharManager.getEXPNotApplied(nodeChar);
+              if (nApplyEXP ~= 0) then
+                window.apply_button.setVisible(true);
+                window.apply_button_label.setVisible(true);
+              else
+                window.apply_button.setVisible(false);
+                window.apply_button_label.setVisible(false);
+              end
+            end
+        </script>
                 <gmeditonly />
 				<tooltip textres="char_tooltip_xp" />
 				<anchored to="exptitle" height="20" width="100">
@@ -1038,15 +979,15 @@
 			</label_charfieldtop>
 			<buttoncontrol name="apply_button">
 				<anchored to="exp" position="righthigh" offset="2,0" width="35" height="20" />
-                <icon normal="button_dialog_check_green" pressed="button_dialog_ok" />
+        <icon normal="button_dialog_check_green" pressed="button_dialog_ok" />
 				<invisible />
 				<script>
 					function onButtonPress()
-                        return window.exp.action();
+            return window.exp.action();
 					end
 				</script>
-                <static textres="char_label_class_applyexp" />
-                <tooltip textres="char_label_class_applyexp_tooltip" />
+        <static textres="char_label_class_applyexp" />
+        <tooltip textres="char_label_class_applyexp_tooltip" />
 			</buttoncontrol>
 			<label_charfieldtop name="apply_button_label">
 				<anchored to="apply_button" offset="0,10" />
@@ -1066,33 +1007,6 @@
 				</anchored>
 				<disabled />
 			</genericcontrol>
-            <!-- save as -->
-<!-- 			<label_charframetop name="classsave">
-                <tooltip textres="char_label_class_save_tooltip" />
-				<anchored to="spacer" position="left" offset="15,0" width="50" />
-				<static textres="char_label_class_save" />
-			</label_charframetop> -->
-
-            <!-- fight as -->
-<!-- 			<label_charframetop name="classfight">
-                <tooltip textres="char_label_class_fight_tooltip" />
-				<anchored to="classsave" position="left" offset="20,0" width="55" />
-				<static textres="char_label_class_fight" />
-			</label_charframetop> -->
-
-			
-            <!-- hd used -->
-<!-- 			<label_charframetop name="hdusedtitle">
-				<anchored to="classfight" position="left" offset="20,0" width="50" />
-				<static textres="char_label_hdused" />
-			</label_charframetop> -->
-
-            <!-- HD type -->
-<!-- 			<label_charframetop name="hdtitle">
-				<anchored to="spacer" position="left" offset="20,0" width="50" />
-				<static textres="char_label_hd" />
-			</label_charframetop> -->
-
 
             <!-- exp needed -->
 			<label_charframetop name="experienceneededtitle">
@@ -1281,18 +1195,17 @@
 		<nodelete />
 		<playercontrol />
         <script>
-            function onInit()
-                surpriseTotal();
-            end
-            function surpriseTotal()
-                local nBase = surprisebase.getValue();
-                local nMod = surprise_mod.getValue();
-                local nTmp = surprise_tempmod.getValue();
-                local nTotal = nBase + nMod + nTmp;
-                surprise_total.setValue(nTotal);
-            end
+          function onInit()
+            surpriseTotal();
+          end
+          function surpriseTotal()
+            local nBase = surprisebase.getValue();
+            local nMod = surprise_mod.getValue();
+            local nTmp = surprise_tempmod.getValue();
+            local nTotal = nBase + nMod + nTmp;
+            surprise_total.setValue(nTotal);
+          end
         </script>
-        
 		<sheetdata>
 			<windowtitlebar_char name="title">
 				<prefix>char_combatcalc_title</prefix>
@@ -1580,61 +1493,6 @@
       <button_combat_psionic_details>
         <anchored to="label_details_psionicpowers" position="righthigh" offset="5,0" />
       </button_combat_psionic_details>
-<!--       
-      <number_basic name="mthaco_base" source="combat.mthaco.base">
-        <anchored to="label_details_mthaco" position="right" offset="10,0" />
-        <default>20</default>
-      </number_basic>
-			<label_fieldtop name="label_mthaco_base">
-				<anchored to="mthaco_base" />
-				<static text="Base" />
-      </label_fieldtop>
-      
-      <number_basic name="mthaco_basemod" source="combat.mthaco.basemod">
-        <anchored to="mthaco_base" position="right" offset="10,0" />
-      </number_basic>
-			<label_fieldtop name="label_mthaco_basemod">
-				<anchored to="mthaco_basemod" />
-				<static text="B-Mod" />
-      </label_fieldtop>
-      
-      <text_plus name="plus_mthaco_basemod">
-        <anchored to="mthaco_basemod" position="righthigh" offset="50" />
-      </text_plus>
-      
-      <number_basic name="mthaco_mod" source="combat.mthaco.mod">
-        <anchored to="plus_mthaco_basemod" position="right" offset="10,0" />
-      </number_basic>
-			<label_fieldtop name="label_mthaco_mod">
-				<anchored to="mthaco_mod" />
-				<static text="Mod" />
-      </label_fieldtop>
-      
-      <text_plus name="plus_mthaco_mod">
-        <anchored to="mthaco_mod" position="righthigh" offset="10" />
-      </text_plus>
-      
-      <number_basic name="mthaco_tempmod" source="combat.mthaco.tempmod">
-        <anchored to="plus_mthaco_mod" position="right" offset="5,0" />
-      </number_basic>
-			<label_fieldtop name="label_mthaco_tempmod">
-				<anchored to="mthaco_tempmod" />
-				<static text="Temp" />
-      </label_fieldtop>
-      
-      <text_equal name="equal_mthaco_tempmod">
-        <anchored to="mthaco_tempmod" position="righthigh" offset="10" />
-      </text_equal>
-      
-      <number_basic name="mthaco_score" source="combat.mthaco.score">
-        <anchored to="equal_mthaco_tempmod" position="right" offset="5,0" />
-      </number_basic>
-			<label_fieldtop name="label_mthaco_score">
-				<anchored to="mthaco_score" />
-				<static text="Total" />
-      </label_fieldtop>
-
- -->			
       <close_charsheethelper />
 		</sheetdata>
 	</windowclass>

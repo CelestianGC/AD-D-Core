@@ -106,18 +106,18 @@ function getRoll(rActor, rAction)
   -- psionics, we need to hand these off since modRoll doesn't keep rAction
 --Debug.console("manger_action_attack.lua","modAttack","rAction.Psionic_DisciplineType",rAction.Psionic_DisciplineType);                    	
   
-  if (rAction.Psionic_DisciplineType ~= nil and rAction.Psionic_DisciplineType ~= "") then
-    rRoll.bPsionic             = 'true';
-  end
---Debug.console("manger_action_attack.lua","modAttack","rRoll.bPsionic",rRoll.bPsionic);   
-  rRoll.sSpellSource           = rAction.sSpellSource or "";
-  rRoll.Psionic_Source         = rAction.Psionic_Source or "";
-  rRoll.Psionic_DisciplineType = rAction.Psionic_DisciplineType or "";
-  rRoll.Psionic_MAC            = rAction.Psionic_MAC or 10;
-  rRoll.Psionic_PSP            = rAction.Psionic_PSP or 0;
-  rRoll.Psionic_PSPOnFail      = rAction.Psionic_PSPOnFail or 0;
-
   if (rAction) then 
+    if (rAction.Psionic_DisciplineType ~= nil and rAction.Psionic_DisciplineType ~= "") then
+      rRoll.bPsionic             = 'true';
+    end
+  --Debug.console("manger_action_attack.lua","modAttack","rRoll.bPsionic",rRoll.bPsionic);   
+    rRoll.sSpellSource           = rAction.sSpellSource or "";
+    rRoll.Psionic_Source         = rAction.Psionic_Source or "";
+    rRoll.Psionic_DisciplineType = rAction.Psionic_DisciplineType or "";
+    rRoll.Psionic_MAC            = rAction.Psionic_MAC or 10;
+    rRoll.Psionic_PSP            = rAction.Psionic_PSP or 0;
+    rRoll.Psionic_PSPOnFail      = rAction.Psionic_PSPOnFail or 0;
+    -----
     rRoll.nMod = rAction.modifier or 0;
     rRoll.bWeapon = rAction.bWeapon;
     if (rActor.itemPath and rActor.itemPath ~= "") then
@@ -188,7 +188,8 @@ end
 
 function modAttack(rSource, rTarget, rRoll)
 	clearCritState(rSource);
-	
+	local bOptAscendingAC = (OptionsManager.getOption("HouseRule_ASCENDING_AC"):match("on") ~= nil);
+  
 	local aAddDesc = {};
 	local aAddDice = {};
 	local nAddMod = 0;
@@ -410,6 +411,8 @@ function modAttack(rSource, rTarget, rRoll)
     local nTHACO = 20 - rRoll.nBaseAttack;	
     if (bPsionicPower) then
       rRoll.sDesc = rRoll.sDesc .. " [MTHACO(" ..nTHACO.. ")] ";
+    elseif bOptAscendingAC then
+      rRoll.sDesc = rRoll.sDesc .. " [BAB(" .. rRoll.nBaseAttack .. ")] ";
     else
       rRoll.sDesc = rRoll.sDesc .. " [THACO(" ..nTHACO.. ")] ";
     end
@@ -418,6 +421,7 @@ function modAttack(rSource, rTarget, rRoll)
   
     -- this will grab the THACO from the roll and use it at least --celestian
     local sTHACO = string.match(rRoll.sDesc, "%[THACO.*%((%d+)%)%]") or "20";
+    local sBAB = string.match(rRoll.sDesc, "%[BAB.*%((%d+)%)%]");
     if not sTHACO then -- try for MTHACO then...
       sTHACO = string.match(rRoll.sDesc, "%[MTHACO.*%((%d+)%)%]") or "20";
     end
@@ -428,7 +432,12 @@ function modAttack(rSource, rTarget, rRoll)
     if nTHACO < 1 then
         nTHACO = 20;
     end
-    rRoll.nBaseAttack = 20 - nTHACO;
+    if (sBAB and sBAB ~= "") then
+      local nBAB = tonumber(sBAB) or 0;
+      rRoll.nBaseAttack = nBAB;
+    else
+      rRoll.nBaseAttack = 20 - nTHACO;
+    end
   end
 	
 	if bSuperiorCover then
@@ -465,6 +474,7 @@ function modAttack(rSource, rTarget, rRoll)
 end
 
 function onAttack(rSource, rTarget, rRoll)
+  local bOptAscendingAC = (OptionsManager.getOption("HouseRule_ASCENDING_AC"):match("on") ~= nil);
 	ActionsManager2.decodeAdvantage(rRoll);
   
 
@@ -497,12 +507,18 @@ function onAttack(rSource, rTarget, rRoll)
 	-- insert AC hit
 --Debug.console("manager_action_attack.lua","onAttack","nDefenseVal",nDefenseVal);
   local nACHit = (20 - rAction.nTotal);
+  if bOptAscendingAC then
+    nACHit = rAction.nTotal;
+  end
   
   if rTarget ~= nil then
     if (nDefenseVal and nDefenseVal ~= 0) then
         -- adjust bCanCrit based on target AC, if they need roll+bab 20 to hit target ac then they cant crit
         bCanCrit = (not bPsionic and canCrit(rRoll.nBaseAttack,nDefenseVal));
         local nTargetAC = (20 - nDefenseVal);
+        if bOptAscendingAC then
+          nTargetAC = nDefenseVal;
+        end
         if (bPsionic) then
           rMessage.text = rMessage.text .. "[Hit-MAC: " .. nACHit .. " vs. ".. nTargetAC .." ]" .. table.concat(rAction.aMessages, " ");
         else
@@ -512,6 +528,9 @@ function onAttack(rSource, rTarget, rRoll)
   elseif nDefenseVal and bPsionic and not rRoll.Psionic_DisciplineType:match("attack") then -- no source but nDefenseVal and not a psionic attack (it's a power)
     bCanCrit = false;
     local nTargetAC = (20 - nDefenseVal);
+      if bOptAscendingAC then
+        nTargetAC = nDefenseVal;
+      end
     rMessage.text = rMessage.text .. "[Hit-MAC: " .. nACHit .. " vs. ".. nTargetAC .." ]" .. table.concat(rAction.aMessages, " ");
   end
   
@@ -715,6 +734,8 @@ function getBaseAttack(rActor)
 	return nBaseAttack;
 end
 function getTHACO(rActor)
+  local bOptAscendingAC = (OptionsManager.getOption("HouseRule_ASCENDING_AC"):match("on") ~= nil);
+  
 	local nTHACO = 20;
 	local sActorType, nodeActor = ActorManager.getTypeAndNode(rActor);
 	if not nodeActor then

@@ -28,6 +28,8 @@ function onInit()
   local node = getDatabaseNode();
   DB.addHandler(DB.getPath(node, "effects"), "onChildUpdate", updateForEffects);
   DB.addHandler(node.getPath() .. ".active", "onUpdate", toggleNPCCombat);
+  DB.addHandler("options.HouseRule_ASCENDING_AC", "onUpdate", updateAscendingValues);
+  updateAscendingValues()
   updateForEffects();
 end
 
@@ -35,6 +37,7 @@ function onClose()
     local node = getDatabaseNode();
     DB.removeHandler(DB.getPath(node, "effects"), "onChildUpdate", updateForEffects);
     DB.removeHandler(node.getPath() .. ".active", "onUpdate", toggleNPCCombat);
+    DB.removeHandler("options.HouseRule_ASCENDING_AC", "onUpdate", updateAscendingValues);
 end
 
 -- toggle combat tab when "active" is updated to 1. "active" means that entry has initiative --celestian
@@ -200,6 +203,8 @@ function linkNPCFields()
 		init.setLink(nodeChar.createChild("init", "number"), true);
 		thaco.setLink(nodeChar.createChild("thaco", "number"), true);
 		ac.setLink(nodeChar.createChild("ac", "number"), true);
+		bab.setLink(nodeChar.createChild("bab", "number"), true);
+		ac_ascending.setLink(nodeChar.createChild("ac_ascending", "number"), true);
 		speed.setLink(nodeChar.createChild("speed", "number"), true);
 	end
 end
@@ -290,35 +295,35 @@ function setAttributesVisible()
 	poison.setVisible(v);
 	poison_label.setVisible(v);
 	
-    death.setVisible(v);
+  death.setVisible(v);
 	death_label.setVisible(v);
     
-    rod.setVisible(v);
+  rod.setVisible(v);
 	rod_label.setVisible(v);
-    staff.setVisible(v);
+  staff.setVisible(v);
 	staff_label.setVisible(v);
-    wand.setVisible(v);
+  wand.setVisible(v);
 	wand_label.setVisible(v);
 
-    petrification.setVisible(v);
+  petrification.setVisible(v);
 	petrification_label.setVisible(v);
     
-    polymorph.setVisible(v);
+  polymorph.setVisible(v);
 	polymorph_label.setVisible(v);
 
-    breath.setVisible(v);
+  breath.setVisible(v);
 	breath_label.setVisible(v);
 
-    spell.setVisible(v);
+  spell.setVisible(v);
 	spell_label.setVisible(v);
 
 	spacer_attribute.setVisible(v);
 
-    if bNPC then
-        sub_skills.setVisible(v);
-    else
-        sub_skills.setVisible(false);
-    end
+  if bNPC then
+    sub_skills.setVisible(v);
+  else
+    sub_skills.setVisible(false);
+  end
 	
 	frame_attributes.setVisible(v);
 end
@@ -437,4 +442,50 @@ function updateForEffects(effect)
          nodeChar = DB.findNode(rActor.sCreatureNode);
      end
     AbilityScoreADND.updateForEffects(nodeChar);
+end
+
+function updateAscendingValues()
+  local nodeCT = getDatabaseNode();
+  local nodeChar = link.getTargetDatabaseNode();
+  local bOptAscendingAC = (OptionsManager.getOption("HouseRule_ASCENDING_AC"):match("on") ~= nil);
+	local bActive = (activateactive.getValue() == 1)
+  
+  -- npc locations
+  if not ActorManager.isPC(node) then
+    -- this will setup values that are not already set
+    local nTHACO = DB.getValue(nodeChar,"thaco",20);
+    local nBAB = 0;
+    if (nTHACO ~= 20 and nBAB == 0) then
+      nBAB = 20 - nTHACO;
+    end
+    DB.setValue(nodeChar,"bab","number",nBAB);
+    
+    local nAC = DB.getValue(nodeChar,"ac",10);
+    local nAscendingAC = 10;
+    if (nAC < 10 and nAscendingAC == 10) then
+      nAscendingAC = 20 - nAC;
+    end
+    DB.setValue(nodeChar,"ac_ascending","number",nAscendingAC);
+    ----
+    
+    nAC          = DB.getValue(nodeChar,"ac",10);
+    nACAscending = DB.getValue(nodeChar,"ac_ascending",10);
+    nTHACO       = DB.getValue(nodeChar,"thaco",20);
+    nBAB         = DB.getValue(nodeChar,"bab",0);
+
+    bab.setVisible(bActive and bOptAscendingAC);
+    ac_ascending.setVisible(bActive and bOptAscendingAC);
+    thaco.setVisible(bActive and not bOptAscendingAC);
+    ac.setVisible(bActive and not bOptAscendingAC);
+    
+    if (bOptAscendingAC) then
+      thacolabel.setValue("BAB");
+      initlabel.setAnchor("left","bab","right","relative",10);
+      speedlabel.setAnchor("left","ac_ascending","right","relative",10);
+    else
+      thacolabel.setValue("THACO");
+      initlabel.setAnchor("left","thaco","right","relative",10);
+      speedlabel.setAnchor("left","ac","right","relative",10);
+    end
+  end
 end

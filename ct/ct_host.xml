@@ -624,7 +624,11 @@
         <anchored to="activeicon" position="righthigh" offset="20,9" />
 			</label>
 			<number_ct name="thaco">
-                <anchored to="thacolabel" position="righthigh" offset="10" width="25" height="20" />           
+        <anchored to="thacolabel" position="righthigh" offset="10" width="25" height="20" />           
+			</number_ct>
+			<number_ct name="bab">
+        <anchored to="thacolabel" position="righthigh" offset="10" width="25" height="20" />           
+        <invisible />
 			</number_ct>
 
 			<label name="initlabel">
@@ -642,6 +646,11 @@
 			<number_ct name="ac">
 				<anchored to="aclabel" position="righthigh" offset="10,0" width="25" />
 				<description textres="armorclass" />
+			</number_ct>
+			<number_ct name="ac_ascending">
+				<anchored to="aclabel" position="righthigh" offset="10,0" width="25" />
+				<description textres="armorclass" />
+        <invisible />
 			</number_ct>
             
 			<label name="speedlabel">

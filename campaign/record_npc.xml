@@ -149,11 +149,12 @@
 				<static textres="armorclass" />
 			</label_column>
 			<number_columnh name="ac">
-        <script>
-          function onValueChanged()
-            window.onSummaryChanged();
-          end
-        </script>
+			</number_columnh>
+
+			<label_column name="ac_ascending_label">
+				<static textres="armorclass" />
+			</label_column>
+			<number_columnh name="ac_ascending">
 			</number_columnh>
 
 			
@@ -191,12 +192,14 @@
 				<static textres="npc_label_thaco" />
 			</label_column>
 			<number_columnh name="thaco">
-        <script>
-          function onValueChanged()
-            window.onSummaryChanged();
-          end
-        </script>
         <default>20</default>
+      </number_columnh>
+
+			<label_column name="bab_label">
+				<static textres="npc_label_bab" />
+			</label_column>
+			<number_columnh name="bab">
+        <default>0</default>
       </number_columnh>
 
 			<label_npc name="speed_label">

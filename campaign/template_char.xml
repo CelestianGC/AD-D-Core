@@ -402,29 +402,32 @@
 			<script>
 				function onInit()
 					super.onInit();
-                    local nodeChar = window.getDatabaseNode();
+          local nodeChar = window.getDatabaseNode();
 					DB.addHandler(DB.getPath(nodeChar, "abilities"), "onChildUpdate", onSourceUpdate);
 					DB.addHandler(DB.getPath(nodeChar, "defenses.ac.temporary"), "onUpdate", onSourceUpdate);
 					DB.addHandler(DB.getPath(nodeChar, "defenses.ac.base"), "onUpdate", onSourceUpdate);
 					DB.addHandler(DB.getPath(nodeChar, "defenses.ac.armor"), "onUpdate", onSourceUpdate);
 					DB.addHandler(DB.getPath(nodeChar, "defenses.ac.shield"), "onUpdate", onSourceUpdate);
 					DB.addHandler(DB.getPath(nodeChar, "defenses.ac.misc"), "onUpdate", onSourceUpdate);
+          DB.addHandler("options.HouseRule_ASCENDING_AC", "onUpdate", onSourceUpdate);
 				end
 				
 				function onClose()
-                    local nodeChar = window.getDatabaseNode();
+          local nodeChar = window.getDatabaseNode();
 					DB.removeHandler(DB.getPath(nodeChar, "abilities"), "onChildUpdate", onSourceUpdate);
 					DB.removeHandler(DB.getPath(nodeChar, "defenses.ac.temporary"), "onUpdate", onSourceUpdate);
 					DB.removeHandler(DB.getPath(nodeChar, "defenses.ac.base"), "onUpdate", onSourceUpdate);
 					DB.removeHandler(DB.getPath(nodeChar, "defenses.ac.armor"), "onUpdate", onSourceUpdate);
 					DB.removeHandler(DB.getPath(nodeChar, "defenses.ac.shield"), "onUpdate", onSourceUpdate);
 					DB.removeHandler(DB.getPath(nodeChar, "defenses.ac.misc"), "onUpdate", onSourceUpdate);
+          DB.removeHandler("options.HouseRule_ASCENDING_AC", "onUpdate", onSourceUpdate);
 				end
 				
 				function onSourceUpdate()
+          local sOptAscendingAC = OptionsManager.getOption("HouseRule_ASCENDING_AC");
 					local rActor = ActorManager.getActor("pc", window.getDatabaseNode());
-                    local node = getDatabaseNode();
-                    local nodeChar = node.getChild("....");
+          local node = getDatabaseNode();
+          local nodeChar = node.getChild("....");
 
 					local nDexBonus = ActorManager2.getAbilityBonus(rActor, "dexterity","defenseadj");
 					local nACTemp = DB.getValue(nodeChar, "defenses.ac.temporary",0);
@@ -432,8 +435,12 @@
 					local nACArmor = DB.getValue(nodeChar, "defenses.ac.armor",0);
 					local nACShield = DB.getValue(nodeChar, "defenses.ac.shield",0);
 					local nACMisc = DB.getValue(nodeChar, "defenses.ac.misc",0);
-                    
-                    setValue(nDexBonus + nACTemp + nACBase + nACArmor + nACShield + nACMisc);
+          local nACTotal = nDexBonus + nACTemp + nACBase + nACArmor + nACShield + nACMisc;
+          
+          if (sOptAscendingAC:match("on")) then
+            nACTotal = 20 - nACTotal;
+          end
+          setValue(nACTotal);
 				end
 			</script>
 		</basicnumber>

@@ -4,7 +4,7 @@
 --
 
 local rsname = "AD&D Core";
-local rsmajorversion = 25;
+local rsmajorversion = 26;
 
 function onInit()
 	if User.isHost() or User.isLocal() then
@@ -118,6 +118,9 @@ function updateCampaign()
 		end
 		if major < 25 then
       updateNPCPsionics();
+		end
+		if major < 26 then
+      updateNPCAscending();
 		end
 	end
 --Debug.console("manager_version2.lua","updateCampaign","major",major);
@@ -641,4 +644,38 @@ Debug.console("manager_version2.lua","updateNPCPsionics","nodeNPC",nodeNPC);
     AbilityScoreADND.updateCharisma(nodeNPC);
     AbilityScoreADND.updateIntelligence(nodeNPC);
   end -- for
+end
+function updateNPCAscending()
+  for _,nodeNPC in pairs(DB.getChildren("npc")) do
+Debug.console("manager_version2.lua","updateNPCAscending1","npc-name",DB.getValue(nodeNPC,"name","NO-NAME"));
+Debug.console("manager_version2.lua","updateNPCAscending1","nodeNPC",nodeNPC);
+    fixAscendingValues(nodeNPC);
+  end -- for
+	for _,nodeCT in pairs(DB.getChildren("combattracker.list")) do
+    local sClass, sRecord = DB.getValue(nodeCT, "link", "", "");
+Debug.console("manager_version2.lua","updateNPCAscending2","sClass",sClass);    
+Debug.console("manager_version2.lua","updateNPCAscending2","sRecord",sRecord);    
+    if (sClass == "npc") then
+      if (nodeCT) then
+Debug.console("manager_version2.lua","updateNPCAscending2","npc-name",DB.getValue(nodeCT,"name","NO-NAME"));
+Debug.console("manager_version2.lua","updateNPCAscending2","nodeCT",nodeCT);
+        fixAscendingValues(nodeCT);
+      end
+    end
+	end
+end
+function fixAscendingValues(nodeNPC)
+  local nTHACO = DB.getValue(nodeNPC,"thaco",20);
+  local nAC = DB.getValue(nodeNPC,"ac",10);
+  local nBAB = DB.getValue(nodeNPC,"bab",0);
+  local nAscendingAC = DB.getValue(nodeNPC,"ac_ascending",10);
+
+  if (nTHACO ~= 20 and nBAB == 0) then
+    nBAB = 20 - nTHACO;
+  end
+  DB.setValue(nodeNPC,"bab","number",nBAB);
+  if (nAC < 10 and nAscendingAC == 10) then
+    nAscendingAC = 20 - nAC;
+  end
+  DB.setValue(nodeNPC,"ac_ascending","number",nAscendingAC);
 end
