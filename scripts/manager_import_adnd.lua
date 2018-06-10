@@ -100,3 +100,16 @@ function contextHighlight(sText)
 Debug.console("manager_import.lua","contextHighlight","sHighlighted",sHighlighted);      
   return sHighlighted;
 end
+
+-- strip out formattedtext from a string
+function stripFormattedText(sText)
+  local sTextOnly = sText;
+  sTextOnly = sTextOnly:gsub("</p>","\n");
+  sTextOnly = sTextOnly:gsub("<.?[ubiphUBIPH]>","");
+  sTextOnly = sTextOnly:gsub("<.?table>","");
+  sTextOnly = sTextOnly:gsub("<.?frame>","");
+  sTextOnly = sTextOnly:gsub("<.?t.?>","");
+  sTextOnly = sTextOnly:gsub("<.?list>","");
+  sTextOnly = sTextOnly:gsub("<.?li>","");
+  return sTextOnly;  
+end

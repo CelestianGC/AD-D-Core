@@ -62,6 +62,7 @@ function processImportText()
     local nodeSpell = createBlankPower();
     local sDescription = "";
     local sParagraph = "";
+    local sSpellLevelForSnW = "";
     for _,sLine in ipairs(aImportText) do
 Debug.console("power_import.lua","processImportText","sLine",sLine);    
       -- each line is flipped through
@@ -90,6 +91,11 @@ Debug.console("power_import.lua","processImportText","sLine",sLine);
         bProcessed = true;
         ManagerImportADND.setName(nodeSpell,sLine)
       end
+      
+      if string.match(sLine:lower(),"^spell level:") then
+        bProcessed = true;
+        sSpellLevelForSnW = sLine;
+      end
       -- otherwise this line is going to be considered description
       if not bProcessed then
         sParagraph = sParagraph .. " " .. sLine;
@@ -110,8 +116,6 @@ Debug.console("power_import.lua","processImportText","END sParagraph",sParagraph
     ManagerImportADND.setDescription(nodeSpell,sDescription,"description");
     -- set castinginitiative by using castingtime 
     setCastingInitiative(nodeSpell);
-    -- set type Arcane/Divine
-    setType(nodeSpell);
     -- set reversible
     setReverse(nodeSpell);
     
@@ -126,6 +130,15 @@ Debug.console("power_import.lua","processImportText","END sParagraph",sParagraph
 
     -- for psionics
     setDisciplines(nodeSpell)
+
+    -- set casterlevel and spell type (Arcane/Divine or SnW stuff)
+    if sSpellLevelForSnW ~= "" then
+      setSnWSpellLevel(sSpellLevelForSnW,nodeSpell);
+    else
+      -- set type Arcane/Divine
+      setType(nodeSpell);
+    end
+    
   end
 end
 
@@ -146,20 +159,23 @@ function setCastingInitiative(nodeSpell)
   end
 end
 
-function setType(nodeSpell)
-    local sType = "Arcane";
-    local sSphere = DB.getValue(nodeSpell,"sphere","");
-    local sSchool = DB.getValue(nodeSpell,"school","");
-    local sPrerequisite = DB.getValue(nodeSpell,"prerequisite","");
-    local nPSPCost = DB.getValue(nodeSpell,"pspcost",0);
-    local nPSPCostFail = DB.getValue(nodeSpell,"pspfail",0);
-    local nMAC = DB.getValue(nodeSpell,"mac",0);
-    if (sSphere ~= "") then
-      sType = "Divine"
-    elseif (sSchool ~= "") then -- this isn't necessary since we default to this but...
-      sType = "Arcane"
-    elseif sPrerequisite ~= "" or nPSPCost ~= 0 or nPSPCostFail ~= 0 or nMAC ~= 0 then
-      sType = "Psionic"
+function setType(nodeSpell,sSpecified)
+    local sType = sSpecified;
+    if (not sSpecified) then
+      sType = "Arcane";
+      local sSphere = DB.getValue(nodeSpell,"sphere","");
+      local sSchool = DB.getValue(nodeSpell,"school","");
+      local sPrerequisite = DB.getValue(nodeSpell,"prerequisite","");
+      local nPSPCost = DB.getValue(nodeSpell,"pspcost",0);
+      local nPSPCostFail = DB.getValue(nodeSpell,"pspfail",0);
+      local nMAC = DB.getValue(nodeSpell,"mac",0);
+      if (sSphere ~= "") then
+        sType = "Divine"
+      elseif (sSchool ~= "") then -- this isn't necessary since we default to this but...
+        sType = "Arcane"
+      elseif sPrerequisite ~= "" or nPSPCost ~= 0 or nPSPCostFail ~= 0 or nMAC ~= 0 then
+        sType = "Psionic"
+      end
     end
     DB.setValue(nodeSpell,"type","string",sType);
 end
@@ -169,20 +185,22 @@ function setDisciplines(nodeSpell)
   local sType = DB.getValue(nodeSpell,"type","");
   if (sType ~= "") then
     local sName, sDiscipline, sPsionicType = string.match(sNameOriginal,"^(.*)%((%w+) (%w+)%)$");
-    sName = StringManager.trim(sName);
-    sDiscipline = StringManager.trim(sDiscipline);
-    sPsionicType = StringManager.trim(sPsionicType);
-    sDiscipline = StringManager.capitalize(sDiscipline);
-    sPsionicType = StringManager.capitalize(sPsionicType);
+    if (sName and sDiscipline and sPsionicType) then
+      sName = StringManager.trim(sName);
+      sDiscipline = StringManager.trim(sDiscipline);
+      sPsionicType = StringManager.trim(sPsionicType);
+      sDiscipline = StringManager.capitalize(sDiscipline);
+      sPsionicType = StringManager.capitalize(sPsionicType);
 
-    Debug.console("power_import.lua","setDisciplines","sNameOriginal",sNameOriginal); 
-    Debug.console("power_import.lua","setDisciplines","sName",sName); 
-    Debug.console("power_import.lua","setDisciplines","sDiscipline",sDiscipline); 
-    Debug.console("power_import.lua","setDisciplines","sPsionicType",sPsionicType); 
-    
-    DB.setValue(nodeSpell,"name","string",sName);
-    DB.setValue(nodeSpell,"discipline","string",sDiscipline);
-    DB.setValue(nodeSpell,"disciplinetype","string",sPsionicType);
+      Debug.console("power_import.lua","setDisciplines","sNameOriginal",sNameOriginal); 
+      Debug.console("power_import.lua","setDisciplines","sName",sName); 
+      Debug.console("power_import.lua","setDisciplines","sDiscipline",sDiscipline); 
+      Debug.console("power_import.lua","setDisciplines","sPsionicType",sPsionicType); 
+      
+      DB.setValue(nodeSpell,"name","string",sName);
+      DB.setValue(nodeSpell,"discipline","string",sDiscipline);
+      DB.setValue(nodeSpell,"disciplinetype","string",sPsionicType);
+    end
   end
 end
 
@@ -273,6 +291,7 @@ Debug.console("power_import.lua","setActions","bDice",bDice);
 Debug.console("power_import.lua","setActions","nDurationValue",nDurationValue);
 Debug.console("power_import.lua","setActions","nModValue",nModValue);
     if (bCasterLevel) then
+      -- set duration type to "CasterLevel" based
       DB.setValue(nodeAction,"castertype","string","casterlevel");
       if (nModValue ~= 0) then
         DB.setValue(nodeAction,"durvalue","number",nModValue);
@@ -288,5 +307,23 @@ Debug.console("power_import.lua","setActions","nModValue",nModValue);
         DB.setValue(nodeAction,"durmod","number",nDurationValue);
       end
     end
+  end
+end
+
+function setSnWSpellLevel(sText, nodeSpell)
+Debug.console("power_import.lua","setSnWSpellLevel","sText",sText);
+  local nCount = 0;
+  for sCasterType, sLevel in sText:gmatch("([%w%-]+),? (%d+).. [Ll]evel") do
+    local node = nodeSpell;
+    nCount = nCount + 1;
+Debug.console("power_import.lua","setSnWSpellLevel","sCasterType",sCasterType);
+Debug.console("power_import.lua","setSnWSpellLevel","sLevel",sLevel);
+    local nLevel = tonumber(sLevel) or 0;
+    if (nCount > 1) then -- more than one, create another node and copy existing, just setting class/level
+      node = createBlankPower();
+      DB.copyNode(nodeSpell,node);
+    end
+    setType(node,sCasterType);
+    DB.setValue(node,"level","number",nLevel);
   end
 end

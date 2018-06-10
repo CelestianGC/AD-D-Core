@@ -152,7 +152,7 @@ Debug.console("npc_import.lua","importTextAsNPC","END sParagraph",sParagraph);
       setHD(nodeNPC);
       setAC(nodeNPC);
       setActionWeapon(nodeNPC);
-      
+      setSomeDefaults(nodeNPC);
     end
 end
 
@@ -304,32 +304,36 @@ Debug.console("npc_import.lua","setActionWeapon","aAttacks1",aAttacks);
     end
     if #aAttacks < 1 then
 Debug.console("npc_import.lua","setActionWeapon","aAttacks2",aAttacks);     
-      for sDice in string.gmatch(sDamageRaw,"%d+[dD-]%d+[%+-]%d+") do
+      for sDice in string.gmatch(sDamageRaw,"%d+[dD%-]%d+[%+%-]%d+") do
 Debug.console("npc_import.lua","setActionWeapon","sDice1",sDice);                  
         table.insert(aAttacks, sDice)
       end
-      for sDice, sOther in string.gmatch(sDamageRaw,"(%d+[dD-]%d+)([^%d%+-])") do
-Debug.console("npc_import.lua","setActionWeapon","sDice2",sDice);                  
-Debug.console("npc_import.lua","setActionWeapon","sOther1",sOther);                  
-        table.insert(aAttacks, sDice)
-      end
-      for sDice in string.gmatch(sDamageRaw,"(%d+[dD-]%d+)") do
+      -- for sDice, sOther in string.gmatch(sDamageRaw,"(%d+[dD%-]%d+)([^%d%+%-])") do
+-- Debug.console("npc_import.lua","setActionWeapon","sDice2",sDice);                  
+-- Debug.console("npc_import.lua","setActionWeapon","sOther1",sOther);                  
+        -- if sDice ~= "" and sOther ~= "" then
+          -- table.insert(aAttacks, sDice);
+        -- end
+      -- end
+      for sDice in string.gmatch(sDamageRaw,"(%d+[dD%-]%d+)") do
 Debug.console("npc_import.lua","setActionWeapon","sDice5",sDice);                  
         table.insert(aAttacks, sDice)
       end
     end
     if #aAttacks < 1 then
 Debug.console("npc_import.lua","setActionWeapon","aAttacks3",aAttacks);         
-      for sDice in string.gmatch(sAttacksRaw,"%d+[dD-]%d+[%+-]%d+") do
+      for sDice in string.gmatch(sAttacksRaw,"%d+[dD%-]%d+[%+%-]%d+") do
 Debug.console("npc_import.lua","setActionWeapon","sDice3",sDice);                  
         table.insert(aAttacks, sDice)
       end
-      for sDice, sOther in string.gmatch(sAttacksRaw,"(%d+[dD-]%d+)([^%d%+-])") do
-Debug.console("npc_import.lua","setActionWeapon","sDice4",sDice);                  
-Debug.console("npc_import.lua","setActionWeapon","sOther2",sOther);                  
-        table.insert(aAttacks, sDice)
-      end
-      for sDice in string.gmatch(sAttacksRaw,"(%d+[dD-]%d+)") do
+      -- for sDice, sOther in string.gmatch(sAttacksRaw,"(%d+[dD-]%d+)([^%d%+%-])") do
+-- Debug.console("npc_import.lua","setActionWeapon","sDice4",sDice);                  
+-- Debug.console("npc_import.lua","setActionWeapon","sOther2",sOther);   
+        -- if sDice ~= "" and sOther ~= "" then
+          -- table.insert(aAttacks, sDice);
+        -- end
+      -- end
+      for sDice in string.gmatch(sAttacksRaw,"(%d+[dD%-]%d+)") do
 Debug.console("npc_import.lua","setActionWeapon","sDice6",sDice);                  
         table.insert(aAttacks, sDice)
       end
@@ -340,8 +344,8 @@ Debug.console("npc_import.lua","setActionWeapon","sDice6",sDice);
       for nIndex,sAttack in pairs(aAttacks) do 
   Debug.console("npc_import.lua","setActionWeapon","nIndex",nIndex);            
   Debug.console("npc_import.lua","setActionWeapon","sAttack",sAttack);            
-        if (string.match(sAttack,"^(%d+)([-])(%d+)$")) then
-          local sCount, sSign, sSize = string.match(sAttack,"^(%d+)([-])(%d+)$");
+        if (string.match(sAttack,"^(%d+)([%-])(%d+)$")) then
+          local sCount, sSign, sSize = string.match(sAttack,"^(%d+)([%-])(%d+)$");
           local nCount = tonumber(sCount) or 1;
           local nSize = tonumber(sSize) or 1;
           local sRemainder = "";
@@ -407,4 +411,11 @@ function getSpeedFactorFromSize(nodeNPC)
 	end
   
   return nSpeedFactor;
+end
+
+-- if these values not set, give it a default
+function setSomeDefaults(nodeNPC) 
+  DB.setValue(nodeNPC,"size","string",DB.getValue(nodeNPC,"size","Medium"));
+  DB.setValue(nodeNPC,"type","string",DB.getValue(nodeNPC,"type","Other"));
+  DB.setValue(nodeNPC,"alignment","string",DB.getValue(nodeNPC,"alignment","Neutral"));
 end

@@ -42,7 +42,7 @@
                   DB.setValue(node,"itemnote.name","string",sName);
                   DB.setValue(node,"itemnote.text","formattedtext",sText);
                   DB.setValue(node,"itemnote.locked","number",nLocked);
-                  DB.setValue(node, "shortcut", "windowreference", "encounter", node.getPath() .. '.itemnote');
+                  DB.setValue(node, "shortcut", "windowreference", "quicknote", node.getPath() .. '.itemnote');
                 end
               end
               return true;

@@ -462,7 +462,7 @@
             end                    
         </script>
 				<anchored>
-					<top parent="columnanchor" anchor="bottom" relation="relative" offset="2" />
+					<top parent="columnanchor" anchor="bottom" relation="relative" offset="7" />
 					<left offset="10" />
 					<right offset="-5" />
 				</anchored>
@@ -508,7 +508,7 @@
 
 			<subwindow name="actions">
 				<anchored>
-					<top parent="columnanchor" anchor="bottom" relation="relative" offset="0" />
+					<top parent="columnanchor" anchor="bottom" relation="relative" offset="2" />
 					<left />
 					<right />
 				</anchored>

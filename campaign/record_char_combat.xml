@@ -221,10 +221,33 @@
   </windowclass>
 
   <windowclass name="abilitynotes_item">
+    <!-- for some reason the .text doesn't update until they press tab and go to the "name" of the record
+         even if they close the window the record doesn't trigger a onupdate or childupdate.
+         it does trigger if they they "lock/unlock" the record.
+    -->
+    
     <script>
       function onInit()
         registerMenuItem(Interface.getString("list_menu_deleteitem"), "delete", 6);
         registerMenuItem(Interface.getString("list_menu_deleteconfirm"), "delete", 6, 7);
+        local node = getDatabaseNode();
+        DB.addHandler(node.getPath() .. ".text", "onUpdate", onQuicknoteChanged);
+        DB.addHandler(node.getPath(), "onChildUpdate", onQuicknoteChanged);
+        onQuicknoteChanged(node);
+      end
+      function onClose()
+        local node = getDatabaseNode();
+        DB.removeHandler(node.getPath() .. ".text", "onUpdate", onQuicknoteChanged);
+        DB.removeHandler(node.getPath(), "onChildUpdate", onQuicknoteChanged);
+      end
+      
+      function onQuicknoteChanged(node)
+        if node.getPath():match("text$") then
+          node = node.getParent();
+        end
+        local sText = DB.getValue(node,"text","");
+        local sTextOnly = ManagerImportADND.stripFormattedText(sText);
+        shortcut.setTooltipText(sTextOnly);
       end
       
       function onMenuSelection(selection,subselection)
@@ -292,6 +315,7 @@
           <right anchor="left" relation="relative" offset="-15" />
         </anchored>
         <multilinespacing>20</multilinespacing>
+        <readonly />
       </string_textlistitem>
     </sheetdata>
   </windowclass>
