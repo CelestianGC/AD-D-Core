@@ -194,7 +194,7 @@
 	<template name="frame_ctsub">
 		<genericcontrol>
 			<anchored>
-				<left parent="name" offset="15" />
+				<left parent="token" offset="25" />
 				<top offset="-8" />
 				<right offset="-4" />
 				<bottom offset="8" />
@@ -206,7 +206,7 @@
 	<template name="icon_ctsection">
 		<genericcontrol>
 			<anchored width="25" height="32">
-				<left parent="name" offset="-10" />
+				<left parent="token" offset="0" />
 				<top parent="name" anchor="bottom" relation="current" offset="3" />
 			</anchored>
 		</genericcontrol>
@@ -219,11 +219,11 @@
 			<default>10</default>
 			<script>
 				function action(draginfo)
-                    local node = window.getDatabaseNode();
-                    local rActor = ActorManager.getActorFromCT(node);
-                    local sActorType, nodeActor = ActorManager.getTypeAndNode(rActor);
-                    local nTargetDC = DB.getValue(nodeActor, "abilities.".. self.target[1] .. ".score", 0);
-                    ActionCheck.performRoll(draginfo, rActor, self.target[1], nTargetDC, CombatManager.isCTHidden(node));
+          local node = window.getDatabaseNode();
+          local rActor = ActorManager.getActorFromCT(node);
+          local sActorType, nodeActor = ActorManager.getTypeAndNode(rActor);
+          local nTargetDC = DB.getValue(nodeActor, "abilities.".. self.target[1] .. ".score", 0);
+          ActionCheck.performRoll(draginfo, rActor, self.target[1], nTargetDC, CombatManager.isCTHidden(node));
 					return true;
 				end
 				

@@ -45,6 +45,7 @@ function onDoubleClickADND(tokenMap, vImage)
  			for k,v in pairs(ctwnd.list.getWindows()) do
         if v.getDatabaseNode().getPath() == sNodeID then 
           ctwnd.list.scrollToWindow(v);
+          v.name.setFocus();
         end
       end
     end

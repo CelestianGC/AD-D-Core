@@ -412,8 +412,8 @@
 			<number_ct_ability name="strength" source="abilities.strength.score">
 				<anchored >
 					<top parent="name" anchor="bottom" relation="relative" offset="15" />
-                    <left parent="attributesicon" anchor="right" offset="135" />
-                </anchored>
+            <left parent="attributesicon" anchor="right" offset="135" />
+        </anchored>
 				<target>strength</target>
 			</number_ct_ability>
 			<ct_abilities_label name="strength_label">
@@ -466,13 +466,13 @@
 				<anchored >
 					<top parent="name" anchor="bottom" relation="relative" offset="15" />
 					<!-- <left parent="attributesicon" anchor="right" offset="6" /> -->
-                    <left parent="attributesicon" anchor="right" offset="100" />
-                </anchored>
+          <left parent="attributesicon" anchor="right" offset="100" />
+        </anchored>
 				<tooltip textres="save_paralyzation_full" />
 				<target>paralyzation</target>
 			</number_ct_savescore>
 			<ct_save_toplabel name="paralyzation_label">
-   				<tooltip textres="save_paralyzation_full" />
+        <tooltip textres="save_paralyzation_full" />
 				<static text="Para" />
 				<anchored to="paralyzation"  />
 			</ct_save_toplabel>
@@ -483,7 +483,7 @@
 				<target>poison</target>
 			</number_ct_savescore>
 			<ct_save_toplabel name="poison_label">
-   				<tooltip textres="save_poison_full" />
+        <tooltip textres="save_poison_full" />
 				<static text="Poison" />
 				<anchored to="poison"  />
 			</ct_save_toplabel>
@@ -595,33 +595,33 @@
 				<disabled />
 			</genericcontrol>
 
-            <subwindow name="sub_skills">
-                <anchored>
-                    <top parent="name" anchor="bottom" relation="relative" offset="2" />
-                    <left parent="attributesicon" anchor="right" offset="10" />
-                    <right offset="-20" />
-                </anchored>
-                <class>ct_charsheet_skills</class>
-				<activate />
+      <subwindow name="sub_skills">
+        <anchored>
+          <top parent="name" anchor="bottom" relation="relative" offset="2" />
+          <left parent="attributesicon" anchor="right" offset="10" />
+          <right offset="-20" />
+        </anchored>
+        <class>ct_charsheet_skills</class>
+        <activate />
 				<fastinit />
-            </subwindow>
+      </subwindow>
 
          
-            <frame_ctsub name="frame_attributes">
+      <frame_ctsub name="frame_attributes">
  				<anchored>
  					<top parent="attributesicon" offset="-1"/>
 					<bottom parent="sub_skills" offset="10" />
 				</anchored>
-            </frame_ctsub>
+      </frame_ctsub>
 
 			<!-- Offense subsection -->
 			<icon_ctsection name="activeicon">
-                <icon>button_sword_down</icon>
+        <icon>button_sword_down</icon>
 			</icon_ctsection>
 
 			<label name="thacolabel">
 				<static textres="thaco" />
-                <anchored to="activeicon" position="righthigh" offset="20,9" />
+        <anchored to="activeicon" position="righthigh" offset="20,9" />
 			</label>
 			<number_ct name="thaco">
                 <anchored to="thacolabel" position="righthigh" offset="10" width="25" height="20" />           
@@ -631,7 +631,7 @@
 				<anchored to="thaco" position="righthigh" offset="10"  />
 				<static textres="init" />
 			</label>
-            <number_ct_init name="init">
+        <number_ct_init name="init">
 				<anchored to="initlabel" position="righthigh" offset="10,0" width="25" />
 			</number_ct_init>
 
@@ -650,7 +650,7 @@
 			</label>
 			<string_ct name="speed" >
 				<anchored to="speedlabel" position="righthigh" offset="5,0" height="20" />
-                <readonly />
+        <readonly />
 			</string_ct>
 
 			<label name="damagelabel">

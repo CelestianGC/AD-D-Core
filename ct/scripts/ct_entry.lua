@@ -25,10 +25,10 @@ function onInit()
 	registerMenuItem(Interface.getString("list_menu_deleteitem"), "delete", 6);
 	registerMenuItem(Interface.getString("list_menu_deleteconfirm"), "delete", 6, 7);
 
-    local node = getDatabaseNode();
-    DB.addHandler(DB.getPath(node, "effects"), "onChildUpdate", updateForEffects);
-    DB.addHandler(node.getPath() .. ".active", "onUpdate", toggleNPCCombat);
-    updateForEffects();
+  local node = getDatabaseNode();
+  DB.addHandler(DB.getPath(node, "effects"), "onChildUpdate", updateForEffects);
+  DB.addHandler(node.getPath() .. ".active", "onUpdate", toggleNPCCombat);
+  updateForEffects();
 end
 
 function onClose()
@@ -130,8 +130,8 @@ function onLinkChanged()
 		linkPCFields();
 		name.setLine(false);
 	else
-        --- NPC links.
-        linkNPCFields();
+    --- NPC links.
+    linkNPCFields();
     end
 end
 
@@ -170,7 +170,7 @@ end
 function linkNPCFields()
 	local nodeChar = link.getTargetDatabaseNode();
 	if nodeChar then
-        name.setLink(nodeChar.createChild("name", "string"), true);
+    name.setLink(nodeChar.createChild("name", "string"), false);
         
 		-- hptotal.setLink(nodeChar.createChild("hptotal", "number"));
 		-- hptemp.setLink(nodeChar.createChild("hptemp", "number"));
@@ -188,12 +188,12 @@ function linkNPCFields()
 		paralyzation.setLink(nodeChar.createChild("saves.paralyzation.score", "number"), true);
 		poison.setLink(nodeChar.createChild("saves.poison.score", "number"), true);
 		death.setLink(nodeChar.createChild("saves.death.score", "number"), true);
-        rod.setLink(nodeChar.createChild("saves.rod.score", "number"), true);
+    rod.setLink(nodeChar.createChild("saves.rod.score", "number"), true);
 		staff.setLink(nodeChar.createChild("saves.staff.score", "number"), true);
 		wand.setLink(nodeChar.createChild("saves.wand.score", "number"), true);
-        petrification.setLink(nodeChar.createChild("saves.petrification.score", "number"), true);
+    petrification.setLink(nodeChar.createChild("saves.petrification.score", "number"), true);
 		polymorph.setLink(nodeChar.createChild("saves.polymorph.score", "number"), true);
-        breath.setLink(nodeChar.createChild("saves.breath.score", "number"), true);
+    breath.setLink(nodeChar.createChild("saves.breath.score", "number"), true);
 		spell.setLink(nodeChar.createChild("saves.spell.score", "number"), true);
 
         -- combat
@@ -225,12 +225,12 @@ function linkPCFields()
 		paralyzation.setLink(nodeChar.createChild("saves.paralyzation.score", "number"), true);
 		poison.setLink(nodeChar.createChild("saves.poison.score", "number"), true);
 		death.setLink(nodeChar.createChild("saves.death.score", "number"), true);
-        rod.setLink(nodeChar.createChild("saves.rod.score", "number"), true);
+    rod.setLink(nodeChar.createChild("saves.rod.score", "number"), true);
 		staff.setLink(nodeChar.createChild("saves.staff.score", "number"), true);
 		wand.setLink(nodeChar.createChild("saves.wand.score", "number"), true);
-        petrification.setLink(nodeChar.createChild("saves.petrification.score", "number"), true);
+    petrification.setLink(nodeChar.createChild("saves.petrification.score", "number"), true);
 		polymorph.setLink(nodeChar.createChild("saves.polymorph.score", "number"), true);
-        breath.setLink(nodeChar.createChild("saves.breath.score", "number"), true);
+    breath.setLink(nodeChar.createChild("saves.breath.score", "number"), true);
 		spell.setLink(nodeChar.createChild("saves.spell.score", "number"), true);
 
         
@@ -341,7 +341,7 @@ function setActiveVisible()
 	-- reaction.setVisible(v);
 	-- reaction_label.setVisible(v);
 	
-    thaco.setVisible(v);
+  thaco.setVisible(v);
 	thacolabel.setVisible(v);
     
 	init.setVisible(v);
@@ -354,25 +354,25 @@ function setActiveVisible()
 	spacer_action.setVisible(v);
 	
 	if bNPC then
-        damage.setVisible(v);
-        damagelabel.setVisible(v);
-        
-        specialdefenselabel.setVisible(v);
-        specialDefense.setVisible(v);
-        specialattackslabel.setVisible(v);
-        specialAttacks.setVisible(v);
-        
-        sub_actions.setVisible(v);
+    damage.setVisible(v);
+    damagelabel.setVisible(v);
+    
+    specialdefenselabel.setVisible(v);
+    specialDefense.setVisible(v);
+    specialattackslabel.setVisible(v);
+    specialAttacks.setVisible(v);
+    
+    sub_actions.setVisible(v);
 	else
-        damage.setVisible(false);
-        damagelabel.setVisible(false);
+    damage.setVisible(false);
+    damagelabel.setVisible(false);
 
-        specialdefenselabel.setVisible(false);
-        specialDefense.setVisible(false);
-        specialattackslabel.setVisible(false);
-        specialAttacks.setVisible(false);
+    specialdefenselabel.setVisible(false);
+    specialDefense.setVisible(false);
+    specialattackslabel.setVisible(false);
+    specialAttacks.setVisible(false);
 
-        sub_actions.setVisible(false);
+    sub_actions.setVisible(false);
 	end
 	
 	frame_active.setVisible(v);
