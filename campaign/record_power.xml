@@ -390,15 +390,19 @@
         </anchored>
         <invisible />
       </number_power_init>
+      
+      <memorize_remove name="memorization_remove" />
  			<basicnumber name="memorizedcount" source="memorized">
         <anchored to="name" width="23" height="18">
           <top offset="2"/>
-          <left anchor="right" relation="relative" offset="10" />
+          <left anchor="right" relation="relative" offset="0" />
         </anchored>
         <readonly />
         <invisible />
         <tooltip textres="power_label_memorizecount_tooltip" />
 			</basicnumber> 
+      <memorize_add name="memorization_add" />
+      
   		<!-- hide spell button when all memorizations used -->
       <button_powermemorize name="hidespellbutton">
         <script>
@@ -433,7 +437,7 @@
         </script>
         <anchored to="name" width="23" height="18">
           <top offset="2"/>
-          <left anchor="right" relation="relative" offset="10" />
+          <left anchor="right" relation="relative" offset="5" />
         </anchored>
         <tooltip textres="power_label_hidespell_tooltip" />
         <icon normal="button_dialog_cancel" pressed="button_dialog_cancel_down" />

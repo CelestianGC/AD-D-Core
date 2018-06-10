@@ -36,22 +36,22 @@ function getPercentWounded2(sNodeType, node)
     local nLeftOverHP = (nHP - nWounds);
 	if nPercentWounded >= 1 then
         -- AD&D goes to -10 then dead
-            if nLeftOverHP <= -10 then
-                sStatus = "Dead";
-            else
-            -- if nDeathSaveFail >= 3 then
-                -- sStatus = "Dead";
-            -- else
-            if EffectManager5E.hasEffect(rActor, "Stable") then
-                sStatus = "Unconscious";
-            else
-                sStatus = "Dying";
-            end
-    --			if nDeathSaveFail > 0 then
-    --				sStatus = sStatus .. " (" .. nDeathSaveFail .. ")";
-            if nLeftOverHP < 1 then
-                sStatus = sStatus .. " (" .. nLeftOverHP .. ")";
-            end
+    if nLeftOverHP <= -10 then
+        sStatus = "Dead";
+    else
+    -- if nDeathSaveFail >= 3 then
+        -- sStatus = "Dead";
+    -- else
+    if EffectManager5E.hasEffect(rActor, "Stable") then
+        sStatus = "Unconscious";
+    else
+        sStatus = "Dying";
+    end
+--			if nDeathSaveFail > 0 then
+--				sStatus = sStatus .. " (" .. nDeathSaveFail .. ")";
+    if nLeftOverHP < 1 then
+        sStatus = sStatus .. " (" .. nLeftOverHP .. ")";
+    end
 		end
 	elseif OptionsManager.isOption("WNDC", "detailed") then
 		if nPercentWounded >= .75 then

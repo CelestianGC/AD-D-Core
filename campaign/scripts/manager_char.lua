@@ -889,10 +889,13 @@ function onItemIDChanged(nodeItemID)
 end
 
 function checkWeaponIDChange(nodeWeapon)
-	local _,sRecord = DB.getValue(nodeWeapon, "shortcut", "", "");
+	local sClass,sRecord = DB.getValue(nodeWeapon, "shortcut", "", "");
 	if sRecord == "" then
 		return;
 	end
+  if sClass == "" or (not sClass == "item") then
+    return;
+  end
 	local nodeItem = DB.findNode(sRecord);
 
 	if not nodeItem then

@@ -280,6 +280,9 @@
   <string name="power_label_memorize">Memorize</string>
   <string name="power_label_memorize_tooltip">Click the spell book to memorize this spell.</string>
   <string name="power_label_memorizecount_tooltip">Number of times this spell is memorized.</string>
+  <string name="power_label_memorize_remove_tooltip">Remove memorized spell slot.</string>
+  <string name="power_label_memorize_add_tooltip">Memorize spell slot.</string>
+  
   <string name="power_label_initiative">Initiative</string>
   <string name="power_label_initiative_tooltip">Roll (or change) initiative for this action.</string>
   <string name="power_label_hidespell">Hide</string>

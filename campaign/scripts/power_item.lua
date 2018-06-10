@@ -159,23 +159,31 @@ function onDisplayChanged()
         header.subwindow.actionsmini.setVisible(false);
         header.subwindow.castinitiative.setVisible(false);
         header.subwindow.memorizedcount.setVisible(false);
+        header.subwindow.memorization_remove.setVisible(false);
+        header.subwindow.memorization_add.setVisible(false);
     elseif sDisplayMode == "action" then
         header.subwindow.group.setVisible(false);
         header.subwindow.shortdescription.setVisible(false);
         header.subwindow.actionsmini.setVisible(true);
         header.subwindow.castinitiative.setVisible(true);
         header.subwindow.memorizedcount.setVisible(true);
+        header.subwindow.memorization_remove.setVisible(true);
+        header.subwindow.memorization_add.setVisible(true);
     else
         header.subwindow.group.setVisible(true);
         header.subwindow.shortdescription.setVisible(false);
         header.subwindow.actionsmini.setVisible(false);
         header.subwindow.castinitiative.setVisible(false);
         header.subwindow.memorizedcount.setVisible(false);
+        header.subwindow.memorization_remove.setVisible(false);
+        header.subwindow.memorization_add.setVisible(false);
     end
 
     -- if the spell can not be memorized, hide it
     if not PowerManager.canMemorizeSpell(getDatabaseNode()) then
         header.subwindow.memorizedcount.setVisible(false);
+        header.subwindow.memorization_remove.setVisible(false);
+        header.subwindow.memorization_add.setVisible(false);
     else
     end
 end

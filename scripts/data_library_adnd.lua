@@ -146,7 +146,21 @@ function processUpdateADND()
       -- end
     -- end
   
-  
+  -- fix some unidentified issues caused by some code no longer around
+  -- for _,nodeNPC in pairs(DB.getChildren("npc")) do
+    -- local nCount = 0;
+    -- for _, nodeWeapon in pairs(DB.getChildren(nodeNPC,"weaponlist")) do
+      -- nCount = nCount + 1;
+      -- local sName = DB.getValue(nodeWeapon,"name","");
+-- Debug.console("data_library_adnd.lua","processUpdateADND","npc-name",DB.getValue(nodeNPC,"name","NO-NAME"));    
+-- Debug.console("data_library_adnd.lua","processUpdateADND","weapon-name",DB.getValue(nodeWeapon,"name","NO-NAME"));    
+      -- if sName:match("unidentified item") then
+        -- DB.setValue(nodeWeapon,"name","string","Attack #" .. nCount);
+        -- Debug.console("data_library_adnd.lua","processUpdateADND","SET weapon-name",DB.getValue(nodeWeapon,"name","NO-NAME"));    
+      -- end
+    -- end
+  -- end
+
   
   
   

@@ -2419,8 +2419,16 @@ end
 
 -- cast spell
 function removeMemorizedSpell(draginfo, node)
-	local nodeSpell = node.getChild("...");
-    local bSuccess = true;
+--Debug.console("manager_power.lua","removeMemorizedSpell","node",node);
+  -- we remove spells from casting the spell OR from the 
+  -- quick actions/buttons so need to see where we are
+  local nodeSpell = node; -- assume from quick buttons
+  if node.getPath():match("%.actions%.") then
+  -- we're casting the spell, so from within *.actions.*
+    nodeSpell = node.getChild("...");
+  end
+--Debug.console("manager_power.lua","removeMemorizedSpell","nodeSpell",nodeSpell);
+	--local nodeSpell = node.getChild("...");
 	if not nodeSpell then
 		return;
 	end
@@ -2432,46 +2440,45 @@ function removeMemorizedSpell(draginfo, node)
 -- Debug.console("manager_power.lua","removeMemorizedSpell","nodeSpell",nodeSpell);
 -- Debug.console("manager_power.lua","removeMemorizedSpell","nodeChar",nodeChar);
 
-    local bisNPC = (not ActorManager.isPC(nodeChar));
-    --local sName = DB.getValue(nodeSpell, "name", "");
-    local nLevel = DB.getValue(nodeSpell, "level", 0);
-    local sSpellType = DB.getValue(nodeSpell, "type", ""):lower();
-    local sSource = DB.getValue(nodeSpell, "source", ""):lower();
-    --local sCastTime = DB.getValue(nodeSpell, "castingtime", "");
-    --local sDuration = DB.getValue(nodeSpell, "duration", "");
-    local nMemorized = DB.getValue(nodeSpell, "memorized", 0);
+  local bSuccess = true;
+  local bisNPC = (not ActorManager.isPC(nodeChar));
+  --local sName = DB.getValue(nodeSpell, "name", "");
+  local nLevel = DB.getValue(nodeSpell, "level", 0);
+  local sSpellType = DB.getValue(nodeSpell, "type", ""):lower();
+  local sSource = DB.getValue(nodeSpell, "source", ""):lower();
+  --local sCastTime = DB.getValue(nodeSpell, "castingtime", "");
+  --local sDuration = DB.getValue(nodeSpell, "duration", "");
+  local nMemorized = DB.getValue(nodeSpell, "memorized", 0);
     
-    -- this should let 5e spells work
-    if canMemorizeSpell(nodeSpell) then
-    --if (nLevel>0 and (isArcaneSpellType(sSpellType) or isArcaneSpellType(sSource) or isDivineSpellType(sSpellType) or isDivineSpellType(sSource)) ) then
-        local nUsedArcane = DB.getValue(nodeChar, "powermeta.spellslots" .. nLevel .. ".used", 0);
-        local nMaxArcane = DB.getValue(nodeChar, "powermeta.spellslots" .. nLevel .. ".max", 0);
-        local nUsedDivine = DB.getValue(nodeChar, "powermeta.pactmagicslots" .. nLevel .. ".used", 0);
-        local nMaxDivine = DB.getValue(nodeChar, "powermeta.pactmagicslots" .. nLevel .. ".max", 0);
+  -- this should let 5e spells work
+  if canMemorizeSpell(nodeSpell) then
+    local nUsedArcane = DB.getValue(nodeChar, "powermeta.spellslots" .. nLevel .. ".used", 0);
+    local nMaxArcane  = DB.getValue(nodeChar, "powermeta.spellslots" .. nLevel .. ".max", 0);
+    local nUsedDivine = DB.getValue(nodeChar, "powermeta.pactmagicslots" .. nLevel .. ".used", 0);
+    local nMaxDivine  = DB.getValue(nodeChar, "powermeta.pactmagicslots" .. nLevel .. ".max", 0);
 
-        -- we dont stop them from casting the spell but we do 
-        -- spam text that they didnt have it memorized
-        if (nMemorized <= 0 and not bisNPC and not User.isHost()) then
-          -- didnt have any more memorized copies of the spell to cast
-          --bSuccess = false;
-          ChatManager.Message(Interface.getString("message_notmemorized"), true, ActorManager.getActor("pc", nodeChar));
-        end
-        if (nMemorized < 1) then -- sanity check, to make sure memorize never less than 0.
-            nMemorized = 1;
-        end
-        DB.setValue(nodeSpell,"memorized","number",(nMemorized-1));
-        if (isArcaneSpellType(sSpellType) or isArcaneSpellType(sSource)) then
-            local nLeftOver = (nUsedArcane - 1);
-            if nLeftOver < 0 then nLeftOver = 0; end
-            DB.setValue(nodeChar,"powermeta.spellslots" .. nLevel .. ".used","number",nLeftOver);
-        elseif (isDivineSpellType(sSpellType) or isDivineSpellType(sSource)) then
-            local nLeftOver = (nUsedDivine - 1);
-            if nLeftOver < 0 then nLeftOver = 0; end
-            DB.setValue(nodeChar,"powermeta.pactmagicslots" .. nLevel .. ".used","number",nLeftOver);
-        end
+    -- we dont stop them from casting the spell but we do 
+    -- spam text that they didnt have it memorized
+    if (nMemorized <= 0 and not bisNPC and not User.isHost()) then
+      -- didnt have any more memorized copies of the spell to cast
+      --bSuccess = false;
+      ChatManager.Message(Interface.getString("message_notmemorized"), true, ActorManager.getActor("pc", nodeChar));
     end
-
-        return bSuccess;
+    -- we make sure we have spell slots to remove here...
+    if nMemorized >= 1 then
+      DB.setValue(nodeSpell,"memorized","number",(nMemorized-1));
+      if (isArcaneSpellType(sSpellType) or isArcaneSpellType(sSource)) then
+        local nLeftOver = (nUsedArcane - 1);
+        if nLeftOver < 0 then nLeftOver = 0; end
+        DB.setValue(nodeChar,"powermeta.spellslots" .. nLevel .. ".used","number",nLeftOver);
+      elseif (isDivineSpellType(sSpellType) or isDivineSpellType(sSource)) then
+        local nLeftOver = (nUsedDivine - 1);
+        if nLeftOver < 0 then nLeftOver = 0; end
+        DB.setValue(nodeChar,"powermeta.pactmagicslots" .. nLevel .. ".used","number",nLeftOver);
+      end
+    end
+  end
+  return bSuccess;
 end
 
 -- return try if spelltype is valid arcane spell type, this is strictly because I also wanted

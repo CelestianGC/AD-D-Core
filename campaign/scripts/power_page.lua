@@ -318,8 +318,8 @@ function updatePowerWindowUses(nodeChar, w)
 	local nCast = w.cast.getValue();
 	local nPrepared = w.prepared.getValue();
 	local sUsesPeriod = w.usesperiod.getValue();
-    local nodeSpell = w.getDatabaseNode();
-    local nMemorizedCount = DB.getValue(nodeSpell,"memorized",0);
+  local nodeSpell = w.getDatabaseNode();
+  local nMemorizedCount = DB.getValue(nodeSpell,"memorized",0);
 	local nWasMemorized = DB.getValue(nodeSpell,"wasmemorized",0);
     
 	-- Get the power group, and whether it's a caster group

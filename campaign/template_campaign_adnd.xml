@@ -734,4 +734,57 @@
 		</basicnumber>
 	</template>
     
+
+<!-- add remove memorized spells -->
+	<template name="button_memorize_remove">
+		<buttoncontrol name="mem_remove">
+			<anchored height="24" width="24" />
+			<!-- <frame name="fieldlight" offset="2,2,2,2" /> -->
+			<state tooltipres="power_label_memorize_remove_tooltip" icon="button_page_prev" />
+			<invisible />
+      <script>
+				function onButtonPress()
+          local nodeSpell = window.getDatabaseNode();
+          PowerManager.removeMemorizedSpell(nil,nodeSpell);
+					return true;
+				end
+      </script>
+		</buttoncontrol>
+	</template>
+	<template name="button_memorize_add">
+		<buttoncontrol name="mem_add">
+			<anchored height="24" width="24" />
+			<!-- <frame name="fieldlight" offset="2,2,2,2" /> -->
+			<state tooltipres="power_label_memorize_add_tooltip" icon="button_page_next" />
+			<invisible />
+      <script>
+				function onButtonPress()
+          local nodeSpell = window.getDatabaseNode();
+          PowerManager.memorizeSpell(nil,nodeSpell);
+					return true;
+				end
+      </script>
+		</buttoncontrol>
+	</template>
+
+  <template name="memorize_remove">
+		<button_memorize_remove>
+        <anchored to="name" width="18" height="12">
+          <top offset="6"/>
+          <left anchor="right" relation="relative" offset="5" />
+        </anchored>
+		</button_memorize_remove>
+	</template>
+  
+	<template name="memorize_add">
+		<button_memorize_add>
+        <anchored to="name" width="18" height="12">
+          <top offset="6"/>
+          <left anchor="right" relation="relative" offset="0" />
+        </anchored>
+		</button_memorize_add>
+	</template>
+<!-- end add remove memorized spells -->
+	
+    
 </root>
