@@ -104,10 +104,10 @@ function updateAscendingValues()
   -- setup handlers for whatever mode we're in, remove ones we're not
   if (bOptAscendingAC) then
     DB.removeHandler(DB.getPath(node, "combat.thaco.score"),    "onUpdate", updateBAB);  
-    DB.addHandler(DB.getPath(node, "combat.bab.base"),    "onUpdate", updateTHACO);  
+    DB.addHandler(DB.getPath(node, "combat.bab.score"),    "onUpdate", updateTHACO);  
     updateTHACO(node);
   else
-    DB.removeHandler(DB.getPath(node, "combat.bab.base"),    "onUpdate", updateTHACO);  
+    DB.removeHandler(DB.getPath(node, "combat.bab.score"),    "onUpdate", updateTHACO);  
 
     DB.addHandler(DB.getPath(node, "combat.thaco.score"),    "onUpdate", updateBAB);  
     updateBAB(node);
@@ -136,11 +136,11 @@ function updateBAB()
   if (nTHACO > 0) then
     nBAB = 20 - nTHACO;
   end
-  DB.setValue(node,"combat.bab.base","number",nBAB);
+  DB.setValue(node,"combat.bab.score","number",nBAB);
 end
 function updateTHACO()
  local node = getDatabaseNode();
- local nBAB = DB.getValue(node,"combat.bab.base",0);
+ local nBAB = DB.getValue(node,"combat.bab.score",0);
  local nTHACO = 20;
  if (nBAB > 0) then
   nTHACO = 20 - nBAB;

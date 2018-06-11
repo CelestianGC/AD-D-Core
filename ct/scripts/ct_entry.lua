@@ -448,6 +448,7 @@ function updateAscendingValues()
   local nodeCT = getDatabaseNode();
   local nodeChar = link.getTargetDatabaseNode();
   local bOptAscendingAC = (OptionsManager.getOption("HouseRule_ASCENDING_AC"):match("on") ~= nil);
+  -- check that the sword icon is active
 	local bActive = (activateactive.getValue() == 1)
   
   -- npc locations

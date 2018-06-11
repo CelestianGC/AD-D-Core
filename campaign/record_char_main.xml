@@ -772,7 +772,7 @@
 				<static textres="thaco" />
       </label_combatscores>
 			
-			<number_charthaco_charsheet name="bab" source="combat.bab.base">
+			<number_charthaco_charsheet name="bab" source="combat.bab.score">
 				<anchored to="combatanchor" width="30" height="30">
 					<top parent="combatanchor" offset="4,0" />
 					<left anchor="right" relation="relative" offset="0" />

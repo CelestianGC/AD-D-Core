@@ -50,6 +50,7 @@
 	<!-- Desktop -->
 	<script name="LibraryData5E" file="scripts/data_library_5E.lua" />
 	<script name="Options5E" file="scripts/data_options_5E.lua" />
+  <script name="OptionsADND" file="scripts/data_options_adnd.lua" />
 	<includefile source="desktop/desktop_classes.xml" />
 	<includefile source="desktop/desktop_local.xml" />
   
@@ -180,7 +181,6 @@
   <script name="ManagerCharlistADND" file="scripts/manager_charlist_adnd.lua" />
   <script name="ManagerImportADND" file="scripts/manager_import_adnd.lua" />
   <script name="TokenManagerDeathIndicator" file="scripts/manager_token_DeathIndicator.lua" />
-  <script name="SingleWindowManager" file="scripts/singlewindow.lua" />
   <script name="ManagerPsionics" file="scripts/manager_psionics_adnd.lua" />
 	<script name="ActionDamagePSP" file="scripts/manager_action_damagepsp.lua" />
 	<script name="ActionHealPSP" file="scripts/manager_action_healpsp.lua" />
