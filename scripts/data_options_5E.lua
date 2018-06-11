@@ -5,6 +5,12 @@
 
 function onInit()
 	registerOptions();
+	
+	OptionsManager.addOptionValue("DDCL", "option_val_DDCL_adnd1", "desktopdecal_adnd1", true);
+	OptionsManager.addOptionValue("DDCL", "option_val_DDCL_adnd2", "desktopdecal_adnd2", true);
+	OptionsManager.addOptionValue("DDCL", "option_val_DDCL_adnd3", "desktopdecal_adnd3", true);
+	OptionsManager.addOptionValue("DDCL", "option_val_DDCL_adnd4", "desktopdecal_adnd4", true);
+	OptionsManager.setOptionDefault("DDCL", "desktopdecal_adnd2");
 end
 
 function registerOptions()
@@ -75,4 +81,7 @@ function registerOptions()
   OptionsManager.registerOption2("HouseRule_CRIT_TYPE", false, "option_header_houserule", "option_label_HR_CRIT", "option_entry_cycler", 
 			{ labels = "option_val_hr_crit_maxdmg|option_val_hr_crit_timestwo|option_val_hr_crit_none", values = "max|timestwo|none", baselabel = "option_val_hr_crit_doubledice", baseval = "doubledice", default = "doubledice" });
 
+  OptionsManager.registerOption2("HouseRule_ASCENDING_AC", false, "option_header_houserule", "option_label_HR_ASENDING_AC", "option_entry_cycler", 
+      { labels = "option_val_on", values = "on", baselabel = "option_val_off", baseval = "off", default = "off" });
+      
 end
