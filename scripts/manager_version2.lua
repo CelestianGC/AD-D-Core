@@ -1,10 +1,10 @@
--- 
+--
 -- Please see the license.html file included with this distribution for 
 -- attribution and copyright information.
 --
 
-local rsname = "AD&D Core";
-local rsmajorversion = 26;
+local rsname = "2E";
+local rsmajorversion = 27;
 
 function onInit()
 	if User.isHost() or User.isLocal() then
@@ -121,6 +121,9 @@ function updateCampaign()
 		end
 		if major < 26 then
       updateNPCAscending();
+		end
+		if major < 27 then
+      fixProfSelectedToProf_Selected();
 		end
 	end
 --Debug.console("manager_version2.lua","updateCampaign","major",major);
@@ -678,4 +681,24 @@ function fixAscendingValues(nodeNPC)
     nAscendingAC = 20 - nAC;
   end
   DB.setValue(nodeNPC,"ac_ascending","number",nAscendingAC);
+end
+
+function fixProfSelectedToProf_Selected()
+    -- fix all pc records
+	for _,nodeCharacter in pairs(DB.getChildren("charsheet")) do
+Debug.console("manager_version2.lua","fixProfSelectedToProf_Selected","name",DB.getValue(nodeCharacter,"name","NO-NAME"));
+        for _,nodeWeapon in pairs(DB.getChildren(nodeCharacter, "weaponlist")) do
+Debug.console("manager_version2.lua","fixProfSelectedToProf_Selected","name-nodeWeapon",DB.getValue(nodeWeapon,"name","NO-NAME"));
+            for _,nodeProf in pairs(DB.getChildren(nodeWeapon, "proflist")) do
+                local sSource = DB.getValue(nodeProf,"profselected","");
+                local nodeP = DB.findNode(sSource);
+                local sName = DB.getValue(nodeP,"name","");
+Debug.console("manager_version2.lua","fixProfSelectedToProf_Selected","sSource",sSource);
+Debug.console("manager_version2.lua","fixProfSelectedToProf_Selected","sName",sName);
+                DB.setValue(nodeProf,"prof_selected","string",sSource);
+                DB.setValue(nodeProf,"prof","string",sName);
+                DB.setValue(nodeProf,"profselected","string","");
+            end
+        end
+	end
 end
