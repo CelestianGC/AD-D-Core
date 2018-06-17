@@ -864,18 +864,24 @@ function getCreatureTypeHelper(sTypeCheck, bUseDefaultType)
 end
 
 function isCreatureType(rActor, sTypeCheck)
-	local aTypeCheck = getCreatureTypeHelper(sTypeCheck, false);
+	-- I dont like having static list of types
+  --local aTypeCheck = getCreatureTypeHelper(sTypeCheck, false);
+  -- so ... just split on comma
+  local aTypeCheck = StringManager.split(sTypeCheck:lower(), ",", true);
 	if #aTypeCheck == 0 then
 		return false;
 	end
-	
 	local sType, nodeActor = ActorManager.getTypeAndNode(rActor);
 	local sField = "race";
 	if sType ~= "pc" then
 		sField = "type";
 	end
-	local aTypeActor = getCreatureTypeHelper(DB.getValue(nodeActor, sField, ""), true);
-
+  -- I dont like having static list of types
+	--local aTypeActor = getCreatureTypeHelper(DB.getValue(nodeActor, sField, ""), true);
+  -- so split on comma and go.
+  local sTypeString = DB.getValue(nodeActor, sField, "")
+  local aTypeActor = StringManager.split(sTypeString:lower(), ",", true);
+  
 	local bReturn = false;
 	for kCheck,vCheck in ipairs(aTypeCheck) do
 		if StringManager.contains(aTypeActor, vCheck) then

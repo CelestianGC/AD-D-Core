@@ -2231,25 +2231,25 @@ function addClassRef(nodeChar, sClass, sRecord)
         if not bExistingClass then
             local aDice = {};
             for i = 1, nHDMult do
-                table.insert(aDice, "d" .. nHDSides);
+              table.insert(aDice, "d" .. nHDSides);
             end
             DB.setValue(nodeClass, "hddie", "dice", aDice);
             
-            local sSaveAs = DB.getValue(nodeSource,"saveas","warrior");
-            local sFightAs = DB.getValue(nodeSource,"fightas","warrior");
-            DB.setValue(nodeClass,"saveas","string",sSaveAs);
-            DB.setValue(nodeClass,"fightas","string",sFightAs);
+            -- local sSaveAs = DB.getValue(nodeSource,"saveas","warrior");
+            -- local sFightAs = DB.getValue(nodeSource,"fightas","warrior");
+            -- DB.setValue(nodeClass,"saveas","string",sSaveAs);
+            -- DB.setValue(nodeClass,"fightas","string",sFightAs);
         end
 
         -- we don't need this since we added advancement
         if not bHDFound then
-            ChatManager.SystemMessage(Interface.getString("char_error_addclasshd"));
+          ChatManager.SystemMessage(Interface.getString("char_error_addclasshd"));
         end
         -- Add hit points based on level added
         local nHP = DB.getValue(nodeChar, "hp.total", 0);
         local nConBonus = tonumber(DB.getValue(nodeChar, "abilities.constitution.hitpointadj", 0));
         if type(nConBonus) ~= "number" then
-            nConBonus = 0;
+          nConBonus = 0;
         end
         
         if nTotalLevel == 1 then
@@ -2406,12 +2406,12 @@ function addAdvancement(nodeChar,nodeAdvance,nodeClass)
         end
       end
       for i = 1, 9 do
-          local nSlots = DB.getValue(nodeArcaneSlots,"level" .. i,0);
-          if (nSlots > 0) then
-            local nCurrentSlots = DB.getValue(nodeChar, "powermeta.spellslots" .. i .. ".max",0);
-            local nAdjustedSlots = nCurrentSlots + nSlots;
-            DB.setValue(nodeChar, "powermeta.spellslots" .. i .. ".max", "number", nAdjustedSlots);
-          end
+        local nSlots = DB.getValue(nodeArcaneSlots,"level" .. i,0);
+        if (nSlots > 0) then
+          local nCurrentSlots = DB.getValue(nodeChar, "powermeta.spellslots" .. i .. ".max",0);
+          local nAdjustedSlots = nCurrentSlots + nSlots;
+          DB.setValue(nodeChar, "powermeta.spellslots" .. i .. ".max", "number", nAdjustedSlots);
+        end
       end
     end
     -- divine
@@ -2458,6 +2458,9 @@ function addAdvancement(nodeChar,nodeAdvance,nodeClass)
   local nodeEffects = nodeAdvance.getChild("effectlist");
   addEffectFeature(nodeEffects,nodeChar);
 
+  -- add/update skills
+  addSkillAbilities(nodeAdvance,nodeChar);
+  
   -- add attack abilities for this level if there are any
   addAttackAbilities(nodeAdvance,nodeChar);
   
@@ -2483,6 +2486,101 @@ function addAttackAbilities(nodeAdvance,nodeChar)
       --DB.setValue(nodeWeapon, "shortcut", "windowreference", "item", "....inventorylist." .. nodeItem.getName());
     end
   end
+end
+
+
+-- add skill/non-weapon style abilities
+function addSkillAbilities(nodeAdvance,nodeChar)
+  local bHasSkills = (DB.getChildCount(nodeAdvance, "skilllist") > 0);
+--Debug.console("manager_char.lua","addAttackAbilities","bHasSkills",bHasSkills);  
+  if (bHasSkills) then
+    local nodeSkills = nodeChar.createChild("skilllist");
+    if not nodeSkills then
+      return;
+    end
+    for _,advancementSkill in pairs(DB.getChildren(nodeAdvance, "skilllist")) do
+      local originalSkill = skillExists(nodeChar,DB.getValue(advancementSkill,"name"))
+      if (originalSkill) then
+        -- skill exists already with same name, only update values that are improvements.
+        local sName = DB.getValue(originalSkill,"name","");
+        -- <base_check type="number">6</base_check>
+        local base_check = DB.getValue(originalSkill,"base_check",0);
+        local base_checkNew = DB.getValue(advancementSkill,"base_check",0);
+        if (base_checkNew ~= base_check) then
+          ChatManager.SystemMessage("Updated Skill: " .. sName .. " base_check to new value of " .. base_checkNew);
+          DB.setValue(originalSkill,"base_check","number",base_checkNew);
+        end
+        -- <adj_armor type="number">0</adj_armor>
+        local adj_armor = DB.getValue(originalSkill,"adj_armor",0);
+        local adj_armorNew = DB.getValue(advancementSkill,"adj_armor",0);
+        if (adj_armorNew ~= adj_armor) then
+          ChatManager.SystemMessage("Updated Skill: " .. sName .. " adj_armor to new value of " .. adj_armorNew);
+          DB.setValue(originalSkill,"adj_armor","number",adj_armorNew);
+        end
+        -- <adj_class type="number">0</adj_class>
+        local adj_class = DB.getValue(originalSkill,"adj_class",0);
+        local adj_classNew = DB.getValue(advancementSkill,"adj_class",0);
+        if (adj_classNew ~= adj_class) then
+          ChatManager.SystemMessage("Updated Skill: " .. sName .. " adj_class to new value of " .. adj_classNew);
+          DB.setValue(originalSkill,"adj_class","number",adj_classNew);
+        end
+        -- <adj_mod type="number">0</adj_mod>
+        local adj_mod = DB.getValue(originalSkill,"adj_mod",0);
+        local adj_modNew = DB.getValue(advancementSkill,"adj_mod",0);
+        if (adj_modNew ~= adj_mod) then
+          ChatManager.SystemMessage("Updated Skill: " .. sName .. " adj_mod to new value of " .. adj_modNew);
+          DB.setValue(originalSkill,"adj_mod","number",adj_modNew);
+        end
+        -- <adj_stat type="number">0</adj_stat>
+        local adj_stat = DB.getValue(originalSkill,"adj_stat",0);
+        local adj_statNew = DB.getValue(advancementSkill,"adj_stat",0);
+        if (adj_statNew ~= adj_stat) then
+          ChatManager.SystemMessage("Updated Skill: " .. sName .. " adj_stat to new value of " .. adj_statNew);
+          DB.setValue(originalSkill,"adj_stat","number",adj_statNew);
+        end
+        -- <misc type="number">0</misc>
+        local misc = DB.getValue(originalSkill,"misc",0);
+        local miscNew = DB.getValue(advancementSkill,"misc",0);
+        if (miscNew ~= misc) then
+          ChatManager.SystemMessage("Updated Skill: " .. sName .. " misc to new value of " .. miscNew);
+          DB.setValue(originalSkill,"misc","number",miscNew);
+        end
+        -- <stat type="string">percent</stat>
+        local stat = DB.getValue(originalSkill,"stat","");
+        local statNew = DB.getValue(advancementSkill,"stat","");
+        if (statNew ~= stat) then
+          ChatManager.SystemMessage("Updated Skill:" .. sName .. " stat to new value of " .. statNew);
+          DB.setValue(originalSkill,"stat","string",statNew);
+        end
+        -- formatted text
+        local text = DB.getValue(originalSkill,"stat","");
+        local textNew = DB.getValue(advancementSkill,"text","");
+        if (textNew ~= text ) then
+          ChatManager.SystemMessage("Updated Skill: " .. sName .. " text to new value.");
+          DB.setValue(originalSkill,"text","formattedtext",sText);
+        end
+      else
+        -- brand new skill
+        local newSkill = nodeSkills.createChild();
+        local sName = DB.getValue(advancementSkill,"name","");
+        ChatManager.SystemMessage("Adding new skill: " .. sName .. ".");
+        DB.copyNode(advancementSkill,newSkill);
+      end
+    end
+  end
+end
+
+-- return node of a skill name that matches sSkillName
+function skillExists(nodeChar,sSkillName)
+  local nodeSkillFound = nil;
+    for _,nodeSkill in pairs(DB.getChildren(nodeChar, "skilllist")) do
+      local sName = DB.getValue(nodeSkill,"name");
+      if StringManager.trim(sName:lower()) == sSkillName:lower() then
+        nodeSkillFound = nodeSkill;
+        break; -- found matching skill, get out
+      end
+    end
+return nodeSkillFound;
 end
 
 -- add spells/powers

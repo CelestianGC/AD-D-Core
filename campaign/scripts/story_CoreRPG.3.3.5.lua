@@ -66,7 +66,7 @@ function replaceWindow(sPath)
 	local wNew = Interface.openWindow("encounter", sPath);
 	wNew.setPosition(x,y);
 	wNew.setSize(w,h);
-  if not SingleWindowManager then -- test to look for singlewindowManager -celestian
+  if not WindowManagerADND then -- test to look for WindowManagerADND -celestian
     close();
   end
 end

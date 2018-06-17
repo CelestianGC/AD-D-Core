@@ -13,8 +13,8 @@ function onInit()
 	onAttackChanged();
 	onDamageChanged();
 
-    local node = getDatabaseNode();
-    local sCreaturePath = DB.getChild(node, "...").getPath();
+  local node = getDatabaseNode();
+  local sCreaturePath = DB.getChild(node, "...").getPath();
 	local sWeaponPath = node.getPath();
 
 -- Debug.console("char_weapon.lua","onInit","node",node);
@@ -25,6 +25,7 @@ function onInit()
 	DB.addHandler(DB.getPath(sWeaponPath, "attackbonus"), "onUpdate", onAttackChanged);
 
   DB.addHandler(DB.getPath(sWeaponPath, "proflist"), "onChildUpdate", onAttackAndDamageChanged);
+  --DB.addHandler(DB.getPath(sWeaponPath, "proflist.*.prof_selected"), "onUpdate", onAttackAndDamageChanged);
 	--DB.addHandler(DB.getPath(sWeaponPath, "proflist.*.hitadj"), "onUpdate", onAttackChanged);
 	DB.addHandler(DB.getPath(sCreaturePath, "abilities.*.hitadj"), "onUpdate", onAttackChanged);
 
@@ -61,17 +62,14 @@ function onClose()
 	DB.removeHandler(DB.getPath(sWeaponPath, "attackbonus"), "onUpdate", onAttackChanged);
   
   DB.removeHandler(DB.getPath(sWeaponPath, "proflist"), "onChildUpdate", onAttackAndDamageChanged);
-	--DB.removeHandler(DB.getPath(sWeaponPath, "proflist.*.hitadj"), "onUpdate", onAttackChanged);
+  --DB.removeHandler(DB.getPath(sWeaponPath, "proflist.*.prof_selected"), "onUpdate", onAttackAndDamageChanged);
 	DB.removeHandler(DB.getPath(sCreaturePath, "abilities.*.hitadj"), "onUpdate", onAttackChanged);
 
 	DB.removeHandler(DB.getPath(sWeaponPath, "damagelist.*.type"), "onUpdate", onDamageChanged);
 	DB.removeHandler(DB.getPath(sWeaponPath, "damagelist.*.dice"), "onUpdate", onDamageChanged);
 	DB.removeHandler(DB.getPath(sWeaponPath, "damagelist.*.stat"), "onUpdate", onDamageChanged);
 	DB.removeHandler(DB.getPath(sWeaponPath, "damagelist.*.bonus"), "onUpdate", onDamageChanged);
-	--DB.removeHandler(DB.getPath(sWeaponPath, "proflist.*.dmgadj"), "onUpdate", onDamageChanged);
 	DB.removeHandler(DB.getPath(sCreaturePath, "abilities.*.dmgadj"), "onUpdate", onDamageChanged);
-  
-  DB.removeHandler(DB.getPath(sWeaponPath, "proflist.*.profselected"), "onUpdate", onAttackChanged);
 end
 
 -- the create is handled in record_char_actions.xml, charsheet_actions_contents->weapons

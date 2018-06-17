@@ -683,10 +683,10 @@
 	<windowclass name="power_effect_editor">
 		<frame>charsheethelper</frame>
 		<placement>
-			<size width="350" height="350" />
+			<size width="380" height="350" />
 		</placement>
 		<sizelimits>
-			<minimum width="350" height="350" />
+			<minimum width="380" height="350" />
 			<dynamic />
 		</sizelimits>
 		<nodelete />
@@ -848,6 +848,22 @@
 				</parameters>
         <tooltip textres="power_label_duration_unit_tooltip" />
 			</button_stringcycler>
+
+      <!-- show/hide effect -->
+			<button_stringcycler name="visibility">
+				<anchored to="durunit" position="righthigh" offset="10,0" width="40" height="20" />
+				<parameters>
+          <defaultlabelres>dash</defaultlabelres>
+					<labelsres>item_label_effects_hide|item_label_effects_show</labelsres>
+					<values>hide|show</values>
+				</parameters>
+        <tooltip textres="item_label_effect_visible_tooltip" />
+			</button_stringcycler>
+      <label_fieldtop>
+        <anchored to="visibility" />
+        <static textres="item_label_effect_visible" />
+        <tooltip textres="item_label_effect_visible_tooltip" />
+      </label_fieldtop>
 			
 			<header_column name="header_other">
 				<static textres="power_header_effect_other" />

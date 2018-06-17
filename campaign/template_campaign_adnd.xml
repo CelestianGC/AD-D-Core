@@ -785,6 +785,77 @@
 		</button_memorize_add>
 	</template>
 <!-- end add remove memorized spells -->
+
+<!-- templates for *_actions_powers and *_actions_contents_powers -->
+  <template name="button_actions_iedit">
+    <button_iedit>
+      <anchored position="insidebottomright" offset="10,10" />
+      <tooltip textres="char_tooltip_actionedit" />
+      <script>
+        function onValueChanged()
+          local bEditMode = (getValue() == 1);
+          window.powers_iadd.setVisible(bEditMode);
+          window.powermode_label.setVisible(not bEditMode);
+          window.powermode.setVisible(not bEditMode);
+          window.powerdisplay_label.setVisible(not bEditMode);
+          window.powerdisplaymode.setVisible(not bEditMode);
+          if bEditMode then
+            DB.setValue(window.getDatabaseNode(), "powermode", "string", "preparation");
+            DB.setValue(window.getDatabaseNode(), "powerdisplaymode", "string", "");
+          end
+          window.contents.subwindow.actions.subwindow.updateDisplay(bEditMode);
+        end
+      </script>
+    </button_iedit>
+  </template>
+  <template name="button_powers_iadd">
+    <buttoncontrol>
+      <anchored to="actions_iedit" position="lefthigh" offset="5,0" width="20" height="20" />
+      <icon normal="button_star" pressed="button_star_down" />
+      <tooltip textres="char_tooltip_actionaddpower" />
+      <invisible />
+      <script>
+        function onButtonPress()
+          window.contents.subwindow.actions.subwindow.addPower(true);
+        end
+      </script>
+    </buttoncontrol>
+  </template>
+  <template name="button_cycler_powermode">
+    <button_stringcycler name="powermode">
+      <anchored to="powermode_label" position="righthigh" offset="10,0" width="80" />
+      <parameters>
+        <labelsres>power_label_modeprep|power_label_modecombat</labelsres>
+        <values>preparation|combat</values>
+        <defaultlabelres>power_label_modestd</defaultlabelres> 
+      </parameters>
+      <script>
+        function onValueChanged()
+          window.contents.subwindow.onModeChanged();
+        end
+      </script>
+    </button_stringcycler>
+  </template>
+  <template name="button_cycler_powerdisplaymode">
+    <button_stringcycler>
+      <anchored to="powerdisplay_label" position="righthigh" offset="10,0" width="80" />
+      <parameters>
+        <labelsres>power_label_displaysummary|power_label_displayaction</labelsres>
+        <values>summary|action</values>
+        <defaultlabelres>power_label_displaygroup</defaultlabelres>
+      </parameters>
+      <script>
+        function onValueChanged()
+          window.contents.subwindow.actions.subwindow.onDisplayChanged();
+        end
+      </script>
+    </button_stringcycler>
+  </template>
+  <template name="">
+  </template>
+  <template name="">
+  </template>
+  <!-- -->
+
 	
-    
 </root>

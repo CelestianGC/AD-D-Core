@@ -415,7 +415,7 @@
 						local w = createWindow();
 						if w then
 							if bFocus then
-								w.profselected.setFocus();
+								w.prof.setFocus();
 							end
 						end
 						
@@ -530,7 +530,7 @@
 				<anchored to="label_plus2" position="righthigh" offset="2,0" width="35" height="20" />
 			</number_adjustment>
 
-			<combobox name="profselected">
+			<combobox name="prof">
 				<listdirection>down</listdirection>
 				<anchored to="dmgadj" position="righthigh" offset="10,0" height="20">
 					<right parent="rightanchor" anchor="left" relation="relative" offset="-5" />

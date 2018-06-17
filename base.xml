@@ -109,6 +109,7 @@
   <includefile source="desktop/template_desktop_adnd.xml" />
   <includefile source="campaign/record_quicknotes.xml" />
   <includefile source="utility/utility_manualrolls_adnd.xml" />
+  <includefile source="common/template_combobox.xml" />
   
 	<!-- Forge -->
 	<includefile source="forge/template_forge.xml" />

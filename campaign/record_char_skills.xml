@@ -144,7 +144,7 @@
 					<right anchor="left" offset="-50" />
 				</anchored>
 				<center />
-                <font>subwindowsmalltitle</font>
+        <font>subwindowsmalltitle</font>
 				<static textres="char_label_skilltotal" />
 			</label>
 
@@ -284,7 +284,7 @@
 
             <!-- total -->
 			<number_charskilltotal_nosign name="total">
-                <anchored to="rightanchor">
+        <anchored to="rightanchor">
 					<top />
 					<right anchor="left" relation="relative" offset="-7" />
 				</anchored>
@@ -368,45 +368,45 @@
 				<static textres="skill_label_name" />
 			</label_column>
 			<string_column name="name">
-                <script>
-                        function onInit()
-                            local node = getDatabaseNode();
-                            local nodeSkill = node.getChild("..");
-                            window.stat.updateVisibility(nodeSkill);
-                        end
-                </script>
-            </string_column>
+        <script>
+          function onInit()
+            local node = getDatabaseNode();
+            local nodeSkill = node.getChild("..");
+            window.stat.updateVisibility(nodeSkill);
+          end
+        </script>
+      </string_column>
 
 			<label_column name="type_label" >
-                <tooltip textres="char_label_skill_type_tooltip" />
+        <tooltip textres="char_label_skill_type_tooltip" />
 				<static textres="char_label_skill_type" />
 			</label_column>
 			<cycler_skill_type name="stat">
-                <script>
-                    function onValueChanged()
-                        updateVisibility();
-                    end
-                    function updateVisibility(nodeSkill)
-                        local bVisible = false;
- 
-                        if (nodeSkill) then 
-                            bVisible = (DB.getValue(nodeSkill,"stat","Strength"):lower() == "percent");
-                        elseif window.stat.getValue() == "%" then
-                            bVisible = true;
-                        end
+      <script>
+          function onValueChanged()
+              updateVisibility();
+          end
+          function updateVisibility(nodeSkill)
+              local bVisible = false;
 
-                        window.base_check.setVisible(bVisible);
-                        window.base_label.setVisible(bVisible);
-                    end
-                </script>
-                <anchored width="40" height="20">
-                    <top parent="columnanchor" anchor="bottom" relation="relative" offset="7" />
-                    <left offset="97" />
-                </anchored>
+              if (nodeSkill) then 
+                  bVisible = (DB.getValue(nodeSkill,"stat","Strength"):lower() == "percent");
+              elseif window.stat.getValue() == "%" then
+                  bVisible = true;
+              end
+
+              window.base_check.setVisible(bVisible);
+              window.base_label.setVisible(bVisible);
+          end
+      </script>
+      <anchored width="40" height="20">
+        <top parent="columnanchor" anchor="bottom" relation="relative" offset="7" />
+        <left offset="97" />
+      </anchored>
 			</cycler_skill_type>
             
 			<label_column name="base_label" >
-                <tooltip textres="char_label_skill_base_check_tooltip" />
+        <tooltip textres="char_label_skill_base_check_tooltip" />
 				<static textres="char_label_skill_base_check" />
 			</label_column>
 			<number_charskill_nosign name="base_check">
@@ -471,4 +471,158 @@
 
             </sheetdata>
 	</windowclass>
+
+ 	<windowclass name="recordslist_skills_contents">
+		<margins control="0,0,0,2" />
+		<script>
+			function onDrop(x, y, draginfo)
+				if draginfo.isType("shortcut") then
+					local sClass = draginfo.getShortcutData();
+					if sClass == "reference_skill" then
+						skills.addSkillReference(draginfo.getDatabaseNode());
+					end
+					return true;
+				end
+			end
+		</script>
+		<sheetdata>
+			<anchor_column name="columnanchor" />
+			<genericcontrol name="rightanchor">
+				<anchored width="0" height="20">
+					<top parent="columnanchor" anchor="bottom" relation="relative" offset="4" />
+					<right offset="-15" />
+				</anchored>
+			</genericcontrol>
+      <!-- skills/nonweapon profs -->
+			<label_charframetop name="skillstitle">
+				<anchored height="20">
+					<top parent="columnanchor" anchor="bottom" relation="relative" offset="15" />
+					<left offset="15" />
+					<right offset="-10" />
+				</anchored>
+				<icons>char_abilities_purple</icons>
+			</label_charframetop>
+            
+			<genericcontrol name="shortcut_header">
+				<anchored to="rightanchor" width="20" height="20">
+					<top />
+					<right anchor="left" relation="relative" offset="-2" />
+				</anchored>
+				<disabled />
+			</genericcontrol>
+            
+			<label name="total_label">
+				<anchored to="rightanchor" width="40">
+					<top parent="skillstitle" />
+					<right anchor="left" offset="-50" />
+				</anchored>
+				<center />
+        <font>subwindowsmalltitle</font>
+				<static textres="char_label_skilltotal" />
+			</label>
+
+			<label name="name_label">
+				<anchored  >
+					<top parent="skillstitle"/>
+          <left />
+          <right />
+				</anchored>
+        <static textres="char_profs_nonweapon_title_label" />
+        <font>subwindowsmalltitle</font>
+				<center />
+			</label>
+
+			<button_iedit name="skills_iedit">
+        <anchored to="skillstitle" position="insidetopright" offset="30,0" />
+				<!-- <anchored to="skills_iadd" position="insidetopleft" offset="-20,0" /> -->
+				<tooltip textres="char_skills_tooltip_edit" />
+				<script>
+					function onValueChanged()
+						local bEditMode = (getValue() == 1);
+						window.skills_iadd.setVisible(bEditMode);
+						window.skills.update();
+					end
+				</script>
+			</button_iedit>
+			<button_iadd name="skills_iadd">
+        <anchored to="skillstitle" position="insidetopright" offset="10,0" />
+				<target>skills</target>
+			</button_iadd>
+      
+			<windowlist name="skills">
+				<anchored>
+					<top parent="skillstitle" anchor="bottom" relation="relative" offset="2" />
+					<left offset="15" />
+					<right offset="-15" />
+				</anchored>
+				<child></child>
+				<child><backcolor>1A40301E</backcolor></child>
+				<noscroll />
+				<datasource>.skilllist</datasource>
+				<class>skill_item</class>
+				<sortby><control>name</control></sortby>
+				<script>
+          function onInit()
+            registerMenuItem(Interface.getString("list_menu_createitem"), "insert", 5);
+          end
+          function update()
+            local bEditMode = (window.skills_iedit.getValue() == 1);
+            for _,w in ipairs(getWindows()) do
+              if w.isCustom() then
+                w.idelete.setVisibility(bEditMode);
+              else
+                w.idelete.setVisibility(false);
+              end
+            end
+          end
+
+          function addEntry(bFocus)
+            local w = createWindow();
+            w.setCustom(true);
+            if bFocus and w then
+              w.name.setFocus();
+            end
+            return w;
+          end
+
+          function onMenuSelection(item)
+            if item == 5 then
+              addEntry(true);
+            end
+          end
+          function addSkillReference(nodeSource)
+            if not nodeSource then
+              return;
+            end
+
+            local sName = StringManager.trim(DB.getValue(nodeSource, "name", ""));
+            if sName == "" then
+              return;
+            end
+
+            local wSkill = nil;
+            for _,w in pairs(getWindows()) do
+              if StringManager.trim(w.name.getValue()) == sName then
+                wSkill = w;
+                break;
+              end
+            end
+            if not wSkill then
+              wSkill = createWindow();
+              local sStat = DB.getValue(nodeSource, "stat", "");
+              local nMod = DB.getValue(nodeSource, "adj_mod", 0);
+              local nBase = DB.getValue(nodeSource, "base_check", 0);
+              wSkill.name.setValue(sName);
+              DB.setValue(wSkill.getDatabaseNode(), "base_check", "number", nBase);
+              DB.setValue(wSkill.getDatabaseNode(), "adj_mod", "number", nMod);
+              DB.setValue(wSkill.getDatabaseNode(), "stat", "string", sStat);
+            else
+              DB.setValue(wSkill.getDatabaseNode(), "text", "formattedtext", DB.getValue(nodeSource, "text", ""));
+            end
+          end
+        </script>
+			</windowlist>
+		</sheetdata>
+	</windowclass>
+  
 </root>

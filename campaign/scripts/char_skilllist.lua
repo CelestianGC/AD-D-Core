@@ -123,19 +123,18 @@ function addSkillReference(nodeSource)
 	end
 	if not wSkill then
 		wSkill = createWindow();
-        local sStat = DB.getValue(nodeSource, "stat", "");
-        local nMod = DB.getValue(nodeSource, "adj_mod", 0);
-        local nBase = DB.getValue(nodeSource, "base_check", 0);
-        -- set values from skill to the one we're adding
+    local sStat = DB.getValue(nodeSource, "stat", "");
+    local nMod = DB.getValue(nodeSource, "adj_mod", 0);
+    local nBase = DB.getValue(nodeSource, "base_check", 0);
+    -- set values from skill to the one we're adding
 		wSkill.name.setValue(sName);
-        --wSkill.base_check.setValue(nBase);
+    --wSkill.base_check.setValue(nBase);
 		DB.setValue(wSkill.getDatabaseNode(), "base_check", "number", nBase);
-        --wSkill.adj_mod.setValue(nMod);
+    --wSkill.adj_mod.setValue(nMod);
 		DB.setValue(wSkill.getDatabaseNode(), "adj_mod", "number", nMod);
-        --wSkill.stat.setValue(sStat);
+    --wSkill.stat.setValue(sStat);
 		DB.setValue(wSkill.getDatabaseNode(), "stat", "string", sStat);
-	end
-	if wSkill then
+  else
 		DB.setValue(wSkill.getDatabaseNode(), "text", "formattedtext", DB.getValue(nodeSource, "text", ""));
 	end
 end

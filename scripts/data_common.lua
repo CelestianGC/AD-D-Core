@@ -31,14 +31,6 @@ ability_stol = {
 	["CHA"] = "charisma"
 };
 
--- saves (Database names)
--- saves = {
-	-- "save_paralyzation_poison_death",
-	-- "save_rod_staff_wand",
-	-- "save_petrify_polymorph",
-	-- "save_breath",
-	-- "save_spell"
--- };
 
     saves = {
         "poison",
@@ -53,14 +45,6 @@ ability_stol = {
         "spell"
     };
 
--- saves_stol = {
-	-- ["save_paralyzation_poison_death"] = "Paralyzation, Poison or Death",
-	-- ["save_rod_staff_wand"] = "Rod, Staff or Wand",
-	-- ["save_petrify_polymorph"] = "Petrification or Polymorph",
-	-- ["save_breath"] = "Breath Weapon",
-	-- ["save_spell"] = "Spells"
-	
--- };
     saves_stol = {
         ["poison"] = "Poison",
         ["paralyzation"] = "Paralyzation",
@@ -74,24 +58,6 @@ ability_stol = {
         ["spell"] = "Spell",
     };
 
--- saves_multi_name = {
-	-- ["poison"] = "save_paralyzation_poison_death",
-	-- ["paralyzation"] = "save_paralyzation_poison_death",
-	-- ["death"] = "save_paralyzation_poison_death",
-	-- ["rod"] = "save_rod_staff_wand",
-	-- ["rods"] = "save_rod_staff_wand",
-	-- ["staff"] = "save_rod_staff_wand",
-	-- ["staves"] = "save_rod_staff_wand",
-	-- ["wand"] = "save_rod_staff_wand",
-	-- ["wands"] = "save_rod_staff_wand",
-	-- ["petrification"] = "save_petrify_polymorph",
-	-- ["petrify"] = "save_petrify_polymorph",
-	-- ["polymorph"] = "save_petrify_polymorph",
-	-- ["breath"] = "save_breath",
-	-- ["other"] = "save_spell",
-	-- ["spells"] = "save_spell",
-	-- ["spell"] = "save_spell"
--- };
 saves_multi_name = {
 	["poison"] = "poison",
 	["paralyzation"] = "paralyzation",
@@ -110,28 +76,6 @@ saves_multi_name = {
 	["spell"] = "spell",
 	["spells"] = "spell"
 };
-
--- saves_index = {
-	-- ["save_paralyzation_poison_death"] = 1,
-	-- ["save_rod_staff_wand"] = 2,
-	-- ["save_petrify_polymorph"] = 3,
-	-- ["save_breath"] = 4,
-	-- ["save_spell"] = 5
--- };
-    -- -- this index points to the location of this save
-    -- -- in the aFighterSaves in setNPCSave
-    -- saves_fighter_index = {
-        -- ["poison"] = 1,
-        -- ["paralyzation"] = 1,
-        -- ["death"] = 1,
-        -- ["rod"] = 2,
-        -- ["staff"] = 2,
-        -- ["wand"] = 2,
-        -- ["petrification"] = 3,
-        -- ["polymorph"] = 3,
-        -- ["breath"] = 4,
-        -- ["spell"] = 5
-    -- };
 
 saves_shortnames = {
 	"poison",

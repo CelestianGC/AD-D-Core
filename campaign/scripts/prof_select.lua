@@ -30,7 +30,7 @@ function updateAdjustments(node)
     -- update hit/dmg modifiers for prof
     -- flip through proflist
     local nodeChar = node.getChild("......");
-    local sSource = window.profselected.getValue();
+    local sSource = DB.getValue(node.getParent(),"prof_selected","");
     local prof = getProf(nodeChar,sSource);
     
     if prof then
@@ -55,8 +55,8 @@ function updateAllAdjustments()
     setProfList(nodeChar);
     
     for _,v in pairs(DB.getChildren(nodeWeapon, "proflist")) do
-        --local svName = DB.getValue(v,"profselected","Unnamed");
-        local sSource = DB.getValue(v,"profselected","");
+        --local svName = DB.getValue(v,"prof_selected","Unnamed");
+        local sSource = DB.getValue(v,"prof_selected","");
         local prof = getProf(nodeChar,sSource);
         if prof then 
             local nHitAdj = prof.hitadj;

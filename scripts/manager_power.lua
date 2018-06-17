@@ -362,21 +362,27 @@ function getPowerRoll(rActor, nodeAction, sSubRoll)
 		rAction.sApply = DB.getValue(nodeAction, "apply", "");
 		rAction.sTargeting = DB.getValue(nodeAction, "targeting", "");
 --		rAction.nDuration = DB.getValue(nodeAction, "durmod", 0);
-        -- roll dice for duration if exists --celestian
-        local nRollDuration = 0;
-        local dDurationDice = DB.getValue(nodeAction, "durdice");
-        local nModDice = DB.getValue(nodeAction, "durmod", 0);
-        local nDurationValue = PowerManager.getLevelBasedDurationValue(nodeAction);
-        if (nDurationValue > 0) then
-          nModDice = nModDice + nDurationValue;
-        end
-        if (dDurationDice and dDurationDice ~= "") then
-            nRollDuration = StringManager.evalDice(dDurationDice, nModDice);
-        else
-            nRollDuration = nModDice;
-        end
+    -- roll dice for duration if exists --celestian
+    local nRollDuration = 0;
+    local dDurationDice = DB.getValue(nodeAction, "durdice");
+    local nModDice = DB.getValue(nodeAction, "durmod", 0);
+    local nDurationValue = PowerManager.getLevelBasedDurationValue(nodeAction);
+    if (nDurationValue > 0) then
+      nModDice = nModDice + nDurationValue;
+    end
+    if (dDurationDice and dDurationDice ~= "") then
+        nRollDuration = StringManager.evalDice(dDurationDice, nModDice);
+    else
+        nRollDuration = nModDice;
+    end
 		rAction.nDuration = nRollDuration;
 		rAction.sUnits = DB.getValue(nodeAction, "durunit", "");
+    local sVisibility = DB.getValue(nodeAction, "visibility", "");
+    if (sVisibility:match("hide")) then
+      rAction.nGMOnly = 1;
+    else
+      rAction.nGMOnly = 0;
+    end
 	end
 	
 	return rAction;
@@ -1585,6 +1591,7 @@ function parseEffectsAdd(aWords, i, rEffect, effects)
 		rComboEffect.endindex = rEffect.endindex;
 		rComboEffect.nDuration = rEffect.nDuration;
 		rComboEffect.sUnits = rEffect.sUnits;
+    rComboEffect.nGMOnly = rEffect.nGMOnly;
 	else
 		table.insert(effects, rEffect);
 	end
@@ -2109,7 +2116,7 @@ function parsePCPower(nodePower)
 						DB.setValue(nodeAction, "durmod", "number", nDuration);
 						DB.setValue(nodeAction, "durunit", "string", vAction.sUnits);
 					end
-
+          DB.setValue(nodeAction, "isgmonly", "number", vAction.nGMOnly);
 				end
 			end
 		end
@@ -2283,6 +2290,7 @@ function parsePCPower(nodePower)
 						DB.setValue(nodeAction, "durmod", "number", v.nDuration);
 						DB.setValue(nodeAction, "durunit", "string", v.sUnits);
 					end
+          DB.setValue(nodeAction, "isgmonly", "number", v.nGMOnly);
 				end
 			end
 		end
@@ -2313,14 +2321,14 @@ function canMemorizeSpell(nodeSpell)
 --Debug.console("manager_power.lua","canMemorizeSpell","item:",string.match(sNodePath,"^item"));    
     -- if this is coming from spell record then no, nothing will memorize
     if string.match(sNodePath,"^spell") ~= nil or string.match(sNodePath,"^item") ~= nil or string.match(sNodePath,"^class") ~= nil then
-            bCanMemorize = false;
+      bCanMemorize = false;
     end
 --Debug.console("manager_power.lua","canMemorizeSpell","bCanMemorize2",bCanMemorize);    
     
 --Debug.console("manager_power.lua","canMemorizeSpell","sGroup:",string.match(sGroup,"^spell")); 
     -- if the group the action is in, is NOT a spell then no, no memorization
     if string.match(sGroup,"^spell") == nil then
-            bCanMemorize = false;
+      bCanMemorize = false;
     end
 --Debug.console("manager_power.lua","canMemorizeSpell","bCanMemorize3",bCanMemorize);    
     

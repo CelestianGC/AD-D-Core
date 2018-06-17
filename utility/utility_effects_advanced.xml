@@ -201,16 +201,16 @@
             <!-- effect type cycler here -->
 			<label_column name="type_label">
 				<static textres="power_label_type" />
-                <tooltip textres="power_label_type_tooltip" />
+        <tooltip textres="power_label_type_tooltip" />
 			</label_column>
-            <cycler_effecttypes name="type">
+      <cycler_effecttypes name="type">
 				<anchored>
 					<top parent="columnanchor" anchor="bottom" relation="relative" offset="7" />
 					<left offset="97" />
 					<right offset="-110" />
 				</anchored>
               <!--   <tooltip textres="power_label_type_tooltip" /> -->
-            </cycler_effecttypes>
+      </cycler_effecttypes>
             
             <!-- effect / label -->
 			<header_column name="header_label">
@@ -227,18 +227,18 @@
 					<left offset="5" />
 					<right offset="-250" />
 				</anchored>
-                <tooltip textres="item_save_type_tooltip" />
+        <tooltip textres="item_save_type_tooltip" />
 			</cycler_savetypes>
 
 			<combobox_saveselect name="save">
-                <anchored to="save_type" position="righthigh" offset="10,0" width="70"  height="20"/>
-                <tooltip textres="item_label_save_type_tooltip" />
+        <anchored to="save_type" position="righthigh" offset="10,0" width="70"  height="20"/>
+        <tooltip textres="item_label_save_type_tooltip" />
 			</combobox_saveselect>
 
             <!-- save modifier/score -->
  			<advanced_effect_number name="save_modifier">
 				<anchored to="save" position="righthigh" offset="10,0" width="20"  height="20"/>
-                <tooltip textres="item_label_save_value_tooltip" />
+        <tooltip textres="item_label_save_value_tooltip" />
 			</advanced_effect_number>
 
             <!-- ability version -->
@@ -248,11 +248,11 @@
 					<left offset="5" />
 					<right offset="-230" />
 				</anchored>
-                <tooltip textres="item_ability_type_tooltip" />
+        <tooltip textres="item_ability_type_tooltip" />
 			</cycler_abilitytypes>
 
 			<cycler_ability_short name="ability">
-                <anchored to="ability_type" position="righthigh" offset="10,0" width="80"  height="20"/>
+        <anchored to="ability_type" position="righthigh" offset="10,0" width="80"  height="20"/>
 			</cycler_ability_short>
 
             <!-- ability modifier/score -->
@@ -269,11 +269,11 @@
 					<left offset="5" />
 					<right offset="-230" />
 				</anchored>
-                <tooltip textres="item_ability_type_tooltip" />
+        <tooltip textres="item_ability_type_tooltip" />
 			</cycler_susceptiblitytypes>
 
-            <combobox_susceptiblity_items name="susceptiblity">
-                <anchored to="susceptiblity_type" position="righthigh" offset="10,0" width="80"  height="20"/>
+      <combobox_susceptiblity_items name="susceptiblity">
+        <anchored to="susceptiblity_type" position="righthigh" offset="10,0" width="80"  height="20"/>
 			</combobox_susceptiblity_items>
 
             <!-- Susceptiblity modifier/score -->
@@ -289,13 +289,13 @@
 					<left offset="5" />
 					<right offset="-230" />
 				</anchored>
-                <tooltip textres="effect_label_misc_type_tooltip" />
+        <tooltip textres="effect_label_misc_type_tooltip" />
 			</cycler_misctypes>
 
             <!-- misc modifier/score -->
 			<advanced_effect_number name="misc_modifier">
 				<anchored to="misc_type" position="righthigh" offset="10,0" width="20"  height="20"/>
-                <tooltip textres="effect_label_misc_value_tooltip" />
+        <tooltip textres="effect_label_misc_value_tooltip" />
 			</advanced_effect_number>
             <!-- end misc version -->
 
@@ -350,11 +350,11 @@
 			<button_stringcycler name="visibility">
 				<anchored to="durunit" position="righthigh" offset="10,0" width="40" height="20" />
 				<parameters>
-                    <defaultlabelres>dash</defaultlabelres>
+          <defaultlabelres>dash</defaultlabelres>
 					<labelsres>item_label_effects_hide|item_label_effects_show</labelsres>
 					<values>hide|show</values>
 				</parameters>
-                <tooltip textres="item_label_effect_visible_tooltip" />
+        <tooltip textres="item_label_effect_visible_tooltip" />
 			</button_stringcycler>
       <label_fieldtop>
         <anchored to="visibility" />

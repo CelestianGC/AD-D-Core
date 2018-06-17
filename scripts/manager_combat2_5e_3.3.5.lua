@@ -144,7 +144,6 @@ end
 
 function onDrop(rSource, rTarget, draginfo)
 	local sDragType = draginfo.getType();
-
 	-- Effect targeting
 	if sDragType == "effect_targeting" then
 		if User.isHost() then

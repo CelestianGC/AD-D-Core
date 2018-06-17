@@ -258,13 +258,13 @@ function updateItemEffect(nodeItem,nodeItemEffect, sName, nodeChar, bEquipped, n
             local nDMOnly = 1;
             local sVisibility = DB.getValue(nodeItemEffect, "visibility", "");
             if sVisibility == "show" then
-                nDMOnly = 0;
+              nDMOnly = 0;
             elseif sVisibility == "hide" then
-                nDMOnly = 1;
+              nDMOnly = 1;
             elseif nIdentified > 0 then
-                nDMOnly = 0;
+              nDMOnly = 0;
             elseif nIdentified == 0 then
-                nDMOnly = 1;
+              nDMOnly = 1;
             end
             
             rEffect.nDuration = nRollDuration;
@@ -855,7 +855,7 @@ function checkConditional(rActor, nodeEffect, aConditions, rTarget, aIgnore)
 			local sSizeCheck = sLower:match("^size%s*%(([^)]+)%)$");
 			local sTypeCheck = sLower:match("^type%s*%(([^)]+)%)$");
 			local sCustomCheck = sLower:match("^custom%s*%(([^)]+)%)$");
-            local sArmorCheck = sLower:match("^armor%s*%(([^)]+)%)$");
+      local sArmorCheck = sLower:match("^armor%s*%(([^)]+)%)$");
 			if sAlignCheck then
 				if not ActorManager2.isAlignment(rActor, sAlignCheck) then
 					bReturn = false;

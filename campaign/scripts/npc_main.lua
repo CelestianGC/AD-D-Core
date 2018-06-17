@@ -21,6 +21,7 @@ function onInit()
   checkNPCForSanity(getDatabaseNode());
   
 	onSummaryChanged();
+  updateACandBaB();
 	update();
 end
 
@@ -290,6 +291,30 @@ function update()
   intelligence_text.setReadOnly(bReadOnly);
   treasure.setReadOnly(bReadOnly);
 
+  local bOptAscendingAC = (OptionsManager.getOption("HouseRule_ASCENDING_AC"):match("on") ~= nil);
+  -- now lets deal with labels, numbers/etc visibility and positions
+  bab.setReadOnly(not bOptAscendingAC);
+  bab.setVisible(bOptAscendingAC);
+  bab_label.setVisible(bOptAscendingAC);
+  ac_ascending.setReadOnly(not bOptAscendingAC);
+  ac_ascending.setVisible(bOptAscendingAC);
+  ac_ascending_label.setVisible(bOptAscendingAC);
+  ---
+  thaco.setReadOnly(bOptAscendingAC);
+  thaco.setVisible(not bOptAscendingAC);
+  thaco_label.setVisible(not bOptAscendingAC);
+  ac.setReadOnly(bOptAscendingAC);
+  ac.setVisible(not bOptAscendingAC);
+  ac_label.setVisible(not bOptAscendingAC);
+
+  if (bOptAscendingAC) then
+    actext.setAnchor("left","ac_ascending","right","relative",10);
+    speed_label.setAnchor("left","bab","right","relative",10);
+  else
+    actext.setAnchor("left","ac","right","relative",10);
+    speed_label.setAnchor("left","thaco","right","relative",10);
+  end
+  
 	-- if bReadOnly then
 		-- if traits_iedit then
 			-- traits_iedit.setValue(0);
@@ -436,7 +461,6 @@ function update()
 		-- w.name.setReadOnly(bReadOnly);
 		-- w.desc.setReadOnly(bReadOnly);
 	-- end
-  updateACandBaB();
 end
 
 function addTrait(sName, sDesc)
@@ -533,45 +557,23 @@ function updateACandBaB()
   
   -- setup handlers for whatever mode we're in, remove ones we're not
   if (bOptAscendingAC) then
-    DB.removeHandler(DB.getPath(node, "ac"),    "onUpdate", updateAscendingAC);  
-    DB.removeHandler(DB.getPath(node, "thaco"),    "onUpdate", updateBAB);  
+    -- DB.removeHandler(DB.getPath(node, "ac"),    "onUpdate", updateAscendingAC);  
+    -- DB.removeHandler(DB.getPath(node, "thaco"),    "onUpdate", updateBAB);  
     
-    DB.addHandler(DB.getPath(node, "ac_ascending"),    "onUpdate", updateAC);  
-    DB.addHandler(DB.getPath(node, "bab"),    "onUpdate", updateTHACO);  
+    -- DB.addHandler(DB.getPath(node, "ac_ascending"),    "onUpdate", updateAC);  
+    -- DB.addHandler(DB.getPath(node, "bab"),    "onUpdate", updateTHACO);  
     updateAC(node);
     updateTHACO(node);
   else
-    DB.removeHandler(DB.getPath(node, "ac_ascending"),    "onUpdate", updateAC);  
-    DB.removeHandler(DB.getPath(node, "bab"),    "onUpdate", updateTHACO);  
+    -- DB.removeHandler(DB.getPath(node, "ac_ascending"),    "onUpdate", updateAC);  
+    -- DB.removeHandler(DB.getPath(node, "bab"),    "onUpdate", updateTHACO);  
 
-    DB.addHandler(DB.getPath(node, "ac"),    "onUpdate", updateAscendingAC);  
-    DB.addHandler(DB.getPath(node, "thaco"),    "onUpdate", updateBAB);  
+    -- DB.addHandler(DB.getPath(node, "ac"),    "onUpdate", updateAscendingAC);  
+    -- DB.addHandler(DB.getPath(node, "thaco"),    "onUpdate", updateBAB);  
     updateAscendingAC(node);
     updateBAB(node);
   end
-  
-  -- now lets deal with labels, numbers/etc visibility and positions
-  bab.setReadOnly(not bOptAscendingAC);
-  bab.setVisible(bOptAscendingAC);
-  bab_label.setVisible(bOptAscendingAC);
-  ac_ascending.setReadOnly(not bOptAscendingAC);
-  ac_ascending.setVisible(bOptAscendingAC);
-  ac_ascending_label.setVisible(bOptAscendingAC);
-  ---
-  thaco.setReadOnly(bOptAscendingAC);
-  thaco.setVisible(not bOptAscendingAC);
-  thaco_label.setVisible(not bOptAscendingAC);
-  ac.setReadOnly(bOptAscendingAC);
-  ac.setVisible(not bOptAscendingAC);
-  ac_label.setVisible(not bOptAscendingAC);
-
-  if (bOptAscendingAC) then
-    actext.setAnchor("left","ac_ascending","right","relative",10);
-    speed_label.setAnchor("left","bab","right","relative",10);
-  else
-    actext.setAnchor("left","ac","right","relative",10);
-    speed_label.setAnchor("left","thaco","right","relative",10);
-  end
+  update();
 end
 
 function updateAscendingAC(node)
@@ -580,52 +582,43 @@ function updateAscendingAC(node)
     node = node.getParent();
   end
   local nAC = DB.getValue(node,"ac",10);
-  local nAscendingAC = 10;
-  if (nAC < 10) then
-    nAscendingAC = 20 - nAC;
+  local nAscendingAC = DB.getValue(node,"ac_ascending",10);
+  local newAC = 20 - nAC;
+  if (nAC < 10 and (newAC ~= nAscendingAC)) then
+    DB.setValue(node,"ac_ascending","number",newAC);
   end
-  DB.setValue(node,"ac_ascending","number",nAscendingAC);
 end
 function updateBAB(node)
   if (not node.getPath():match("id%-%d+$"))then
     node = node.getParent();
   end
   local nTHACO = DB.getValue(node,"thaco",20);
-  local nBAB = 0;
-  if (nTHACO > 0) then
-    nBAB = 20 - nTHACO;
+  local nBAB = DB.getValue(node,"bab",0);
+  local newBAB = 20 - nTHACO;
+  if (nTHACO > 0 and (newBAB ~= nBAB) ) then
+    DB.setValue(node,"bab","number",newBAB);
   end
-  DB.setValue(node,"bab","number",nBAB);
 end
 
 function updateAC(node)
   if (not node.getPath():match("id%-%d+$"))then
     node = node.getParent();
   end
- local nAscendingAC = DB.getValue(node,"ac_ascending",20);
- local nAC = 10;
- if (nAscendingAC ~= 20) then
-  nAC = 20 - nAscendingAC;
+ local nAscendingAC = DB.getValue(node,"ac_ascending",10);
+ local nAC = DB.getValue(node,"ac_ascending",10);
+ local newAC = 20 - nAscendingAC;
+ if (newAC ~= nAC) then
+  DB.setValue(node,"ac","number",newAC);
  end
- DB.setValue(node,"ac","number",nAC);
 end
 function updateTHACO(node)
   if (not node.getPath():match("id%-%d+$"))then
     node = node.getParent();
   end
  local nBAB = DB.getValue(node,"bab",0);
- local nTHACO = 20;
- if (nBAB > 0) then
-  nTHACO = 20 - nBAB;
+ local nTHACO = DB.getValue(node,"thaco",0);
+ local newTHACO = 20 - nBAB;
+ if (nBAB > 0 and newTHACO ~= nTHACO) then
+  DB.setValue(node,"thaco","number",newTHACO);
  end
- DB.setValue(node,"thaco","number",nTHACO);
 end
-
-
-
-
-
-
-
-
-
