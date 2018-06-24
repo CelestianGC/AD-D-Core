@@ -1196,7 +1196,9 @@ function addClassProficiencyDB(nodeChar, sClass, sRecord)
 		-- end
 		
 		-- if nPicks == 0 or #aSkills == 0 then
-			outputUserMessage("char_error_addskill");
+			-- DISABLED by Celestian
+      -- outputUserMessage("char_error_addskill");
+      
 			-- return nil;
 		-- end
 		
@@ -1532,16 +1534,20 @@ function addTraitDB(nodeChar, sClass, sRecord)
 		end
 		DB.setValue(nodeChar, "size", "string", sSize);
 
-	elseif sTraitType == "speed" then
+	elseif sTraitType == "speed" or sTraitType == "movebase" then
 		local sSpeed = DB.getText(nodeSource, "text");
 		
 		local sWalkSpeed = sSpeed:match("walking speed is (%d+) feet");
 		if not sWalkSpeed then
 			sWalkSpeed = sSpeed:match("land speed is (%d+) feet");
 		end
+		if not sWalkSpeed then
+			sWalkSpeed = sSpeed:match("move base is (%d+)");
+		end
 		if sWalkSpeed then
-			local nSpeed = tonumber(sWalkSpeed) or 30;
+			local nSpeed = tonumber(sWalkSpeed) or 12;
 			DB.setValue(nodeChar, "speed.base", "number", nSpeed);
+      DB.setValue(nodeChar, "speed.basemodenc","number",0);
 			outputUserMessage("char_abilities_message_basespeedset", nSpeed, DB.getValue(nodeChar, "name", ""));
 		end
 		
@@ -2454,6 +2460,27 @@ function addAdvancement(nodeChar,nodeAdvance,nodeClass)
   end
   -- end psionic
   
+  -- armor class
+  local nACNew = DB.getValue(nodeAdvance,"ac");
+  local nAC    = DB.getValue(nodeChar,"defenses.ac.base",10);
+  if (nACNew ~= nil) then
+    if (nACNew < nAC) then
+      DB.setValue(nodeChar,"defenses.ac.base","number",nACNew);
+      ChatManager.SystemMessage("AC updated to new value of " .. nACNew);
+    end
+  end
+  
+  -- move base
+  local nSpeedNew = DB.getValue(nodeAdvance,"speed");
+  local nSpeed    = DB.getValue(nodeChar,"speed.base",12);
+  if (nSpeedNew ~= nil) then
+    if (nSpeedNew > nSpeed) then
+      DB.setValue(nodeChar,"speed.base","number",nSpeedNew);
+      DB.setValue(nodeChar,"speed.basemodenc","number",0);
+      ChatManager.SystemMessage("Move base updated to new value of " .. nSpeedNew);
+    end
+  end
+
   -- effects
   local nodeEffects = nodeAdvance.getChild("effectlist");
   addEffectFeature(nodeEffects,nodeChar);
@@ -2821,7 +2848,7 @@ function applyEXPToActiveClasses(nodeChar)
         local bBonusEXP = (DB.getValue(vClass, "classbonus",0) == 1);
         local nApplyEXP = nApplyPerClass;
         if (bBonusEXP) then -- give + 10% exp
-            nApplyEXP = math.ceil(nApplyPerClass + (nApplyPerClass*0.10));
+            nApplyEXP = math.ceil(nApplyPerClass + (nApplyPerClass*DataCommonADND.nDefaultEXPBonus));
         end
         if (bActive) then
 --Debug.console("manager_char.lua","applyEXPToActiveClasses","bBonusEXP",bBonusEXP);

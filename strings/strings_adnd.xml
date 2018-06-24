@@ -229,7 +229,7 @@
   <string name="char_label_class_applyexp_tooltip">Apply experience you have earned to classes marked active.</string>
 
   <string name="char_tooltip_classactivity">Class active or not.</string>
-  <string name="char_tooltip_classbonus">Gain 10% bonus to experience for this class.</string>
+  <string name="char_tooltip_classbonus">Gain bonus to experience for this class.</string>
   <string name="char_tooltip_xp">Total Experience Earned</string>
   <string name="char_tooltip_xpneeded">Experience needed for Next Level</string>
   <string name="char_label_armordexterity">Dex</string>
@@ -384,6 +384,12 @@
   <string name="class_pspgained_tooltip">Psionic Strength Point dice and adjustment, or just adjustment for static value.</string>
 	<string name="class_psp_dice_tooltip">Dice rolled for Psionic Strength Points at this level.</string>
 	<string name="class_psp_adjustment_tooltip">Adjustment applied to Psionic Strength Point dice rolled or straight value gained for Psionic Strength Points for this level.</string>
+
+  <string name="class_ac_label">AC</string>
+  <string name="class_ac_tooltip">Armor Class base value (decending) earned for this level.</string>
+
+  <string name="class_move_label">MV</string>
+  <string name="class_move_tooltip">Move base earned for this level.</string>
 
   <!-- RACE -->
 	<string name="race_header_traits">RACE TRAITS</string>

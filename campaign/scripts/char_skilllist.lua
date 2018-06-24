@@ -134,6 +134,7 @@ function addSkillReference(nodeSource)
 		DB.setValue(wSkill.getDatabaseNode(), "adj_mod", "number", nMod);
     --wSkill.stat.setValue(sStat);
 		DB.setValue(wSkill.getDatabaseNode(), "stat", "string", sStat);
+    DB.setValue(wSkill.getDatabaseNode(), "text", "formattedtext", DB.getValue(nodeSource, "text", ""));
   else
 		DB.setValue(wSkill.getDatabaseNode(), "text", "formattedtext", DB.getValue(nodeSource, "text", ""));
 	end

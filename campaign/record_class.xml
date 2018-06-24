@@ -699,7 +699,7 @@
   <windowclass name="reference_class_advancement">
     <frame>recordsheet</frame>
     <placement>
-      <size width="380" height="390" />
+      <size width="380" height="400" />
     </placement>
     <sizelimits>
       <minimum width="300" height="300" />
@@ -783,41 +783,52 @@
     <anchor_column name="columnanchor" />
 
     <label_column name="level_label" >
-              <!-- <tooltip textres="char_label_skill_base_check_tooltip" /> -->
       <static textres="classfeature_label_level" />
     </label_column>
     <number_class_column name="level" >
       <anchored width="20" />
     </number_class_column>
 
-    <label name="thaco_label">
+    <label name="expneeded_label">
       <anchored to="level" position="righthigh" offset="10,0" />
-      <static textres="thaco" />
-      <tooltip textres="class_thaco_tooltip" />
+      <static textres="class_expneeded_label" />
+      <tooltip textres="class_expneeded_tooltip" />
     </label>
-    <number_class name="thaco">
-      <anchored to="thaco_label" position="righthigh" offset="10,0" width="20" />
-      <tooltip textres="class_thaco_tooltip" />
+    <number_class name="expneeded">
+      <anchored to="expneeded_label" position="righthigh" offset="10,0" width="100" />
+      <tooltip textres="class_expneeded_tooltip" />
     </number_class>
 
-    <label name="turn_label">
-              <anchored to="thaco" position="righthigh" offset="10,0" />
-      <static text="TURN" />
-              <tooltip textres="class_turn_tooltip" />
-    </label>
-    <number_class name="turnlevel">
-              <anchored to="turn_label" position="righthigh" offset="10,0" width="20" />
-              <tooltip textres="class_turn_tooltip" />
-          </number_class>
-
-    <label_column name="expneeded_label">
-      <static textres="class_expneeded_label" />
-              <tooltip textres="class_expneeded_tooltip" />
-          </label_column>
-    <number_class_column name="expneeded">
-              <anchored width="100" />
-              <tooltip textres="class_expneeded_tooltip" />
+    <label_column name="thaco_label">
+      <static textres="thaco" />
+      <tooltip textres="class_thaco_tooltip" />
+    </label_column>
+    <number_class_column name="thaco">
+      <tooltip textres="class_thaco_tooltip" />
     </number_class_column>
+
+    <label name="ac_label">
+      <anchored to="thaco" position="righthigh" offset="10,0" />
+      <static textres="class_ac_label" />
+      <tooltip textres="class_ac_tooltip" />
+    </label>
+    <number_class name="ac">
+      <hideonvalue>99</hideonvalue>
+      <default>99</default>
+      <anchored to="ac_label" position="righthigh" offset="10,0" width="30" />
+      <tooltip textres="class_ac_tooltip" />
+    </number_class>
+
+    <label name="move_label">
+      <anchored to="ac" position="righthigh" offset="10,0" />
+      <static textres="class_move_label" />
+      <tooltip textres="class_move_tooltip" />
+    </label>
+    <number_class name="speed">
+      <hideonvalue>0</hideonvalue>
+      <anchored to="move_label" position="righthigh" offset="10,0" width="30" />
+      <tooltip textres="class_move_tooltip" />
+    </number_class>
 
     <label_column name="hd_label">
       <static textres="class_hpgained_label" />
@@ -840,6 +851,14 @@
               <displaysign />
               <tooltip textres="class_hp_adjustment_tooltip" />
           </number_class>
+
+    <label_column name="turn_label">
+      <static text="TURN" />
+      <tooltip textres="class_turn_tooltip" />
+    </label_column>
+    <number_class_column name="turnlevel">
+      <tooltip textres="class_turn_tooltip" />
+    </number_class_column>
 
     <label_column name="psp_label">
       <static textres="class_pspgained_label" />

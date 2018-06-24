@@ -561,6 +561,7 @@
 				<datasource>.skilllist</datasource>
 				<class>skill_item</class>
 				<sortby><control>name</control></sortby>
+        <!-- addSkillReference  is here for drag/drop of skills into class/advancement -->
 				<script>
           function onInit()
             registerMenuItem(Interface.getString("list_menu_createitem"), "insert", 5);
@@ -610,12 +611,13 @@
             if not wSkill then
               wSkill = createWindow();
               local sStat = DB.getValue(nodeSource, "stat", "");
-              local nMod = DB.getValue(nodeSource, "adj_mod", 0);
+              local nMod  = DB.getValue(nodeSource, "adj_mod", 0);
               local nBase = DB.getValue(nodeSource, "base_check", 0);
               wSkill.name.setValue(sName);
               DB.setValue(wSkill.getDatabaseNode(), "base_check", "number", nBase);
               DB.setValue(wSkill.getDatabaseNode(), "adj_mod", "number", nMod);
               DB.setValue(wSkill.getDatabaseNode(), "stat", "string", sStat);
+              DB.setValue(wSkill.getDatabaseNode(), "text", "formattedtext", DB.getValue(nodeSource, "text", ""));
             else
               DB.setValue(wSkill.getDatabaseNode(), "text", "formattedtext", DB.getValue(nodeSource, "text", ""));
             end
