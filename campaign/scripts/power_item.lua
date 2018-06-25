@@ -5,10 +5,10 @@
 
 local bFilter = true;
 function setFilter(bNewFilter)
-	bFilter = bNewFilter;
+  bFilter = bNewFilter;
 end
 --function getFilter()
---	return bFilter;
+--  return bFilter;
 --end
 
 function onInit()
@@ -39,20 +39,20 @@ function onInit()
 
     registerMenuItem(Interface.getString("power_menu_adddmg_psp"), "radial_dmg_psp", 3, 6);
     registerMenuItem(Interface.getString("power_menu_addheal_psp"), "radial_heal_psp", 3, 8);
-		-- disabled, we don't reparse in AD&D Core right now --celestian
+    -- disabled, we don't reparse in AD&D Core right now --celestian
         --registerMenuItem(Interface.getString("power_menu_reparse"), "textlist", 4);
-	end
+  end
 
-	--Check to see if we should automatically parse attack description
-	local nodeAttack = getDatabaseNode();
-	local nParse = DB.getValue(nodeAttack, "parse", 0);
-	if nParse ~= 0 then
-		DB.setValue(nodeAttack, "parse", "number", 0);
-		PowerManager.parsePCPower(nodeAttack);
-	end
-	
-	onDisplayChanged();
-	-- window list can be nil when using this for spell records (not PC/NPCs) --celestian
+  --Check to see if we should automatically parse attack description
+  local nodeAttack = getDatabaseNode();
+  local nParse = DB.getValue(nodeAttack, "parse", 0);
+  if nParse ~= 0 then
+    DB.setValue(nodeAttack, "parse", "number", 0);
+    PowerManager.parsePCPower(nodeAttack);
+  end
+  
+  onDisplayChanged();
+  -- window list can be nil when using this for spell records (not PC/NPCs) --celestian
     if windowlist ~= nil then 
         windowlist.onChildWindowAdded(self);
     end
@@ -63,11 +63,11 @@ function onInit()
 end
 
 function onClose()
-	local node = getDatabaseNode();
+  local node = getDatabaseNode();
   DB.removeHandler(DB.getPath(node, "memorized"), "onUpdate", updateForMemorizationChanges);
-	DB.removeHandler(DB.getPath(node, "group"), "onUpdate",     updateForMemorizationChanges);
-	DB.removeHandler(DB.getPath(node, "level"), "onUpdate", updateForMemorizationChanges);
-	DB.removeHandler(DB.getPath(node, "type"), "onUpdate", updateForMemorizationChanges);
+  DB.removeHandler(DB.getPath(node, "group"), "onUpdate",     updateForMemorizationChanges);
+  DB.removeHandler(DB.getPath(node, "level"), "onUpdate", updateForMemorizationChanges);
+  DB.removeHandler(DB.getPath(node, "type"), "onUpdate", updateForMemorizationChanges);
 end
 
 -- If level, group, type or memorization count changes we update visibility
@@ -128,7 +128,7 @@ end
 -- set usesperiod to "once", default to charged item
 -- set default charges to 25
 function firstTimeItemRecord()
-	local nodeAttack = getDatabaseNode();
+  local nodeAttack = getDatabaseNode();
     if string.match(nodeAttack.getPath(),"^item") then
         local nodeItem = DB.getChild(nodeAttack, "...");
         if (name.getValue() == "") then
@@ -191,51 +191,51 @@ end
 -- add action for spell/item
 function createAction(sType)
 --Debug.console("power_item.lua","createAction","sType",sType);
-	local nodeAttack = getDatabaseNode();
-	if nodeAttack then
-		local nodeActions = nodeAttack.createChild("actions");
-		if nodeActions then
-			local nodeAction = nodeActions.createChild();
-			if nodeAction then
-				DB.setValue(nodeAction, "type", "string", sType);
-			end
-		end
-	end
+  local nodeAttack = getDatabaseNode();
+  if nodeAttack then
+    local nodeActions = nodeAttack.createChild("actions");
+    if nodeActions then
+      local nodeAction = nodeActions.createChild();
+      if nodeAction then
+        DB.setValue(nodeAction, "type", "string", sType);
+      end
+    end
+  end
 end
 
 function onMenuSelection(selection, subselection)
 --Debug.console("power_item.lua","onMenuSelection","selection",selection);
 --Debug.console("power_item.lua","onMenuSelection","subselection",subselection);
-	if selection == 6 and subselection == 7 then
+  if selection == 6 and subselection == 7 then
         cleanUpMemorization(getDatabaseNode());
-		getDatabaseNode().delete();
+    getDatabaseNode().delete();
 
-	elseif selection == 4 then
+  elseif selection == 4 then
     local node = getDatabaseNode();
     local nodeParent = node.getParent();
     local nodeClone = nodeParent.createChild();
     DB.copyNode(node,nodeClone);
-	elseif selection == 3 then
-		if subselection == 2 then
-			createAction("cast");
-			activatedetail.setValue(1);
-		elseif subselection == 3 then
-			createAction("damage");
-			activatedetail.setValue(1);
-		elseif subselection == 4 then
-			createAction("heal");
-			activatedetail.setValue(1);
-		elseif subselection == 5 then
-			createAction("effect");
-			activatedetail.setValue(1);
-		elseif subselection == 6 then
-			createAction("damage_psp");
-			activatedetail.setValue(1);
-		elseif subselection == 8 then
-			createAction("heal_psp");
-			activatedetail.setValue(1);
-		end
-	end
+  elseif selection == 3 then
+    if subselection == 2 then
+      createAction("cast");
+      activatedetail.setValue(1);
+    elseif subselection == 3 then
+      createAction("damage");
+      activatedetail.setValue(1);
+    elseif subselection == 4 then
+      createAction("heal");
+      activatedetail.setValue(1);
+    elseif subselection == 5 then
+      createAction("effect");
+      activatedetail.setValue(1);
+    elseif subselection == 6 then
+      createAction("damage_psp");
+      activatedetail.setValue(1);
+    elseif subselection == 8 then
+      createAction("heal_psp");
+      activatedetail.setValue(1);
+    end
+  end
 end
 
 -- this is to clean up and dangling memorized spells (since we disabled player
@@ -263,12 +263,12 @@ end
 
 -- create a cast action
 function createActionCast() 
-	createAction("cast");
-	activatedetail.setValue(1);
+  createAction("cast");
+  activatedetail.setValue(1);
 end
 
 function toggleDetail()
-	local status = (activatedetail.getValue() == 1);
+  local status = (activatedetail.getValue() == 1);
 --Debug.console("------------power_item.lua","toggleDetail","status",status);    
   actions.setVisible(status);
   initiative.setVisible(status);
@@ -285,21 +285,21 @@ function toggleDetail()
 end
 
 function getDescription(bShowFull)
-	local node = getDatabaseNode();
-	
-	local s = DB.getValue(node, "name", "");
-	
-	if bShowFull then
-		local sShort = DB.getValue(node, "shortdescription", "");
-		if sShort ~= "" then
-			s = s .. " - " .. sShort;
-		end
-	end
+  local node = getDatabaseNode();
+  
+  local s = DB.getValue(node, "name", "");
+  
+  if bShowFull then
+    local sShort = DB.getValue(node, "shortdescription", "");
+    if sShort ~= "" then
+      s = s .. " - " .. sShort;
+    end
+  end
 
-	return s;
+  return s;
 end
 
 function usePower(bShowFull)
-	local node = getDatabaseNode();
-	ChatManager.Message(getDescription(bShowFull), true, ActorManager.getActor("pc", node.getChild("...")));
+  local node = getDatabaseNode();
+  ChatManager.Message(getDescription(bShowFull), true, ActorManager.getActor("pc", node.getChild("...")));
 end

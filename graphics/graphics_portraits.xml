@@ -6,7 +6,7 @@
 -->
 
 <root>
-	<!-- Portrait Chat icons -->	
-	<icon name="portrait_gm_token" file="graphics/portraits/portrait_gm_token.png" />
+  <!-- Portrait Chat icons -->  
+  <icon name="portrait_gm_token" file="graphics/portraits/portrait_gm_token.png" />
 </root>    
-	
+  

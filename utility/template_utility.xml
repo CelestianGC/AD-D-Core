@@ -6,188 +6,188 @@
 -->
 
 <root>
-	<!-- Library - Master Index -->
-	<template name="button_forge_item">
-		<button_text_sm>
-			<anchored to="buttonanchor" width="50">
-				<top />
-				<left anchor="right" relation="relative" offset="5" />
-			</anchored>
-			<state textres="item_button_forge" />
-			<script>
-				function onButtonPress()
-					Interface.openWindow("forge_magicitem", "forge.magicitem");
-				end
-			</script>
-		</button_text_sm>
-	</template>
+  <!-- Library - Master Index -->
+  <template name="button_forge_item">
+    <button_text_sm>
+      <anchored to="buttonanchor" width="50">
+        <top />
+        <left anchor="right" relation="relative" offset="5" />
+      </anchored>
+      <state textres="item_button_forge" />
+      <script>
+        function onButtonPress()
+          Interface.openWindow("forge_magicitem", "forge.magicitem");
+        end
+      </script>
+    </button_text_sm>
+  </template>
 
-	<!-- Calendar -->
-	<template name="anchor_calendar">
-		<genericcontrol name="contentframe">
-			<anchored>
-				<top parent="contentanchor" anchor="bottom" relation="relative" offset="5" />
-				<left offset="10" />
-				<right offset="-10" />
-				<bottom offset="-25" />
-			</anchored>
-		</genericcontrol>
-	</template>
-	<template name="anchor_calendarlog">
-		<genericcontrol>
-			<anchored height="0">
-				<top parent="title" anchor="bottom" offset="0" />
-				<left parent="" anchor="left" offset="30" />
-				<right parent="" anchor="right" offset="-30" />
-			</anchored>
-			<disabled />
-		</genericcontrol>
-	</template>
-	
-	<!-- Library - Master Index -->
-	<template name="masterindex_anchor_bottom">
-		<genericcontrol>
-			<anchored height="0">
-				<bottom offset="-25" />
-				<left parent="" anchor="left" offset="35" />
-				<right parent="" anchor="right" offset="-40" />
-			</anchored>
-			<disabled />
-		</genericcontrol>
-	</template>
+  <!-- Calendar -->
+  <template name="anchor_calendar">
+    <genericcontrol name="contentframe">
+      <anchored>
+        <top parent="contentanchor" anchor="bottom" relation="relative" offset="5" />
+        <left offset="10" />
+        <right offset="-10" />
+        <bottom offset="-25" />
+      </anchored>
+    </genericcontrol>
+  </template>
+  <template name="anchor_calendarlog">
+    <genericcontrol>
+      <anchored height="0">
+        <top parent="title" anchor="bottom" offset="0" />
+        <left parent="" anchor="left" offset="30" />
+        <right parent="" anchor="right" offset="-30" />
+      </anchored>
+      <disabled />
+    </genericcontrol>
+  </template>
+  
+  <!-- Library - Master Index -->
+  <template name="masterindex_anchor_bottom">
+    <genericcontrol>
+      <anchored height="0">
+        <bottom offset="-25" />
+        <left parent="" anchor="left" offset="35" />
+        <right parent="" anchor="right" offset="-40" />
+      </anchored>
+      <disabled />
+    </genericcontrol>
+  </template>
 
-	<!-- Effects -->
-	<template name="list_effects">
-		<list_utility>
-			<anchored to="contentanchor">
-				<top anchor="bottom" relation="relative" offset="35" />
-				<left offset="195" />
-				<right offset="-10" />
-				<bottom parent="" offset="-75" />
-			</anchored>
-			<frame name="groupbox" offset="15,15,20,15" />
-			<datasource>.</datasource>
-			<class>effectsmall</class>
-			<script>
-				function onDrop(x, y, draginfo)
-					if User.isHost() then
-						local rEffect = ActionEffect.decodeEffectFromDrag(draginfo);
-						if rEffect then
-							local w = addEntry(true);
-							if w then
-								EffectManager.setEffect(w.getDatabaseNode(), rEffect);
-							end
-						end
-						return true;
-					end
-				end
-			</script>
-		</list_utility>
-	</template>
-	<template name="button_effect">
-		<buttoncontrol>
-			<anchored to="buttonanchor" width="80" height="20">
-				<top anchor="bottom" relation="current" offset="10" />
-				<left />
-			</anchored>
-			<state frame="buttonup" frameoffset="5,5,5,5" text="Custom" font="button-white" />
-			<pressed frame="buttondown" frameoffset="5,5,5,5" offset="1,1" />
-			<script>
-				local sInternal = "";
-				
-				function setEffect(sEffect)
-					setText(sEffect);
-					sInternal = sEffect;
-				end
-				
-				function getEffect()
-					return { 
-						sName = sInternal,
-						};
-				end
-				
-				function onDragStart(button, x, y, draginfo)
-					local rEffect = getEffect();
-					return ActionEffect.performRoll(draginfo, nil, rEffect);
-				end
+  <!-- Effects -->
+  <template name="list_effects">
+    <list_utility>
+      <anchored to="contentanchor">
+        <top anchor="bottom" relation="relative" offset="35" />
+        <left offset="195" />
+        <right offset="-10" />
+        <bottom parent="" offset="-75" />
+      </anchored>
+      <frame name="groupbox" offset="15,15,20,15" />
+      <datasource>.</datasource>
+      <class>effectsmall</class>
+      <script>
+        function onDrop(x, y, draginfo)
+          if User.isHost() then
+            local rEffect = ActionEffect.decodeEffectFromDrag(draginfo);
+            if rEffect then
+              local w = addEntry(true);
+              if w then
+                EffectManager.setEffect(w.getDatabaseNode(), rEffect);
+              end
+            end
+            return true;
+          end
+        end
+      </script>
+    </list_utility>
+  </template>
+  <template name="button_effect">
+    <buttoncontrol>
+      <anchored to="buttonanchor" width="80" height="20">
+        <top anchor="bottom" relation="current" offset="10" />
+        <left />
+      </anchored>
+      <state frame="buttonup" frameoffset="5,5,5,5" text="Custom" font="button-white" />
+      <pressed frame="buttondown" frameoffset="5,5,5,5" offset="1,1" />
+      <script>
+        local sInternal = "";
+        
+        function setEffect(sEffect)
+          setText(sEffect);
+          sInternal = sEffect;
+        end
+        
+        function getEffect()
+          return { 
+            sName = sInternal,
+            };
+        end
+        
+        function onDragStart(button, x, y, draginfo)
+          local rEffect = getEffect();
+          return ActionEffect.performRoll(draginfo, nil, rEffect);
+        end
 
-				function onButtonPress(x, y)
-					local rEffect = getEffect();
-					local rRoll = ActionEffect.getRoll(nil, nil, rEffect);
-					if not rRoll then
-						return true;
-					end
-					
-					rRoll.sType = "effect";
+        function onButtonPress(x, y)
+          local rEffect = getEffect();
+          local rRoll = ActionEffect.getRoll(nil, nil, rEffect);
+          if not rRoll then
+            return true;
+          end
+          
+          rRoll.sType = "effect";
 
-					local rTarget = nil;
-					if User.isHost() then
-						rTarget = ActorManager.getActorFromCT(CombatManager.getActiveCT());
-					else
-						rTarget = ActorManager.getActor("pc", CombatManager.getCTFromNode("charsheet." .. User.getCurrentIdentity()));
-					end
-					
-					ActionsManager.resolveAction(nil, rTarget, rRoll);
-					return true;
-				end
-			</script>
-		</buttoncontrol>
-	</template>
-	<template name="button_effectright">
-		<button_effect>
-			<anchored>
-				<top relation="relative" />
-				<left merge="delete" />
-				<right />
-			</anchored>
-		</button_effect>
-	</template>
-	
-	<!-- Modifiers -->
-	<template name="list_modifiers">
-		<list_utility>
-			<anchored to="contentanchor">
-				<top anchor="bottom" relation="relative" offset="20" />
-				<left offset="175" />
-				<right offset="-10" />
-				<bottom parent="" offset="-75" />
-			</anchored>
-			<frame name="groupbox" offset="15,15,20,15" />
-			<datasource>.</datasource>
-			<class>modifiersmall</class>
-			<script>
-				function onDrop(x, y, draginfo)
-					if User.isHost() then
-						if draginfo.getType() == "number" then
-							local w = addEntry(true);
-							if w then
-								w.label.setValue(draginfo.getDescription());
-								w.bonus.setValue(draginfo.getNumberData());
-							end
-							return true;
-						end
-					end
-				end
-			</script>
-		</list_utility>
-	</template>
+          local rTarget = nil;
+          if User.isHost() then
+            rTarget = ActorManager.getActorFromCT(CombatManager.getActiveCT());
+          else
+            rTarget = ActorManager.getActor("pc", CombatManager.getCTFromNode("charsheet." .. User.getCurrentIdentity()));
+          end
+          
+          ActionsManager.resolveAction(nil, rTarget, rRoll);
+          return true;
+        end
+      </script>
+    </buttoncontrol>
+  </template>
+  <template name="button_effectright">
+    <button_effect>
+      <anchored>
+        <top relation="relative" />
+        <left merge="delete" />
+        <right />
+      </anchored>
+    </button_effect>
+  </template>
+  
+  <!-- Modifiers -->
+  <template name="list_modifiers">
+    <list_utility>
+      <anchored to="contentanchor">
+        <top anchor="bottom" relation="relative" offset="20" />
+        <left offset="175" />
+        <right offset="-10" />
+        <bottom parent="" offset="-75" />
+      </anchored>
+      <frame name="groupbox" offset="15,15,20,15" />
+      <datasource>.</datasource>
+      <class>modifiersmall</class>
+      <script>
+        function onDrop(x, y, draginfo)
+          if User.isHost() then
+            if draginfo.getType() == "number" then
+              local w = addEntry(true);
+              if w then
+                w.label.setValue(draginfo.getDescription());
+                w.bonus.setValue(draginfo.getNumberData());
+              end
+              return true;
+            end
+          end
+        end
+      </script>
+    </list_utility>
+  </template>
 
-	<!-- Options -->
-	<template name="list_options">
-		<windowlist>
-			<anchored to="contentanchor">
-				<top anchor="bottom" relation="relative" offset="20" />
-				<left offset="5" />
-				<right offset="-10" />
-				<bottom parent="" offset="-75" />
-			</anchored>
-			<frame name="groupbox" offset="15,15,20,15" />
-			<class>options_group</class>
-			<skipempty />
-			<sortby>
-				<control>sort</control>
-				<control>label</control>
-			</sortby>
-		</windowlist>
-	</template>
+  <!-- Options -->
+  <template name="list_options">
+    <windowlist>
+      <anchored to="contentanchor">
+        <top anchor="bottom" relation="relative" offset="20" />
+        <left offset="5" />
+        <right offset="-10" />
+        <bottom parent="" offset="-75" />
+      </anchored>
+      <frame name="groupbox" offset="15,15,20,15" />
+      <class>options_group</class>
+      <skipempty />
+      <sortby>
+        <control>sort</control>
+        <control>label</control>
+      </sortby>
+    </windowlist>
+  </template>
 </root>

@@ -6,7 +6,9 @@
 -->
 
 <root>
-  <windowclass name="encounter" merge="join">
-    <script file="campaign/scripts/story_CoreRPG.3.3.5.lua" mergerule="replace"/>
-  </windowclass>
+  <template name="combobox" merge="join">
+    <simplestring>
+      <script file="common/scripts/combobox_adnd.lua" mergerule="replace"/>
+    </simplestring>
+  </template>
 </root>

@@ -6,1193 +6,1193 @@
 -->
 
 <root>
-	<windowclass name="power_cast_editor">
-		<frame>charsheethelper</frame>
-		<placement>
-			<size width="370" height="350" />
-		</placement>
-		<sizelimits>
-			<minimum width="370" height="350" />
-			<dynamic />
-		</sizelimits>
-		<nodelete />
-		<playercontrol />
-		<minimize>minimized_char</minimize>
-		<tooltip control="name" />
-		<sheetdata>
-			<windowtitlebar_char name="title">
-				<resource>power_title_cast</resource>
-			</windowtitlebar_char>
-			<anchor_title_charsheethelper name="contentanchor" />
-			
-			<genericcontrol name="contentframe">
-				<anchored to="contentanchor">
-					<top anchor="bottom" offset="0" />
-					<left />
-					<right />
-					<bottom parent="" offset="-30" />
-				</anchored>
-			</genericcontrol>
+  <windowclass name="power_cast_editor">
+    <frame>charsheethelper</frame>
+    <placement>
+      <size width="370" height="350" />
+    </placement>
+    <sizelimits>
+      <minimum width="370" height="350" />
+      <dynamic />
+    </sizelimits>
+    <nodelete />
+    <playercontrol />
+    <minimize>minimized_char</minimize>
+    <tooltip control="name" />
+    <sheetdata>
+      <windowtitlebar_char name="title">
+        <resource>power_title_cast</resource>
+      </windowtitlebar_char>
+      <anchor_title_charsheethelper name="contentanchor" />
+      
+      <genericcontrol name="contentframe">
+        <anchored to="contentanchor">
+          <top anchor="bottom" offset="0" />
+          <left />
+          <right />
+          <bottom parent="" offset="-30" />
+        </anchored>
+      </genericcontrol>
 
-			<subwindow_record name="main">
-				<class>power_cast_editor_main</class>
-				<activate />
-				<fastinit />
-			</subwindow_record>
+      <subwindow_record name="main">
+        <class>power_cast_editor_main</class>
+        <activate />
+        <fastinit />
+      </subwindow_record>
 
-			<scrollbar_record>
-				<target>main</target>
-			</scrollbar_record>
+      <scrollbar_record>
+        <target>main</target>
+      </scrollbar_record>
 
-			<resize_charsheethelper />
-			<close_charsheethelper />
-		</sheetdata>
-	</windowclass>
-	<windowclass name="power_cast_editor_main">
-		<script>
-			function onInit()
-				updateDisplay();
-			end
-			
-			function updateDisplay()
-				local node = getDatabaseNode();
-				local bAtkAbilityMode = (DB.getValue(node, "atkbase", "") == "ability");
-				local bSaveAbilityMode = (DB.getValue(node, "savedcbase", "") == "ability");
-				
-				atkstat.setVisible(bAtkAbilityMode);
-				label_atkstat.setVisible(bAtkAbilityMode);
-				atkplus.setVisible(bAtkAbilityMode);
-				atkmod.setAnchor("left", "atkplus", "right", "absolute", 10);
+      <resize_charsheethelper />
+      <close_charsheethelper />
+    </sheetdata>
+  </windowclass>
+  <windowclass name="power_cast_editor_main">
+    <script>
+      function onInit()
+        updateDisplay();
+      end
+      
+      function updateDisplay()
+        local node = getDatabaseNode();
+        local bAtkAbilityMode = (DB.getValue(node, "atkbase", "") == "ability");
+        local bSaveAbilityMode = (DB.getValue(node, "savedcbase", "") == "ability");
+        
+        atkstat.setVisible(bAtkAbilityMode);
+        label_atkstat.setVisible(bAtkAbilityMode);
+        atkplus.setVisible(bAtkAbilityMode);
+        atkmod.setAnchor("left", "atkplus", "right", "absolute", 10);
 
-				savedcmod.setAnchor("left", "savetype", "right", "absolute", 10);
-			end
-		</script>
-		<sheetdata>
-			<anchor_column name="columnanchor" />
-			
-			<label_column name="name_label">
-				<static textres="power_label_name" />
-			</label_column>
-			<stringcontrol name="name">
-				<anchored>
-					<top parent="columnanchor" anchor="bottom" relation="relative" offset="7" />
-					<left offset="97" />
-					<right offset="-5" />
-				</anchored>
-				<multilinespacing>20</multilinespacing>
-				<font>sheettext</font>
-				<readonly />
-			</stringcontrol>
-			
-			<header_column name="header_attack">
-				<static textres="power_header_cast_attack" />
-				<center />
-			</header_column>
-			<button_stringcycler name="atktype">
-				<anchored width="60" height="20">
-					<top parent="columnanchor" anchor="bottom" relation="relative" offset="20" />
-					<left offset="5" />
-				</anchored>
-				<parameters>
-					<defaultlabelres>dash</defaultlabelres>
-					<labelsres>melee|ranged|psionic</labelsres>
-					<values>melee|ranged|psionic</values>
-				</parameters>
-			</button_stringcycler>
-			<label_fieldtop>
-				<anchored to="atktype" />
-				<static textres="power_label_atktype" />
-			</label_fieldtop>
-			<button_stringcycler name="atkbase">
-				<anchored to="atktype" position="righthigh" offset="10,0" width="80" height="20" />
-				<parameters>
+        savedcmod.setAnchor("left", "savetype", "right", "absolute", 10);
+      end
+    </script>
+    <sheetdata>
+      <anchor_column name="columnanchor" />
+      
+      <label_column name="name_label">
+        <static textres="power_label_name" />
+      </label_column>
+      <stringcontrol name="name">
+        <anchored>
+          <top parent="columnanchor" anchor="bottom" relation="relative" offset="7" />
+          <left offset="97" />
+          <right offset="-5" />
+        </anchored>
+        <multilinespacing>20</multilinespacing>
+        <font>sheettext</font>
+        <readonly />
+      </stringcontrol>
+      
+      <header_column name="header_attack">
+        <static textres="power_header_cast_attack" />
+        <center />
+      </header_column>
+      <button_stringcycler name="atktype">
+        <anchored width="60" height="20">
+          <top parent="columnanchor" anchor="bottom" relation="relative" offset="20" />
+          <left offset="5" />
+        </anchored>
+        <parameters>
           <defaultlabelres>dash</defaultlabelres>
-					<labelsres>power_label_atkbase_fixed|power_label_atkbase_ability</labelsres>
-					<values>fixed|ability</values>
-				</parameters>
-				<script>
-					function onValueChanged()
-						window.updateDisplay();
-					end
-				</script>
-			</button_stringcycler>
-			<label_fieldtop>
-				<anchored to="atkbase" />
-				<static textres="power_label_atkbase" />
-			</label_fieldtop>
-			<cycler_power name="atkstat">
-				<anchored to="atkbase" position="righthigh" offset="10,0" />
-			</cycler_power>
-			<label_fieldtop name="label_atkstat">
-				<anchored to="atkstat" />
-				<static textres="power_label_atkstat" />
-			</label_fieldtop>
-			<label name="atkplus">
-				<anchored to="atkstat" position="righthigh" offset="5,0" width="10" />
-				<static>+</static>
-				<center />
-			</label>
+          <labelsres>melee|ranged|psionic</labelsres>
+          <values>melee|ranged|psionic</values>
+        </parameters>
+      </button_stringcycler>
+      <label_fieldtop>
+        <anchored to="atktype" />
+        <static textres="power_label_atktype" />
+      </label_fieldtop>
+      <button_stringcycler name="atkbase">
+        <anchored to="atktype" position="righthigh" offset="10,0" width="80" height="20" />
+        <parameters>
+          <defaultlabelres>dash</defaultlabelres>
+          <labelsres>power_label_atkbase_fixed|power_label_atkbase_ability</labelsres>
+          <values>fixed|ability</values>
+        </parameters>
+        <script>
+          function onValueChanged()
+            window.updateDisplay();
+          end
+        </script>
+      </button_stringcycler>
+      <label_fieldtop>
+        <anchored to="atkbase" />
+        <static textres="power_label_atkbase" />
+      </label_fieldtop>
+      <cycler_power name="atkstat">
+        <anchored to="atkbase" position="righthigh" offset="10,0" />
+      </cycler_power>
+      <label_fieldtop name="label_atkstat">
+        <anchored to="atkstat" />
+        <static textres="power_label_atkstat" />
+      </label_fieldtop>
+      <label name="atkplus">
+        <anchored to="atkstat" position="righthigh" offset="5,0" width="10" />
+        <static>+</static>
+        <center />
+      </label>
 
-			<basicnumber name="atkmod">
-				<anchored to="atkplus" position="righthigh" offset="5,0" width="25" height="20" />
-				<hideonvalue value="0" />
-			</basicnumber>
-			<label_fieldtop>
-				<anchored to="atkmod" />
-				<static textres="power_label_atkmod" />
-			</label_fieldtop>
-			
-			<header_column name="header_save">
-				<static textres="power_header_cast_save" />
-				<center />
-			</header_column>
-			<cycler_power_savetype name="savetype">
-				<anchored>
-					<top parent="columnanchor" anchor="bottom" relation="relative" offset="20" />
-					<left offset="5" />
-				</anchored>
-			</cycler_power_savetype>
-			<label_fieldtop>
-				<anchored to="savetype" />
-				<static textres="power_label_savetype" />
-			</label_fieldtop>
+      <basicnumber name="atkmod">
+        <anchored to="atkplus" position="righthigh" offset="5,0" width="25" height="20" />
+        <hideonvalue value="0" />
+      </basicnumber>
+      <label_fieldtop>
+        <anchored to="atkmod" />
+        <static textres="power_label_atkmod" />
+      </label_fieldtop>
+      
+      <header_column name="header_save">
+        <static textres="power_header_cast_save" />
+        <center />
+      </header_column>
+      <cycler_power_savetype name="savetype">
+        <anchored>
+          <top parent="columnanchor" anchor="bottom" relation="relative" offset="20" />
+          <left offset="5" />
+        </anchored>
+      </cycler_power_savetype>
+      <label_fieldtop>
+        <anchored to="savetype" />
+        <static textres="power_label_savetype" />
+      </label_fieldtop>
 
             
-			<basicnumber name="savedcmod">
-				<anchored to="savetype" position="righthigh" offset="5,0" width="25" height="20" />
-				<hideonvalue value="0" />
-			</basicnumber>
-			<label_fieldtop>
-				<anchored to="savedcmod" />
-				<static textres="power_label_savedcmod" />
-			</label_fieldtop>
+      <basicnumber name="savedcmod">
+        <anchored to="savetype" position="righthigh" offset="5,0" width="25" height="20" />
+        <hideonvalue value="0" />
+      </basicnumber>
+      <label_fieldtop>
+        <anchored to="savedcmod" />
+        <static textres="power_label_savedcmod" />
+      </label_fieldtop>
 
-			<header_column name="header_onmiss">
-				<static textres="power_header_cast_onmiss" />
-				<center />
-			</header_column>
-			<cycler_power_onmissdamage name="onmissdamage">
-				<anchored>
-					<top parent="columnanchor" anchor="bottom" relation="relative" offset="20" />
-					<left offset="5" />
-				</anchored>
-			</cycler_power_onmissdamage>
-			<label_fieldtop>
-				<anchored to="onmissdamage" />
-				<static textres="power_label_onmissdamage" />
-			</label_fieldtop>
-		</sheetdata>
-	</windowclass>
+      <header_column name="header_onmiss">
+        <static textres="power_header_cast_onmiss" />
+        <center />
+      </header_column>
+      <cycler_power_onmissdamage name="onmissdamage">
+        <anchored>
+          <top parent="columnanchor" anchor="bottom" relation="relative" offset="20" />
+          <left offset="5" />
+        </anchored>
+      </cycler_power_onmissdamage>
+      <label_fieldtop>
+        <anchored to="onmissdamage" />
+        <static textres="power_label_onmissdamage" />
+      </label_fieldtop>
+    </sheetdata>
+  </windowclass>
 
-	<windowclass name="power_damage_editor">
-		<frame>charsheethelper</frame>
-		<placement>
-			<size width="450" height="250" />
-		</placement>
-		<sizelimits>
-			<minimum width="450" height="250" />
-			<dynamic />
-		</sizelimits>
-		<nodelete />
-		<playercontrol />
-		<minimize>minimized_char</minimize>
-		<tooltip control="name" />
-		<sheetdata>
-			<windowtitlebar_char name="title">
-				<resource>power_title_damage</resource>
-			</windowtitlebar_char>
-			<anchor_title_charsheethelper name="contentanchor" />
-			
-			<genericcontrol name="contentframe">
-				<anchored to="contentanchor">
-					<top anchor="bottom" offset="0" />
-					<left />
-					<right />
-					<bottom parent="" offset="-30" />
-				</anchored>
-			</genericcontrol>
+  <windowclass name="power_damage_editor">
+    <frame>charsheethelper</frame>
+    <placement>
+      <size width="450" height="250" />
+    </placement>
+    <sizelimits>
+      <minimum width="450" height="250" />
+      <dynamic />
+    </sizelimits>
+    <nodelete />
+    <playercontrol />
+    <minimize>minimized_char</minimize>
+    <tooltip control="name" />
+    <sheetdata>
+      <windowtitlebar_char name="title">
+        <resource>power_title_damage</resource>
+      </windowtitlebar_char>
+      <anchor_title_charsheethelper name="contentanchor" />
+      
+      <genericcontrol name="contentframe">
+        <anchored to="contentanchor">
+          <top anchor="bottom" offset="0" />
+          <left />
+          <right />
+          <bottom parent="" offset="-30" />
+        </anchored>
+      </genericcontrol>
 
-			<subwindow_record name="main">
-				<class>power_damage_editor_main</class>
-				<activate />
-				<fastinit />
-			</subwindow_record>
+      <subwindow_record name="main">
+        <class>power_damage_editor_main</class>
+        <activate />
+        <fastinit />
+      </subwindow_record>
 
-			<scrollbar_record>
-				<target>main</target>
-			</scrollbar_record>
+      <scrollbar_record>
+        <target>main</target>
+      </scrollbar_record>
 
-			<resize_charsheethelper />
-			<close_charsheethelper />
-		</sheetdata>
-	</windowclass>
+      <resize_charsheethelper />
+      <close_charsheethelper />
+    </sheetdata>
+  </windowclass>
 
-	<windowclass name="power_damage_editor_main">
-		<script>
-			function onDrop(x, y, draginfo)
-				local sDragType = draginfo.getType();
-				
-				if sDragType == "dice" then
-					local w = list.addEntry(true);
-					for _, vDie in ipairs(draginfo.getDieList()) do
-						w.dice.addDie(vDie.type);
-					end
-					return true;
-				elseif sDragType == "number" then
-					local w = list.addEntry(true);
-					w.bonus.setValue(draginfo.getNumberData());
-					return true;
-				end
-			end
-		</script>
-		<sheetdata>
-			<anchor_column name="columnanchor" />
-			
-			<label_column name="name_label">
-				<static textres="power_label_name" />
-			</label_column>
-			<stringcontrol name="name">
-				<anchored>
-					<top parent="columnanchor" anchor="bottom" relation="relative" offset="7" />
-					<left offset="97" />
-					<right offset="-5" />
-				</anchored>
-				<multilinespacing>20</multilinespacing>
-				<font>sheettext</font>
-				<readonly />
-			</stringcontrol>
-			
-			<header_column name="header_damage">
-				<static textres="power_header_damage" />
-				<center />
-			</header_column>
-			<button_iedit name="list_iedit">
-				<anchored to="header_damage" position="insidetopright" offset="-5,0" />
-				<target>list</target>
-			</button_iedit>
-			<button_iadd name="list_iadd">
-				<anchored to="list_iedit" position="lefthigh" offset="5,0" />
-				<target>list</target>
-			</button_iadd>
+  <windowclass name="power_damage_editor_main">
+    <script>
+      function onDrop(x, y, draginfo)
+        local sDragType = draginfo.getType();
+        
+        if sDragType == "dice" then
+          local w = list.addEntry(true);
+          for _, vDie in ipairs(draginfo.getDieList()) do
+            w.dice.addDie(vDie.type);
+          end
+          return true;
+        elseif sDragType == "number" then
+          local w = list.addEntry(true);
+          w.bonus.setValue(draginfo.getNumberData());
+          return true;
+        end
+      end
+    </script>
+    <sheetdata>
+      <anchor_column name="columnanchor" />
+      
+      <label_column name="name_label">
+        <static textres="power_label_name" />
+      </label_column>
+      <stringcontrol name="name">
+        <anchored>
+          <top parent="columnanchor" anchor="bottom" relation="relative" offset="7" />
+          <left offset="97" />
+          <right offset="-5" />
+        </anchored>
+        <multilinespacing>20</multilinespacing>
+        <font>sheettext</font>
+        <readonly />
+      </stringcontrol>
+      
+      <header_column name="header_damage">
+        <static textres="power_header_damage" />
+        <center />
+      </header_column>
+      <button_iedit name="list_iedit">
+        <anchored to="header_damage" position="insidetopright" offset="-5,0" />
+        <target>list</target>
+      </button_iedit>
+      <button_iadd name="list_iadd">
+        <anchored to="list_iedit" position="lefthigh" offset="5,0" />
+        <target>list</target>
+      </button_iadd>
 
-			<list_editor name="list">
-				<datasource>.damagelist</datasource>
-				<class>power_damage_entry</class>
-			</list_editor>
-			
-			<label_fieldtop>
-				<anchored to="list" position="aboveleft" offset="5,1" width="20" />
-				<static textres="power_label_castertype" />
+      <list_editor name="list">
+        <datasource>.damagelist</datasource>
+        <class>power_damage_entry</class>
+      </list_editor>
+      
+      <label_fieldtop>
+        <anchored to="list" position="aboveleft" offset="5,1" width="20" />
+        <static textres="power_label_castertype" />
         <tooltip textres="power_label_castertype_tooltip" />
-			</label_fieldtop>
-			<label_fieldtop>
-				<anchored to="list" position="aboveleft" offset="40,1" width="25" />
-				<static textres="power_label_casterlevelmax" />
+      </label_fieldtop>
+      <label_fieldtop>
+        <anchored to="list" position="aboveleft" offset="40,1" width="25" />
+        <static textres="power_label_casterlevelmax" />
         <tooltip textres="power_label_casterlevelmax_tooltip" />
-			</label_fieldtop>
-			<label_fieldtop>
-				<anchored to="list" position="aboveleft" offset="90,1" width="60" />
-				<static textres="weapon_label_dmgdice" />
-			</label_fieldtop>
-			<label_fieldtop>
-				<anchored to="list" position="aboveleft" offset="165,1" width="60" />
-				<static textres="weapon_label_customdmgdice" />
-			</label_fieldtop>
-			<label_fieldtop>
-				<anchored to="list" position="aboveleft" offset="245,1" width="30" />
-				<static textres="weapon_label_dmgstat" />
-			</label_fieldtop>
-			<label_fieldtop>
-				<anchored to="list" position="aboveleft" offset="290,1" width="35" />
-				<static textres="weapon_label_dmgbonus" />
-			</label_fieldtop>
-			<label_fieldtop>
-				<anchored to="list" position="aboveright" offset="5,1">
-					<left offset="310" />
-				</anchored>
-				<static textres="weapon_label_dmgtype" />
-			</label_fieldtop>
-		</sheetdata>
-	</windowclass>
+      </label_fieldtop>
+      <label_fieldtop>
+        <anchored to="list" position="aboveleft" offset="90,1" width="60" />
+        <static textres="weapon_label_dmgdice" />
+      </label_fieldtop>
+      <label_fieldtop>
+        <anchored to="list" position="aboveleft" offset="165,1" width="60" />
+        <static textres="weapon_label_customdmgdice" />
+      </label_fieldtop>
+      <label_fieldtop>
+        <anchored to="list" position="aboveleft" offset="245,1" width="30" />
+        <static textres="weapon_label_dmgstat" />
+      </label_fieldtop>
+      <label_fieldtop>
+        <anchored to="list" position="aboveleft" offset="290,1" width="35" />
+        <static textres="weapon_label_dmgbonus" />
+      </label_fieldtop>
+      <label_fieldtop>
+        <anchored to="list" position="aboveright" offset="5,1">
+          <left offset="310" />
+        </anchored>
+        <static textres="weapon_label_dmgtype" />
+      </label_fieldtop>
+    </sheetdata>
+  </windowclass>
   
-	<windowclass name="power_damage_entry">
-		<margins control="0,0,0,5" />
-		<sheetdata>
-			<genericcontrol name="rightanchor">
-				<anchored width="0" height="0">
-					<top offset="2" />
-					<right />
-				</anchored>
-				<invisible />
-			</genericcontrol>
-			<button_idelete name="idelete">
-				<anchored to="rightanchor">
-					<top />
-					<right anchor="left" relation="relative" offset="-5" />
-				</anchored>
-			</button_idelete>
+  <windowclass name="power_damage_entry">
+    <margins control="0,0,0,5" />
+    <sheetdata>
+      <genericcontrol name="rightanchor">
+        <anchored width="0" height="0">
+          <top offset="2" />
+          <right />
+        </anchored>
+        <invisible />
+      </genericcontrol>
+      <button_idelete name="idelete">
+        <anchored to="rightanchor">
+          <top />
+          <right anchor="left" relation="relative" offset="-5" />
+        </anchored>
+      </button_idelete>
 
       <cycler_casterlevel_type name="castertype">
         <anchored position="insidetopleft" offset="5,1" width="25" height="20" />
       </cycler_casterlevel_type>
       
-			<label name="label_wrap1">
-				<anchored to="castertype" position="righthigh" offset="4,0" width="10" />
-				<static>(</static>
-			</label>
-			<basicnumber name="castermax">
-				<anchored to="label_wrap1" position="righthigh" offset="-1,1" width="20" height="20" />
-				<hideonvalue>0</hideonvalue>
+      <label name="label_wrap1">
+        <anchored to="castertype" position="righthigh" offset="4,0" width="10" />
+        <static>(</static>
+      </label>
+      <basicnumber name="castermax">
+        <anchored to="label_wrap1" position="righthigh" offset="-1,1" width="20" height="20" />
+        <hideonvalue>0</hideonvalue>
         <default>10</default>
-			</basicnumber>
-			<label name="label_wrap2">
-				<anchored to="castermax" position="righthigh" offset="3,0" width="10" />
-				<static>)</static>
-			</label>
+      </basicnumber>
+      <label name="label_wrap2">
+        <anchored to="castermax" position="righthigh" offset="3,0" width="10" />
+        <static>)</static>
+      </label>
       
-			<label name="label_dee">
-				<anchored to="label_wrap2" position="righthigh" offset="-2,0" width="10" />
-				<static>D</static>
-			</label>
+      <label name="label_dee">
+        <anchored to="label_wrap2" position="righthigh" offset="-2,0" width="10" />
+        <static>D</static>
+      </label>
       
-			<basicdice name="dice">
-				<anchored to="label_dee" position="righthigh" offset="4,1" width="60" height="20" />
-				<!-- <anchored position="insidetopleft" offset="45,2" width="60" height="20" /> -->
+      <basicdice name="dice">
+        <anchored to="label_dee" position="righthigh" offset="4,1" width="60" height="20" />
+        <!-- <anchored position="insidetopleft" offset="45,2" width="60" height="20" /> -->
         <tooltip textres="weapon_label_dmgdice_tooltip" />
-			</basicdice>
+      </basicdice>
       
-			<label name="label_plus">
-				<anchored to="dice" position="righthigh" offset="5,1" width="10" />
-				<static>+</static>
-			</label>
+      <label name="label_plus">
+        <anchored to="dice" position="righthigh" offset="5,1" width="10" />
+        <static>+</static>
+      </label>
 
-			<basicdice name="dicecustom">
-				<anchored to="label_plus" position="righthigh" offset="4,1" width="60" height="20" />
-				<!-- <anchored position="insidetopleft" offset="45,2" width="60" height="20" /> -->
+      <basicdice name="dicecustom">
+        <anchored to="label_plus" position="righthigh" offset="4,1" width="60" height="20" />
+        <!-- <anchored position="insidetopleft" offset="45,2" width="60" height="20" /> -->
         <tooltip textres="weapon_label_customdmgdice_tooltip" />
-			</basicdice>
+      </basicdice>
       
-			<label name="label_plus_custom">
-				<anchored to="dicecustom" position="righthigh" offset="5,1" width="10" />
-				<static>+</static>
-			</label>
+      <label name="label_plus_custom">
+        <anchored to="dicecustom" position="righthigh" offset="5,1" width="10" />
+        <static>+</static>
+      </label>
       
-			<cycler_power name="stat">
-				<anchored to="label_plus_custom" position="righthigh" offset="2,1" width="30" height="20" />
-			</cycler_power>
-			<label name="label_plus2">
-				<anchored to="stat" position="righthigh" offset="5,0" width="10" />
-				<static>+</static>
-			</label>
-			<basicnumber name="bonus">
-				<anchored to="label_plus2" position="righthigh" offset="2,1" width="35" height="20" />
-				<hideonvalue>0</hideonvalue>
-			</basicnumber>
-			<stringu name="type">
-				<anchored to="bonus" position="righthigh" offset="10,0" height="20">
-					<right parent="rightanchor" anchor="left" relation="relative" offset="-5" />
-				</anchored>
-			</stringu>
+      <cycler_power name="stat">
+        <anchored to="label_plus_custom" position="righthigh" offset="2,1" width="30" height="20" />
+      </cycler_power>
+      <label name="label_plus2">
+        <anchored to="stat" position="righthigh" offset="5,0" width="10" />
+        <static>+</static>
+      </label>
+      <basicnumber name="bonus">
+        <anchored to="label_plus2" position="righthigh" offset="2,1" width="35" height="20" />
+        <hideonvalue>0</hideonvalue>
+      </basicnumber>
+      <stringu name="type">
+        <anchored to="bonus" position="righthigh" offset="10,0" height="20">
+          <right parent="rightanchor" anchor="left" relation="relative" offset="-5" />
+        </anchored>
+      </stringu>
       
-			<label name="label_x">
-				<anchored to="label_dee" position="belowleft" width="10" offset="0,3" />
-				<static>X</static>
-			</label>
+      <label name="label_x">
+        <anchored to="label_dee" position="belowleft" width="10" offset="0,3" />
+        <static>X</static>
+      </label>
       
-			<basicnumber name="customvalue">
-				<anchored to="dice" position="belowleft" width="60" height="20" offset="0,3" />
+      <basicnumber name="customvalue">
+        <anchored to="dice" position="belowleft" width="60" height="20" offset="0,3" />
         <hideonvalue>0</hideonvalue>
         <tooltip textres="power_label_customvalue_tooltip" />
-			</basicnumber>
+      </basicnumber>
       
-		</sheetdata>
-	</windowclass>
+    </sheetdata>
+  </windowclass>
 
-	<windowclass name="power_heal_editor">
-		<frame>charsheethelper</frame>
-		<placement>
-			<size width="400" height="350" />
-		</placement>
-		<sizelimits>
-			<minimum width="400" height="250" />
-			<dynamic />
-		</sizelimits>
-		<nodelete />
-		<playercontrol />
-		<minimize>minimized_char</minimize>
-		<tooltip control="name" />
-		<sheetdata>
-			<windowtitlebar_char name="title">
-				<resource>power_title_heal</resource>
-			</windowtitlebar_char>
-			<anchor_title_charsheethelper name="contentanchor" />
-			
-			<genericcontrol name="contentframe">
-				<anchored to="contentanchor">
-					<top anchor="bottom" offset="0" />
-					<left />
-					<right />
-					<bottom parent="" offset="-30" />
-				</anchored>
-			</genericcontrol>
+  <windowclass name="power_heal_editor">
+    <frame>charsheethelper</frame>
+    <placement>
+      <size width="400" height="350" />
+    </placement>
+    <sizelimits>
+      <minimum width="400" height="250" />
+      <dynamic />
+    </sizelimits>
+    <nodelete />
+    <playercontrol />
+    <minimize>minimized_char</minimize>
+    <tooltip control="name" />
+    <sheetdata>
+      <windowtitlebar_char name="title">
+        <resource>power_title_heal</resource>
+      </windowtitlebar_char>
+      <anchor_title_charsheethelper name="contentanchor" />
+      
+      <genericcontrol name="contentframe">
+        <anchored to="contentanchor">
+          <top anchor="bottom" offset="0" />
+          <left />
+          <right />
+          <bottom parent="" offset="-30" />
+        </anchored>
+      </genericcontrol>
 
-			<subwindow_record name="main">
-				<class>power_heal_editor_main</class>
-				<activate />
-				<fastinit />
-			</subwindow_record>
+      <subwindow_record name="main">
+        <class>power_heal_editor_main</class>
+        <activate />
+        <fastinit />
+      </subwindow_record>
 
-			<scrollbar_record>
-				<target>main</target>
-			</scrollbar_record>
+      <scrollbar_record>
+        <target>main</target>
+      </scrollbar_record>
 
-			<resize_charsheethelper />
-			<close_charsheethelper />
-		</sheetdata>
-	</windowclass>
-	<windowclass name="power_heal_editor_main">
-		<script>
-			function onDrop(x, y, draginfo)
-				local sDragType = draginfo.getType();
-				
-				if sDragType == "dice" then
-					local w = list.addEntry(true);
-					for _, vDie in ipairs(draginfo.getDieList()) do
-						w.dice.addDie(vDie.type);
-					end
-					return true;
-				elseif sDragType == "number" then
-					local w = list.addEntry(true);
-					w.bonus.setValue(draginfo.getNumberData());
-					return true;
-				end
-			end
-		</script>
-		<sheetdata>
-			<anchor_column name="columnanchor" />
-			
-			<label_column name="name_label">
-				<static textres="power_label_name" />
-			</label_column>
-			<stringcontrol name="name">
-				<anchored>
-					<top parent="columnanchor" anchor="bottom" relation="relative" offset="7" />
-					<left offset="97" />
-					<right offset="-5" />
-				</anchored>
-				<multilinespacing>20</multilinespacing>
-				<font>sheettext</font>
-				<readonly />
-			</stringcontrol>
+      <resize_charsheethelper />
+      <close_charsheethelper />
+    </sheetdata>
+  </windowclass>
+  <windowclass name="power_heal_editor_main">
+    <script>
+      function onDrop(x, y, draginfo)
+        local sDragType = draginfo.getType();
+        
+        if sDragType == "dice" then
+          local w = list.addEntry(true);
+          for _, vDie in ipairs(draginfo.getDieList()) do
+            w.dice.addDie(vDie.type);
+          end
+          return true;
+        elseif sDragType == "number" then
+          local w = list.addEntry(true);
+          w.bonus.setValue(draginfo.getNumberData());
+          return true;
+        end
+      end
+    </script>
+    <sheetdata>
+      <anchor_column name="columnanchor" />
+      
+      <label_column name="name_label">
+        <static textres="power_label_name" />
+      </label_column>
+      <stringcontrol name="name">
+        <anchored>
+          <top parent="columnanchor" anchor="bottom" relation="relative" offset="7" />
+          <left offset="97" />
+          <right offset="-5" />
+        </anchored>
+        <multilinespacing>20</multilinespacing>
+        <font>sheettext</font>
+        <readonly />
+      </stringcontrol>
 
-			<header_column name="header_other">
-				<static textres="power_header_heal_other" />
-				<center />
-			</header_column>
-			
-			<label_column name="healtargeting_label">
-				<static textres="power_label_targeting" />
-			</label_column>
-			<button_stringcycler name="healtargeting">
-				<anchored width="60" height="20">
-					<top parent="columnanchor" anchor="bottom" relation="relative" offset="7" />
-					<left offset="97" />
-				</anchored>
-				<parameters>
-					<defaultlabelres>power_label_targetnormal</defaultlabelres>
-					<labelsres>power_label_targetself</labelsres>
-					<values>self</values>
-				</parameters>
-			</button_stringcycler>
-			
-			<label_column name="healtype_label">
-				<static textres="power_label_healtype" />
-			</label_column>
-			<button_stringcycler name="healtype">
-				<anchored width="40" height="20">
-					<top parent="columnanchor" anchor="bottom" relation="relative" offset="7" />
-					<left offset="97" />
-				</anchored>
-				<parameters>
-					<defaultlabelres>power_label_healtypenormal</defaultlabelres>
-					<labelsres>power_label_healtypetemp</labelsres>
-					<values>temp</values>
-				</parameters>
-			</button_stringcycler>
+      <header_column name="header_other">
+        <static textres="power_header_heal_other" />
+        <center />
+      </header_column>
+      
+      <label_column name="healtargeting_label">
+        <static textres="power_label_targeting" />
+      </label_column>
+      <button_stringcycler name="healtargeting">
+        <anchored width="60" height="20">
+          <top parent="columnanchor" anchor="bottom" relation="relative" offset="7" />
+          <left offset="97" />
+        </anchored>
+        <parameters>
+          <defaultlabelres>power_label_targetnormal</defaultlabelres>
+          <labelsres>power_label_targetself</labelsres>
+          <values>self</values>
+        </parameters>
+      </button_stringcycler>
+      
+      <label_column name="healtype_label">
+        <static textres="power_label_healtype" />
+      </label_column>
+      <button_stringcycler name="healtype">
+        <anchored width="40" height="20">
+          <top parent="columnanchor" anchor="bottom" relation="relative" offset="7" />
+          <left offset="97" />
+        </anchored>
+        <parameters>
+          <defaultlabelres>power_label_healtypenormal</defaultlabelres>
+          <labelsres>power_label_healtypetemp</labelsres>
+          <values>temp</values>
+        </parameters>
+      </button_stringcycler>
 
-			<header_column name="header_heal">
-				<static textres="power_header_heal" />
-				<center />
-			</header_column>
-			<button_iedit name="list_iedit">
-				<anchored to="header_heal" position="insidetopright" offset="-5,0" />
-				<target>list</target>
-			</button_iedit>
-			<button_iadd name="list_iadd">
-				<anchored to="list_iedit" position="lefthigh" offset="5,0" />
-				<target>list</target>
-			</button_iadd>
+      <header_column name="header_heal">
+        <static textres="power_header_heal" />
+        <center />
+      </header_column>
+      <button_iedit name="list_iedit">
+        <anchored to="header_heal" position="insidetopright" offset="-5,0" />
+        <target>list</target>
+      </button_iedit>
+      <button_iadd name="list_iadd">
+        <anchored to="list_iedit" position="lefthigh" offset="5,0" />
+        <target>list</target>
+      </button_iadd>
 
-			<list_editor name="list">
-				<datasource>.heallist</datasource>
-				<class>power_heal_entry</class>
-			</list_editor>
-			
-<!-- 			<label_fieldtop>
-				<anchored to="list" position="aboveleft" offset="5,1" width="60" />
-				<static textres="weapon_label_dmgdice" />
-			</label_fieldtop>
-			<label_fieldtop>
-				<anchored to="list" position="aboveleft" offset="82,1" width="30" />
-				<static textres="weapon_label_dmgstat" />
-			</label_fieldtop>
-			<label_fieldtop>
-				<anchored to="list" position="aboveleft" offset="129,1" width="35" />
-				<static textres="weapon_label_dmgbonus" />
-			</label_fieldtop>
+      <list_editor name="list">
+        <datasource>.heallist</datasource>
+        <class>power_heal_entry</class>
+      </list_editor>
+      
+<!--       <label_fieldtop>
+        <anchored to="list" position="aboveleft" offset="5,1" width="60" />
+        <static textres="weapon_label_dmgdice" />
+      </label_fieldtop>
+      <label_fieldtop>
+        <anchored to="list" position="aboveleft" offset="82,1" width="30" />
+        <static textres="weapon_label_dmgstat" />
+      </label_fieldtop>
+      <label_fieldtop>
+        <anchored to="list" position="aboveleft" offset="129,1" width="35" />
+        <static textres="weapon_label_dmgbonus" />
+      </label_fieldtop>
  -->      
-			<label_fieldtop>
-				<anchored to="list" position="aboveleft" offset="5,1" width="20" />
-				<static textres="power_label_castertype" />
+      <label_fieldtop>
+        <anchored to="list" position="aboveleft" offset="5,1" width="20" />
+        <static textres="power_label_castertype" />
         <tooltip textres="power_label_castertype_tooltip" />
-			</label_fieldtop>
-			<label_fieldtop>
-				<anchored to="list" position="aboveleft" offset="40,1" width="25" />
-				<static textres="power_label_casterlevelmax" />
+      </label_fieldtop>
+      <label_fieldtop>
+        <anchored to="list" position="aboveleft" offset="40,1" width="25" />
+        <static textres="power_label_casterlevelmax" />
         <tooltip textres="power_label_casterlevelmax_tooltip" />
-			</label_fieldtop>
-			<label_fieldtop>
-				<anchored to="list" position="aboveleft" offset="90,1" width="60" />
-				<static textres="weapon_label_dmgdice" />
-			</label_fieldtop>
-			<label_fieldtop>
-				<anchored to="list" position="aboveleft" offset="165,1" width="60" />
-				<static textres="weapon_label_customdmgdice" />
-			</label_fieldtop>
-			<label_fieldtop>
-				<anchored to="list" position="aboveleft" offset="245,1" width="30" />
-				<static textres="weapon_label_dmgstat" />
-			</label_fieldtop>
-			<label_fieldtop>
-				<anchored to="list" position="aboveleft" offset="290,1" width="35" />
-				<static textres="weapon_label_dmgbonus" />
-			</label_fieldtop>
+      </label_fieldtop>
+      <label_fieldtop>
+        <anchored to="list" position="aboveleft" offset="90,1" width="60" />
+        <static textres="weapon_label_dmgdice" />
+      </label_fieldtop>
+      <label_fieldtop>
+        <anchored to="list" position="aboveleft" offset="165,1" width="60" />
+        <static textres="weapon_label_customdmgdice" />
+      </label_fieldtop>
+      <label_fieldtop>
+        <anchored to="list" position="aboveleft" offset="245,1" width="30" />
+        <static textres="weapon_label_dmgstat" />
+      </label_fieldtop>
+      <label_fieldtop>
+        <anchored to="list" position="aboveleft" offset="290,1" width="35" />
+        <static textres="weapon_label_dmgbonus" />
+      </label_fieldtop>
 
-		</sheetdata>
-	</windowclass>
+    </sheetdata>
+  </windowclass>
   
-	<windowclass name="power_heal_entry">
-		<margins control="0,0,0,5" />
-		<sheetdata>
-			<genericcontrol name="rightanchor">
-				<anchored width="0" height="0">
-					<top offset="2" />
-					<right />
-				</anchored>
-				<invisible />
-			</genericcontrol>
-			<button_idelete name="idelete">
-				<anchored to="rightanchor">
-					<top />
-					<right anchor="left" relation="relative" offset="-5" />
-				</anchored>
-			</button_idelete>
+  <windowclass name="power_heal_entry">
+    <margins control="0,0,0,5" />
+    <sheetdata>
+      <genericcontrol name="rightanchor">
+        <anchored width="0" height="0">
+          <top offset="2" />
+          <right />
+        </anchored>
+        <invisible />
+      </genericcontrol>
+      <button_idelete name="idelete">
+        <anchored to="rightanchor">
+          <top />
+          <right anchor="left" relation="relative" offset="-5" />
+        </anchored>
+      </button_idelete>
 
-<!-- 			<basicdice name="dice">
-				<anchored position="insidetopleft" offset="5,2" width="60" height="20" />
-			</basicdice>
-			<label name="label_plus">
-				<anchored to="dice" position="righthigh" offset="5,0" width="10" />
-				<static>+</static>
-			</label>
+<!--       <basicdice name="dice">
+        <anchored position="insidetopleft" offset="5,2" width="60" height="20" />
+      </basicdice>
+      <label name="label_plus">
+        <anchored to="dice" position="righthigh" offset="5,0" width="10" />
+        <static>+</static>
+      </label>
  -->      
       <!-- add dice string and parse <level> for "{level}d6" fireball damage? --celestian -->
       <cycler_casterlevel_type name="castertype">
         <anchored position="insidetopleft" offset="5,1" width="25" height="20" />
       </cycler_casterlevel_type>
       
-			<label name="label_wrap1">
-				<anchored to="castertype" position="righthigh" offset="4,0" width="10" />
-				<static>(</static>
-			</label>
-			<basicnumber name="castermax">
-				<anchored to="label_wrap1" position="righthigh" offset="-1,1" width="20" height="20" />
-				<hideonvalue>0</hideonvalue>
+      <label name="label_wrap1">
+        <anchored to="castertype" position="righthigh" offset="4,0" width="10" />
+        <static>(</static>
+      </label>
+      <basicnumber name="castermax">
+        <anchored to="label_wrap1" position="righthigh" offset="-1,1" width="20" height="20" />
+        <hideonvalue>0</hideonvalue>
         <default>10</default>
-			</basicnumber>
-			<label name="label_wrap2">
-				<anchored to="castermax" position="righthigh" offset="3,0" width="10" />
-				<static>)</static>
-			</label>
+      </basicnumber>
+      <label name="label_wrap2">
+        <anchored to="castermax" position="righthigh" offset="3,0" width="10" />
+        <static>)</static>
+      </label>
       
-			<label name="label_dee">
-				<anchored to="label_wrap2" position="righthigh" offset="-2,0" width="10" />
-				<static>D</static>
-			</label>
+      <label name="label_dee">
+        <anchored to="label_wrap2" position="righthigh" offset="-2,0" width="10" />
+        <static>D</static>
+      </label>
       
-			<basicdice name="dice">
-				<anchored to="label_dee" position="righthigh" offset="4,1" width="60" height="20" />
-				<!-- <anchored position="insidetopleft" offset="45,2" width="60" height="20" /> -->
+      <basicdice name="dice">
+        <anchored to="label_dee" position="righthigh" offset="4,1" width="60" height="20" />
+        <!-- <anchored position="insidetopleft" offset="45,2" width="60" height="20" /> -->
         <tooltip textres="weapon_label_dmgdice_tooltip" />
-			</basicdice>
+      </basicdice>
       
-			<label name="label_plus">
-				<anchored to="dice" position="righthigh" offset="5,1" width="10" />
-				<static>+</static>
-			</label>
+      <label name="label_plus">
+        <anchored to="dice" position="righthigh" offset="5,1" width="10" />
+        <static>+</static>
+      </label>
 
-			<basicdice name="dicecustom">
-				<anchored to="label_plus" position="righthigh" offset="4,1" width="60" height="20" />
-				<!-- <anchored position="insidetopleft" offset="45,2" width="60" height="20" /> -->
+      <basicdice name="dicecustom">
+        <anchored to="label_plus" position="righthigh" offset="4,1" width="60" height="20" />
+        <!-- <anchored position="insidetopleft" offset="45,2" width="60" height="20" /> -->
         <tooltip textres="weapon_label_customdmgdice_tooltip" />
-			</basicdice>
+      </basicdice>
       
-			<label name="label_plus_custom">
-				<anchored to="dicecustom" position="righthigh" offset="5,1" width="10" />
-				<static>+</static>
-			</label>
+      <label name="label_plus_custom">
+        <anchored to="dicecustom" position="righthigh" offset="5,1" width="10" />
+        <static>+</static>
+      </label>
  
-			<cycler_power name="stat">
-				<anchored to="label_plus_custom" position="righthigh" offset="2,0" width="30" height="20" />
-			</cycler_power>
+      <cycler_power name="stat">
+        <anchored to="label_plus_custom" position="righthigh" offset="2,0" width="30" height="20" />
+      </cycler_power>
 
-			<label name="label_plus2">
-				<anchored to="stat" position="righthigh" offset="5,0" width="10" />
-				<static>+</static>
-			</label>
-			<basicnumber name="bonus">
-				<anchored to="label_plus2" position="righthigh" offset="2,0" width="35" height="20" />
-				<hideonvalue>0</hideonvalue>
-			</basicnumber>
+      <label name="label_plus2">
+        <anchored to="stat" position="righthigh" offset="5,0" width="10" />
+        <static>+</static>
+      </label>
+      <basicnumber name="bonus">
+        <anchored to="label_plus2" position="righthigh" offset="2,0" width="35" height="20" />
+        <hideonvalue>0</hideonvalue>
+      </basicnumber>
       
       
-			<label name="label_x">
-				<anchored to="label_dee" position="belowleft" width="10" offset="0,3" />
-				<static>X</static>
-			</label>
+      <label name="label_x">
+        <anchored to="label_dee" position="belowleft" width="10" offset="0,3" />
+        <static>X</static>
+      </label>
       
-			<basicnumber name="customvalue">
-				<anchored to="dice" position="belowleft" width="60" height="20" offset="0,3" />
+      <basicnumber name="customvalue">
+        <anchored to="dice" position="belowleft" width="60" height="20" offset="0,3" />
         <hideonvalue>0</hideonvalue>
         <tooltip textres="power_label_customvalue_tooltip" />
-			</basicnumber>
+      </basicnumber>
       
-		</sheetdata>
-	</windowclass>
+    </sheetdata>
+  </windowclass>
 
-	<windowclass name="power_effect_editor">
-		<frame>charsheethelper</frame>
-		<placement>
-			<size width="380" height="350" />
-		</placement>
-		<sizelimits>
-			<minimum width="380" height="350" />
-			<dynamic />
-		</sizelimits>
-		<nodelete />
-		<playercontrol />
-		<minimize>minimized_char</minimize>
-		<tooltip control="name" />
-		<sheetdata>
-			<windowtitlebar_char name="title">
-				<resource>power_title_effect</resource>
-			</windowtitlebar_char>
-			<anchor_title_charsheethelper name="contentanchor" />
-			
-			<genericcontrol name="contentframe">
-				<anchored to="contentanchor">
-					<top anchor="bottom" offset="0" />
-					<left />
-					<right />
-					<bottom parent="" offset="-30" />
-				</anchored>
-			</genericcontrol>
-
-			<subwindow_record name="main">
-				<class>power_effect_editor_main</class>
-				<activate />
-				<fastinit />
-			</subwindow_record>
-
-			<scrollbar_record>
-				<target>main</target>
-			</scrollbar_record>
-
-			<resize_charsheethelper />
-			<close_charsheethelper />
-		</sheetdata>
-	</windowclass>
-	<windowclass name="power_effect_editor_main">
-		<sheetdata>
-			<anchor_column name="columnanchor" />
-			
-			<label_column name="name_label">
-				<static textres="power_label_name" />
-			</label_column>
-			<stringcontrol name="name">
-				<anchored>
-					<top parent="columnanchor" anchor="bottom" relation="relative" offset="7" />
-					<left offset="97" />
-					<right offset="-5" />
-				</anchored>
-				<multilinespacing>20</multilinespacing>
-				<font>sheettext</font>
-				<readonly />
-			</stringcontrol>
-
-			<header_column name="header_label">
-				<static textres="power_header_effect" />
-				<center />
-			</header_column>
-			<string_column_full name="label" />
-			
-			<header_column name="header_duration">
-				<static textres="power_header_effect_duration" />
-				<center />
-			</header_column>
+  <windowclass name="power_effect_editor">
+    <frame>charsheethelper</frame>
+    <placement>
+      <size width="380" height="350" />
+    </placement>
+    <sizelimits>
+      <minimum width="380" height="350" />
+      <dynamic />
+    </sizelimits>
+    <nodelete />
+    <playercontrol />
+    <minimize>minimized_char</minimize>
+    <tooltip control="name" />
+    <sheetdata>
+      <windowtitlebar_char name="title">
+        <resource>power_title_effect</resource>
+      </windowtitlebar_char>
+      <anchor_title_charsheethelper name="contentanchor" />
       
-			<label_simple name="label_castertype">
-				<anchored width="25" height="20">
-					<top parent="columnanchor" anchor="bottom" relation="relative" offset="2" />
-					<left offset="5" />
-				</anchored>
-				<static textres="power_label_castertype" />
+      <genericcontrol name="contentframe">
+        <anchored to="contentanchor">
+          <top anchor="bottom" offset="0" />
+          <left />
+          <right />
+          <bottom parent="" offset="-30" />
+        </anchored>
+      </genericcontrol>
+
+      <subwindow_record name="main">
+        <class>power_effect_editor_main</class>
+        <activate />
+        <fastinit />
+      </subwindow_record>
+
+      <scrollbar_record>
+        <target>main</target>
+      </scrollbar_record>
+
+      <resize_charsheethelper />
+      <close_charsheethelper />
+    </sheetdata>
+  </windowclass>
+  <windowclass name="power_effect_editor_main">
+    <sheetdata>
+      <anchor_column name="columnanchor" />
+      
+      <label_column name="name_label">
+        <static textres="power_label_name" />
+      </label_column>
+      <stringcontrol name="name">
+        <anchored>
+          <top parent="columnanchor" anchor="bottom" relation="relative" offset="7" />
+          <left offset="97" />
+          <right offset="-5" />
+        </anchored>
+        <multilinespacing>20</multilinespacing>
+        <font>sheettext</font>
+        <readonly />
+      </stringcontrol>
+
+      <header_column name="header_label">
+        <static textres="power_header_effect" />
+        <center />
+      </header_column>
+      <string_column_full name="label" />
+      
+      <header_column name="header_duration">
+        <static textres="power_header_effect_duration" />
+        <center />
+      </header_column>
+      
+      <label_simple name="label_castertype">
+        <anchored width="25" height="20">
+          <top parent="columnanchor" anchor="bottom" relation="relative" offset="2" />
+          <left offset="5" />
+        </anchored>
+        <static textres="power_label_castertype" />
         <tooltip textres="power_label_castertype_duration_tooltip" />
-			</label_simple>
-			<label_simple name="label_casterlevel">
-				<anchored to="label_castertype" position="righthigh" offset="10,3" width="25" />
-				<static textres="power_label_casterlevelmax" />
+      </label_simple>
+      <label_simple name="label_casterlevel">
+        <anchored to="label_castertype" position="righthigh" offset="10,3" width="25" />
+        <static textres="power_label_casterlevelmax" />
         <tooltip textres="power_label_casterlevelmax_duration_tooltip" />
-			</label_simple>
-			<label_simple name="label_durvalue">
-				<anchored to="label_casterlevel" position="righthigh" offset="25,0" width="25" />
-				<static textres="power_label_duration_value" />
+      </label_simple>
+      <label_simple name="label_durvalue">
+        <anchored to="label_casterlevel" position="righthigh" offset="25,0" width="25" />
+        <static textres="power_label_duration_value" />
         <tooltip textres="power_label_duration_value_tooltip" />
-			</label_simple>
-			<label_simple name="label_durdice">
-				<anchored to="label_durvalue" position="righthigh" offset="15,0" width="60" />
-				<static textres="power_label_duration_dice" />
+      </label_simple>
+      <label_simple name="label_durdice">
+        <anchored to="label_durvalue" position="righthigh" offset="15,0" width="60" />
+        <static textres="power_label_duration_dice" />
         <tooltip textres="power_label_duration_dice_tooltip" />
-			</label_simple>
-			<label_simple name="label_durmod">
-				<anchored to="label_durdice" position="righthigh" offset="10,0" width="30" />
-				<static textres="text_MOD" />
+      </label_simple>
+      <label_simple name="label_durmod">
+        <anchored to="label_durdice" position="righthigh" offset="10,0" width="30" />
+        <static textres="text_MOD" />
         <tooltip textres="power_label_duration_mod_tooltip" />
-			</label_simple>
-			<label_simple>
-				<anchored to="label_durmod" position="righthigh" offset="15,0" width="30" />
-				<static textres="power_label_duration_unit" />
+      </label_simple>
+      <label_simple>
+        <anchored to="label_durmod" position="righthigh" offset="15,0" width="30" />
+        <static textres="power_label_duration_unit" />
         <tooltip textres="power_label_duration_unit_tooltip" />
-			</label_simple>
+      </label_simple>
 
       <!--  --celestian -->
       <cycler_casterlevel_type name="castertype">
-				<anchored width="25" height="20">
-					<top parent="columnanchor" anchor="bottom" relation="relative" offset="1" />
-					<left offset="5" />
-				</anchored>
+        <anchored width="25" height="20">
+          <top parent="columnanchor" anchor="bottom" relation="relative" offset="1" />
+          <left offset="5" />
+        </anchored>
         <!-- <anchored position="insidetopleft" offset="5,1" width="25" height="20" /> -->
       </cycler_casterlevel_type>
       
-			<label name="label_wrap1">
-				<anchored to="castertype" position="righthigh" offset="4,0" width="10" />
-				<static>(</static>
-			</label>
-			<basicnumber name="castermax">
-				<anchored to="label_wrap1" position="righthigh" offset="-1,1" width="20" height="20" />
-				<hideonvalue>0</hideonvalue>
+      <label name="label_wrap1">
+        <anchored to="castertype" position="righthigh" offset="4,0" width="10" />
+        <static>(</static>
+      </label>
+      <basicnumber name="castermax">
+        <anchored to="label_wrap1" position="righthigh" offset="-1,1" width="20" height="20" />
+        <hideonvalue>0</hideonvalue>
         <default>0</default>
-			</basicnumber>
-			<label name="label_wrap2">
-				<anchored to="castermax" position="righthigh" offset="3,0" width="10" />
-				<static>)</static>
-			</label>
+      </basicnumber>
+      <label name="label_wrap2">
+        <anchored to="castermax" position="righthigh" offset="3,0" width="10" />
+        <static>)</static>
+      </label>
       
-			<label name="label_ex">
-				<anchored to="label_wrap2" position="righthigh" offset="-2,0" width="10" />
-				<static>X</static>
-			</label>
+      <label name="label_ex">
+        <anchored to="label_wrap2" position="righthigh" offset="-2,0" width="10" />
+        <static>X</static>
+      </label>
 
-			<basicnumber name="durvalue">
-				<anchored to="label_ex" position="righthigh" offset="4,0" width="30" height="20" />
-				<hideonvalue value="0" />
+      <basicnumber name="durvalue">
+        <anchored to="label_ex" position="righthigh" offset="4,0" width="30" height="20" />
+        <hideonvalue value="0" />
         <tooltip textres="power_label_duration_value_tooltip" />
-			</basicnumber>
+      </basicnumber>
 
-			<label name="label_plus2">
-				<anchored to="durvalue" position="righthigh" offset="4,0" width="10" />
-				<static>+</static>
-			</label>
+      <label name="label_plus2">
+        <anchored to="durvalue" position="righthigh" offset="4,0" width="10" />
+        <static>+</static>
+      </label>
 
-			<basicdice name="durdice">
+      <basicdice name="durdice">
         <anchored to="label_plus2" position="righthigh" offset="3,0" width="50" height="20" />
-				<hideonvalue value="0" />
+        <hideonvalue value="0" />
         <tooltip textres="power_label_duration_dice_tooltip" />
       </basicdice>
       
-			<label name="label_plus">
-				<anchored to="durdice" position="righthigh" offset="3,0" width="10" />
-				<static>+</static>
-			</label>
-			<basicnumber name="durmod">
-				<anchored to="label_plus" position="righthigh" offset="3,0" width="30" height="20" />
-				<hideonvalue value="0" />
+      <label name="label_plus">
+        <anchored to="durdice" position="righthigh" offset="3,0" width="10" />
+        <static>+</static>
+      </label>
+      <basicnumber name="durmod">
+        <anchored to="label_plus" position="righthigh" offset="3,0" width="30" height="20" />
+        <hideonvalue value="0" />
         <tooltip textres="power_label_duration_mod_tooltip" />
-			</basicnumber>
-			<button_stringcycler name="durunit">
-				<anchored to="durmod" position="righthigh" offset="10,0" width="40" height="20" />
-				<parameters>
-					<defaultlabelres>effect_label_durunitrnd</defaultlabelres>
-					<labelsres>effect_label_durunitmin|effect_label_durunithr|effect_label_durunitday</labelsres>
-					<values>minute|hour|day</values>
-				</parameters>
+      </basicnumber>
+      <button_stringcycler name="durunit">
+        <anchored to="durmod" position="righthigh" offset="10,0" width="40" height="20" />
+        <parameters>
+          <defaultlabelres>effect_label_durunitrnd</defaultlabelres>
+          <labelsres>effect_label_durunitmin|effect_label_durunithr|effect_label_durunitday</labelsres>
+          <values>minute|hour|day</values>
+        </parameters>
         <tooltip textres="power_label_duration_unit_tooltip" />
-			</button_stringcycler>
+      </button_stringcycler>
 
       <!-- show/hide effect -->
-			<button_stringcycler name="visibility">
-				<anchored to="durunit" position="righthigh" offset="10,0" width="40" height="20" />
-				<parameters>
+      <button_stringcycler name="visibility">
+        <anchored to="durunit" position="righthigh" offset="10,0" width="40" height="20" />
+        <parameters>
           <defaultlabelres>dash</defaultlabelres>
-					<labelsres>item_label_effects_hide|item_label_effects_show</labelsres>
-					<values>hide|show</values>
-				</parameters>
+          <labelsres>item_label_effects_hide|item_label_effects_show</labelsres>
+          <values>hide|show</values>
+        </parameters>
         <tooltip textres="item_label_effect_visible_tooltip" />
-			</button_stringcycler>
+      </button_stringcycler>
       <label_fieldtop>
         <anchored to="visibility" />
         <static textres="item_label_effect_visible" />
         <tooltip textres="item_label_effect_visible_tooltip" />
       </label_fieldtop>
-			
-			<header_column name="header_other">
-				<static textres="power_header_effect_other" />
-				<center />
-			</header_column>
-			
-			<label_column name="targeting_label">
-				<static textres="power_label_targeting" />
-			</label_column>
-			<button_stringcycler name="targeting">
-				<anchored width="60" height="20">
-					<top parent="columnanchor" anchor="bottom" relation="relative" offset="7" />
-					<left offset="97" />
-				</anchored>
-				<parameters>
-					<defaultlabelres>power_label_targetnormal</defaultlabelres>
-					<labelsres>power_label_targetself</labelsres>
-					<values>self</values>
-				</parameters>
-			</button_stringcycler>
-			
-			<label_column name="apply_label">
-				<static textres="power_label_effect_apply" />
-			</label_column>
-			<button_stringcycler name="apply">
-				<anchored width="120" height="20">
-					<top parent="columnanchor" anchor="bottom" relation="relative" offset="7" />
-					<left offset="97" />
-				</anchored>
-				<parameters>
-					<defaultlabelres>power_label_effect_applyall</defaultlabelres>
-					<labelsres>power_label_effect_applyaction|power_label_effect_applyroll|power_label_effect_applysingle</labelsres>
-					<values>action|roll|single</values>
-				</parameters>
-			</button_stringcycler>
-		</sheetdata>
-	</windowclass>
+      
+      <header_column name="header_other">
+        <static textres="power_header_effect_other" />
+        <center />
+      </header_column>
+      
+      <label_column name="targeting_label">
+        <static textres="power_label_targeting" />
+      </label_column>
+      <button_stringcycler name="targeting">
+        <anchored width="60" height="20">
+          <top parent="columnanchor" anchor="bottom" relation="relative" offset="7" />
+          <left offset="97" />
+        </anchored>
+        <parameters>
+          <defaultlabelres>power_label_targetnormal</defaultlabelres>
+          <labelsres>power_label_targetself</labelsres>
+          <values>self</values>
+        </parameters>
+      </button_stringcycler>
+      
+      <label_column name="apply_label">
+        <static textres="power_label_effect_apply" />
+      </label_column>
+      <button_stringcycler name="apply">
+        <anchored width="120" height="20">
+          <top parent="columnanchor" anchor="bottom" relation="relative" offset="7" />
+          <left offset="97" />
+        </anchored>
+        <parameters>
+          <defaultlabelres>power_label_effect_applyall</defaultlabelres>
+          <labelsres>power_label_effect_applyaction|power_label_effect_applyroll|power_label_effect_applysingle</labelsres>
+          <values>action|roll|single</values>
+        </parameters>
+      </button_stringcycler>
+    </sheetdata>
+  </windowclass>
   
   <!-- psionic nonsense dmg psp -->
-	<windowclass name="power_damage_psp_editor">
-		<frame>charsheethelper</frame>
-		<placement>
-			<size width="450" height="250" />
-		</placement>
-		<sizelimits>
-			<minimum width="450" height="250" />
-			<dynamic />
-		</sizelimits>
-		<nodelete />
-		<playercontrol />
-		<minimize>minimized_char</minimize>
-		<tooltip control="name" />
-		<sheetdata>
-			<windowtitlebar_char name="title">
-				<resource>power_title_damage</resource>
-			</windowtitlebar_char>
-			<anchor_title_charsheethelper name="contentanchor" />
-			
-			<genericcontrol name="contentframe">
-				<anchored to="contentanchor">
-					<top anchor="bottom" offset="0" />
-					<left />
-					<right />
-					<bottom parent="" offset="-30" />
-				</anchored>
-			</genericcontrol>
+  <windowclass name="power_damage_psp_editor">
+    <frame>charsheethelper</frame>
+    <placement>
+      <size width="450" height="250" />
+    </placement>
+    <sizelimits>
+      <minimum width="450" height="250" />
+      <dynamic />
+    </sizelimits>
+    <nodelete />
+    <playercontrol />
+    <minimize>minimized_char</minimize>
+    <tooltip control="name" />
+    <sheetdata>
+      <windowtitlebar_char name="title">
+        <resource>power_title_damage</resource>
+      </windowtitlebar_char>
+      <anchor_title_charsheethelper name="contentanchor" />
+      
+      <genericcontrol name="contentframe">
+        <anchored to="contentanchor">
+          <top anchor="bottom" offset="0" />
+          <left />
+          <right />
+          <bottom parent="" offset="-30" />
+        </anchored>
+      </genericcontrol>
 
-			<subwindow_record name="main">
-				<class>power_damage_psp_editor_main</class>
-				<activate />
-				<fastinit />
-			</subwindow_record>
+      <subwindow_record name="main">
+        <class>power_damage_psp_editor_main</class>
+        <activate />
+        <fastinit />
+      </subwindow_record>
 
-			<scrollbar_record>
-				<target>main</target>
-			</scrollbar_record>
+      <scrollbar_record>
+        <target>main</target>
+      </scrollbar_record>
 
-			<resize_charsheethelper />
-			<close_charsheethelper />
-		</sheetdata>
-	</windowclass>
+      <resize_charsheethelper />
+      <close_charsheethelper />
+    </sheetdata>
+  </windowclass>
 
-	<windowclass name="power_damage_psp_editor_main">
-		<script>
-			function onDrop(x, y, draginfo)
-				local sDragType = draginfo.getType();
-				
-				if sDragType == "dice" then
-					local w = list.addEntry(true);
-					for _, vDie in ipairs(draginfo.getDieList()) do
-						w.dice.addDie(vDie.type);
-					end
-					return true;
-				elseif sDragType == "number" then
-					local w = list.addEntry(true);
-					w.bonus.setValue(draginfo.getNumberData());
-					return true;
-				end
-			end
-		</script>
-		<sheetdata>
-			<anchor_column name="columnanchor" />
-			
-			<label_column name="name_label">
-				<static textres="power_label_name" />
-			</label_column>
-			<stringcontrol name="name">
-				<anchored>
-					<top parent="columnanchor" anchor="bottom" relation="relative" offset="7" />
-					<left offset="97" />
-					<right offset="-5" />
-				</anchored>
-				<multilinespacing>20</multilinespacing>
-				<font>sheettext</font>
-				<readonly />
-			</stringcontrol>
-			
-			<header_column name="header_damage">
-				<static textres="power_header_damage" />
-				<center />
-			</header_column>
-			<button_iedit name="list_iedit">
-				<anchored to="header_damage" position="insidetopright" offset="-5,0" />
-				<target>list</target>
-			</button_iedit>
-			<button_iadd name="list_iadd">
-				<anchored to="list_iedit" position="lefthigh" offset="5,0" />
-				<target>list</target>
-			</button_iadd>
+  <windowclass name="power_damage_psp_editor_main">
+    <script>
+      function onDrop(x, y, draginfo)
+        local sDragType = draginfo.getType();
+        
+        if sDragType == "dice" then
+          local w = list.addEntry(true);
+          for _, vDie in ipairs(draginfo.getDieList()) do
+            w.dice.addDie(vDie.type);
+          end
+          return true;
+        elseif sDragType == "number" then
+          local w = list.addEntry(true);
+          w.bonus.setValue(draginfo.getNumberData());
+          return true;
+        end
+      end
+    </script>
+    <sheetdata>
+      <anchor_column name="columnanchor" />
+      
+      <label_column name="name_label">
+        <static textres="power_label_name" />
+      </label_column>
+      <stringcontrol name="name">
+        <anchored>
+          <top parent="columnanchor" anchor="bottom" relation="relative" offset="7" />
+          <left offset="97" />
+          <right offset="-5" />
+        </anchored>
+        <multilinespacing>20</multilinespacing>
+        <font>sheettext</font>
+        <readonly />
+      </stringcontrol>
+      
+      <header_column name="header_damage">
+        <static textres="power_header_damage" />
+        <center />
+      </header_column>
+      <button_iedit name="list_iedit">
+        <anchored to="header_damage" position="insidetopright" offset="-5,0" />
+        <target>list</target>
+      </button_iedit>
+      <button_iadd name="list_iadd">
+        <anchored to="list_iedit" position="lefthigh" offset="5,0" />
+        <target>list</target>
+      </button_iadd>
 
-			<list_editor name="list">
-				<datasource>.damagepsplist</datasource>
-				<class>power_damage_entry</class>
-			</list_editor>
-			
-			<label_fieldtop>
-				<anchored to="list" position="aboveleft" offset="5,1" width="20" />
-				<static textres="power_label_castertype" />
+      <list_editor name="list">
+        <datasource>.damagepsplist</datasource>
+        <class>power_damage_entry</class>
+      </list_editor>
+      
+      <label_fieldtop>
+        <anchored to="list" position="aboveleft" offset="5,1" width="20" />
+        <static textres="power_label_castertype" />
         <tooltip textres="power_label_castertype_tooltip" />
-			</label_fieldtop>
-			<label_fieldtop>
-				<anchored to="list" position="aboveleft" offset="40,1" width="25" />
-				<static textres="power_label_casterlevelmax" />
+      </label_fieldtop>
+      <label_fieldtop>
+        <anchored to="list" position="aboveleft" offset="40,1" width="25" />
+        <static textres="power_label_casterlevelmax" />
         <tooltip textres="power_label_casterlevelmax_tooltip" />
-			</label_fieldtop>
-			<label_fieldtop>
-				<anchored to="list" position="aboveleft" offset="90,1" width="60" />
-				<static textres="weapon_label_dmgdice" />
-			</label_fieldtop>
-			<label_fieldtop>
-				<anchored to="list" position="aboveleft" offset="165,1" width="60" />
-				<static textres="weapon_label_customdmgdice" />
-			</label_fieldtop>
-			<label_fieldtop>
-				<anchored to="list" position="aboveleft" offset="245,1" width="30" />
-				<static textres="weapon_label_dmgstat" />
-			</label_fieldtop>
-			<label_fieldtop>
-				<anchored to="list" position="aboveleft" offset="290,1" width="35" />
-				<static textres="weapon_label_dmgbonus" />
-			</label_fieldtop>
-			<label_fieldtop>
-				<anchored to="list" position="aboveright" offset="5,1">
-					<left offset="310" />
-				</anchored>
-				<static textres="weapon_label_dmgtype" />
-			</label_fieldtop>
-		</sheetdata>
-	</windowclass>
+      </label_fieldtop>
+      <label_fieldtop>
+        <anchored to="list" position="aboveleft" offset="90,1" width="60" />
+        <static textres="weapon_label_dmgdice" />
+      </label_fieldtop>
+      <label_fieldtop>
+        <anchored to="list" position="aboveleft" offset="165,1" width="60" />
+        <static textres="weapon_label_customdmgdice" />
+      </label_fieldtop>
+      <label_fieldtop>
+        <anchored to="list" position="aboveleft" offset="245,1" width="30" />
+        <static textres="weapon_label_dmgstat" />
+      </label_fieldtop>
+      <label_fieldtop>
+        <anchored to="list" position="aboveleft" offset="290,1" width="35" />
+        <static textres="weapon_label_dmgbonus" />
+      </label_fieldtop>
+      <label_fieldtop>
+        <anchored to="list" position="aboveright" offset="5,1">
+          <left offset="310" />
+        </anchored>
+        <static textres="weapon_label_dmgtype" />
+      </label_fieldtop>
+    </sheetdata>
+  </windowclass>
   
   <!-- psionic nonsense, heal psp-->  
-	<windowclass name="power_heal_psp_editor">
-		<frame>charsheethelper</frame>
-		<placement>
-			<size width="400" height="350" />
-		</placement>
-		<sizelimits>
-			<minimum width="400" height="250" />
-			<dynamic />
-		</sizelimits>
-		<nodelete />
-		<playercontrol />
-		<minimize>minimized_char</minimize>
-		<tooltip control="name" />
-		<sheetdata>
-			<windowtitlebar_char name="title">
-				<resource>power_title_heal</resource>
-			</windowtitlebar_char>
-			<anchor_title_charsheethelper name="contentanchor" />
-			
-			<genericcontrol name="contentframe">
-				<anchored to="contentanchor">
-					<top anchor="bottom" offset="0" />
-					<left />
-					<right />
-					<bottom parent="" offset="-30" />
-				</anchored>
-			</genericcontrol>
+  <windowclass name="power_heal_psp_editor">
+    <frame>charsheethelper</frame>
+    <placement>
+      <size width="400" height="350" />
+    </placement>
+    <sizelimits>
+      <minimum width="400" height="250" />
+      <dynamic />
+    </sizelimits>
+    <nodelete />
+    <playercontrol />
+    <minimize>minimized_char</minimize>
+    <tooltip control="name" />
+    <sheetdata>
+      <windowtitlebar_char name="title">
+        <resource>power_title_heal</resource>
+      </windowtitlebar_char>
+      <anchor_title_charsheethelper name="contentanchor" />
+      
+      <genericcontrol name="contentframe">
+        <anchored to="contentanchor">
+          <top anchor="bottom" offset="0" />
+          <left />
+          <right />
+          <bottom parent="" offset="-30" />
+        </anchored>
+      </genericcontrol>
 
-			<subwindow_record name="main">
-				<class>power_heal_psp_editor_main</class>
-				<activate />
-				<fastinit />
-			</subwindow_record>
+      <subwindow_record name="main">
+        <class>power_heal_psp_editor_main</class>
+        <activate />
+        <fastinit />
+      </subwindow_record>
 
-			<scrollbar_record>
-				<target>main</target>
-			</scrollbar_record>
+      <scrollbar_record>
+        <target>main</target>
+      </scrollbar_record>
 
-			<resize_charsheethelper />
-			<close_charsheethelper />
-		</sheetdata>
-	</windowclass>
-	<windowclass name="power_heal_psp_editor_main">
-		<script>
-			function onDrop(x, y, draginfo)
-				local sDragType = draginfo.getType();
-				
-				if sDragType == "dice" then
-					local w = list.addEntry(true);
-					for _, vDie in ipairs(draginfo.getDieList()) do
-						w.dice.addDie(vDie.type);
-					end
-					return true;
-				elseif sDragType == "number" then
-					local w = list.addEntry(true);
-					w.bonus.setValue(draginfo.getNumberData());
-					return true;
-				end
-			end
-		</script>
-		<sheetdata>
-			<anchor_column name="columnanchor" />
-			
-			<label_column name="name_label">
-				<static textres="power_label_name" />
-			</label_column>
-			<stringcontrol name="name">
-				<anchored>
-					<top parent="columnanchor" anchor="bottom" relation="relative" offset="7" />
-					<left offset="97" />
-					<right offset="-5" />
-				</anchored>
-				<multilinespacing>20</multilinespacing>
-				<font>sheettext</font>
-				<readonly />
-			</stringcontrol>
+      <resize_charsheethelper />
+      <close_charsheethelper />
+    </sheetdata>
+  </windowclass>
+  <windowclass name="power_heal_psp_editor_main">
+    <script>
+      function onDrop(x, y, draginfo)
+        local sDragType = draginfo.getType();
+        
+        if sDragType == "dice" then
+          local w = list.addEntry(true);
+          for _, vDie in ipairs(draginfo.getDieList()) do
+            w.dice.addDie(vDie.type);
+          end
+          return true;
+        elseif sDragType == "number" then
+          local w = list.addEntry(true);
+          w.bonus.setValue(draginfo.getNumberData());
+          return true;
+        end
+      end
+    </script>
+    <sheetdata>
+      <anchor_column name="columnanchor" />
+      
+      <label_column name="name_label">
+        <static textres="power_label_name" />
+      </label_column>
+      <stringcontrol name="name">
+        <anchored>
+          <top parent="columnanchor" anchor="bottom" relation="relative" offset="7" />
+          <left offset="97" />
+          <right offset="-5" />
+        </anchored>
+        <multilinespacing>20</multilinespacing>
+        <font>sheettext</font>
+        <readonly />
+      </stringcontrol>
 
-			<header_column name="header_other">
-				<static textres="power_header_heal_other" />
-				<center />
-			</header_column>
-			
-			<label_column name="healtargeting_label">
-				<static textres="power_label_targeting" />
-			</label_column>
-			<button_stringcycler name="healtargeting">
-				<anchored width="60" height="20">
-					<top parent="columnanchor" anchor="bottom" relation="relative" offset="7" />
-					<left offset="97" />
-				</anchored>
-				<parameters>
-					<defaultlabelres>power_label_targetnormal</defaultlabelres>
-					<labelsres>power_label_targetself</labelsres>
-					<values>self</values>
-				</parameters>
-			</button_stringcycler>
-			
-			<label_column name="healtype_label">
-				<static textres="power_label_healtype" />
-			</label_column>
-			<button_stringcycler name="healtype">
-				<anchored width="40" height="20">
-					<top parent="columnanchor" anchor="bottom" relation="relative" offset="7" />
-					<left offset="97" />
-				</anchored>
-				<parameters>
-					<defaultlabelres>power_label_healtypenormal</defaultlabelres>
-					<labelsres>power_label_healtypetemp</labelsres>
-					<values>temp</values>
-				</parameters>
-			</button_stringcycler>
+      <header_column name="header_other">
+        <static textres="power_header_heal_other" />
+        <center />
+      </header_column>
+      
+      <label_column name="healtargeting_label">
+        <static textres="power_label_targeting" />
+      </label_column>
+      <button_stringcycler name="healtargeting">
+        <anchored width="60" height="20">
+          <top parent="columnanchor" anchor="bottom" relation="relative" offset="7" />
+          <left offset="97" />
+        </anchored>
+        <parameters>
+          <defaultlabelres>power_label_targetnormal</defaultlabelres>
+          <labelsres>power_label_targetself</labelsres>
+          <values>self</values>
+        </parameters>
+      </button_stringcycler>
+      
+      <label_column name="healtype_label">
+        <static textres="power_label_healtype" />
+      </label_column>
+      <button_stringcycler name="healtype">
+        <anchored width="40" height="20">
+          <top parent="columnanchor" anchor="bottom" relation="relative" offset="7" />
+          <left offset="97" />
+        </anchored>
+        <parameters>
+          <defaultlabelres>power_label_healtypenormal</defaultlabelres>
+          <labelsres>power_label_healtypetemp</labelsres>
+          <values>temp</values>
+        </parameters>
+      </button_stringcycler>
 
-			<header_column name="header_heal">
-				<static textres="power_header_heal" />
-				<center />
-			</header_column>
-			<button_iedit name="list_iedit">
-				<anchored to="header_heal" position="insidetopright" offset="-5,0" />
-				<target>list</target>
-			</button_iedit>
-			<button_iadd name="list_iadd">
-				<anchored to="list_iedit" position="lefthigh" offset="5,0" />
-				<target>list</target>
-			</button_iadd>
+      <header_column name="header_heal">
+        <static textres="power_header_heal" />
+        <center />
+      </header_column>
+      <button_iedit name="list_iedit">
+        <anchored to="header_heal" position="insidetopright" offset="-5,0" />
+        <target>list</target>
+      </button_iedit>
+      <button_iadd name="list_iadd">
+        <anchored to="list_iedit" position="lefthigh" offset="5,0" />
+        <target>list</target>
+      </button_iadd>
 
-			<list_editor name="list">
-				<datasource>.healpsplist</datasource>
-				<class>power_heal_entry</class>
-			</list_editor>
+      <list_editor name="list">
+        <datasource>.healpsplist</datasource>
+        <class>power_heal_entry</class>
+      </list_editor>
 
-			<label_fieldtop>
-				<anchored to="list" position="aboveleft" offset="5,1" width="20" />
-				<static textres="power_label_castertype" />
+      <label_fieldtop>
+        <anchored to="list" position="aboveleft" offset="5,1" width="20" />
+        <static textres="power_label_castertype" />
         <tooltip textres="power_label_castertype_tooltip" />
-			</label_fieldtop>
-			<label_fieldtop>
-				<anchored to="list" position="aboveleft" offset="40,1" width="25" />
-				<static textres="power_label_casterlevelmax" />
+      </label_fieldtop>
+      <label_fieldtop>
+        <anchored to="list" position="aboveleft" offset="40,1" width="25" />
+        <static textres="power_label_casterlevelmax" />
         <tooltip textres="power_label_casterlevelmax_tooltip" />
-			</label_fieldtop>
-			<label_fieldtop>
-				<anchored to="list" position="aboveleft" offset="90,1" width="60" />
-				<static textres="weapon_label_dmgdice" />
-			</label_fieldtop>
-			<label_fieldtop>
-				<anchored to="list" position="aboveleft" offset="165,1" width="60" />
-				<static textres="weapon_label_customdmgdice" />
-			</label_fieldtop>
-			<label_fieldtop>
-				<anchored to="list" position="aboveleft" offset="245,1" width="30" />
-				<static textres="weapon_label_dmgstat" />
-			</label_fieldtop>
-			<label_fieldtop>
-				<anchored to="list" position="aboveleft" offset="290,1" width="35" />
-				<static textres="weapon_label_dmgbonus" />
-			</label_fieldtop>
+      </label_fieldtop>
+      <label_fieldtop>
+        <anchored to="list" position="aboveleft" offset="90,1" width="60" />
+        <static textres="weapon_label_dmgdice" />
+      </label_fieldtop>
+      <label_fieldtop>
+        <anchored to="list" position="aboveleft" offset="165,1" width="60" />
+        <static textres="weapon_label_customdmgdice" />
+      </label_fieldtop>
+      <label_fieldtop>
+        <anchored to="list" position="aboveleft" offset="245,1" width="30" />
+        <static textres="weapon_label_dmgstat" />
+      </label_fieldtop>
+      <label_fieldtop>
+        <anchored to="list" position="aboveleft" offset="290,1" width="35" />
+        <static textres="weapon_label_dmgbonus" />
+      </label_fieldtop>
 
-		</sheetdata>
-	</windowclass>
+    </sheetdata>
+  </windowclass>
   
 </root>

@@ -4,55 +4,55 @@
 --
 
 function onInit()
-	onFactionChanged();
-	onHealthChanged();
+  onFactionChanged();
+  onHealthChanged();
 end
 
 function onActiveChanged()
-	updateDisplay();
+  updateDisplay();
 end
 
 function onFactionChanged()
-	updateHealthDisplay();
-	updateDisplay();
+  updateHealthDisplay();
+  updateDisplay();
 end
 
 function onTypeChanged()
-	updateHealthDisplay();
+  updateHealthDisplay();
 end
 
 function onHealthChanged()
-	local sColor = ActorManager2.getWoundColor("ct", getDatabaseNode());
-	
-	wounds.setColor(sColor);
-	status.setColor(sColor);
+  local sColor = ActorManager2.getWoundColor("ct", getDatabaseNode());
+  
+  wounds.setColor(sColor);
+  status.setColor(sColor);
 end
 
 function updateHealthDisplay()
-	local sOption;
-	if friendfoe.getStringValue() == "friend" then
-		sOption = OptionsManager.getOption("SHPC");
-	else
-		sOption = OptionsManager.getOption("SHNPC");
-	end
-	
-	if sOption == "detailed" then
-		hptotal.setVisible(true);
-		hptemp.setVisible(true);
-		wounds.setVisible(true);
+  local sOption;
+  if friendfoe.getStringValue() == "friend" then
+    sOption = OptionsManager.getOption("SHPC");
+  else
+    sOption = OptionsManager.getOption("SHNPC");
+  end
+  
+  if sOption == "detailed" then
+    hptotal.setVisible(true);
+    hptemp.setVisible(true);
+    wounds.setVisible(true);
 
-		status.setVisible(false);
-	elseif sOption == "status" then
-		hptotal.setVisible(false);
-		hptemp.setVisible(false);
-		wounds.setVisible(false);
+    status.setVisible(false);
+  elseif sOption == "status" then
+    hptotal.setVisible(false);
+    hptemp.setVisible(false);
+    wounds.setVisible(false);
 
-		status.setVisible(true);
-	else
-		hptotal.setVisible(false);
-		hptemp.setVisible(false);
-		wounds.setVisible(false);
+    status.setVisible(true);
+  else
+    hptotal.setVisible(false);
+    hptemp.setVisible(false);
+    wounds.setVisible(false);
 
-		status.setVisible(false);
-	end
+    status.setVisible(false);
+  end
 end

@@ -7,66 +7,66 @@
 
 <root>
 
-	<template name="label_savescore">
-		<label name="label_save_type">
-			<anchored position="righthigh" offset="5,0" width="60" />
-			<center />
+  <template name="label_savescore">
+    <label name="label_save_type">
+      <anchored position="righthigh" offset="5,0" width="60" />
+      <center />
             <readonly />
-			<font>arial-regular-8</font>
-			<!-- <frame name="abilityfields" /> -->
-		</label>
-	</template>
-	
-	<template name="number_charasavescore">
-		<number_savescore>
-			<anchored to="statstitle" position="below"/>
-			<rollable />
-			<script>
-				function action(draginfo)
+      <font>arial-regular-8</font>
+      <!-- <frame name="abilityfields" /> -->
+    </label>
+  </template>
+  
+  <template name="number_charasavescore">
+    <number_savescore>
+      <anchored to="statstitle" position="below"/>
+      <rollable />
+      <script>
+        function action(draginfo)
                     local nTargetDC = 20;
                     local rActor = ActorManager.getActor("pc", window.getDatabaseNode());
                     local sActorType, nodeActor = ActorManager.getTypeAndNode(rActor);
                     nTargetDC = DB.getValue(nodeActor, "saves." .. self.target[1] .. ".score", 0);
-					ActionSave.performRoll(draginfo, rActor, self.target[1],nTargetDC);
-					return true;
-				end
-				
-				function onDragStart(button, x, y, draginfo)
-					return action(draginfo);
-				end
-					
-				function onDoubleClick(x,y)
-					return action();
-				end
-			</script>
+          ActionSave.performRoll(draginfo, rActor, self.target[1],nTargetDC);
+          return true;
+        end
+        
+        function onDragStart(button, x, y, draginfo)
+          return action(draginfo);
+        end
+          
+        function onDoubleClick(x,y)
+          return action();
+        end
+      </script>
             
-		</number_savescore>
-	</template>
-	
+    </number_savescore>
+  </template>
+  
 
 
 
-	<template name="number_labeled">
-		<numberfield>
-			<font>sheettext</font>
-			<lineoffset default="on">1</lineoffset>
-			<script>
-				labelwidget = nil;
-			
-				function onInit()
-					if labelres then
-						labelwidget = addTextWidget("sheetlabelinline", string.upper(Interface.getString(labelres[1])));
-					else
-						labelwidget = addTextWidget("sheetlabelinline", string.upper(label[1]));
-					end
-					if labelwidget then
-						local w,h = labelwidget.getSize();
-						labelwidget.setPosition("bottomleft", w/2, h/2-4);
-					end
-				end
-			</script>
-		</numberfield>
-	</template>
+  <template name="number_labeled">
+    <numberfield>
+      <font>sheettext</font>
+      <lineoffset default="on">1</lineoffset>
+      <script>
+        labelwidget = nil;
+      
+        function onInit()
+          if labelres then
+            labelwidget = addTextWidget("sheetlabelinline", string.upper(Interface.getString(labelres[1])));
+          else
+            labelwidget = addTextWidget("sheetlabelinline", string.upper(label[1]));
+          end
+          if labelwidget then
+            local w,h = labelwidget.getSize();
+            labelwidget.setPosition("bottomleft", w/2, h/2-4);
+          end
+        end
+      </script>
+    </numberfield>
+  </template>
 
     <template name="label_abilityscore_actual">
         <label>
@@ -112,8 +112,8 @@
         </label>
     </template>
     
-	<template name="number_charabilityscore2">
-		<basicnumber>
+  <template name="number_charabilityscore2">
+    <basicnumber>
       <anchored to="statstitle" position="insidetopleft"/> 
       <rollable />
       <readonly />
@@ -124,147 +124,147 @@
       <frame name="abilityscore_box" />
       <script file="campaign/scripts/number_abilityscore.lua" />
     </basicnumber>
-	</template>
+  </template>
     
-	<template name="number_saves_modifier">
-		<number>
+  <template name="number_saves_modifier">
+    <number>
       <anchored position="righthigh" offset="1,0" width="30" height="30"/>
       <displaysign />
-			<center />
+      <center />
         <min>-25</min>
         <max>25</max>
-			<default>0</default>
-			<hideonvalue>0</hideonvalue>
-			<font>arial-regular-7</font>
-			<frame name="abilityscore_box" /> 
-		</number>
-	</template>
+      <default>0</default>
+      <hideonvalue>0</hideonvalue>
+      <font>arial-regular-7</font>
+      <frame name="abilityscore_box" /> 
+    </number>
+  </template>
 
-   	<template name="label_ability_fields">
-		<label_fieldtop>
-			<anchored offset="-2,-5" />
-			<frame name="abilityfields" />
-<!-- 			<frame name="abilityscore" /> -->
-		</label_fieldtop>
-	</template>
+     <template name="label_ability_fields">
+    <label_fieldtop>
+      <anchored offset="-2,-5" />
+      <frame name="abilityfields" />
+<!--       <frame name="abilityscore" /> -->
+    </label_fieldtop>
+  </template>
 
-   	<template name="label_mod_fields">
-		<label_fieldtop>
-			<anchored position="below" offset="-2,-10" />
-			<frame name="abilityfields" />
-<!-- 			<frame name="abilityscore" /> -->
-			<font>arial-regular-6</font>
-		</label_fieldtop>
-	</template>
+     <template name="label_mod_fields">
+    <label_fieldtop>
+      <anchored position="below" offset="-2,-10" />
+      <frame name="abilityfields" />
+<!--       <frame name="abilityscore" /> -->
+      <font>arial-regular-6</font>
+    </label_fieldtop>
+  </template>
 
 
-	<template name="number_abilitypercent_score">
-		<numbercontrol>
-			<labelres>char_label_ability_percent</labelres>
-			<tooltip textres="char_tooltip_percentile" />
+  <template name="number_abilitypercent_score">
+    <numbercontrol>
+      <labelres>char_label_ability_percent</labelres>
+      <tooltip textres="char_tooltip_percentile" />
             <min>0</min>
             <max>100</max>
-			<anchored position="below" offset="-8,-5" />
-			<frame name="abilityscore" />
-			<font>sheetlabelmini_percent</font>
-			<!-- <center /> -->
-			<script>
-				function onValueChanged()
-					local rActor = ActorManager.getActor("pc", window.getDatabaseNode());
-					local sActorType, nodeActor = ActorManager.getTypeAndNode(rActor);
-					AbilityScoreADND.updateStrength(nodeActor);
-				end
-			</script>
-		</numbercontrol>
-	</template>
+      <anchored position="below" offset="-8,-5" />
+      <frame name="abilityscore" />
+      <font>sheetlabelmini_percent</font>
+      <!-- <center /> -->
+      <script>
+        function onValueChanged()
+          local rActor = ActorManager.getActor("pc", window.getDatabaseNode());
+          local sActorType, nodeActor = ActorManager.getTypeAndNode(rActor);
+          AbilityScoreADND.updateStrength(nodeActor);
+        end
+      </script>
+    </numbercontrol>
+  </template>
 
-	<template name="number_abilitypercent_disabled">
-		<number>
-			<labelres>char_label_ability_percent</labelres>
-			<tooltip textres="char_tooltip_percentile" />
-			<anchored position="below" offset="-8,-5" />
-			<frame name="abilityscorepercent" />
-			<font>sheetlabelmini</font>
-			<center />
+  <template name="number_abilitypercent_disabled">
+    <number>
+      <labelres>char_label_ability_percent</labelres>
+      <tooltip textres="char_tooltip_percentile" />
+      <anchored position="below" offset="-8,-5" />
+      <frame name="abilityscorepercent" />
+      <font>sheetlabelmini</font>
+      <center />
             <min> 0 </min>
             <max> 100 </max>
-			<script>
-				function onValueChanged()
-					local rActor = ActorManager.getActor("pc", window.getDatabaseNode());
-					local sActorType, nodeActor = ActorManager.getTypeAndNode(rActor);
-					AbilityScoreADND.updateStrength(nodeActor);
-				end
-			</script>
-		</number>
-	</template>
+      <script>
+        function onValueChanged()
+          local rActor = ActorManager.getActor("pc", window.getDatabaseNode());
+          local sActorType, nodeActor = ActorManager.getTypeAndNode(rActor);
+          AbilityScoreADND.updateStrength(nodeActor);
+        end
+      </script>
+    </number>
+  </template>
 
-	<template name="number_abilityfield">
-			<number>
-				<frame name="abilityscore_box" />
-				<anchored position="right" offset="0,0" width="40"/>
+  <template name="number_abilityfield">
+      <number>
+        <frame name="abilityscore_box" />
+        <anchored position="right" offset="0,0" width="40"/>
                 <displaysign />
-   				<center />
+           <center />
                 <nokeyedit />
-				<font>regular8</font>
+        <font>regular8</font>
             </number>
-	</template>
+  </template>
 
-	<template name="number_abilityfield_noplus">
-			<number>
-				<frame name="abilityscore_box" />
+  <template name="number_abilityfield_noplus">
+      <number>
+        <frame name="abilityscore_box" />
 <!--                 <backcolor>#ff99cc</backcolor> -->
-				<anchored position="right" offset="0,0" width="40"/>
-   				<center />
+        <anchored position="right" offset="0,0" width="40"/>
+           <center />
                 <nokeyedit />
-				<font>regular8</font>
-			</number>
-	</template>
+        <font>regular8</font>
+      </number>
+  </template>
 
-	<template name="percentile_abilityfield">
-			<number>
+  <template name="percentile_abilityfield">
+      <number>
                 <readonly />
-				<frame name="abilityscore_box" />
-				<anchored position="right" offset="0,0" width="30" height="25"/>
-   				<center />
-				<font>regular8</font>
-			</number>
-	</template>
-	
-	<template name="string_abilityfield">
-			<stringfield>
-				<anchored position="right" offset="0,0" width="40" />
-   				<center />
+        <frame name="abilityscore_box" />
+        <anchored position="right" offset="0,0" width="30" height="25"/>
+           <center />
+        <font>regular8</font>
+      </number>
+  </template>
+  
+  <template name="string_abilityfield">
+      <stringfield>
+        <anchored position="right" offset="0,0" width="40" />
+           <center />
                 <readonly />
                 <frame name="fielddark" offset="3,3,3,3" />
-				<font>regular8</font>
+        <font>regular8</font>
             </stringfield>
-	</template>
-	
-	<template name="ability_fields_container">
-			<frame_char>
-				<anchored position="right" offset="0,0" width="280"/>
-				<frame name="bonus_box" />
-			</frame_char>			
-	</template>
-	
-	<template name="label_npc">
-		<stringcontrol>
-			<anchored />
-			<font>sheetlabel</font>
-			<nodrag />
-			<readonly />
-		</stringcontrol>
-	</template>
+  </template>
+  
+  <template name="ability_fields_container">
+      <frame_char>
+        <anchored position="right" offset="0,0" width="280"/>
+        <frame name="bonus_box" />
+      </frame_char>      
+  </template>
+  
+  <template name="label_npc">
+    <stringcontrol>
+      <anchored />
+      <font>sheetlabel</font>
+      <nodrag />
+      <readonly />
+    </stringcontrol>
+  </template>
 
-	<template name="cycler_skill_type">
-		<button_stringcycler>
-			<parameters>
-				<defaultlabelres mergerule="replace">dash</defaultlabelres>
-				<labelsres>str|dex|con|int|wis|cha|percent</labelsres>
-				<values>strength|dexterity|constitution|intelligence|wisdom|charisma|percent</values>
-			</parameters>
-		</button_stringcycler>
-	</template>
+  <template name="cycler_skill_type">
+    <button_stringcycler>
+      <parameters>
+        <defaultlabelres mergerule="replace">dash</defaultlabelres>
+        <labelsres>str|dex|con|int|wis|cha|percent</labelsres>
+        <values>strength|dexterity|constitution|intelligence|wisdom|charisma|percent</values>
+      </parameters>
+    </button_stringcycler>
+  </template>
     <template name="number_charskill_nosign">
         <basicnumber>
             <anchored width="32" height="20" />
@@ -273,22 +273,22 @@
             <nodrag />
         </basicnumber>
     </template>
-	<template name="number_charskilltotal_nosign">
-		<number_linked>
-			<anchored width="32" height="20" />
-			<frame name="fieldlight" offset="7,5,7,5" />
-			<rollable />
+  <template name="number_charskilltotal_nosign">
+    <number_linked>
+      <anchored width="32" height="20" />
+      <frame name="fieldlight" offset="7,5,7,5" />
+      <rollable />
             <script file="campaign/scripts/number_charskill.lua" />
-		</number_linked>
-	</template>
+    </number_linked>
+  </template>
     
     <template name="number_charthaco_charsheet">
     <number_charthaco>
     </number_charthaco>
     </template>
     
-	<template name="number_charthaco">
-		<basicnumber>
+  <template name="number_charthaco">
+    <basicnumber>
       <script>
       function action(draginfo)
         local nodeChar = getDatabaseNode().getChild("....");
@@ -311,42 +311,42 @@
       </stateframe>
       <cursor hover="hand" />
       <rollable />
-			<showemptywidget />
+      <showemptywidget />
         <!-- <frame name="fieldlight" offset="7,5,7,5" /> -->
       <min>-10</min>
       <max>30</max>
       <default>20</default>
       <font>reference-b-large</font>
-		</basicnumber>
-	</template>
+    </basicnumber>
+  </template>
 
-	<template name="label_skill">
-		<stringcontrol>
-			<anchored />
-			<font>sheetlabel</font>
-			<nodrag />
-			<readonly />
-		</stringcontrol>
-	</template>
+  <template name="label_skill">
+    <stringcontrol>
+      <anchored />
+      <font>sheetlabel</font>
+      <nodrag />
+      <readonly />
+    </stringcontrol>
+  </template>
 
-	<template name="label_fieldbottom">
-		<stringcontrol>
-			<anchored position="below" offset="3,1" />
-			<font>sheetlabelmini</font>
-			<center />
-		</stringcontrol>
-	</template>
+  <template name="label_fieldbottom">
+    <stringcontrol>
+      <anchored position="below" offset="3,1" />
+      <font>sheetlabelmini</font>
+      <center />
+    </stringcontrol>
+  </template>
     
-	<template name="number_actions_init">
+  <template name="number_actions_init">
         <basicnumber>
-			<frame name="fieldlight" offset="7,5,7,5" />
-			<showemptywidget />
-			<font>arial-regular-8</font>
-			<hideonvalue>0</hideonvalue>
-			<rollable />
-			<displaysign />
-			<script>
-				function action(draginfo)
+      <frame name="fieldlight" offset="7,5,7,5" />
+      <showemptywidget />
+      <font>arial-regular-8</font>
+      <hideonvalue>0</hideonvalue>
+      <rollable />
+      <displaysign />
+      <script>
+        function action(draginfo)
           local nValue = getValue();
 
           local rItem = {};
@@ -354,33 +354,33 @@
           rItem.nInit = nValue;
           local nodeWeapon = getDatabaseNode();
           local nodeChar = nodeWeapon.getChild("....");
-					local rActor = ActorManager.getActor("pc", nodeChar);
+          local rActor = ActorManager.getActor("pc", nodeChar);
           local _, sRecord = DB.getValue(nodeWeapon.getChild(".."), "shortcut", "", "");
           rActor.itemPath = sRecord;
-					ActionInit.performRoll(draginfo, rActor, nil, rItem);
+          ActionInit.performRoll(draginfo, rActor, nil, rItem);
 
-					return true;
-				end
-				
-				function onDragStart(button, x, y, draginfo)
-					return action(draginfo);
-				end
-					
-				function onDoubleClick(x,y)
-					return action();
-				end
-			</script>
+          return true;
+        end
+        
+        function onDragStart(button, x, y, draginfo)
+          return action(draginfo);
+        end
+          
+        function onDoubleClick(x,y)
+          return action();
+        end
+      </script>
         </basicnumber>
-	</template>
-	<template name="number_power_init">
+  </template>
+  <template name="number_power_init">
         <basicnumber>
-			<frame name="fieldlight" offset="7,5,7,5" />
-			<showemptywidget />
-			<font>arial-regular-8</font>
-			<rollable />
-			<displaysign />
-			<script>
-				function action(draginfo)
+      <frame name="fieldlight" offset="7,5,7,5" />
+      <showemptywidget />
+      <font>arial-regular-8</font>
+      <rollable />
+      <displaysign />
+      <script>
+        function action(draginfo)
           local nValue = getValue();
           local node = getDatabaseNode();
           local nodePower = getDatabaseNode();
@@ -397,63 +397,63 @@
           else
             rItem.spellPath = nil;
           end
-					local rActor = ActorManager.getActor("pc", nodeChar);
+          local rActor = ActorManager.getActor("pc", nodeChar);
           local _, sRecord = DB.getValue(nodeSpell, "shortcut", "", "");
           rActor.itemPath = sRecord;
-					ActionInit.performRoll(draginfo, rActor, nil, rItem);
+          ActionInit.performRoll(draginfo, rActor, nil, rItem);
 
-					return true;
-				end
-				
-				function onDragStart(button, x, y, draginfo)
-					return action(draginfo);
-				end
-					
-				function onDoubleClick(x,y)
-					return action();
-				end
-			</script>
+          return true;
+        end
+        
+        function onDragStart(button, x, y, draginfo)
+          return action(draginfo);
+        end
+          
+        function onDoubleClick(x,y)
+          return action();
+        end
+      </script>
         </basicnumber>
-	</template>
+  </template>
 
-	<template name="button_charabiltiesdetail">
-		<buttoncontrol>
-			<anchored width="20"/>
-			<state icon="details_white" pressed="details_down" />
-			<script>
-				function onButtonPress()
-					Interface.openWindow("charsheet_abilities_details", window.getDatabaseNode());
-				end
-			</script>
-		</buttoncontrol>
-	</template>
-	<template name="button_charasavesdetail">
-		<buttoncontrol>
-			<anchored width="20" height="20" />
-			<state icon="details_white" pressed="details_down" />
-			<script>
-				function onButtonPress()
-					Interface.openWindow("charsheet_saves_details", window.getDatabaseNode());
-				end
-			</script>
-		</buttoncontrol>
-	</template>
+  <template name="button_charabiltiesdetail">
+    <buttoncontrol>
+      <anchored width="20"/>
+      <state icon="details_white" pressed="details_down" />
+      <script>
+        function onButtonPress()
+          Interface.openWindow("charsheet_abilities_details", window.getDatabaseNode());
+        end
+      </script>
+    </buttoncontrol>
+  </template>
+  <template name="button_charasavesdetail">
+    <buttoncontrol>
+      <anchored width="20" height="20" />
+      <state icon="details_white" pressed="details_down" />
+      <script>
+        function onButtonPress()
+          Interface.openWindow("charsheet_saves_details", window.getDatabaseNode());
+        end
+      </script>
+    </buttoncontrol>
+  </template>
     
     <template name="label_plus">
             <label>
-				<anchored>
-					<top  />
-					<left anchor="right" relation="relative" offset="5" />
-				</anchored>
+        <anchored>
+          <top  />
+          <left anchor="right" relation="relative" offset="5" />
+        </anchored>
                 <static text="+"/>
             </label>
     </template>
     <template name="ability_number_base">
             <basicnumber>
-				<anchored width="30" height="20">
-					<top  />
-					<left anchor="right" relation="relative" offset="10" />
-				</anchored>
+        <anchored width="30" height="20">
+          <top  />
+          <left anchor="right" relation="relative" offset="10" />
+        </anchored>
                 <frame name="fielddark" offset="7,5,7,5" />
                 <stateframe>
                     <hover name="rowshade" offset="7,5,7,5" />
@@ -469,10 +469,10 @@
     </template>
     <template name="ability_percent_number_base">
             <basicnumber>
-				<anchored width="30" height="20">
-					<top  />
-					<left anchor="right" relation="relative" offset="10" />
-				</anchored>
+        <anchored width="30" height="20">
+          <top  />
+          <left anchor="right" relation="relative" offset="10" />
+        </anchored>
                 <frame name="fielddark" offset="7,5,7,5" />
                 <stateframe>
                     <hover name="rowshade" offset="7,5,7,5" />
@@ -488,10 +488,10 @@
     </template>
     <template name="ability_number_mod">
             <basicnumber>
-				<anchored width="30" height="20">
-					<top  />
-					<left anchor="right" relation="relative" offset="5" />
-				</anchored>
+        <anchored width="30" height="20">
+          <top  />
+          <left anchor="right" relation="relative" offset="5" />
+        </anchored>
                 <frame name="fielddark" offset="7,5,7,5" />
                 <stateframe>
                     <hover name="rowshade" offset="7,5,7,5" />
@@ -541,60 +541,60 @@
     <template name="label_ability_details_stat">
             <label>
                 <center />
-   				<backcolor>#afaf83</backcolor>
-				<anchored to="leftanchor" width="75">
-					<top relation="relative"/>
- 					<left anchor="right" offset="70"/>
-				</anchored>
+           <backcolor>#afaf83</backcolor>
+        <anchored to="leftanchor" width="75">
+          <top relation="relative"/>
+           <left anchor="right" offset="70"/>
+        </anchored>
             </label>
     </template>
     <template name="label_ability_details">
             <label>
                 <center />
-				<anchored to="leftanchor"  width="75">
-					<top relation="relative" />
-					<left anchor="right" offset="70"/>
-				</anchored>
+        <anchored to="leftanchor"  width="75">
+          <top relation="relative" />
+          <left anchor="right" offset="70"/>
+        </anchored>
             </label>
     </template>
 
-	<template name="number_char_save_charsheet">
+  <template name="number_char_save_charsheet">
         <number_char_save>
         </number_char_save>
     </template>
-	<template name="number_char_save">
-		<basicnumber>
-<!-- 				<frame name="adnd_saveicon" offset="0,0,0,0" />
+  <template name="number_char_save">
+    <basicnumber>
+<!--         <frame name="adnd_saveicon" offset="0,0,0,0" />
                 <stateframe>
                     <hover name="rowshade" offset="7,5,7,5" />
                 </stateframe>
                 <cursor hover="hand" />
-			<default>20</default>
-			<anchored to="statstitle" position="below"/>
-			<rollable />
+      <default>20</default>
+      <anchored to="statstitle" position="below"/>
+      <rollable />
             <readonly />
-   			<script file="campaign/scripts/char_saves_details.lua" /> -->
+         <script file="campaign/scripts/char_saves_details.lua" /> -->
             <frame name="fielddark" offset="7,5,7,5" />
             <stateframe>
                 <hover name="rowshade" offset="7,5,7,5" />
             </stateframe>
             <cursor hover="hand" />
-			<default>20</default>
-			<anchored to="statstitle" position="below"/>
-			<rollable />
+      <default>20</default>
+      <anchored to="statstitle" position="below"/>
+      <rollable />
             <readonly />
-   			<script file="campaign/scripts/char_saves_details.lua" />
+         <script file="campaign/scripts/char_saves_details.lua" />
 
         </basicnumber>
-	</template>
+  </template>
 
     <template name="label_save_details">
             <label>
                 <center />
-				<anchored to="leftanchor"  width="75">
-					<top relation="relative" />
-					<left anchor="right" offset="55"/>
-				</anchored>
+        <anchored to="leftanchor"  width="75">
+          <top relation="relative" />
+          <left anchor="right" offset="55"/>
+        </anchored>
             </label>
     </template>
     <template name="save_details_total">
@@ -616,10 +616,10 @@
     </template>
     <template name="save_number_base">
             <basicnumber>
-				<anchored width="30" height="20">
-					<top  />
-					<left anchor="right" relation="relative" offset="10" />
-				</anchored>
+        <anchored width="30" height="20">
+          <top  />
+          <left anchor="right" relation="relative" offset="10" />
+        </anchored>
                 <frame name="fielddark" offset="7,5,7,5" />
                 <stateframe>
                     <hover name="rowshade" offset="7,5,7,5" />
@@ -635,10 +635,10 @@
     </template>
     <template name="save_number_mod">
             <basicnumber>
-				<anchored width="30" height="20">
-					<top  />
-					<left anchor="right" relation="relative" offset="5" />
-				</anchored>
+        <anchored width="30" height="20">
+          <top  />
+          <left anchor="right" relation="relative" offset="5" />
+        </anchored>
                 <frame name="fielddark" offset="7,5,7,5" />
                 <stateframe>
                     <hover name="rowshade" offset="7,5,7,5" />
@@ -651,22 +651,22 @@
             </basicnumber>
     </template>
     
-	<template name="class_cycler_do_as">
-		<button_stringcycler>
-			<parameters>
-				<labelsres>warrior|priest|wizard|rogue</labelsres>
-				<values>warrior|priest|wizard|rogue</values>
-			</parameters>
-		</button_stringcycler>
-	</template>
+  <template name="class_cycler_do_as">
+    <button_stringcycler>
+      <parameters>
+        <labelsres>warrior|priest|wizard|rogue</labelsres>
+        <values>warrior|priest|wizard|rogue</values>
+      </parameters>
+    </button_stringcycler>
+  </template>
     
     <template name="number_adjustment">
-			<basicnumber>
+      <basicnumber>
             <anchored width="20" height="15"/>
                 <default>0</default>
                 <displaysign />
-				<hideonvalue>0</hideonvalue>
-			</basicnumber>
+        <hideonvalue>0</hideonvalue>
+      </basicnumber>
     </template>
     
     <template name="speed_number_base">
@@ -799,10 +799,10 @@
             </label>
     </template>            
 
-	<template name="number_charspeed_defaults_charsheet">
+  <template name="number_charspeed_defaults_charsheet">
         <number_charspeed_defaults>
         </number_charspeed_defaults>
-	</template>
+  </template>
 
     <template name="surprise_number_total_charsheet">
         <surprise_number_total>
@@ -812,7 +812,7 @@
     <template name="surprise_number_total">
             <basicnumber>
                 <rollable />
-				<script>
+        <script>
                     function action(draginfo)
                         local node = getDatabaseNode();
                         local nodeChar = node.getChild("...");
@@ -827,7 +827,7 @@
                     function onDoubleClick(x,y)
                         return action();
                     end                    
-				</script>
+        </script>
                 <frame name="fielddark" offset="7,5,7,5" />
                 <stateframe>
                     <hover name="rowshade" offset="7,5,7,5" />
@@ -875,82 +875,82 @@
         </basicnumber>
     </template>
     
-	<template name="label_titlechar">
-		<label>
-			<font>subwindowsmalltitle</font>
-			<center />
-		</label>
-	</template>
-	<template name="number_charinit_charsheet">
-		<number_chartotal>
-			<font>reference-b-large</font>
-			<rollable />
-			<displaysign />
-			<modifiersize>mini</modifiersize>
-			<modifierfield>initiative.temporary</modifierfield>
-			<source><name>initiative.misc</name><op>+</op></source>
-			<script>
-				function action(draginfo)
-					local rActor = ActorManager.getActor("pc", window.getDatabaseNode());
-					ActionInit.performRoll(draginfo, rActor);
+  <template name="label_titlechar">
+    <label>
+      <font>subwindowsmalltitle</font>
+      <center />
+    </label>
+  </template>
+  <template name="number_charinit_charsheet">
+    <number_chartotal>
+      <font>reference-b-large</font>
+      <rollable />
+      <displaysign />
+      <modifiersize>mini</modifiersize>
+      <modifierfield>initiative.temporary</modifierfield>
+      <source><name>initiative.misc</name><op>+</op></source>
+      <script>
+        function action(draginfo)
+          local rActor = ActorManager.getActor("pc", window.getDatabaseNode());
+          ActionInit.performRoll(draginfo, rActor);
 
-					return true;
-				end
-				
-				function onDragStart(button, x, y, draginfo)
-					return action(draginfo);
-				end
-					
-				function onDoubleClick(x,y)
-					return action();
-				end
-			</script>
-		</number_chartotal>
-	</template>
-	<template name="number_charwounds_charsheet">
+          return true;
+        end
+        
+        function onDragStart(button, x, y, draginfo)
+          return action(draginfo);
+        end
+          
+        function onDoubleClick(x,y)
+          return action();
+        end
+      </script>
+    </number_chartotal>
+  </template>
+  <template name="number_charwounds_charsheet">
         <number_charwounds>
         </number_charwounds>
-	</template>
-	<template name="number_hptotal_charsheet">
+  </template>
+  <template name="number_hptotal_charsheet">
         <number_dropadd>
         </number_dropadd>
-	</template>
-	<template name="number_hptemp">
-			<basicnumber name="temphp" source="hp.temporary">
-				<font>reference-b-large</font>
-				<color>0000AA</color>
-				<description textres="temphp" />
-				<hideonvalue>0</hideonvalue>
-				<script>
-					function onDrop(x, y, draginfo)
-						if draginfo.getType() == "number" then
-							if draginfo.getNumberData() &gt; 0 then
-								setValue(draginfo.getNumberData());
-							else
-								setValue(getValue() + draginfo.getNumberData());
-							end
-						end
-						
-						return true;
-					end
-				</script>
-			</basicnumber>
-	</template>
-	<template name="number_hptemp_charsheet">
+  </template>
+  <template name="number_hptemp">
+      <basicnumber name="temphp" source="hp.temporary">
+        <font>reference-b-large</font>
+        <color>0000AA</color>
+        <description textres="temphp" />
+        <hideonvalue>0</hideonvalue>
+        <script>
+          function onDrop(x, y, draginfo)
+            if draginfo.getType() == "number" then
+              if draginfo.getNumberData() &gt; 0 then
+                setValue(draginfo.getNumberData());
+              else
+                setValue(getValue() + draginfo.getNumberData());
+              end
+            end
+            
+            return true;
+          end
+        </script>
+      </basicnumber>
+  </template>
+  <template name="number_hptemp_charsheet">
         <number_hptemp>
         </number_hptemp>
-	</template>
+  </template>
     
   <template name="cycler_casterlevel_type">
    <button_stringcycler>
     <parameters>
-			<defaultlabelres mergerule="replace">dash</defaultlabelres>
+      <defaultlabelres mergerule="replace">dash</defaultlabelres>
       <labelsres>casterlevel|casterlevelby2|casterlevelby3|casterlevelby4|casterlevelby5</labelsres>
       <values>casterlevel|casterlevelby2|casterlevelby3|casterlevelby4|casterlevelby5</values>
     </parameters>
   </button_stringcycler>
   
-	</template>
+  </template>
 
   <template name="number_basic">
     <basicnumber>

@@ -7,279 +7,279 @@
 
 <root>
 
-	<windowclass name="masterindex" merge="join">
-		<sheetdata>
-			<masterindex_list name="list">
-				<anchored>
-					<bottom offset="-70" />
-				</anchored>
-			</masterindex_list>
-		</sheetdata>
-	</windowclass>
-	<windowclass name="parcel_header" merge="join">
-		<margins control="0,0,0,2" />
-	</windowclass>
-	<windowclass name="table_header" merge="join">
-		<margins control="0,0,0,2" />
-	</windowclass>
+  <windowclass name="masterindex" merge="join">
+    <sheetdata>
+      <masterindex_list name="list">
+        <anchored>
+          <bottom offset="-70" />
+        </anchored>
+      </masterindex_list>
+    </sheetdata>
+  </windowclass>
+  <windowclass name="parcel_header" merge="join">
+    <margins control="0,0,0,2" />
+  </windowclass>
+  <windowclass name="table_header" merge="join">
+    <margins control="0,0,0,2" />
+  </windowclass>
 
-	<template name="sub_record_header">
-		<subwindow>
-			<anchored>
-				<top offset="10" />
-				<left offset="10" />
-				<right offset="-25" />
-			</anchored>
-			<frame name="headergray" offset="5,5,20,5" />
-			<activate />
-			<fastinit />
-		</subwindow>
-	</template>
-	<template name="frame_record_content">
-		<genericcontrol name="contentframe">
-			<anchored>
-				<top parent="header" anchor="bottom" offset="7" />
-				<left offset="15" />
-				<right offset="-20" />
-				<bottom offset="-20" />
-			</anchored>
-			<disabled />
-		</genericcontrol>
-	</template>
-	<template name="frame_record_content_tabbed">
-		<genericcontrol name="contentframe">
-			<anchored>
-				<top parent="header" anchor="bottom" offset="7" />
-				<left offset="15" />
-				<right offset="-30" />
-				<bottom offset="-20" />
-			</anchored>
-			<disabled />
-		</genericcontrol>
-	</template>
-	<template name="area_parcel_content">
-		<genericcontrol name="contentframe">
-			<anchored>
-				<top parent="header" anchor="bottom" offset="22" />
-				<left offset="25" />
-				<right offset="-25" />
-				<bottom offset="-25" />
-			</anchored>
-			<disabled />
-		</genericcontrol>
-	</template>
-	<template name="frame_parcel">
-		<genericcontrol>
-			<frame name="groupbox" offset="15,15,20,15" />
-		</genericcontrol>
-	</template>
-	
-	<template name="button_toggledetail">
-		<buttoncontrol>
-			<anchored width="20" height="20" />
-			<state icon="button_details" />
-			<state icon="button_details_down" />
-			<script>
-				function onValueChanged()
-					if window.toggleDetail then
-						window.toggleDetail();
-					end
-				end
-			</script>
-		</buttoncontrol>
-	</template>
-	
-	<template name="label_combatscores">
-		<label_fieldtop>
-			<anchored offset="-2,-6" />
-			<frame name="abilityscore" />
-		</label_fieldtop>
-	</template>
+  <template name="sub_record_header">
+    <subwindow>
+      <anchored>
+        <top offset="10" />
+        <left offset="10" />
+        <right offset="-25" />
+      </anchored>
+      <frame name="headergray" offset="5,5,20,5" />
+      <activate />
+      <fastinit />
+    </subwindow>
+  </template>
+  <template name="frame_record_content">
+    <genericcontrol name="contentframe">
+      <anchored>
+        <top parent="header" anchor="bottom" offset="7" />
+        <left offset="15" />
+        <right offset="-20" />
+        <bottom offset="-20" />
+      </anchored>
+      <disabled />
+    </genericcontrol>
+  </template>
+  <template name="frame_record_content_tabbed">
+    <genericcontrol name="contentframe">
+      <anchored>
+        <top parent="header" anchor="bottom" offset="7" />
+        <left offset="15" />
+        <right offset="-30" />
+        <bottom offset="-20" />
+      </anchored>
+      <disabled />
+    </genericcontrol>
+  </template>
+  <template name="area_parcel_content">
+    <genericcontrol name="contentframe">
+      <anchored>
+        <top parent="header" anchor="bottom" offset="22" />
+        <left offset="25" />
+        <right offset="-25" />
+        <bottom offset="-25" />
+      </anchored>
+      <disabled />
+    </genericcontrol>
+  </template>
+  <template name="frame_parcel">
+    <genericcontrol>
+      <frame name="groupbox" offset="15,15,20,15" />
+    </genericcontrol>
+  </template>
+  
+  <template name="button_toggledetail">
+    <buttoncontrol>
+      <anchored width="20" height="20" />
+      <state icon="button_details" />
+      <state icon="button_details_down" />
+      <script>
+        function onValueChanged()
+          if window.toggleDetail then
+            window.toggleDetail();
+          end
+        end
+      </script>
+    </buttoncontrol>
+  </template>
+  
+  <template name="label_combatscores">
+    <label_fieldtop>
+      <anchored offset="-2,-6" />
+      <frame name="abilityscore" />
+    </label_fieldtop>
+  </template>
 
-	<template name="label_abilityscore">
-		<label_fieldtop>
-			<anchored offset="-2,-6" />
-			<frame name="abilityscore" />
-		</label_fieldtop>
-	</template>
-	<template name="number_abilityscore">
-		<basicnumber>
-			<default>10</default>
-			<script file="campaign/scripts/number_abilityscore.lua" />
-		</basicnumber>
-	</template>
-	<template name="string_abilitymodtext">
-		<stringcontrol>
-			<anchored position="below" offset="-8,-5" />
-			<frame name="abilityscore" />
-			<font>sheetlabelmini</font>
-			<static />
-			<center />
-		</stringcontrol>
-	</template>
+  <template name="label_abilityscore">
+    <label_fieldtop>
+      <anchored offset="-2,-6" />
+      <frame name="abilityscore" />
+    </label_fieldtop>
+  </template>
+  <template name="number_abilityscore">
+    <basicnumber>
+      <default>10</default>
+      <script file="campaign/scripts/number_abilityscore.lua" />
+    </basicnumber>
+  </template>
+  <template name="string_abilitymodtext">
+    <stringcontrol>
+      <anchored position="below" offset="-8,-5" />
+      <frame name="abilityscore" />
+      <font>sheetlabelmini</font>
+      <static />
+      <center />
+    </stringcontrol>
+  </template>
 
-	<template name="label_npc_abilityscore">
-		<label_abilityscore />
-	</template>
-	<template name="number_npc_abilityscore">
-		<number_abilityscore>
-			<rollable />
-		</number_abilityscore>
-	</template>
-	<template name="string_npc_abilitymodtext">
-		<string_abilitymodtext />
-	</template>
-	<template name="string_column_npc_remainder">
-		<basicstring>
-			<anchored position="righthigh" offset="10,0" height="20">
-				<right parent="" offset="-5" />
-			</anchored>
-		</basicstring>
-	</template>
-	<template name="string_columnh_npc_specialdef">
-		<string_columnh>
-			<anchored>
-				<left offset="140"/>
-			</anchored>
-		</string_columnh>
-	</template>
-	<template name="button_npcabilitycheck">
-		<buttoncontrol>
-			<anchored position="righthigh" offset="5,0" width="15" height="15" />
-			<state frame="abilityscore" text="C" font="" />
-			<script>
-				function action(draginfo)
+  <template name="label_npc_abilityscore">
+    <label_abilityscore />
+  </template>
+  <template name="number_npc_abilityscore">
+    <number_abilityscore>
+      <rollable />
+    </number_abilityscore>
+  </template>
+  <template name="string_npc_abilitymodtext">
+    <string_abilitymodtext />
+  </template>
+  <template name="string_column_npc_remainder">
+    <basicstring>
+      <anchored position="righthigh" offset="10,0" height="20">
+        <right parent="" offset="-5" />
+      </anchored>
+    </basicstring>
+  </template>
+  <template name="string_columnh_npc_specialdef">
+    <string_columnh>
+      <anchored>
+        <left offset="140"/>
+      </anchored>
+    </string_columnh>
+  </template>
+  <template name="button_npcabilitycheck">
+    <buttoncontrol>
+      <anchored position="righthigh" offset="5,0" width="15" height="15" />
+      <state frame="abilityscore" text="C" font="" />
+      <script>
+        function action(draginfo)
                     local node = window.getDatabaseNode();
-					local rActor = ActorManager.getActor("", window.getDatabaseNode());
+          local rActor = ActorManager.getActor("", window.getDatabaseNode());
                     local sActorType, nodeActor = ActorManager.getTypeAndNode(rActor);
 
                     local nTargetDC = DB.getValue(nodeActor, "abilities.".. self.target[1] .. ".score", 0);
                     ActionCheck.performRoll(draginfo, rActor, self.target[1], nTargetDC, CombatManager.isCTHidden(node));
-					return true;
-				end
-				
-				function onDragStart(button, x, y, draginfo)
-					return action(draginfo);
-				end
+          return true;
+        end
+        
+        function onDragStart(button, x, y, draginfo)
+          return action(draginfo);
+        end
 
-				function onDoubleClick(x,y)
-					return action();
-				end
+        function onDoubleClick(x,y)
+          return action();
+        end
 
-			</script>
-		</buttoncontrol>
-	</template>
-	<template name="button_npcabilitysave">
-		<buttoncontrol>
-			<anchored position="righthigh" offset="5,15" width="15" height="15" />
-			<state frame="abilityscore" text="S" font="" />
-			<script>
-				function action(draginfo)
-					local rActor = ActorManager.getActor("", window.getDatabaseNode());
-					ActionSave.performRoll(draginfo, rActor, self.target[1]);
-					return true;
-				end
+      </script>
+    </buttoncontrol>
+  </template>
+  <template name="button_npcabilitysave">
+    <buttoncontrol>
+      <anchored position="righthigh" offset="5,15" width="15" height="15" />
+      <state frame="abilityscore" text="S" font="" />
+      <script>
+        function action(draginfo)
+          local rActor = ActorManager.getActor("", window.getDatabaseNode());
+          ActionSave.performRoll(draginfo, rActor, self.target[1]);
+          return true;
+        end
 
-				function onDragStart(button, x, y, draginfo)
-					action(draginfo);
-					return true;
-				end
-				
-				function onButtonPress()
-					action();
-					return true;
-				end
-			</script>
-		</buttoncontrol>
-	</template>
-	<template name="list_npcactions">
-		<list_column>
-			<child merge="delete" />
-			<sortby merge="delete" />
-		</list_column>
-	</template>
+        function onDragStart(button, x, y, draginfo)
+          action(draginfo);
+          return true;
+        end
+        
+        function onButtonPress()
+          action();
+          return true;
+        end
+      </script>
+    </buttoncontrol>
+  </template>
+  <template name="list_npcactions">
+    <list_column>
+      <child merge="delete" />
+      <sortby merge="delete" />
+    </list_column>
+  </template>
 
-	<template name="button_enc_refreshcr">
-		<buttoncontrol>
-			<anchored width="23" height="23">
-				<bottom parent="cr" offset="2" />
-				<left parent="cr" anchor="right" offset="5"/>
-			</anchored>
-			<icon normal="button_enc_refreshcr" pressed="button_enc_refreshcr_down" />
-			<tooltip textres="enc_tooltip_refreshcr" />
-			<script>
-				function onButtonPress()
-					CombatManager2.calcBattleCR(window.getDatabaseNode());
-				end
-			</script>
-		</buttoncontrol>
-	</template>
-	<template name="button_enc_refreshxp">
-		<buttoncontrol>
-			<anchored width="23" height="23">
-				<bottom parent="exp" offset="2" />
-				<left parent="exp" anchor="right" offset="5" />
-			</anchored>
-			<icon normal="button_enc_refreshxp" pressed="button_enc_refreshxp_down" />
-			<tooltip textres="enc_tooltip_refreshxp" />
-			<script>
-				function onButtonPress()
-					CombatManager2.calcBattleXP(window.getDatabaseNode());
-				end
-			</script>
-		</buttoncontrol>
-	</template>
+  <template name="button_enc_refreshcr">
+    <buttoncontrol>
+      <anchored width="23" height="23">
+        <bottom parent="cr" offset="2" />
+        <left parent="cr" anchor="right" offset="5"/>
+      </anchored>
+      <icon normal="button_enc_refreshcr" pressed="button_enc_refreshcr_down" />
+      <tooltip textres="enc_tooltip_refreshcr" />
+      <script>
+        function onButtonPress()
+          CombatManager2.calcBattleCR(window.getDatabaseNode());
+        end
+      </script>
+    </buttoncontrol>
+  </template>
+  <template name="button_enc_refreshxp">
+    <buttoncontrol>
+      <anchored width="23" height="23">
+        <bottom parent="exp" offset="2" />
+        <left parent="exp" anchor="right" offset="5" />
+      </anchored>
+      <icon normal="button_enc_refreshxp" pressed="button_enc_refreshxp_down" />
+      <tooltip textres="enc_tooltip_refreshxp" />
+      <script>
+        function onButtonPress()
+          CombatManager2.calcBattleXP(window.getDatabaseNode());
+        end
+      </script>
+    </buttoncontrol>
+  </template>
 
-	<template name="list_editor">
-		<windowlist name="list">
-			<anchored>
-				<top parent="columnanchor" anchor="bottom" relation="relative" offset="20" />
-				<left />
-				<right />
-			</anchored>
-			<allowdelete />
+  <template name="list_editor">
+    <windowlist name="list">
+      <anchored>
+        <top parent="columnanchor" anchor="bottom" relation="relative" offset="20" />
+        <left />
+        <right />
+      </anchored>
+      <allowdelete />
             <child></child>
             <child><backcolor>1A40301E</backcolor></child>
-			<noscroll />
-			<script>
-				function onInit()
-					registerMenuItem(Interface.getString("list_menu_createitem"), "insert", 5);
-				end
-				
-				function onMenuSelection(selection)
-					if selection == 5 then
-						self.addEntry(true);
-					end
-				end
-				
-				function onListChanged()
-					update();
-				end
+      <noscroll />
+      <script>
+        function onInit()
+          registerMenuItem(Interface.getString("list_menu_createitem"), "insert", 5);
+        end
+        
+        function onMenuSelection(selection)
+          if selection == 5 then
+            self.addEntry(true);
+          end
+        end
+        
+        function onListChanged()
+          update();
+        end
 
-				function update()
-					local bEditMode = (window.list_iedit.getValue() == 1);
-					for _,w in pairs(getWindows()) do
-						w.idelete.setVisibility(bEditMode);
-					end
-				end
-				
-				function addEntry(bFocus)
-					return createWindow();
-				end
-			</script>
-		</windowlist>
-	</template>
-	
-	<template name="sub_charsheet">
-		<subwindow>
-			<anchored to="contentanchor">
-				<top parent="name" anchor="bottom" offset="2" />
-				<left />
-				<right />
-				<bottom parent="" offset="-20" />
-			</anchored>
-		</subwindow>
-	</template>
+        function update()
+          local bEditMode = (window.list_iedit.getValue() == 1);
+          for _,w in pairs(getWindows()) do
+            w.idelete.setVisibility(bEditMode);
+          end
+        end
+        
+        function addEntry(bFocus)
+          return createWindow();
+        end
+      </script>
+    </windowlist>
+  </template>
+  
+  <template name="sub_charsheet">
+    <subwindow>
+      <anchored to="contentanchor">
+        <top parent="name" anchor="bottom" offset="2" />
+        <left />
+        <right />
+        <bottom parent="" offset="-20" />
+      </anchored>
+    </subwindow>
+  </template>
 
     
 </root>

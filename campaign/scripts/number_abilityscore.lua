@@ -7,11 +7,11 @@ function onInit()
     if super then
         super.onInit();
     end
-	--onValueChanged();
+  --onValueChanged();
 end
 
 function update(bReadOnly)
-	setReadOnly(bReadOnly);
+  setReadOnly(bReadOnly);
 end
 
 -- function onValueChanged()
@@ -44,25 +44,25 @@ end
 -- end
 
 function action(draginfo)
-	local rActor = ActorManager.getActor("", window.getDatabaseNode());
-	
-	local sActorType, nodeActor = ActorManager.getTypeAndNode(rActor);
+  local rActor = ActorManager.getActor("", window.getDatabaseNode());
+  
+  local sActorType, nodeActor = ActorManager.getTypeAndNode(rActor);
     local nTargetDC = DB.getValue(nodeActor, "abilities.".. self.target[1] .. ".score", 0);
 
-	ActionCheck.performRoll(draginfo, rActor, self.target[1], nTargetDC);
-	return true;
+  ActionCheck.performRoll(draginfo, rActor, self.target[1], nTargetDC);
+  return true;
 end
 
 function onDragStart(button, x, y, draginfo)
-	if rollable then
-		return action(draginfo);
-	end
+  if rollable then
+    return action(draginfo);
+  end
 end
-	
+  
 function onDoubleClick(x, y)
-	if rollable then
-		return action();
-	end
+  if rollable then
+    return action();
+  end
 end
 
 

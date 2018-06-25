@@ -4,21 +4,21 @@
 --
 
 function onInit()
-	updateDisplay();
+  updateDisplay();
 end
 
 function onCasterTypeChanged()
-	updateDisplay();
+  updateDisplay();
 end
 
 function updateDisplay()
-	local sCasterType = castertype.getStringValue();
-	local bSpells = (sCasterType == "memorization");
-	
-	groupuses_label.setVisible(not bSpells);
-	uses.setVisible(not bSpells);
-	usesperiod.setVisible(not bSpells);
-	
-	groupprepared_label.setVisible(bSpells);
-	prepared.setVisible(bSpells);
+  local sCasterType = castertype.getStringValue();
+  local bSpells = (sCasterType == "memorization");
+  
+  groupuses_label.setVisible(not bSpells);
+  uses.setVisible(not bSpells);
+  usesperiod.setVisible(not bSpells);
+  
+  groupprepared_label.setVisible(bSpells);
+  prepared.setVisible(bSpells);
 end

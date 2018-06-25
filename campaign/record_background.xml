@@ -6,235 +6,235 @@
 -->
 
 <root>
-	<windowclass name="reference_background">
-		<frame>recordsheet</frame>
-		<placement>
-			<size width="350" height="350" />
-		</placement>
-		<sizelimits>
-			<minimum width="300" height="300" />
-			<dynamic />
-		</sizelimits>
-		<minimize>minimized_reference</minimize>
-		<tooltip field="name" />
-		<script>
-			function onLockChanged()
-				if header.subwindow then
-					header.subwindow.update();
-				end
-				if stats.subwindow then
-					stats.subwindow.update();
-				end
-				
-				local bReadOnly = WindowManager.getReadOnlyState(getDatabaseNode());
-				text.setReadOnly(bReadOnly);
-			end
-		</script>
-		<sheetdata>
-			<sub_record_header name="header">
-				<class>ref_background_header</class>
-			</sub_record_header>
+  <windowclass name="reference_background">
+    <frame>recordsheet</frame>
+    <placement>
+      <size width="350" height="350" />
+    </placement>
+    <sizelimits>
+      <minimum width="300" height="300" />
+      <dynamic />
+    </sizelimits>
+    <minimize>minimized_reference</minimize>
+    <tooltip field="name" />
+    <script>
+      function onLockChanged()
+        if header.subwindow then
+          header.subwindow.update();
+        end
+        if stats.subwindow then
+          stats.subwindow.update();
+        end
+        
+        local bReadOnly = WindowManager.getReadOnlyState(getDatabaseNode());
+        text.setReadOnly(bReadOnly);
+      end
+    </script>
+    <sheetdata>
+      <sub_record_header name="header">
+        <class>ref_background_header</class>
+      </sub_record_header>
 
-			<frame_record_content_tabbed name="contentframe" />
+      <frame_record_content_tabbed name="contentframe" />
 
-			<ft_record name="text">
-				<anchored to="contentframe" position="over" />
-				<invisible />
-			</ft_record>
-			<subwindow_record name="stats">
-				<class>ref_background_stats</class>
-			</subwindow_record>
+      <ft_record name="text">
+        <anchored to="contentframe" position="over" />
+        <invisible />
+      </ft_record>
+      <subwindow_record name="stats">
+        <class>ref_background_stats</class>
+      </subwindow_record>
 
-			<scrollbar_record>
-				<target>text</target>
-			</scrollbar_record>
-			<scrollbar_record>
-				<target>stats</target>
-			</scrollbar_record>
-			
-			<tabs_recordsheet>
-				<tab>
-					<icon>tab_main</icon>
-					<subwindow>text</subwindow>
-				</tab>
-				<tab>
-					<icon>tab_other</icon>
-					<subwindow>stats</subwindow>
-				</tab>
-			</tabs_recordsheet>
-			
-			<resize_recordsheet />
-			<close_recordsheet />
-		</sheetdata>
-	</windowclass>
-	
-	<windowclass name="ref_background_header">
-		<margins control="0,0,0,2" />
-		<script>
-			function onInit()
-				update();
-			end
-			function update()
-				local bReadOnly = WindowManager.getReadOnlyState(getDatabaseNode());
-				name.setReadOnly(bReadOnly);
-			end
-		</script>
-		<sheetdata>
-			<link_record_header>
-				<class>reference_background</class>
-			</link_record_header>
+      <scrollbar_record>
+        <target>text</target>
+      </scrollbar_record>
+      <scrollbar_record>
+        <target>stats</target>
+      </scrollbar_record>
+      
+      <tabs_recordsheet>
+        <tab>
+          <icon>tab_main</icon>
+          <subwindow>text</subwindow>
+        </tab>
+        <tab>
+          <icon>tab_other</icon>
+          <subwindow>stats</subwindow>
+        </tab>
+      </tabs_recordsheet>
+      
+      <resize_recordsheet />
+      <close_recordsheet />
+    </sheetdata>
+  </windowclass>
+  
+  <windowclass name="ref_background_header">
+    <margins control="0,0,0,2" />
+    <script>
+      function onInit()
+        update();
+      end
+      function update()
+        local bReadOnly = WindowManager.getReadOnlyState(getDatabaseNode());
+        name.setReadOnly(bReadOnly);
+      end
+    </script>
+    <sheetdata>
+      <link_record_header>
+        <class>reference_background</class>
+      </link_record_header>
 
-			<anchor_record_header_right />
-			<icon_record_locked />
-			<button_record_locked />
+      <anchor_record_header_right />
+      <icon_record_locked />
+      <button_record_locked />
 
-			<string_record_name name="name">
-				<empty textres="library_recordtype_empty_background" />
-			</string_record_name>
-			<label_reftype name="reftype">
-				<static textres="ref_type_background" />
-			</label_reftype>	
-		</sheetdata>
-	</windowclass>
-	
-	<windowclass name="ref_background_stats">
-		<margins control="0,0,0,7" />
-		<script>
-			function onInit()
-				update();
-			end
-			function update()
-				local bReadOnly = WindowManager.getReadOnlyState(getDatabaseNode());
-				skill.update(bReadOnly);
-				languages.update(bReadOnly);
-				tool.update(bReadOnly);
-				equipment.update(bReadOnly);
-				features.update(bReadOnly);
-			end
-		</script>
-		<sheetdata>
-			<anchor_column name="columnanchor" />
-			
-			<label_column name="skill_label">
-				<static textres="background_label_skills" />
-			</label_column>
-			<string_columnh name="skill" />
-			
-			<label_column name="languages_label">
-				<static textres="background_label_languages" />
-			</label_column>
-			<string_columnh name="languages" />
-			
-			<label_column name="tool_label">
-				<static textres="background_label_tools" />
-			</label_column>
-			<string_columnh name="tool" />
-			
-			<label_column name="equipment_label">
-				<static textres="background_label_equipment" />
-			</label_column>
-			<string_columnh name="equipment" />
-			
-			<header_column name="features_header">
-				<static textres="background_header_features"/>
-				<center />
-			</header_column>
-			<button_iedit name="features_iedit">
-				<anchored to="features_header" position="righthigh" offset="-20,0" />
-				<target>features</target>
-			</button_iedit>
-			<button_iadd name="features_iadd">
-				<anchored to="features_iedit" position="lefthigh" offset="5,0" />
-				<target>features</target>
-			</button_iadd>
-			<list_column name="features">
-				<datasource>.features</datasource>
-				<class>ref_background_feature</class>
-			</list_column>
-		</sheetdata>
-	</windowclass>
+      <string_record_name name="name">
+        <empty textres="library_recordtype_empty_background" />
+      </string_record_name>
+      <label_reftype name="reftype">
+        <static textres="ref_type_background" />
+      </label_reftype>  
+    </sheetdata>
+  </windowclass>
+  
+  <windowclass name="ref_background_stats">
+    <margins control="0,0,0,7" />
+    <script>
+      function onInit()
+        update();
+      end
+      function update()
+        local bReadOnly = WindowManager.getReadOnlyState(getDatabaseNode());
+        skill.update(bReadOnly);
+        languages.update(bReadOnly);
+        tool.update(bReadOnly);
+        equipment.update(bReadOnly);
+        features.update(bReadOnly);
+      end
+    </script>
+    <sheetdata>
+      <anchor_column name="columnanchor" />
+      
+      <label_column name="skill_label">
+        <static textres="background_label_skills" />
+      </label_column>
+      <string_columnh name="skill" />
+      
+      <label_column name="languages_label">
+        <static textres="background_label_languages" />
+      </label_column>
+      <string_columnh name="languages" />
+      
+      <label_column name="tool_label">
+        <static textres="background_label_tools" />
+      </label_column>
+      <string_columnh name="tool" />
+      
+      <label_column name="equipment_label">
+        <static textres="background_label_equipment" />
+      </label_column>
+      <string_columnh name="equipment" />
+      
+      <header_column name="features_header">
+        <static textres="background_header_features"/>
+        <center />
+      </header_column>
+      <button_iedit name="features_iedit">
+        <anchored to="features_header" position="righthigh" offset="-20,0" />
+        <target>features</target>
+      </button_iedit>
+      <button_iadd name="features_iadd">
+        <anchored to="features_iedit" position="lefthigh" offset="5,0" />
+        <target>features</target>
+      </button_iadd>
+      <list_column name="features">
+        <datasource>.features</datasource>
+        <class>ref_background_feature</class>
+      </list_column>
+    </sheetdata>
+  </windowclass>
 
-	<windowclass name="ref_background_feature">
-		<margins control="0,0,0,2" />
-		<sheetdata>
-			<anchor_listitem_column_right name="rightanchor" />
-			<link_listitem_column name="shortcut">
-				<class>reference_backgroundfeature</class>
-			</link_listitem_column>
-			<button_listitem_column_delete name="idelete" />
+  <windowclass name="ref_background_feature">
+    <margins control="0,0,0,2" />
+    <sheetdata>
+      <anchor_listitem_column_right name="rightanchor" />
+      <link_listitem_column name="shortcut">
+        <class>reference_backgroundfeature</class>
+      </link_listitem_column>
+      <button_listitem_column_delete name="idelete" />
 
-			<string_listitem_column_name name="name">
-				<empty textres="library_recordtype_empty_backgroundfeature" />
-			</string_listitem_column_name>
-		</sheetdata>
-	</windowclass>
-	
-	<windowclass name="reference_backgroundfeature">
-		<frame>recordsheet</frame>
-		<placement>
-			<size width="350" height="350" />
-		</placement>
-		<sizelimits>
-			<minimum width="300" height="300" />
-			<dynamic />
-		</sizelimits>
-		<minimize>minimized_reference</minimize>
-		<tooltip field="name" />
-		<script>
-			function onLockChanged()
-				if header.subwindow then
-					header.subwindow.update();
-				end
-				
-				local bReadOnly = WindowManager.getReadOnlyState(getDatabaseNode());
-				text.setReadOnly(bReadOnly);
-			end
-		</script>
-		<sheetdata>
-			<sub_record_header name="header">
-				<class>ref_backgroundfeature_header</class>
-			</sub_record_header>
+      <string_listitem_column_name name="name">
+        <empty textres="library_recordtype_empty_backgroundfeature" />
+      </string_listitem_column_name>
+    </sheetdata>
+  </windowclass>
+  
+  <windowclass name="reference_backgroundfeature">
+    <frame>recordsheet</frame>
+    <placement>
+      <size width="350" height="350" />
+    </placement>
+    <sizelimits>
+      <minimum width="300" height="300" />
+      <dynamic />
+    </sizelimits>
+    <minimize>minimized_reference</minimize>
+    <tooltip field="name" />
+    <script>
+      function onLockChanged()
+        if header.subwindow then
+          header.subwindow.update();
+        end
+        
+        local bReadOnly = WindowManager.getReadOnlyState(getDatabaseNode());
+        text.setReadOnly(bReadOnly);
+      end
+    </script>
+    <sheetdata>
+      <sub_record_header name="header">
+        <class>ref_backgroundfeature_header</class>
+      </sub_record_header>
 
-			<frame_record_content />
-			<ft_record name="text">
-				<anchored to="contentframe" position="over" />
-				<footer>footer_wide</footer>
-			</ft_record>
-			<scrollbar>
-				<anchored to="text" />
-				<target>text</target>
-			</scrollbar>
-			
-			<resize_recordsheet />
-			<close_recordsheet />
-		</sheetdata>
-	</windowclass>
-	<windowclass name="ref_backgroundfeature_header">
-		<margins control="0,0,0,2" />
-		<script>
-			function onInit()
-				update();
-			end
-			function update()
-				local bReadOnly = WindowManager.getReadOnlyState(getDatabaseNode());
-				name.setReadOnly(bReadOnly);
-			end
-		</script>
-		<sheetdata>
-			<link_record_header>
-				<class>reference_backgroundfeature</class>
-			</link_record_header>
+      <frame_record_content />
+      <ft_record name="text">
+        <anchored to="contentframe" position="over" />
+        <footer>footer_wide</footer>
+      </ft_record>
+      <scrollbar>
+        <anchored to="text" />
+        <target>text</target>
+      </scrollbar>
+      
+      <resize_recordsheet />
+      <close_recordsheet />
+    </sheetdata>
+  </windowclass>
+  <windowclass name="ref_backgroundfeature_header">
+    <margins control="0,0,0,2" />
+    <script>
+      function onInit()
+        update();
+      end
+      function update()
+        local bReadOnly = WindowManager.getReadOnlyState(getDatabaseNode());
+        name.setReadOnly(bReadOnly);
+      end
+    </script>
+    <sheetdata>
+      <link_record_header>
+        <class>reference_backgroundfeature</class>
+      </link_record_header>
 
-			<anchor_record_header_right />
-			<icon_record_locked />
-			<button_record_locked />
+      <anchor_record_header_right />
+      <icon_record_locked />
+      <button_record_locked />
 
-			<string_record_name name="name">
-				<empty textres="library_recordtype_empty_backgroundfeature" />
-			</string_record_name>
-			<label_reftype name="reftype">
-				<static textres="ref_type_backgroundfeature" />
-			</label_reftype>	
-		</sheetdata>
-	</windowclass>
+      <string_record_name name="name">
+        <empty textres="library_recordtype_empty_backgroundfeature" />
+      </string_record_name>
+      <label_reftype name="reftype">
+        <static textres="ref_type_backgroundfeature" />
+      </label_reftype>  
+    </sheetdata>
+  </windowclass>
 </root>

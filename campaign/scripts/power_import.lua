@@ -11,12 +11,12 @@ function createBlankPower()
     local node = DB.createChild("spell"); 
 Debug.console("power_import.lua","createTable","node",node);    
 
-	if node then
-		local w = Interface.openWindow("power", node.getNodeName());
-		if w and w.header and w.header.subwindow and w.header.subwindow.name then
-			w.header.subwindow.name.setFocus();
-		end
-	end
+  if node then
+    local w = Interface.openWindow("power", node.getNodeName());
+    if w and w.header and w.header.subwindow and w.header.subwindow.name then
+      w.header.subwindow.name.setFocus();
+    end
+  end
     return node;
 end
 

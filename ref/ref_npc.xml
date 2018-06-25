@@ -5,62 +5,62 @@
   attribution and copyright information.
 -->
 <root>
-	<!-- NPC Description sheets (non-editable) -->
-	<windowclass name="reference_npc" >
-		<frame>recordsheet</frame>
-		<placement>
-			<size width="460" height="550" />
-		</placement>
-		<sizelimits>
-			<minimum width="460" height="400" />
-			<dynamic />
-		</sizelimits>
-		<minimize>minimized_npc</minimize>
-		<tooltip field="name" />
-		<nodelete />
-		<script file="campaign/scripts/npc.lua" />
-		<sheetdata>
-			<sub_ref_header name="header">
-				<class>npc_header</class>
-			</sub_ref_header>
+  <!-- NPC Description sheets (non-editable) -->
+  <windowclass name="reference_npc" >
+    <frame>recordsheet</frame>
+    <placement>
+      <size width="460" height="550" />
+    </placement>
+    <sizelimits>
+      <minimum width="460" height="400" />
+      <dynamic />
+    </sizelimits>
+    <minimize>minimized_npc</minimize>
+    <tooltip field="name" />
+    <nodelete />
+    <script file="campaign/scripts/npc.lua" />
+    <sheetdata>
+      <sub_ref_header name="header">
+        <class>npc_header</class>
+      </sub_ref_header>
 
-			<genericcontrol name="contentframe">
-				<anchored>
-					<top parent="header" anchor="bottom" offset="15" />
-					<left offset="15" />
-					<right offset="-30" />
-					<bottom offset="-20" />
-				</anchored>
-			</genericcontrol>
+      <genericcontrol name="contentframe">
+        <anchored>
+          <top parent="header" anchor="bottom" offset="15" />
+          <left offset="15" />
+          <right offset="-30" />
+          <bottom offset="-20" />
+        </anchored>
+      </genericcontrol>
 
-			<subwindow_record name="main_creature">
-				<class>npc_combat</class>
-			</subwindow_record>
-			<ft_record name="text">
-				<anchored to="contentframe" position="over" />
-				<invisible />
-			</ft_record>
+      <subwindow_record name="main_creature">
+        <class>npc_combat</class>
+      </subwindow_record>
+      <ft_record name="text">
+        <anchored to="contentframe" position="over" />
+        <invisible />
+      </ft_record>
 
-			<scrollbar_record>
-				<target>main_creature</target>
-			</scrollbar_record>
-			<scrollbar_record>
-				<target>text</target>
-			</scrollbar_record>
+      <scrollbar_record>
+        <target>main_creature</target>
+      </scrollbar_record>
+      <scrollbar_record>
+        <target>text</target>
+      </scrollbar_record>
 
-			<tabs_recordsheet>
-				<tab>
-					<icon>tab_main</icon>
-					<subwindow>main_creature</subwindow>
-				</tab>
-				<tab>
-					<icon>tab_other</icon>
-					<subwindow>text</subwindow>
-				</tab>
-			</tabs_recordsheet>
-			
-			<resize_recordsheet />
-			<close_recordsheet />
-		</sheetdata>
-	</windowclass>
+      <tabs_recordsheet>
+        <tab>
+          <icon>tab_main</icon>
+          <subwindow>main_creature</subwindow>
+        </tab>
+        <tab>
+          <icon>tab_other</icon>
+          <subwindow>text</subwindow>
+        </tab>
+      </tabs_recordsheet>
+      
+      <resize_recordsheet />
+      <close_recordsheet />
+    </sheetdata>
+  </windowclass>
 </root>

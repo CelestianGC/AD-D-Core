@@ -7,79 +7,79 @@
 
 <root>
 <!-- Feat Description sheets (non-editable) -->
-	<windowclass name="reference_featlistitem">
-		<margins control="0,0,0,2" />
-		<sheetdata>
-			<linkfield name="link">
-				<bounds>5,2,20,20</bounds>
-				<description control="name" />
-			</linkfield>
-			<stringc_list_link name="name">
-				<bounds>30,2,160,20</bounds>
-			</stringc_list_link>
+  <windowclass name="reference_featlistitem">
+    <margins control="0,0,0,2" />
+    <sheetdata>
+      <linkfield name="link">
+        <bounds>5,2,20,20</bounds>
+        <description control="name" />
+      </linkfield>
+      <stringc_list_link name="name">
+        <bounds>30,2,160,20</bounds>
+      </stringc_list_link>
 
-			<genericcontrol name="reftableanchor">
-				<bounds>200,2,0,0</bounds>
-			</genericcontrol>
-			<stringc_reftable_linked name="prerequisite">
-				<anchored width="450" />
-			</stringc_reftable_linked>
-		</sheetdata>
-	</windowclass>
-	<windowclass name="reference_featgroup">
-		<script file="ref/scripts/ref_listgroup.lua" />
-		<sheetdata>
-			<anchor_column name="topanchor" />
-			
-			<frame_groupdesc name="descframe" />
-			<string_groupdesc name="description" />
-			<string_groupsubdesc name="subdescription" />
+      <genericcontrol name="reftableanchor">
+        <bounds>200,2,0,0</bounds>
+      </genericcontrol>
+      <stringc_reftable_linked name="prerequisite">
+        <anchored width="450" />
+      </stringc_reftable_linked>
+    </sheetdata>
+  </windowclass>
+  <windowclass name="reference_featgroup">
+    <script file="ref/scripts/ref_listgroup.lua" />
+    <sheetdata>
+      <anchor_column name="topanchor" />
+      
+      <frame_groupdesc name="descframe" />
+      <string_groupdesc name="description" />
+      <string_groupsubdesc name="subdescription" />
 
-			<list_reftablegroupitems name="list">
-				<datasource>.feats</datasource>
-				<class>reference_featlistitem</class>
-			</list_reftablegroupitems>
+      <list_reftablegroupitems name="list">
+        <datasource>.feats</datasource>
+        <class>reference_featlistitem</class>
+      </list_reftablegroupitems>
 
-			<ft_reftablefooter name="myfooter" />
-		</sheetdata>
-	</windowclass>
-	<windowclass name="reference_featlist">
-		<frame>referencelist</frame>
-		<placement>
-			<size width="700" height="650" />
-		</placement>
-		<sizelimits>
-			<minimum width="700" height="650" />
-			<dynamic />
-		</sizelimits>
-		<sheetdata>
-			<windowtitlebar name="reftitle">
-				<field>description</field>
-			</windowtitlebar>
-			<anchor_reftitle name="contentanchor" />
+      <ft_reftablefooter name="myfooter" />
+    </sheetdata>
+  </windowclass>
+  <windowclass name="reference_featlist">
+    <frame>referencelist</frame>
+    <placement>
+      <size width="700" height="650" />
+    </placement>
+    <sizelimits>
+      <minimum width="700" height="650" />
+      <dynamic />
+    </sizelimits>
+    <sheetdata>
+      <windowtitlebar name="reftitle">
+        <field>description</field>
+      </windowtitlebar>
+      <anchor_reftitle name="contentanchor" />
 
-			<header_reftablegroup />
-			<label_reftable name="headername">
-				<anchored width="170" />
-				<static textres="ref_label_listname" />
-			</label_reftable>
-			<label_reftable name="headerprereq">
-				<anchored width="450" />
-				<static textres="ref_label_listprereq" />
-			</label_reftable>
-			
-			<list_reftablegroup name="grouplist">
-				<class>reference_featgroup</class>
-				<datasource>.groups</datasource>
-			</list_reftablegroup>
-			<scrollbar_reftablegroup />
-			
-			<filter_reftable name="filter" />
-			<button_reftable_expand />
-			<button_reftable_collapse />
-			
-			<resize_referencelist />
-			<close_referencelist />
-		</sheetdata>
-	</windowclass>
+      <header_reftablegroup />
+      <label_reftable name="headername">
+        <anchored width="170" />
+        <static textres="ref_label_listname" />
+      </label_reftable>
+      <label_reftable name="headerprereq">
+        <anchored width="450" />
+        <static textres="ref_label_listprereq" />
+      </label_reftable>
+      
+      <list_reftablegroup name="grouplist">
+        <class>reference_featgroup</class>
+        <datasource>.groups</datasource>
+      </list_reftablegroup>
+      <scrollbar_reftablegroup />
+      
+      <filter_reftable name="filter" />
+      <button_reftable_expand />
+      <button_reftable_collapse />
+      
+      <resize_referencelist />
+      <close_referencelist />
+    </sheetdata>
+  </windowclass>
 </root>

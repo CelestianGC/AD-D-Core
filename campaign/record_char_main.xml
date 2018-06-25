@@ -6,33 +6,33 @@
 -->
 
 <root>
-	<windowclass name="charsheet_main" >
+  <windowclass name="charsheet_main" >
     <script file="campaign/scripts/char_main.lua" />
     <!-- <margins control="15,0,0,0" /> -->
-		<sheetdata>
-			<anchor_title_charsheet name="contentanchor" >
+    <sheetdata>
+      <anchor_title_charsheet name="contentanchor" >
         <anchored>
           <top offset="15" />
         </anchored>
       </anchor_title_charsheet>
             
 
-			<label_charframetop name="classracekittitle">
-				<anchored to="contentanchor" height="20" >
-					<top offset="20" />
-					<left />
-					<right />
-				</anchored>
-				<icons>char_background</icons>
-			</label_charframetop>
+      <label_charframetop name="classracekittitle">
+        <anchored to="contentanchor" height="20" >
+          <top offset="20" />
+          <left />
+          <right />
+        </anchored>
+        <icons>char_background</icons>
+      </label_charframetop>
 
       <stringc_charclasslevel name="classlevel">
-				<anchored to="classracekittitle" height="20">
-					<top offset="30" />
-					<left offset="5" />
-					<right offset="-250" />
-				</anchored>
-			</stringc_charclasslevel>
+        <anchored to="classracekittitle" height="20">
+          <top offset="30" />
+          <left offset="5" />
+          <right offset="-250" />
+        </anchored>
+      </stringc_charclasslevel>
       <label_titlechar>
         <anchored to="classlevel">
           <top parent="classracekittitle" />
@@ -42,13 +42,13 @@
         <static textres="char_label_classlevel" />
       </label_titlechar>
 
-			<button_charclasslevel name="button_classlevel">
-				<anchored to="classlevel" position="righthigh" relation="relative" offset="0,0" />
-			</button_charclasslevel>
+      <button_charclasslevel name="button_classlevel">
+        <anchored to="classlevel" position="righthigh" relation="relative" offset="0,0" />
+      </button_charclasslevel>
     
-			<stringu name="race">
-				<anchored to="classlevel" position="right" relation="relative" offset="30,0" width="100" />
-			</stringu>
+      <stringu name="race">
+        <anchored to="classlevel" position="right" relation="relative" offset="30,0" width="100" />
+      </stringu>
       <label_titlechar>
         <anchored to="race">
           <top parent="classracekittitle" />
@@ -60,26 +60,26 @@
 
       <linkfield name="racelink">
         <anchored to="race" position="righthigh" relation="relative" offset="-5,-3" width="20" height="20" />
-				<description field="race" />
-				<closetoggle />
-				<invisible />
-				<script>
-					function onInit()
-						onValueChanged();
-					end
-					function onValueChanged()
-						if isEmpty() then
-							setVisible(false);
-						else
-							setVisible(true);
-						end
-					end
-				</script>
-			</linkfield>
+        <description field="race" />
+        <closetoggle />
+        <invisible />
+        <script>
+          function onInit()
+            onValueChanged();
+          end
+          function onValueChanged()
+            if isEmpty() then
+              setVisible(false);
+            else
+              setVisible(true);
+            end
+          end
+        </script>
+      </linkfield>
             
-			<stringu name="background">
-				<anchored to="race" position="right" relation="relative" offset="30,0" width="80" />
-			</stringu>
+      <stringu name="background">
+        <anchored to="race" position="right" relation="relative" offset="30,0" width="80" />
+      </stringu>
       <label_titlechar>
         <anchored to="background">
           <top parent="classracekittitle" />
@@ -89,854 +89,854 @@
         <static textres="char_label_background" />
       </label_titlechar>
 
-			<linkfield name="backgroundlink">
-				<anchored to="background" position="righthigh" relation="relative" offset="-5,-3" width="20" height="20" />
-				<description field="background" />
-				<closetoggle />
-				<invisible />
-				<script>
-					function onInit()
-						onValueChanged();
-					end
-					function onValueChanged()
-						if isEmpty() then
-							setVisible(false);
-						else
-							setVisible(true);
-						end
-					end
-				</script>
-			</linkfield>
+      <linkfield name="backgroundlink">
+        <anchored to="background" position="righthigh" relation="relative" offset="-5,-3" width="20" height="20" />
+        <description field="background" />
+        <closetoggle />
+        <invisible />
+        <script>
+          function onInit()
+            onValueChanged();
+          end
+          function onValueChanged()
+            if isEmpty() then
+              setVisible(false);
+            else
+              setVisible(true);
+            end
+          end
+        </script>
+      </linkfield>
 
 
       <!-- Ability Scores -->
-			<label_charframetop name="statstitle">
-				<anchored height="20" width="300">
-					<top offset="95" />
-					<left offset="15" />
-				</anchored>
-				<icons>char_abilities_purple</icons>
-				<static textres="char_label_stats" />
-			</label_charframetop>
+      <label_charframetop name="statstitle">
+        <anchored height="20" width="300">
+          <top offset="95" />
+          <left offset="15" />
+        </anchored>
+        <icons>char_abilities_purple</icons>
+        <static textres="char_label_stats" />
+      </label_charframetop>
       <button_charabiltiesdetail name="abilities_details">
         <tooltip textres="ability_details_tooltip" />
         <anchored to="statstitle" position="right" offset="-15,0">
       </anchored>
       </button_charabiltiesdetail>
             
-			<!-- Ability STR -->
-			<number_charabilityscore2 name="strength" source="abilities.strength.score" >
-				<tooltip textres="char_tooltip_strength" />
-				<anchored offset="-10,35"  width="35" height="36"/>
-				<target>strength</target>
-			</number_charabilityscore2>
- 			<label_abilityscore>
-				<anchored to="strength" />
-				<static textres="STR" />
-			</label_abilityscore>
+      <!-- Ability STR -->
+      <number_charabilityscore2 name="strength" source="abilities.strength.score" >
+        <tooltip textres="char_tooltip_strength" />
+        <anchored offset="-10,35"  width="35" height="36"/>
+        <target>strength</target>
+      </number_charabilityscore2>
+       <label_abilityscore>
+        <anchored to="strength" />
+        <static textres="STR" />
+      </label_abilityscore>
 
       <label_abilityscore_actual name="str_label_actual">
         <anchored to="strength"/>
         <target>strength</target>
       </label_abilityscore_actual>
             
-			<ability_fields_container name="strdetailframe">
-				<anchored to="strength" />
-			</ability_fields_container>			
-			
+      <ability_fields_container name="strdetailframe">
+        <anchored to="strength" />
+      </ability_fields_container>      
+      
       <percentile_abilityfield name="strength_percent" source="abilities.strength.percent">
         <center />
         <min> 0 </min>
         <max> 100 </max>
-				<anchored to="strdetailframe" position="insidetopleft" offset="5,6" />
-				<labelres>char_label_ability_percent</labelres>
-				<tooltip textres="char_tooltip_percentile" />
-			</percentile_abilityfield>
- 			<label_ability_fields>
-				<anchored to="strength_percent" />
-   				<tooltip textres="char_tooltip_percentile" />
-				<static textres="char_label_ability_percent" />
-			</label_ability_fields>
+        <anchored to="strdetailframe" position="insidetopleft" offset="5,6" />
+        <labelres>char_label_ability_percent</labelres>
+        <tooltip textres="char_tooltip_percentile" />
+      </percentile_abilityfield>
+       <label_ability_fields>
+        <anchored to="strength_percent" />
+           <tooltip textres="char_tooltip_percentile" />
+        <static textres="char_label_ability_percent" />
+      </label_ability_fields>
 
-			<number_abilityfield name="strength_hitadj" source="abilities.strength.hitadj">
-				<anchored to="strength_percent" />
-				<tooltip textres="char_tooltip_strength_hitadj" />
-				<labelres>char_label_strength_hitadj</labelres>
-			</number_abilityfield>
-  			<label_ability_fields>
-				<anchored to="strength_hitadj" />
-   				<tooltip textres="char_tooltip_strength_hitadj" />
-				<static textres="char_label_strength_hitadj" />
-			</label_ability_fields>
-			
-			<number_abilityfield name="strength_dmgadj" source="abilities.strength.dmgadj">
-				<anchored to="strength_hitadj" />
-				<tooltip textres="char_tooltip_strength_dmgadj" />
-				<labelres>char_label_strength_dmgadj</labelres>
-			</number_abilityfield>
- 			<label_ability_fields>
-				<anchored to="strength_dmgadj" />
-   				<tooltip textres="char_tooltip_strength_dmgadj" />
-				<static textres="char_label_strength_dmgadj" />
-			</label_ability_fields>
+      <number_abilityfield name="strength_hitadj" source="abilities.strength.hitadj">
+        <anchored to="strength_percent" />
+        <tooltip textres="char_tooltip_strength_hitadj" />
+        <labelres>char_label_strength_hitadj</labelres>
+      </number_abilityfield>
+        <label_ability_fields>
+        <anchored to="strength_hitadj" />
+           <tooltip textres="char_tooltip_strength_hitadj" />
+        <static textres="char_label_strength_hitadj" />
+      </label_ability_fields>
+      
+      <number_abilityfield name="strength_dmgadj" source="abilities.strength.dmgadj">
+        <anchored to="strength_hitadj" />
+        <tooltip textres="char_tooltip_strength_dmgadj" />
+        <labelres>char_label_strength_dmgadj</labelres>
+      </number_abilityfield>
+       <label_ability_fields>
+        <anchored to="strength_dmgadj" />
+           <tooltip textres="char_tooltip_strength_dmgadj" />
+        <static textres="char_label_strength_dmgadj" />
+      </label_ability_fields>
 
-			<number_abilityfield_noplus name="strength_weightallow" source="abilities.strength.weightallow">
-				<anchored to="strength_dmgadj" />
-				<tooltip textres="char_tooltip_strength_weightallow" />
-				<labelres>char_label_strength_weightallow</labelres>
-			</number_abilityfield_noplus>
- 			<label_ability_fields>
-				<anchored to="strength_weightallow" />
-   				<tooltip textres="char_tooltip_strength_weightallow" />
-				<static textres="char_label_strength_weightallow" />
-			</label_ability_fields>
+      <number_abilityfield_noplus name="strength_weightallow" source="abilities.strength.weightallow">
+        <anchored to="strength_dmgadj" />
+        <tooltip textres="char_tooltip_strength_weightallow" />
+        <labelres>char_label_strength_weightallow</labelres>
+      </number_abilityfield_noplus>
+       <label_ability_fields>
+        <anchored to="strength_weightallow" />
+           <tooltip textres="char_tooltip_strength_weightallow" />
+        <static textres="char_label_strength_weightallow" />
+      </label_ability_fields>
 
-			<number_abilityfield_noplus name="strength_maxpress" source="abilities.strength.maxpress">
-				<anchored to="strength_weightallow"/>
-				<tooltip textres="char_tooltip_strength_maxpress" />
-				<labelres>char_label_strength_maxpress</labelres>
-			</number_abilityfield_noplus>
- 			<label_ability_fields>
-				<anchored to="strength_maxpress" />
-   				<tooltip textres="char_tooltip_strength_maxpress" />
-				<static textres="char_label_strength_maxpress" />
-			</label_ability_fields>
+      <number_abilityfield_noplus name="strength_maxpress" source="abilities.strength.maxpress">
+        <anchored to="strength_weightallow"/>
+        <tooltip textres="char_tooltip_strength_maxpress" />
+        <labelres>char_label_strength_maxpress</labelres>
+      </number_abilityfield_noplus>
+       <label_ability_fields>
+        <anchored to="strength_maxpress" />
+           <tooltip textres="char_tooltip_strength_maxpress" />
+        <static textres="char_label_strength_maxpress" />
+      </label_ability_fields>
 
-			<string_abilityfield name="strength_opendoors" source="abilities.strength.opendoors">
-				<anchored to="strength_maxpress"/>
-				<tooltip textres="char_tooltip_strength_opendoors" />
-				<labelres>char_label_strength_opendoors</labelres>
-			</string_abilityfield>
- 			<label_ability_fields>
-				<anchored to="strength_opendoors" />
-   				<tooltip textres="char_tooltip_strength_opendoors" />
-				<static textres="char_label_strength_opendoors" />
-			</label_ability_fields>
+      <string_abilityfield name="strength_opendoors" source="abilities.strength.opendoors">
+        <anchored to="strength_maxpress"/>
+        <tooltip textres="char_tooltip_strength_opendoors" />
+        <labelres>char_label_strength_opendoors</labelres>
+      </string_abilityfield>
+       <label_ability_fields>
+        <anchored to="strength_opendoors" />
+           <tooltip textres="char_tooltip_strength_opendoors" />
+        <static textres="char_label_strength_opendoors" />
+      </label_ability_fields>
 
-			<number_abilityfield_noplus name="strength_bendbars" source="abilities.strength.bendbars">
-				<anchored to="strength_opendoors"/>
-				<tooltip textres="char_tooltip_strength_bendbars" />
-				<labelres>char_label_strength_bendbars</labelres>
-			</number_abilityfield_noplus>
- 			<label_ability_fields>
-				<anchored to="strength_bendbars" />
-   				<tooltip textres="char_tooltip_strength_bendbars" />
-				<static textres="char_label_strength_bendbars" />
-			</label_ability_fields>
+      <number_abilityfield_noplus name="strength_bendbars" source="abilities.strength.bendbars">
+        <anchored to="strength_opendoors"/>
+        <tooltip textres="char_tooltip_strength_bendbars" />
+        <labelres>char_label_strength_bendbars</labelres>
+      </number_abilityfield_noplus>
+       <label_ability_fields>
+        <anchored to="strength_bendbars" />
+           <tooltip textres="char_tooltip_strength_bendbars" />
+        <static textres="char_label_strength_bendbars" />
+      </label_ability_fields>
 
- 			<!-- Ability DEX -->
+       <!-- Ability DEX -->
 
-			<number_charabilityscore2 name="dexterity" source="abilities.dexterity.score">
-				<tooltip textres="char_tooltip_dexterity" />
-				<anchored to="strength" position="below" offset="0,5" height="36"/>
-				<target>dexterity</target>
-			</number_charabilityscore2>
- 			<label_abilityscore>
-				<anchored to="dexterity" />
-				<static textres="DEX" />
-			</label_abilityscore>
+      <number_charabilityscore2 name="dexterity" source="abilities.dexterity.score">
+        <tooltip textres="char_tooltip_dexterity" />
+        <anchored to="strength" position="below" offset="0,5" height="36"/>
+        <target>dexterity</target>
+      </number_charabilityscore2>
+       <label_abilityscore>
+        <anchored to="dexterity" />
+        <static textres="DEX" />
+      </label_abilityscore>
             <label_abilityscore_actual name="dex_label_actual">
                 <anchored to="dexterity"/>
                 <target>dexterity</target>
             </label_abilityscore_actual>
-			
-			<ability_fields_container name="dexdetailframe">
-				<anchored to="dexterity" />
-			</ability_fields_container>			
+      
+      <ability_fields_container name="dexdetailframe">
+        <anchored to="dexterity" />
+      </ability_fields_container>      
 
             <percentile_abilityfield name="dexterity_percent" source="abilities.dexterity.percent">
-   				<center />
+           <center />
                 <min> 0 </min>
                 <max> 100 </max>
-				<anchored to="dexdetailframe" position="insidetopleft" offset="5,6"/>
-				<labelres>char_label_ability_percent</labelres>
-				<tooltip textres="char_tooltip_percentile" />
-			</percentile_abilityfield>
- 			<label_ability_fields>
-				<anchored to="dexterity_percent" />
-   				<tooltip textres="char_tooltip_percentile" />
-				<static textres="char_label_ability_percent" />
-			</label_ability_fields>
+        <anchored to="dexdetailframe" position="insidetopleft" offset="5,6"/>
+        <labelres>char_label_ability_percent</labelres>
+        <tooltip textres="char_tooltip_percentile" />
+      </percentile_abilityfield>
+       <label_ability_fields>
+        <anchored to="dexterity_percent" />
+           <tooltip textres="char_tooltip_percentile" />
+        <static textres="char_label_ability_percent" />
+      </label_ability_fields>
 
-			<!-- Dex ability fields -->
-			<number_abilityfield name="dexterity_reactionadj" source="abilities.dexterity.reactionadj">
-				<anchored to="dexterity_percent"  width="80"/>
-				<tooltip textres="char_tooltip_dexterity_reactionadj" />
-				<labelres>char_label_dexterity_reactionadj</labelres>
-			</number_abilityfield>
-  			<label_ability_fields>
-				<anchored to="dexterity_reactionadj" />
-   				<tooltip textres="char_tooltip_dexterity_reactionadj" />
-				<static textres="char_label_dexterity_reactionadj" />
-			</label_ability_fields>
+      <!-- Dex ability fields -->
+      <number_abilityfield name="dexterity_reactionadj" source="abilities.dexterity.reactionadj">
+        <anchored to="dexterity_percent"  width="80"/>
+        <tooltip textres="char_tooltip_dexterity_reactionadj" />
+        <labelres>char_label_dexterity_reactionadj</labelres>
+      </number_abilityfield>
+        <label_ability_fields>
+        <anchored to="dexterity_reactionadj" />
+           <tooltip textres="char_tooltip_dexterity_reactionadj" />
+        <static textres="char_label_dexterity_reactionadj" />
+      </label_ability_fields>
 
-			<number_abilityfield name="dexterity_missileadj" source="abilities.dexterity.hitadj">
-				<anchored to="dexterity_reactionadj" width="80" />
-				<tooltip textres="char_tooltip_dexterity_missileadj"  />
-				<labelres>char_label_dexterity_missileadj</labelres>
-			</number_abilityfield>
-  			<label_ability_fields>
-				<anchored to="dexterity_missileadj" />
-   				<tooltip textres="char_tooltip_dexterity_missileadj" />
-				<static textres="char_label_dexterity_missileadj" />
-			</label_ability_fields>
-			
-			<number_abilityfield name="dexterity_defenseadj" source="abilities.dexterity.defenseadj">
-				<anchored to="dexterity_missileadj" width="80" />
-				<tooltip textres="char_tooltip_dexterity_defenseadj" />
-				<labelres>char_label_dexterity_defenseadj</labelres>
-			</number_abilityfield>
-  			<label_ability_fields>
-				<anchored to="dexterity_defenseadj" />
-   				<tooltip textres="char_tooltip_dexterity_defenseadj" />
-				<static textres="char_label_dexterity_defenseadj" />
-			</label_ability_fields>
-			
-			<!-- Ability Con -->
-			<number_charabilityscore2 name="constitution" source="abilities.constitution.score">
-				<tooltip textres="char_tooltip_constitution" />
-				<anchored to="dexterity" position="below" offset="0,5"  height="36"/>
-				<target>constitution</target>
-			</number_charabilityscore2>
- 			<label_abilityscore>
-				<anchored to="constitution" />
-				<static textres="CON" />
-			</label_abilityscore>
+      <number_abilityfield name="dexterity_missileadj" source="abilities.dexterity.hitadj">
+        <anchored to="dexterity_reactionadj" width="80" />
+        <tooltip textres="char_tooltip_dexterity_missileadj"  />
+        <labelres>char_label_dexterity_missileadj</labelres>
+      </number_abilityfield>
+        <label_ability_fields>
+        <anchored to="dexterity_missileadj" />
+           <tooltip textres="char_tooltip_dexterity_missileadj" />
+        <static textres="char_label_dexterity_missileadj" />
+      </label_ability_fields>
+      
+      <number_abilityfield name="dexterity_defenseadj" source="abilities.dexterity.defenseadj">
+        <anchored to="dexterity_missileadj" width="80" />
+        <tooltip textres="char_tooltip_dexterity_defenseadj" />
+        <labelres>char_label_dexterity_defenseadj</labelres>
+      </number_abilityfield>
+        <label_ability_fields>
+        <anchored to="dexterity_defenseadj" />
+           <tooltip textres="char_tooltip_dexterity_defenseadj" />
+        <static textres="char_label_dexterity_defenseadj" />
+      </label_ability_fields>
+      
+      <!-- Ability Con -->
+      <number_charabilityscore2 name="constitution" source="abilities.constitution.score">
+        <tooltip textres="char_tooltip_constitution" />
+        <anchored to="dexterity" position="below" offset="0,5"  height="36"/>
+        <target>constitution</target>
+      </number_charabilityscore2>
+       <label_abilityscore>
+        <anchored to="constitution" />
+        <static textres="CON" />
+      </label_abilityscore>
       <label_abilityscore_actual name="con_label_actual">
           <anchored to="constitution"/>
           <target>constitution</target>
       </label_abilityscore_actual>
-			
-			<ability_fields_container name="condetailframe">
-				<anchored to="constitution" />
-			</ability_fields_container>			
-			
+      
+      <ability_fields_container name="condetailframe">
+        <anchored to="constitution" />
+      </ability_fields_container>      
+      
       <percentile_abilityfield name="constitution_percent" source="abilities.constitution.percent">
         <center />
         <min> 0 </min>
         <max> 100 </max>
-				<anchored to="condetailframe" position="insidetopleft" offset="5,6" />
-				<labelres>char_label_ability_percent</labelres>
-				<tooltip textres="char_tooltip_percentile" />
-			</percentile_abilityfield>
- 			<label_ability_fields>
-				<anchored to="constitution_percent" />
-   				<tooltip textres="char_tooltip_percentile" />
-				<static textres="char_label_ability_percent" />
-			</label_ability_fields>
+        <anchored to="condetailframe" position="insidetopleft" offset="5,6" />
+        <labelres>char_label_ability_percent</labelres>
+        <tooltip textres="char_tooltip_percentile" />
+      </percentile_abilityfield>
+       <label_ability_fields>
+        <anchored to="constitution_percent" />
+           <tooltip textres="char_tooltip_percentile" />
+        <static textres="char_label_ability_percent" />
+      </label_ability_fields>
 
-			<!-- CON ability fields -->
-			<string_abilityfield name="constitution_hitpointadj" source="abilities.constitution.hitpointadj">
-				<anchored to="constitution_percent" />
-				<tooltip textres="char_tooltip_constitution_hitpointadj" />
-				<labelres>char_label_constitution_hitpointadj</labelres>
-			</string_abilityfield>
-   			<label_ability_fields>
-				<anchored to="constitution_hitpointadj" />
-   				<tooltip textres="char_tooltip_constitution_hitpointadj" />
-				<static textres="char_label_constitution_hitpointadj" />
-			</label_ability_fields>
-			
-			<number_abilityfield_noplus name="constitution_systemshock" source="abilities.constitution.systemshock">
-				<anchored to="constitution_hitpointadj" />
-				<tooltip textres="char_tooltip_constitution_systemshock" />
-				<labelres>char_label_constitution_systemshock</labelres>
-			</number_abilityfield_noplus>
-   			<label_ability_fields>
-				<anchored to="constitution_systemshock" />
-   				<tooltip textres="char_tooltip_constitution_systemshock" />
-				<static textres="char_label_constitution_systemshock" />
-			</label_ability_fields>
+      <!-- CON ability fields -->
+      <string_abilityfield name="constitution_hitpointadj" source="abilities.constitution.hitpointadj">
+        <anchored to="constitution_percent" />
+        <tooltip textres="char_tooltip_constitution_hitpointadj" />
+        <labelres>char_label_constitution_hitpointadj</labelres>
+      </string_abilityfield>
+         <label_ability_fields>
+        <anchored to="constitution_hitpointadj" />
+           <tooltip textres="char_tooltip_constitution_hitpointadj" />
+        <static textres="char_label_constitution_hitpointadj" />
+      </label_ability_fields>
+      
+      <number_abilityfield_noplus name="constitution_systemshock" source="abilities.constitution.systemshock">
+        <anchored to="constitution_hitpointadj" />
+        <tooltip textres="char_tooltip_constitution_systemshock" />
+        <labelres>char_label_constitution_systemshock</labelres>
+      </number_abilityfield_noplus>
+         <label_ability_fields>
+        <anchored to="constitution_systemshock" />
+           <tooltip textres="char_tooltip_constitution_systemshock" />
+        <static textres="char_label_constitution_systemshock" />
+      </label_ability_fields>
 
-			<number_abilityfield_noplus name="constitution_resurrectionsurvival" source="abilities.constitution.resurrectionsurvival">
-				<anchored to="constitution_systemshock" />
-				<tooltip textres="char_tooltip_constitution_resurrectionsurvival" />
-				<labelres>char_label_constitution_resurrectionsurvival</labelres>
-			</number_abilityfield_noplus>
-   			<label_ability_fields>
-				<anchored to="constitution_resurrectionsurvival" />
-   				<tooltip textres="char_tooltip_constitution_resurrectionsurvival" />
-				<static textres="char_label_constitution_resurrectionsurvival" />
-			</label_ability_fields>
+      <number_abilityfield_noplus name="constitution_resurrectionsurvival" source="abilities.constitution.resurrectionsurvival">
+        <anchored to="constitution_systemshock" />
+        <tooltip textres="char_tooltip_constitution_resurrectionsurvival" />
+        <labelres>char_label_constitution_resurrectionsurvival</labelres>
+      </number_abilityfield_noplus>
+         <label_ability_fields>
+        <anchored to="constitution_resurrectionsurvival" />
+           <tooltip textres="char_tooltip_constitution_resurrectionsurvival" />
+        <static textres="char_label_constitution_resurrectionsurvival" />
+      </label_ability_fields>
 
-			<number_abilityfield name="constitution_poisonadj" source="abilities.constitution.poisonadj">
-				<anchored to="constitution_resurrectionsurvival" />
-				<tooltip textres="char_tooltip_constitution_poisonadj" />
-				<labelres>char_label_constitution_poisonadj</labelres>
-			</number_abilityfield>
-   			<label_ability_fields>
-				<anchored to="constitution_poisonadj" />
-   				<tooltip textres="char_tooltip_constitution_poisonadj" />
-				<static textres="char_label_constitution_poisonadj" />
-			</label_ability_fields>
+      <number_abilityfield name="constitution_poisonadj" source="abilities.constitution.poisonadj">
+        <anchored to="constitution_resurrectionsurvival" />
+        <tooltip textres="char_tooltip_constitution_poisonadj" />
+        <labelres>char_label_constitution_poisonadj</labelres>
+      </number_abilityfield>
+         <label_ability_fields>
+        <anchored to="constitution_poisonadj" />
+           <tooltip textres="char_tooltip_constitution_poisonadj" />
+        <static textres="char_label_constitution_poisonadj" />
+      </label_ability_fields>
 
-			<string_abilityfield name="constitution_regeneration" source="abilities.constitution.regeneration">
-				<anchored to="constitution_poisonadj" width="80"/>
-				<tooltip textres="char_tooltip_constitution_regeneration" />
-				<labelres>char_label_constitution_regeneration</labelres>
-			</string_abilityfield>
-   			<label_ability_fields>
-				<anchored to="constitution_regeneration" />
-   				<tooltip textres="char_tooltip_constitution_regeneration" />
-				<static textres="char_label_constitution_regeneration" />
-			</label_ability_fields>
-			
-			<!-- Ability INT -->
-			<number_charabilityscore2 name="intelligence" source="abilities.intelligence.score">
-				<tooltip textres="char_tooltip_intelligence" />
-				<anchored to="constitution" position="below" offset="0,5" height="36"/>
-				<target>intelligence</target>
-			</number_charabilityscore2>
- 			<label_abilityscore>
-				<anchored to="intelligence" />
-				<static textres="INT" />
-			</label_abilityscore>
+      <string_abilityfield name="constitution_regeneration" source="abilities.constitution.regeneration">
+        <anchored to="constitution_poisonadj" width="80"/>
+        <tooltip textres="char_tooltip_constitution_regeneration" />
+        <labelres>char_label_constitution_regeneration</labelres>
+      </string_abilityfield>
+         <label_ability_fields>
+        <anchored to="constitution_regeneration" />
+           <tooltip textres="char_tooltip_constitution_regeneration" />
+        <static textres="char_label_constitution_regeneration" />
+      </label_ability_fields>
+      
+      <!-- Ability INT -->
+      <number_charabilityscore2 name="intelligence" source="abilities.intelligence.score">
+        <tooltip textres="char_tooltip_intelligence" />
+        <anchored to="constitution" position="below" offset="0,5" height="36"/>
+        <target>intelligence</target>
+      </number_charabilityscore2>
+       <label_abilityscore>
+        <anchored to="intelligence" />
+        <static textres="INT" />
+      </label_abilityscore>
       <label_abilityscore_actual name="int_label_actual">
           <anchored to="intelligence"/>
           <target>intelligence</target>
       </label_abilityscore_actual>
-			
-			<ability_fields_container name="intdetailframe">
-				<anchored to="intelligence" />
-			</ability_fields_container>			
-			
+      
+      <ability_fields_container name="intdetailframe">
+        <anchored to="intelligence" />
+      </ability_fields_container>      
+      
       <percentile_abilityfield name="intelligence_percent" source="abilities.intelligence.percent">
- 				<center />
+         <center />
         <min> 0 </min>
         <max> 100 </max>
-				<anchored to="intdetailframe" position="insidetopleft" offset="5,6" />
-				<labelres>char_label_ability_percent</labelres>
-				<tooltip textres="char_tooltip_percentile" />
-			</percentile_abilityfield>
- 			<label_ability_fields>
-				<anchored to="intelligence_percent" />
-   				<tooltip textres="char_tooltip_percentile" />
-				<static textres="char_label_ability_percent" />
-			</label_ability_fields>
+        <anchored to="intdetailframe" position="insidetopleft" offset="5,6" />
+        <labelres>char_label_ability_percent</labelres>
+        <tooltip textres="char_tooltip_percentile" />
+      </percentile_abilityfield>
+       <label_ability_fields>
+        <anchored to="intelligence_percent" />
+           <tooltip textres="char_tooltip_percentile" />
+        <static textres="char_label_ability_percent" />
+      </label_ability_fields>
 
-			<!-- INT ability fields -->
-			<number_abilityfield name="intelligence_languages" source="abilities.intelligence.languages">
-				<anchored to="intelligence_percent"/>
-				<tooltip textres="char_tooltip_intelligence_languages" />
-				<labelres>char_label_intelligence_languages</labelres>
-			</number_abilityfield>
- 			<label_ability_fields>
-				<anchored to="intelligence_languages" />
-   				<tooltip textres="char_tooltip_intelligence_languages" />
-				<static textres="char_label_intelligence_languages" />
-			</label_ability_fields>
+      <!-- INT ability fields -->
+      <number_abilityfield name="intelligence_languages" source="abilities.intelligence.languages">
+        <anchored to="intelligence_percent"/>
+        <tooltip textres="char_tooltip_intelligence_languages" />
+        <labelres>char_label_intelligence_languages</labelres>
+      </number_abilityfield>
+       <label_ability_fields>
+        <anchored to="intelligence_languages" />
+           <tooltip textres="char_tooltip_intelligence_languages" />
+        <static textres="char_label_intelligence_languages" />
+      </label_ability_fields>
 
-			<number_abilityfield_noplus name="intelligence_spelllevel" source="abilities.intelligence.spelllevel">
-				<anchored to="intelligence_languages"/>
-				<tooltip textres="char_tooltip_intelligence_spelllevel" />
-				<labelres>char_label_intelligence_spelllevel</labelres>
-			</number_abilityfield_noplus>
- 			<label_ability_fields>
-				<anchored to="intelligence_spelllevel" />
-   				<tooltip textres="char_tooltip_intelligence_spelllevel" />
-				<static textres="char_label_intelligence_spelllevel" />
-			</label_ability_fields>
+      <number_abilityfield_noplus name="intelligence_spelllevel" source="abilities.intelligence.spelllevel">
+        <anchored to="intelligence_languages"/>
+        <tooltip textres="char_tooltip_intelligence_spelllevel" />
+        <labelres>char_label_intelligence_spelllevel</labelres>
+      </number_abilityfield_noplus>
+       <label_ability_fields>
+        <anchored to="intelligence_spelllevel" />
+           <tooltip textres="char_tooltip_intelligence_spelllevel" />
+        <static textres="char_label_intelligence_spelllevel" />
+      </label_ability_fields>
 
-			<number_abilityfield_noplus name="intelligence_learn" source="abilities.intelligence.learn">
-				<anchored to="intelligence_spelllevel"/>
-				<tooltip textres="char_tooltip_intelligence_learn" />
-				<labelres>char_label_intelligence_learn</labelres>
-			</number_abilityfield_noplus>
- 			<label_ability_fields>
-				<anchored to="intelligence_learn" />
-   				<tooltip textres="char_tooltip_intelligence_learn" />
-				<static textres="char_label_intelligence_learn" />
-			</label_ability_fields>
+      <number_abilityfield_noplus name="intelligence_learn" source="abilities.intelligence.learn">
+        <anchored to="intelligence_spelllevel"/>
+        <tooltip textres="char_tooltip_intelligence_learn" />
+        <labelres>char_label_intelligence_learn</labelres>
+      </number_abilityfield_noplus>
+       <label_ability_fields>
+        <anchored to="intelligence_learn" />
+           <tooltip textres="char_tooltip_intelligence_learn" />
+        <static textres="char_label_intelligence_learn" />
+      </label_ability_fields>
 
-			<string_abilityfield name="intelligence_maxlevel" source="abilities.intelligence.maxlevel">
-				<anchored to="intelligence_learn"/>
-				<tooltip textres="char_tooltip_intelligence_maxlevel" />
-				<labelres>char_label_intelligence_maxlevel</labelres>
-			</string_abilityfield>
- 			<label_ability_fields>
-				<anchored to="intelligence_maxlevel" />
-   				<tooltip textres="char_tooltip_intelligence_maxlevel" />
-				<static textres="char_label_intelligence_maxlevel" />
-			</label_ability_fields>
+      <string_abilityfield name="intelligence_maxlevel" source="abilities.intelligence.maxlevel">
+        <anchored to="intelligence_learn"/>
+        <tooltip textres="char_tooltip_intelligence_maxlevel" />
+        <labelres>char_label_intelligence_maxlevel</labelres>
+      </string_abilityfield>
+       <label_ability_fields>
+        <anchored to="intelligence_maxlevel" />
+           <tooltip textres="char_tooltip_intelligence_maxlevel" />
+        <static textres="char_label_intelligence_maxlevel" />
+      </label_ability_fields>
 
-			<string_abilityfield name="intelligence_illusion" source="abilities.intelligence.illusion" >
-				<!-- <multilinespacing>20</multilinespacing> -->
-				<anchored to="intelligence_maxlevel" width="80"/>
-				<tooltip textres="char_tooltip_intelligence_illusion" />
-				<labelres>char_label_intelligence_illusion</labelres>
-			</string_abilityfield>
- 			<label_ability_fields name="intelligence_illusion_label">
-				<anchored to="intelligence_illusion" />
-   				<tooltip textres="char_tooltip_intelligence_illusion" />
-				<static textres="char_label_intelligence_illusion" />
-			</label_ability_fields>
-			
-			
-			<!-- Ability WIS -->
-			<number_charabilityscore2 name="wisdom" source="abilities.wisdom.score">
-				<tooltip textres="char_tooltip_wisdom" />
-				<anchored to="intelligence" position="below" offset="0,5" height="36"/>
-				<target>wisdom</target>
-			</number_charabilityscore2>
- 			<label_abilityscore>
-				<anchored to="wisdom" />
-				<static textres="WIS" />
-			</label_abilityscore>
+      <string_abilityfield name="intelligence_illusion" source="abilities.intelligence.illusion" >
+        <!-- <multilinespacing>20</multilinespacing> -->
+        <anchored to="intelligence_maxlevel" width="80"/>
+        <tooltip textres="char_tooltip_intelligence_illusion" />
+        <labelres>char_label_intelligence_illusion</labelres>
+      </string_abilityfield>
+       <label_ability_fields name="intelligence_illusion_label">
+        <anchored to="intelligence_illusion" />
+           <tooltip textres="char_tooltip_intelligence_illusion" />
+        <static textres="char_label_intelligence_illusion" />
+      </label_ability_fields>
+      
+      
+      <!-- Ability WIS -->
+      <number_charabilityscore2 name="wisdom" source="abilities.wisdom.score">
+        <tooltip textres="char_tooltip_wisdom" />
+        <anchored to="intelligence" position="below" offset="0,5" height="36"/>
+        <target>wisdom</target>
+      </number_charabilityscore2>
+       <label_abilityscore>
+        <anchored to="wisdom" />
+        <static textres="WIS" />
+      </label_abilityscore>
       <label_abilityscore_actual name="wis_label_actual">
           <anchored to="wisdom"/>
           <target>wisdom</target>
       </label_abilityscore_actual>
-			
-			<ability_fields_container name="wisdetailframe">
-				<anchored to="wisdom" />
-			</ability_fields_container>			
-			
+      
+      <ability_fields_container name="wisdetailframe">
+        <anchored to="wisdom" />
+      </ability_fields_container>      
+      
       <percentile_abilityfield name="wisdom_percent" source="abilities.wisdom.percent">
         <center />
         <min> 0 </min>
         <max> 100 </max>
-				<anchored to="wisdetailframe" position="insidetopleft" offset="5,6" />
-				<labelres>char_label_ability_percent</labelres>
-				<tooltip textres="char_tooltip_percentile" />
-			</percentile_abilityfield>
- 			<label_ability_fields>
-				<anchored to="wisdom_percent" />
-   				<tooltip textres="char_tooltip_percentile" />
-				<static textres="char_label_ability_percent" />
-			</label_ability_fields>
+        <anchored to="wisdetailframe" position="insidetopleft" offset="5,6" />
+        <labelres>char_label_ability_percent</labelres>
+        <tooltip textres="char_tooltip_percentile" />
+      </percentile_abilityfield>
+       <label_ability_fields>
+        <anchored to="wisdom_percent" />
+           <tooltip textres="char_tooltip_percentile" />
+        <static textres="char_label_ability_percent" />
+      </label_ability_fields>
 
-			<!-- WIS ability fields -->
-			<number_abilityfield name="wisdom_magicdefenseadj" source="abilities.wisdom.magicdefenseadj">
-				<anchored to="wisdom_percent"/>
-				<tooltip textres="char_tooltip_wisdom_magicdefenseadj" />
-				<labelres>char_label_wisdom_magicdefenseadj</labelres>
-			</number_abilityfield>
- 			<label_ability_fields>
-				<anchored to="wisdom_magicdefenseadj" />
-   				<tooltip textres="char_tooltip_wisdom_magicdefenseadj" />
-				<static textres="char_label_wisdom_magicdefenseadj" />
-			</label_ability_fields>
+      <!-- WIS ability fields -->
+      <number_abilityfield name="wisdom_magicdefenseadj" source="abilities.wisdom.magicdefenseadj">
+        <anchored to="wisdom_percent"/>
+        <tooltip textres="char_tooltip_wisdom_magicdefenseadj" />
+        <labelres>char_label_wisdom_magicdefenseadj</labelres>
+      </number_abilityfield>
+       <label_ability_fields>
+        <anchored to="wisdom_magicdefenseadj" />
+           <tooltip textres="char_tooltip_wisdom_magicdefenseadj" />
+        <static textres="char_label_wisdom_magicdefenseadj" />
+      </label_ability_fields>
 
-			<number_abilityfield_noplus name="wisdom_failure" source="abilities.wisdom.failure">
-				<anchored to="wisdom_magicdefenseadj"/>
-				<tooltip textres="char_tooltip_wisdom_failure" />
-				<labelres>char_label_wisdom_failure</labelres>
-			</number_abilityfield_noplus>
- 			<label_ability_fields>
-				<anchored to="wisdom_failure" />
-   				<tooltip textres="char_tooltip_wisdom_failure" />
-				<static textres="char_label_wisdom_failure" />
-			</label_ability_fields>
-			
-			<string_abilityfield name="wisdom_immunity" source="abilities.wisdom.immunity">
-				<anchored to="wisdom_failure" width="80"/>
-				<tooltip textres="char_tooltip_wisdom_immunity" />
-				<labelres>char_label_wisdom_immunity</labelres>
-			</string_abilityfield>
- 			<label_ability_fields name="wisdom_immunity_label">
-				<anchored to="wisdom_immunity" />
-   				<tooltip textres="char_tooltip_wisdom_immunity" />
-				<static textres="char_label_wisdom_immunity" />
-			</label_ability_fields>
-			
-			<string_abilityfield name="wisdom_spellbonus" source="abilities.wisdom.spellbonus">
-				<!-- <multilinespacing>15</multilinespacing> -->
-				<anchored to="wisdom_immunity" width="80"/>
-				<tooltip textres="char_tooltip_wisdom_spellbonus" />
-				<labelres>char_label_wisdom_spellbonus</labelres>
-			</string_abilityfield>
- 			<label_ability_fields name="wisdom_spellbonus_label">
-				<anchored to="wisdom_spellbonus" />
-   				<tooltip textres="char_tooltip_wisdom_spellbonus" />
-				<static textres="char_label_wisdom_spellbonus" />
-			</label_ability_fields>
+      <number_abilityfield_noplus name="wisdom_failure" source="abilities.wisdom.failure">
+        <anchored to="wisdom_magicdefenseadj"/>
+        <tooltip textres="char_tooltip_wisdom_failure" />
+        <labelres>char_label_wisdom_failure</labelres>
+      </number_abilityfield_noplus>
+       <label_ability_fields>
+        <anchored to="wisdom_failure" />
+           <tooltip textres="char_tooltip_wisdom_failure" />
+        <static textres="char_label_wisdom_failure" />
+      </label_ability_fields>
+      
+      <string_abilityfield name="wisdom_immunity" source="abilities.wisdom.immunity">
+        <anchored to="wisdom_failure" width="80"/>
+        <tooltip textres="char_tooltip_wisdom_immunity" />
+        <labelres>char_label_wisdom_immunity</labelres>
+      </string_abilityfield>
+       <label_ability_fields name="wisdom_immunity_label">
+        <anchored to="wisdom_immunity" />
+           <tooltip textres="char_tooltip_wisdom_immunity" />
+        <static textres="char_label_wisdom_immunity" />
+      </label_ability_fields>
+      
+      <string_abilityfield name="wisdom_spellbonus" source="abilities.wisdom.spellbonus">
+        <!-- <multilinespacing>15</multilinespacing> -->
+        <anchored to="wisdom_immunity" width="80"/>
+        <tooltip textres="char_tooltip_wisdom_spellbonus" />
+        <labelres>char_label_wisdom_spellbonus</labelres>
+      </string_abilityfield>
+       <label_ability_fields name="wisdom_spellbonus_label">
+        <anchored to="wisdom_spellbonus" />
+           <tooltip textres="char_tooltip_wisdom_spellbonus" />
+        <static textres="char_label_wisdom_spellbonus" />
+      </label_ability_fields>
 
-			
-			<!-- Ability CHR -->
-			<number_charabilityscore2 name="charisma" source="abilities.charisma.score">
-				<tooltip textres="char_tooltip_charisma" />
-				<anchored to="wisdom" position="below" offset="0,5" height="36"/>
-				<target>charisma</target>
-			</number_charabilityscore2>
- 			<label_abilityscore>
-				<anchored to="charisma" />
-				<static textres="CHR" />
-			</label_abilityscore>
+      
+      <!-- Ability CHR -->
+      <number_charabilityscore2 name="charisma" source="abilities.charisma.score">
+        <tooltip textres="char_tooltip_charisma" />
+        <anchored to="wisdom" position="below" offset="0,5" height="36"/>
+        <target>charisma</target>
+      </number_charabilityscore2>
+       <label_abilityscore>
+        <anchored to="charisma" />
+        <static textres="CHR" />
+      </label_abilityscore>
       <label_abilityscore_actual name="cha_label_actual">
           <anchored to="charisma"/>
           <target>charisma</target>
       </label_abilityscore_actual>
-			
-			<ability_fields_container name="chrdetailframe">
-				<anchored to="charisma" />
-			</ability_fields_container>			
-			
+      
+      <ability_fields_container name="chrdetailframe">
+        <anchored to="charisma" />
+      </ability_fields_container>      
+      
       <percentile_abilityfield name="charisma_percent" source="abilities.charisma.percent">
         <anchored to="chrdetailframe" position="insidetopleft" offset="5,6" />
-				<labelres>char_label_ability_percent</labelres>
-				<tooltip textres="char_tooltip_percentile" />
-			</percentile_abilityfield>
- 			<label_ability_fields>
-				<anchored to="charisma_percent" />
-   				<tooltip textres="char_tooltip_percentile" />
-				<static textres="char_label_ability_percent" />
-			</label_ability_fields>
+        <labelres>char_label_ability_percent</labelres>
+        <tooltip textres="char_tooltip_percentile" />
+      </percentile_abilityfield>
+       <label_ability_fields>
+        <anchored to="charisma_percent" />
+           <tooltip textres="char_tooltip_percentile" />
+        <static textres="char_label_ability_percent" />
+      </label_ability_fields>
 
-			<!-- CHR ability fields -->
-			<number_abilityfield name="charisma_maxhench" source="abilities.charisma.maxhench">
-				<anchored to="charisma_percent" width="80"/>
-				<tooltip textres="char_tooltip_charisma_maxhench" />
-				<labelres>char_label_charisma_maxhench</labelres>
-			</number_abilityfield>
- 			<label_ability_fields>
-				<anchored to="charisma_maxhench" />
-   				<tooltip textres="char_tooltip_charisma_maxhench" />
-				<static textres="char_label_charisma_maxhench" />
-			</label_ability_fields>
+      <!-- CHR ability fields -->
+      <number_abilityfield name="charisma_maxhench" source="abilities.charisma.maxhench">
+        <anchored to="charisma_percent" width="80"/>
+        <tooltip textres="char_tooltip_charisma_maxhench" />
+        <labelres>char_label_charisma_maxhench</labelres>
+      </number_abilityfield>
+       <label_ability_fields>
+        <anchored to="charisma_maxhench" />
+           <tooltip textres="char_tooltip_charisma_maxhench" />
+        <static textres="char_label_charisma_maxhench" />
+      </label_ability_fields>
 
-			<number_abilityfield name="charisma_loyalty" source="abilities.charisma.loyalty">
-				<anchored to="charisma_maxhench" width="80"/>
-				<tooltip textres="char_tooltip_charisma_loyalty" />
-				<labelres>char_label_charisma_loyalty</labelres>
-			</number_abilityfield>
- 			<label_ability_fields>
-				<anchored to="charisma_loyalty" />
-   				<tooltip textres="char_tooltip_charisma_loyalty" />
-				<static textres="char_label_charisma_loyalty" />
-			</label_ability_fields>
+      <number_abilityfield name="charisma_loyalty" source="abilities.charisma.loyalty">
+        <anchored to="charisma_maxhench" width="80"/>
+        <tooltip textres="char_tooltip_charisma_loyalty" />
+        <labelres>char_label_charisma_loyalty</labelres>
+      </number_abilityfield>
+       <label_ability_fields>
+        <anchored to="charisma_loyalty" />
+           <tooltip textres="char_tooltip_charisma_loyalty" />
+        <static textres="char_label_charisma_loyalty" />
+      </label_ability_fields>
 
-			<number_abilityfield name="charisma_reaction" source="abilities.charisma.reaction">
-				<anchored to="charisma_loyalty" width="80"/>
-				<tooltip textres="char_tooltip_charisma_reaction" />
-				<labelres>char_label_charisma_reaction</labelres>
-			</number_abilityfield>
- 			<label_ability_fields>
-				<anchored to="charisma_reaction" />
-   				<tooltip textres="char_tooltip_charisma_reaction" />
-				<static textres="char_label_charisma_reaction" />
-			</label_ability_fields>
-			<!-- END Ability Scores -->
-			
+      <number_abilityfield name="charisma_reaction" source="abilities.charisma.reaction">
+        <anchored to="charisma_loyalty" width="80"/>
+        <tooltip textres="char_tooltip_charisma_reaction" />
+        <labelres>char_label_charisma_reaction</labelres>
+      </number_abilityfield>
+       <label_ability_fields>
+        <anchored to="charisma_reaction" />
+           <tooltip textres="char_tooltip_charisma_reaction" />
+        <static textres="char_label_charisma_reaction" />
+      </label_ability_fields>
+      <!-- END Ability Scores -->
+      
 <!-- SAVES -->
-			<label_charframetop name="savestitle">
+      <label_charframetop name="savestitle">
         <anchored to="statstitle" position="righthigh" offset="30,0" height="20" width="90"/>
-				<static textres="char_label_save" />
-			</label_charframetop>
+        <static textres="char_label_save" />
+      </label_charframetop>
 
       <button_charasavesdetail name="saves_details">
         <tooltip textres="save_details_tooltip" />
         <anchored to="savestitle" position="insidetopright" offset="-5,0">
-				</anchored>
+        </anchored>
       </button_charasavesdetail>
 
-			<number_char_save_charsheet name="paralyzation" source="saves.paralyzation.score">
-				<anchored to="savestitle" position="belowleft" offset="0,10"  height="25" width="25"/> 
-				<target>paralyzation</target>
-			</number_char_save_charsheet>
-			<label_savescore>
-   				<tooltip textres="save_paralyzation_full" />
-				<anchored to="paralyzation" />
-				<static textres="save_paralyzation_wrapped" />
-			</label_savescore>
+      <number_char_save_charsheet name="paralyzation" source="saves.paralyzation.score">
+        <anchored to="savestitle" position="belowleft" offset="0,10"  height="25" width="25"/> 
+        <target>paralyzation</target>
+      </number_char_save_charsheet>
+      <label_savescore>
+           <tooltip textres="save_paralyzation_full" />
+        <anchored to="paralyzation" />
+        <static textres="save_paralyzation_wrapped" />
+      </label_savescore>
 
-			<number_char_save_charsheet name="poison" source="saves.poison.score">
-				<anchored to="paralyzation"   height="25"  />
-				<target>poison</target>
-			</number_char_save_charsheet>
-			<label_savescore>
-   				<tooltip textres="save_poison_full" />
-				<anchored to="poison" />
-				<static textres="save_poison_wrapped" />
-			</label_savescore>
+      <number_char_save_charsheet name="poison" source="saves.poison.score">
+        <anchored to="paralyzation"   height="25"  />
+        <target>poison</target>
+      </number_char_save_charsheet>
+      <label_savescore>
+           <tooltip textres="save_poison_full" />
+        <anchored to="poison" />
+        <static textres="save_poison_wrapped" />
+      </label_savescore>
 
-			<number_char_save_charsheet name="death" source="saves.death.score">
-				<anchored to="poison"   height="25"  />
-				<target>death</target>
-			</number_char_save_charsheet>
-			<label_savescore>
-   				<tooltip textres="save_death_full" />
-				<anchored to="death" />
-				<static textres="save_death_wrapped" />
-			</label_savescore>
+      <number_char_save_charsheet name="death" source="saves.death.score">
+        <anchored to="poison"   height="25"  />
+        <target>death</target>
+      </number_char_save_charsheet>
+      <label_savescore>
+           <tooltip textres="save_death_full" />
+        <anchored to="death" />
+        <static textres="save_death_wrapped" />
+      </label_savescore>
 
-			<number_char_save_charsheet name="rod" source="saves.rod.score">
-				<anchored to="death"   height="25"  />
-				<target>rod</target>
-			</number_char_save_charsheet>
-			<label_savescore>
-   				<tooltip textres="save_rod_full" />
-				<anchored to="rod" />
-				<static textres="save_rod_wrapped" />
-			</label_savescore>
+      <number_char_save_charsheet name="rod" source="saves.rod.score">
+        <anchored to="death"   height="25"  />
+        <target>rod</target>
+      </number_char_save_charsheet>
+      <label_savescore>
+           <tooltip textres="save_rod_full" />
+        <anchored to="rod" />
+        <static textres="save_rod_wrapped" />
+      </label_savescore>
             
-			<number_char_save_charsheet name="staff" source="saves.staff.score">
-				<anchored to="rod"   height="25"  />
-				<target>staff</target>
-			</number_char_save_charsheet>
-			<label_savescore>
-   				<tooltip textres="save_staff_full" />
-				<anchored to="staff" />
-				<static textres="save_staff_wrapped" />
-			</label_savescore>
+      <number_char_save_charsheet name="staff" source="saves.staff.score">
+        <anchored to="rod"   height="25"  />
+        <target>staff</target>
+      </number_char_save_charsheet>
+      <label_savescore>
+           <tooltip textres="save_staff_full" />
+        <anchored to="staff" />
+        <static textres="save_staff_wrapped" />
+      </label_savescore>
 
-			<number_char_save_charsheet name="wand" source="saves.wand.score">
-				<anchored to="staff"   height="25"  />
-				<target>wand</target>
-			</number_char_save_charsheet>
-			<label_savescore>
-   				<tooltip textres="save_wand_full" />
-				<anchored to="wand" />
-				<static textres="save_wand_wrapped" />
-			</label_savescore>
+      <number_char_save_charsheet name="wand" source="saves.wand.score">
+        <anchored to="staff"   height="25"  />
+        <target>wand</target>
+      </number_char_save_charsheet>
+      <label_savescore>
+           <tooltip textres="save_wand_full" />
+        <anchored to="wand" />
+        <static textres="save_wand_wrapped" />
+      </label_savescore>
 
-			<number_char_save_charsheet name="petrification" source="saves.petrification.score">
-				<anchored to="wand"   height="25"  />
-				<target>petrification</target>
-			</number_char_save_charsheet>
-			<label_savescore>
-   				<tooltip textres="save_petrification_full" />
-				<anchored to="petrification" />
-				<static textres="save_petrification_wrapped" />
-			</label_savescore>
+      <number_char_save_charsheet name="petrification" source="saves.petrification.score">
+        <anchored to="wand"   height="25"  />
+        <target>petrification</target>
+      </number_char_save_charsheet>
+      <label_savescore>
+           <tooltip textres="save_petrification_full" />
+        <anchored to="petrification" />
+        <static textres="save_petrification_wrapped" />
+      </label_savescore>
 
-			<number_char_save_charsheet name="polymorph" source="saves.polymorph.score">
-				<anchored to="petrification"   height="25"  />
-				<target>polymorph</target>
-			</number_char_save_charsheet>
-			<label_savescore>
-   				<tooltip textres="save_polymorph_full" />
-				<anchored to="polymorph" />
-				<static textres="save_polymorph_wrapped" />
-			</label_savescore>
+      <number_char_save_charsheet name="polymorph" source="saves.polymorph.score">
+        <anchored to="petrification"   height="25"  />
+        <target>polymorph</target>
+      </number_char_save_charsheet>
+      <label_savescore>
+           <tooltip textres="save_polymorph_full" />
+        <anchored to="polymorph" />
+        <static textres="save_polymorph_wrapped" />
+      </label_savescore>
 
-			<number_char_save_charsheet name="breath" source="saves.breath.score">
-				<anchored to="polymorph"   height="25"  />
-				<target>breath</target>
-			</number_char_save_charsheet>
-			<label_savescore>
-   				<tooltip textres="save_breath_full" />
-				<anchored to="breath" />
-				<static textres="save_breath_wrapped" />
-			</label_savescore>
+      <number_char_save_charsheet name="breath" source="saves.breath.score">
+        <anchored to="polymorph"   height="25"  />
+        <target>breath</target>
+      </number_char_save_charsheet>
+      <label_savescore>
+           <tooltip textres="save_breath_full" />
+        <anchored to="breath" />
+        <static textres="save_breath_wrapped" />
+      </label_savescore>
 
-			<number_char_save_charsheet name="spell" source="saves.spell.score">
-				<anchored to="breath"   height="25"  />
-				<target>spell</target>
-			</number_char_save_charsheet>
-			<label_savescore>
-   				<tooltip textres="save_spell_full" />
-				<anchored to="spell" />
-				<static textres="save_spell_wrapped" />
-			</label_savescore>
+      <number_char_save_charsheet name="spell" source="saves.spell.score">
+        <anchored to="breath"   height="25"  />
+        <target>spell</target>
+      </number_char_save_charsheet>
+      <label_savescore>
+           <tooltip textres="save_spell_full" />
+        <anchored to="spell" />
+        <static textres="save_spell_wrapped" />
+      </label_savescore>
             <!-- END SAVES -->
 
-			<!-- THACO/AC/Move -->
-			<label_charframetop name="combattitle">
+      <!-- THACO/AC/Move -->
+      <label_charframetop name="combattitle">
         <!-- <anchored to="charisma" position="belowleft" offset="10,15" height="20" width="300"/> -->
-				<anchored to="contentanchor" height="20">
-					<top parent="charisma" anchor="bottom" offset="15" />
+        <anchored to="contentanchor" height="20">
+          <top parent="charisma" anchor="bottom" offset="15" />
           <left offset="0" />
-					<right />
-				</anchored>
-				<icons>char_defenses</icons>
-				<static textres="char_label_combat" />
-			</label_charframetop>
-			<!-- 	Magnify button -->
-			<button_charcombatcalc name="button_combatcalc">
+          <right />
+        </anchored>
+        <icons>char_defenses</icons>
+        <static textres="char_label_combat" />
+      </label_charframetop>
+      <!--   Magnify button -->
+      <button_charcombatcalc name="button_combatcalc">
         <anchored to="combattitle" position="right" offset="-15,0"/>
-			</button_charcombatcalc>
+      </button_charcombatcalc>
 
       <genericcontrol name="combatanchor">
         <anchored to="charisma" position="belowleft" offset="0,50" width="45" height="40" />
       </genericcontrol>
 
-      <!-- 			THACO/AC/INIT/MOVE  -->
-			<number_chartotalac_defaults name="ac2" source="defenses.ac.total">
-				<readonly />
+      <!--       THACO/AC/INIT/MOVE  -->
+      <number_chartotalac_defaults name="ac2" source="defenses.ac.total">
+        <readonly />
         <anchored to="combatanchor" position="insidetopleft" offset="5,0" width="30" height="30" />
-				<frame name="acicon" offset="4,0,2,4" />
-			</number_chartotalac_defaults>
-			<label_combatscores>
-				<anchored to="ac2"/>
-				<static textres="ac" />
-			</label_combatscores>
+        <frame name="acicon" offset="4,0,2,4" />
+      </number_chartotalac_defaults>
+      <label_combatscores>
+        <anchored to="ac2"/>
+        <static textres="ac" />
+      </label_combatscores>
 
-			<number_charthaco_charsheet name="thaco" source="combat.thaco.score">
-				<anchored to="combatanchor" width="30" height="30">
-					<top parent="combatanchor" offset="4,0" />
-					<left anchor="right" relation="relative" offset="0" />
-				</anchored>
-			</number_charthaco_charsheet>
+      <number_charthaco_charsheet name="thaco" source="combat.thaco.score">
+        <anchored to="combatanchor" width="30" height="30">
+          <top parent="combatanchor" offset="4,0" />
+          <left anchor="right" relation="relative" offset="0" />
+        </anchored>
+      </number_charthaco_charsheet>
       <label_combatscores name="thaco_label">
         <anchored to="thaco" position="aboveleft" offset="-8,-3" width="45"/>
-				<static textres="thaco" />
+        <static textres="thaco" />
       </label_combatscores>
-			
-			<number_charthaco_charsheet name="bab" source="combat.bab.score">
-				<anchored to="combatanchor" width="30" height="30">
-					<top parent="combatanchor" offset="4,0" />
-					<left anchor="right" relation="relative" offset="0" />
-				</anchored>
+      
+      <number_charthaco_charsheet name="bab" source="combat.bab.score">
+        <anchored to="combatanchor" width="30" height="30">
+          <top parent="combatanchor" offset="4,0" />
+          <left anchor="right" relation="relative" offset="0" />
+        </anchored>
         <invisible />
-			</number_charthaco_charsheet>
+      </number_charthaco_charsheet>
       <label_combatscores name="bab_label">
         <anchored to="bab" position="aboveleft" offset="-8,-3" width="45"/>
-				<static textres="bab" />
+        <static textres="bab" />
         <invisible />
       </label_combatscores>
 
-			<number_charinit_charsheet name="initiative" source="initiative.total">
-				<readonly />
-				<anchored to="combatanchor" width="30" height="30">
-					<top parent="combatanchor" offset="4" />
-					<left anchor="right" relation="relative" offset="15" />
-				</anchored>
-			</number_charinit_charsheet>
-			<label_combatscores>
+      <number_charinit_charsheet name="initiative" source="initiative.total">
+        <readonly />
+        <anchored to="combatanchor" width="30" height="30">
+          <top parent="combatanchor" offset="4" />
+          <left anchor="right" relation="relative" offset="15" />
+        </anchored>
+      </number_charinit_charsheet>
+      <label_combatscores>
         <anchored to="initiative" position="aboveleft" offset="-1,-3" width="30"/>
-				<static textres="char_label_initiative" />
-			</label_combatscores>
-			
+        <static textres="char_label_initiative" />
+      </label_combatscores>
+      
       <surprise_number_total_charsheet name="sheet_surprise_total" source="surprise.total">
-				<anchored to="combatanchor" width="30" height="30">
-					<top parent="combatanchor" offset="4" />
-					<left anchor="right" relation="relative" offset="15" />
-				</anchored>
+        <anchored to="combatanchor" width="30" height="30">
+          <top parent="combatanchor" offset="4" />
+          <left anchor="right" relation="relative" offset="15" />
+        </anchored>
         <tooltip textres="char_label_surprisetotal_tooltip" />
         <font>reference-b-large</font>
       </surprise_number_total_charsheet>
-			<label_combatscores>
+      <label_combatscores>
         <anchored to="sheet_surprise_total" position="aboveleft" offset="-11,-3" width="50"/>
-				<static textres="char_label_surprise" />
+        <static textres="char_label_surprise" />
         <tooltip textres="char_label_surprise_tooltip" />
-			</label_combatscores>
+      </label_combatscores>
 
-			<number_charspeed_defaults_charsheet name="speed" source="speed.total">
-				<readonly />
-				<anchored to="combatanchor" width="30" height="30">
-					<top parent="combatanchor" offset="4" />
-					<left anchor="right" relation="relative" offset="15" />
-				</anchored>
-				<static textres="char_label_speed" />
-			</number_charspeed_defaults_charsheet>
-			<label_combatscores>
+      <number_charspeed_defaults_charsheet name="speed" source="speed.total">
+        <readonly />
+        <anchored to="combatanchor" width="30" height="30">
+          <top parent="combatanchor" offset="4" />
+          <left anchor="right" relation="relative" offset="15" />
+        </anchored>
+        <static textres="char_label_speed" />
+      </number_charspeed_defaults_charsheet>
+      <label_combatscores>
         <anchored to="speed" position="aboveleft" offset="-5,-3" width="40"/>
-				<static textres="char_label_speed" />
-			</label_combatscores>
+        <static textres="char_label_speed" />
+      </label_combatscores>
 
             <!-- special move/defense string -->
-			<string_labeled name="speedspecial" source="speed.special">
-				<anchored to="combatanchor">
-					<top anchor="bottom" relation="relative" offset="0" />
-					<left offset="0" />
-					<right offset="200" />
-				</anchored>
-				<labelres>char_label_speedspecial</labelres>
-				<multilinespacing>20</multilinespacing>
-			</string_labeled>
-			<string_labeled name="specialdef" source="defenses.special">
-				<anchored to="combatanchor">
-					<top anchor="bottom" relation="relative" offset="0" />
-					<left offset="0" />
-					<right offset="200" />
-				</anchored>
-				<labelres>char_label_specialdef</labelres>
-				<multilinespacing>20</multilinespacing>
-			</string_labeled>
+      <string_labeled name="speedspecial" source="speed.special">
+        <anchored to="combatanchor">
+          <top anchor="bottom" relation="relative" offset="0" />
+          <left offset="0" />
+          <right offset="200" />
+        </anchored>
+        <labelres>char_label_speedspecial</labelres>
+        <multilinespacing>20</multilinespacing>
+      </string_labeled>
+      <string_labeled name="specialdef" source="defenses.special">
+        <anchored to="combatanchor">
+          <top anchor="bottom" relation="relative" offset="0" />
+          <left offset="0" />
+          <right offset="200" />
+        </anchored>
+        <labelres>char_label_specialdef</labelres>
+        <multilinespacing>20</multilinespacing>
+      </string_labeled>
 
-			
+      
             
         <!-- Health/Wounds -->
-			<number_hptemp_charsheet>
-				<anchored to="contentanchor" width="40" height="30">
-					<top parent="combatanchor" anchor="bottom" offset="-40" />
-          <right anchor="right" relation="relative" offset="-10" />
-				</anchored>
-      </number_hptemp_charsheet>
-			<label_combatscores>
-				<anchored to="temphp"  />
-				<static textres="char_label_hptemp" />
-			</label_combatscores>
-        
-			<number_hptotal_charsheet name="hp" source="hp.total">
+      <number_hptemp_charsheet>
         <anchored to="contentanchor" width="40" height="30">
-					<top parent="combatanchor" anchor="bottom" offset="-40" />
+          <top parent="combatanchor" anchor="bottom" offset="-40" />
+          <right anchor="right" relation="relative" offset="-10" />
+        </anchored>
+      </number_hptemp_charsheet>
+      <label_combatscores>
+        <anchored to="temphp"  />
+        <static textres="char_label_hptemp" />
+      </label_combatscores>
+        
+      <number_hptotal_charsheet name="hp" source="hp.total">
+        <anchored to="contentanchor" width="40" height="30">
+          <top parent="combatanchor" anchor="bottom" offset="-40" />
           <right parent="temphp" anchor="left" relation="relative" offset="-10" />
-				</anchored>
-				<font>reference-b-large</font>
-				<description textres="hp" />
-				<min value="0" />
-				<script>
-					function onValueChanged()
-						window.onHealthChanged();
-					end
-				</script>
-			</number_hptotal_charsheet>
-			<label_combatscores>
-				<anchored to="hp" />
-				<static textres="char_label_hpmax" />
-			</label_combatscores>
+        </anchored>
+        <font>reference-b-large</font>
+        <description textres="hp" />
+        <min value="0" />
+        <script>
+          function onValueChanged()
+            window.onHealthChanged();
+          end
+        </script>
+      </number_hptotal_charsheet>
+      <label_combatscores>
+        <anchored to="hp" />
+        <static textres="char_label_hpmax" />
+      </label_combatscores>
 
-			<number_charwounds_charsheet name="wounds" source="hp.wounds">
-				<anchored to="contentanchor" width="40" height="30">
-					<top parent="combatanchor" anchor="bottom" offset="-40" />
+      <number_charwounds_charsheet name="wounds" source="hp.wounds">
+        <anchored to="contentanchor" width="40" height="30">
+          <top parent="combatanchor" anchor="bottom" offset="-40" />
           <right parent="hp" anchor="left" relation="relative" offset="-10" />
-				</anchored>
-				<font>reference-b-large</font>
-				<description textres="char_tooltip_wounds" />
-			</number_charwounds_charsheet>
-			<label_combatscores>
-				<anchored to="wounds" />
-				<static textres="char_label_wounds" />
-			</label_combatscores>
+        </anchored>
+        <font>reference-b-large</font>
+        <description textres="char_tooltip_wounds" />
+      </number_charwounds_charsheet>
+      <label_combatscores>
+        <anchored to="wounds" />
+        <static textres="char_label_wounds" />
+      </label_combatscores>
 
-			<label>
-				<anchored to="wounds" position="lefthigh" offset="10,5" />
-				<static textres="hp" />
-			</label>
-			
-		</sheetdata>
-	</windowclass>
+      <label>
+        <anchored to="wounds" position="lefthigh" offset="10,5" />
+        <static textres="hp" />
+      </label>
+      
+    </sheetdata>
+  </windowclass>
 
-	<windowclass name="charsheet_classes">
-		<frame>charsheethelper</frame>
-		<placement>
-			<size width="450" height="250" />
-		</placement>
-		<sizelimits>
-			<minimum width="450" height="250" />
-			<dynamic />
-		</sizelimits>
-		<nodelete />
-		<playercontrol />
-		<script>
-			function onDrop(x, y, draginfo)
-				if draginfo.isType("shortcut") then
-					local sClass, sRecord = draginfo.getShortcutData();
-					if StringManager.contains({"reference_class"}, sClass) then
-						CharManager.addInfoDB(getDatabaseNode(), sClass, sRecord);
-						return true;
-					end
-				end
-			end
-		</script>
-		<sheetdata>
-			<windowtitlebar_char name="title">
-				<prefix>char_classes_title</prefix>
-			</windowtitlebar_char>
-			<anchor_title_charsheethelper name="contentanchor" />
+  <windowclass name="charsheet_classes">
+    <frame>charsheethelper</frame>
+    <placement>
+      <size width="450" height="250" />
+    </placement>
+    <sizelimits>
+      <minimum width="450" height="250" />
+      <dynamic />
+    </sizelimits>
+    <nodelete />
+    <playercontrol />
+    <script>
+      function onDrop(x, y, draginfo)
+        if draginfo.isType("shortcut") then
+          local sClass, sRecord = draginfo.getShortcutData();
+          if StringManager.contains({"reference_class"}, sClass) then
+            CharManager.addInfoDB(getDatabaseNode(), sClass, sRecord);
+            return true;
+          end
+        end
+      end
+    </script>
+    <sheetdata>
+      <windowtitlebar_char name="title">
+        <prefix>char_classes_title</prefix>
+      </windowtitlebar_char>
+      <anchor_title_charsheethelper name="contentanchor" />
 
              <!-- title xp -->
-			<label_charframetop name="exptitle">
-				<tooltip textres="char_tooltip_xp" />
-				<anchored to="contentanchor" position="belowleft" offset="10,5" height="20">
+      <label_charframetop name="exptitle">
+        <tooltip textres="char_tooltip_xp" />
+        <anchored to="contentanchor" position="belowleft" offset="10,5" height="20">
                     <right offset="-10" />
-				</anchored>
-			</label_charframetop>
+        </anchored>
+      </label_charframetop>
 
 
             <!-- exp -->
-			<number_dropadd name="exp">
+      <number_dropadd name="exp">
         <script>
             function onInit()
               onValueChanged();
@@ -965,235 +965,235 @@
             end
         </script>
                 <gmeditonly />
-				<tooltip textres="char_tooltip_xp" />
-				<anchored to="exptitle" height="20" width="100">
-					<top anchor="bottom" offset="10" />
-					<right anchor="center" offset="58" />
-				</anchored>
-				<description textres="char_tooltip_xp" />
-			</number_dropadd>
-			<label_charfieldtop>
-				<anchored to="exp" offset="0,10" />
-				<static textres="class_label_total_xp_earned" />
-				<tooltip textres="class_label_total_xp_earned_tooltip" />
-			</label_charfieldtop>
-			<buttoncontrol name="apply_button">
-				<anchored to="exp" position="righthigh" offset="2,0" width="35" height="20" />
+        <tooltip textres="char_tooltip_xp" />
+        <anchored to="exptitle" height="20" width="100">
+          <top anchor="bottom" offset="10" />
+          <right anchor="center" offset="58" />
+        </anchored>
+        <description textres="char_tooltip_xp" />
+      </number_dropadd>
+      <label_charfieldtop>
+        <anchored to="exp" offset="0,10" />
+        <static textres="class_label_total_xp_earned" />
+        <tooltip textres="class_label_total_xp_earned_tooltip" />
+      </label_charfieldtop>
+      <buttoncontrol name="apply_button">
+        <anchored to="exp" position="righthigh" offset="2,0" width="35" height="20" />
         <icon normal="button_dialog_check_green" pressed="button_dialog_ok" />
-				<invisible />
-				<script>
-					function onButtonPress()
+        <invisible />
+        <script>
+          function onButtonPress()
             return window.exp.action();
-					end
-				</script>
+          end
+        </script>
         <static textres="char_label_class_applyexp" />
         <tooltip textres="char_label_class_applyexp_tooltip" />
-			</buttoncontrol>
-			<label_charfieldtop name="apply_button_label">
-				<anchored to="apply_button" offset="0,10" />
-				<static textres="char_label_class_applyexp" />
-				<tooltip textres="char_label_class_applyexp_tooltip" />
-			</label_charfieldtop>
+      </buttoncontrol>
+      <label_charfieldtop name="apply_button_label">
+        <anchored to="apply_button" offset="0,10" />
+        <static textres="char_label_class_applyexp" />
+        <tooltip textres="char_label_class_applyexp_tooltip" />
+      </label_charfieldtop>
 
             
-   			<genericcontrol name="rightanchor">
-				<anchored position="insidetopright" offset="15,120" width="0" height="0" />
-				<invisible />
-			</genericcontrol>
-			<genericcontrol name="spacer">
-				<anchored to="rightanchor" width="20" height="20">
-					<top />
-					<right anchor="left" relation="relative" />
-				</anchored>
-				<disabled />
-			</genericcontrol>
+         <genericcontrol name="rightanchor">
+        <anchored position="insidetopright" offset="15,120" width="0" height="0" />
+        <invisible />
+      </genericcontrol>
+      <genericcontrol name="spacer">
+        <anchored to="rightanchor" width="20" height="20">
+          <top />
+          <right anchor="left" relation="relative" />
+        </anchored>
+        <disabled />
+      </genericcontrol>
 
             <!-- exp needed -->
-			<label_charframetop name="experienceneededtitle">
+      <label_charframetop name="experienceneededtitle">
                 <anchored to="spacer" position="left" offset="20,0" width="100" />
-				<!-- <anchored to="hdtitle" position="left" offset="20,0" width="65" /> -->
-				<static textres="class_label_exp_needed" />
-				<tooltip textres="class_label_exp_needed_tooltip" />
-			</label_charframetop>
+        <!-- <anchored to="hdtitle" position="left" offset="20,0" width="65" /> -->
+        <static textres="class_label_exp_needed" />
+        <tooltip textres="class_label_exp_needed_tooltip" />
+      </label_charframetop>
 
             <!-- exp  -->
-			<label_charframetop name="experiencetitle">
-				<anchored to="experienceneededtitle" position="left" offset="20,0" width="100" />
-				<static textres="char_label_class_exp" />
-				<tooltip textres="char_label_class_exp_tooltip" />
-			</label_charframetop>
+      <label_charframetop name="experiencetitle">
+        <anchored to="experienceneededtitle" position="left" offset="20,0" width="100" />
+        <static textres="char_label_class_exp" />
+        <tooltip textres="char_label_class_exp_tooltip" />
+      </label_charframetop>
             
-			<label_charframetop name="classleveltitle">
-				<anchored to="experiencetitle" position="left" offset="20,0" width="35" />
-				<static textres="char_label_level" />
-			</label_charframetop>
+      <label_charframetop name="classleveltitle">
+        <anchored to="experiencetitle" position="left" offset="20,0" width="35" />
+        <static textres="char_label_level" />
+      </label_charframetop>
             
-			<label_charframetop name="classtitle">
-				<!-- <anchored to="classleveltitle" position="left" offset="10,0" width="140" /> -->
- 				<anchored to="classleveltitle" position="left" offset="20,0">
-					<left parent="contentanchor" offset="10" />
-				</anchored> 
-				<static textres="char_label_class" />
-			</label_charframetop>
+      <label_charframetop name="classtitle">
+        <!-- <anchored to="classleveltitle" position="left" offset="10,0" width="140" /> -->
+         <anchored to="classleveltitle" position="left" offset="20,0">
+          <left parent="contentanchor" offset="10" />
+        </anchored> 
+        <static textres="char_label_class" />
+      </label_charframetop>
 
             
-			<button_iadd name="classes_iadd">
-				<anchored to="experienceneededtitle" position="insidetopright" offset="-30,0"/>
-				<target>classes</target>
-			</button_iadd>
-			<list_text name="classes">
-				<anchored to="contentanchor">
-					<top parent="classtitle" anchor="bottom" relation="relative" offset="3" />
-					<left offset="5" />
-					<right offset="-10" />
-					<bottom parent="" offset="-30" />
-				</anchored>
-				<datasource>.classes</datasource>
-				<class>charsheet_class</class>
-			</list_text>
-			<scrollbar>
-				<anchored to="classes" />
-				<target>classes</target>
-			</scrollbar>
-			<button_iedit name="classes_iedit">
-				<anchored to="classes">
-					<top anchor="bottom" relation="relative" offset="-10" />
-					<left anchor="right" offset="-15" />
-				</anchored>
-				<target>classes</target>
-			</button_iedit>
+      <button_iadd name="classes_iadd">
+        <anchored to="experienceneededtitle" position="insidetopright" offset="-30,0"/>
+        <target>classes</target>
+      </button_iadd>
+      <list_text name="classes">
+        <anchored to="contentanchor">
+          <top parent="classtitle" anchor="bottom" relation="relative" offset="3" />
+          <left offset="5" />
+          <right offset="-10" />
+          <bottom parent="" offset="-30" />
+        </anchored>
+        <datasource>.classes</datasource>
+        <class>charsheet_class</class>
+      </list_text>
+      <scrollbar>
+        <anchored to="classes" />
+        <target>classes</target>
+      </scrollbar>
+      <button_iedit name="classes_iedit">
+        <anchored to="classes">
+          <top anchor="bottom" relation="relative" offset="-10" />
+          <left anchor="right" offset="-15" />
+        </anchored>
+        <target>classes</target>
+      </button_iedit>
 
-			<close_charsheethelper />
-			<resize_charsheethelper />
-		</sheetdata>
-	</windowclass>
+      <close_charsheethelper />
+      <resize_charsheethelper />
+    </sheetdata>
+  </windowclass>
 
-	<windowclass name="charsheet_class">
-		<margins control="0,0,0,2" />
-		<sizelimits>	
-		 	<minimum height="20" />	
-		</sizelimits>
-		<script>
-			function action(draginfo)
-				local nodeChar = getDatabaseNode().getChild("...")
-				local rActor = ActorManager.getActor("pc", nodeChar);
+  <windowclass name="charsheet_class">
+    <margins control="0,0,0,2" />
+    <sizelimits>  
+       <minimum height="20" />  
+    </sizelimits>
+    <script>
+      function action(draginfo)
+        local nodeChar = getDatabaseNode().getChild("...")
+        local rActor = ActorManager.getActor("pc", nodeChar);
 
-				ActionRecovery.performRoll(draginfo, rActor, getDatabaseNode());
-			end
-			
-			function onDragStart(button, x, y, draginfo)
-				action(draginfo);
-				return true;
-			end
-			
-			function onDoubleClick(x, y)
-				action();
-				return true;
-			end
-		</script>
-		<sheetdata>
-			<genericcontrol name="rightanchor">
-				<anchored position="insidetopright" offset="0,3" width="0" height="0" />
-				<invisible />
-			</genericcontrol>
-			<genericcontrol name="spacer">
-				<anchored to="rightanchor" width="20" height="20">
-					<top />
-					<right anchor="left" relation="relative" />
-				</anchored>
-				<disabled />
-			</genericcontrol>
-			<linkfield name="shortcut">
-				<anchored to="rightanchor" width="20" height="20">
-					<top />
-					<right anchor="left" />
-				</anchored>
-				<script>
-					function onInit()
-						onValueChanged();
-					end
-					function onValueChanged()
-						setVisible(not isEmpty());
-					end
-				</script>
-			</linkfield>
-			<button_idelete name="idelete">
- 				<anchored to="rightanchor">
-					<top />
-					<right anchor="left"/>
-				</anchored>
-			</button_idelete>
+        ActionRecovery.performRoll(draginfo, rActor, getDatabaseNode());
+      end
+      
+      function onDragStart(button, x, y, draginfo)
+        action(draginfo);
+        return true;
+      end
+      
+      function onDoubleClick(x, y)
+        action();
+        return true;
+      end
+    </script>
+    <sheetdata>
+      <genericcontrol name="rightanchor">
+        <anchored position="insidetopright" offset="0,3" width="0" height="0" />
+        <invisible />
+      </genericcontrol>
+      <genericcontrol name="spacer">
+        <anchored to="rightanchor" width="20" height="20">
+          <top />
+          <right anchor="left" relation="relative" />
+        </anchored>
+        <disabled />
+      </genericcontrol>
+      <linkfield name="shortcut">
+        <anchored to="rightanchor" width="20" height="20">
+          <top />
+          <right anchor="left" />
+        </anchored>
+        <script>
+          function onInit()
+            onValueChanged();
+          end
+          function onValueChanged()
+            setVisible(not isEmpty());
+          end
+        </script>
+      </linkfield>
+      <button_idelete name="idelete">
+         <anchored to="rightanchor">
+          <top />
+          <right anchor="left"/>
+        </anchored>
+      </button_idelete>
       <!-- exp needed -->
- 			<basicnumber name="expneeded">
-				<script>
-					function onHover(oncontrol)
-						if oncontrol then
-							local draginfo = Input.getDragData();
-							if draginfo and draginfo.isType("number") and draginfo.getNumberData() &lt; getValue() then
-								setColor("BB0000");
-							end
-						else
-							setColor(nil);
-						end
-					end
-					
-					function onDrop(x, y, draginfo)
-						if draginfo.isType("number") and draginfo.getNumberData() &gt; getValue() then
-							setValue(draginfo.getNumberData());
-						end
+       <basicnumber name="expneeded">
+        <script>
+          function onHover(oncontrol)
+            if oncontrol then
+              local draginfo = Input.getDragData();
+              if draginfo and draginfo.isType("number") and draginfo.getNumberData() &lt; getValue() then
+                setColor("BB0000");
+              end
+            else
+              setColor(nil);
+            end
+          end
+          
+          function onDrop(x, y, draginfo)
+            if draginfo.isType("number") and draginfo.getNumberData() &gt; getValue() then
+              setValue(draginfo.getNumberData());
+            end
 
-						return true;
-					end
-				</script>
-				<!-- <anchored to="hddie" position="left" offset="20,0" width="60" /> -->
+            return true;
+          end
+        </script>
+        <!-- <anchored to="hddie" position="left" offset="20,0" width="60" /> -->
                 <anchored to="spacer" position="left" offset="5,0" width="100" />
-				<tooltip textres="class_label_exp_needed_tooltip" />
-			</basicnumber>
+        <tooltip textres="class_label_exp_needed_tooltip" />
+      </basicnumber>
 
- 			<button_checkbox name="classbonus">
-				<anchored to="expneeded" position="left" offset="5,0" width="10" />
-				<tooltip textres="char_tooltip_classbonus" />
-			</button_checkbox>
+       <button_checkbox name="classbonus">
+        <anchored to="expneeded" position="left" offset="5,0" width="10" />
+        <tooltip textres="char_tooltip_classbonus" />
+      </button_checkbox>
 
             <!-- exp -->
- 			<basicnumber name="exp">
+       <basicnumber name="exp">
                 <gmeditonly />
-				<anchored to="expneeded" position="left" offset="20,0" width="100" />
-				<tooltip textres="char_label_class_exp_tooltip" />
-			</basicnumber>
+        <anchored to="expneeded" position="left" offset="20,0" width="100" />
+        <tooltip textres="char_label_class_exp_tooltip" />
+      </basicnumber>
 
 
- 			<basicnumber name="level">
-				<anchored to="exp" position="left" offset="18,0" width="30" />
-			</basicnumber>
+       <basicnumber name="level">
+        <anchored to="exp" position="left" offset="18,0" width="30" />
+      </basicnumber>
 
             
-			<string_textlistitem name="name">
-<!-- 				<anchored to="level" position="left" offset="18,0" width="70" /> -->
- 				<anchored>
-					<top parent="rightanchor" offset="0" />
-					<left offset="15" />
-					<right parent="level" anchor="left" relation="relative" offset="-17" /> 
-				</anchored> 
-				<multilinespacing>20</multilinespacing>
-			</string_textlistitem>
+      <string_textlistitem name="name">
+<!--         <anchored to="level" position="left" offset="18,0" width="70" /> -->
+         <anchored>
+          <top parent="rightanchor" offset="0" />
+          <left offset="15" />
+          <right parent="level" anchor="left" relation="relative" offset="-17" /> 
+        </anchored> 
+        <multilinespacing>20</multilinespacing>
+      </string_textlistitem>
 
- 			<button_checkbox name="classactive">
-				<anchored to="name" position="left" offset="2,0" width="10" />
-				<tooltip textres="char_tooltip_classactivity" />
-			</button_checkbox>
+       <button_checkbox name="classactive">
+        <anchored to="name" position="left" offset="2,0" width="10" />
+        <tooltip textres="char_tooltip_classactivity" />
+      </button_checkbox>
 
             </sheetdata>
-	</windowclass>	
+  </windowclass>  
 
     <!-- combat popup window-->
-	<windowclass name="charsheet_combatcalc">
-		<frame>charsheethelper</frame>
-		<placement>
-			<size width="440" height="320" />
-		</placement>
-		<nodelete />
-		<playercontrol />
+  <windowclass name="charsheet_combatcalc">
+    <frame>charsheethelper</frame>
+    <placement>
+      <size width="440" height="320" />
+    </placement>
+    <nodelete />
+    <playercontrol />
         <script>
           function onInit()
             surpriseTotal();
@@ -1206,135 +1206,135 @@
             surprise_total.setValue(nTotal);
           end
         </script>
-		<sheetdata>
-			<windowtitlebar_char name="title">
-				<prefix>char_combatcalc_title</prefix>
-			</windowtitlebar_char>
-			<anchor_title_charsheethelper name="contentanchor" />
+    <sheetdata>
+      <windowtitlebar_char name="title">
+        <prefix>char_combatcalc_title</prefix>
+      </windowtitlebar_char>
+      <anchor_title_charsheethelper name="contentanchor" />
 
-			<anchor_column name="columnanchor">
-				<anchored to="contentanchor" position="below" offset="0,-5" />
-			</anchor_column>
-			<anchor_left />
+      <anchor_column name="columnanchor">
+        <anchored to="contentanchor" position="below" offset="0,-5" />
+      </anchor_column>
+      <anchor_left />
             <anchor_right />
             
-			<!-- Init Detail -->
-			<label name="label_initdetail">
-				<anchored width="60">
-					<top parent="columnanchor" anchor="bottom" relation="relative" offset="20" />
-					<left offset="30" />
-				</anchored>
-				<static textres="char_label_initdetail" />
-			</label>
-			<basicnumber name="initmiscbonus" source="initiative.misc">
-				<anchored to="label_initdetail" position="righthigh" offset="10,0" height="18" width="30" />
-				<hideonvalue>0</hideonvalue>
-				<tooltip textres="char_label_mod_tooltip" />
-			</basicnumber>
-			<label_fieldtop name="label_initmiscbonus">
-				<anchored to="initmiscbonus" />
-				<static textres="char_label_mod" />
-				<tooltip textres="char_label_mod_tooltip" />
-			</label_fieldtop>
-			
+      <!-- Init Detail -->
+      <label name="label_initdetail">
+        <anchored width="60">
+          <top parent="columnanchor" anchor="bottom" relation="relative" offset="20" />
+          <left offset="30" />
+        </anchored>
+        <static textres="char_label_initdetail" />
+      </label>
+      <basicnumber name="initmiscbonus" source="initiative.misc">
+        <anchored to="label_initdetail" position="righthigh" offset="10,0" height="18" width="30" />
+        <hideonvalue>0</hideonvalue>
+        <tooltip textres="char_label_mod_tooltip" />
+      </basicnumber>
+      <label_fieldtop name="label_initmiscbonus">
+        <anchored to="initmiscbonus" />
+        <static textres="char_label_mod" />
+        <tooltip textres="char_label_mod_tooltip" />
+      </label_fieldtop>
+      
 
-			<!-- Armor Detail -->
-			<label name="label_armordetail">
-				<anchored width="60">
-					<top parent="columnanchor" anchor="bottom" relation="relative" offset="20" />
-					<left offset="30" />
-				</anchored>
-				<static textres="char_label_armordetail" />
-			</label>
-			<basicnumber name="acbase" source="defenses.ac.base">
-   				<gmeditonly />
-				<default>10</default>
-				<anchored to="label_armordetail" position="righthigh" offset="10,0" width="30" height="18" />
-			</basicnumber>
-			<label_fieldtop name="label_acbase">
-				<anchored to="acbase" />
-				<static textres="char_label_armorbase" />
-			</label_fieldtop>
-			<label name="label_armorplus">
-				<anchored to="acbase" position="righthigh" offset="10,0"  />
-				<static>+</static>
-				<center />
-			</label>
-			<basicnumber name="acarmor" source="defenses.ac.armor">
-   				<gmeditonly />
-				<anchored to="label_armorplus" position="righthigh" offset="10,0" width="30" height="18" />
-			</basicnumber>
-			<label_fieldtop name="label_acarmor">
-				<anchored to="acarmor" />
-				<static textres="char_label_armormain" />
-			</label_fieldtop>
-			<label name="label_armorplus2">
-				<anchored to="acarmor" position="righthigh" offset="10,0" width="10" />
-				<static>+</static>
-				<center />
-			</label>
+      <!-- Armor Detail -->
+      <label name="label_armordetail">
+        <anchored width="60">
+          <top parent="columnanchor" anchor="bottom" relation="relative" offset="20" />
+          <left offset="30" />
+        </anchored>
+        <static textres="char_label_armordetail" />
+      </label>
+      <basicnumber name="acbase" source="defenses.ac.base">
+           <gmeditonly />
+        <default>10</default>
+        <anchored to="label_armordetail" position="righthigh" offset="10,0" width="30" height="18" />
+      </basicnumber>
+      <label_fieldtop name="label_acbase">
+        <anchored to="acbase" />
+        <static textres="char_label_armorbase" />
+      </label_fieldtop>
+      <label name="label_armorplus">
+        <anchored to="acbase" position="righthigh" offset="10,0"  />
+        <static>+</static>
+        <center />
+      </label>
+      <basicnumber name="acarmor" source="defenses.ac.armor">
+           <gmeditonly />
+        <anchored to="label_armorplus" position="righthigh" offset="10,0" width="30" height="18" />
+      </basicnumber>
+      <label_fieldtop name="label_acarmor">
+        <anchored to="acarmor" />
+        <static textres="char_label_armormain" />
+      </label_fieldtop>
+      <label name="label_armorplus2">
+        <anchored to="acarmor" position="righthigh" offset="10,0" width="10" />
+        <static>+</static>
+        <center />
+      </label>
             
-			<basicnumber name="acshield" source="defenses.ac.shield">
-   				<gmeditonly />
-				<anchored to="label_armorplus2" position="righthigh" offset="10,0" width="30" height="18" />
-			</basicnumber>
-			<label_fieldtop name="label_acshield">
-				<anchored to="acshield" />
-				<static textres="char_label_armorshield" />
-			</label_fieldtop>
-			<label name="label_armorplus3">
-				<anchored to="acshield" position="righthigh" offset="10,0" />
-				<static>+</static>
-				<center />
-			</label>
+      <basicnumber name="acshield" source="defenses.ac.shield">
+           <gmeditonly />
+        <anchored to="label_armorplus2" position="righthigh" offset="10,0" width="30" height="18" />
+      </basicnumber>
+      <label_fieldtop name="label_acshield">
+        <anchored to="acshield" />
+        <static textres="char_label_armorshield" />
+      </label_fieldtop>
+      <label name="label_armorplus3">
+        <anchored to="acshield" position="righthigh" offset="10,0" />
+        <static>+</static>
+        <center />
+      </label>
 
-			<basicnumber name="acdexterity" source="abilities.dexterity.defenseadj">
-   				<readonly />
-				<anchored to="label_armorplus3" position="righthigh" offset="10,0" width="30" height="18" />
-			</basicnumber>
-			<label_fieldtop name="label_acdexterity">
-				<anchored to="acdexterity" />
-				<static textres="char_label_armordexterity" />
-			</label_fieldtop>
-			<label name="label_armorplus5">
-				<anchored to="acdexterity" position="righthigh" offset="10,0"/>
-				<static>+</static>
-				<center />
-			</label>
+      <basicnumber name="acdexterity" source="abilities.dexterity.defenseadj">
+           <readonly />
+        <anchored to="label_armorplus3" position="righthigh" offset="10,0" width="30" height="18" />
+      </basicnumber>
+      <label_fieldtop name="label_acdexterity">
+        <anchored to="acdexterity" />
+        <static textres="char_label_armordexterity" />
+      </label_fieldtop>
+      <label name="label_armorplus5">
+        <anchored to="acdexterity" position="righthigh" offset="10,0"/>
+        <static>+</static>
+        <center />
+      </label>
             
-			<basicnumber name="acmisc" source="defenses.ac.misc">
-				<anchored to="label_armorplus5" position="righthigh" offset="8,0" width="30" height="18" />
-			</basicnumber>
-			<label_fieldtop name="label_acmisc">
-				<anchored to="acmisc" />
-				<static textres="char_label_armormisc" />
-			</label_fieldtop>
+      <basicnumber name="acmisc" source="defenses.ac.misc">
+        <anchored to="label_armorplus5" position="righthigh" offset="8,0" width="30" height="18" />
+      </basicnumber>
+      <label_fieldtop name="label_acmisc">
+        <anchored to="acmisc" />
+        <static textres="char_label_armormisc" />
+      </label_fieldtop>
 
             <!-- surprise section -->
-			<label name="label_surprisedetail">
-				<anchored width="60">
-					<top parent="columnanchor" anchor="bottom" relation="relative" offset="20" />
-					<left offset="30" />
-				</anchored>
-				<static textres="char_label_surprisedetail" />
+      <label name="label_surprisedetail">
+        <anchored width="60">
+          <top parent="columnanchor" anchor="bottom" relation="relative" offset="20" />
+          <left offset="30" />
+        </anchored>
+        <static textres="char_label_surprisedetail" />
                 <tooltip textres="char_label_surprisedetail_tooltip" />
-			</label>
+      </label>
 
             <!-- dice rolled for surprise check -->
             <surprise_dice_roll name="surprisedice" source="surprise.dice" />
-			<label_fieldtop name="label_surprisedice">
-				<anchored to="surprisedice" />
-				<static textres="char_label_surprisedice" />
-				<tooltip textres="char_label_surprisedice_tooltip" />
-			</label_fieldtop>
+      <label_fieldtop name="label_surprisedice">
+        <anchored to="surprisedice" />
+        <static textres="char_label_surprisedice" />
+        <tooltip textres="char_label_surprisedice_tooltip" />
+      </label_fieldtop>
 
 
             <surprise_base name="surprisebase" source="surprise.base" />
-			<label_fieldtop name="label_surprisebase">
-				<anchored to="surprisebase" />
-				<static textres="char_label_surprisebase" />
-				<tooltip textres="char_label_surprisebase_tooltip" />
-			</label_fieldtop>
+      <label_fieldtop name="label_surprisebase">
+        <anchored to="surprisebase" />
+        <static textres="char_label_surprisebase" />
+        <tooltip textres="char_label_surprisebase_tooltip" />
+      </label_fieldtop>
 
             <surprise_mod_plus />
 
@@ -1346,9 +1346,9 @@
                 <displaysign />
                 <tooltip textres="char_label_mod_mod_tooltip" />
             </surprise_number_mod>
-			<label_fieldtop name="label_speedbasemoditem">
-				<anchored to="surprise_mod" />
-				<static textres="char_label_mod_mod" />
+      <label_fieldtop name="label_speedbasemoditem">
+        <anchored to="surprise_mod" />
+        <static textres="char_label_mod_mod" />
                 <tooltip textres="char_label_mod_mod_tooltip" />
             </label_fieldtop>
             
@@ -1358,9 +1358,9 @@
                 <displaysign />
                 <tooltip textres="char_label_mod_temp_tooltip" />
             </surprise_number_mod>
-			<label_fieldtop name="label_surprisetempmod">
-				<anchored to="surprise_tempmod" />
-				<static textres="char_label_mod_temp" />
+      <label_fieldtop name="label_surprisetempmod">
+        <anchored to="surprise_tempmod" />
+        <static textres="char_label_mod_temp" />
                 <tooltip textres="char_label_mod_temp_tooltip" />
             </label_fieldtop>
             
@@ -1380,61 +1380,61 @@
                 <tooltip textres="char_label_surprisetotal_tooltip" />
                 <font>arial-bold-8</font>
             </surprise_number_total>
-			<label_fieldtop name="label_surprisetotal">
-				<anchored to="surprise_total" />
-				<static textres="char_label_surprisetotal" />
+      <label_fieldtop name="label_surprisetotal">
+        <anchored to="surprise_total" />
+        <static textres="char_label_surprisetotal" />
                 <tooltip textres="char_label_surprisetotal_tooltip" />
             </label_fieldtop>
 
             
-			<!-- Speed Detail -->
+      <!-- Speed Detail -->
       <label name="label_speeddetail_base">
-				<anchored width="60">
-					<top parent="columnanchor" anchor="bottom" relation="relative" offset="20" />
-					<left offset="30" />
-				</anchored>
-				<static textres="char_label_speeddetail" />
+        <anchored width="60">
+          <top parent="columnanchor" anchor="bottom" relation="relative" offset="20" />
+          <left offset="30" />
+        </anchored>
+        <static textres="char_label_speeddetail" />
         <tooltip textres="char_label_speeddetail_tooltip" />
       </label>
 
             <speed_number_base name="speedbase" source="speed.base">
             </speed_number_base>
 
-			<!-- <char_speed_details name="speedbase" source="speed.base">
-				<anchored to="label_speeddetail" position="righthigh" offset="5,0" width="45" height="20" />
-			</char_speed_details> -->
+      <!-- <char_speed_details name="speedbase" source="speed.base">
+        <anchored to="label_speeddetail" position="righthigh" offset="5,0" width="45" height="20" />
+      </char_speed_details> -->
             
-			<label_fieldtop name="label_speedbase">
-				<anchored to="speedbase" />
-				<static textres="char_label_speedbase_base" />
+      <label_fieldtop name="label_speedbase">
+        <anchored to="speedbase" />
+        <static textres="char_label_speedbase_base" />
                 <tooltip textres="char_label_speedbase_base_tooltip" />
-			</label_fieldtop>
+      </label_fieldtop>
             <speed_number_base name="speed_basemodenc" source="speed.basemodenc">
                 <gmeditonly />
             </speed_number_base>
-			<label_fieldtop name="label_speedbasemodenc">
-				<anchored to="speed_basemodenc" />
-				<static textres="char_label_speedbase_enc" />
+      <label_fieldtop name="label_speedbasemodenc">
+        <anchored to="speed_basemodenc" />
+        <static textres="char_label_speedbase_enc" />
                 <tooltip textres="char_label_speedbase_enc_tooltip" />
             </label_fieldtop>
 
 
             <speed_number_base name="speed_basemod" source="speed.basemod">
             </speed_number_base>
-			<label_fieldtop name="label_speedbasemod">
-				<anchored to="speed_basemod" />
-				<static textres="char_label_speedbase_mod" />
+      <label_fieldtop name="label_speedbasemod">
+        <anchored to="speed_basemod" />
+        <static textres="char_label_speedbase_mod" />
                 <tooltip textres="char_label_speedbase_mod_tooltip" />
-			</label_fieldtop>
+      </label_fieldtop>
             
             <speed_mod_plus />
             
             <speed_number_mod name="speed_mod" source="speed.mod">
                 <displaysign />
             </speed_number_mod>
-			<label_fieldtop name="label_speedbasemoditem">
-				<anchored to="speed_mod" />
-				<static text="Mod" />
+      <label_fieldtop name="label_speedbasemoditem">
+        <anchored to="speed_mod" />
+        <static text="Mod" />
             </label_fieldtop>
             
             <speed_mod_plus />
@@ -1442,9 +1442,9 @@
             <speed_number_mod name="speed_tempmod" source="speed.tempmod">
                 <displaysign />
             </speed_number_mod>
-			<label_fieldtop name="label_speedtempmod">
-				<anchored to="speed_tempmod" />
-				<static text="Temp" />
+      <label_fieldtop name="label_speedtempmod">
+        <anchored to="speed_tempmod" />
+        <static text="Temp" />
             </label_fieldtop>
             
             <label>
@@ -1457,36 +1457,36 @@
 
             <speed_number_total name="speed_total" source="speed.total">
             </speed_number_total>
-			<label_fieldtop name="label_speedtotal">
-				<anchored to="speed_total" />
-				<static text="Total" />
+      <label_fieldtop name="label_speedtotal">
+        <anchored to="speed_total" />
+        <static text="Total" />
       </label_fieldtop>
             
       <!-- proficiencies.weapon.penalty -->
       <label name="label_proficiency_weapon_penalty">
-				<anchored width="60">
-					<top parent="columnanchor" anchor="bottom" relation="relative" offset="20" />
-					<left offset="30" />
-				</anchored>
-				<static textres="char_label_weapon_penalty" />
+        <anchored width="60">
+          <top parent="columnanchor" anchor="bottom" relation="relative" offset="20" />
+          <left offset="30" />
+        </anchored>
+        <static textres="char_label_weapon_penalty" />
         <tooltip textres="char_label_weapon_penalty_tooltip" />
       </label>
       <number_basic name="weapon_penalty" source="proficiencies.weapon.penalty">
         <anchored to="label_proficiency_weapon_penalty" position="righthigh" offset="10,0" height="18" width="30" />
         <tooltip textres="char_label_weapon_penalty_tooltip" />
       </number_basic>
-			<label_fieldtop name="label_speedtotal">
-				<anchored to="weapon_penalty" />
-				<static text="Penalty" />
+      <label_fieldtop name="label_speedtotal">
+        <anchored to="weapon_penalty" />
+        <static text="Penalty" />
         <tooltip textres="char_label_weapon_penalty_tooltip" />
       </label_fieldtop>
 
       <label name="label_details_psionicpowers">
-				<anchored width="100">
-					<top parent="columnanchor" anchor="bottom" relation="relative" offset="20" />
-					<left offset="30" />
-				</anchored>
-				<static text="Psionic Powers" />
+        <anchored width="100">
+          <top parent="columnanchor" anchor="bottom" relation="relative" offset="20" />
+          <left offset="30" />
+        </anchored>
+        <static text="Psionic Powers" />
         <tooltip text="Psionic Power ratings." />
       </label>
 
@@ -1494,90 +1494,90 @@
         <anchored to="label_details_psionicpowers" position="righthigh" offset="5,0" />
       </button_combat_psionic_details>
       <close_charsheethelper />
-		</sheetdata>
-	</windowclass>
-	
-	<windowclass name="charsheet_healthcalc">
-		<frame>charsheethelper</frame>
-		<placement>
-			<size width="400" height="120" />
-		</placement>
-		<nodelete />
-		<playercontrol />
-		<sheetdata>
-			<windowtitlebar_char name="title">
-				<prefix>char_healthcalc_title</prefix>
-			</windowtitlebar_char>
-			<anchor_title_charsheethelper name="contentanchor" />
+    </sheetdata>
+  </windowclass>
+  
+  <windowclass name="charsheet_healthcalc">
+    <frame>charsheethelper</frame>
+    <placement>
+      <size width="400" height="120" />
+    </placement>
+    <nodelete />
+    <playercontrol />
+    <sheetdata>
+      <windowtitlebar_char name="title">
+        <prefix>char_healthcalc_title</prefix>
+      </windowtitlebar_char>
+      <anchor_title_charsheethelper name="contentanchor" />
 
-			<anchor_column name="columnanchor">
-				<anchored to="contentanchor" position="below" offset="0,-5" />
-			</anchor_column>
-			
-			<!-- Hit Dice Detail -->
-			<label name="label_hddetail">
-				<anchored width="80">
-					<top parent="columnanchor" anchor="bottom" relation="relative" offset="20" />
-					<left offset="30" />
-				</anchored>
-				<static textres="char_label_hddetail" />
-			</label>
-			<label name="label_hddummy">
-				<anchored to="label_hddetail" position="righthigh" offset="5,0" width="45" height="20" />
-				<static textres="char_label_hdclass" />
-				<center />
-			</label>
-			<label name="label_hdplus">
-				<anchored to="label_hddummy" position="righthigh" offset="5,0" width="10" />
-				<static>+</static>
-				<center />
-			</label>
-			<cycler_abilitybase name="hdstat">
-				<anchored to="label_hdplus" position="righthigh" offset="5,0" width="45" height="20" />
-				<source><name>hp.hdstat</name></source>
-			</cycler_abilitybase>
-			<label_fieldtop name="label_hdstat">
-				<anchored to="hdstat" />
-				<static textres="char_label_hdstat" />
-			</label_fieldtop>
-			<label name="label_hdplus2">
-				<anchored to="hdstat" position="righthigh" offset="5,0" width="10" />
-				<static>+</static>
-				<center />
-			</label>
-			<cycler_ability name="hdstat2">
-				<anchored to="label_hdplus2" position="righthigh" offset="5,0" width="45" height="20" />
-				<source><name>hp.hdstat2</name></source>
-			</cycler_ability>
-			<label_fieldtop name="label_hdstat2">
-				<anchored to="hdstat2" />
-				<static textres="2nd" />
-			</label_fieldtop>
-			<label name="label_hdplus3">
-				<anchored to="hdstat2" position="righthigh" offset="5,0" width="10" />
-				<static>+</static>
-				<center />
-			</label>
-			<basicnumber name="hdmod" source="hp.hdmod">
-				<anchored to="label_hdplus3" position="righthigh" offset="5,0" width="45" height="20" />
-				<hideonvalue value="0" />
-			</basicnumber>
-			<label_fieldtop name="label_hdmod">
-				<anchored to="hdmod" />
-				<static textres="char_label_hdmisc" />
-			</label_fieldtop>
+      <anchor_column name="columnanchor">
+        <anchored to="contentanchor" position="below" offset="0,-5" />
+      </anchor_column>
+      
+      <!-- Hit Dice Detail -->
+      <label name="label_hddetail">
+        <anchored width="80">
+          <top parent="columnanchor" anchor="bottom" relation="relative" offset="20" />
+          <left offset="30" />
+        </anchored>
+        <static textres="char_label_hddetail" />
+      </label>
+      <label name="label_hddummy">
+        <anchored to="label_hddetail" position="righthigh" offset="5,0" width="45" height="20" />
+        <static textres="char_label_hdclass" />
+        <center />
+      </label>
+      <label name="label_hdplus">
+        <anchored to="label_hddummy" position="righthigh" offset="5,0" width="10" />
+        <static>+</static>
+        <center />
+      </label>
+      <cycler_abilitybase name="hdstat">
+        <anchored to="label_hdplus" position="righthigh" offset="5,0" width="45" height="20" />
+        <source><name>hp.hdstat</name></source>
+      </cycler_abilitybase>
+      <label_fieldtop name="label_hdstat">
+        <anchored to="hdstat" />
+        <static textres="char_label_hdstat" />
+      </label_fieldtop>
+      <label name="label_hdplus2">
+        <anchored to="hdstat" position="righthigh" offset="5,0" width="10" />
+        <static>+</static>
+        <center />
+      </label>
+      <cycler_ability name="hdstat2">
+        <anchored to="label_hdplus2" position="righthigh" offset="5,0" width="45" height="20" />
+        <source><name>hp.hdstat2</name></source>
+      </cycler_ability>
+      <label_fieldtop name="label_hdstat2">
+        <anchored to="hdstat2" />
+        <static textres="2nd" />
+      </label_fieldtop>
+      <label name="label_hdplus3">
+        <anchored to="hdstat2" position="righthigh" offset="5,0" width="10" />
+        <static>+</static>
+        <center />
+      </label>
+      <basicnumber name="hdmod" source="hp.hdmod">
+        <anchored to="label_hdplus3" position="righthigh" offset="5,0" width="45" height="20" />
+        <hideonvalue value="0" />
+      </basicnumber>
+      <label_fieldtop name="label_hdmod">
+        <anchored to="hdmod" />
+        <static textres="char_label_hdmisc" />
+      </label_fieldtop>
 
-			<close_charsheethelper />
-		</sheetdata>
-	</windowclass>
+      <close_charsheethelper />
+    </sheetdata>
+  </windowclass>
     
-	<windowclass name="charsheet_abilities_details">
-		<frame>charsheethelper</frame>
-		<placement>
-			<size width="400" height="445" />
-		</placement>
-		<nodelete />
-		<sheetdata>
+  <windowclass name="charsheet_abilities_details">
+    <frame>charsheethelper</frame>
+    <placement>
+      <size width="400" height="445" />
+    </placement>
+    <nodelete />
+    <sheetdata>
             <windowtitlebar name="title">
                 <prefix>charsheet_abilities_detail_title</prefix>
                 <bounds merge="replace">0,10,-1,120</bounds>
@@ -1605,28 +1605,28 @@
       <disabled />
     </genericcontrol>
     <genericcontrol name="leftanchor">
-				<anchored width="0" height="0">
-					<top offset="90" />
-					<top />
-					<left offset="15" />
-					<left />
-				</anchored>
-				<invisible />
-			</genericcontrol>
+        <anchored width="0" height="0">
+          <top offset="90" />
+          <top />
+          <left offset="15" />
+          <left />
+        </anchored>
+        <invisible />
+      </genericcontrol>
 
             <!-- strength base -->
     <label_ability_details_stat name="strength_label">
-				<anchored>
-					<top offset="5" />
+        <anchored>
+          <top offset="5" />
                     <left offset="30" />
-				</anchored>
-				<static text="Strength" />
+        </anchored>
+        <static text="Strength" />
             </label_ability_details_stat>
 
             
     <ability_number_base name="strength_base" source="abilities.strength.base">
                 <tooltip textres="charsheet_abilities_base_tooltip" />
-				<anchored to="strength_label" />
+        <anchored to="strength_label" />
             </ability_number_base>
     <label_fieldtop name="label_ability_strbase_top">
               <tooltip textres="charsheet_abilities_base_tooltip" />
@@ -1687,35 +1687,35 @@
 
             <!-- strength total -->
             <ability_details_total name="strength_total" source="abilities.strength.score">
-				<target>strength</target>
+        <target>strength</target>
                 <anchored to="strength_label"/>
             </ability_details_total>
-			<label_fieldtop name="strength_total_top">
-				<anchored to="strength_total" />
-				<static text="Total" />
-			</label_fieldtop>
+      <label_fieldtop name="strength_total_top">
+        <anchored to="strength_total" />
+        <static text="Total" />
+      </label_fieldtop>
             
             
             
             <!-- strength percent base -->
             <label_ability_details name="strength_percent_label">
-				<anchored>
-					<top offset="30" />
+        <anchored>
+          <top offset="30" />
                     <left offset="30" />
-				</anchored>
-				<static text="Str %" />
+        </anchored>
+        <static text="Str %" />
             </label_ability_details>
 
             <ability_percent_number_base name="strength_percent_base" source="abilities.strength.percentbase">
                 <tooltip textres="charsheet_abilities_base_tooltip" />
-				<anchored to="strength_percent_label" />
+        <anchored to="strength_percent_label" />
             </ability_percent_number_base>
 
             <!-- strength percent basemod -->
             <ability_percent_number_base name="strength_percent_base_mod" source="abilities.strength.percentbasemod">
                 <tooltip textres="charsheet_abilities_basemod_tooltip" />
                 <gmeditonly />
-				<anchored to="strength_percent_label" />
+        <anchored to="strength_percent_label" />
             </ability_percent_number_base>
 
             <!-- strength percent mods -->
@@ -1724,7 +1724,7 @@
             </label_plus>
             <ability_number_mod name="strength_percent_mod" source="abilities.strength.percentadjustment">
                 <tooltip textres="charsheet_abilities_adjustment_tooltip" />
-				<anchored to="strength_percent_label" />
+        <anchored to="strength_percent_label" />
             </ability_number_mod>
 
             <!-- strength percent temp mods -->
@@ -1733,28 +1733,28 @@
             </label_plus>
             <ability_number_mod name="strength_percent_temp" source="abilities.strength.percenttempmod">
                 <tooltip textres="charsheet_abilities_tempmod_tooltip" />
-				<anchored to="strength_percent_label" />
+        <anchored to="strength_percent_label" />
             </ability_number_mod>
 
             <!-- strength percent total -->
             <ability_details_percent_total name="strength_percent_total"  source="abilities.strength.percent">
-				<target>strength</target>
+        <target>strength</target>
                 <anchored to="strength_percent_label"/>
             </ability_details_percent_total>
             
             <!-- dex -->
             <!-- dex  base -->
             <label_ability_details_stat name="dexterity_label">
-				<anchored>
-					<top offset="55" />
+        <anchored>
+          <top offset="55" />
                     <left offset="30" />
-				</anchored>
-				<static text="Dexterity" />
+        </anchored>
+        <static text="Dexterity" />
             </label_ability_details_stat>
 
             <ability_number_base name="dexterity_base" source="abilities.dexterity.base">
                 <tooltip textres="charsheet_abilities_base_tooltip" />
-				<anchored to="dexterity_label" />
+        <anchored to="dexterity_label" />
             </ability_number_base>
             
             <!-- dex  basemod -->
@@ -1762,7 +1762,7 @@
                 <tooltip textres="charsheet_abilities_basemod_tooltip" />
                 <gmeditonly />
                 <default>0</default>
-				<anchored to="dexterity_label" />
+        <anchored to="dexterity_label" />
             </ability_number_base>
 
             <!-- dex  mods -->
@@ -1771,7 +1771,7 @@
             </label_plus>
             <ability_number_mod name="dexterity_mod" source="abilities.dexterity.adjustment">
                 <tooltip textres="charsheet_abilities_adjustment_tooltip" />
-				<anchored to="dexterity_label" />
+        <anchored to="dexterity_label" />
             </ability_number_mod>
 
             <!-- dex  temp mods -->
@@ -1780,27 +1780,27 @@
             </label_plus>
             <ability_number_mod name="dexterity_temp" source="abilities.dexterity.tempmod">
                 <tooltip textres="charsheet_abilities_tempmod_tooltip" />
-				<anchored to="dexterity_label" />
+        <anchored to="dexterity_label" />
             </ability_number_mod>
 
             <!-- dex  total -->
             <ability_details_total name="dexterity_total"  source="abilities.dexterity.score">
-				<target>dexterity</target>
+        <target>dexterity</target>
                 <anchored to="dexterity_label"/>
             </ability_details_total>
             
             <!-- dexterity percent base -->
             <label_ability_details name="dexterity_percent_label">
-				<anchored>
-					<top offset="80" />
+        <anchored>
+          <top offset="80" />
                     <left offset="30" />
-				</anchored>
-				<static text="Dex %" />
+        </anchored>
+        <static text="Dex %" />
             </label_ability_details>
 
             <ability_percent_number_base name="dexterity_percent_base" source="abilities.dexterity.percentbase">
                 <tooltip textres="charsheet_abilities_base_tooltip" />
-				<anchored to="dexterity_percent_label" />
+        <anchored to="dexterity_percent_label" />
             </ability_percent_number_base>
             
             <!-- dexterity percent basemod -->
@@ -1808,7 +1808,7 @@
                 <tooltip textres="charsheet_abilities_basemod_tooltip" />
                 <gmeditonly />
                 <default>0</default>
-				<anchored to="dexterity_percent_label" />
+        <anchored to="dexterity_percent_label" />
             </ability_percent_number_base>
 
             <!-- dexterity percent mods -->
@@ -1817,7 +1817,7 @@
             </label_plus>
             <ability_number_mod name="dexterity_percent_mod" source="abilities.dexterity.percentadjustment">
                 <tooltip textres="charsheet_abilities_adjustment_tooltip" />
-				<anchored to="dexterity_percent_label" />
+        <anchored to="dexterity_percent_label" />
             </ability_number_mod>
 
             <!-- dexterity percent temp mods -->
@@ -1826,12 +1826,12 @@
             </label_plus>
             <ability_number_mod name="dexterity_percent_temp" source="abilities.dexterity.percenttempmod">
                 <tooltip textres="charsheet_abilities_tempmod_tooltip" />
-				<anchored to="dexterity_percent_label" />
+        <anchored to="dexterity_percent_label" />
             </ability_number_mod>
 
             <!-- dexterity percent total -->
             <ability_details_percent_total name="dexterity_percent_total" source="abilities.dexterity.percent">
-				<target>dexterity</target>
+        <target>dexterity</target>
                 <anchored to="dexterity_percent_label"/>
             </ability_details_percent_total>
             
@@ -1840,16 +1840,16 @@
             <!-- constitution -->
             <!-- constitution  base -->
             <label_ability_details_stat name="constitution_label">
-				<anchored>
-					<top offset="105" />
+        <anchored>
+          <top offset="105" />
                     <left offset="30" />
-				</anchored>
-				<static text="Constitution" />
+        </anchored>
+        <static text="Constitution" />
             </label_ability_details_stat>
 
             <ability_number_base name="constitution_base" source="abilities.constitution.base">
                 <tooltip textres="charsheet_abilities_base_tooltip" />
-				<anchored to="constitution_label" />
+        <anchored to="constitution_label" />
             </ability_number_base>
             
             <!-- constitution  basemod -->
@@ -1857,7 +1857,7 @@
                 <tooltip textres="charsheet_abilities_basemod_tooltip" />
                 <gmeditonly />
                 <default>0</default>
-				<anchored to="constitution_label" />
+        <anchored to="constitution_label" />
             </ability_number_base>
 
             <!-- constitution  mods -->
@@ -1866,7 +1866,7 @@
             </label_plus>
             <ability_number_mod name="constitution_mod" source="abilities.constitution.adjustment">
                 <tooltip textres="charsheet_abilities_adjustment_tooltip" />
-				<anchored to="constitution_label" />
+        <anchored to="constitution_label" />
             </ability_number_mod>
 
             <!-- constitution  temp mods -->
@@ -1875,27 +1875,27 @@
             </label_plus>
             <ability_number_mod name="constitution_temp" source="abilities.constitution.tempmod">
                 <tooltip textres="charsheet_abilities_tempmod_tooltip" />
-				<anchored to="constitution_label" />
+        <anchored to="constitution_label" />
             </ability_number_mod>
 
             <!-- constitution  total -->
             <ability_details_total name="constitution_total" source="abilities.constitution.score">
-				<target>constitution</target>
+        <target>constitution</target>
                 <anchored to="constitution_label"/>
             </ability_details_total>
             
             <!-- constitution percent base -->
             <label_ability_details name="constitution_percent_label">
-				<anchored>
-					<top  offset="130" />
+        <anchored>
+          <top  offset="130" />
                     <left offset="30" />
-				</anchored>
-				<static text="Con %" />
+        </anchored>
+        <static text="Con %" />
             </label_ability_details>
 
             <ability_percent_number_base name="constitution_percent_base" source="abilities.constitution.percentbase">
                 <tooltip textres="charsheet_abilities_base_tooltip" />
-				<anchored to="constitution_percent_label" />
+        <anchored to="constitution_percent_label" />
             </ability_percent_number_base>
             
             <!-- constitution percent basemod -->
@@ -1903,7 +1903,7 @@
                 <tooltip textres="charsheet_abilities_basemod_tooltip" />
                 <gmeditonly />
                 <default>0</default>
-				<anchored to="constitution_percent_label" />
+        <anchored to="constitution_percent_label" />
             </ability_percent_number_base>
 
             <!-- constitution percent mods -->
@@ -1912,7 +1912,7 @@
             </label_plus>
             <ability_number_mod name="constitution_percent_mod" source="abilities.constitution.percentadjustment">
                 <tooltip textres="charsheet_abilities_adjustment_tooltip" />
-				<anchored to="constitution_percent_label" />
+        <anchored to="constitution_percent_label" />
             </ability_number_mod>
 
             <!-- constitution percent temp mods -->
@@ -1921,28 +1921,28 @@
             </label_plus>
             <ability_number_mod name="constitution_percent_temp" source="abilities.constitution.percenttempmod">
                 <tooltip textres="charsheet_abilities_tempmod_tooltip" />
-				<anchored to="constitution_percent_label" />
+        <anchored to="constitution_percent_label" />
             </ability_number_mod>
 
             <!-- constitution percent total -->
             <ability_details_percent_total name="constitution_percent_total" source="abilities.constitution.percent">
-				<target>constitution</target>
+        <target>constitution</target>
                 <anchored to="constitution_percent_label"/>
             </ability_details_percent_total>
 
             <!-- intelligence -->
             <!-- intelligence  base -->
             <label_ability_details_stat name="intelligence_label">
-				<anchored>
-					<top offset="155" />
+        <anchored>
+          <top offset="155" />
                     <left offset="30" />
-				</anchored>
-				<static text="Intelligence" />
+        </anchored>
+        <static text="Intelligence" />
             </label_ability_details_stat>
 
             <ability_number_base name="intelligence_base" source="abilities.intelligence.base">
                 <tooltip textres="charsheet_abilities_base_tooltip" />
-				<anchored to="intelligence_label" />
+        <anchored to="intelligence_label" />
             </ability_number_base>
             
             <!-- intelligence  basemod -->
@@ -1950,7 +1950,7 @@
                 <tooltip textres="charsheet_abilities_basemod_tooltip" />
                 <gmeditonly />
                 <default>0</default>
-				<anchored to="intelligence_label" />
+        <anchored to="intelligence_label" />
             </ability_number_base>
 
             <!-- intelligence  mods -->
@@ -1959,7 +1959,7 @@
             </label_plus>
             <ability_number_mod name="intelligence_mod" source="abilities.intelligence.adjustment">
                 <tooltip textres="charsheet_abilities_adjustment_tooltip" />
-				<anchored to="intelligence_label" />
+        <anchored to="intelligence_label" />
             </ability_number_mod>
 
             <!-- intelligence  temp mods -->
@@ -1968,27 +1968,27 @@
             </label_plus>
             <ability_number_mod name="intelligence_temp" source="abilities.intelligence.tempmod">
                 <tooltip textres="charsheet_abilities_tempmod_tooltip" />
-				<anchored to="intelligence_label" />
+        <anchored to="intelligence_label" />
             </ability_number_mod>
 
             <!-- intelligence  total -->
             <ability_details_total name="intelligence_total" source="abilities.intelligence.score">
-				<target>intelligence</target>
+        <target>intelligence</target>
                 <anchored to="intelligence_label"/>
             </ability_details_total>
             
             <!-- intelligence percent base -->
             <label_ability_details name="intelligence_percent_label">
-				<anchored >
-					<top  offset="180" />
+        <anchored >
+          <top  offset="180" />
                     <left offset="30" />
-				</anchored>
-				<static text="Int %" />
+        </anchored>
+        <static text="Int %" />
             </label_ability_details>
 
             <ability_percent_number_base name="intelligence_percent_base" source="abilities.intelligence.percentbase">
                 <tooltip textres="charsheet_abilities_base_tooltip" />
-				<anchored to="intelligence_percent_label" />
+        <anchored to="intelligence_percent_label" />
             </ability_percent_number_base>
             
             <!-- intelligence percent basemod -->
@@ -1996,7 +1996,7 @@
                 <tooltip textres="charsheet_abilities_basemod_tooltip" />
                 <gmeditonly />
                 <default>0</default>
-				<anchored to="intelligence_percent_label" />
+        <anchored to="intelligence_percent_label" />
             </ability_percent_number_base>
 
             <!-- intelligence percent mods -->
@@ -2005,7 +2005,7 @@
             </label_plus>
             <ability_number_mod name="intelligence_percent_mod" source="abilities.intelligence.percentadjustment">
                 <tooltip textres="charsheet_abilities_adjustment_tooltip" />
-				<anchored to="intelligence_percent_label" />
+        <anchored to="intelligence_percent_label" />
             </ability_number_mod>
 
             <!-- intelligence percent temp mods -->
@@ -2014,28 +2014,28 @@
             </label_plus>
             <ability_number_mod name="intelligence_percent_temp" source="abilities.intelligence.percenttempmod">
                 <tooltip textres="charsheet_abilities_tempmod_tooltip" />
-				<anchored to="intelligence_percent_label" />
+        <anchored to="intelligence_percent_label" />
             </ability_number_mod>
 
             <!-- intelligence percent total -->
             <ability_details_percent_total name="intelligence_percent_total" source="abilities.intelligence.percent">
-				<target>intelligence</target>
+        <target>intelligence</target>
                 <anchored to="intelligence_percent_label"/>
             </ability_details_percent_total>
 
             <!-- wisdom -->
             <!-- wisdom  base -->
             <label_ability_details_stat name="wisdom_label">
-				<anchored>
-					<top offset="205" />
+        <anchored>
+          <top offset="205" />
                     <left offset="30" />
-				</anchored>
-				<static text="Wisdom" />
+        </anchored>
+        <static text="Wisdom" />
             </label_ability_details_stat>
 
             <ability_number_base name="wisdom_base" source="abilities.wisdom.base">
                 <tooltip textres="charsheet_abilities_base_tooltip" />
-				<anchored to="wisdom_label" />
+        <anchored to="wisdom_label" />
             </ability_number_base>
             
             <!-- wisdom  basemod -->
@@ -2043,7 +2043,7 @@
                 <tooltip textres="charsheet_abilities_basemod_tooltip" />
                 <gmeditonly />
                 <default>0</default>
-				<anchored to="wisdom_label" />
+        <anchored to="wisdom_label" />
             </ability_number_base>
 
             <!-- wisdom  mods -->
@@ -2052,7 +2052,7 @@
             </label_plus>
             <ability_number_mod name="wisdom_mod" source="abilities.wisdom.adjustment">
                 <tooltip textres="charsheet_abilities_adjustment_tooltip" />
-				<anchored to="wisdom_label" />
+        <anchored to="wisdom_label" />
             </ability_number_mod>
 
             <!-- wisdom  temp mods -->
@@ -2061,27 +2061,27 @@
             </label_plus>
             <ability_number_mod name="wisdom_temp" source="abilities.wisdom.tempmod">
                 <tooltip textres="charsheet_abilities_tempmod_tooltip" />
-				<anchored to="wisdom_label" />
+        <anchored to="wisdom_label" />
             </ability_number_mod>
 
             <!-- wisdom  total -->
             <ability_details_total name="wisdom_total" source="abilities.wisdom.score">
-				<target>wisdom</target>
+        <target>wisdom</target>
                 <anchored to="wisdom_label"/>
             </ability_details_total>
             
             <!-- wisdom percent base -->
             <label_ability_details name="wisdom_percent_label">
-				<anchored >
-					<top offset="230" />
+        <anchored >
+          <top offset="230" />
                     <left offset="30" />
-				</anchored>
-				<static text="Wis %" />
+        </anchored>
+        <static text="Wis %" />
             </label_ability_details>
 
             <ability_percent_number_base name="wisdom_percent_base" source="abilities.wisdom.percentbase">
                 <tooltip textres="charsheet_abilities_base_tooltip" />
-				<anchored to="wisdom_percent_label" />
+        <anchored to="wisdom_percent_label" />
             </ability_percent_number_base>
             
             <!-- wisdom percent basemod -->
@@ -2089,7 +2089,7 @@
                 <tooltip textres="charsheet_abilities_basemod_tooltip" />
                 <gmeditonly />
                 <default>0</default>
-				<anchored to="wisdom_percent_label" />
+        <anchored to="wisdom_percent_label" />
             </ability_percent_number_base>
 
             <label_plus>
@@ -2097,7 +2097,7 @@
             </label_plus>
             <ability_number_mod name="wisdom_percent_mod" source="abilities.wisdom.percentadjustment">
                 <tooltip textres="charsheet_abilities_adjustment_tooltip" />
-				<anchored to="wisdom_percent_label" />
+        <anchored to="wisdom_percent_label" />
             </ability_number_mod>
 
             <!-- wisdom percent temp mods -->
@@ -2106,28 +2106,28 @@
             </label_plus>
             <ability_number_mod name="wisdom_percent_temp" source="abilities.wisdom.percenttempmod">
                 <tooltip textres="charsheet_abilities_tempmod_tooltip" />
-				<anchored to="wisdom_percent_label" />
+        <anchored to="wisdom_percent_label" />
             </ability_number_mod>
 
             <!-- wisdom percent total -->
             <ability_details_percent_total name="wisdom_percent_total" source="abilities.wisdom.percent">
-				<target>wisdom</target>
+        <target>wisdom</target>
                 <anchored to="wisdom_percent_label"/>
             </ability_details_percent_total>
 
             <!-- charisma -->
             <!-- charisma  base -->
             <label_ability_details_stat name="charisma_label">
-				<anchored>
-					<top offset="255" />
+        <anchored>
+          <top offset="255" />
                     <left offset="30" />
-				</anchored>
-				<static text="Charisma" />
+        </anchored>
+        <static text="Charisma" />
             </label_ability_details_stat>
 
             <ability_number_base name="charisma_base" source="abilities.charisma.base">
                 <tooltip textres="charsheet_abilities_base_tooltip" />
-				<anchored to="charisma_label" />
+        <anchored to="charisma_label" />
             </ability_number_base>
             
             <!-- charisma  basemod -->
@@ -2135,7 +2135,7 @@
                 <tooltip textres="charsheet_abilities_basemod_tooltip" />
                 <gmeditonly />
                 <default>0</default>
-				<anchored to="charisma_label" />
+        <anchored to="charisma_label" />
             </ability_number_base>
 
             <!-- charisma  mods -->
@@ -2144,7 +2144,7 @@
             </label_plus>
             <ability_number_mod name="charisma_mod" source="abilities.charisma.adjustment">
                 <tooltip textres="charsheet_abilities_adjustment_tooltip" />
-				<anchored to="charisma_label" />
+        <anchored to="charisma_label" />
             </ability_number_mod>
 
             <!-- charisma  temp mods -->
@@ -2153,27 +2153,27 @@
             </label_plus>
             <ability_number_mod name="charisma_temp" source="abilities.charisma.tempmod">
                 <tooltip textres="charsheet_abilities_tempmod_tooltip" />
-				<anchored to="charisma_label" />
+        <anchored to="charisma_label" />
             </ability_number_mod>
 
             <!-- charisma  total -->
             <ability_details_total name="charisma_total" source="abilities.charisma.score">
-				<target>charisma</target>
+        <target>charisma</target>
                 <anchored to="charisma_label"/>
             </ability_details_total>
             
             <!-- charisma percent base -->
             <label_ability_details name="charisma_percent_label">
-				<anchored >
-					<top offset="280" />
+        <anchored >
+          <top offset="280" />
                     <left offset="30" />
-				</anchored>
-				<static text="Chr %" />
+        </anchored>
+        <static text="Chr %" />
             </label_ability_details>
 
             <ability_percent_number_base name="charisma_percent_base" source="abilities.charisma.percentbase">
                 <tooltip textres="charsheet_abilities_base_tooltip" />
-				<anchored to="charisma_percent_label" />
+        <anchored to="charisma_percent_label" />
             </ability_percent_number_base>
             
             <!-- charisma percent basemod -->
@@ -2181,7 +2181,7 @@
                 <tooltip textres="charsheet_abilities_basemod_tooltip" />
                 <gmeditonly />
                 <default>0</default>
-				<anchored to="charisma_percent_label" />
+        <anchored to="charisma_percent_label" />
             </ability_percent_number_base>
 
             <!-- charisma percent mods -->
@@ -2190,7 +2190,7 @@
             </label_plus>
             <ability_number_mod name="charisma_percent_mod" source="abilities.charisma.percentadjustment">
                 <tooltip textres="charsheet_abilities_adjustment_tooltip" />
-				<anchored to="charisma_percent_label" />
+        <anchored to="charisma_percent_label" />
             </ability_number_mod>
 
             <!-- charisma percent temp mods -->
@@ -2199,12 +2199,12 @@
             </label_plus>
             <ability_number_mod name="charisma_percent_temp" source="abilities.charisma.percenttempmod">
                 <tooltip textres="charsheet_abilities_tempmod_tooltip" />
-				<anchored to="charisma_percent_label" />
+        <anchored to="charisma_percent_label" />
             </ability_number_mod>
 
             <!-- charisma percent total -->
             <ability_details_percent_total name="charisma_percent_total" source="abilities.charisma.percent">
-				<target>charisma</target>
+        <target>charisma</target>
                 <anchored to="charisma_percent_label"/>
             </ability_details_percent_total>
 
@@ -2212,23 +2212,23 @@
 
             <!-- END -->
             <close>
-			<anchored>
-				<top offset="24" />
-				<right offset="-12" />
-			</anchored>
-		</close>
+      <anchored>
+        <top offset="24" />
+        <right offset="-12" />
+      </anchored>
+    </close>
 
 
-		</sheetdata>
-	</windowclass>
+    </sheetdata>
+  </windowclass>
     
-	<windowclass name="charsheet_saves_details">
-		<frame>charsheethelper</frame>
-		<placement>
-			<size width="420" height="400" />
-		</placement>
-		<nodelete />
-		<sheetdata>
+  <windowclass name="charsheet_saves_details">
+    <frame>charsheethelper</frame>
+    <placement>
+      <size width="420" height="400" />
+    </placement>
+    <nodelete />
+    <sheetdata>
             <windowtitlebar name="title">
                 <prefix>charsheet_saves_detail_title</prefix>
                 <bounds merge="replace">0,10,-1,120</bounds>
@@ -2255,50 +2255,50 @@
                 </anchored>
                 <disabled />                
             </genericcontrol>
-			<genericcontrol name="leftanchor">
-				<anchored width="0" height="0">
-					<top offset="90" />
-					<left />
-				</anchored>
-				<invisible />
-			</genericcontrol>
+      <genericcontrol name="leftanchor">
+        <anchored width="0" height="0">
+          <top offset="90" />
+          <left />
+        </anchored>
+        <invisible />
+      </genericcontrol>
 
             <!-- paralyzation base label -->
             <label_save_details name="paralyzation_label">
-				<anchored>
-					<top offset="5" />
-				</anchored>
-				<static textres="paralyzation" />
+        <anchored>
+          <top offset="5" />
+        </anchored>
+        <static textres="paralyzation" />
             </label_save_details>
 
                 <!-- paralyzation base -->
             <save_number_base name="paralyzation_base" source="saves.paralyzation.base">
                 <tooltip textres="charsheet_saves_base_tooltip" />
-				<anchored to="paralyzation_label" />
+        <anchored to="paralyzation_label" />
             </save_number_base>
-			<label_fieldtop name="label_save_base_top">
+      <label_fieldtop name="label_save_base_top">
                 <tooltip textres="charsheet_saves_base_tooltip" />
-				<anchored to="paralyzation_base" />
-				<static text="Base" />
-			</label_fieldtop>
+        <anchored to="paralyzation_base" />
+        <static text="Base" />
+      </label_fieldtop>
             
             <!-- paralyzation basemod -->
             <save_number_base name="paralyzation_base_mod" source="saves.paralyzation.basemod">
                 <tooltip textres="charsheet_saves_basemod_tooltip" />
                 <gmeditonly />
                 <default>0</default>
-				<anchored to="paralyzation_label" />
+        <anchored to="paralyzation_label" />
             </save_number_base>
-			<label_fieldtop name="label_save_basemod_top">
+      <label_fieldtop name="label_save_basemod_top">
                 <tooltip textres="charsheet_saves_basemod_tooltip" />
-				<anchored to="paralyzation_base_mod" />
-				<static text="Base" />
-			</label_fieldtop>
-			<label_fieldtop>
+        <anchored to="paralyzation_base_mod" />
+        <static text="Base" />
+      </label_fieldtop>
+      <label_fieldtop>
                 <tooltip textres="charsheet_saves_basemod_tooltip" />
-				<anchored to="label_save_basemod_top" />
-				<static text="Mod" />
-			</label_fieldtop>
+        <anchored to="label_save_basemod_top" />
+        <static text="Mod" />
+      </label_fieldtop>
 
             <!-- paralyzation mods -->
             <label_plus>
@@ -2306,13 +2306,13 @@
             </label_plus>
             <save_number_mod name="paralyzation_mod" source="saves.paralyzation.adjustment">
                 <tooltip textres="charsheet_saves_adjustment_tooltip" />
-				<anchored to="paralyzation_label" />
+        <anchored to="paralyzation_label" />
             </save_number_mod>
-			<label_fieldtop name="label_saves_mod_top">
+      <label_fieldtop name="label_saves_mod_top">
                 <tooltip textres="charsheet_saves_adjustment_tooltip" />
-				<anchored to="paralyzation_mod" />
-				<static text="Mod" />
-			</label_fieldtop>
+        <anchored to="paralyzation_mod" />
+        <static text="Mod" />
+      </label_fieldtop>
 
             <!-- paralyzation temp mods -->
             <label_plus>
@@ -2320,42 +2320,42 @@
             </label_plus>
             <save_number_mod name="paralyzation_temp" source="saves.paralyzation.tempmod">
                 <tooltip textres="charsheet_saves_tempmod_tooltip" />
-				<anchored to="paralyzation_label" />
+        <anchored to="paralyzation_label" />
             </save_number_mod>
-			<label_fieldtop name="label_saves_tempmod_top">
+      <label_fieldtop name="label_saves_tempmod_top">
                 <tooltip textres="charsheet_saves_tempmod_tooltip" />
-				<anchored to="paralyzation_temp" />
-				<static text="Mod" />
-			</label_fieldtop>
-			<label_fieldtop >
+        <anchored to="paralyzation_temp" />
+        <static text="Mod" />
+      </label_fieldtop>
+      <label_fieldtop >
                 <tooltip textres="charsheet_saves_tempmod_tooltip" />
-				<anchored to="label_saves_tempmod_top" />
-				<static text="Temp." />
-			</label_fieldtop>
+        <anchored to="label_saves_tempmod_top" />
+        <static text="Temp." />
+      </label_fieldtop>
 
             <!-- paralyzation total -->
             <save_details_total name="paralyzation_total" source="saves.paralyzation.score">
-				<target>paralyzation</target>
+        <target>paralyzation</target>
                 <anchored to="paralyzation_label"/>
             </save_details_total>
-			<label_fieldtop name="paralyzation_total_top">
-				<anchored to="paralyzation_total" />
-				<static text="Total" />
-			</label_fieldtop>
+      <label_fieldtop name="paralyzation_total_top">
+        <anchored to="paralyzation_total" />
+        <static text="Total" />
+      </label_fieldtop>
             
             <!-- poison -->
             <!-- poison base label -->
             <label_save_details name="poison_label">
-				<anchored>
-					<top offset="30" />
-				</anchored>
-				<static textres="poison" />
+        <anchored>
+          <top offset="30" />
+        </anchored>
+        <static textres="poison" />
             </label_save_details>
 
                 <!-- poison base -->
             <save_number_base name="poison_base" source="saves.poison.base">
                 <tooltip textres="charsheet_saves_base_tooltip" />
-				<anchored to="poison_label" />
+        <anchored to="poison_label" />
             </save_number_base>
             
             <!-- poison basemod -->
@@ -2363,7 +2363,7 @@
                 <tooltip textres="charsheet_saves_basemod_tooltip" />
                 <gmeditonly />
                 <default>0</default>
-				<anchored to="poison_label" />
+        <anchored to="poison_label" />
             </save_number_base>
 
             <!-- poison mods -->
@@ -2372,7 +2372,7 @@
             </label_plus>
             <save_number_mod name="poison_mod" source="saves.poison.adjustment">
                 <tooltip textres="charsheet_saves_adjustment_tooltip" />
-				<anchored to="poison_label" />
+        <anchored to="poison_label" />
             </save_number_mod>
 
             <!-- poison temp mods -->
@@ -2381,28 +2381,28 @@
             </label_plus>
             <save_number_mod name="poison_temp" source="saves.poison.tempmod">
                 <tooltip textres="charsheet_saves_tempmod_tooltip" />
-				<anchored to="poison_label" />
+        <anchored to="poison_label" />
             </save_number_mod>
 
             <!-- poison total -->
             <save_details_total name="poison_total"  source="saves.poison.score">
-				<target>poison</target>
+        <target>poison</target>
                 <anchored to="poison_label"/>
             </save_details_total>
 
             <!-- death -->
             <!-- death base label -->
             <label_save_details name="death_label">
-				<anchored>
-					<top offset="55" />
-				</anchored>
-				<static textres="death" />
+        <anchored>
+          <top offset="55" />
+        </anchored>
+        <static textres="death" />
             </label_save_details>
 
                 <!-- death base -->
             <save_number_base name="death_base" source="saves.death.base">
                 <tooltip textres="charsheet_saves_base_tooltip" />
-				<anchored to="death_label" />
+        <anchored to="death_label" />
             </save_number_base>
             
             <!-- death basemod -->
@@ -2410,7 +2410,7 @@
                 <tooltip textres="charsheet_saves_basemod_tooltip" />
                 <gmeditonly />
                 <default>0</default>
-				<anchored to="death_label" />
+        <anchored to="death_label" />
             </save_number_base>
 
             <!-- death mods -->
@@ -2419,7 +2419,7 @@
             </label_plus>
             <save_number_mod name="death_mod" source="saves.death.adjustment">
                 <tooltip textres="charsheet_saves_adjustment_tooltip" />
-				<anchored to="death_label" />
+        <anchored to="death_label" />
             </save_number_mod>
 
             <!-- death temp mods -->
@@ -2428,28 +2428,28 @@
             </label_plus>
             <save_number_mod name="death_temp" source="saves.death.tempmod">
                 <tooltip textres="charsheet_saves_tempmod_tooltip" />
-				<anchored to="death_label" />
+        <anchored to="death_label" />
             </save_number_mod>
 
             <!-- death total -->
             <save_details_total name="death_total" source="saves.death.score">
-				<target>death</target>
+        <target>death</target>
                 <anchored to="death_label"/>
             </save_details_total>
 
             <!-- rod -->
             <!-- rod base label -->
             <label_save_details name="rod_label">
-				<anchored>
-					<top offset="80" />
-				</anchored>
-				<static textres="rod" />
+        <anchored>
+          <top offset="80" />
+        </anchored>
+        <static textres="rod" />
             </label_save_details>
 
                 <!-- rod base -->
             <save_number_base name="rod_base" source="saves.rod.base">
                 <tooltip textres="charsheet_saves_base_tooltip" />
-				<anchored to="rod_label" />
+        <anchored to="rod_label" />
             </save_number_base>
             
             <!-- rod basemod -->
@@ -2457,7 +2457,7 @@
                 <tooltip textres="charsheet_saves_basemod_tooltip" />
                 <gmeditonly />
                 <default>0</default>
-				<anchored to="rod_label" />
+        <anchored to="rod_label" />
             </save_number_base>
 
             <!-- rod mods -->
@@ -2466,7 +2466,7 @@
             </label_plus>
             <save_number_mod name="rod_mod" source="saves.rod.adjustment">
                 <tooltip textres="charsheet_saves_adjustment_tooltip" />
-				<anchored to="rod_label" />
+        <anchored to="rod_label" />
             </save_number_mod>
 
             <!-- rod temp mods -->
@@ -2475,28 +2475,28 @@
             </label_plus>
             <save_number_mod name="rod_temp" source="saves.rod.tempmod">
                 <tooltip textres="charsheet_saves_tempmod_tooltip" />
-				<anchored to="rod_label" />
+        <anchored to="rod_label" />
             </save_number_mod>
 
             <!-- rod total -->
             <save_details_total name="rod_total" source="saves.rod.score">
-				<target>rod</target>
+        <target>rod</target>
                 <anchored to="rod_label"/>
             </save_details_total>
             
             <!-- staff -->
             <!-- staff base label -->
             <label_save_details name="staff_label">
-				<anchored>
-					<top offset="105" />
-				</anchored>
-				<static textres="staff" />
+        <anchored>
+          <top offset="105" />
+        </anchored>
+        <static textres="staff" />
             </label_save_details>
 
                 <!-- staff base -->
             <save_number_base name="staff_base" source="saves.staff.base">
                 <tooltip textres="charsheet_saves_base_tooltip" />
-				<anchored to="staff_label" />
+        <anchored to="staff_label" />
             </save_number_base>
             
             <!-- staff basemod -->
@@ -2504,7 +2504,7 @@
                 <tooltip textres="charsheet_saves_basemod_tooltip" />
                 <gmeditonly />
                 <default>0</default>
-				<anchored to="staff_label" />
+        <anchored to="staff_label" />
             </save_number_base>
 
             <!-- staff mods -->
@@ -2513,7 +2513,7 @@
             </label_plus>
             <save_number_mod name="staff_mod" source="saves.staff.adjustment">
                 <tooltip textres="charsheet_saves_adjustment_tooltip" />
-				<anchored to="staff_label" />
+        <anchored to="staff_label" />
             </save_number_mod>
 
             <!-- staff temp mods -->
@@ -2522,12 +2522,12 @@
             </label_plus>
             <save_number_mod name="staff_temp" source="saves.staff.tempmod">
                 <tooltip textres="charsheet_saves_tempmod_tooltip" />
-				<anchored to="staff_label" />
+        <anchored to="staff_label" />
             </save_number_mod>
 
             <!-- staff total -->
             <save_details_total name="staff_total" source="saves.staff.score">
-				<target>staff</target>
+        <target>staff</target>
                 <anchored to="staff_label"/>
             </save_details_total>
 
@@ -2535,16 +2535,16 @@
             <!-- wand -->
             <!-- wand base label -->
             <label_save_details name="wand_label">
-				<anchored>
-					<top offset="130" />
-				</anchored>
-				<static textres="wand" />
+        <anchored>
+          <top offset="130" />
+        </anchored>
+        <static textres="wand" />
             </label_save_details>
 
                 <!-- wand base -->
             <save_number_base name="wand_base" source="saves.wand.base">
                 <tooltip textres="charsheet_saves_base_tooltip" />
-				<anchored to="wand_label" />
+        <anchored to="wand_label" />
             </save_number_base>
             
             <!-- wand basemod -->
@@ -2552,7 +2552,7 @@
                 <tooltip textres="charsheet_saves_basemod_tooltip" />
                 <gmeditonly />
                 <default>0</default>
-				<anchored to="wand_label" />
+        <anchored to="wand_label" />
             </save_number_base>
 
             <!-- wand mods -->
@@ -2561,7 +2561,7 @@
             </label_plus>
             <save_number_mod name="wand_mod" source="saves.wand.adjustment">
                 <tooltip textres="charsheet_saves_adjustment_tooltip" />
-				<anchored to="wand_label" />
+        <anchored to="wand_label" />
             </save_number_mod>
 
             <!-- wand temp mods -->
@@ -2570,28 +2570,28 @@
             </label_plus>
             <save_number_mod name="wand_temp" source="saves.wand.tempmod">
                 <tooltip textres="charsheet_saves_tempmod_tooltip" />
-				<anchored to="wand_label" />
+        <anchored to="wand_label" />
             </save_number_mod>
 
             <!-- wand total -->
             <save_details_total name="wand_total" source="saves.wand.score">
-				<target>wand</target>
+        <target>wand</target>
                 <anchored to="wand_label"/>
             </save_details_total>
 
             <!-- petrification -->
             <!-- petrification base label -->
             <label_save_details name="petrification_label">
-				<anchored>
-					<top offset="155" />
-				</anchored>
-				<static textres="petrification" />
+        <anchored>
+          <top offset="155" />
+        </anchored>
+        <static textres="petrification" />
             </label_save_details>
 
             <!-- petrification base -->
             <save_number_base name="petrification_base" source="saves.petrification.base">
                 <tooltip textres="charsheet_saves_base_tooltip" />
-				<anchored to="petrification_label" />
+        <anchored to="petrification_label" />
             </save_number_base>
             
             <!-- petrification basemod -->
@@ -2599,7 +2599,7 @@
                 <tooltip textres="charsheet_saves_basemod_tooltip" />
                 <gmeditonly />
                 <default>0</default>
-				<anchored to="petrification_label" />
+        <anchored to="petrification_label" />
             </save_number_base>
 
             <!-- petrification mods -->
@@ -2608,7 +2608,7 @@
             </label_plus>
             <save_number_mod name="petrification_mod" source="saves.petrification.adjustment">
                 <tooltip textres="charsheet_saves_adjustment_tooltip" />
-				<anchored to="petrification_label" />
+        <anchored to="petrification_label" />
             </save_number_mod>
 
             <!-- petrification temp mods -->
@@ -2617,28 +2617,28 @@
             </label_plus>
             <save_number_mod name="petrification_temp" source="saves.petrification.tempmod">
                 <tooltip textres="charsheet_saves_tempmod_tooltip" />
-				<anchored to="petrification_label" />
+        <anchored to="petrification_label" />
             </save_number_mod>
 
             <!-- petrification total -->
             <save_details_total name="petrification_total" source="saves.petrification.score">
-				<target>petrification</target>
+        <target>petrification</target>
                 <anchored to="petrification_label"/>
             </save_details_total>
 
             <!-- polymorph -->
             <!-- polymorph base label -->
             <label_save_details name="polymorph_label">
-				<anchored>
-					<top offset="180" />
-				</anchored>
-				<static textres="polymorph" />
+        <anchored>
+          <top offset="180" />
+        </anchored>
+        <static textres="polymorph" />
             </label_save_details>
 
                 <!-- polymorph base -->
             <save_number_base name="polymorph_base" source="saves.polymorph.base">
                 <tooltip textres="charsheet_saves_base_tooltip" />
-				<anchored to="polymorph_label" />
+        <anchored to="polymorph_label" />
             </save_number_base>
             
             <!-- polymorph basemod -->
@@ -2646,7 +2646,7 @@
                 <tooltip textres="charsheet_saves_basemod_tooltip" />
                 <gmeditonly />
                 <default>0</default>
-				<anchored to="polymorph_label" />
+        <anchored to="polymorph_label" />
             </save_number_base>
 
             <!-- polymorph mods -->
@@ -2655,7 +2655,7 @@
             </label_plus>
             <save_number_mod name="polymorph_mod" source="saves.polymorph.adjustment">
                 <tooltip textres="charsheet_saves_adjustment_tooltip" />
-				<anchored to="polymorph_label" />
+        <anchored to="polymorph_label" />
             </save_number_mod>
 
             <!-- polymorph temp mods -->
@@ -2664,12 +2664,12 @@
             </label_plus>
             <save_number_mod name="polymorph_temp" source="saves.polymorph.tempmod">
                 <tooltip textres="charsheet_saves_tempmod_tooltip" />
-				<anchored to="polymorph_label" />
+        <anchored to="polymorph_label" />
             </save_number_mod>
 
             <!-- polymorph total -->
             <save_details_total name="polymorph_total" source="saves.polymorph.score">
-				<target>polymorph</target>
+        <target>polymorph</target>
                 <anchored to="polymorph_label"/>
             </save_details_total>
 
@@ -2677,16 +2677,16 @@
             <!-- breath -->
             <!-- breath base label -->
             <label_save_details name="breath_label">
-				<anchored>
-					<top offset="205" />
-				</anchored>
-				<static textres="breath" />
+        <anchored>
+          <top offset="205" />
+        </anchored>
+        <static textres="breath" />
             </label_save_details>
 
                 <!-- breath base -->
             <save_number_base name="breath_base" source="saves.breath.base">
                 <tooltip textres="charsheet_saves_base_tooltip" />
-				<anchored to="breath_label" />
+        <anchored to="breath_label" />
             </save_number_base>
             
             <!-- breath basemod -->
@@ -2694,7 +2694,7 @@
                 <tooltip textres="charsheet_saves_basemod_tooltip" />
                 <gmeditonly />
                 <default>0</default>
-				<anchored to="breath_label" />
+        <anchored to="breath_label" />
             </save_number_base>
 
             <!-- breath mods -->
@@ -2703,7 +2703,7 @@
             </label_plus>
             <save_number_mod name="breath_mod" source="saves.breath.adjustment">
                 <tooltip textres="charsheet_saves_adjustment_tooltip" />
-				<anchored to="breath_label" />
+        <anchored to="breath_label" />
             </save_number_mod>
 
             <!-- breath temp mods -->
@@ -2712,12 +2712,12 @@
             </label_plus>
             <save_number_mod name="breath_temp" source="saves.breath.tempmod">
                 <tooltip textres="charsheet_saves_tempmod_tooltip" />
-				<anchored to="breath_label" />
+        <anchored to="breath_label" />
             </save_number_mod>
 
             <!-- breath total -->
             <save_details_total name="breath_total" source="saves.breath.score">
-				<target>breath</target>
+        <target>breath</target>
                 <anchored to="breath_label"/>
             </save_details_total>
 
@@ -2725,16 +2725,16 @@
             <!-- spell -->
             <!-- spell base label -->
             <label_save_details name="spell_label">
-				<anchored>
-					<top offset="230" />
-				</anchored>
-				<static textres="spell" />
+        <anchored>
+          <top offset="230" />
+        </anchored>
+        <static textres="spell" />
             </label_save_details>
 
                 <!-- spell base -->
             <save_number_base name="spell_base" source="saves.spell.base">
                 <tooltip textres="charsheet_saves_base_tooltip" />
-				<anchored to="spell_label" />
+        <anchored to="spell_label" />
             </save_number_base>
             
             <!-- spell basemod -->
@@ -2742,7 +2742,7 @@
                 <tooltip textres="charsheet_saves_basemod_tooltip" />
                 <gmeditonly />
                 <default>0</default>
-				<anchored to="spell_label" />
+        <anchored to="spell_label" />
             </save_number_base>
 
             <!-- spell mods -->
@@ -2751,7 +2751,7 @@
             </label_plus>
             <save_number_mod name="spell_mod" source="saves.spell.adjustment">
                 <tooltip textres="charsheet_saves_adjustment_tooltip" />
-				<anchored to="spell_label" />
+        <anchored to="spell_label" />
             </save_number_mod>
 
             <!-- spell temp mods -->
@@ -2760,23 +2760,23 @@
             </label_plus>
             <save_number_mod name="spell_temp" source="saves.spell.tempmod">
                 <tooltip textres="charsheet_saves_tempmod_tooltip" />
-				<anchored to="spell_label" />
+        <anchored to="spell_label" />
             </save_number_mod>
 
             <!-- spell total -->
             <save_details_total name="spell_total" source="saves.spell.score">
-				<target>spell</target>
+        <target>spell</target>
                 <anchored to="spell_label"/>
             </save_details_total>
             
             <!-- END -->
             <close>
-			<anchored>
-				<top offset="24" />
-				<right offset="-12" />
-			</anchored>
-		</close>
+      <anchored>
+        <top offset="24" />
+        <right offset="-12" />
+      </anchored>
+    </close>
 
-		</sheetdata>
-	</windowclass>
+    </sheetdata>
+  </windowclass>
 </root>

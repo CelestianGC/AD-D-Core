@@ -6,54 +6,54 @@
 -->
 
 <root>
-	<windowclass name="item" >
-		<frame>recordsheet</frame>
-		<placement>
-			<size width="450" height="350" />
-		</placement>
-		<sizelimits>
-			<minimum width="450" height="300" />
-			<dynamic />
-		</sizelimits>
-		<minimize>minimized_item</minimize>
-		<nodelete />
-		<script file="campaign/scripts/item.lua" />
-		<sheetdata>
-			<sub_record_header name="header">
-				<class>item_header</class>
-			</sub_record_header>
+  <windowclass name="item" >
+    <frame>recordsheet</frame>
+    <placement>
+      <size width="450" height="350" />
+    </placement>
+    <sizelimits>
+      <minimum width="450" height="300" />
+      <dynamic />
+    </sizelimits>
+    <minimize>minimized_item</minimize>
+    <nodelete />
+    <script file="campaign/scripts/item.lua" />
+    <sheetdata>
+      <sub_record_header name="header">
+        <class>item_header</class>
+      </sub_record_header>
 
-			<frame_record_content name="contentframe" />
+      <frame_record_content name="contentframe" />
 
-			<subwindow_record name="main">
-				<class>item_main</class>
-				<activate />
-			</subwindow_record>
+      <subwindow_record name="main">
+        <class>item_main</class>
+        <activate />
+      </subwindow_record>
 
-			<subwindow_record name="weaponactions">
-				<class>charsheet_actions_weapons</class>
+      <subwindow_record name="weaponactions">
+        <class>charsheet_actions_weapons</class>
                 
-			</subwindow_record>
+      </subwindow_record>
 
-			<subwindow_record name="spellactions">
-				<class>charsheet_actions_powers</class>
-			</subwindow_record>
+      <subwindow_record name="spellactions">
+        <class>charsheet_actions_powers</class>
+      </subwindow_record>
             
-			<scrollbar_record_item>
-				<target>main</target>
-			</scrollbar_record_item>
-			<scrollbar_record_item>
-				<target>weaponactions</target>
-			</scrollbar_record_item>
-			<scrollbar_record_item>
-				<target>spellactions</target>
-			</scrollbar_record_item>
+      <scrollbar_record_item>
+        <target>main</target>
+      </scrollbar_record_item>
+      <scrollbar_record_item>
+        <target>weaponactions</target>
+      </scrollbar_record_item>
+      <scrollbar_record_item>
+        <target>spellactions</target>
+      </scrollbar_record_item>
 
-			<tabs_recordsheet>
-				<tab>
-					<icon>tab_main</icon>
-					<subwindow>main</subwindow>
-				</tab>
+      <tabs_recordsheet>
+        <tab>
+          <icon>tab_main</icon>
+          <subwindow>main</subwindow>
+        </tab>
         <tab>
           <icon>tab_weapons</icon>
           <subwindow>weaponactions</subwindow>
@@ -62,221 +62,221 @@
           <icon>tab_powers</icon>
           <subwindow>spellactions</subwindow>
         </tab>
-			</tabs_recordsheet>
-			<resize_recordsheet />
-			<close_recordsheet />
-		</sheetdata>
-	</windowclass>
+      </tabs_recordsheet>
+      <resize_recordsheet />
+      <close_recordsheet />
+    </sheetdata>
+  </windowclass>
 
-	<windowclass name="item_header" merge="join">
-		<margins control="0,0,0,2" />
-	</windowclass>
+  <windowclass name="item_header" merge="join">
+    <margins control="0,0,0,2" />
+  </windowclass>
 
-	<windowclass name="item_main">
-		<margins control="0,2,10,2" />
-		<script file="campaign/scripts/item_main.lua" />
-		<sheetdata>
+  <windowclass name="item_main">
+    <margins control="0,2,10,2" />
+    <script file="campaign/scripts/item_main.lua" />
+    <sheetdata>
       <hs name="rateofattack" />
       <hs name="range"/>
       <hs name="reach" />
       <hs name="knockdown" />
                 
-			<anchor_column name="columnanchor" />
-			
-			<label_column name="nonid_name_label">
-				<static textres="item_label_unidentified" />
-			</label_column>
-			<string_columnh name="nonid_name" />
-			
-			<label_column name="nonidentified_label">
-				<static textres="item_label_unidentifiednotes" />
-			</label_column>
-			<string_columnh name="nonidentified" />
-			
-			<line_column name="divider" />
-			
-			<label_column name="type_label">
-				<static textres="item_label_type" />
-			</label_column>
-			<genericcontrol name="type_rightanchor">
-				<anchored>
-					<top parent="type_label" />
-					<right />
-				</anchored>
-			</genericcontrol>
-			<button_checkbox name="istemplate">
-				<anchored width="20" height="20">
-					<top parent="type_label" />
-					<right parent="type_rightanchor" anchor="left" relation="relative" />
-				</anchored>
-				<gmvisibleonly />
-			</button_checkbox>
-			<label name="template_label">
-				<anchored>
-					<top parent="type_label" />
-					<right parent="type_rightanchor" anchor="left" relation="relative" />
-				</anchored>
-				<static textres="item_label_template" />
-				<gmvisibleonly />
-			</label>
-			<string_columnh name="type">
-				<anchored>
-					<right parent="type_rightanchor" anchor="left" relation="relative" offset="-10" />
-				</anchored>
-				<nohide />
-				<gmeditonly />
-				<delaykeyupdate />
-				<script>
-					function onValueChanged()
-						window.update();
-					end
-				</script>
-			</string_columnh>
+      <anchor_column name="columnanchor" />
+      
+      <label_column name="nonid_name_label">
+        <static textres="item_label_unidentified" />
+      </label_column>
+      <string_columnh name="nonid_name" />
+      
+      <label_column name="nonidentified_label">
+        <static textres="item_label_unidentifiednotes" />
+      </label_column>
+      <string_columnh name="nonidentified" />
+      
+      <line_column name="divider" />
+      
+      <label_column name="type_label">
+        <static textres="item_label_type" />
+      </label_column>
+      <genericcontrol name="type_rightanchor">
+        <anchored>
+          <top parent="type_label" />
+          <right />
+        </anchored>
+      </genericcontrol>
+      <button_checkbox name="istemplate">
+        <anchored width="20" height="20">
+          <top parent="type_label" />
+          <right parent="type_rightanchor" anchor="left" relation="relative" />
+        </anchored>
+        <gmvisibleonly />
+      </button_checkbox>
+      <label name="template_label">
+        <anchored>
+          <top parent="type_label" />
+          <right parent="type_rightanchor" anchor="left" relation="relative" />
+        </anchored>
+        <static textres="item_label_template" />
+        <gmvisibleonly />
+      </label>
+      <string_columnh name="type">
+        <anchored>
+          <right parent="type_rightanchor" anchor="left" relation="relative" offset="-10" />
+        </anchored>
+        <nohide />
+        <gmeditonly />
+        <delaykeyupdate />
+        <script>
+          function onValueChanged()
+            window.update();
+          end
+        </script>
+      </string_columnh>
 
-			<label_column name="subtype_label">
-				<static textres="item_label_subtype" />
-			</label_column>
-			<string_columnh name="subtype">
-				<gmeditonly />
-				<delaykeyupdate />
-				<script>
-					function onValueChanged()
-						window.update();
-					end
-				</script>
-			</string_columnh>
+      <label_column name="subtype_label">
+        <static textres="item_label_subtype" />
+      </label_column>
+      <string_columnh name="subtype">
+        <gmeditonly />
+        <delaykeyupdate />
+        <script>
+          function onValueChanged()
+            window.update();
+          end
+        </script>
+      </string_columnh>
 
-			<label_column name="rarity_label">
-				<static textres="item_label_rarity" />
-			</label_column>
-			<string_columnh name="rarity">
-				<gmeditonly />
-			</string_columnh>
+      <label_column name="rarity_label">
+        <static textres="item_label_rarity" />
+      </label_column>
+      <string_columnh name="rarity">
+        <gmeditonly />
+      </string_columnh>
 
-			<line_column name="divider2" />
+      <line_column name="divider2" />
 
-			<label_column name="cost_label">
-				<static textres="item_label_cost" />
-			</label_column>
-			<string_columnh name="cost">
-				<gmeditonly />
-			</string_columnh>
-			<!-- xp value -->
-			<label_column name="exp_label">
-				<static textres="item_label_exp" />
-			</label_column>
-			<number_columnh name="exp">
-				<gmeditonly />
-			</number_columnh>
-
-            
-			<label_column name="weight_label">
-				<static textres="item_label_weight" />
-			</label_column>
-			<number_columnh name="weight">
-				<gmeditonly />
-			</number_columnh>
-
-			
-			<header_column name="header_armorclass">
-				<static textres="header_armorclass" />
-				<center />
-			</header_column>
+      <label_column name="cost_label">
+        <static textres="item_label_cost" />
+      </label_column>
+      <string_columnh name="cost">
+        <gmeditonly />
+      </string_columnh>
+      <!-- xp value -->
+      <label_column name="exp_label">
+        <static textres="item_label_exp" />
+      </label_column>
+      <number_columnh name="exp">
+        <gmeditonly />
+      </number_columnh>
 
             
-			<label name="armortype_top_label">
-				<anchored width="60" height="20">
-					<top parent="columnanchor" anchor="bottom" relation="relative" offset="0" />
-					<left offset="115" />
-				</anchored>
-				<static textres="item_label_ac_type" />
+      <label_column name="weight_label">
+        <static textres="item_label_weight" />
+      </label_column>
+      <number_columnh name="weight">
+        <gmeditonly />
+      </number_columnh>
+
+      
+      <header_column name="header_armorclass">
+        <static textres="header_armorclass" />
+        <center />
+      </header_column>
+
+            
+      <label name="armortype_top_label">
+        <anchored width="60" height="20">
+          <top parent="columnanchor" anchor="bottom" relation="relative" offset="0" />
+          <left offset="115" />
+        </anchored>
+        <static textres="item_label_ac_type" />
                 <tooltip textres="item_label_ac_type_tooltip" />
-			</label>
+      </label>
 
-			<!-- armor base -->
+      <!-- armor base -->
             <label name="armor_base_label">
-				<anchored width="60" height="20">
-					<top parent="columnanchor" anchor="bottom" relation="relative" offset="0" />
-					<left offset="5" />
-				</anchored>
+        <anchored width="60" height="20">
+          <top parent="columnanchor" anchor="bottom" relation="relative" offset="0" />
+          <left offset="5" />
+        </anchored>
                 <static textres="item_label_ac_armor" />
             </label>
             <!-- type of armor -->
-			<cycler_armortypes name="armortype">
-				<anchored to="armor_base_label" position="righthigh" offset="35,0" width="60"  height="20"/>
+      <cycler_armortypes name="armortype">
+        <anchored to="armor_base_label" position="righthigh" offset="35,0" width="60"  height="20"/>
                 <gmeditonly />
-			</cycler_armortypes>
+      </cycler_armortypes>
 
             <!-- armor base -->
-			<basicnumber name="acbase" source="ac">
-				<anchored to="armortype" position="righthigh" offset="15,0" width="40"  height="20"/>
-				<gmeditonly />
+      <basicnumber name="acbase" source="ac">
+        <anchored to="armortype" position="righthigh" offset="15,0" width="40"  height="20"/>
+        <gmeditonly />
         <default>10</default>
         <gmeditonly />
-			</basicnumber>
+      </basicnumber>
 
-			<label name="acbase_top_label">
-				<anchored to="armortype_top_label" position="righthigh" width="60" height="20" offset="5"/>
-				<static textres="item_label_ac_base" />
-			</label>
+      <label name="acbase_top_label">
+        <anchored to="armortype_top_label" position="righthigh" width="60" height="20" offset="5"/>
+        <static textres="item_label_ac_base" />
+      </label>
             
-			<label name="label_armorplus">
-				<anchored to="acbase" position="righthigh" offset="5,0" width="10" />
-				<static>+</static>
-				<center />
-			</label>
-			<!-- armor bonus -->
-			<basicnumber name="acbonus" source="bonus">
+      <label name="label_armorplus">
+        <anchored to="acbase" position="righthigh" offset="5,0" width="10" />
+        <static>+</static>
+        <center />
+      </label>
+      <!-- armor bonus -->
+      <basicnumber name="acbonus" source="bonus">
                 <anchored to="label_armorplus" position="righthigh" offset="5,0" height="20" width="40" />
-				<gmeditonly />
+        <gmeditonly />
                 <default>0</default>
                 <hideonvalue>0</hideonvalue>
                 <displaysign />
                 <gmeditonly />
-			</basicnumber>
-			<label name="acbonus_top_label">
-				<anchored to="acbase_top_label" position="righthigh"  width="60" height="20" offset="-10" />
-				<static textres="item_label_ac_bonus" />
-			</label>
+      </basicnumber>
+      <label name="acbonus_top_label">
+        <anchored to="acbase_top_label" position="righthigh"  width="60" height="20" offset="-10" />
+        <static textres="item_label_ac_bonus" />
+      </label>
 
             <!-- effects -->
-			<subwindow name="advanced_effects_contents">
-				<anchored>
-					<top parent="columnanchor" anchor="bottom" relation="relative" offset="0" />
-					<left offset="5" />
+      <subwindow name="advanced_effects_contents">
+        <anchored>
+          <top parent="columnanchor" anchor="bottom" relation="relative" offset="0" />
+          <left offset="5" />
                     <right offset="5" />
-				</anchored>
-				<class>advanced_effects_subwindow</class>
-				<activate />
-				<fastinit />
+        </anchored>
+        <class>advanced_effects_subwindow</class>
+        <activate />
+        <fastinit />
                 <invisible />
-			</subwindow>
+      </subwindow>
             <!-- end advanced effects entry -->
             
-			<line_column name="divider3" />
+      <line_column name="divider3" />
 
             <label_column name="properties_label">
-				<static textres="item_label_properties" />
-			</label_column>
-			<string_columnh name="properties">
-				<gmeditonly />
-			</string_columnh>
+        <static textres="item_label_properties" />
+      </label_column>
+      <string_columnh name="properties">
+        <gmeditonly />
+      </string_columnh>
 
-			<line_column name="divider4" />
+      <line_column name="divider4" />
             
-			<ft_columnh name="description">
-				<gmeditonly />
-			</ft_columnh>
+      <ft_columnh name="description">
+        <gmeditonly />
+      </ft_columnh>
 
-			<header_column name="dmonly_label">
-				<static textres="header_dmonly" />
-				<center />
-			</header_column>
-			<ft_columnh name="dmonly">
-				<gmeditonly />
-			</ft_columnh>
-		</sheetdata>
-	</windowclass>
+      <header_column name="dmonly_label">
+        <static textres="header_dmonly" />
+        <center />
+      </header_column>
+      <ft_columnh name="dmonly">
+        <gmeditonly />
+      </ft_columnh>
+    </sheetdata>
+  </windowclass>
     
     
 </root>

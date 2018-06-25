@@ -12,12 +12,12 @@ function createBlankNPC()
     local node = DB.createChild("npc"); 
 Debug.console("npc_import.lua","createTable","node",node);    
 
-	if node then
-		local w = Interface.openWindow("npc", node.getNodeName());
-		if w and w.header and w.header.subwindow and w.header.subwindow.name then
-			w.header.subwindow.name.setFocus();
-		end
-	end
+  if node then
+    local w = Interface.openWindow("npc", node.getNodeName());
+    if w and w.header and w.header.subwindow and w.header.subwindow.name then
+      w.header.subwindow.name.setFocus();
+    end
+  end
     return node;
 end
 
@@ -394,21 +394,21 @@ end
 function getSpeedFactorFromSize(nodeNPC)
   local nSpeedFactor = 0;
   local sSizeRaw = StringManager.trim(DB.getValue(nodeNPC, "size", ""));
-	local sSize = sSizeRaw:lower();
+  local sSize = sSizeRaw:lower();
   
-	if sSize == "tiny" or string.find(sSizeRaw,"T") then
+  if sSize == "tiny" or string.find(sSizeRaw,"T") then
     nSpeedFactor = 0;
-	elseif sSize == "small" or string.find(sSizeRaw,"S") then
+  elseif sSize == "small" or string.find(sSizeRaw,"S") then
     nSpeedFactor = 3;
-	elseif sSize == "medium" or string.find(sSizeRaw,"M") then
+  elseif sSize == "medium" or string.find(sSizeRaw,"M") then
     nSpeedFactor = 3;
-	elseif sSize == "large" or string.find(sSizeRaw,"L") then
+  elseif sSize == "large" or string.find(sSizeRaw,"L") then
     nSpeedFactor = 6;
-	elseif sSize == "huge" or string.find(sSizeRaw,"H") then
+  elseif sSize == "huge" or string.find(sSizeRaw,"H") then
     nSpeedFactor = 9;
-	elseif sSize == "gargantuan" or string.find(sSizeRaw,"G") then
+  elseif sSize == "gargantuan" or string.find(sSizeRaw,"G") then
     nSpeedFactor = 12;
-	end
+  end
   
   return nSpeedFactor;
 end

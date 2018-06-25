@@ -8,16 +8,16 @@ OOB_MSGTYPE_APPLYTURN = "applyturn";
 
 function onInit()
   OOBManager.registerOOBMsgHandler(OOB_MSGTYPE_APPLYOBLITERATE, handleApplyObliteration);
-	OOBManager.registerOOBMsgHandler(OOB_MSGTYPE_APPLYTURN, handleApplyTurned);
+  OOBManager.registerOOBMsgHandler(OOB_MSGTYPE_APPLYTURN, handleApplyTurned);
   
   ActionsManager.registerModHandler("turnundead", modRoll);
   ActionsManager.registerResultHandler("turnundead", onRoll);
 end
 
 function getRoll(rActor,nTargetDC, bSecretRoll)
-	local rRoll = {};
-	rRoll.sType = "turnundead";
-	--rRoll.aDice = { "d20" };
+  local rRoll = {};
+  rRoll.sType = "turnundead";
+  --rRoll.aDice = { "d20" };
   rRoll.nMod = 0;
   
   local sActorType, nodeChar = ActorManager.getTypeAndNode(rActor);
@@ -29,24 +29,24 @@ function getRoll(rActor,nTargetDC, bSecretRoll)
   rRoll.aDice = aDice;
   -- turn.total is the total levels of cleric to turn as
   local nTargetDC = DB.getValue(nodeChar,"turn.total",1);
-	rRoll.sDesc = "[TURNUNDEAD] ";
-	--rRoll.bSecret = bSecretRoll;
-	rRoll.nTarget = nTargetDC;
-	return rRoll;
+  rRoll.sDesc = "[TURNUNDEAD] ";
+  --rRoll.bSecret = bSecretRoll;
+  rRoll.nTarget = nTargetDC;
+  return rRoll;
 end
 
 -- TargetDC is the level of cleric attempting turn
 function performRoll(draginfo, rActor)
-	local rRoll = getRoll(rActor);
-	ActionsManager.performAction(draginfo, rActor, rRoll);
+  local rRoll = getRoll(rActor);
+  ActionsManager.performAction(draginfo, rActor, rRoll);
 end
 
 
 -- modRoll function
 function modRoll(rSource, rTarget, rRoll)
-	local aAddDesc = {};
-	local aAddDice = {};
-	local nAddMod = 0;
+  local aAddDesc = {};
+  local aAddDice = {};
+  local nAddMod = 0;
   local bEffects = false;
   if rSource then
     -- apply turn roll modifiers
@@ -77,34 +77,34 @@ function modRoll(rSource, rTarget, rRoll)
     end
     table.insert(aAddDesc, sEffects);
   end
-	if #aAddDesc > 0 then
-		rRoll.sDesc = rRoll.sDesc .. " " .. table.concat(aAddDesc, " ");
-	end
-	
-	ActionsManager2.encodeDesktopMods(rRoll);
-	for _,vDie in ipairs(aAddDice) do
-		if vDie:sub(1,1) == "-" then
-			table.insert(rRoll.aDice, "-p" .. vDie:sub(3));
-		else
-			table.insert(rRoll.aDice, "p" .. vDie:sub(2));
-		end
-	end
+  if #aAddDesc > 0 then
+    rRoll.sDesc = rRoll.sDesc .. " " .. table.concat(aAddDesc, " ");
+  end
+  
+  ActionsManager2.encodeDesktopMods(rRoll);
+  for _,vDie in ipairs(aAddDice) do
+    if vDie:sub(1,1) == "-" then
+      table.insert(rRoll.aDice, "-p" .. vDie:sub(3));
+    else
+      table.insert(rRoll.aDice, "p" .. vDie:sub(2));
+    end
+  end
 
-	ActionsManager2.encodeAdvantage(rRoll, false, false);
+  ActionsManager2.encodeAdvantage(rRoll, false, false);
 end
 
 function onRoll(rSource, rTarget, rRoll)
-	ActionsManager2.decodeAdvantage(rRoll);
+  ActionsManager2.decodeAdvantage(rRoll);
 
-	local rMessage = ActionsManager.createActionMessage(rSource, rRoll);
+  local rMessage = ActionsManager.createActionMessage(rSource, rRoll);
   local nMaxHDTurned = 0;
   local nMaxHDDestroyed = 0;
   local aTurnDice = {};
   local aHDTurn = {};
   
-	if rRoll.nTarget then
+  if rRoll.nTarget then
     local nTotal = ActionsManager.total(rRoll);
-		local nTargetDC = tonumber(rRoll.nTarget) or 0;
+    local nTargetDC = tonumber(rRoll.nTarget) or 0;
     local nMaxLevel = DataCommonADND.nDefaultTurnUndeadMaxLevel;
     local nMaxTurnHD = DataCommonADND.nDefaultTurnUndeadMaxHD;
     local nClericLevel = nTargetDC or 1;
@@ -233,7 +233,7 @@ function onRoll(rSource, rTarget, rRoll)
       end
     end
   end
-	Comm.deliverChatMessage(rMessage);
+  Comm.deliverChatMessage(rMessage);
 end
 
 -- pass list of nodes with a "HD" record and sort by HD
@@ -272,29 +272,29 @@ function handleTurn(rSource, nodeTurn,rMessage,bDestroy)
 end
 -- notify OOB to take control and handle this node update
 function notifyApplyObliteration(rSource, rTarget)
-	local msgOOB = {};
-	msgOOB.type = OOB_MSGTYPE_APPLYOBLITERATE;
-	
-	local sSourceType, sSourceNode = ActorManager.getTypeAndNodeName(rSource);
-	msgOOB.sSourceType = sSourceType;
-	msgOOB.sSourceNode = sSourceNode;
+  local msgOOB = {};
+  msgOOB.type = OOB_MSGTYPE_APPLYOBLITERATE;
+  
+  local sSourceType, sSourceNode = ActorManager.getTypeAndNodeName(rSource);
+  msgOOB.sSourceType = sSourceType;
+  msgOOB.sSourceNode = sSourceNode;
 
-	local sTargetType, sTargetNode = ActorManager.getTypeAndNodeName(rTarget);
-	msgOOB.sTargetType = sTargetType;
-	msgOOB.sTargetNode = sTargetNode;
-	
-	Comm.deliverOOBMessage(msgOOB, "");
+  local sTargetType, sTargetNode = ActorManager.getTypeAndNodeName(rTarget);
+  msgOOB.sTargetType = sTargetType;
+  msgOOB.sTargetNode = sTargetNode;
+  
+  Comm.deliverOOBMessage(msgOOB, "");
 end
 -- oob takes control and makes change (sends to apply)
 function handleApplyObliteration(msgOOB)
-	local rSource = ActorManager.getActor(msgOOB.sSourceType, msgOOB.sSourceNode);
-	local rTarget = ActorManager.getActor(msgOOB.sTargetType, msgOOB.sTargetNode);
-	if rTarget then
-		rTarget.nOrder = msgOOB.nTargetOrder;
-	end
-	
-	local nTotal = tonumber(msgOOB.nTotal) or 0;
-	applyObliteration(rSource, rTarget);
+  local rSource = ActorManager.getActor(msgOOB.sSourceType, msgOOB.sSourceNode);
+  local rTarget = ActorManager.getActor(msgOOB.sTargetType, msgOOB.sTargetNode);
+  if rTarget then
+    rTarget.nOrder = msgOOB.nTargetOrder;
+  end
+  
+  local nTotal = tonumber(msgOOB.nTotal) or 0;
+  applyObliteration(rSource, rTarget);
 end
 -- Obliterate rTarget (set Wounds to max HP+1 and kill it)
 function applyObliteration(rSource, rTarget)
@@ -322,26 +322,26 @@ end
 
 -- notify OOB to take control and handle this node update
 function notifyApplyTurn(rSource, rTarget)
-	local msgOOB = {};
-	msgOOB.type = OOB_MSGTYPE_APPLYTURN;
-	
-	local sSourceType, sSourceNode = ActorManager.getTypeAndNodeName(rSource);
-	msgOOB.sSourceType = sSourceType;
-	msgOOB.sSourceNode = sSourceNode;
+  local msgOOB = {};
+  msgOOB.type = OOB_MSGTYPE_APPLYTURN;
+  
+  local sSourceType, sSourceNode = ActorManager.getTypeAndNodeName(rSource);
+  msgOOB.sSourceType = sSourceType;
+  msgOOB.sSourceNode = sSourceNode;
 
-	local sTargetType, sTargetNode = ActorManager.getTypeAndNodeName(rTarget);
-	msgOOB.sTargetType = sTargetType;
-	msgOOB.sTargetNode = sTargetNode;
-	
-	Comm.deliverOOBMessage(msgOOB, "");
+  local sTargetType, sTargetNode = ActorManager.getTypeAndNodeName(rTarget);
+  msgOOB.sTargetType = sTargetType;
+  msgOOB.sTargetNode = sTargetNode;
+  
+  Comm.deliverOOBMessage(msgOOB, "");
 end
 -- oob takes control and makes change (sends to apply)
 function handleApplyTurned(msgOOB)
-	local rSource = ActorManager.getActor(msgOOB.sSourceType, msgOOB.sSourceNode);
-	local rTarget = ActorManager.getActor(msgOOB.sTargetType, msgOOB.sTargetNode);
-	
-	local nTotal = tonumber(msgOOB.nTotal) or 0;
-	applyTurnedState(rSource, rTarget);
+  local rSource = ActorManager.getActor(msgOOB.sSourceType, msgOOB.sSourceNode);
+  local rTarget = ActorManager.getActor(msgOOB.sTargetType, msgOOB.sTargetNode);
+  
+  local nTotal = tonumber(msgOOB.nTotal) or 0;
+  applyTurnedState(rSource, rTarget);
 end
 -- TURN rTarget (apply turn effect)
 function applyTurnedState(rSource, rTarget)

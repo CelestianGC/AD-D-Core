@@ -4,24 +4,24 @@
 --
 
 function collapse()
-	proficienciestitle.collapse();
-	featstitle.collapse();
-	featurestitle.collapse();
-	traitstitle.collapse();
-	languagestitle.collapse();
+  proficienciestitle.collapse();
+  featstitle.collapse();
+  featurestitle.collapse();
+  traitstitle.collapse();
+  languagestitle.collapse();
 end
 
 function expand()
-	proficienciestitle.expand();
-	featstitle.expand();
-	featurestitle.expand();
-	traitstitle.expand();
-	languagestitle.expand();
+  proficienciestitle.expand();
+  featstitle.expand();
+  featurestitle.expand();
+  traitstitle.expand();
+  languagestitle.expand();
 end
 
 function onDrop(x, y, draginfo)
-	if draginfo.isType("shortcut") then
-		local sClass, sRecord = draginfo.getShortcutData();
-		return CharManager.addInfoDB(getDatabaseNode(), sClass, sRecord);
-	end
+  if draginfo.isType("shortcut") then
+    local sClass, sRecord = draginfo.getShortcutData();
+    return CharManager.addInfoDB(getDatabaseNode(), sClass, sRecord);
+  end
 end

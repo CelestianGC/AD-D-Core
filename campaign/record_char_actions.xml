@@ -6,329 +6,329 @@
 -->
 
 <root>
-	<windowclass name="charsheet_actions">
-		<script>
-			function onDrop(x, y, draginfo)
-				if contents.subwindow.actions.subwindow.onDrop(x, y, draginfo) then
-					return true;
-				end
-				if contents.subwindow.weapons.onDrop(x, y, draginfo) then
+  <windowclass name="charsheet_actions">
+    <script>
+      function onDrop(x, y, draginfo)
+        if contents.subwindow.actions.subwindow.onDrop(x, y, draginfo) then
+          return true;
+        end
+        if contents.subwindow.weapons.onDrop(x, y, draginfo) then
           contents.subwindow.weapons.onDataChanged();
-					return true;
-				end
-				return false;
-			end
-		</script>
-		<sheetdata>
-			<button_iedit name="actions_iedit">
-				<anchored position="insidebottomright" offset="10,10" />
-				<tooltip textres="char_tooltip_actionedit" />
-				<script>
-					function onValueChanged()
-						local bEditMode = (getValue() == 1);
-						
-						window.powers_iadd.setVisible(bEditMode);
-						window.weapons_iadd.setVisible(bEditMode);
+          return true;
+        end
+        return false;
+      end
+    </script>
+    <sheetdata>
+      <button_iedit name="actions_iedit">
+        <anchored position="insidebottomright" offset="10,10" />
+        <tooltip textres="char_tooltip_actionedit" />
+        <script>
+          function onValueChanged()
+            local bEditMode = (getValue() == 1);
+            
+            window.powers_iadd.setVisible(bEditMode);
+            window.weapons_iadd.setVisible(bEditMode);
 
-						window.powermode_label.setVisible(not bEditMode);
-						window.powermode.setVisible(not bEditMode);
-						window.powerdisplay_label.setVisible(not bEditMode);
-						window.powerdisplaymode.setVisible(not bEditMode);
-						if bEditMode then
-							DB.setValue(window.getDatabaseNode(), "powermode", "string", "standard");
-							DB.setValue(window.getDatabaseNode(), "powerdisplaymode", "string", "");
-						end
+            window.powermode_label.setVisible(not bEditMode);
+            window.powermode.setVisible(not bEditMode);
+            window.powerdisplay_label.setVisible(not bEditMode);
+            window.powerdisplaymode.setVisible(not bEditMode);
+            if bEditMode then
+              DB.setValue(window.getDatabaseNode(), "powermode", "string", "standard");
+              DB.setValue(window.getDatabaseNode(), "powerdisplaymode", "string", "");
+            end
 
-						window.contents.subwindow.weapons.update();
-						window.contents.subwindow.actions.subwindow.updateDisplay(bEditMode);
-					end
-				</script>
-			</button_iedit>
-			<buttoncontrol name="powers_iadd">
-				<anchored to="actions_iedit" position="lefthigh" offset="5,0" width="20" height="20" />
-				<icon normal="button_star" pressed="button_star_down" />
-				<tooltip textres="char_tooltip_actionaddpower" />
-				<invisible />
-				<script>
-					function onButtonPress()
-						window.contents.subwindow.actions.subwindow.addPower(true);
-					end
-				</script>
-			</buttoncontrol>
-			<buttoncontrol name="weapons_iadd">
-				<anchored to="powers_iadd" position="lefthigh" offset="5,0" width="20" height="20" />
-				<icon normal="button_weapon" pressed="button_weapon_down" />
-				<tooltip textres="char_tooltip_actionaddweapon" />
-				<invisible />
-				<script>
-					function onButtonPress()
-						window.contents.subwindow.weapons.addEntry(true);
-					end
-				</script>
-			</buttoncontrol>
+            window.contents.subwindow.weapons.update();
+            window.contents.subwindow.actions.subwindow.updateDisplay(bEditMode);
+          end
+        </script>
+      </button_iedit>
+      <buttoncontrol name="powers_iadd">
+        <anchored to="actions_iedit" position="lefthigh" offset="5,0" width="20" height="20" />
+        <icon normal="button_star" pressed="button_star_down" />
+        <tooltip textres="char_tooltip_actionaddpower" />
+        <invisible />
+        <script>
+          function onButtonPress()
+            window.contents.subwindow.actions.subwindow.addPower(true);
+          end
+        </script>
+      </buttoncontrol>
+      <buttoncontrol name="weapons_iadd">
+        <anchored to="powers_iadd" position="lefthigh" offset="5,0" width="20" height="20" />
+        <icon normal="button_weapon" pressed="button_weapon_down" />
+        <tooltip textres="char_tooltip_actionaddweapon" />
+        <invisible />
+        <script>
+          function onButtonPress()
+            window.contents.subwindow.weapons.addEntry(true);
+          end
+        </script>
+      </buttoncontrol>
 
-			<subwindow name="contents">
-				<anchored>
-					<bottom offset="-40" />
-					<top offset="0" />
-					<left offset="0" />
-					<right offset="-15" />
-				</anchored>
-				<class>charsheet_actions_contents</class>
-				<activate />
-				<fastinit />
-			</subwindow>
-			<scrollbar_charcontents />
-	
-			<label name="powermode_label">
-				<anchored position="insidebottomleft" offset="10,10" />
-				<static textres="power_label_mode" />
-			</label>
-			<button_stringcycler name="powermode">
-				<anchored to="powermode_label" position="righthigh" offset="10,0" width="80" />
-				<parameters>
-					<labelsres>power_label_modeprep|power_label_modecombat</labelsres>
-					<values>preparation|combat</values>
-					<defaultlabelres>power_label_modestd</defaultlabelres>
-				</parameters>
-				<script>
-					function onValueChanged()
-						window.contents.subwindow.onModeChanged();
-					end
-				</script>
-			</button_stringcycler>
+      <subwindow name="contents">
+        <anchored>
+          <bottom offset="-40" />
+          <top offset="0" />
+          <left offset="0" />
+          <right offset="-15" />
+        </anchored>
+        <class>charsheet_actions_contents</class>
+        <activate />
+        <fastinit />
+      </subwindow>
+      <scrollbar_charcontents />
+  
+      <label name="powermode_label">
+        <anchored position="insidebottomleft" offset="10,10" />
+        <static textres="power_label_mode" />
+      </label>
+      <button_stringcycler name="powermode">
+        <anchored to="powermode_label" position="righthigh" offset="10,0" width="80" />
+        <parameters>
+          <labelsres>power_label_modeprep|power_label_modecombat</labelsres>
+          <values>preparation|combat</values>
+          <defaultlabelres>power_label_modestd</defaultlabelres>
+        </parameters>
+        <script>
+          function onValueChanged()
+            window.contents.subwindow.onModeChanged();
+          end
+        </script>
+      </button_stringcycler>
 
-			<label name="powerdisplay_label">
-				<anchored to="powermode" position="righthigh" offset="15,0" />
-				<static textres="power_label_display" />
-			</label>
-			<button_stringcycler name="powerdisplaymode">
-				<anchored to="powerdisplay_label" position="righthigh" offset="10,0" width="80" />
-				<parameters>
-					<labelsres>power_label_displaysummary|power_label_displayaction</labelsres>
-					<values>summary|action</values>
-					<defaultlabelres>power_label_displaygroup</defaultlabelres>
-				</parameters>
-				<script>
-					function onValueChanged()
-						window.contents.subwindow.actions.subwindow.onDisplayChanged();
-					end
-				</script>
-			</button_stringcycler>
+      <label name="powerdisplay_label">
+        <anchored to="powermode" position="righthigh" offset="15,0" />
+        <static textres="power_label_display" />
+      </label>
+      <button_stringcycler name="powerdisplaymode">
+        <anchored to="powerdisplay_label" position="righthigh" offset="10,0" width="80" />
+        <parameters>
+          <labelsres>power_label_displaysummary|power_label_displayaction</labelsres>
+          <values>summary|action</values>
+          <defaultlabelres>power_label_displaygroup</defaultlabelres>
+        </parameters>
+        <script>
+          function onValueChanged()
+            window.contents.subwindow.actions.subwindow.onDisplayChanged();
+          end
+        </script>
+      </button_stringcycler>
 
          </sheetdata>
-	</windowclass>
+  </windowclass>
 
 
-	<windowclass name="charsheet_actions_weapons">
+  <windowclass name="charsheet_actions_weapons">
     <margins control="0,0,15,7" />
-		<script>
-			function onDrop(x, y, draginfo)
-				if contents.subwindow.weapons.onDrop(x, y, draginfo) then
-					return true;
-				end
-				return false;
-			end
-		</script>
-		<sheetdata>
-			<button_iedit name="actions_iedit">
-				<anchored position="insidebottomright" offset="10,10" />
-				<tooltip textres="char_tooltip_actionedit" />
-				<script>
-					function onValueChanged()
-						local bEditMode = (getValue() == 1);
-						
-						window.weapons_iadd.setVisible(bEditMode);
+    <script>
+      function onDrop(x, y, draginfo)
+        if contents.subwindow.weapons.onDrop(x, y, draginfo) then
+          return true;
+        end
+        return false;
+      end
+    </script>
+    <sheetdata>
+      <button_iedit name="actions_iedit">
+        <anchored position="insidebottomright" offset="10,10" />
+        <tooltip textres="char_tooltip_actionedit" />
+        <script>
+          function onValueChanged()
+            local bEditMode = (getValue() == 1);
+            
+            window.weapons_iadd.setVisible(bEditMode);
             window.parentcontrol.window.abilitynotes_iadd.setVisible(bEditMode);
             
-						if bEditMode then
-							DB.setValue(window.getDatabaseNode(), "powermode", "string", "standard");
-							DB.setValue(window.getDatabaseNode(), "powerdisplaymode", "string", "");
-						end
+            if bEditMode then
+              DB.setValue(window.getDatabaseNode(), "powermode", "string", "standard");
+              DB.setValue(window.getDatabaseNode(), "powerdisplaymode", "string", "");
+            end
 
-						window.contents.subwindow.weapons.update();
+            window.contents.subwindow.weapons.update();
             window.parentcontrol.window.mini_combat_window.subwindow.abilitynotes.update(bEditMode)
-					end
-				</script>
-			</button_iedit>
-			<buttoncontrol name="weapons_iadd">
-				<anchored to="actions_iedit" position="lefthigh" offset="5,0" width="20" height="20" />
-				<icon normal="button_weapon" pressed="button_weapon_down" />
-				<tooltip textres="char_tooltip_actionaddweapon" />
-				<invisible />
-				<script>
-					function onButtonPress()
-						window.contents.subwindow.weapons.addEntry(true);
-					end
-				</script>
-			</buttoncontrol>
+          end
+        </script>
+      </button_iedit>
+      <buttoncontrol name="weapons_iadd">
+        <anchored to="actions_iedit" position="lefthigh" offset="5,0" width="20" height="20" />
+        <icon normal="button_weapon" pressed="button_weapon_down" />
+        <tooltip textres="char_tooltip_actionaddweapon" />
+        <invisible />
+        <script>
+          function onButtonPress()
+            window.contents.subwindow.weapons.addEntry(true);
+          end
+        </script>
+      </buttoncontrol>
 
-			<subwindow name="contents">
-				<anchored>
-					<bottom offset="-40" />
-					<top offset="0" />
-					<left offset="0" />
-					<right offset="-15" />
-				</anchored>
-				<class>charsheet_actions_contents_weapons</class>
-				<activate />
-				<fastinit />
-			</subwindow>
-			<scrollbar_charcontents />
-	
+      <subwindow name="contents">
+        <anchored>
+          <bottom offset="-40" />
+          <top offset="0" />
+          <left offset="0" />
+          <right offset="-15" />
+        </anchored>
+        <class>charsheet_actions_contents_weapons</class>
+        <activate />
+        <fastinit />
+      </subwindow>
+      <scrollbar_charcontents />
+  
 
     </sheetdata>
-	</windowclass>
+  </windowclass>
 
   <!-- view for n/pcs  -->
-	<windowclass name="charsheet_actions_powers">
+  <windowclass name="charsheet_actions_powers">
     <margins control="0,0,15,7" />
-		<script>
+    <script>
       function onInit()
           local node = getDatabaseNode();
           if not string.match(node.getPath(),"^charsheet") and not User.isHost() then
             return;
-          end				
+          end        
           local sMode = DB.getValue(node, "powermode","");
           if (sMode == "") then
             DB.setValue(node, "powermode", "string", "standard");
           end
       end
             
-			function onDrop(x, y, draginfo)
-				if contents.subwindow.actions.subwindow.onDrop(x, y, draginfo) then
-					return true;
-				end
-				return false;
-			end
-		</script>
-		<sheetdata>
+      function onDrop(x, y, draginfo)
+        if contents.subwindow.actions.subwindow.onDrop(x, y, draginfo) then
+          return true;
+        end
+        return false;
+      end
+    </script>
+    <sheetdata>
       <button_actions_iedit name ="actions_iedit" />
       <button_powers_iadd name="powers_iadd" />
       
-			<subwindow name="contents">
-				<anchored>
-					<bottom offset="-40" />
-					<top offset="0" />
-					<left offset="0" />
-					<right offset="-15" />
-				</anchored>
-				<class>charsheet_actions_contents_powers</class>
-				<activate />
-				<fastinit />
-			</subwindow>
-			<scrollbar_charcontents />
-	
-			<label name="powermode_label">
-				<anchored position="insidebottomleft" offset="10,10" />
-				<static textres="power_label_mode" />
-			</label>
+      <subwindow name="contents">
+        <anchored>
+          <bottom offset="-40" />
+          <top offset="0" />
+          <left offset="0" />
+          <right offset="-15" />
+        </anchored>
+        <class>charsheet_actions_contents_powers</class>
+        <activate />
+        <fastinit />
+      </subwindow>
+      <scrollbar_charcontents />
+  
+      <label name="powermode_label">
+        <anchored position="insidebottomleft" offset="10,10" />
+        <static textres="power_label_mode" />
+      </label>
       <button_cycler_powermode name="powermode" />
       
-			<label name="powerdisplay_label">
-				<anchored to="powermode" position="righthigh" offset="15,0" />
-				<static textres="power_label_display" />
-			</label>
+      <label name="powerdisplay_label">
+        <anchored to="powermode" position="righthigh" offset="15,0" />
+        <static textres="power_label_display" />
+      </label>
       <button_cycler_powerdisplaymode name="powerdisplaymode" />
     </sheetdata>
-	</windowclass>
+  </windowclass>
     
   <!-- view from a record item like class, spell/item/etc -->
-	<windowclass name="recordslist_actions_powers">
+  <windowclass name="recordslist_actions_powers">
     <margins control="0,0,15,7" />
-		<script>
+    <script>
       function onInit()
         local node = getDatabaseNode();
         if not string.match(node.getPath(),"^charsheet") and not User.isHost() then
           return;
-        end				
+        end        
         local sMode = DB.getValue(node, "powermode","");
         if (sMode == "") then
           DB.setValue(node, "powermode", "string", "standard");
         end
       end
             
-			function onDrop(x, y, draginfo)
-				if contents.subwindow.actions.subwindow.onDrop(x, y, draginfo) then
-					return true;
-				end
-				return false;
-			end
-		</script>
-		<sheetdata>
+      function onDrop(x, y, draginfo)
+        if contents.subwindow.actions.subwindow.onDrop(x, y, draginfo) then
+          return true;
+        end
+        return false;
+      end
+    </script>
+    <sheetdata>
       <button_actions_iedit name ="actions_iedit" />
       <button_powers_iadd name="powers_iadd" />
 
-			<subwindow name="contents">
-				<anchored>
-					<bottom offset="-40" />
-					<top offset="0" />
-					<left offset="0" />
-					<right offset="-15" />
-				</anchored>
-				<class>recordslist_actions_contents_powers</class>
-				<activate />
-				<fastinit />
-			</subwindow>
-			<scrollbar_charcontents />
-	
-			<label name="powermode_label">
-				<anchored position="insidebottomleft" offset="10,10" />
-				<static textres="power_label_mode" />
-			</label>
+      <subwindow name="contents">
+        <anchored>
+          <bottom offset="-40" />
+          <top offset="0" />
+          <left offset="0" />
+          <right offset="-15" />
+        </anchored>
+        <class>recordslist_actions_contents_powers</class>
+        <activate />
+        <fastinit />
+      </subwindow>
+      <scrollbar_charcontents />
+  
+      <label name="powermode_label">
+        <anchored position="insidebottomleft" offset="10,10" />
+        <static textres="power_label_mode" />
+      </label>
       <button_cycler_powermode name="powermode" />
 
-			<label name="powerdisplay_label">
-				<anchored to="powermode" position="righthigh" offset="15,0" />
-				<static textres="power_label_display" />
-			</label>
+      <label name="powerdisplay_label">
+        <anchored to="powermode" position="righthigh" offset="15,0" />
+        <static textres="power_label_display" />
+      </label>
       <button_cycler_powerdisplaymode name="powerdisplaymode" />
 
     </sheetdata>
-	</windowclass>
+  </windowclass>
     
-	<windowclass name="charsheet_actions_contents">
-		<margins control="0,4,0,2" />
-		<script>
+  <windowclass name="charsheet_actions_contents">
+    <margins control="0,4,0,2" />
+    <script>
       function onInit()
         onModeChanged();
       end
             
-			function onModeChanged()
-				weapons.onModeChanged();
-				spellslots_prep.subwindow.onModeChanged();
-				spellslots_cast.subwindow.onModeChanged();
-				actions.subwindow.onModeChanged();
-			end
+      function onModeChanged()
+        weapons.onModeChanged();
+        spellslots_prep.subwindow.onModeChanged();
+        spellslots_cast.subwindow.onModeChanged();
+        actions.subwindow.onModeChanged();
+      end
             
-		</script>
-		<sheetdata>
-			<anchor_column name="columnanchor" />
-			<genericcontrol name="leftanchor">
-				<anchored width="0" height="0">
-					<top />
-					<left />
-				</anchored>
-				<invisible />
-			</genericcontrol>
-			<genericcontrol name="rightanchor">
-				<anchored width="0" height="0">
-					<top />
-					<right />
-				</anchored>
-				<invisible />
-			</genericcontrol>
+    </script>
+    <sheetdata>
+      <anchor_column name="columnanchor" />
+      <genericcontrol name="leftanchor">
+        <anchored width="0" height="0">
+          <top />
+          <left />
+        </anchored>
+        <invisible />
+      </genericcontrol>
+      <genericcontrol name="rightanchor">
+        <anchored width="0" height="0">
+          <top />
+          <right />
+        </anchored>
+        <invisible />
+      </genericcontrol>
 
 
       <!-- combat mini bar -->
-			<label_charframetop name="minicombattitle">
-				<anchored height="20">
-					<top parent="columnanchor" anchor="bottom" relation="relative" offset="15" />
-					<left offset="15" />
-					<right offset="-10" />
-				</anchored>
-				<icons>char_abilities</icons>
-				<static textres="char_label_combat" />
+      <label_charframetop name="minicombattitle">
+        <anchored height="20">
+          <top parent="columnanchor" anchor="bottom" relation="relative" offset="15" />
+          <left offset="15" />
+          <right offset="-10" />
+        </anchored>
+        <icons>char_abilities</icons>
+        <static textres="char_label_combat" />
         <script>
           function onInit()
             registerMenuItem(Interface.getString("list_menu_createitem"), "insert", 5);
@@ -342,60 +342,60 @@
             window.mini_combat_window.subwindow.onDrop(x,y,draginfo);
           end
         </script>
-			</label_charframetop>
-			<button_iadd_abilitynotes name="abilitynotes_iadd">
+      </label_charframetop>
+      <button_iadd_abilitynotes name="abilitynotes_iadd">
         <anchored to="minicombattitle" position="insidetopright" offset="3,0" />
-				<!-- <anchored to="abilitynotes_iedit" position="insidetopleft" offset="-25,0" /> -->
-				<target>abilitynotes</target>
-			</button_iadd_abilitynotes>
+        <!-- <anchored to="abilitynotes_iedit" position="insidetopleft" offset="-25,0" /> -->
+        <target>abilitynotes</target>
+      </button_iadd_abilitynotes>
 
-			<subwindow name="mini_combat_window">
-				<anchored>
-					<top parent="columnanchor" anchor="bottom" relation="relative" offset="8" />
-					<left offset="10" />
-					<right offset="-5" />
-				</anchored>
+      <subwindow name="mini_combat_window">
+        <anchored>
+          <top parent="columnanchor" anchor="bottom" relation="relative" offset="8" />
+          <left offset="10" />
+          <right offset="-5" />
+        </anchored>
         <class>combat_mini_section_ct</class>
-				<activate />
-				<fastinit />
-			</subwindow>
+        <activate />
+        <fastinit />
+      </subwindow>
       <!-- combat mini end -->
-			
-			<label_charframetop name="weapontitle">
-				<anchored height="20">
-					<top parent="columnanchor" anchor="bottom" relation="relative" offset="10" />
-					<left offset="15" />
-					<right offset="-10" />
-				</anchored>
-				<icons>char_axes</icons>
-				<!-- <static textres="char_label_weapon" /> -->
-				<script>
-					function onClickDown()
-						return true;
-					end
-					
-					function onClickRelease()
-						local bVisible = window.weapons.isVisible ();
-						if bVisible then
-							setFont("subwindowsmalltitle_disabled");
-							window.weapons.setVisible(false);
-						else
-							setFont("subwindowsmalltitle");
-							window.weapons.setVisible(true);
-						end
-						return true;
-					end
-				</script>
-			</label_charframetop>
-			<buttoncontrol name="weapons_global_detail">
-				<anchored to="weapontitle" position="insidetopright" offset="20,1" width="20" height="20" />
-				<state icon="details_white" pressed="details_down" />
-				<script>
-					function onButtonPress()
-						Interface.openWindow("char_weaponmeta", window.getDatabaseNode());
-					end
-				</script>
-			</buttoncontrol>
+      
+      <label_charframetop name="weapontitle">
+        <anchored height="20">
+          <top parent="columnanchor" anchor="bottom" relation="relative" offset="10" />
+          <left offset="15" />
+          <right offset="-10" />
+        </anchored>
+        <icons>char_axes</icons>
+        <!-- <static textres="char_label_weapon" /> -->
+        <script>
+          function onClickDown()
+            return true;
+          end
+          
+          function onClickRelease()
+            local bVisible = window.weapons.isVisible ();
+            if bVisible then
+              setFont("subwindowsmalltitle_disabled");
+              window.weapons.setVisible(false);
+            else
+              setFont("subwindowsmalltitle");
+              window.weapons.setVisible(true);
+            end
+            return true;
+          end
+        </script>
+      </label_charframetop>
+      <buttoncontrol name="weapons_global_detail">
+        <anchored to="weapontitle" position="insidetopright" offset="20,1" width="20" height="20" />
+        <state icon="details_white" pressed="details_down" />
+        <script>
+          function onButtonPress()
+            Interface.openWindow("char_weaponmeta", window.getDatabaseNode());
+          end
+        </script>
+      </buttoncontrol>
       <label name="weapons_header_label">
         <anchored height="18">
           <top parent="weapontitle" />
@@ -443,13 +443,13 @@
         <font>subwindowsmalltitle</font>
       </label>
 
-			<list_charweapon name="weapons">
+      <list_charweapon name="weapons">
         <script>
             function onInit()
               local node = getDatabaseNode();
               if not string.match(node.getPath(),"^charsheet") and not User.isHost() then
                 return;
-              end				
+              end        
               registerMenuItem(Interface.getString("list_menu_createitem"), "insert", 5);
             end
             function onMenuSelection(selection, subselection)
@@ -458,74 +458,74 @@
               end
             end                    
         </script>
-				<anchored>
-					<top parent="columnanchor" anchor="bottom" relation="relative" offset="7" />
-					<left offset="10" />
-					<right offset="-5" />
-				</anchored>
-				<class>char_weapon</class>
-				<noscroll />
-			</list_charweapon>
+        <anchored>
+          <top parent="columnanchor" anchor="bottom" relation="relative" offset="7" />
+          <left offset="10" />
+          <right offset="-5" />
+        </anchored>
+        <class>char_weapon</class>
+        <noscroll />
+      </list_charweapon>
 
-			<subwindow name="spellslots_prep">
-				<anchored>
-					<top parent="columnanchor" anchor="bottom" relation="relative" offset="0" />
-					<left />
-					<right />
-				</anchored>
-				<class>power_slots_prep</class>
-				<activate />
-				<fastinit />
-				<invisible />
-			</subwindow>
-			
-			<subwindow name="spellslots_cast">
-				<anchored>
-					<top parent="columnanchor" anchor="bottom" relation="relative" offset="3" />
-					<left />
-					<right />
-				</anchored>
-				<class>power_slots_cast</class>
-				<activate />
-				<fastinit />
-				<invisible />
-			</subwindow>
+      <subwindow name="spellslots_prep">
+        <anchored>
+          <top parent="columnanchor" anchor="bottom" relation="relative" offset="0" />
+          <left />
+          <right />
+        </anchored>
+        <class>power_slots_prep</class>
+        <activate />
+        <fastinit />
+        <invisible />
+      </subwindow>
+      
+      <subwindow name="spellslots_cast">
+        <anchored>
+          <top parent="columnanchor" anchor="bottom" relation="relative" offset="3" />
+          <left />
+          <right />
+        </anchored>
+        <class>power_slots_cast</class>
+        <activate />
+        <fastinit />
+        <invisible />
+      </subwindow>
 
-			<subwindow name="psionic_stats">
-				<anchored>
-					<top parent="columnanchor" anchor="bottom" relation="relative" offset="3" />
-					<left />
-					<right />
-				</anchored>
-				<class>psionic_power_stats</class>
-				<activate />
-				<fastinit />
-				<invisible />
-			</subwindow>
+      <subwindow name="psionic_stats">
+        <anchored>
+          <top parent="columnanchor" anchor="bottom" relation="relative" offset="3" />
+          <left />
+          <right />
+        </anchored>
+        <class>psionic_power_stats</class>
+        <activate />
+        <fastinit />
+        <invisible />
+      </subwindow>
 
-			<subwindow name="actions">
-				<anchored>
-					<top parent="columnanchor" anchor="bottom" relation="relative" offset="2" />
-					<left />
-					<right />
-				</anchored>
+      <subwindow name="actions">
+        <anchored>
+          <top parent="columnanchor" anchor="bottom" relation="relative" offset="2" />
+          <left />
+          <right />
+        </anchored>
 
-				<activate />
-				<fastinit />
-				<class>power_page</class>
-			</subwindow>
-		</sheetdata>
-	</windowclass>
-	
+        <activate />
+        <fastinit />
+        <class>power_page</class>
+      </subwindow>
+    </sheetdata>
+  </windowclass>
+  
 
-	<windowclass name="charsheet_actions_contents_weapons">
-		<margins control="0,0,0,2" />
-		<script>
+  <windowclass name="charsheet_actions_contents_weapons">
+    <margins control="0,0,0,2" />
+    <script>
       function onInit()
         local node = getDatabaseNode();
         if not string.match(node.getPath(),"^charsheet") and not User.isHost() then
           return;
-        end				
+        end        
         registerMenuItem(Interface.getString("list_menu_createitem"), "insert", 5);
         onModeChanged();
       end
@@ -538,57 +538,57 @@
         end
       end                    
     </script>
-		<sheetdata>
-			<anchor_column name="columnanchor" />
-			<genericcontrol name="leftanchor">
-				<anchored width="0" height="0">
-					<top />
-					<left />
-				</anchored>
-				<invisible />
-			</genericcontrol>
-			<genericcontrol name="rightanchor">
-				<anchored width="0" height="0">
-					<top />
-					<right />
-				</anchored>
-				<invisible />
-			</genericcontrol>
-			
-			<label_charframetop name="weapontitle">
-				<anchored height="20">
-					<top parent="columnanchor" anchor="bottom" relation="relative" offset="15" />
-					<left offset="15" />
-					<right offset="-10" />
-				</anchored>
-				<icons>char_attacks</icons>
-				<script>
-					function onClickDown()
-						return true;
-					end
-					
-					function onClickRelease()
-						local bVisible = window.weapons.isVisible ();
-						if bVisible then
-							setFont("subwindowsmalltitle_disabled");
-							window.weapons.setVisible(false);
-						else
-							setFont("subwindowsmalltitle");
-							window.weapons.setVisible(true);
-						end
-						return true;
-					end
-				</script>
-			</label_charframetop>
-			<buttoncontrol name="weapons_global_detail">
-				<anchored to="weapontitle" position="insidetopright" offset="10,1" width="20" height="20" />
-				<state icon="details_white" pressed="details_down" />
-				<script>
-					function onButtonPress()
-						Interface.openWindow("char_weaponmeta", window.getDatabaseNode());
-					end
-				</script>
-			</buttoncontrol>
+    <sheetdata>
+      <anchor_column name="columnanchor" />
+      <genericcontrol name="leftanchor">
+        <anchored width="0" height="0">
+          <top />
+          <left />
+        </anchored>
+        <invisible />
+      </genericcontrol>
+      <genericcontrol name="rightanchor">
+        <anchored width="0" height="0">
+          <top />
+          <right />
+        </anchored>
+        <invisible />
+      </genericcontrol>
+      
+      <label_charframetop name="weapontitle">
+        <anchored height="20">
+          <top parent="columnanchor" anchor="bottom" relation="relative" offset="15" />
+          <left offset="15" />
+          <right offset="-10" />
+        </anchored>
+        <icons>char_attacks</icons>
+        <script>
+          function onClickDown()
+            return true;
+          end
+          
+          function onClickRelease()
+            local bVisible = window.weapons.isVisible ();
+            if bVisible then
+              setFont("subwindowsmalltitle_disabled");
+              window.weapons.setVisible(false);
+            else
+              setFont("subwindowsmalltitle");
+              window.weapons.setVisible(true);
+            end
+            return true;
+          end
+        </script>
+      </label_charframetop>
+      <buttoncontrol name="weapons_global_detail">
+        <anchored to="weapontitle" position="insidetopright" offset="10,1" width="20" height="20" />
+        <state icon="details_white" pressed="details_down" />
+        <script>
+          function onButtonPress()
+            Interface.openWindow("char_weaponmeta", window.getDatabaseNode());
+          end
+        </script>
+      </buttoncontrol>
       <label name="weapons_header_label">
         <anchored height="18">
           <top offset="10" />
@@ -636,208 +636,208 @@
         <font>subwindowsmalltitle</font>
       </label>
             
-			<list_charweapon name="weapons">
-				<anchored>
-					<top parent="columnanchor" anchor="bottom" relation="relative" offset="2" />
-					<left offset="10" />
-					<right offset="-5" />
-				</anchored>
-				<class>char_weapon</class>
-				<noscroll />
-			</list_charweapon>
+      <list_charweapon name="weapons">
+        <anchored>
+          <top parent="columnanchor" anchor="bottom" relation="relative" offset="2" />
+          <left offset="10" />
+          <right offset="-5" />
+        </anchored>
+        <class>char_weapon</class>
+        <noscroll />
+      </list_charweapon>
 
-		</sheetdata>
-	</windowclass>
+    </sheetdata>
+  </windowclass>
 
 
   <!-- view for npc/pcs -->
-	<windowclass name="charsheet_actions_contents_powers">
-		<margins control="0,0,0,2" />
-		<script>
+  <windowclass name="charsheet_actions_contents_powers">
+    <margins control="0,0,0,2" />
+    <script>
       function onInit()
         local node = getDatabaseNode();
         if not string.match(node.getPath(),"^charsheet") and not User.isHost() then
           return;
-        end				
+        end        
         registerMenuItem(Interface.getString("list_menu_createitem"), "insert", 5);
         onModeChanged();
       end
             
-			function onModeChanged()
-				spellslots_prep.subwindow.onModeChanged();
-				spellslots_cast.subwindow.onModeChanged();
-				actions.subwindow.onModeChanged();
-			end
+      function onModeChanged()
+        spellslots_prep.subwindow.onModeChanged();
+        spellslots_cast.subwindow.onModeChanged();
+        actions.subwindow.onModeChanged();
+      end
       function onMenuSelection(selection, subselection)
         if selection == 5 then
           actions.subwindow.powers.addEntry(true);
         end
       end                    
-		</script>
-		<sheetdata>
-			<anchor_column name="columnanchor" />
-			<subwindow name="spellslots_prep">
-				<anchored>
-					<top parent="columnanchor" anchor="bottom" relation="relative" offset="0" />
-					<left />
-					<right />
-				</anchored>
-				<class>power_slots_prep</class>
-				<activate />
-				<fastinit />
-				<invisible />
-			</subwindow>
-			
-			<subwindow name="spellslots_cast">
-				<anchored>
-					<top parent="columnanchor" anchor="bottom" relation="relative" offset="3" />
-					<left />
-					<right />
-				</anchored>
-				<class>power_slots_cast</class>
-				<activate />
-				<fastinit />
-				<invisible />
-			</subwindow>
+    </script>
+    <sheetdata>
+      <anchor_column name="columnanchor" />
+      <subwindow name="spellslots_prep">
+        <anchored>
+          <top parent="columnanchor" anchor="bottom" relation="relative" offset="0" />
+          <left />
+          <right />
+        </anchored>
+        <class>power_slots_prep</class>
+        <activate />
+        <fastinit />
+        <invisible />
+      </subwindow>
+      
+      <subwindow name="spellslots_cast">
+        <anchored>
+          <top parent="columnanchor" anchor="bottom" relation="relative" offset="3" />
+          <left />
+          <right />
+        </anchored>
+        <class>power_slots_cast</class>
+        <activate />
+        <fastinit />
+        <invisible />
+      </subwindow>
 
-			<subwindow name="psionic_stats">
-				<anchored>
-					<top parent="columnanchor" anchor="bottom" relation="relative" offset="3" />
-					<left />
-					<right />
-				</anchored>
-				<class>psionic_power_stats</class>
-				<activate />
-				<fastinit />
-				<invisible />
-			</subwindow>
+      <subwindow name="psionic_stats">
+        <anchored>
+          <top parent="columnanchor" anchor="bottom" relation="relative" offset="3" />
+          <left />
+          <right />
+        </anchored>
+        <class>psionic_power_stats</class>
+        <activate />
+        <fastinit />
+        <invisible />
+      </subwindow>
 
-			<subwindow name="actions">
-				<anchored>
-					<top parent="columnanchor" anchor="bottom" relation="relative" offset="0" />
-					<left />
-					<right />
-				</anchored>
-				<activate />
-				<fastinit />
-				<class>power_page</class>
-			</subwindow>
-		</sheetdata>
-	</windowclass>
+      <subwindow name="actions">
+        <anchored>
+          <top parent="columnanchor" anchor="bottom" relation="relative" offset="0" />
+          <left />
+          <right />
+        </anchored>
+        <activate />
+        <fastinit />
+        <class>power_page</class>
+      </subwindow>
+    </sheetdata>
+  </windowclass>
 
   <!-- view from recordslist like class, item/etc -->
-	<windowclass name="recordslist_actions_contents_powers">
-		<margins control="0,0,0,2" />
-		<script>
+  <windowclass name="recordslist_actions_contents_powers">
+    <margins control="0,0,0,2" />
+    <script>
       function onInit()
         local node = getDatabaseNode();
         if not string.match(node.getPath(),"^charsheet") and not User.isHost() then
           return;
-        end				
+        end        
         registerMenuItem(Interface.getString("list_menu_createitem"), "insert", 5);
         onModeChanged();
       end
             
-			function onModeChanged()
-				actions.subwindow.onModeChanged();
-			end
+      function onModeChanged()
+        actions.subwindow.onModeChanged();
+      end
       function onMenuSelection(selection, subselection)
         if selection == 5 then
           actions.subwindow.powers.addEntry(true);
         end
       end                    
-		</script>
-		<sheetdata>
-			<anchor_column name="columnanchor" />
+    </script>
+    <sheetdata>
+      <anchor_column name="columnanchor" />
 
-			<subwindow name="actions">
-				<anchored>
-					<top parent="columnanchor" anchor="bottom" relation="relative" offset="0" />
-					<left />
-					<right />
-				</anchored>
-				<activate />
-				<fastinit />
-				<class>power_page</class>
-			</subwindow>
-		</sheetdata>
-	</windowclass>
+      <subwindow name="actions">
+        <anchored>
+          <top parent="columnanchor" anchor="bottom" relation="relative" offset="0" />
+          <left />
+          <right />
+        </anchored>
+        <activate />
+        <fastinit />
+        <class>power_page</class>
+      </subwindow>
+    </sheetdata>
+  </windowclass>
     
-	<windowclass name="char_weaponmeta">
-		<frame>charsheethelper</frame>
-		<placement>
-			<size width="400" height="175" />
-		</placement>
-		<nodelete />
-		<playercontrol />
-		<sheetdata>
-			<windowtitlebar_char name="title">
-				<prefix>char_weaponmeta_title</prefix>
-			</windowtitlebar_char>
-			<anchor_title_charsheethelper name="contentanchor" />
+  <windowclass name="char_weaponmeta">
+    <frame>charsheethelper</frame>
+    <placement>
+      <size width="400" height="175" />
+    </placement>
+    <nodelete />
+    <playercontrol />
+    <sheetdata>
+      <windowtitlebar_char name="title">
+        <prefix>char_weaponmeta_title</prefix>
+      </windowtitlebar_char>
+      <anchor_title_charsheethelper name="contentanchor" />
 
-			<label name="label_critrange">
-				<anchored to="contentanchor" position="belowleft" offset="0,15" width="60" />
-				<static textres="char_label_critrange" />
-			</label>
-			<basicnumber name="critrange_melee" source="weapon.critrange.melee">
-				<anchored to="label_critrange" position="righthigh" offset="5,0" width="30" height="20" />
-				<default>20</default>
-				<min>1</min>
-				<max>20</max>
-			</basicnumber>
-			<label_fieldtop name="label_critrange_melee">
-				<anchored to="critrange_melee" />
-				<static textres="char_label_critmelee" />
-			</label_fieldtop>
-			<basicnumber name="critrange_ranged" source="weapon.critrange.ranged">
-				<anchored to="critrange_melee" position="righthigh" offset="15,0" width="30" height="20" />
-				<default>20</default>
-				<min>1</min>
-				<max>20</max>
-			</basicnumber>
-			<label_fieldtop name="label_critrange_ranged">
-				<anchored to="critrange_ranged" />
-				<static textres="char_label_critranged" />
-			</label_fieldtop>
-			<label name="label_critdicebonus">
-				<anchored width="90">
-					<top parent="label_critrange" />
-					<left anchor="center" />
-				</anchored>
-				<static textres="char_label_critdicebonus" />
-			</label>
-			<basicnumber name="critdicebonus_melee" source="weapon.critdicebonus.melee">
-				<anchored to="label_critdicebonus" position="righthigh" offset="5,0" width="30" height="20" />
-				<min>0</min>
-			</basicnumber>
-			<label_fieldtop name="label_critdicebonus_melee">
-				<anchored to="critdicebonus_melee" />
-				<static textres="char_label_critmelee" />
-			</label_fieldtop>
-			<basicnumber name="critdicebonus_ranged" source="weapon.critdicebonus.ranged">
-				<anchored to="critdicebonus_melee" position="righthigh" offset="15,0" width="30" height="20" />
-				<min>0</min>
-			</basicnumber>
-			<label_fieldtop name="label_critdicebonus_ranged">
-				<anchored to="critdicebonus_ranged" />
-				<static textres="char_label_critranged" />
-			</label_fieldtop>
-			
-			<close_charsheethelper />
-		</sheetdata>
-	</windowclass>
+      <label name="label_critrange">
+        <anchored to="contentanchor" position="belowleft" offset="0,15" width="60" />
+        <static textres="char_label_critrange" />
+      </label>
+      <basicnumber name="critrange_melee" source="weapon.critrange.melee">
+        <anchored to="label_critrange" position="righthigh" offset="5,0" width="30" height="20" />
+        <default>20</default>
+        <min>1</min>
+        <max>20</max>
+      </basicnumber>
+      <label_fieldtop name="label_critrange_melee">
+        <anchored to="critrange_melee" />
+        <static textres="char_label_critmelee" />
+      </label_fieldtop>
+      <basicnumber name="critrange_ranged" source="weapon.critrange.ranged">
+        <anchored to="critrange_melee" position="righthigh" offset="15,0" width="30" height="20" />
+        <default>20</default>
+        <min>1</min>
+        <max>20</max>
+      </basicnumber>
+      <label_fieldtop name="label_critrange_ranged">
+        <anchored to="critrange_ranged" />
+        <static textres="char_label_critranged" />
+      </label_fieldtop>
+      <label name="label_critdicebonus">
+        <anchored width="90">
+          <top parent="label_critrange" />
+          <left anchor="center" />
+        </anchored>
+        <static textres="char_label_critdicebonus" />
+      </label>
+      <basicnumber name="critdicebonus_melee" source="weapon.critdicebonus.melee">
+        <anchored to="label_critdicebonus" position="righthigh" offset="5,0" width="30" height="20" />
+        <min>0</min>
+      </basicnumber>
+      <label_fieldtop name="label_critdicebonus_melee">
+        <anchored to="critdicebonus_melee" />
+        <static textres="char_label_critmelee" />
+      </label_fieldtop>
+      <basicnumber name="critdicebonus_ranged" source="weapon.critdicebonus.ranged">
+        <anchored to="critdicebonus_melee" position="righthigh" offset="15,0" width="30" height="20" />
+        <min>0</min>
+      </basicnumber>
+      <label_fieldtop name="label_critdicebonus_ranged">
+        <anchored to="critdicebonus_ranged" />
+        <static textres="char_label_critranged" />
+      </label_fieldtop>
+      
+      <close_charsheethelper />
+    </sheetdata>
+  </windowclass>
 
   <!-- psionic combat stats for power window -->
-	<windowclass name="psionic_power_stats">
+  <windowclass name="psionic_power_stats">
     <margins control="0,4,0,2" />
-			<script>
-				function onInit()
+      <script>
+        function onInit()
           local node = getDatabaseNode();
           DB.addHandler(DB.getPath(node, "combat.psp.base"), "onUpdate", onModeChanged);
           ManagerPsionics.updatePsionicStats(node);
           onModeChanged();
-				end
+        end
         function onClose()
           local node = getDatabaseNode();
           DB.removeHandler(DB.getPath(node, "combat.psp.base"), "onUpdate", onModeChanged);
@@ -853,27 +853,27 @@
           end
           parentcontrol.setVisible(bShowPsionics);
         end
-			</script>
-		<sheetdata>
-			<anchor_column name="columnanchor" />
-			
-			<label_charframetop name="slotstitle">
-				<anchored height="20">
-					<top parent="columnanchor" anchor="bottom" relation="relative" offset="15" />
-					<left offset="15" />
-					<right offset="-10" />
-				</anchored>
-				<icons>char_psion</icons>
-				<static text="Psionic Power Stats" />
-			</label_charframetop>
+      </script>
+    <sheetdata>
+      <anchor_column name="columnanchor" />
+      
+      <label_charframetop name="slotstitle">
+        <anchored height="20">
+          <top parent="columnanchor" anchor="bottom" relation="relative" offset="15" />
+          <left offset="15" />
+          <right offset="-10" />
+        </anchored>
+        <icons>char_psion</icons>
+        <static text="Psionic Power Stats" />
+      </label_charframetop>
 
-			<label name="psionic_powers_label">
-				<anchored width="80">
-					<top parent="columnanchor" anchor="bottom" relation="current" offset="17" />
-					<left offset="40" />
-				</anchored>
-				<static text="Psionic" />
-			</label>
+      <label name="psionic_powers_label">
+        <anchored width="80">
+          <top parent="columnanchor" anchor="bottom" relation="current" offset="17" />
+          <left offset="40" />
+        </anchored>
+        <static text="Psionic" />
+      </label>
 
       <!-- level -->
       <basicnumber name="psionic" source="psionic.totalLevel">
@@ -885,27 +885,27 @@
         <anchored to="psionic_powers_label" position="right" offset="10,0" />
         <readonly />
       </number_basic>
-			<label_fieldtop name="label_mac_score">
-				<anchored to="mac_score" />
-				<static text="MAC" />
+      <label_fieldtop name="label_mac_score">
+        <anchored to="mac_score" />
+        <static text="MAC" />
       </label_fieldtop>
       
       <number_basic name="psp_score" source="combat.psp.score">
         <anchored to="mac_score" position="right" offset="10,0" />
         <readonly />
       </number_basic>
-			<label_fieldtop name="label_psp_score">
-				<anchored to="psp_score" />
-				<static text="PSP" />
+      <label_fieldtop name="label_psp_score">
+        <anchored to="psp_score" />
+        <static text="PSP" />
       </label_fieldtop>
 
       <number_basic name="psp_expended" source="combat.psp.expended">
         <anchored to="psp_score" position="right" offset="10,0" />
         <tooltip text="Used PSP Points" />
       </number_basic>
-			<label_fieldtop name="label_psp_expended">
-				<anchored to="psp_expended" />
-				<static text="Used" />
+      <label_fieldtop name="label_psp_expended">
+        <anchored to="psp_expended" />
+        <static text="Used" />
         <tooltip text="Used PSP Points" />
       </label_fieldtop>
 
@@ -913,9 +913,9 @@
         <anchored to="psp_expended" position="right" offset="10,0" />
         <tooltip text="Temp PSP Points" />
       </number_basic>
-			<label_fieldtop name="label_psp_temporary">
-				<anchored to="psp_temporary" />
-				<static text="Temp" />
+      <label_fieldtop name="label_psp_temporary">
+        <anchored to="psp_temporary" />
+        <static text="Temp" />
         <tooltip text="Temp PSP Points" />
       </label_fieldtop>
 
@@ -923,9 +923,9 @@
         <anchored to="psp_temporary" position="right" offset="10,0" />
         <readonly />
       </number_basic>
-			<label_fieldtop name="label_mthaco_score">
-				<anchored to="mthaco_score" />
-				<static text="MTHACO" />
+      <label_fieldtop name="label_mthaco_score">
+        <anchored to="mthaco_score" />
+        <static text="MTHACO" />
       </label_fieldtop>
       
 
@@ -933,52 +933,52 @@
         <anchored to="mthaco_score" position="righthigh" offset="5,0" />
       </button_combat_psionic_details>
       
-		</sheetdata>
-	</windowclass>
+    </sheetdata>
+  </windowclass>
   
   <!-- end psionic combat power window-->
 
   <!-- psionic combat details panel -->
   
-	<template name="button_combat_psionic_details">
-		<buttoncontrol>
-			<anchored width="20" height="20" />
-			<state icon="button_details" pressed="button_details_down" />
-			<script>
-				function onButtonPress()
+  <template name="button_combat_psionic_details">
+    <buttoncontrol>
+      <anchored width="20" height="20" />
+      <state icon="button_details" pressed="button_details_down" />
+      <script>
+        function onButtonPress()
         local node = window.getDatabaseNode();
-					Interface.openWindow("combat_psionic_details", window.getDatabaseNode());
-				end
-			</script>
-		</buttoncontrol>
-	</template>
+          Interface.openWindow("combat_psionic_details", window.getDatabaseNode());
+        end
+      </script>
+    </buttoncontrol>
+  </template>
 
   <windowclass name="combat_psionic_details">
-		<frame>charsheethelper</frame>
-		<placement>
-			<size width="400" height="220" />
-		</placement>
-		<nodelete />
-		<playercontrol />
-		<sheetdata>
-			<windowtitlebar_char name="title">
-				<prefix>char_combat_psionic_title</prefix>
-			</windowtitlebar_char>
-			<anchor_title_charsheethelper name="contentanchor" />
+    <frame>charsheethelper</frame>
+    <placement>
+      <size width="400" height="220" />
+    </placement>
+    <nodelete />
+    <playercontrol />
+    <sheetdata>
+      <windowtitlebar_char name="title">
+        <prefix>char_combat_psionic_title</prefix>
+      </windowtitlebar_char>
+      <anchor_title_charsheethelper name="contentanchor" />
 
-			<anchor_column name="columnanchor">
-				<anchored to="contentanchor" position="below" offset="0,-5" />
-			</anchor_column>
-			<anchor_left />
+      <anchor_column name="columnanchor">
+        <anchored to="contentanchor" position="below" offset="0,-5" />
+      </anchor_column>
+      <anchor_left />
       <anchor_right />
 
       <!-- MAC Mental Armor Class -->
       <label name="label_details_mac">
-				<anchored width="60">
-					<top parent="columnanchor" anchor="bottom" relation="relative" offset="20" />
-					<left offset="30" />
-				</anchored>
-				<static text="Mental AC" />
+        <anchored width="60">
+          <top parent="columnanchor" anchor="bottom" relation="relative" offset="20" />
+          <left offset="30" />
+        </anchored>
+        <static text="Mental AC" />
         <tooltip text="Mental Armor Class" />
       </label>
       
@@ -986,9 +986,9 @@
         <anchored to="label_details_mac" position="right" offset="10,0" />
         <default>10</default>
       </number_basic>
-			<label_fieldtop name="label_mac_base">
-				<anchored to="mac_base" />
-				<static text="Base" />
+      <label_fieldtop name="label_mac_base">
+        <anchored to="mac_base" />
+        <static text="Base" />
       </label_fieldtop>
       
       <number_basic name="mac_basemod" source="combat.mac.basemod">
@@ -996,9 +996,9 @@
         <default>99</default>
         <hideonvalue>99</hideonvalue>
       </number_basic>
-			<label_fieldtop name="label_mac_basemod">
-				<anchored to="mac_basemod" />
-				<static text="B-Mod" />
+      <label_fieldtop name="label_mac_basemod">
+        <anchored to="mac_basemod" />
+        <static text="B-Mod" />
       </label_fieldtop>
       
       <text_plus name="plus_mac_basemod">
@@ -1008,9 +1008,9 @@
       <number_basic name="mac_mod" source="combat.mac.mod">
         <anchored to="plus_mac_basemod" position="right" offset="10,0" />
       </number_basic>
-			<label_fieldtop name="label_mac_mod">
-				<anchored to="mac_mod" />
-				<static text="Mod" />
+      <label_fieldtop name="label_mac_mod">
+        <anchored to="mac_mod" />
+        <static text="Mod" />
       </label_fieldtop>
       
       <text_plus name="plus_mac_mod">
@@ -1020,9 +1020,9 @@
       <number_basic name="mac_tempmod" source="combat.mac.tempmod">
         <anchored to="plus_mac_mod" position="right" offset="5,0" />
       </number_basic>
-			<label_fieldtop name="label_mac_tempmod">
-				<anchored to="mac_tempmod" />
-				<static text="Temp" />
+      <label_fieldtop name="label_mac_tempmod">
+        <anchored to="mac_tempmod" />
+        <static text="Temp" />
       </label_fieldtop>
       
       <text_equal name="equal_mac_tempmod">
@@ -1032,35 +1032,35 @@
       <number_basic name="mac_score" source="combat.mac.score">
         <anchored to="equal_mac_tempmod" position="right" offset="5,0" />
       </number_basic>
-			<label_fieldtop name="label_mac_score">
-				<anchored to="mac_score" />
-				<static text="Total" />
+      <label_fieldtop name="label_mac_score">
+        <anchored to="mac_score" />
+        <static text="Total" />
       </label_fieldtop>
       
       <!-- PSP -->
       <label name="label_details_psp">
-				<anchored width="60">
-					<top parent="columnanchor" anchor="bottom" relation="relative" offset="20" />
-					<left offset="30" />
-				</anchored>
-				<static text="PS Points" />
+        <anchored width="60">
+          <top parent="columnanchor" anchor="bottom" relation="relative" offset="20" />
+          <left offset="30" />
+        </anchored>
+        <static text="PS Points" />
         <tooltip text="Psionic Strength Points" />
       </label>
       
       <number_basic name="psp_base" source="combat.psp.base">
         <anchored to="label_details_psp" position="right" offset="10,0" />
       </number_basic>
-			<label_fieldtop name="label_psp_base">
-				<anchored to="psp_base" />
-				<static text="Base" />
+      <label_fieldtop name="label_psp_base">
+        <anchored to="psp_base" />
+        <static text="Base" />
       </label_fieldtop>
       
       <number_basic name="psp_basemod" source="combat.psp.basemod">
         <anchored to="psp_base" position="right" offset="10,0" />
       </number_basic>
-			<label_fieldtop name="label_psp_basemod">
-				<anchored to="psp_basemod" />
-				<static text="B-Mod" />
+      <label_fieldtop name="label_psp_basemod">
+        <anchored to="psp_basemod" />
+        <static text="B-Mod" />
       </label_fieldtop>
       
       <text_plus name="plus_psp_basemod">
@@ -1070,9 +1070,9 @@
       <number_basic name="psp_mod" source="combat.psp.mod">
         <anchored to="plus_psp_basemod" position="right" offset="10,0" />
       </number_basic>
-			<label_fieldtop name="label_psp_mod">
-				<anchored to="psp_mod" />
-				<static text="Mod" />
+      <label_fieldtop name="label_psp_mod">
+        <anchored to="psp_mod" />
+        <static text="Mod" />
       </label_fieldtop>
       
       <text_plus name="plus_psp_mod">
@@ -1082,9 +1082,9 @@
       <number_basic name="psp_tempmod" source="combat.psp.tempmod">
         <anchored to="plus_psp_mod" position="right" offset="5,0" />
       </number_basic>
-			<label_fieldtop name="label_psp_tempmod">
-				<anchored to="psp_tempmod" />
-				<static text="Temp" />
+      <label_fieldtop name="label_psp_tempmod">
+        <anchored to="psp_tempmod" />
+        <static text="Temp" />
       </label_fieldtop>
       
       <text_equal name="equal_psp_tempmod">
@@ -1094,19 +1094,19 @@
       <number_basic name="psp_score" source="combat.psp.score"> 
         <anchored to="equal_psp_tempmod" position="right" offset="5,0" />
       </number_basic>
-			<label_fieldtop name="label_psp_score">
-				<anchored to="psp_score" />
-				<static text="Total" />
+      <label_fieldtop name="label_psp_score">
+        <anchored to="psp_score" />
+        <static text="Total" />
       </label_fieldtop>
       
       
       <!-- MTHACO -->
       <label name="label_details_mthaco">
-				<anchored width="60">
-					<top parent="columnanchor" anchor="bottom" relation="relative" offset="20" />
-					<left offset="30" />
-				</anchored>
-				<static text="MTHACO" />
+        <anchored width="60">
+          <top parent="columnanchor" anchor="bottom" relation="relative" offset="20" />
+          <left offset="30" />
+        </anchored>
+        <static text="MTHACO" />
         <tooltip text="Mental To Hit AC Zero" />
       </label>
       
@@ -1114,9 +1114,9 @@
         <anchored to="label_details_mthaco" position="right" offset="10,0" />
         <default>20</default>
       </number_basic>
-			<label_fieldtop name="label_mthaco_base">
-				<anchored to="mthaco_base" />
-				<static text="Base" />
+      <label_fieldtop name="label_mthaco_base">
+        <anchored to="mthaco_base" />
+        <static text="Base" />
       </label_fieldtop>
       
       <number_basic name="mthaco_basemod" source="combat.mthaco.basemod">
@@ -1124,9 +1124,9 @@
         <default>99</default>
         <hideonvalue>99</hideonvalue>
       </number_basic>
-			<label_fieldtop name="label_mthaco_basemod">
-				<anchored to="mthaco_basemod" />
-				<static text="B-Mod" />
+      <label_fieldtop name="label_mthaco_basemod">
+        <anchored to="mthaco_basemod" />
+        <static text="B-Mod" />
       </label_fieldtop>
       
       <text_plus name="plus_mthaco_basemod">
@@ -1136,9 +1136,9 @@
       <number_basic name="mthaco_mod" source="combat.mthaco.mod">
         <anchored to="plus_mthaco_basemod" position="right" offset="10,0" />
       </number_basic>
-			<label_fieldtop name="label_mthaco_mod">
-				<anchored to="mthaco_mod" />
-				<static text="Mod" />
+      <label_fieldtop name="label_mthaco_mod">
+        <anchored to="mthaco_mod" />
+        <static text="Mod" />
       </label_fieldtop>
       
       <text_plus name="plus_mthaco_mod">
@@ -1148,9 +1148,9 @@
       <number_basic name="mthaco_tempmod" source="combat.mthaco.tempmod">
         <anchored to="plus_mthaco_mod" position="right" offset="5,0" />
       </number_basic>
-			<label_fieldtop name="label_mthaco_tempmod">
-				<anchored to="mthaco_tempmod" />
-				<static text="Temp" />
+      <label_fieldtop name="label_mthaco_tempmod">
+        <anchored to="mthaco_tempmod" />
+        <static text="Temp" />
       </label_fieldtop>
       
       <text_equal name="equal_mthaco_tempmod">
@@ -1160,13 +1160,13 @@
       <number_basic name="mthaco_score" source="combat.mthaco.score">
         <anchored to="equal_mthaco_tempmod" position="right" offset="5,0" />
       </number_basic>
-			<label_fieldtop name="label_mthaco_score">
-				<anchored to="mthaco_score" />
-				<static text="Total" />
+      <label_fieldtop name="label_mthaco_score">
+        <anchored to="mthaco_score" />
+        <static text="Total" />
       </label_fieldtop>
 
-			<close_charsheethelper />
-		</sheetdata>
+      <close_charsheethelper />
+    </sheetdata>
   </windowclass>  
   <!-- END psionic combat details panel -->
   

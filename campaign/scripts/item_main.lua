@@ -10,7 +10,7 @@ function onInit()
 -- Debug.console("item_main.lua","onInit3","nodeRecord",DB.getPath(nodeRecord, "savelist"));
     --DB.addHandler(DB.getPath(nodeRecord, "abilitylist"), "onChildUpdate", updateAbilityEffects);
     --DB.addHandler(DB.getPath(nodeRecord, "savelist"), "onChildUpdate", updateSaveEffects);
-	update();
+  update();
     --updateAbilityEffects();
     --updateSaveEffects();
 end
@@ -21,38 +21,38 @@ function onClose()
 end
 
 function VisDataCleared()
-	update();
+  update();
 end
 
 function InvisDataAdded()
-	update();
+  update();
 end
 
 function updateControl(sControl, bReadOnly, bID)
-	if not self[sControl] then
-		return false;
-	end
+  if not self[sControl] then
+    return false;
+  end
 
-	-- added test because items have attacks now but not other features
+  -- added test because items have attacks now but not other features
   if not self[sControl].update then
     return false;
   end
   
-	if not bID then
-		return self[sControl].update(bReadOnly, true);
-	end
-	
-	return self[sControl].update(bReadOnly);
+  if not bID then
+    return self[sControl].update(bReadOnly, true);
+  end
+  
+  return self[sControl].update(bReadOnly);
 end
 
 function update()
-	local nodeRecord = getDatabaseNode();
-	local bReadOnly = WindowManager.getReadOnlyState(nodeRecord);
-	local bID, bOptionID = LibraryData.getIDState("item", nodeRecord);
-    	
-	local bWeapon, sTypeLower, sSubtypeLower = ItemManager2.isWeapon(nodeRecord);
-	local bArmor = ItemManager2.isArmor(nodeRecord);
-	local bArcaneFocus = (sTypeLower == "rod") or (sTypeLower == "staff") or (sTypeLower == "wand");
+  local nodeRecord = getDatabaseNode();
+  local bReadOnly = WindowManager.getReadOnlyState(nodeRecord);
+  local bID, bOptionID = LibraryData.getIDState("item", nodeRecord);
+      
+  local bWeapon, sTypeLower, sSubtypeLower = ItemManager2.isWeapon(nodeRecord);
+  local bArmor = ItemManager2.isArmor(nodeRecord);
+  local bArcaneFocus = (sTypeLower == "rod") or (sTypeLower == "staff") or (sTypeLower == "wand");
     -- this is so all the options show when 
     -- editing an item. Allows weapons to have AC/etc.
     bWeapon = true;
@@ -64,28 +64,28 @@ function update()
     
     -- local sEffectString = DB.getValue(nodeRecord,"abilityeffect","") .. DB.getValue(nodeRecord,"saveeffect","");
     -- effect.setValue(sEffectString);
-	
-	local bSection1 = false;
-	if bOptionID and User.isHost() then
-		if updateControl("nonid_name", bReadOnly, true) then bSection1 = true; end;
-	else
-		updateControl("nonid_name", false);
-	end
-	if bOptionID and (User.isHost() or not bID) then
-		if updateControl("nonidentified", bReadOnly, true) then bSection1 = true; end;
-	else
-		updateControl("nonidentified", false);
-	end
+  
+  local bSection1 = false;
+  if bOptionID and User.isHost() then
+    if updateControl("nonid_name", bReadOnly, true) then bSection1 = true; end;
+  else
+    updateControl("nonid_name", false);
+  end
+  if bOptionID and (User.isHost() or not bID) then
+    if updateControl("nonidentified", bReadOnly, true) then bSection1 = true; end;
+  else
+    updateControl("nonidentified", false);
+  end
 
-	local bSection2 = false;
-	if updateControl("type", bReadOnly, bID) then bSection2 = true; end
+  local bSection2 = false;
+  if updateControl("type", bReadOnly, bID) then bSection2 = true; end
     bSection2 = (type.getValue() ~= "");
 --Debug.console("item_main.lua","update","bSection2",bSection2);    
 --Debug.console("item_main.lua","update","bReadOnly",bReadOnly);    
 --Debug.console("item_main.lua","update","bID",bID);    
-	if bHost then
-		istemplate.setVisible(bID);
-		istemplate.setReadOnly(bReadOnly);
+  if bHost then
+    istemplate.setVisible(bID);
+    istemplate.setReadOnly(bReadOnly);
         istemplate.setVisible(bSection2 or not bReadOnly);
         template_label.setVisible(bSection2 or not bReadOnly);
         type_label.setVisible(bSection2 or not bReadOnly);
@@ -94,7 +94,7 @@ function update()
         -- effects_iedit.setVisible(true);
         -- effects_list_iadd.setVisible(true);
         -- effects_list.setVisible(true);
-	else
+  else
         type_label.setVisible(false);
         
         -- -- hide effect features for pcs
@@ -104,41 +104,41 @@ function update()
         -- effects_list.setVisible(false);
     end
     
-	if updateControl("subtype", bReadOnly, bID) then bSection2 = true; end
-	if updateControl("rarity", bReadOnly, bID) then bSection2 = true; end
-	
-	local bSection3 = false;
-	if updateControl("cost", bReadOnly, bID) then bSection3 = true; end
-	if updateControl("exp", bReadOnly, bID) then bSection3 = true; end
-	if updateControl("weight", bReadOnly, bID) then bSection3 = true; end
-	
-	local bSection4 = false;
-	-- if updateControl("effect_combat", bReadOnly, bID) then bSection4 = true; end
-	-- if updateControl("effect", bReadOnly, bID) then bSection4 = true; end
-  	-- if not User.isHost() then
-		-- effect.setVisible(bID);
-		-- effect_combat.setVisible(bID);
-	-- end
-	if updateControl("bonus", bReadOnly, bID and (bWeapon or bArmor or bArcaneFocus)) then bSection4 = true; end
-	--if updateControl("damage", bReadOnly, bID and bWeapon) then bSection4 = true; end
-	--if updateControl("speedfactor", bReadOnly, bID and bWeapon) then bSection4 = true; end
-	
-	if updateControl("ac", bReadOnly, bID and bArmor) then bSection4 = true; end
-	--if updateControl("dexbonus", bReadOnly, bID and bArmor) then bSection4 = true; end
-	--if updateControl("strength", bReadOnly, bID and bArmor) then bSection4 = true; end
-	--if updateControl("stealth", bReadOnly, bID and bArmor) then bSection4 = true; end
-	if updateControl("properties", bReadOnly, bID and (bWeapon or bArmor)) then bSection4 = true; end
-	
+  if updateControl("subtype", bReadOnly, bID) then bSection2 = true; end
+  if updateControl("rarity", bReadOnly, bID) then bSection2 = true; end
+  
+  local bSection3 = false;
+  if updateControl("cost", bReadOnly, bID) then bSection3 = true; end
+  if updateControl("exp", bReadOnly, bID) then bSection3 = true; end
+  if updateControl("weight", bReadOnly, bID) then bSection3 = true; end
+  
+  local bSection4 = false;
+  -- if updateControl("effect_combat", bReadOnly, bID) then bSection4 = true; end
+  -- if updateControl("effect", bReadOnly, bID) then bSection4 = true; end
+    -- if not User.isHost() then
+    -- effect.setVisible(bID);
+    -- effect_combat.setVisible(bID);
+  -- end
+  if updateControl("bonus", bReadOnly, bID and (bWeapon or bArmor or bArcaneFocus)) then bSection4 = true; end
+  --if updateControl("damage", bReadOnly, bID and bWeapon) then bSection4 = true; end
+  --if updateControl("speedfactor", bReadOnly, bID and bWeapon) then bSection4 = true; end
+  
+  if updateControl("ac", bReadOnly, bID and bArmor) then bSection4 = true; end
+  --if updateControl("dexbonus", bReadOnly, bID and bArmor) then bSection4 = true; end
+  --if updateControl("strength", bReadOnly, bID and bArmor) then bSection4 = true; end
+  --if updateControl("stealth", bReadOnly, bID and bArmor) then bSection4 = true; end
+  if updateControl("properties", bReadOnly, bID and (bWeapon or bArmor)) then bSection4 = true; end
+  
     local bSection6 = false;
-	if updateControl("dmonly", bReadOnly, bID and User.isHost()) then bSection6 = true; end
+  if updateControl("dmonly", bReadOnly, bID and User.isHost()) then bSection6 = true; end
 
-	local bSection5 = bID;
-	description.setVisible(bID);
-	description.setReadOnly(bReadOnly);
-	
-	divider.setVisible(bSection1 and bSection2);
-	divider2.setVisible((bSection1 or bSection2) and bSection3);
-	divider3.setVisible((bSection1 or bSection2 or bSection3) and bSection4);
+  local bSection5 = bID;
+  description.setVisible(bID);
+  description.setReadOnly(bReadOnly);
+  
+  divider.setVisible(bSection1 and bSection2);
+  divider2.setVisible((bSection1 or bSection2) and bSection3);
+  divider3.setVisible((bSection1 or bSection2 or bSection3) and bSection4);
     
     header_armorclass.setVisible(bHost and not bReadOnly);
     armor_base_label.setVisible(bHost and not bReadOnly);
@@ -178,7 +178,7 @@ function update()
         -- save_value_label.setVisible(false);
     -- end
 
-	--divider4.setVisible((bSection1 or bSection2 or bSection3 or bSection4) and bSection5);
-	--divider6.setVisible(bSection6);
+  --divider4.setVisible((bSection1 or bSection2 or bSection3 or bSection4) and bSection5);
+  --divider6.setVisible(bSection6);
 end
 

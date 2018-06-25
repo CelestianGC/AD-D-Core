@@ -13,8 +13,8 @@ function onInit()
   DesktopManager.setLowerDockOffset(2, 0, 2, 0);
     
   -- we don't use either of these types of records in AD&D, so hide them
-	LibraryData.setRecordTypeInfo("feat", nil);
-	LibraryData.setRecordTypeInfo("vehicle", nil);
+  LibraryData.setRecordTypeInfo("feat", nil);
+  LibraryData.setRecordTypeInfo("vehicle", nil);
   --
 
   if User.isHost()  then

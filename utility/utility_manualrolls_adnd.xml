@@ -6,7 +6,7 @@
 -->
 
 <root>
-	<windowclass name="manualroll_entry" merge="join">
-		<script file="utility/scripts/manualroll_entry_adnd.lua" mergerule="replace"/>
-	</windowclass>
+  <windowclass name="manualroll_entry" merge="join">
+    <script file="utility/scripts/manualroll_entry_adnd.lua" mergerule="replace"/>
+  </windowclass>
 </root>

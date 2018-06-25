@@ -6,57 +6,57 @@
 -->
 
 <root>
-	<template name="label_reftype">
-		<stringcontrol>
-			<anchored to="name" position="belowleft" offset="0,2">
-				<right parent="" offset="-25" />
-			</anchored>
-			<font>reference-subtitle</font>
-			<readonly />
-			<script>
-				function onInit()
-					if getValue() == "" then
-						setVisible(false);
-					end
-				end
-			</script>
-		</stringcontrol>
-	</template>
-	<template name="label_item_reftype">
-		<label_reftype>
-			<multilinespacing>20</multilinespacing>
-			<static />
-			<script file="ref/scripts/ref_summary.lua" />
-		</label_reftype>
-	</template>
+  <template name="label_reftype">
+    <stringcontrol>
+      <anchored to="name" position="belowleft" offset="0,2">
+        <right parent="" offset="-25" />
+      </anchored>
+      <font>reference-subtitle</font>
+      <readonly />
+      <script>
+        function onInit()
+          if getValue() == "" then
+            setVisible(false);
+          end
+        end
+      </script>
+    </stringcontrol>
+  </template>
+  <template name="label_item_reftype">
+    <label_reftype>
+      <multilinespacing>20</multilinespacing>
+      <static />
+      <script file="ref/scripts/ref_summary.lua" />
+    </label_reftype>
+  </template>
 
-	<!-- Overrides -->
-	<template name="anchor_reftitle">
-		<genericcontrol>
-			<anchored height="0">
-				<top parent="reftitle" anchor="bottom" offset="3" />
-				<left parent="" anchor="left" offset="35" />
-				<right parent="" anchor="right" offset="-50" />
-			</anchored>
-			<disabled />
-		</genericcontrol>
-	</template>
-	<template name="sub_ref_header">
-		<subwindow>
-			<anchored position="insidetop" offset="-10,10" />
-			<frame name="headergray" offset="5,5,5,5" />
-			<activate />
-		</subwindow>
-	</template>
-	<template name="frame_ref_content">
-		<genericcontrol name="contentframe">
-			<anchored>
-				<top parent="header" anchor="bottom" offset="15" />
-				<left offset="15" />
-				<right offset="-25" />
-				<bottom offset="-15" />
-			</anchored>
-			<disabled />
-		</genericcontrol>
-	</template>
+  <!-- Overrides -->
+  <template name="anchor_reftitle">
+    <genericcontrol>
+      <anchored height="0">
+        <top parent="reftitle" anchor="bottom" offset="3" />
+        <left parent="" anchor="left" offset="35" />
+        <right parent="" anchor="right" offset="-50" />
+      </anchored>
+      <disabled />
+    </genericcontrol>
+  </template>
+  <template name="sub_ref_header">
+    <subwindow>
+      <anchored position="insidetop" offset="-10,10" />
+      <frame name="headergray" offset="5,5,5,5" />
+      <activate />
+    </subwindow>
+  </template>
+  <template name="frame_ref_content">
+    <genericcontrol name="contentframe">
+      <anchored>
+        <top parent="header" anchor="bottom" offset="15" />
+        <left offset="15" />
+        <right offset="-25" />
+        <bottom offset="-15" />
+      </anchored>
+      <disabled />
+    </genericcontrol>
+  </template>
 </root>

@@ -6,35 +6,35 @@
 -->
 
 <root>
-	<windowclass name="pregen_main">
-		<margins control="0,0,0,2" />
-		<sheetdata>
-			<anchor_column name="columnanchor" />
-			
-			<label_column name="race_label">
-				<static textres="pregen_label_race" />
-			</label_column>
-			<string_column name="race">
-				<nodragselect />
-				<readonly />
-			</string_column>
-			<label_column name="class_label">
-				<static textres="pregen_label_class" />
-			</label_column>
-			<stringc_column name="class">
-				<script>
-					function onInit()
-						setValue(CharManager.getClassLevelSummary(window.getDatabaseNode()));
-					end
-				</script>
-			</stringc_column>
-			<label_column name="background_label">
-				<static textres="pregen_label_background" />
-			</label_column>
-			<string_column name="background">
-				<nodragselect />
-				<readonly />
-			</string_column>
-		</sheetdata>
-	</windowclass>
+  <windowclass name="pregen_main">
+    <margins control="0,0,0,2" />
+    <sheetdata>
+      <anchor_column name="columnanchor" />
+      
+      <label_column name="race_label">
+        <static textres="pregen_label_race" />
+      </label_column>
+      <string_column name="race">
+        <nodragselect />
+        <readonly />
+      </string_column>
+      <label_column name="class_label">
+        <static textres="pregen_label_class" />
+      </label_column>
+      <stringc_column name="class">
+        <script>
+          function onInit()
+            setValue(CharManager.getClassLevelSummary(window.getDatabaseNode()));
+          end
+        </script>
+      </stringc_column>
+      <label_column name="background_label">
+        <static textres="pregen_label_background" />
+      </label_column>
+      <string_column name="background">
+        <nodragselect />
+        <readonly />
+      </string_column>
+    </sheetdata>
+  </windowclass>
 </root>

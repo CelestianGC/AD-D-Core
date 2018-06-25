@@ -19,42 +19,42 @@ function onUpdate(nodeField)
   local sIdentity = getIdentityFromCTNode(nodeCT);
 Debug.console("manager_charlist_adnd.lua","onUpdate","nodeCT",nodeCT);
 Debug.console("manager_charlist_adnd.lua","onUpdate","sIdentity",sIdentity);
-	updateWidgets(sIdentity);
+  updateWidgets(sIdentity);
 end
 
 function addInitiativeWidget(control, sIdentity)
-	local widget = control.addBitmapWidget("init_rolled");
-	widget.setPosition("center", -25, 9);
-	widget.setVisible(true);
-	widget.setName("initiativerolled");
+  local widget = control.addBitmapWidget("init_rolled");
+  widget.setPosition("center", -25, 9);
+  widget.setVisible(true);
+  widget.setName("initiativerolled");
 
-	local textwidget = control.addTextWidget("mini_name", "");
-	textwidget.setPosition("center", -25, 9);
-	textwidget.setVisible(false);
-	textwidget.setName("initiativerolledtext");
-	
-	updateWidgets(sIdentity);
+  local textwidget = control.addTextWidget("mini_name", "");
+  textwidget.setPosition("center", -25, 9);
+  textwidget.setVisible(false);
+  textwidget.setName("initiativerolledtext");
+  
+  updateWidgets(sIdentity);
 end
 
 -- update widget when init_roll value changes
 function updateWidgets(sIdentity)
-	local ctrlChar = CharacterListManager.getEntry(sIdentity);
-	if not ctrlChar then
-		return;
-	end
-	local widget = ctrlChar.findWidget("initiativerolled");
-	local textwidget = ctrlChar.findWidget("initiativerolledtext");
-	if not widget or not textwidget then
-		return;
-	end	
+  local ctrlChar = CharacterListManager.getEntry(sIdentity);
+  if not ctrlChar then
+    return;
+  end
+  local widget = ctrlChar.findWidget("initiativerolled");
+  local textwidget = ctrlChar.findWidget("initiativerolledtext");
+  if not widget or not textwidget then
+    return;
+  end  
   local nodeCT = CombatManager.getCTFromNode("charsheet." .. sIdentity);
   local bRolled = (DB.getValue(nodeCT,"initrolled",0) == 1);
-	if bRolled then
-		widget.setVisible(false);
-		textwidget.setVisible(false);
+  if bRolled then
+    widget.setVisible(false);
+    textwidget.setVisible(false);
   else
-		widget.setVisible(true);
-		textwidget.setVisible(true);
+    widget.setVisible(true);
+    textwidget.setVisible(true);
   end
 end
 

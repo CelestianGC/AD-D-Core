@@ -6,140 +6,140 @@
 -->
 
 <root>
-	<!-- Windows -->
-	<font name="subwindowtitle">
-		<fgffile name="graphics/fonts/title-regular-10.fgf" />
-		<color value="DED1B1" />
-		<shadow offset="2,2" color="000000" />
-	</font>
-	<font name="subwindowsmalltitle">
-		<fgffile name="graphics/fonts/bold-10.fgf" />
-		<color value="FFF1CC" />
-		<shadow offset="1,1" color="000000" />
-	</font>
-	<font name="subwindowsmalltitle_disabled">
-		<fgffile name="graphics/fonts/bold-10.fgf" />
-		<color value="494340" />
-		<shadow offset="1,1" color="000000" />
-	</font>
-	
-	<!-- Misc -->
-	<font name="list-empty-ct">
-		<fgffile name="graphics/fonts/italic-10.fgf" />
-		<color value="#FFFFFF" />
-	</font>
-	<font name="list-empty-ps">
-		<fgffile name="graphics/fonts/italic-10.fgf" />
-		<color value="#FFFFFF" />
-	</font>
-	<font name="reference-title">
-		<fgffile name="graphics/fonts/bold-14.fgf" />
-		<color value="000000" />
-	</font>
-	<font name="reference-subtitle">
-		<fgffile name="graphics/fonts/bold-10.fgf" />
-		<color value="000000" />
-	</font>
+  <!-- Windows -->
+  <font name="subwindowtitle">
+    <fgffile name="graphics/fonts/title-regular-10.fgf" />
+    <color value="DED1B1" />
+    <shadow offset="2,2" color="000000" />
+  </font>
+  <font name="subwindowsmalltitle">
+    <fgffile name="graphics/fonts/bold-10.fgf" />
+    <color value="FFF1CC" />
+    <shadow offset="1,1" color="000000" />
+  </font>
+  <font name="subwindowsmalltitle_disabled">
+    <fgffile name="graphics/fonts/bold-10.fgf" />
+    <color value="494340" />
+    <shadow offset="1,1" color="000000" />
+  </font>
+  
+  <!-- Misc -->
+  <font name="list-empty-ct">
+    <fgffile name="graphics/fonts/italic-10.fgf" />
+    <color value="#FFFFFF" />
+  </font>
+  <font name="list-empty-ps">
+    <fgffile name="graphics/fonts/italic-10.fgf" />
+    <color value="#FFFFFF" />
+  </font>
+  <font name="reference-title">
+    <fgffile name="graphics/fonts/bold-14.fgf" />
+    <color value="000000" />
+  </font>
+  <font name="reference-subtitle">
+    <fgffile name="graphics/fonts/bold-10.fgf" />
+    <color value="000000" />
+  </font>
 
-	<!-- Override CoreRPG ruleset graphics -->
-	<!-- Modifier Stack -->
-	<font name="modcollector">
-		<fgffile name="graphics/fonts/diemod.fgf" />
-		<color value="DED1B1" />
-	</font>
-	<font name="modcollectorlabel">
-		<fgffile name="graphics/fonts/modcollectorlabel.fgf" />
-		<color value="DED1B1" />
-	</font>
-		
-	<!-- Windows -->
-	<font name="windowtitle"> 
-		<fgffile name="graphics/fonts/title-regular-12.fgf" />
-		<color value="DED1B1" />
-		<shadow offset="2,2" color="000000" /> 
-	</font>
-	
-	<!-- Formatted text fields -->
-	<font name="reference-h">
-		<fgffile name="graphics/fonts/bold-14.fgf" />
-		<color value="660000" />
-	</font>
-	<font name="reference-r">
-		<fgffile name="graphics/fonts/regular-10.fgf" />
-		<color value="#000000" />
-	</font>
-	<font name="reference-i">
-		<fgffile name="graphics/fonts/italic-10.fgf" />
-		<color value="#000000" />
-	</font>
-	<font name="reference-b">
-		<fgffile name="graphics/fonts/bold-10.fgf" />
-		<color value="#000000" />
-	</font>
-	<font name="reference-bi">
-		<fgffile name="graphics/fonts/bolditalic-10.fgf" />
-		<color value="#000000" />
-	</font>
-	<font name="reference-b-large">
-		<fgffile name="graphics/fonts/bold-11.fgf" />
-		<color value="#000000" />
-	</font>
-	
-	<!-- Reference -->
-	<font name="reference-header">
-		<fgffile name="graphics/fonts/bold-10.fgf" />
-		<color value="FFFFFF" />
-	</font>
-	<font name="reference-groupdesc">
-		<fgffile name="graphics/fonts/bold-10.fgf" />
-		<color value="#000000" />
-	</font>
-	<font name="reference-groupsubdesc">
-		<fgffile name="graphics/fonts/italic-10.fgf" />
-		<color value="#FFFFFF" />
-	</font>
-
-	<!-- Languages -->
-	<font name="Dwarven">
-		<ttf file="graphics/fonts/Dwarven.ttf" name="D&amp;D Dwarvish Bold" size="20" />
-		<color value="#000000" />
-	</font>
-	<font name="Elven">
-		<ttf file="graphics/fonts/Elven.ttf" name="D&amp;DElven" size="26" />
-		<color value="#000000" />
-	</font>
-	<font name="Infernal">
-		<ttf file="graphics/fonts/Infernal.ttf" name="D&amp;D Abyssal Barazhad" size="20" />
-		<color value="#000000" />
-	</font>
-	<font name="Celestial">
-		<ttf file="graphics/fonts/Celestial.ttf" name="Supernal" size="24" />
-		<color value="#000000" />
-	</font>
-	<font name="Draconic">
-		<ttf file="graphics/fonts/Draconic.ttf" name="Draconic 4" size="24" />
-		<color value="#000000" />
-	</font>
-	<font name="Primordial">
-		<ttf file="graphics/fonts/Primordial.ttf" name="Primordial" size="24" />
-		<color value="#000000" />
-	</font>
+  <!-- Override CoreRPG ruleset graphics -->
+  <!-- Modifier Stack -->
+  <font name="modcollector">
+    <fgffile name="graphics/fonts/diemod.fgf" />
+    <color value="DED1B1" />
+  </font>
+  <font name="modcollectorlabel">
+    <fgffile name="graphics/fonts/modcollectorlabel.fgf" />
+    <color value="DED1B1" />
+  </font>
     
-  	<font name="successfont">
-		<fgffile name="graphics/fonts/regular-10.fgf" />
-		<color value="#418c12" />
-	</font>
-  	<font name="failfont">
-		<fgffile name="graphics/fonts/regular-10.fgf" />
-		<color value="#6106d1" />
-	</font>
-  	<font name="hitfont">
-		<fgffile name="graphics/fonts/regular-10.fgf" />
-		<color value="#cc1d1d" />
-	</font>
-  	<font name="missfont">
-		<fgffile name="graphics/fonts/regular-10.fgf" />
-		<color value="#1d97cc" />
-	</font>
+  <!-- Windows -->
+  <font name="windowtitle"> 
+    <fgffile name="graphics/fonts/title-regular-12.fgf" />
+    <color value="DED1B1" />
+    <shadow offset="2,2" color="000000" /> 
+  </font>
+  
+  <!-- Formatted text fields -->
+  <font name="reference-h">
+    <fgffile name="graphics/fonts/bold-14.fgf" />
+    <color value="660000" />
+  </font>
+  <font name="reference-r">
+    <fgffile name="graphics/fonts/regular-10.fgf" />
+    <color value="#000000" />
+  </font>
+  <font name="reference-i">
+    <fgffile name="graphics/fonts/italic-10.fgf" />
+    <color value="#000000" />
+  </font>
+  <font name="reference-b">
+    <fgffile name="graphics/fonts/bold-10.fgf" />
+    <color value="#000000" />
+  </font>
+  <font name="reference-bi">
+    <fgffile name="graphics/fonts/bolditalic-10.fgf" />
+    <color value="#000000" />
+  </font>
+  <font name="reference-b-large">
+    <fgffile name="graphics/fonts/bold-11.fgf" />
+    <color value="#000000" />
+  </font>
+  
+  <!-- Reference -->
+  <font name="reference-header">
+    <fgffile name="graphics/fonts/bold-10.fgf" />
+    <color value="FFFFFF" />
+  </font>
+  <font name="reference-groupdesc">
+    <fgffile name="graphics/fonts/bold-10.fgf" />
+    <color value="#000000" />
+  </font>
+  <font name="reference-groupsubdesc">
+    <fgffile name="graphics/fonts/italic-10.fgf" />
+    <color value="#FFFFFF" />
+  </font>
+
+  <!-- Languages -->
+  <font name="Dwarven">
+    <ttf file="graphics/fonts/Dwarven.ttf" name="D&amp;D Dwarvish Bold" size="20" />
+    <color value="#000000" />
+  </font>
+  <font name="Elven">
+    <ttf file="graphics/fonts/Elven.ttf" name="D&amp;DElven" size="26" />
+    <color value="#000000" />
+  </font>
+  <font name="Infernal">
+    <ttf file="graphics/fonts/Infernal.ttf" name="D&amp;D Abyssal Barazhad" size="20" />
+    <color value="#000000" />
+  </font>
+  <font name="Celestial">
+    <ttf file="graphics/fonts/Celestial.ttf" name="Supernal" size="24" />
+    <color value="#000000" />
+  </font>
+  <font name="Draconic">
+    <ttf file="graphics/fonts/Draconic.ttf" name="Draconic 4" size="24" />
+    <color value="#000000" />
+  </font>
+  <font name="Primordial">
+    <ttf file="graphics/fonts/Primordial.ttf" name="Primordial" size="24" />
+    <color value="#000000" />
+  </font>
+    
+    <font name="successfont">
+    <fgffile name="graphics/fonts/regular-10.fgf" />
+    <color value="#418c12" />
+  </font>
+    <font name="failfont">
+    <fgffile name="graphics/fonts/regular-10.fgf" />
+    <color value="#6106d1" />
+  </font>
+    <font name="hitfont">
+    <fgffile name="graphics/fonts/regular-10.fgf" />
+    <color value="#cc1d1d" />
+  </font>
+    <font name="missfont">
+    <fgffile name="graphics/fonts/regular-10.fgf" />
+    <color value="#1d97cc" />
+  </font>
 
 </root>

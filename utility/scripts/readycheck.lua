@@ -20,11 +20,11 @@ end
 
 -- notify oob to deal with this
 function notifyReadyCheck(sUser, nCheck)
-	local msgOOB = {};
-	msgOOB.type = OOB_MSGTYPE_READYCHECK;
+  local msgOOB = {};
+  msgOOB.type = OOB_MSGTYPE_READYCHECK;
   msgOOB.user_name = sUser;
   msgOOB.ready_check_select = nCheck;
-	Comm.deliverOOBMessage(msgOOB, "");
+  Comm.deliverOOBMessage(msgOOB, "");
 end
 
 -- oob takes control and makes change (sends to apply)

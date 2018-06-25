@@ -4,65 +4,65 @@
 --
 
 function onToggle()
-	windowlist.onHeaderToggle(self);
+  windowlist.onHeaderToggle(self);
 end
 
 local bFilter = true;
 function setFilter(bNewFilter)
-	bFilter = bNewFilter;
+  bFilter = bNewFilter;
 end
 function getFilter()
-	return bFilter;
+  return bFilter;
 end
 
 local nodeGroup = nil;
 function setNode(node)
-	nodeGroup = node;
-	if nodeGroup then
-		link.setVisible(true);
-	else
-		link.setVisible(false);
-	end
+  nodeGroup = node;
+  if nodeGroup then
+    link.setVisible(true);
+  else
+    link.setVisible(false);
+  end
 end
 function getNode()
-	return nodeGroup;
+  return nodeGroup;
 end
 
 function deleteGroup()
-	if nodeGroup then
-		nodeGroup.delete();
-	end
+  if nodeGroup then
+    nodeGroup.delete();
+  end
 end
 
 function setHeaderCategory(rGroup, sGroup, nLevel, bAllowDelete)
   local sIconName = "char_spells";
   
-	if sGroup == "" then
-		name.setValue(Interface.getString("char_label_powers"));
-		name.setIcon("char_abilities_orange");
-	else
-		if rGroup.grouptype ~= "" then
-			if not nLevel then
-				name.setValue(sGroup);
-			elseif nLevel == 0 then
-				name.setValue(sGroup .. " (" .. Interface.getString("power_label_groupcantrips") .. ")");
-			else
-				name.setValue(sGroup .. " (" .. Interface.getString("level") .. " " .. nLevel .. ")");
-			end
+  if sGroup == "" then
+    name.setValue(Interface.getString("char_label_powers"));
+    name.setIcon("char_abilities_orange");
+  else
+    if rGroup.grouptype ~= "" then
+      if not nLevel then
+        name.setValue(sGroup);
+      elseif nLevel == 0 then
+        name.setValue(sGroup .. " (" .. Interface.getString("power_label_groupcantrips") .. ")");
+      else
+        name.setValue(sGroup .. " (" .. Interface.getString("level") .. " " .. nLevel .. ")");
+      end
       if sGroup:match("Psionic") then 
         sIconName = "char_psion";
       end
-			name.setIcon(sIconName);
-			level.setValue(nLevel);
-		else
-			name.setValue(sGroup);
-			name.setIcon("char_abilities_orange");
-		end
-		group.setValue(sGroup);
-		setNode(rGroup.node);
-		if bAllowDelete then
-			idelete.setVisibility(true);
-		end
-	end
+      name.setIcon(sIconName);
+      level.setValue(nLevel);
+    else
+      name.setValue(sGroup);
+      name.setIcon("char_abilities_orange");
+    end
+    group.setValue(sGroup);
+    setNode(rGroup.node);
+    if bAllowDelete then
+      idelete.setVisibility(true);
+    end
+  end
 end
 

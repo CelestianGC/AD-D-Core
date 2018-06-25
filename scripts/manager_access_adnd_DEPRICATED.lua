@@ -16,24 +16,24 @@ function onIdentityActivation(sIdentity, sUser, bActivated)
 -- Debug.console("manager_Access_adnd.lua","onIdentityActivation","bActivated",bActivated);
 -- Debug.console("manager_Access_adnd.lua","onIdentityActivation","User.getAllActiveIdentities()",User.getAllActiveIdentities());
 -- Debug.console("manager_Access_adnd.lua","onIdentityActivation","User.getAllActiveIdentities()",User.getAllActiveIdentities());
-	if bActivated then
+  if bActivated then
     -- give access to CT node it character if exists
         local nodeCT = CombatManager.getCTFromNode("charsheet." .. sIdentity);
         if nodeCT and sUser ~= "" then
-			 local owner = nodeCT.getOwner();
-			 if owner then
-				 nodeCT.removeHolder(owner);
-			 end
+       local owner = nodeCT.getOwner();
+       if owner then
+         nodeCT.removeHolder(owner);
+       end
             DB.setOwner(nodeCT, sUser);
         end
-	else
+  else
     -- remove access to CT node if character exists
         local nodeCT = CombatManager.getCTFromNode("charsheet." .. sIdentity);
         if nodeCT and sUser ~= "" then
-			local owner = nodeCT.getOwner();
-			if owner then
-				nodeCT.removeHolder(owner);
-			end
+      local owner = nodeCT.getOwner();
+      if owner then
+        nodeCT.removeHolder(owner);
+      end
         end
     end
 end

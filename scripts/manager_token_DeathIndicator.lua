@@ -1,17 +1,17 @@
 function onInit()
-	OptionsManager.registerOption2("COMBAT_SHOW_RIP", false, "option_header_combat", "option_label_RIP", "option_entry_cycler", 
-			{ labels = "option_val_on", values = "on", baselabel = "option_val_off", baseval = "off", default = "off" });
-	OptionsManager.registerOption2("COMBAT_SHOW_RIP_DM", false, "option_header_combat", "option_label_RIP_DM", "option_entry_cycler", 
-			{ labels = "option_val_on", values = "on", baselabel = "option_val_off", baseval = "off", default = "off" });
+  OptionsManager.registerOption2("COMBAT_SHOW_RIP", false, "option_header_combat", "option_label_RIP", "option_entry_cycler", 
+      { labels = "option_val_on", values = "on", baselabel = "option_val_off", baseval = "off", default = "off" });
+  OptionsManager.registerOption2("COMBAT_SHOW_RIP_DM", false, "option_header_combat", "option_label_RIP_DM", "option_entry_cycler", 
+      { labels = "option_val_on", values = "on", baselabel = "option_val_off", baseval = "off", default = "off" });
   
   CombatManager.addCombatantFieldChangeHandler("wounds", "onUpdate", updateHealth);
   CombatManager.addCombatantFieldChangeHandler("tokenrefid", "onUpdate", updateHealth);
-	DB.addHandler("options.COMBAT_SHOW_RIP", "onUpdate", TokenManager.onOptionChanged);
-	DB.addHandler("options.COMBAT_SHOW_RIP_DM", "onUpdate", TokenManager.onOptionChanged);
+  DB.addHandler("options.COMBAT_SHOW_RIP", "onUpdate", TokenManager.onOptionChanged);
+  DB.addHandler("options.COMBAT_SHOW_RIP_DM", "onUpdate", TokenManager.onOptionChanged);
   
   -- for when options are toggled in settings.
-	DB.addHandler("options.COMBAT_SHOW_RIP", "onUpdate", updateCTEntries);
-	DB.addHandler("options.COMBAT_SHOW_RIP_DM", "onUpdate", updateCTEntries);  
+  DB.addHandler("options.COMBAT_SHOW_RIP", "onUpdate", updateCTEntries);
+  DB.addHandler("options.COMBAT_SHOW_RIP_DM", "onUpdate", updateCTEntries);  
   Interface.onDesktopInit = onDesktopInit
 end
 
@@ -22,16 +22,16 @@ function onDesktopInit()
 end
 
 function updateCTEntries()
-	for _,node in pairs(CombatManager.getCombatantNodes()) do
+  for _,node in pairs(CombatManager.getCombatantNodes()) do
 --Debug.console("manager_token_DeathIndicator.lua","updateCTEntries","node",node);   
   updateHealth(node.getChild("wounds"));
-	end
+  end
 end
 
 -- various updates thanks to suggestions from Andraax
 function updateHealth(nodeField)
-	local nodeCT = nodeField.getParent();
-	local tokenCT = CombatManager.getTokenFromCT(nodeCT);
+  local nodeCT = nodeField.getParent();
+  local tokenCT = CombatManager.getTokenFromCT(nodeCT);
   if (tokenCT) then
     -- Percent Damage, Status String, Wound Color
     local pDmg, pStatus, sColor = TokenManager2.getHealthInfo(nodeCT);

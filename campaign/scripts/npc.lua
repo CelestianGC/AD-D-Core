@@ -4,7 +4,7 @@
 --
 
 function onInit()
-	CampaignDataManager2.updateNPCSpells(getDatabaseNode());
+  CampaignDataManager2.updateNPCSpells(getDatabaseNode());
   local sPowerMode = DB.getValue(getDatabaseNode(),"powermode","");
   if (sPowerMode and sPowerMode == "") then 
     DB.setValue(getDatabaseNode(),"powermode","string","standard");
@@ -12,17 +12,17 @@ function onInit()
 end
 
 function onLockChanged()
-	StateChanged();
+  StateChanged();
 end
 
 function StateChanged()
-	if header.subwindow then
-		header.subwindow.update();
-	end
-	if main_creature.subwindow then
-		main_creature.subwindow.update();
-	end
+  if header.subwindow then
+    header.subwindow.update();
+  end
+  if main_creature.subwindow then
+    main_creature.subwindow.update();
+  end
 
-	local bReadOnly = WindowManager.getReadOnlyState(getDatabaseNode());
-	text.setReadOnly(bReadOnly);
+  local bReadOnly = WindowManager.getReadOnlyState(getDatabaseNode());
+  text.setReadOnly(bReadOnly);
 end

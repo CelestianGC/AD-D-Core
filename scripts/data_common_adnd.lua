@@ -105,7 +105,7 @@ function onInit()
   local sRulesetName = User.getRulesetName();
   
     -- default initiative dice size 
-	nDefaultInitiativeDice = 10;
+  nDefaultInitiativeDice = 10;
   -- default coin weight, 50 coins = 1 pound
   nDefaultCoinWeight = 0.02;
   -- default surprise dice
@@ -320,7 +320,7 @@ function onInit()
   aIntelligence[125]  =   {20,9,100,"All","Level: 1st, 2nd, 3rd, 4th, 5th, 6th, 7th"};
     
     -- default turn dice size 
-	nDefaultTurnDice = {"d20"};
+  nDefaultTurnDice = {"d20"};
   nDefaultTurnUndeadMaxHD = 13; -- this is actually the number of turn_name_index entries
   -- index of the turns 1-13
   turn_name_index ={      -- make sure the HD listing is XXHD or X-XHD, 

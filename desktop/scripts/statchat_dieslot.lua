@@ -4,39 +4,39 @@
 --
 
 function onDragStart(button, x, y, draginfo)
-	draginfo.setType("statdieslot");
-	draginfo.setNumberData(getValue());
-	draginfo.setCustomData(self);
-	draginfo.disableHotkeying(true);
-	
-	local base = draginfo.createBaseData("number");
-	base.setNumberData(getValue());
+  draginfo.setType("statdieslot");
+  draginfo.setNumberData(getValue());
+  draginfo.setCustomData(self);
+  draginfo.disableHotkeying(true);
+  
+  local base = draginfo.createBaseData("number");
+  base.setNumberData(getValue());
 
-	setColor("ffbb0000");
+  setColor("ffbb0000");
 
-	return true;
+  return true;
 end
 
 function onDragEnd()
-	window.updateTotal();
+  window.updateTotal();
 end
 
 function onDrop(x, y, draginfo)
-	if draginfo.isType("statdieslot") then
-		local myvalue = getValue();
-	
-		-- Swap values
-		setValue(draginfo.getNumberData());
-		draginfo.getCustomData().setValue(myvalue);
+  if draginfo.isType("statdieslot") then
+    local myvalue = getValue();
+  
+    -- Swap values
+    setValue(draginfo.getNumberData());
+    draginfo.getCustomData().setValue(myvalue);
 
-		window.updateTotal();
-		
-		return true;
-	end
-	
-	return false;
+    window.updateTotal();
+    
+    return true;
+  end
+  
+  return false;
 end
 
 function onValueChanged()
-	window.updateTotal();
+  window.updateTotal();
 end

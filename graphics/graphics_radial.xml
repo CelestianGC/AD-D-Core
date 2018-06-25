@@ -6,18 +6,18 @@
 -->
 
 <root>
-	<!-- Spell actions -->
-	<icon name="radial_sword" file="graphics/radial/icon_sword.png" />
-	<icon name="radial_damage" file="graphics/radial/icon_damage.png" />
-	<icon name="radial_heal" file="graphics/radial/icon_plus.png" />
-	<icon name="radial_effect" file="graphics/radial/icon_effect.png" />
+  <!-- Spell actions -->
+  <icon name="radial_sword" file="graphics/radial/icon_sword.png" />
+  <icon name="radial_damage" file="graphics/radial/icon_damage.png" />
+  <icon name="radial_heal" file="graphics/radial/icon_plus.png" />
+  <icon name="radial_effect" file="graphics/radial/icon_effect.png" />
 
-	<icon name="radial_dmg_psp" file="graphics/radial/icon_damage.png" />
-	<icon name="radial_heal_psp" file="graphics/radial/icon_plus.png" />
-	
-	<!-- Party Sheet -->
-	<icon name="all" file="graphics/radial/icon_all.png" />
-	<icon name="one" file="graphics/radial/icon_one.png" />
+  <icon name="radial_dmg_psp" file="graphics/radial/icon_damage.png" />
+  <icon name="radial_heal_psp" file="graphics/radial/icon_plus.png" />
+  
+  <!-- Party Sheet -->
+  <icon name="all" file="graphics/radial/icon_all.png" />
+  <icon name="one" file="graphics/radial/icon_one.png" />
     
     <!-- CT new options -->
     <icon name="extension_icon" file="graphics/radial/extension_icon.png" />

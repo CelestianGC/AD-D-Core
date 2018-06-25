@@ -6,13 +6,13 @@
 -->
 
 <root>
-	<!-- Decal -->
-	<string name="option_val_DDCL_adnd1">Advanced D&amp;D</string>
-	<string name="option_val_DDCL_adnd2">AD&amp;D MM</string>
-	<string name="option_val_DDCL_adnd3">AD&amp;D PHB</string>
-	<string name="option_val_DDCL_adnd4">AD&amp;D DMG</string>
+  <!-- Decal -->
+  <string name="option_val_DDCL_adnd1">Advanced D&amp;D</string>
+  <string name="option_val_DDCL_adnd2">AD&amp;D MM</string>
+  <string name="option_val_DDCL_adnd3">AD&amp;D PHB</string>
+  <string name="option_val_DDCL_adnd4">AD&amp;D DMG</string>
 
-	<!-- Common -->
+  <!-- Common -->
   <string name="fighter">Fighter</string>
   <string name="cleric">Cleric</string>
   <string name="mage">Mage</string>
@@ -23,115 +23,115 @@
   <string name="wizard">Wizard</string>
   <string name="rogue">Rogue</string>
 
-	<string name="thaco">THACO</string>
+  <string name="thaco">THACO</string>
   <string name="bab">BAB</string>
-	<string name="mthaco">MTHACO</string>
-	<string name="percent">%</string>
-	<string name="dice">Dice</string>
-	<string name="dicetext">Text</string>
+  <string name="mthaco">MTHACO</string>
+  <string name="percent">%</string>
+  <string name="dice">Dice</string>
+  <string name="dicetext">Text</string>
   <string name="casterlevel">CL</string>
   <string name="casterlevelby2">CL/2</string>
   <string name="casterlevelby3">CL/3</string>
   <string name="casterlevelby4">CL/4</string>
   <string name="casterlevelby5">CL/5</string>
 
-	<string name="paralyzation">Paralyzation</string>
-	<string name="poison">Poison</string>
-	<string name="death">Death</string>
-	<string name="rod">Rod</string>
-	<string name="staff">Staff</string>
-	<string name="wand">Wand</string>
-	<string name="petrification">Petrification</string>
-	<string name="polymorph">Polymorph</string>
-	<string name="breath">Breath</string>
-	<string name="spell">Spell</string>
-	
-	<string name="save_paralyzation_poison_death">Paralyzation, Poison or Death</string>
-	<string name="save_rod_staff_wand">Rod, Staff or Wand</string>
-	<string name="save_petrify_polymorph">Petrify, Polymorph</string>
-	<string name="save_breath">Breath</string>
-	<string name="save_spell">Spell</string>
+  <string name="paralyzation">Paralyzation</string>
+  <string name="poison">Poison</string>
+  <string name="death">Death</string>
+  <string name="rod">Rod</string>
+  <string name="staff">Staff</string>
+  <string name="wand">Wand</string>
+  <string name="petrification">Petrification</string>
+  <string name="polymorph">Polymorph</string>
+  <string name="breath">Breath</string>
+  <string name="spell">Spell</string>
+  
+  <string name="save_paralyzation_poison_death">Paralyzation, Poison or Death</string>
+  <string name="save_rod_staff_wand">Rod, Staff or Wand</string>
+  <string name="save_petrify_polymorph">Petrify, Polymorph</string>
+  <string name="save_breath">Breath</string>
+  <string name="save_spell">Spell</string>
 
-	<string name="save_paralyzation_wrapped">Paralyzation</string>
-	<string name="save_poison_wrapped">Poison</string>
-	<string name="save_death_wrapped">Death</string>
-	<string name="save_rod_wrapped">Rod</string>
-	<string name="save_staff_wrapped">Staff</string>
-	<string name="save_wand_wrapped">Wand</string>
-	<string name="save_petrification_wrapped">Petrification</string>
-	<string name="save_polymorph_wrapped">Polymorph</string>
-	<string name="save_breath_wrapped">Breath</string>
-	<string name="save_spell_wrapped">Spell</string>
+  <string name="save_paralyzation_wrapped">Paralyzation</string>
+  <string name="save_poison_wrapped">Poison</string>
+  <string name="save_death_wrapped">Death</string>
+  <string name="save_rod_wrapped">Rod</string>
+  <string name="save_staff_wrapped">Staff</string>
+  <string name="save_wand_wrapped">Wand</string>
+  <string name="save_petrification_wrapped">Petrification</string>
+  <string name="save_polymorph_wrapped">Polymorph</string>
+  <string name="save_breath_wrapped">Breath</string>
+  <string name="save_spell_wrapped">Spell</string>
 
-	<string name="save_details_tooltip">Save detail window. Set scores and adjustments.</string>
-	<string name="ability_details_tooltip">Ability detail window. Set scores and adjustments.</string>
+  <string name="save_details_tooltip">Save detail window. Set scores and adjustments.</string>
+  <string name="ability_details_tooltip">Ability detail window. Set scores and adjustments.</string>
     
-	<string name="text_MOD">MOD</string>
+  <string name="text_MOD">MOD</string>
     
-	<string name="save_paralyzation_full">Paralyzation</string>
-	<string name="save_poison_full">Poison</string>
-	<string name="save_death_full">Death</string>
+  <string name="save_paralyzation_full">Paralyzation</string>
+  <string name="save_poison_full">Poison</string>
+  <string name="save_death_full">Death</string>
 
-	<string name="save_rod_full">Rod</string>
-	<string name="save_staff_full">Staff</string>
-	<string name="save_wand_full">Wand</string>
+  <string name="save_rod_full">Rod</string>
+  <string name="save_staff_full">Staff</string>
+  <string name="save_wand_full">Wand</string>
 
-	<string name="save_petrification_full">Petrification</string>
-	<string name="save_polymorph_full">Polymorph</string>
+  <string name="save_petrification_full">Petrification</string>
+  <string name="save_polymorph_full">Polymorph</string>
 
-	<string name="save_breath_full">Breath Weapon</string>
-	<string name="save_spell_full">Spell or Other</string>
+  <string name="save_breath_full">Breath Weapon</string>
+  <string name="save_spell_full">Spell or Other</string>
     
-	<string name="background">Kit</string>
+  <string name="background">Kit</string>
 
-	<!-- Characters - Main -->
+  <!-- Characters - Main -->
   <string name="char_label_combat">COMBAT</string>
   <string name="char_label_name">CHARACTER NAME</string>
   <string name="char_label_adjustment">Adjustment</string>
   <string name="char_label_adj">Adj.</string>
   <string name="char_label_mod">Mod</string>
   <string name="char_label_mod_tooltip">Modifier applied to this value.</string>
-	<string name="char_label_background">KIT</string>
-	<string name="char_label_speed">MOVE</string>
+  <string name="char_label_background">KIT</string>
+  <string name="char_label_speed">MOVE</string>
   <string name="char_label_surprise">SUPRISE</string>
   <string name="char_label_surprise_tooltip">Surprise check value. A check rolled of this or lesser value indicates surprise.</string>
   <string name="char_abilityscore_actual_tooltip">Actual ability score before effects.</string>
 
- 	<string name="char_label_weapon_penalty">Weapon</string>
- 	<string name="char_label_weapon_penalty_tooltip">Penalty when using weapon character is not proficient with.</string>
+   <string name="char_label_weapon_penalty">Weapon</string>
+   <string name="char_label_weapon_penalty_tooltip">Penalty when using weapon character is not proficient with.</string>
 
-	<string name="char_label_speeddetail">Move:</string>
-	<string name="char_label_speeddetail_tooltip">Movement values. How fast the character can move.</string>
-	<string name="char_label_speedbase_base">Base</string>
-	<string name="char_label_speedbase_base_tooltip">Base movement value.</string>
-	<string name="char_label_speedbase_enc">Enc</string>
-	<string name="char_label_speedbase_enc_tooltip">Encumbrance based movement value.</string>
-	<string name="char_label_speedbase_mod">Mod</string>
-	<string name="char_label_speedbase_mod_tooltip">Modifier based movement value.</string>
+  <string name="char_label_speeddetail">Move:</string>
+  <string name="char_label_speeddetail_tooltip">Movement values. How fast the character can move.</string>
+  <string name="char_label_speedbase_base">Base</string>
+  <string name="char_label_speedbase_base_tooltip">Base movement value.</string>
+  <string name="char_label_speedbase_enc">Enc</string>
+  <string name="char_label_speedbase_enc_tooltip">Encumbrance based movement value.</string>
+  <string name="char_label_speedbase_mod">Mod</string>
+  <string name="char_label_speedbase_mod_tooltip">Modifier based movement value.</string>
   <string name="char_label_surprisedetail">Surprise:</string>
   <string name="char_label_surprisedetail_tooltip">Surprise value and dice.</string>
   <string name="char_label_surprisedice">Dice</string>
   <string name="char_label_surprisedice_tooltip">The dice rolled for surprise. Default is d10 if not set.</string>
   <string name="char_label_surprisebase">Base</string>
   <string name="char_label_surprisebase_tooltip">Base surprise value.</string>
-	<string name="char_label_surprisetotal">Total</string>
-	<string name="char_label_surprisetotal_tooltip">Total surprise. A check rolled of this or lesser value indicates surprise.</string>
+  <string name="char_label_surprisetotal">Total</string>
+  <string name="char_label_surprisetotal_tooltip">Total surprise. A check rolled of this or lesser value indicates surprise.</string>
 
-	<string name="char_label_turnlevel">Level</string>
-	<string name="char_label_turnlevel_tooltip">Turn attempts made as this level of Cleric/Priest.</string>
-	<string name="char_label_turn">Turn</string>
-	<string name="char_label_turn_tooltip">Make turn attempt. Turn undead as Cleric/Priest at this level.</string>
-	<string name="char_label_surpriseroll">Surprise</string>
-	<string name="char_label_surpriseroll_tooltip">Make a surprise check.</string>
+  <string name="char_label_turnlevel">Level</string>
+  <string name="char_label_turnlevel_tooltip">Turn attempts made as this level of Cleric/Priest.</string>
+  <string name="char_label_turn">Turn</string>
+  <string name="char_label_turn_tooltip">Make turn attempt. Turn undead as Cleric/Priest at this level.</string>
+  <string name="char_label_surpriseroll">Surprise</string>
+  <string name="char_label_surpriseroll_tooltip">Make a surprise check.</string>
 
-	<string name="char_label_mod_item">Item</string>
-	<string name="char_label_mod_item_tooltip">Item equipped modifier.</string>
-	<string name="char_label_mod_effect">Effect</string>
-	<string name="char_label_mod_effect_tooltip">Effect modifier.</string>
-	<string name="char_label_mod_mod">Mod</string>
-	<string name="char_label_mod_mod_tooltip">Custom Modifier applied.</string>
-	<string name="char_label_mod_temp">Temp</string>
-	<string name="char_label_mod_temp_tooltip">Temporary modifier.</string>
+  <string name="char_label_mod_item">Item</string>
+  <string name="char_label_mod_item_tooltip">Item equipped modifier.</string>
+  <string name="char_label_mod_effect">Effect</string>
+  <string name="char_label_mod_effect_tooltip">Effect modifier.</string>
+  <string name="char_label_mod_mod">Mod</string>
+  <string name="char_label_mod_mod_tooltip">Custom Modifier applied.</string>
+  <string name="char_label_mod_temp">Temp</string>
+  <string name="char_label_mod_temp_tooltip">Temporary modifier.</string>
     
   <string name="char_label_ability_percent">%</string>
   <string name="char_tooltip_percentile">Percentile score of this ability.</string>
@@ -147,7 +147,7 @@
   <string name="char_label_wisdom_magicdefenseadj">Def</string>
   <string name="char_tooltip_wisdom_magicdefenseadj">Magical Defensive Save Adjustment versus certain spells</string>
     
-	<string name="char_label_wisdom_spellbonus">Bonus Spells</string>
+  <string name="char_label_wisdom_spellbonus">Bonus Spells</string>
   <string name="char_tooltip_wisdom_spellbonus">Bonus spells for high wisdom</string>
 
   <string name="char_label_wisdom_failure">Fail</string>
@@ -203,7 +203,7 @@
   <string name="char_tooltip_charisma">Charisma of the character.</string>
   <string name="char_label_activatedetail_tooltip">Click to view details of power.</string>
     <!-- skill -->
-	<string name="skill_label_name">Name</string>
+  <string name="skill_label_name">Name</string>
   <string name="char_label_skill_base_check">Base Percent</string>
   <string name="char_label_skill_base_check_tooltip">Base chance of a percentile skill.</string>
   <string name="char_label_skill_type">Type</string>
@@ -245,38 +245,38 @@
   <string name="char_label_attack">ATK</string>
   <string name="char_label_attack_tooltip">Roll an attack using listed weapon.</string>
 
-	<string name="char_label_weapon_tooltip">Weapons used.</string>
-	<string name="char_label_type">TYPE</string>
-	<string name="char_label_type_tooltip">Type of weapon listed. Melee, ranged, thrown.</string>
-	<string name="char_label_initiative">INIT</string>
-	<string name="char_label_initiative_tooltip">Initiative roll using listed weapon.</string>
-	<string name="char_label_damage">DMG</string>
-	<string name="char_label_damage_tooltip">Damage roll using listed weapon.</string>
+  <string name="char_label_weapon_tooltip">Weapons used.</string>
+  <string name="char_label_type">TYPE</string>
+  <string name="char_label_type_tooltip">Type of weapon listed. Melee, ranged, thrown.</string>
+  <string name="char_label_initiative">INIT</string>
+  <string name="char_label_initiative_tooltip">Initiative roll using listed weapon.</string>
+  <string name="char_label_damage">DMG</string>
+  <string name="char_label_damage_tooltip">Damage roll using listed weapon.</string>
     
-	<string name="charsheet_abilities_detail_title">Ability Score Details</string>
-	<string name="charsheet_saves_detail_title">Save Score Details</string>
+  <string name="charsheet_abilities_detail_title">Ability Score Details</string>
+  <string name="charsheet_saves_detail_title">Save Score Details</string>
 
-	<string name="charsheet_abilities_base_tooltip">Base Score of this ability.</string>
-	<string name="charsheet_abilities_basemod_tooltip">Set base score using this value instead of real base. DM only set.</string>
-	<string name="charsheet_abilities_adjustment_tooltip">Manually set modifier applied to this ability score.</string>
-	<string name="charsheet_abilities_tempmod_tooltip">Manually set, temporary modifier applied to this ability score.</string>
+  <string name="charsheet_abilities_base_tooltip">Base Score of this ability.</string>
+  <string name="charsheet_abilities_basemod_tooltip">Set base score using this value instead of real base. DM only set.</string>
+  <string name="charsheet_abilities_adjustment_tooltip">Manually set modifier applied to this ability score.</string>
+  <string name="charsheet_abilities_tempmod_tooltip">Manually set, temporary modifier applied to this ability score.</string>
 
-	<string name="charsheet_saves_base_tooltip">Base Score of this save.</string>
-	<string name="charsheet_saves_basemod_tooltip">Set base score using this value instead of real base. DM only set.</string>
-	<string name="charsheet_saves_adjustment_tooltip">Manually set modifier applied to this save score.</string>
-	<string name="charsheet_saves_tempmod_tooltip">Manually set, temporary modifier applied to this save score.</string>
+  <string name="charsheet_saves_base_tooltip">Base Score of this save.</string>
+  <string name="charsheet_saves_basemod_tooltip">Set base score using this value instead of real base. DM only set.</string>
+  <string name="charsheet_saves_adjustment_tooltip">Manually set modifier applied to this save score.</string>
+  <string name="charsheet_saves_tempmod_tooltip">Manually set, temporary modifier applied to this save score.</string>
 
-	<string name="char_abilities_label_advancedeffects">ADVANCED EFFECTS</string>
+  <string name="char_abilities_label_advancedeffects">ADVANCED EFFECTS</string>
     
     <!-- Actions -->
-	<string name="power_menu_adddmg_psp">Add Damage PSP</string>
-	<string name="power_menu_addheal_psp">Add Heal PSP</string>
+  <string name="power_menu_adddmg_psp">Add Damage PSP</string>
+  <string name="power_menu_addheal_psp">Add Heal PSP</string>
     
-	<string name="power_label_spellcastingslots">Arcane</string>
-	<string name="power_label_arcane_level_tooltip">Arcane spellcasting level.</string>
+  <string name="power_label_spellcastingslots">Arcane</string>
+  <string name="power_label_arcane_level_tooltip">Arcane spellcasting level.</string>
   
-	<string name="power_label_pactmagicslots">Divine</string>
-	<string name="power_label_divine_level_tooltip">Divine spellcasting level.</string>
+  <string name="power_label_pactmagicslots">Divine</string>
+  <string name="power_label_divine_level_tooltip">Divine spellcasting level.</string>
   
   <string name="power_label_memorize">Memorize</string>
   <string name="power_label_memorize_tooltip">Click the spell book to memorize this spell.</string>
@@ -310,54 +310,54 @@
   <string name="power_label_casterlevelmax_duration_tooltip">The maximum level of caster value. (0 for infinite).</string>
   <string name="power_label_customvalue_tooltip">Value multipled by CL result added to total.</string>
 
-   	<!-- Combat Tracker -->
-	<string name="ct_label_token_size">Size</string>
+     <!-- Combat Tracker -->
+  <string name="ct_label_token_size">Size</string>
   <string name="ct_label_token_reach">Reach</string>
-	<string name="ct_label_token_size_tooltip">Token size on map</string>
+  <string name="ct_label_token_size_tooltip">Token size on map</string>
   <string name="ct_label_token_reach_tooltip">Token reach on map</string>
   
-	<string name="ct_label_damage">Atks</string>
-	<string name="ct_label_speed">Mv</string>
-	<string name="ct_label_morale">Morale</string>
-	<string name="ct_label_hitdice">HD</string>
-	<string name="ct_label_savelevel">LVL</string>
-	<string name="ct_label_savelevel_tooltip">Level used to calculate saves.</string>
-	<string name="ct_healthadjustment_title">HEALTH ADJUST</string>
-	<string name="ct_healthadjustment_detail">Enter amount to adjust health by and press the button to apply the type desired.</string>
-	<string name="ct_healthadjustment_input">Amount</string>
-	<string name="ct_healthadjustment_healbutton">Heal</string>
-	<string name="ct_healthadjustment_damagebutton">Damage</string>
-	<string name="ct_healthadjustment_cancelbutton">Cancel</string>
-	<string name="ct_wounds_tooltip">Double click to manually adjust wounds.</string>
+  <string name="ct_label_damage">Atks</string>
+  <string name="ct_label_speed">Mv</string>
+  <string name="ct_label_morale">Morale</string>
+  <string name="ct_label_hitdice">HD</string>
+  <string name="ct_label_savelevel">LVL</string>
+  <string name="ct_label_savelevel_tooltip">Level used to calculate saves.</string>
+  <string name="ct_healthadjustment_title">HEALTH ADJUST</string>
+  <string name="ct_healthadjustment_detail">Enter amount to adjust health by and press the button to apply the type desired.</string>
+  <string name="ct_healthadjustment_input">Amount</string>
+  <string name="ct_healthadjustment_healbutton">Heal</string>
+  <string name="ct_healthadjustment_damagebutton">Damage</string>
+  <string name="ct_healthadjustment_cancelbutton">Cancel</string>
+  <string name="ct_wounds_tooltip">Double click to manually adjust wounds.</string>
     <string name="ct_tooltip_space">Size, Reach, HD and Morale</string>
-	<!-- Character - Abilities -->
+  <!-- Character - Abilities -->
     <string name="char_abilities_message_backgroundadd">Kit '%s' added to '%s'.</string>
-	<string name="char_label_notes_ideals">PHILOSOPHY</string>
-	<string name="char_label_notes_bonds">RELATIONSHIPS</string>
-	<string name="char_label_notes_flaws">FAULTS</string>
+  <string name="char_label_notes_ideals">PHILOSOPHY</string>
+  <string name="char_label_notes_bonds">RELATIONSHIPS</string>
+  <string name="char_label_notes_flaws">FAULTS</string>
   
   <string name="char_label_clone_to_npc">CLONE TO NPC</string>
 
     <!-- char inventory -->
-	<string name="char_label_encumbrancerank">Load</string>
-	<string name="char_label_encumbrancerank_tooltip">Encumbrance with current weight carried.</string>
-	<string name="char_label_weightallowance">Weight Allowance</string>
+  <string name="char_label_encumbrancerank">Load</string>
+  <string name="char_label_encumbrancerank_tooltip">Encumbrance with current weight carried.</string>
+  <string name="char_label_weightallowance">Weight Allowance</string>
     
     
     <!-- class -->
-	<string name="class_label_saveas">Save As</string>
-	<string name="class_label_fightas">Fight As</string>
-	<string name="class_label_exp_needed">XP NEEDED</string>
-	<string name="class_label_exp_needed_tooltip">Experience needed for this class to reach next level.</string>
-	<string name="class_label_total_xp_earned">TOTAL XP</string>
-	<string name="class_label_total_xp_earned_tooltip">Total experience earned for this character.</string>
-	<string name="char_abilities_message_leveledup">'%s' gained level %d in %s. Gained %d additional HP.</string>
-	<string name="class_hp_dice_tooltip">Dice rolled for hitpoints at this level.</string>
-	<string name="class_hp_adjustment_tooltip">Adjustment applied to hitpoint dice rolled or straight value gained for hitpoints for this level.</string>
+  <string name="class_label_saveas">Save As</string>
+  <string name="class_label_fightas">Fight As</string>
+  <string name="class_label_exp_needed">XP NEEDED</string>
+  <string name="class_label_exp_needed_tooltip">Experience needed for this class to reach next level.</string>
+  <string name="class_label_total_xp_earned">TOTAL XP</string>
+  <string name="class_label_total_xp_earned_tooltip">Total experience earned for this character.</string>
+  <string name="char_abilities_message_leveledup">'%s' gained level %d in %s. Gained %d additional HP.</string>
+  <string name="class_hp_dice_tooltip">Dice rolled for hitpoints at this level.</string>
+  <string name="class_hp_adjustment_tooltip">Adjustment applied to hitpoint dice rolled or straight value gained for hitpoints for this level.</string>
 
-	<string name="class_profs_weapon_tooltip">Weapon proficiencies earned at this level.</string>
-	<string name="class_profs_weapon_used_tooltip">Weapon proficiencies spent.</string>
-	<string name="class_profs_nonweapon_used_tooltip">Non-Weapon proficiencies spent.</string>
+  <string name="class_profs_weapon_tooltip">Weapon proficiencies earned at this level.</string>
+  <string name="class_profs_weapon_used_tooltip">Weapon proficiencies spent.</string>
+  <string name="class_profs_nonweapon_used_tooltip">Non-Weapon proficiencies spent.</string>
 
   <string name="char_profs_label">PROFICIENCIES</string>
   <string name="char_profs_weapon_label">WEAPON</string>
@@ -365,16 +365,16 @@
   <string name="char_profs_used_label">USED</string>
   <string name="char_profs_nonweapon_title_label">NONWEAPON/SKILLS</string>
 
-	<string name="class_profs_nonweapon_tooltip">Non-weapon proficiencies earned at this level.</string>
-	<string name="class_profs_nonweapon__used_tooltip">Non-weapon proficiencies spent.</string>
+  <string name="class_profs_nonweapon_tooltip">Non-weapon proficiencies earned at this level.</string>
+  <string name="class_profs_nonweapon__used_tooltip">Non-weapon proficiencies spent.</string>
     
-	<string name="class_spellslots_tooltip">Spell slots ADDED to current total slots for this level. So if they already have 3 and value set to 1 here, it would result in 3+1 (4) slots for that level.</string>
-	<string name="class_spellslots_arcane_tooltip">Arcane spell slots ADDED to current total slots for this level.</string>
-	<string name="class_spellslots_divine_tooltip">Divine spell slots ADDED to current total slots for this level.</string>
-	<string name="class_saves_tooltip">Saves applied for this level. If value set here is higher than current value on character sheet or set to 0 no changes will be made otherwise value as listed will be used.</string>
-	<string name="class_thaco_tooltip">To Hit Armor Class Zero value. If this value is higher than character sheet value or set to zero will be ignored. If lower than character sheet value will be used.</string>
-	<string name="class_mthaco_tooltip">Mental To Hit Armor Class Zero value. If this value is higher than character sheet value or set to zero will be ignored. If lower than character sheet value will be used.</string>
-	<string name="class_turn_tooltip">Turn level for this class level.</string>
+  <string name="class_spellslots_tooltip">Spell slots ADDED to current total slots for this level. So if they already have 3 and value set to 1 here, it would result in 3+1 (4) slots for that level.</string>
+  <string name="class_spellslots_arcane_tooltip">Arcane spell slots ADDED to current total slots for this level.</string>
+  <string name="class_spellslots_divine_tooltip">Divine spell slots ADDED to current total slots for this level.</string>
+  <string name="class_saves_tooltip">Saves applied for this level. If value set here is higher than current value on character sheet or set to 0 no changes will be made otherwise value as listed will be used.</string>
+  <string name="class_thaco_tooltip">To Hit Armor Class Zero value. If this value is higher than character sheet value or set to zero will be ignored. If lower than character sheet value will be used.</string>
+  <string name="class_mthaco_tooltip">Mental To Hit Armor Class Zero value. If this value is higher than character sheet value or set to zero will be ignored. If lower than character sheet value will be used.</string>
+  <string name="class_turn_tooltip">Turn level for this class level.</string>
   <string name="class_expneeded_label">XP Needed</string>
   <string name="class_expneeded_tooltip">Experience needed to gain another level in this class.</string>
   <string name="class_hpgained_label">HP Gained</string>
@@ -382,8 +382,8 @@
 
   <string name="class_pspgained_label">PSP Gained</string>
   <string name="class_pspgained_tooltip">Psionic Strength Point dice and adjustment, or just adjustment for static value.</string>
-	<string name="class_psp_dice_tooltip">Dice rolled for Psionic Strength Points at this level.</string>
-	<string name="class_psp_adjustment_tooltip">Adjustment applied to Psionic Strength Point dice rolled or straight value gained for Psionic Strength Points for this level.</string>
+  <string name="class_psp_dice_tooltip">Dice rolled for Psionic Strength Points at this level.</string>
+  <string name="class_psp_adjustment_tooltip">Adjustment applied to Psionic Strength Point dice rolled or straight value gained for Psionic Strength Points for this level.</string>
 
   <string name="class_ac_label">AC</string>
   <string name="class_ac_tooltip">Armor Class base value (decending) earned for this level.</string>
@@ -392,181 +392,181 @@
   <string name="class_move_tooltip">Move base earned for this level.</string>
 
   <!-- RACE -->
-	<string name="race_header_traits">RACE TRAITS</string>
-	<string name="race_header_proficiencies">RACE WEAPON PROFICIENCIES</string>
-	<string name="char_abilities_label_proficiencies">WEAPON PROFICIENCIES</string>
+  <string name="race_header_traits">RACE TRAITS</string>
+  <string name="race_header_proficiencies">RACE WEAPON PROFICIENCIES</string>
+  <string name="char_abilities_label_proficiencies">WEAPON PROFICIENCIES</string>
     
-	<!-- Weapon Editors -->
-	<string name="weapon_header_prof">Proficiencies Applied</string>
-	<string name="weapon_label_profdefault">Not-Proficient</string>
-	<string name="weapon_label_profname">PROF</string>
-	<string name="weapon_label_hitadj">HIT</string>
-	<string name="weapon_label_hitadj_tooltip">To hit adjustment applied.</string>
-	<string name="weapon_label_dmgadj">DMG</string>
-	<string name="weapon_label_dmgadj_tooltip">Damage adjustment applied.</string>
+  <!-- Weapon Editors -->
+  <string name="weapon_header_prof">Proficiencies Applied</string>
+  <string name="weapon_label_profdefault">Not-Proficient</string>
+  <string name="weapon_label_profname">PROF</string>
+  <string name="weapon_label_hitadj">HIT</string>
+  <string name="weapon_label_hitadj_tooltip">To hit adjustment applied.</string>
+  <string name="weapon_label_dmgadj">DMG</string>
+  <string name="weapon_label_dmgadj_tooltip">Damage adjustment applied.</string>
   <string name="weapon_label_dmgbonus_tooltip">Adjustment modifier for damage for this weapon.</string>
   <string name="weapon_label_customdmgdice">Custom</string>
   <string name="weapon_label_customdmgdice_tooltip">Custom dice roll without CL adjustments.</string>
   <string name="weapon_label_dmgdice_tooltip">Dice roll modified by CL value</string>
   
     <!-- Item Record -->
-	<string name="item_label_exp">EXP</string>
+  <string name="item_label_exp">EXP</string>
     
     <!-- Item Editor -->
-	<string name="shield">Shield</string>
-	<string name="other">Other</string>
+  <string name="shield">Shield</string>
+  <string name="other">Other</string>
     
-	<string name="custom">Custom</string>
-	<string name="save">Save</string>
-	<string name="ability">Ability</string>
-	<string name="resist">Resistance</string>
-	<string name="resistant">Resistant</string>
-	<string name="immune">Immunity</string>
-	<string name="vuln">Vulnerability</string>
-	<string name="susceptiblity">Susceptiblity</string>
-	<string name="misc">Miscellaneous</string>
+  <string name="custom">Custom</string>
+  <string name="save">Save</string>
+  <string name="ability">Ability</string>
+  <string name="resist">Resistance</string>
+  <string name="resistant">Resistant</string>
+  <string name="immune">Immunity</string>
+  <string name="vuln">Vulnerability</string>
+  <string name="susceptiblity">Susceptiblity</string>
+  <string name="misc">Miscellaneous</string>
 
-	<string name="modifier">Modifier</string>
-	<string name="percent_modifier">% Modifier</string>
-	<string name="base">Base</string>
-	<string name="base_percent">Base %</string>
+  <string name="modifier">Modifier</string>
+  <string name="percent_modifier">% Modifier</string>
+  <string name="base">Base</string>
+  <string name="base_percent">Base %</string>
 
   <string name="psionic">Psionic</string>
-	<string name="ac">AC</string>
-	<string name="bac">Base AC</string>
-	<string name="atk">Attack</string>
-	<string name="check">Check</string>
-	<string name="dmg">Damage</string>
-	<string name="heal">Heal</string>
-	<string name="init">Init</string>
-	<string name="initiative">Initiative</string>
-	<string name="save">Save</string>
+  <string name="ac">AC</string>
+  <string name="bac">Base AC</string>
+  <string name="atk">Attack</string>
+  <string name="check">Check</string>
+  <string name="dmg">Damage</string>
+  <string name="heal">Heal</string>
+  <string name="init">Init</string>
+  <string name="initiative">Initiative</string>
+  <string name="save">Save</string>
 
-	<string name="acid">Acid</string>
-	<string name="cold">Cold</string>
-	<string name="fire">Fire</string>
-	<string name="force">Force</string>
-	<string name="lightning">Lightning</string>
-	<string name="necrotic">Necrotic</string>
-	<string name="poison">Poison</string>
-	<string name="psychic">Psychic</string>
-	<string name="radiant">Radiant</string>
-	<string name="thunder">Thunder</string>
-	<string name="adamantine">Adamantine</string>
-	<string name="bludgeoning">Bludgeoning</string>
-	<string name="old-forged iron">Old-forged iron</string>
-	<string name="magic">magic</string>
-	<string name="piercing">piercing</string>
-	<string name="silver">silver</string>
-	<string name="slashing">slashing</string>
-	<string name="critical">critical</string>
-	<string name="magic +1">magic +1</string>
-	<string name="magic +2">magic +2</string>
-	<string name="magic +3">magic +3</string>
-	<string name="magic +4">magic +4</string>
-	<string name="magic +5">magic +5</string>
-	<string name="blinded">blinded</string>
-	<string name="charmed">charmed</string>
-	<string name="cursed">cursed</string>
-	<string name="deafened">deafened</string>
-	<string name="encumbered">encumbered</string>
-	<string name="frightened">frightened</string>
-	<string name="grappled">grappled</string>
-	<string name="incapacitated">incapacitated</string>
-	<string name="incorporeal">incorporeal</string>
-	<string name="intoxicated">intoxicated</string>
-	<string name="invisible">invisible</string>
-	<string name="paralyzed">paralyzed</string>
-	<string name="petrified">petrified</string>
-	<string name="poisoned">poisoned</string>
-	<string name="prone">prone</string>
-	<string name="restrained">restrained</string>
-	<string name="stable">stable</string>
-	<string name="stunned">stunned</string>
-	<string name="turned">turned</string>
-	<string name="unconscious">unconscious</string>
+  <string name="acid">Acid</string>
+  <string name="cold">Cold</string>
+  <string name="fire">Fire</string>
+  <string name="force">Force</string>
+  <string name="lightning">Lightning</string>
+  <string name="necrotic">Necrotic</string>
+  <string name="poison">Poison</string>
+  <string name="psychic">Psychic</string>
+  <string name="radiant">Radiant</string>
+  <string name="thunder">Thunder</string>
+  <string name="adamantine">Adamantine</string>
+  <string name="bludgeoning">Bludgeoning</string>
+  <string name="old-forged iron">Old-forged iron</string>
+  <string name="magic">magic</string>
+  <string name="piercing">piercing</string>
+  <string name="silver">silver</string>
+  <string name="slashing">slashing</string>
+  <string name="critical">critical</string>
+  <string name="magic +1">magic +1</string>
+  <string name="magic +2">magic +2</string>
+  <string name="magic +3">magic +3</string>
+  <string name="magic +4">magic +4</string>
+  <string name="magic +5">magic +5</string>
+  <string name="blinded">blinded</string>
+  <string name="charmed">charmed</string>
+  <string name="cursed">cursed</string>
+  <string name="deafened">deafened</string>
+  <string name="encumbered">encumbered</string>
+  <string name="frightened">frightened</string>
+  <string name="grappled">grappled</string>
+  <string name="incapacitated">incapacitated</string>
+  <string name="incorporeal">incorporeal</string>
+  <string name="intoxicated">intoxicated</string>
+  <string name="invisible">invisible</string>
+  <string name="paralyzed">paralyzed</string>
+  <string name="petrified">petrified</string>
+  <string name="poisoned">poisoned</string>
+  <string name="prone">prone</string>
+  <string name="restrained">restrained</string>
+  <string name="stable">stable</string>
+  <string name="stunned">stunned</string>
+  <string name="turned">turned</string>
+  <string name="unconscious">unconscious</string>
     
-	<string name="header_armorclass">Protection Features</string>
-	<string name="header_abilities">Ability Features</string>
-	<string name="item_label_ac_type">Type</string>
-	<string name="item_label_ability_type">Type</string>
-	<string name="item_ability_type_tooltip">MODIFIER, PERCENT MODIFIER, BASE VALUE or BASE PERCENT value of an ability score.</string>
-	<string name="item_label_ability_name">Ability</string>
-	<string name="item_label_ability_value">Value</string>
+  <string name="header_armorclass">Protection Features</string>
+  <string name="header_abilities">Ability Features</string>
+  <string name="item_label_ac_type">Type</string>
+  <string name="item_label_ability_type">Type</string>
+  <string name="item_ability_type_tooltip">MODIFIER, PERCENT MODIFIER, BASE VALUE or BASE PERCENT value of an ability score.</string>
+  <string name="item_label_ability_name">Ability</string>
+  <string name="item_label_ability_value">Value</string>
 
-	<string name="effect_label_misc_type_tooltip">The type of effect you wish to apply.</string>
-	<string name="effect_label_misc_value_tooltip">Value to be applied to the type of effect.</string>
+  <string name="effect_label_misc_type_tooltip">The type of effect you wish to apply.</string>
+  <string name="effect_label_misc_value_tooltip">Value to be applied to the type of effect.</string>
 
-	<string name="header_saves">Save Features</string>
-	<string name="item_save_type_tooltip">Modifier of a save score. Base value of a save score.</string>
-	<string name="item_label_save_type">Type</string>
-	<string name="item_label_save_type_tooltip">The type of save to be used.</string>
-	<string name="item_label_save_name">Save</string>
-	<string name="item_label_save_name_tooltip">Save</string>
-	<string name="item_label_save_value">Value</string>
-	<string name="item_label_save_value_tooltip">Value of the modifier.</string>
-	<string name="item_label_savefeature">Feature</string>
+  <string name="header_saves">Save Features</string>
+  <string name="item_save_type_tooltip">Modifier of a save score. Base value of a save score.</string>
+  <string name="item_label_save_type">Type</string>
+  <string name="item_label_save_type_tooltip">The type of save to be used.</string>
+  <string name="item_label_save_name">Save</string>
+  <string name="item_label_save_name_tooltip">Save</string>
+  <string name="item_label_save_value">Value</string>
+  <string name="item_label_save_value_tooltip">Value of the modifier.</string>
+  <string name="item_label_savefeature">Feature</string>
 
-	<string name="header_effects">Effect Features</string>
-	<string name="item_label_effectfeature">Effect</string>
-	<string name="item_label_effect_visible">Visibility</string>
-	<string name="item_label_effect_visible_tooltip">Always SHOW or HIDE the effect. Default mode shows if item is identified or hides if not.</string>
-	<string name="item_label_effects_hide">Hide</string>
-	<string name="item_label_effects_show">Show</string>
+  <string name="header_effects">Effect Features</string>
+  <string name="item_label_effectfeature">Effect</string>
+  <string name="item_label_effect_visible">Visibility</string>
+  <string name="item_label_effect_visible_tooltip">Always SHOW or HIDE the effect. Default mode shows if item is identified or hides if not.</string>
+  <string name="item_label_effects_hide">Hide</string>
+  <string name="item_label_effects_show">Show</string>
     
-	<string name="item_label_effects_dice">Dice</string>
-	<string name="item_effects_dice_tooltip">Dice rolled for duration of effect.</string>
-	<string name="item_label_effects_mod_tooltip">Modifier applied to duration or do not use dice and set for static duration.</string>
-	<string name="item_label_effects_unit">Unit</string>
-	<string name="item_label_effects_unit_tooltip">Time unit, round, turn, hour or day.</string>
-	<string name="item_label_effects_string_tooltip">Effect string. i.e. "STR: +1;SAVE -1;"</string>
-	<string name="item_label_ac_type_tooltip">Type: Armor, Shield, Other (ring,cloak,boots,other)</string>
-	<string name="item_label_ac_armor">Protection</string>
-	<string name="item_label_ac_base">Base</string>
-	<string name="item_label_ac_bonus">Modifier</string>
-	<string name="item_label_abilityfeature">Feature</string>
+  <string name="item_label_effects_dice">Dice</string>
+  <string name="item_effects_dice_tooltip">Dice rolled for duration of effect.</string>
+  <string name="item_label_effects_mod_tooltip">Modifier applied to duration or do not use dice and set for static duration.</string>
+  <string name="item_label_effects_unit">Unit</string>
+  <string name="item_label_effects_unit_tooltip">Time unit, round, turn, hour or day.</string>
+  <string name="item_label_effects_string_tooltip">Effect string. i.e. "STR: +1;SAVE -1;"</string>
+  <string name="item_label_ac_type_tooltip">Type: Armor, Shield, Other (ring,cloak,boots,other)</string>
+  <string name="item_label_ac_armor">Protection</string>
+  <string name="item_label_ac_base">Base</string>
+  <string name="item_label_ac_bonus">Modifier</string>
+  <string name="item_label_abilityfeature">Feature</string>
 
-	<string name="header_dmonly">Dungeon Master Only</string>
+  <string name="header_dmonly">Dungeon Master Only</string>
 
   <string name="item_label_effect_attackonly">ActionOnly</string>
   <string name="item_label_effect_attackonly_tooltip">Check this so effect ONLY applied during an attack or damage.</string>
     
-   	<!-- Pregens -->
-	<string name="pregen_label_background">Kit</string>
+     <!-- Pregens -->
+  <string name="pregen_label_background">Kit</string>
     
-	<!-- Reference -->
-  	<string name="ref_type_background">Kit</string>
- 	<string name="ref_type_backgroundfeature">Kit Feature</string>
-	<string name="ref_type_backgroundproficiency">Kit Proficiency</string>
-	<string name="ref_type_characteristic">Kit Characteristic</string>
-	<string name="ref_label_sphere">Sphere</string>
-	<string name="ref_label_type">Type</string>
-	<string name="ref_label_save">Save</string>
-	<string name="ref_label_aoe">AoE</string>
-	<string name="ref_label_aoe_tooltip">Area of Effect</string>
-	<string name="ref_label_mac">Mental AC</string>
-	<string name="ref_label_pspcost">PSP Cost</string>
-	<string name="ref_label_pspfail">on Fail</string>
-	<string name="ref_label_prerequisite">Prerequisite</string>
-	<string name="ref_label_discipline">Discipline</string>
-	<string name="ref_label_disciplinetype">Power Type</string>
+  <!-- Reference -->
+    <string name="ref_type_background">Kit</string>
+   <string name="ref_type_backgroundfeature">Kit Feature</string>
+  <string name="ref_type_backgroundproficiency">Kit Proficiency</string>
+  <string name="ref_type_characteristic">Kit Characteristic</string>
+  <string name="ref_label_sphere">Sphere</string>
+  <string name="ref_label_type">Type</string>
+  <string name="ref_label_save">Save</string>
+  <string name="ref_label_aoe">AoE</string>
+  <string name="ref_label_aoe_tooltip">Area of Effect</string>
+  <string name="ref_label_mac">Mental AC</string>
+  <string name="ref_label_pspcost">PSP Cost</string>
+  <string name="ref_label_pspfail">on Fail</string>
+  <string name="ref_label_prerequisite">Prerequisite</string>
+  <string name="ref_label_discipline">Discipline</string>
+  <string name="ref_label_disciplinetype">Power Type</string>
     
-	<string name="ref_label_source">Source</string>
-	<string name="ref_label_source_tooltip">The type of skill. Ability test or percentile check.</string>
-	<string name="ref_label_mod">MOD</string>
-	<string name="ref_label_mod_tooltip">Base modifier for skill if any.</string>
-	<string name="ref_label_base">BASE</string>
-	<string name="ref_label_base_tooltip">Base percentage chance of skill to succeed.</string>
+  <string name="ref_label_source">Source</string>
+  <string name="ref_label_source_tooltip">The type of skill. Ability test or percentile check.</string>
+  <string name="ref_label_mod">MOD</string>
+  <string name="ref_label_mod_tooltip">Base modifier for skill if any.</string>
+  <string name="ref_label_base">BASE</string>
+  <string name="ref_label_base_tooltip">Base percentage chance of skill to succeed.</string>
 
     <!-- Library - Master Index -->
-	<string name="library_recordtype_label_background">Kits</string>
-	<string name="library_recordtype_empty_background">&#171; New Kit &#187;</string>
-	<string name="library_recordtype_empty_backgroundfeature">&#171; New Kit Feature &#187;</string>
+  <string name="library_recordtype_label_background">Kits</string>
+  <string name="library_recordtype_empty_background">&#171; New Kit &#187;</string>
+  <string name="library_recordtype_empty_backgroundfeature">&#171; New Kit Feature &#187;</string>
 
-	<!-- Party Sheet -->
-	<string name="ps_default_groupsave">Paralyzation</string>
-	<string name="ps_label_surprise">Surprise</string>
-	<string name="ps_label_surprise_tooltip">Surprise value for character.</string>
+  <!-- Party Sheet -->
+  <string name="ps_default_groupsave">Paralyzation</string>
+  <string name="ps_label_surprise">Surprise</string>
+  <string name="ps_label_surprise_tooltip">Surprise value for character.</string>
   <!-- powers -->
   <string name="power_import_tooltip">Import Spell/Power from text.</string>
   <string name="power_import_window_title">IMPORT POWER</string>
@@ -574,74 +574,74 @@
   <string name="power_import_text_button">Import</string>
   <string name="power_import_text_helptext">Paste in the text of the Spell/Power you want to create. </string>
   
-	<!-- NPCs -->
+  <!-- NPCs -->
   <string name="npc_import_tooltip">Import NPC from text.</string>
   <string name="npc_import_window_title">IMPORT NPC</string>
   <string name="npc_import_text_title">IMPORT TEXT</string>
   <string name="npc_import_text_button">Import</string>
   <string name="npc_import_text_helptext">Paste in the text of the NPC you want to create. </string>
   
-	<string name="npc_label_clone_to_pc">CLONE TO PC</string>	
-	<string name="npc_label_hitdice">Hit Dice</string>	
-	<string name="npc_label_thaco">THACO</string>	
-	<string name="npc_label_bab">Base Attack</string>	
+  <string name="npc_label_clone_to_pc">CLONE TO PC</string>  
+  <string name="npc_label_hitdice">Hit Dice</string>  
+  <string name="npc_label_thaco">THACO</string>  
+  <string name="npc_label_bab">Base Attack</string>  
 
-	<string name="npc_label_strengthpercent">%</string>	
-	<string name="npc_label_strengthpercent_tooltip">Percentile score of Strength.</string>	
+  <string name="npc_label_strengthpercent">%</string>  
+  <string name="npc_label_strengthpercent_tooltip">Percentile score of Strength.</string>  
 
-	<string name="npc_label_activity">Activity</string>	
-	<string name="npc_label_alignment">Alignment</string>	
-	<string name="npc_label_climate">Climate</string>	
-	<string name="npc_label_diet">Diet</string>	
-	<string name="npc_label_frequency">Frequency</string>	
-	<string name="npc_label_intelligence">Intelligence</string>	
-	<string name="npc_label_morale">Morale</string>	
-	<string name="npc_label_numberappearing"># Appearing</string>	
-	<string name="npc_label_numberattacks"># Attacks</string>	
-	<string name="npc_label_organization">Organization</string>	
-	<string name="npc_label_magicresistance">Magic Resist</string>	
-	<string name="npc_label_damage">Damage</string>	
+  <string name="npc_label_activity">Activity</string>  
+  <string name="npc_label_alignment">Alignment</string>  
+  <string name="npc_label_climate">Climate</string>  
+  <string name="npc_label_diet">Diet</string>  
+  <string name="npc_label_frequency">Frequency</string>  
+  <string name="npc_label_intelligence">Intelligence</string>  
+  <string name="npc_label_morale">Morale</string>  
+  <string name="npc_label_numberappearing"># Appearing</string>  
+  <string name="npc_label_numberattacks"># Attacks</string>  
+  <string name="npc_label_organization">Organization</string>  
+  <string name="npc_label_magicresistance">Magic Resist</string>  
+  <string name="npc_label_damage">Damage</string>  
 
-	<string name="npc_label_treasure">Treasure</string>	
-	<string name="npc_label_specialDefense">Special Defense</string>	
-	<string name="npc_label_specialAttacks">Special Attack</string>	
-	<string name="npc_label_effects">Effects</string>	
-	<string name="npc_label_effects_tooltip">Effects applied to NPC when placed into combat tracker.</string>	
+  <string name="npc_label_treasure">Treasure</string>  
+  <string name="npc_label_specialDefense">Special Defense</string>  
+  <string name="npc_label_specialAttacks">Special Attack</string>  
+  <string name="npc_label_effects">Effects</string>  
+  <string name="npc_label_effects_tooltip">Effects applied to NPC when placed into combat tracker.</string>  
     
     <!-- Chat -->
-	<string name="message_notmemorized">Cast a spell NOT memorized.</string>
-	<string name="message_nomoreslots">Tried to memorize a spell but had with no more spell slots left.</string>
-	<string name="message_youmemorize">Memorized </string>
-	<string name="message_encumbrance_changed">'%s' is at '%s' encumbrance. Movebase now %d.</string>
-	<string name="message_nouseleft">Tried to use '%s' but has no uses left.</string>
+  <string name="message_notmemorized">Cast a spell NOT memorized.</string>
+  <string name="message_nomoreslots">Tried to memorize a spell but had with no more spell slots left.</string>
+  <string name="message_youmemorize">Memorized </string>
+  <string name="message_encumbrance_changed">'%s' is at '%s' encumbrance. Movebase now %d.</string>
+  <string name="message_nouseleft">Tried to use '%s' but has no uses left.</string>
 
-	<string name="message_exp_applied">'%s' applied '%d' experience to %s.</string>
+  <string name="message_exp_applied">'%s' applied '%d' experience to %s.</string>
     
-	<string name="message_concentration_failed">%s's concentration broken by damage, spell casting interrupted!</string>
+  <string name="message_concentration_failed">%s's concentration broken by damage, spell casting interrupted!</string>
   <!-- Sidebar -->
   <string name="library_recordtype_label_image">Images</string>
-	<string name="library_recordtype_label_treasureparcel">Loot</string>
+  <string name="library_recordtype_label_treasureparcel">Loot</string>
 
     <!-- Item -->
-	<string name="item_label_speedfactor">Speedfactor</string>
-	<string name="item_label_speed">Move</string>
-	<string name="item_label_effect">Effect</string>
-	<string name="item_label_effect_tooltip">These are created by adding ability/save features. Effects that are applied with the item is equipped.</string>
-	<string name="item_label_effect_combat">Combat Effect</string>
-	<string name="item_label_effect_tooltip_combat">Effect string that will be applied when this item equipped on the character AND in combat(tracker). i.e. STR: +3;INT: -2;</string>
+  <string name="item_label_speedfactor">Speedfactor</string>
+  <string name="item_label_speed">Move</string>
+  <string name="item_label_effect">Effect</string>
+  <string name="item_label_effect_tooltip">These are created by adding ability/save features. Effects that are applied with the item is equipped.</string>
+  <string name="item_label_effect_combat">Combat Effect</string>
+  <string name="item_label_effect_tooltip_combat">Effect string that will be applied when this item equipped on the character AND in combat(tracker). i.e. STR: +3;INT: -2;</string>
   <string name="item_unidentified">** unidentified item **</string>
 
-	<string name="ref_label_listspeed">Move</string>
+  <string name="ref_label_listspeed">Move</string>
 
   <string name="effect_label_durunitmin">TRN</string>
     
     <!-- Strings used in the campaign settings -->
   <string name="option_label_DM_SHOW_NPC_EFFECTS">Token: DM:Show NPC effects</string>
-	<string name="option_label_DM_SHOW_NPC_HEALTHBAR">Token: DM:Show NPC health</string>
-	<string name="option_label_TNPCE">Token: PC:Show Enemy effects</string>
-	<string name="option_label_TNPCH">Token: PC:Show Enemy health</string>
-	<string name="option_label_TPCE">Token: PC:Show Ally effects</string>
-	<string name="option_label_TPCH">Token: PC:Show Ally health</string>
+  <string name="option_label_DM_SHOW_NPC_HEALTHBAR">Token: DM:Show NPC health</string>
+  <string name="option_label_TNPCE">Token: PC:Show Enemy effects</string>
+  <string name="option_label_TNPCH">Token: PC:Show Enemy health</string>
+  <string name="option_label_TPCE">Token: PC:Show Ally effects</string>
+  <string name="option_label_TPCH">Token: PC:Show Ally health</string>
   <string name="option_label_HREC">PC: Encumbrance: Include Coin</string>
 
   <string name="option_val_disabled">Disabled</string>
@@ -669,37 +669,37 @@
   <string name="option_label_ADND_PM_DING_disabled">Disabled</string>
     
 
-	<!-- Armor Table -->
-	<string name="ref_label_list_weight">Wt.</string>
-	<string name="ref_label_list_fullac">Full AC</string>	
-	<string name="ref_label_list_torso">Torso AC</string>	
-	<string name="ref_label_list_arm">Arm AC</string>
-	<string name="ref_label_list_leg">Leg AC</string>
-	<!-- Helmet Table-->
-	<string name="ref_label_list_susprise">Surprise</string>
-	<!-- Shield Table -->
-	<string name="ref_label_list_nofoes"># Foes</string>
-	<!-- Weapon Table -->
-	<string name="ref_label_wtwt">Wt.</string>
-	<string name="ref_label_wtsize">Size</string>
-	<string name="ref_label_wttype">Type</string>
-	<string name="ref_label_wtspeed">Speed</string>
-	<string name="ref_label_wtreach">(M)Reach</string>
-	<string name="ref_label_wtrof">(R)ROF</string>	
-	<string name="ref_label_wtrange">Rng S/M/L</string>
-	<string name="ref_label_wtdsm">Dmg S/M</string>
-	<string name="ref_label_wtdl">Dmg L</string>
-	<string name="ref_label_wtdkd">KnockDown</string>
-	<string name="item_label_damage_sm">Damage Vs S/M</string>
-	<string name="item_label_damage_l">Damage Vs L</string>
-	<string name="char_label_addprof_racial">Racial</string>
+  <!-- Armor Table -->
+  <string name="ref_label_list_weight">Wt.</string>
+  <string name="ref_label_list_fullac">Full AC</string>  
+  <string name="ref_label_list_torso">Torso AC</string>  
+  <string name="ref_label_list_arm">Arm AC</string>
+  <string name="ref_label_list_leg">Leg AC</string>
+  <!-- Helmet Table-->
+  <string name="ref_label_list_susprise">Surprise</string>
+  <!-- Shield Table -->
+  <string name="ref_label_list_nofoes"># Foes</string>
+  <!-- Weapon Table -->
+  <string name="ref_label_wtwt">Wt.</string>
+  <string name="ref_label_wtsize">Size</string>
+  <string name="ref_label_wttype">Type</string>
+  <string name="ref_label_wtspeed">Speed</string>
+  <string name="ref_label_wtreach">(M)Reach</string>
+  <string name="ref_label_wtrof">(R)ROF</string>  
+  <string name="ref_label_wtrange">Rng S/M/L</string>
+  <string name="ref_label_wtdsm">Dmg S/M</string>
+  <string name="ref_label_wtdl">Dmg L</string>
+  <string name="ref_label_wtdkd">KnockDown</string>
+  <string name="item_label_damage_sm">Damage Vs S/M</string>
+  <string name="item_label_damage_l">Damage Vs L</string>
+  <string name="char_label_addprof_racial">Racial</string>
   <string name="class_header_nonweaponproficiencies">NON-WEAPON PROFICIENCIES</string>
   <string name="class_header_weaponproficiencies">WEAPON PROFICIENCIES</string>
   <string name="ref_type_nonweaponproficiency">Non-Weapon Proficiency</string>
   <string name="library_recordtype_empty_nonweaponproficiency">&#171; New Non-Weapon Proficiency &#187;</string>
   <string name="class_header_advancement">ADVANCEMENT</string>
     
-   	<!-- Grouplist buttons -->
+     <!-- Grouplist buttons -->
   <string name="npc_button_hd">By HD</string>
   <string name="npc_groupedtitle_hd">NPC BY HitDice</string>
   <string name="item_button_items">Items</string>
@@ -709,13 +709,13 @@
   <string name="item_button_spell_divine">Divine</string>
   <string name="item_button_skill_type">by Type</string>
     <!-- CT Radial -->
-	<string name="ct_menu_itemdeletenonfriendly_with_0HP">Delete All Non-Friendly With 0 HP</string>
-	<string name="ct_menu_itemdeletefoe_with_0HP">Delete Only Foes With 0 HP</string>    
+  <string name="ct_menu_itemdeletenonfriendly_with_0HP">Delete All Non-Friendly With 0 HP</string>
+  <string name="ct_menu_itemdeletefoe_with_0HP">Delete Only Foes With 0 HP</string>    
   
   <!-- readycheck -->
-	<string name="readycheck_window_title">Ready Check</string>    
-	<string name="readycheck_button_label">I AM READY!</string>    
-	<string name="readycheck_button_label_tooltip">The DM has asked if you are ready, are you?</string>    
+  <string name="readycheck_window_title">Ready Check</string>    
+  <string name="readycheck_button_label">I AM READY!</string>    
+  <string name="readycheck_button_label_tooltip">The DM has asked if you are ready, are you?</string>    
   
   <string name="list_menu_cloneitem">Clone Item</string>
 </root>

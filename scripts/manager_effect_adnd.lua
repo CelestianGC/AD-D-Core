@@ -58,8 +58,8 @@ function onInit()
     --PowerManager.performAction = manager_power_performAction;
     
     -- option in house rule section, enable/disable allow PCs to edit advanced effects.
-	OptionsManager.registerOption2("ADND_AE_EDIT", false, "option_header_houserule", "option_label_ADND_AE_EDIT", "option_entry_cycler", 
-			{ labels = "option_label_ADND_AE_enabled" , values = "enabled", baselabel = "option_label_ADND_AE_disabled", baseval = "disabled", default = "disabled" });    
+  OptionsManager.registerOption2("ADND_AE_EDIT", false, "option_header_houserule", "option_label_ADND_AE_EDIT", "option_entry_cycler", 
+      { labels = "option_label_ADND_AE_enabled" , values = "enabled", baselabel = "option_label_ADND_AE_disabled", baseval = "disabled", default = "disabled" });    
 end
 
 function onClose()
@@ -77,7 +77,7 @@ end
 
 -- run from addHandler for updated item effect options
 function inventoryUpdateItemEffects(nodeField)
-		updateItemEffects(DB.getChild(nodeField, ".."));
+    updateItemEffects(DB.getChild(nodeField, ".."));
 end
 -- update single item from edit for *.effect handler
 function updateItemEffectsForEdit(nodeField)
@@ -118,7 +118,7 @@ function updateFromDeletedInventory(node)
         -- otherwise remove it
         checkEffectsAfterDelete(nodeCT);
     end
-	--onEncumbranceChanged();
+  --onEncumbranceChanged();
 end
 
 -- this checks to see if an effect is missing a associated item that applied the effect 
@@ -368,13 +368,13 @@ end
 function sendEffectAddedMessage(nodeCT, rNewEffect, sLabel, nDMOnly)
   local sUser = getUserFromNode(nodeCT);
 --Debug.console("manager_effect_adnd.lua","sendEffectAddedMessage","sUser",sUser);  
-	-- Build output message
-	local msg = ChatManager.createBaseMessage(ActorManager.getActorFromCT(nodeCT),sUser);
-	msg.text = "Advanced Effect ['" .. rNewEffect.sName .. "'] ";
-	msg.text = msg.text .. "-> [to " .. DB.getValue(nodeCT, "name", "") .. "]";
-	if rNewEffect.sSource and rNewEffect.sSource ~= "" then
-		msg.text = msg.text .. " [by " .. DB.getValue(DB.findNode(rNewEffect.sSource), "name", "") .. "]";
-	end
+  -- Build output message
+  local msg = ChatManager.createBaseMessage(ActorManager.getActorFromCT(nodeCT),sUser);
+  msg.text = "Advanced Effect ['" .. rNewEffect.sName .. "'] ";
+  msg.text = msg.text .. "-> [to " .. DB.getValue(nodeCT, "name", "") .. "]";
+  if rNewEffect.sSource and rNewEffect.sSource ~= "" then
+    msg.text = msg.text .. " [by " .. DB.getValue(DB.findNode(rNewEffect.sSource), "name", "") .. "]";
+  end
     sendRawMessage(sUser,nDMOnly,msg);
 end
 -- send message
@@ -449,7 +449,7 @@ function isValidCheckEffect(rActor,nodeEffect)
         bResult = true;
     end
 --Debug.console("manager_effect_adnd.lua","isValidCheckEffect","bResult",bResult);    
-	-- if ( nActive ~= 0 and ( not bItem or (bItem and bActionItemUsed) ) ) then
+  -- if ( nActive ~= 0 and ( not bItem or (bItem and bActionItemUsed) ) ) then
         -- bResult = true;
     -- elseif nActive ~= 0 and bActionOnly and not (bItem or bActionItemUsed) then
         -- bResult = false;
@@ -467,61 +467,61 @@ end
 -- CoreRPG EffectManager manager_effect_adnd.lua 
 -- AD&D CORE ONLY
 local aEffectVarMap = {
-	["sName"] = { sDBType = "string", sDBField = "label" },
-	["nGMOnly"] = { sDBType = "number", sDBField = "isgmonly" },
-	["sSource"] = { sDBType = "string", sDBField = "source_name", bClearOnUntargetedDrop = true },
-	["sTarget"] = { sDBType = "string", bClearOnUntargetedDrop = true },
-	["nDuration"] = { sDBType = "number", sDBField = "duration", vDBDefault = 1, sDisplay = "[D: %d]" },
-	["nInit"] = { sDBType = "number", sDBField = "init", sSourceChangeSet = "initresult", bClearOnUntargetedDrop = true },
+  ["sName"] = { sDBType = "string", sDBField = "label" },
+  ["nGMOnly"] = { sDBType = "number", sDBField = "isgmonly" },
+  ["sSource"] = { sDBType = "string", sDBField = "source_name", bClearOnUntargetedDrop = true },
+  ["sTarget"] = { sDBType = "string", bClearOnUntargetedDrop = true },
+  ["nDuration"] = { sDBType = "number", sDBField = "duration", vDBDefault = 1, sDisplay = "[D: %d]" },
+  ["nInit"] = { sDBType = "number", sDBField = "init", sSourceChangeSet = "initresult", bClearOnUntargetedDrop = true },
 };
 -- replace CoreRPG EffectManager manager_effect_adnd.lua onInit() with this
 -- AD&D CORE ONLY
 function manager_effect_onInit()
-	--CombatManager.setCustomInitChange(manager_effect_processEffects);
-	OOBManager.registerOOBMsgHandler(OOB_MSGTYPE_APPLYEFF, handleApplyEffect);
-	OOBManager.registerOOBMsgHandler(OOB_MSGTYPE_EXPIREEFF, handleExpireEffect);
+  --CombatManager.setCustomInitChange(manager_effect_processEffects);
+  OOBManager.registerOOBMsgHandler(OOB_MSGTYPE_APPLYEFF, handleApplyEffect);
+  OOBManager.registerOOBMsgHandler(OOB_MSGTYPE_EXPIREEFF, handleExpireEffect);
 end
 
 -- replace 5E EffectManager5E manager_effect_5E.lua evalAbilityHelper() with this
 -- AD&D CORE ONLY
 function evalAbilityHelper(rActor, sEffectAbility)
-	-- local sSign, sModifier, sShortAbility = sEffectAbility:match("^%[([%+%-]?)([H2]?)([A-Z][A-Z][A-Z])%]$");
-	
-	-- local nAbility = nil;
-	-- if sShortAbility == "STR" then
-		-- nAbility = ActorManager2.getAbilityBonus(rActor, "strength");
-	-- elseif sShortAbility == "DEX" then
-		-- nAbility = ActorManager2.getAbilityBonus(rActor, "dexterity");
-	-- elseif sShortAbility == "CON" then
-		-- nAbility = ActorManager2.getAbilityBonus(rActor, "constitution");
-	-- elseif sShortAbility == "INT" then
-		-- nAbility = ActorManager2.getAbilityBonus(rActor, "intelligence");
-	-- elseif sShortAbility == "WIS" then
-		-- nAbility = ActorManager2.getAbilityBonus(rActor, "wisdom");
-	-- elseif sShortAbility == "CHA" then
-		-- nAbility = ActorManager2.getAbilityBonus(rActor, "charisma");
-	-- elseif sShortAbility == "LVL" then
-		-- nAbility = ActorManager2.getAbilityBonus(rActor, "level");
-	-- elseif sShortAbility == "PRF" then
-		-- nAbility = ActorManager2.getAbilityBonus(rActor, "prf");
-	-- end
-	
-	-- if nAbility then
-		-- if sSign == "-" then
-			-- nAbility = 0 - nAbility;
-		-- end
-		-- if sModifier == "H" then
-			-- if nAbility > 0 then
-				-- nAbility = math.floor(nAbility / 2);
-			-- else
-				-- nAbility = math.ceil(nAbility / 2);
-			-- end
-		-- elseif sModifier == "2" then
-			-- nAbility = nAbility * 2;
-		-- end
-	-- end
-	
-	-- return nAbility;
+  -- local sSign, sModifier, sShortAbility = sEffectAbility:match("^%[([%+%-]?)([H2]?)([A-Z][A-Z][A-Z])%]$");
+  
+  -- local nAbility = nil;
+  -- if sShortAbility == "STR" then
+    -- nAbility = ActorManager2.getAbilityBonus(rActor, "strength");
+  -- elseif sShortAbility == "DEX" then
+    -- nAbility = ActorManager2.getAbilityBonus(rActor, "dexterity");
+  -- elseif sShortAbility == "CON" then
+    -- nAbility = ActorManager2.getAbilityBonus(rActor, "constitution");
+  -- elseif sShortAbility == "INT" then
+    -- nAbility = ActorManager2.getAbilityBonus(rActor, "intelligence");
+  -- elseif sShortAbility == "WIS" then
+    -- nAbility = ActorManager2.getAbilityBonus(rActor, "wisdom");
+  -- elseif sShortAbility == "CHA" then
+    -- nAbility = ActorManager2.getAbilityBonus(rActor, "charisma");
+  -- elseif sShortAbility == "LVL" then
+    -- nAbility = ActorManager2.getAbilityBonus(rActor, "level");
+  -- elseif sShortAbility == "PRF" then
+    -- nAbility = ActorManager2.getAbilityBonus(rActor, "prf");
+  -- end
+  
+  -- if nAbility then
+    -- if sSign == "-" then
+      -- nAbility = 0 - nAbility;
+    -- end
+    -- if sModifier == "H" then
+      -- if nAbility > 0 then
+        -- nAbility = math.floor(nAbility / 2);
+      -- else
+        -- nAbility = math.ceil(nAbility / 2);
+      -- end
+    -- elseif sModifier == "2" then
+      -- nAbility = nAbility * 2;
+    -- end
+  -- end
+  
+  -- return nAbility;
     return 0;
 end
 
@@ -529,20 +529,20 @@ end
 function decodeActors(draginfo)
 --Debug.console("manager_effect_Adnd.lua","decodeActors","draginfo",draginfo);
 --printstack();
-	local rSource = nil;
-	local aTargets = {};
+  local rSource = nil;
+  local aTargets = {};
     
-	
-	for k,v in ipairs(draginfo.getShortcutList()) do
-		if k == 1 then
-			rSource = ActorManager.getActor(v.class, v.recordname);
-		else
-			local rTarget = ActorManager.getActor(v.class, v.recordname);
-			if rTarget then
-				table.insert(aTargets, rTarget);
-			end
-		end
-	end
+  
+  for k,v in ipairs(draginfo.getShortcutList()) do
+    if k == 1 then
+      rSource = ActorManager.getActor(v.class, v.recordname);
+    else
+      local rTarget = ActorManager.getActor(v.class, v.recordname);
+      if rTarget then
+        table.insert(aTargets, rTarget);
+      end
+    end
+  end
 
     -- itemPath data filled if itemPath if exists
     local sItemPath = draginfo.getMetaData("itemPath");
@@ -556,471 +556,471 @@ function decodeActors(draginfo)
     end
     --
     
-	return rSource, aTargets;
+  return rSource, aTargets;
 end
 
 -- replace 5E EffectManager5E manager_effect_5E.lua getEffectsByType() with this
 function getEffectsByType(rActor, sEffectType, aFilter, rFilterActor, bTargetedOnly)
 -- Debug.console("manager_effect_adnd.lua","getEffectsByType","==rActor",rActor);    
 -- Debug.console("manager_effect_adnd.lua","getEffectsByType","==sEffectType",sEffectType);    
-	if not rActor then
-		return {};
-	end
-	local results = {};
+  if not rActor then
+    return {};
+  end
+  local results = {};
 --Debug.console("manager_effect_adnd.lua","getEffectsByType","------------>rActor",rActor);    
-	
-	-- Set up filters
-	local aRangeFilter = {};
-	local aOtherFilter = {};
-	if aFilter then
-		for _,v in pairs(aFilter) do
-			if type(v) ~= "string" then
-				table.insert(aOtherFilter, v);
-			elseif StringManager.contains(DataCommon.rangetypes, v) then
-				table.insert(aRangeFilter, v);
-			else
-				table.insert(aOtherFilter, v);
-			end
-		end
-	end
-	
-	-- Determine effect type targeting
-	local bTargetSupport = StringManager.isWord(sEffectType, DataCommon.targetableeffectcomps);
-	
+  
+  -- Set up filters
+  local aRangeFilter = {};
+  local aOtherFilter = {};
+  if aFilter then
+    for _,v in pairs(aFilter) do
+      if type(v) ~= "string" then
+        table.insert(aOtherFilter, v);
+      elseif StringManager.contains(DataCommon.rangetypes, v) then
+        table.insert(aRangeFilter, v);
+      else
+        table.insert(aOtherFilter, v);
+      end
+    end
+  end
+  
+  -- Determine effect type targeting
+  local bTargetSupport = StringManager.isWord(sEffectType, DataCommon.targetableeffectcomps);
+  
 --Debug.console("manager_effect_adnd.lua","getEffectsByType","rActor",rActor);    
 --Debug.console("manager_effect_adnd.lua","getEffectsByType","sEffectType",sEffectType);    
 -- Debug.console("manager_effect_adnd.lua","getEffectsByType","aFilter",aFilter);    
 -- Debug.console("manager_effect_adnd.lua","getEffectsByType","rFilterActor",rFilterActor);    
 -- Debug.console("manager_effect_adnd.lua","getEffectsByType","bTargetedOnly",bTargetedOnly);    
 
-	-- Iterate through effects
-	for _,v in pairs(DB.getChildren(ActorManager.getCTNode(rActor), "effects")) do
-		-- Check active
-		local nActive = DB.getValue(v, "isactive", 0);
-		--if ( nActive ~= 0 and ( not bItemTriggered or (bItemTriggered and bItemSource) ) ) then
+  -- Iterate through effects
+  for _,v in pairs(DB.getChildren(ActorManager.getCTNode(rActor), "effects")) do
+    -- Check active
+    local nActive = DB.getValue(v, "isactive", 0);
+    --if ( nActive ~= 0 and ( not bItemTriggered or (bItemTriggered and bItemSource) ) ) then
         if (EffectManagerADND.isValidCheckEffect(rActor,v)) then
-			local sLabel = DB.getValue(v, "label", "");
-			local sApply = DB.getValue(v, "apply", "");
+      local sLabel = DB.getValue(v, "label", "");
+      local sApply = DB.getValue(v, "apply", "");
 
-			-- IF COMPONENT WE ARE LOOKING FOR SUPPORTS TARGETS, THEN CHECK AGAINST OUR TARGET
-			local bTargeted = EffectManager.isTargetedEffect(v);
-			if not bTargeted or EffectManager.isEffectTarget(v, rFilterActor) then
-				local aEffectComps = EffectManager.parseEffect(sLabel);
+      -- IF COMPONENT WE ARE LOOKING FOR SUPPORTS TARGETS, THEN CHECK AGAINST OUR TARGET
+      local bTargeted = EffectManager.isTargetedEffect(v);
+      if not bTargeted or EffectManager.isEffectTarget(v, rFilterActor) then
+        local aEffectComps = EffectManager.parseEffect(sLabel);
 
-				-- Look for type/subtype match
-				local nMatch = 0;
-				for kEffectComp,sEffectComp in ipairs(aEffectComps) do
-					local rEffectComp = EffectManager5E.parseEffectComp(sEffectComp);
-					-- Handle conditionals
-					if rEffectComp.type == "IF" then
-						if not EffectManager5E.checkConditional(rActor, v, rEffectComp.remainder) then
-							break;
-						end
-					elseif rEffectComp.type == "IFT" then
-						if not rFilterActor then
-							break;
-						end
-						if not EffectManager5E.checkConditional(rFilterActor, v, rEffectComp.remainder, rActor) then
-							break;
-						end
-						bTargeted = true;
-					
-					-- Compare other attributes
-					else
-						-- Strip energy/bonus types for subtype comparison
-						local aEffectRangeFilter = {};
-						local aEffectOtherFilter = {};
-						local j = 1;
-						while rEffectComp.remainder[j] do
-							local s = rEffectComp.remainder[j];
-							if #s > 0 and ((s:sub(1,1) == "!") or (s:sub(1,1) == "~")) then
-								s = s:sub(2);
-							end
-							if StringManager.contains(DataCommon.dmgtypes, s) or s == "all" or 
-									StringManager.contains(DataCommon.bonustypes, s) or
-									StringManager.contains(DataCommon.conditions, s) or
-									StringManager.contains(DataCommon.connectors, s) then
-								-- SKIP
-							elseif StringManager.contains(DataCommon.rangetypes, s) then
-								table.insert(aEffectRangeFilter, s);
-							else
-								table.insert(aEffectOtherFilter, s);
-							end
-							
-							j = j + 1;
-						end
-					
-						-- Check for match
-						local comp_match = false;
-						if rEffectComp.type == sEffectType then
+        -- Look for type/subtype match
+        local nMatch = 0;
+        for kEffectComp,sEffectComp in ipairs(aEffectComps) do
+          local rEffectComp = EffectManager5E.parseEffectComp(sEffectComp);
+          -- Handle conditionals
+          if rEffectComp.type == "IF" then
+            if not EffectManager5E.checkConditional(rActor, v, rEffectComp.remainder) then
+              break;
+            end
+          elseif rEffectComp.type == "IFT" then
+            if not rFilterActor then
+              break;
+            end
+            if not EffectManager5E.checkConditional(rFilterActor, v, rEffectComp.remainder, rActor) then
+              break;
+            end
+            bTargeted = true;
+          
+          -- Compare other attributes
+          else
+            -- Strip energy/bonus types for subtype comparison
+            local aEffectRangeFilter = {};
+            local aEffectOtherFilter = {};
+            local j = 1;
+            while rEffectComp.remainder[j] do
+              local s = rEffectComp.remainder[j];
+              if #s > 0 and ((s:sub(1,1) == "!") or (s:sub(1,1) == "~")) then
+                s = s:sub(2);
+              end
+              if StringManager.contains(DataCommon.dmgtypes, s) or s == "all" or 
+                  StringManager.contains(DataCommon.bonustypes, s) or
+                  StringManager.contains(DataCommon.conditions, s) or
+                  StringManager.contains(DataCommon.connectors, s) then
+                -- SKIP
+              elseif StringManager.contains(DataCommon.rangetypes, s) then
+                table.insert(aEffectRangeFilter, s);
+              else
+                table.insert(aEffectOtherFilter, s);
+              end
+              
+              j = j + 1;
+            end
+          
+            -- Check for match
+            local comp_match = false;
+            if rEffectComp.type == sEffectType then
 
-							-- Check effect targeting
-							if bTargetedOnly and not bTargeted then
-								comp_match = false;
-							else
-								comp_match = true;
-							end
-						
-							-- Check filters
-							if #aEffectRangeFilter > 0 then
-								local bRangeMatch = false;
-								for _,v2 in pairs(aRangeFilter) do
-									if StringManager.contains(aEffectRangeFilter, v2) then
-										bRangeMatch = true;
-										break;
-									end
-								end
-								if not bRangeMatch then
-									comp_match = false;
-								end
-							end
-							if #aEffectOtherFilter > 0 then
-								local bOtherMatch = false;
-								for _,v2 in pairs(aOtherFilter) do
-									if type(v2) == "table" then
-										local bOtherTableMatch = true;
-										for k3, v3 in pairs(v2) do
-											if not StringManager.contains(aEffectOtherFilter, v3) then
-												bOtherTableMatch = false;
-												break;
-											end
-										end
-										if bOtherTableMatch then
-											bOtherMatch = true;
-											break;
-										end
-									elseif StringManager.contains(aEffectOtherFilter, v2) then
-										bOtherMatch = true;
-										break;
-									end
-								end
-								if not bOtherMatch then
-									comp_match = false;
-								end
-							end
-						end
+              -- Check effect targeting
+              if bTargetedOnly and not bTargeted then
+                comp_match = false;
+              else
+                comp_match = true;
+              end
+            
+              -- Check filters
+              if #aEffectRangeFilter > 0 then
+                local bRangeMatch = false;
+                for _,v2 in pairs(aRangeFilter) do
+                  if StringManager.contains(aEffectRangeFilter, v2) then
+                    bRangeMatch = true;
+                    break;
+                  end
+                end
+                if not bRangeMatch then
+                  comp_match = false;
+                end
+              end
+              if #aEffectOtherFilter > 0 then
+                local bOtherMatch = false;
+                for _,v2 in pairs(aOtherFilter) do
+                  if type(v2) == "table" then
+                    local bOtherTableMatch = true;
+                    for k3, v3 in pairs(v2) do
+                      if not StringManager.contains(aEffectOtherFilter, v3) then
+                        bOtherTableMatch = false;
+                        break;
+                      end
+                    end
+                    if bOtherTableMatch then
+                      bOtherMatch = true;
+                      break;
+                    end
+                  elseif StringManager.contains(aEffectOtherFilter, v2) then
+                    bOtherMatch = true;
+                    break;
+                  end
+                end
+                if not bOtherMatch then
+                  comp_match = false;
+                end
+              end
+            end
 
-						-- Match!
-						if comp_match then
-							nMatch = kEffectComp;
-							if nActive == 1 then
-								table.insert(results, rEffectComp);
-							end
-						end
-					end
-				end -- END EFFECT COMPONENT LOOP
+            -- Match!
+            if comp_match then
+              nMatch = kEffectComp;
+              if nActive == 1 then
+                table.insert(results, rEffectComp);
+              end
+            end
+          end
+        end -- END EFFECT COMPONENT LOOP
 
 -- Debug.console("manager_effect_adnd.lua","getEffectsByType","END EFFECT COMPONENT LOOP");    
 -- Debug.console("manager_effect_adnd.lua","getEffectsByType","nMatch",nMatch);    
 -- Debug.console("manager_effect_adnd.lua","getEffectsByType","sApply",sApply);    
 -- Debug.console("manager_effect_adnd.lua","getEffectsByType","v",v);    
 
-				-- Remove one shot effects
-				if nMatch > 0 then
-					if nActive == 2 then
-						DB.setValue(v, "isactive", "number", 1);
-					else
-						if sApply == "action" then
-							EffectManager.notifyExpire(v, 0);
-						elseif sApply == "roll" then
-							EffectManager.notifyExpire(v, 0, true);
-						elseif sApply == "single" then
-							EffectManager.notifyExpire(v, nMatch, true);
-						end
-					end
-				end
-			end -- END TARGET CHECK
-		end  -- END ACTIVE CHECK
-	end  -- END EFFECT LOOP
-	
-	-- RESULTS
-	return results;
+        -- Remove one shot effects
+        if nMatch > 0 then
+          if nActive == 2 then
+            DB.setValue(v, "isactive", "number", 1);
+          else
+            if sApply == "action" then
+              EffectManager.notifyExpire(v, 0);
+            elseif sApply == "roll" then
+              EffectManager.notifyExpire(v, 0, true);
+            elseif sApply == "single" then
+              EffectManager.notifyExpire(v, nMatch, true);
+            end
+          end
+        end
+      end -- END TARGET CHECK
+    end  -- END ACTIVE CHECK
+  end  -- END EFFECT LOOP
+  
+  -- RESULTS
+  return results;
 end
 
 -- replace 5E EffectManager5E manager_effect_5E.lua hasEffect() with this
 function hasEffect(rActor, sEffect, rTarget, bTargetedOnly, bIgnoreEffectTargets)
-	if not sEffect or not rActor then
-		return false;
-	end
-	local sLowerEffect = sEffect:lower();
-	
-	-- Iterate through each effect
-	local aMatch = {};
+  if not sEffect or not rActor then
+    return false;
+  end
+  local sLowerEffect = sEffect:lower();
+  
+  -- Iterate through each effect
+  local aMatch = {};
 --Debug.console("manager_effect_adnd.lua","hasEffect","rActor",rActor);    
 --Debug.console("manager_effect_adnd.lua","hasEffect","sEffect",sEffect);    
 --Debug.console("manager_effect_adnd.lua","hasEffect","rTarget",rTarget);    
 --Debug.console("manager_effect_adnd.lua","hasEffect","bIgnoreEffectTargets",bIgnoreEffectTargets);    
 --Debug.console("manager_effect_adnd.lua","hasEffect","bTargetedOnly",bTargetedOnly);    
-	for _,v in pairs(DB.getChildren(ActorManager.getCTNode(rActor), "effects")) do
-		local nActive = DB.getValue(v, "isactive", 0);
+  for _,v in pairs(DB.getChildren(ActorManager.getCTNode(rActor), "effects")) do
+    local nActive = DB.getValue(v, "isactive", 0);
         if (EffectManagerADND.isValidCheckEffect(rActor,v)) then
-			-- Parse each effect label
-			local sLabel = DB.getValue(v, "label", "");
-			local bTargeted = EffectManager.isTargetedEffect(v);
-			local aEffectComps = EffectManager.parseEffect(sLabel);
+      -- Parse each effect label
+      local sLabel = DB.getValue(v, "label", "");
+      local bTargeted = EffectManager.isTargetedEffect(v);
+      local aEffectComps = EffectManager.parseEffect(sLabel);
 
-			-- Iterate through each effect component looking for a type match
-			local nMatch = 0;
-			for kEffectComp,sEffectComp in ipairs(aEffectComps) do
-				local rEffectComp = EffectManager5E.parseEffectComp(sEffectComp);
-				-- Handle conditionals
-				if rEffectComp.type == "IF" then
-					if not EffectManager5E.checkConditional(rActor, v, rEffectComp.remainder) then
-						break;
-					end
-				elseif rEffectComp.type == "IFT" then
-					if not rTarget then
-						break;
-					end
-					if not EffectManager5E.checkConditional(rTarget, v, rEffectComp.remainder, rActor) then
-						break;
-					end
-				
-				-- Check for match
-				elseif rEffectComp.original:lower() == sLowerEffect then
-					if bTargeted and not bIgnoreEffectTargets then
-						if EffectManager.isEffectTarget(v, rTarget) then
-							nMatch = kEffectComp;
-						end
-					elseif not bTargetedOnly then
-						nMatch = kEffectComp;
-					end
-				end
-				
-			end
+      -- Iterate through each effect component looking for a type match
+      local nMatch = 0;
+      for kEffectComp,sEffectComp in ipairs(aEffectComps) do
+        local rEffectComp = EffectManager5E.parseEffectComp(sEffectComp);
+        -- Handle conditionals
+        if rEffectComp.type == "IF" then
+          if not EffectManager5E.checkConditional(rActor, v, rEffectComp.remainder) then
+            break;
+          end
+        elseif rEffectComp.type == "IFT" then
+          if not rTarget then
+            break;
+          end
+          if not EffectManager5E.checkConditional(rTarget, v, rEffectComp.remainder, rActor) then
+            break;
+          end
+        
+        -- Check for match
+        elseif rEffectComp.original:lower() == sLowerEffect then
+          if bTargeted and not bIgnoreEffectTargets then
+            if EffectManager.isEffectTarget(v, rTarget) then
+              nMatch = kEffectComp;
+            end
+          elseif not bTargetedOnly then
+            nMatch = kEffectComp;
+          end
+        end
+        
+      end
 
 -- Debug.console("manager_effect_adnd.lua","hasEffect","nMatch",nMatch);    
 -- Debug.console("manager_effect_adnd.lua","hasEffect","sApply",sApply);    
-			-- If matched, then remove one-off effects
-			if nMatch > 0 then
-				if nActive == 2 then
-					DB.setValue(v, "isactive", "number", 1);
-				else
-					table.insert(aMatch, v);
-					local sApply = DB.getValue(v, "apply", "");
-					if sApply == "action" then
-						EffectManager.notifyExpire(v, 0);
-					elseif sApply == "roll" then
-						EffectManager.notifyExpire(v, 0, true);
-					elseif sApply == "single" then
-						EffectManager.notifyExpire(v, nMatch, true);
-					end
-				end
-			end
-		end
-	end
-	
-	if #aMatch > 0 then
-		return true;
-	end
-	return false;
+      -- If matched, then remove one-off effects
+      if nMatch > 0 then
+        if nActive == 2 then
+          DB.setValue(v, "isactive", "number", 1);
+        else
+          table.insert(aMatch, v);
+          local sApply = DB.getValue(v, "apply", "");
+          if sApply == "action" then
+            EffectManager.notifyExpire(v, 0);
+          elseif sApply == "roll" then
+            EffectManager.notifyExpire(v, 0, true);
+          elseif sApply == "single" then
+            EffectManager.notifyExpire(v, nMatch, true);
+          end
+        end
+      end
+    end
+  end
+  
+  if #aMatch > 0 then
+    return true;
+  end
+  return false;
 end
 
 -- replace 5E EffectManager5E manager_effect_5E.lua checkConditional() with this
 function checkConditional(rActor, nodeEffect, aConditions, rTarget, aIgnore)
-	local bReturn = true;
-	
-	if not aIgnore then
-		aIgnore = {};
-	end
-	table.insert(aIgnore, nodeEffect.getNodeName());
-	
-	for _,v in ipairs(aConditions) do
-		local sLower = v:lower();
-		if sLower == DataCommon.healthstatusfull then
-			local nPercentWounded = ActorManager2.getPercentWounded(rActor);
-			if nPercentWounded > 0 then
-				bReturn = false;
-			end
-		elseif sLower == DataCommon.healthstatushalf then
-			local nPercentWounded = ActorManager2.getPercentWounded(rActor);
-			if nPercentWounded < .5 then
-				bReturn = false;
-			end
-		elseif sLower == DataCommon.healthstatuswounded then
-			local nPercentWounded = ActorManager2.getPercentWounded(rActor);
-			if nPercentWounded == 0 then
-				bReturn = false;
-			end
-		elseif StringManager.contains(DataCommon.conditions, sLower) then
-			if not EffectManager5E.checkConditionalHelper(rActor, sLower, rTarget, aIgnore) then
-				bReturn = false;
-			end
-		elseif StringManager.contains(DataCommon.conditionaltags, sLower) then
-			if not EffectManager5E.checkConditionalHelper(rActor, sLower, rTarget, aIgnore) then
-				bReturn = false;
-			end
-		else
-			local sAlignCheck = sLower:match("^align%s*%(([^)]+)%)$");
-			local sSizeCheck = sLower:match("^size%s*%(([^)]+)%)$");
-			local sTypeCheck = sLower:match("^type%s*%(([^)]+)%)$");
-			local sCustomCheck = sLower:match("^custom%s*%(([^)]+)%)$");
+  local bReturn = true;
+  
+  if not aIgnore then
+    aIgnore = {};
+  end
+  table.insert(aIgnore, nodeEffect.getNodeName());
+  
+  for _,v in ipairs(aConditions) do
+    local sLower = v:lower();
+    if sLower == DataCommon.healthstatusfull then
+      local nPercentWounded = ActorManager2.getPercentWounded(rActor);
+      if nPercentWounded > 0 then
+        bReturn = false;
+      end
+    elseif sLower == DataCommon.healthstatushalf then
+      local nPercentWounded = ActorManager2.getPercentWounded(rActor);
+      if nPercentWounded < .5 then
+        bReturn = false;
+      end
+    elseif sLower == DataCommon.healthstatuswounded then
+      local nPercentWounded = ActorManager2.getPercentWounded(rActor);
+      if nPercentWounded == 0 then
+        bReturn = false;
+      end
+    elseif StringManager.contains(DataCommon.conditions, sLower) then
+      if not EffectManager5E.checkConditionalHelper(rActor, sLower, rTarget, aIgnore) then
+        bReturn = false;
+      end
+    elseif StringManager.contains(DataCommon.conditionaltags, sLower) then
+      if not EffectManager5E.checkConditionalHelper(rActor, sLower, rTarget, aIgnore) then
+        bReturn = false;
+      end
+    else
+      local sAlignCheck = sLower:match("^align%s*%(([^)]+)%)$");
+      local sSizeCheck = sLower:match("^size%s*%(([^)]+)%)$");
+      local sTypeCheck = sLower:match("^type%s*%(([^)]+)%)$");
+      local sCustomCheck = sLower:match("^custom%s*%(([^)]+)%)$");
       local sArmorCheck = sLower:match("^armor%s*%(([^)]+)%)$");
-			if sAlignCheck then
-				if not ActorManager2.isAlignment(rActor, sAlignCheck) then
-					bReturn = false;
-				end
-			elseif sSizeCheck then
-				if not ActorManager2.isSize(rActor, sSizeCheck) then
-					bReturn = false;
-				end
-			elseif sTypeCheck then
-				if not ActorManager2.isCreatureType(rActor, sTypeCheck) then
-					bReturn = false;
-				end
-			elseif sCustomCheck then
-				if not EffectManager5E.checkConditionalHelper(rActor, sCustomCheck, rTarget, aIgnore) then
-					bReturn = false;
-				end
-			elseif sArmorCheck then
-				if not ActorManagerADND.isArmorType(rActor, sArmorCheck) then
-					bReturn = false;
-				end
-			end
-		end
-	end
-	
-	table.remove(aIgnore);
-	
-	return bReturn;
+      if sAlignCheck then
+        if not ActorManager2.isAlignment(rActor, sAlignCheck) then
+          bReturn = false;
+        end
+      elseif sSizeCheck then
+        if not ActorManager2.isSize(rActor, sSizeCheck) then
+          bReturn = false;
+        end
+      elseif sTypeCheck then
+        if not ActorManager2.isCreatureType(rActor, sTypeCheck) then
+          bReturn = false;
+        end
+      elseif sCustomCheck then
+        if not EffectManager5E.checkConditionalHelper(rActor, sCustomCheck, rTarget, aIgnore) then
+          bReturn = false;
+        end
+      elseif sArmorCheck then
+        if not ActorManagerADND.isArmorType(rActor, sArmorCheck) then
+          bReturn = false;
+        end
+      end
+    end
+  end
+  
+  table.remove(aIgnore);
+  
+  return bReturn;
 end
 
 -- replace 5E EffectManager5E manager_effect_5E.lua checkConditionalHelper() with this
 function checkConditionalHelper(rActor, sEffect, rTarget, aIgnore)
-	if not rActor then
-		return false;
-	end
-	
-	local bReturn = false;
-	
-	for _,v in pairs(DB.getChildren(ActorManager.getCTNode(rActor), "effects")) do
-		local nActive = DB.getValue(v, "isactive", 0);
+  if not rActor then
+    return false;
+  end
+  
+  local bReturn = false;
+  
+  for _,v in pairs(DB.getChildren(ActorManager.getCTNode(rActor), "effects")) do
+    local nActive = DB.getValue(v, "isactive", 0);
         if (EffectManagerADND.isValidCheckEffect(rActor,v) and not StringManager.contains(aIgnore, v.getNodeName())) then
-		--if nActive ~= 0 and not StringManager.contains(aIgnore, v.getNodeName()) then
-			-- Parse each effect label
-			local sLabel = DB.getValue(v, "label", "");
-			local bTargeted = EffectManager.isTargetedEffect(v);
-			local aEffectComps = EffectManager.parseEffect(sLabel);
+    --if nActive ~= 0 and not StringManager.contains(aIgnore, v.getNodeName()) then
+      -- Parse each effect label
+      local sLabel = DB.getValue(v, "label", "");
+      local bTargeted = EffectManager.isTargetedEffect(v);
+      local aEffectComps = EffectManager.parseEffect(sLabel);
 
-			-- Iterate through each effect component looking for a type match
-			local nMatch = 0;
-			for kEffectComp, sEffectComp in ipairs(aEffectComps) do
-				local rEffectComp = EffectManager5E.parseEffectComp(sEffectComp);
-				-- CHECK FOR FOLLOWON EFFECT TAGS, AND IGNORE THE REST
-				if rEffectComp.type == "AFTER" or rEffectComp.type == "FAIL" then
-					break;
-				
-				-- CHECK CONDITIONALS
-				elseif rEffectComp.type == "IF" then
-					if not EffectManager5E.checkConditional(rActor, v, rEffectComp.remainder, nil, aIgnore) then
-						break;
-					end
-				elseif rEffectComp.type == "IFT" then
-					if not rTarget then
-						break;
-					end
-					if not EffectManager5E.checkConditional(rTarget, v, rEffectComp.remainder, rActor, aIgnore) then
-						break;
-					end
-				
-				-- CHECK FOR AN ACTUAL EFFECT MATCH
-				elseif rEffectComp.original:lower() == sEffect then
-					if bTargeted then
-						if EffectManager.isEffectTarget(v, rTarget) then
-							bReturn = true;
-						end
-					else
-						bReturn = true;
-					end
-				end
-			end
-		end
-	end
-	
-	return bReturn;
+      -- Iterate through each effect component looking for a type match
+      local nMatch = 0;
+      for kEffectComp, sEffectComp in ipairs(aEffectComps) do
+        local rEffectComp = EffectManager5E.parseEffectComp(sEffectComp);
+        -- CHECK FOR FOLLOWON EFFECT TAGS, AND IGNORE THE REST
+        if rEffectComp.type == "AFTER" or rEffectComp.type == "FAIL" then
+          break;
+        
+        -- CHECK CONDITIONALS
+        elseif rEffectComp.type == "IF" then
+          if not EffectManager5E.checkConditional(rActor, v, rEffectComp.remainder, nil, aIgnore) then
+            break;
+          end
+        elseif rEffectComp.type == "IFT" then
+          if not rTarget then
+            break;
+          end
+          if not EffectManager5E.checkConditional(rTarget, v, rEffectComp.remainder, rActor, aIgnore) then
+            break;
+          end
+        
+        -- CHECK FOR AN ACTUAL EFFECT MATCH
+        elseif rEffectComp.original:lower() == sEffect then
+          if bTargeted then
+            if EffectManager.isEffectTarget(v, rTarget) then
+              bReturn = true;
+            end
+          else
+            bReturn = true;
+          end
+        end
+      end
+    end
+  end
+  
+  return bReturn;
 end
 
 -- replace 5E ActionDamage manager_action_damage.lua performRoll() with this
 -- extension only
 function manager_action_damage_performRoll(draginfo, rActor, rAction)
-	local rRoll = ActionDamage.getRoll(rActor, rAction);
+  local rRoll = ActionDamage.getRoll(rActor, rAction);
 
     if (draginfo and rActor.itemPath and rActor.itemPath ~= "") then
         draginfo.setMetaData("itemPath",rActor.itemPath);
 --Debug.console("manager_effect_adnd.lua","manager_action_damage_performRoll","rActor.itemPath",rActor.itemPath);    
     end
-	
-	ActionsManager.performAction(draginfo, rActor, rRoll);
+  
+  ActionsManager.performAction(draginfo, rActor, rRoll);
 end
 
 -- replace 5E ActionAttack manager_action_attack.lua performRoll() with this
 -- extension only
 function manager_action_attack_performRoll(draginfo, rActor, rAction)
-	local rRoll = ActionAttack.getRoll(rActor, rAction);
+  local rRoll = ActionAttack.getRoll(rActor, rAction);
 
     if (draginfo and rActor.itemPath and rActor.itemPath ~= "") then
         draginfo.setMetaData("itemPath",rActor.itemPath);
 --Debug.console("manager_effect_adnd.lua","manager_action_attack_performRoll","rActor.itemPath",rActor.itemPath);    
     end
     
-	ActionsManager.performAction(draginfo, rActor, rRoll);
+  ActionsManager.performAction(draginfo, rActor, rRoll);
 end
 
 -- replace 5E PowerManager manager_power.lua performAction() with this
 -- extension only
 function manager_power_performAction(draginfo, rActor, rAction, nodePower)
-	if not rActor or not rAction then
-		return false;
-	end
-	
+  if not rActor or not rAction then
+    return false;
+  end
+  
     -- add itemPath to rActor so that when effects are checked we can 
     -- make compare against action only effects
     local nodeWeapon = nodeAction.getChild("...");
     local _, sRecord = DB.getValue(nodeWeapon, "shortcut", "", "");
-	rActor.itemPath = sRecord;
+  rActor.itemPath = sRecord;
     if (draginfo and rActor.itemPath and rActor.itemPath ~= "") then
         draginfo.setMetaData("itemPath",rActor.itemPath);
     end
     --
 
-	evalAction(rActor, nodePower, rAction);
+  evalAction(rActor, nodePower, rAction);
 
-	local rRolls = {};
-	if rAction.type == "cast" then
-		rAction.subtype = (rAction.subtype or "");
-		if rAction.subtype == "" then
-			table.insert(rRolls, ActionPower.getPowerCastRoll(rActor, rAction));
-		end
-		if ((rAction.subtype == "") or (rAction.subtype == "atk")) and rAction.range then
-			table.insert(rRolls, ActionAttack.getRoll(rActor, rAction));
-		end
-		if ((rAction.subtype == "") or (rAction.subtype == "save")) and ((rAction.save or "") ~= "") then
-			table.insert(rRolls, ActionPower.getSaveVsRoll(rActor, rAction));
-		end
-	
-	elseif rAction.type == "attack" then
-		table.insert(rRolls, ActionAttack.getRoll(rActor, rAction));
-		
-	elseif rAction.type == "powersave" then
-		table.insert(rRolls, ActionPower.getSaveVsRoll(rActor, rAction));
+  local rRolls = {};
+  if rAction.type == "cast" then
+    rAction.subtype = (rAction.subtype or "");
+    if rAction.subtype == "" then
+      table.insert(rRolls, ActionPower.getPowerCastRoll(rActor, rAction));
+    end
+    if ((rAction.subtype == "") or (rAction.subtype == "atk")) and rAction.range then
+      table.insert(rRolls, ActionAttack.getRoll(rActor, rAction));
+    end
+    if ((rAction.subtype == "") or (rAction.subtype == "save")) and ((rAction.save or "") ~= "") then
+      table.insert(rRolls, ActionPower.getSaveVsRoll(rActor, rAction));
+    end
+  
+  elseif rAction.type == "attack" then
+    table.insert(rRolls, ActionAttack.getRoll(rActor, rAction));
+    
+  elseif rAction.type == "powersave" then
+    table.insert(rRolls, ActionPower.getSaveVsRoll(rActor, rAction));
 
-	elseif rAction.type == "damage" then
-		table.insert(rRolls, ActionDamage.getRoll(rActor, rAction));
-		
-	elseif rAction.type == "heal" then
-		table.insert(rRolls, ActionHeal.getRoll(rActor, rAction));
-		
-	elseif rAction.type == "effect" then
-		local rRoll = ActionEffect.getRoll(draginfo, rActor, rAction);
-		if rRoll then
-			table.insert(rRolls, rRoll);
-		end
-	end
-	
-	if #rRolls > 0 then
-		ActionsManager.performMultiAction(draginfo, rActor, rRolls[1].sType, rRolls);
-	end
-	return true;
+  elseif rAction.type == "damage" then
+    table.insert(rRolls, ActionDamage.getRoll(rActor, rAction));
+    
+  elseif rAction.type == "heal" then
+    table.insert(rRolls, ActionHeal.getRoll(rActor, rAction));
+    
+  elseif rAction.type == "effect" then
+    local rRoll = ActionEffect.getRoll(draginfo, rActor, rAction);
+    if rRoll then
+      table.insert(rRolls, rRoll);
+    end
+  end
+  
+  if #rRolls > 0 then
+    ActionsManager.performMultiAction(draginfo, rActor, rRolls[1].sType, rRolls);
+  end
+  return true;
 end
 
 -- these functions we run with initiative value changes
@@ -1050,105 +1050,105 @@ end
 
 ---- replace for Psionic nonsense
 function onEffectActorStartTurn(nodeActor, nodeEffect)
-	local sEffName = DB.getValue(nodeEffect, "label", "");
-	local aEffectComps = EffectManager.parseEffect(sEffName);
+  local sEffName = DB.getValue(nodeEffect, "label", "");
+  local aEffectComps = EffectManager.parseEffect(sEffName);
     for _,sEffectComp in ipairs(aEffectComps) do
-		local rEffectComp = EffectManager5E.parseEffectComp(sEffectComp);
-		-- Conditionals
-		if rEffectComp.type == "IFT" then
-			break;
-		elseif rEffectComp.type == "IF" then
-			local rActor = ActorManager.getActorFromCT(nodeActor);
-			if not EffectManager5E.checkConditional(rActor, nodeEffect, rEffectComp.remainder) then
-				break;
-			end
-		
-		-- Ongoing damage and regeneration
-		elseif rEffectComp.type == "DMGO" or rEffectComp.type == "REGEN" or rEffectComp.type == "DMGPSPO" then
-			local nActive = DB.getValue(nodeEffect, "isactive", 0);
-			if nActive == 2 then
-				DB.setValue(nodeEffect, "isactive", "number", 1);
-			else
-				applyOngoingDamageAdjustment(nodeActor, nodeEffect, rEffectComp);
-			end
+    local rEffectComp = EffectManager5E.parseEffectComp(sEffectComp);
+    -- Conditionals
+    if rEffectComp.type == "IFT" then
+      break;
+    elseif rEffectComp.type == "IF" then
+      local rActor = ActorManager.getActorFromCT(nodeActor);
+      if not EffectManager5E.checkConditional(rActor, nodeEffect, rEffectComp.remainder) then
+        break;
+      end
+    
+    -- Ongoing damage and regeneration
+    elseif rEffectComp.type == "DMGO" or rEffectComp.type == "REGEN" or rEffectComp.type == "DMGPSPO" then
+      local nActive = DB.getValue(nodeEffect, "isactive", 0);
+      if nActive == 2 then
+        DB.setValue(nodeEffect, "isactive", "number", 1);
+      else
+        applyOngoingDamageAdjustment(nodeActor, nodeEffect, rEffectComp);
+      end
 
-		-- NPC power recharge
-		elseif rEffectComp.type == "RCHG" then
-			local nActive = DB.getValue(nodeEffect, "isactive", 0);
-			if nActive == 2 then
-				DB.setValue(nodeEffect, "isactive", "number", 1);
-			else
-				EffectManager5E.applyRecharge(nodeActor, nodeEffect, rEffectComp);
-			end
-		end
-	end
+    -- NPC power recharge
+    elseif rEffectComp.type == "RCHG" then
+      local nActive = DB.getValue(nodeEffect, "isactive", 0);
+      if nActive == 2 then
+        DB.setValue(nodeEffect, "isactive", "number", 1);
+      else
+        EffectManager5E.applyRecharge(nodeActor, nodeEffect, rEffectComp);
+      end
+    end
+  end
 end
 
 function applyOngoingDamageAdjustment(nodeActor, nodeEffect, rEffectComp)
-	if #(rEffectComp.dice) == 0 and rEffectComp.mod == 0 then
-		return;
-	end
-	
-	local rTarget = ActorManager.getActor("ct", nodeActor);
-	if rEffectComp.type == "REGEN" then
-		local nPercentWounded = ActorManager2.getPercentWounded2("ct", nodeActor);
-		
-		-- If not wounded, then return
-		if nPercentWounded <= 0 then
-			return;
-		end
-		-- Regeneration does not work once creature falls below 1 hit point
-		if nPercentWounded >= 1 then
-			return;
-		end
-		
-		local rAction = {};
-		rAction.label = "Regeneration";
-		rAction.clauses = {};
-		
-		local aClause = {};
-		aClause.dice = rEffectComp.dice;
-		aClause.modifier = rEffectComp.mod;
-		table.insert(rAction.clauses, aClause);
-		
-		local rRoll = ActionHeal.getRoll(nil, rAction);
-		if EffectManager.isGMEffect(nodeActor, nodeEffect) then
-			rRoll.bSecret = true;
-		end
-		ActionsManager.actionDirect(nil, "heal", { rRoll }, { { rTarget } });
-	elseif rEffectComp.type == "DMGO" then
-		local rAction = {};
-		rAction.label = "Ongoing damage";
-		rAction.clauses = {};
-		
-		local aClause = {};
-		aClause.dice = rEffectComp.dice;
-		aClause.modifier = rEffectComp.mod;
-		aClause.dmgtype = string.lower(table.concat(rEffectComp.remainder, ","));
-		table.insert(rAction.clauses, aClause);
-		
-		local rRoll = ActionDamage.getRoll(nil, rAction);
-		if EffectManager.isGMEffect(nodeActor, nodeEffect) then
-			rRoll.bSecret = true;
-		end
-		ActionsManager.actionDirect(nil, "damage", { rRoll }, { { rTarget } });
-	elseif rEffectComp.type == "DMGPSPO" then
-		local rAction = {};
-		rAction.label = "Ongoing PSP expenditure";
-		rAction.clauses = {};
-		
-		local aClause = {};
-		aClause.dice = rEffectComp.dice;
-		aClause.modifier = rEffectComp.mod;
-		aClause.dmgtype = string.lower(table.concat(rEffectComp.remainder, ","));
-		table.insert(rAction.clauses, aClause);
-		
-		local rRoll = ActionDamagePSP.getRoll(nil, rAction);
-		if EffectManager.isGMEffect(nodeActor, nodeEffect) then
-			rRoll.bSecret = true;
-		end
-		ActionsManager.actionDirect(nil, "damage_psp", { rRoll }, { { rTarget } });
-	end
+  if #(rEffectComp.dice) == 0 and rEffectComp.mod == 0 then
+    return;
+  end
+  
+  local rTarget = ActorManager.getActor("ct", nodeActor);
+  if rEffectComp.type == "REGEN" then
+    local nPercentWounded = ActorManager2.getPercentWounded2("ct", nodeActor);
+    
+    -- If not wounded, then return
+    if nPercentWounded <= 0 then
+      return;
+    end
+    -- Regeneration does not work once creature falls below 1 hit point
+    if nPercentWounded >= 1 then
+      return;
+    end
+    
+    local rAction = {};
+    rAction.label = "Regeneration";
+    rAction.clauses = {};
+    
+    local aClause = {};
+    aClause.dice = rEffectComp.dice;
+    aClause.modifier = rEffectComp.mod;
+    table.insert(rAction.clauses, aClause);
+    
+    local rRoll = ActionHeal.getRoll(nil, rAction);
+    if EffectManager.isGMEffect(nodeActor, nodeEffect) then
+      rRoll.bSecret = true;
+    end
+    ActionsManager.actionDirect(nil, "heal", { rRoll }, { { rTarget } });
+  elseif rEffectComp.type == "DMGO" then
+    local rAction = {};
+    rAction.label = "Ongoing damage";
+    rAction.clauses = {};
+    
+    local aClause = {};
+    aClause.dice = rEffectComp.dice;
+    aClause.modifier = rEffectComp.mod;
+    aClause.dmgtype = string.lower(table.concat(rEffectComp.remainder, ","));
+    table.insert(rAction.clauses, aClause);
+    
+    local rRoll = ActionDamage.getRoll(nil, rAction);
+    if EffectManager.isGMEffect(nodeActor, nodeEffect) then
+      rRoll.bSecret = true;
+    end
+    ActionsManager.actionDirect(nil, "damage", { rRoll }, { { rTarget } });
+  elseif rEffectComp.type == "DMGPSPO" then
+    local rAction = {};
+    rAction.label = "Ongoing PSP expenditure";
+    rAction.clauses = {};
+    
+    local aClause = {};
+    aClause.dice = rEffectComp.dice;
+    aClause.modifier = rEffectComp.mod;
+    aClause.dmgtype = string.lower(table.concat(rEffectComp.remainder, ","));
+    table.insert(rAction.clauses, aClause);
+    
+    local rRoll = ActionDamagePSP.getRoll(nil, rAction);
+    if EffectManager.isGMEffect(nodeActor, nodeEffect) then
+      rRoll.bSecret = true;
+    end
+    ActionsManager.actionDirect(nil, "damage_psp", { rRoll }, { { rTarget } });
+  end
 end
 
 ---- end psionic work

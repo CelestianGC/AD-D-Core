@@ -7,44 +7,44 @@
 
 <root>
     <!-- Power slot cast? -->
-	<windowclass name="power_slot_cast">
+  <windowclass name="power_slot_cast">
         
-		<sheetdata>
-			<label name="label">
-				<anchored position="insidetopleft" />
-			</label>
-			<buttongroup_counter name="counter">
-				<anchored position="insidetopleft" offset="25,0" />
-				<maxslotperrow>5</maxslotperrow>
+    <sheetdata>
+      <label name="label">
+        <anchored position="insidetopleft" />
+      </label>
+      <buttongroup_counter name="counter">
+        <anchored position="insidetopleft" offset="25,0" />
+        <maxslotperrow>5</maxslotperrow>
                 <gmeditonly />
-			</buttongroup_counter>
-		</sheetdata>
-	</windowclass>
-	
+      </buttongroup_counter>
+    </sheetdata>
+  </windowclass>
+  
     <!-- Power slot cast -->
-	<windowclass name="power_slots_cast">
+  <windowclass name="power_slots_cast">
     <margins control="0,0,0,0" />
-		<script file="campaign/scripts/power_slots_cast.lua" />
-		<sheetdata>
-			<anchor_column name="columnanchor" />
-			
-			<label_charframetop name="slotstitle">
-				<anchored height="20">
-					<top parent="columnanchor" anchor="bottom" relation="relative" offset="15" />
-					<left offset="15" />
-					<right offset="-10" />
-				</anchored>
-				<icons>char_spells</icons>
-				<static textres="power_label_spellslots" />
-			</label_charframetop>
+    <script file="campaign/scripts/power_slots_cast.lua" />
+    <sheetdata>
+      <anchor_column name="columnanchor" />
+      
+      <label_charframetop name="slotstitle">
+        <anchored height="20">
+          <top parent="columnanchor" anchor="bottom" relation="relative" offset="15" />
+          <left offset="15" />
+          <right offset="-10" />
+        </anchored>
+        <icons>char_spells</icons>
+        <static textres="power_label_spellslots" />
+      </label_charframetop>
 
-			<label name="spellslots_label">
-				<anchored width="80">
-					<top parent="columnanchor" anchor="bottom" relation="current" offset="7" />
-					<left offset="40" />
-				</anchored>
-				<static textres="power_label_spellcastingslots" />
-			</label>
+      <label name="spellslots_label">
+        <anchored width="80">
+          <top parent="columnanchor" anchor="bottom" relation="current" offset="7" />
+          <left offset="40" />
+        </anchored>
+        <static textres="power_label_spellcastingslots" />
+      </label>
 
       <!-- level -->
       <basicnumber name="arcanelevel" source="arcane.totalLevel">
@@ -52,28 +52,28 @@
         <tooltip textres="power_label_arcane_level_tooltip" />
       </basicnumber>
       
-			<windowlist name="spellslots">
-				<anchored>
-					<top parent="columnanchor" anchor="bottom" relation="relative" offset="7" />
-					<left offset="90" />
-					<right offset="-50" />
-				</anchored>
-				<class>power_slot_cast</class>
-				<skipempty />
-				<readonly />
-				<noscroll />
+      <windowlist name="spellslots">
+        <anchored>
+          <top parent="columnanchor" anchor="bottom" relation="relative" offset="7" />
+          <left offset="90" />
+          <right offset="-50" />
+        </anchored>
+        <class>power_slot_cast</class>
+        <skipempty />
+        <readonly />
+        <noscroll />
         <child></child>
         <child><backcolor>1A40301E</backcolor></child>
-				<columns width="90" fillwidth="true"/>
-			</windowlist>
-			
- 			<label name="pactmagicslots_label">
-				<anchored width="80">
-					<top parent="columnanchor" anchor="bottom" relation="current" offset="7" />
-					<left offset="40" />
-				</anchored>
-				<static textres="power_label_pactmagicslots" />
-			</label> 
+        <columns width="90" fillwidth="true"/>
+      </windowlist>
+      
+       <label name="pactmagicslots_label">
+        <anchored width="80">
+          <top parent="columnanchor" anchor="bottom" relation="current" offset="7" />
+          <left offset="40" />
+        </anchored>
+        <static textres="power_label_pactmagicslots" />
+      </label> 
 
       <!-- level -->
       <basicnumber name="divinelevel" source="divine.totalLevel">
@@ -81,306 +81,306 @@
         <tooltip textres="power_label_divine_level_tooltip" />
       </basicnumber>
       
-			<windowlist name="pactmagicslots">
-				<anchored>
-					<top parent="columnanchor" anchor="bottom" relation="relative" offset="7" />
-					<left offset="90" />
-					<right offset="-50" />
-				</anchored>
-				<class>power_slot_cast</class>
-				<skipempty />
-				<readonly />
-				<noscroll />
+      <windowlist name="pactmagicslots">
+        <anchored>
+          <top parent="columnanchor" anchor="bottom" relation="relative" offset="7" />
+          <left offset="90" />
+          <right offset="-50" />
+        </anchored>
+        <class>power_slot_cast</class>
+        <skipempty />
+        <readonly />
+        <noscroll />
                 <child></child>
                 <child><backcolor>1A40301E</backcolor></child>
-				<columns width="90" fillwidth="true"/> 
-			</windowlist>
-		</sheetdata>
-	</windowclass>
-	
+        <columns width="90" fillwidth="true"/> 
+      </windowlist>
+    </sheetdata>
+  </windowclass>
+  
     <!-- action tab, spell prep mode -->
-	<windowclass name="power_slots_prep">
+  <windowclass name="power_slots_prep">
     <margins control="0,4,0,2" />
-		<script>
-			function onInit()
-				onModeChanged();
-			end
-			
-			function onModeChanged()
-				local nodeChar = getDatabaseNode();
-				local sMode = DB.getValue(nodeChar, "powermode", "");
+    <script>
+      function onInit()
+        onModeChanged();
+      end
+      
+      function onModeChanged()
+        local nodeChar = getDatabaseNode();
+        local sMode = DB.getValue(nodeChar, "powermode", "");
         local bIsItem = false;
         if string.match(nodeChar.getPath(),"^item") 
           or string.match(nodeChar.getPath(),"^class") then
             bIsItem = true;
         end
-				if sMode == "preparation" and not bIsItem then
-					parentcontrol.setVisible(true);
-				else
-					parentcontrol.setVisible(false);
-				end
-			end
-		</script>
-		<sheetdata>
-			<anchor_column name="columnanchor" />
-			
-			<label_charframetop name="slotstitle">
-				<anchored height="20">
-					<top parent="columnanchor" anchor="bottom" relation="relative" offset="15" />
-					<left offset="15" />
-					<right offset="-10" />
-				</anchored>
-				<icons>char_spells</icons>
-				<static textres="power_label_spellslots" />
-			</label_charframetop>
+        if sMode == "preparation" and not bIsItem then
+          parentcontrol.setVisible(true);
+        else
+          parentcontrol.setVisible(false);
+        end
+      end
+    </script>
+    <sheetdata>
+      <anchor_column name="columnanchor" />
+      
+      <label_charframetop name="slotstitle">
+        <anchored height="20">
+          <top parent="columnanchor" anchor="bottom" relation="relative" offset="15" />
+          <left offset="15" />
+          <right offset="-10" />
+        </anchored>
+        <icons>char_spells</icons>
+        <static textres="power_label_spellslots" />
+      </label_charframetop>
 
-			<label name="spellslots_label">
-				<anchored>
-					<top parent="columnanchor" anchor="bottom" relation="current" offset="17" />
-					<left offset="40" />
-					<right anchor="center" offset="-120" />
-				</anchored>
-				<static textres="power_label_spellcastingslots" />
-			</label>
+      <label name="spellslots_label">
+        <anchored>
+          <top parent="columnanchor" anchor="bottom" relation="current" offset="17" />
+          <left offset="40" />
+          <right anchor="center" offset="-120" />
+        </anchored>
+        <static textres="power_label_spellcastingslots" />
+      </label>
       <!-- level -->
       <basicnumber name="arcanelevel" source="arcane.totalLevel">
         <anchored to="spellslots_label"  position="insidetopleft" offset="-25,0" width="20" height="20" />
         <tooltip textres="power_label_arcane_level_tooltip" />
       </basicnumber>
 
-			<genericcontrol name="anchor_spellslots">
-				<anchored width="0" height="20">
-					<top parent="columnanchor" anchor="bottom" relation="relative" offset="17" />
-					<left anchor="center" offset="-130" />
-				</anchored>
-				<disabled />
-			</genericcontrol>
-			<number_spellslots name="spellslots1" source="powermeta.spellslots1.max" />
-			<number_spellslots name="spellslots2" source="powermeta.spellslots2.max" />
-			<number_spellslots name="spellslots3" source="powermeta.spellslots3.max" />
-			<number_spellslots name="spellslots4" source="powermeta.spellslots4.max" />
-			<number_spellslots name="spellslots5" source="powermeta.spellslots5.max" />
-			<number_spellslots name="spellslots6" source="powermeta.spellslots6.max" />
-			<number_spellslots name="spellslots7" source="powermeta.spellslots7.max" />
-			<number_spellslots name="spellslots8" source="powermeta.spellslots8.max" />
-			<number_spellslots name="spellslots9" source="powermeta.spellslots9.max" />
-			<label_fieldtop name="spellslots1_label">
-				<anchored to="spellslots1" />
-				<static>1</static>
-			</label_fieldtop>
-			<label_fieldtop name="spellslots2_label">
-				<anchored to="spellslots2" />
-				<static>2</static>
-			</label_fieldtop>
-			<label_fieldtop name="spellslots3_label">
-				<anchored to="spellslots3" />
-				<static>3</static>
-			</label_fieldtop>
-			<label_fieldtop name="spellslots4_label">
-				<anchored to="spellslots4" />
-				<static>4</static>
-			</label_fieldtop>
-			<label_fieldtop name="spellslots5_label">
-				<anchored to="spellslots5" />
-				<static>5</static>
-			</label_fieldtop>
-			<label_fieldtop name="spellslots6_label">
-				<anchored to="spellslots6" />
-				<static>6</static>
-			</label_fieldtop>
-			<label_fieldtop name="spellslots7_label">
-				<anchored to="spellslots7" />
-				<static>7</static>
-			</label_fieldtop>
-			<label_fieldtop name="spellslots8_label">
-				<anchored to="spellslots8" />
-				<static>8</static>
-			</label_fieldtop>
-			<label_fieldtop name="spellslots9_label">
-				<anchored to="spellslots9" />
-				<static>9</static>
-			</label_fieldtop>
+      <genericcontrol name="anchor_spellslots">
+        <anchored width="0" height="20">
+          <top parent="columnanchor" anchor="bottom" relation="relative" offset="17" />
+          <left anchor="center" offset="-130" />
+        </anchored>
+        <disabled />
+      </genericcontrol>
+      <number_spellslots name="spellslots1" source="powermeta.spellslots1.max" />
+      <number_spellslots name="spellslots2" source="powermeta.spellslots2.max" />
+      <number_spellslots name="spellslots3" source="powermeta.spellslots3.max" />
+      <number_spellslots name="spellslots4" source="powermeta.spellslots4.max" />
+      <number_spellslots name="spellslots5" source="powermeta.spellslots5.max" />
+      <number_spellslots name="spellslots6" source="powermeta.spellslots6.max" />
+      <number_spellslots name="spellslots7" source="powermeta.spellslots7.max" />
+      <number_spellslots name="spellslots8" source="powermeta.spellslots8.max" />
+      <number_spellslots name="spellslots9" source="powermeta.spellslots9.max" />
+      <label_fieldtop name="spellslots1_label">
+        <anchored to="spellslots1" />
+        <static>1</static>
+      </label_fieldtop>
+      <label_fieldtop name="spellslots2_label">
+        <anchored to="spellslots2" />
+        <static>2</static>
+      </label_fieldtop>
+      <label_fieldtop name="spellslots3_label">
+        <anchored to="spellslots3" />
+        <static>3</static>
+      </label_fieldtop>
+      <label_fieldtop name="spellslots4_label">
+        <anchored to="spellslots4" />
+        <static>4</static>
+      </label_fieldtop>
+      <label_fieldtop name="spellslots5_label">
+        <anchored to="spellslots5" />
+        <static>5</static>
+      </label_fieldtop>
+      <label_fieldtop name="spellslots6_label">
+        <anchored to="spellslots6" />
+        <static>6</static>
+      </label_fieldtop>
+      <label_fieldtop name="spellslots7_label">
+        <anchored to="spellslots7" />
+        <static>7</static>
+      </label_fieldtop>
+      <label_fieldtop name="spellslots8_label">
+        <anchored to="spellslots8" />
+        <static>8</static>
+      </label_fieldtop>
+      <label_fieldtop name="spellslots9_label">
+        <anchored to="spellslots9" />
+        <static>9</static>
+      </label_fieldtop>
 
-			<label name="pactmagicslots_label">
-				<anchored>
-					<top parent="columnanchor" anchor="bottom" relation="current" offset="17" />
-					<left offset="40" />
-					<right anchor="center" offset="-120" />
-				</anchored>
-				<static textres="power_label_pactmagicslots" />
-			</label>
+      <label name="pactmagicslots_label">
+        <anchored>
+          <top parent="columnanchor" anchor="bottom" relation="current" offset="17" />
+          <left offset="40" />
+          <right anchor="center" offset="-120" />
+        </anchored>
+        <static textres="power_label_pactmagicslots" />
+      </label>
       <!-- level -->
       <basicnumber name="divinelevel" source="divine.totalLevel">
         <anchored to="pactmagicslots_label"  position="insidetopleft" offset="-25,0" width="20" height="20" />
         <tooltip textres="power_label_divine_level_tooltip" />
       </basicnumber>
       
-			<genericcontrol name="anchor_pactmagicslots">
-				<anchored width="0" height="20">
-					<top parent="columnanchor" anchor="bottom" relation="relative" offset="17" />
-					<left anchor="center" offset="-130" />
-				</anchored>
-				<disabled />
-			</genericcontrol>
-			<number_pactmagicslots name="pactmagicslots1" source="powermeta.pactmagicslots1.max" />
-			<number_pactmagicslots name="pactmagicslots2" source="powermeta.pactmagicslots2.max" />
-			<number_pactmagicslots name="pactmagicslots3" source="powermeta.pactmagicslots3.max" />
-			<number_pactmagicslots name="pactmagicslots4" source="powermeta.pactmagicslots4.max" />
-			<number_pactmagicslots name="pactmagicslots5" source="powermeta.pactmagicslots5.max" />
-			<number_pactmagicslots name="pactmagicslots6" source="powermeta.pactmagicslots6.max" />
-			<number_pactmagicslots name="pactmagicslots7" source="powermeta.pactmagicslots7.max" />
-<!-- 			<number_pactmagicslots name="pactmagicslots8" source="powermeta.pactmagicslots8.max" />
-			<number_pactmagicslots name="pactmagicslots9" source="powermeta.pactmagicslots9.max" />
- -->			
+      <genericcontrol name="anchor_pactmagicslots">
+        <anchored width="0" height="20">
+          <top parent="columnanchor" anchor="bottom" relation="relative" offset="17" />
+          <left anchor="center" offset="-130" />
+        </anchored>
+        <disabled />
+      </genericcontrol>
+      <number_pactmagicslots name="pactmagicslots1" source="powermeta.pactmagicslots1.max" />
+      <number_pactmagicslots name="pactmagicslots2" source="powermeta.pactmagicslots2.max" />
+      <number_pactmagicslots name="pactmagicslots3" source="powermeta.pactmagicslots3.max" />
+      <number_pactmagicslots name="pactmagicslots4" source="powermeta.pactmagicslots4.max" />
+      <number_pactmagicslots name="pactmagicslots5" source="powermeta.pactmagicslots5.max" />
+      <number_pactmagicslots name="pactmagicslots6" source="powermeta.pactmagicslots6.max" />
+      <number_pactmagicslots name="pactmagicslots7" source="powermeta.pactmagicslots7.max" />
+<!--       <number_pactmagicslots name="pactmagicslots8" source="powermeta.pactmagicslots8.max" />
+      <number_pactmagicslots name="pactmagicslots9" source="powermeta.pactmagicslots9.max" />
+ -->      
             <label_fieldtop name="pactmagicslots1_label">
-				<anchored to="pactmagicslots1" />
-				<static>1</static>
-			</label_fieldtop>
-			<label_fieldtop name="pactmagicslots2_label">
-				<anchored to="pactmagicslots2" />
-				<static>2</static>
-			</label_fieldtop>
-			<label_fieldtop name="pactmagicslots3_label">
-				<anchored to="pactmagicslots3" />
-				<static>3</static>
-			</label_fieldtop>
-			<label_fieldtop name="pactmagicslots4_label">
-				<anchored to="pactmagicslots4" />
-				<static>4</static>
-			</label_fieldtop>
-			<label_fieldtop name="pactmagicslots5_label">
-				<anchored to="pactmagicslots5" />
-				<static>5</static>
-			</label_fieldtop>
-			<label_fieldtop name="pactmagicslots6_label">
-				<anchored to="pactmagicslots6" />
-				<static>6</static>
-			</label_fieldtop>
-			<label_fieldtop name="pactmagicslots7_label">
-				<anchored to="pactmagicslots7" />
-				<static>7</static>
-			</label_fieldtop>
-<!-- 			<label_fieldtop name="pactmagicslots8_label">
-				<anchored to="pactmagicslots8" />
-				<static>8</static>
-			</label_fieldtop>
-			<label_fieldtop name="pactmagicslots9_label">
-				<anchored to="pactmagicslots9" />
-				<static>9</static>
-			</label_fieldtop>
+        <anchored to="pactmagicslots1" />
+        <static>1</static>
+      </label_fieldtop>
+      <label_fieldtop name="pactmagicslots2_label">
+        <anchored to="pactmagicslots2" />
+        <static>2</static>
+      </label_fieldtop>
+      <label_fieldtop name="pactmagicslots3_label">
+        <anchored to="pactmagicslots3" />
+        <static>3</static>
+      </label_fieldtop>
+      <label_fieldtop name="pactmagicslots4_label">
+        <anchored to="pactmagicslots4" />
+        <static>4</static>
+      </label_fieldtop>
+      <label_fieldtop name="pactmagicslots5_label">
+        <anchored to="pactmagicslots5" />
+        <static>5</static>
+      </label_fieldtop>
+      <label_fieldtop name="pactmagicslots6_label">
+        <anchored to="pactmagicslots6" />
+        <static>6</static>
+      </label_fieldtop>
+      <label_fieldtop name="pactmagicslots7_label">
+        <anchored to="pactmagicslots7" />
+        <static>7</static>
+      </label_fieldtop>
+<!--       <label_fieldtop name="pactmagicslots8_label">
+        <anchored to="pactmagicslots8" />
+        <static>8</static>
+      </label_fieldtop>
+      <label_fieldtop name="pactmagicslots9_label">
+        <anchored to="pactmagicslots9" />
+        <static>9</static>
+      </label_fieldtop>
  -->
-			<genericcontrol name="spacer">
-				<anchored height="0">
-					<top parent="columnanchor" anchor="bottom" relation="relative" offset="3" />
-					<left />
-					<right />
-				</anchored>
-				<disabled />
-			</genericcontrol>
-		</sheetdata>
-	</windowclass>
-	
-	<windowclass name="power_page">
-		<margins control="0,0,0,2" />
-		<script file="campaign/scripts/power_page.lua" />
-		<sheetdata>
-			<anchor_column name="columnanchor" />
-			
-			<list_powers name="powers" />
-		</sheetdata>
-	</windowclass>
-	
-    <!-- action listing of power -->
-	<windowclass name="power_item_header">
-		<margins control="0,0,0,3" />
-		<sheetdata>
-			<anchor_column name="leftanchor" />
-			
-			<genericcontrol name="usespacer">
-				<anchored width="10" height="20">
-					<top offset="2" />
-					<left parent="leftanchor" anchor="right" relation="relative" offset="0" />
-				</anchored>
-			</genericcontrol>
-			<genericcontrol name="blank">
-				<anchored width="20" height="20">
-					<top offset="2" />
-					<left parent="leftanchor" anchor="right" relation="relative" offset="0" />
-				</anchored>
-				<invisible />
-			</genericcontrol>
-			<icon_usepower name="usepower">
-				<anchored>
-					<top offset="2" />
-					<left parent="leftanchor" anchor="right" relation="relative" offset="0" />
-				</anchored>
-				<invisible />
-			</icon_usepower>
-			<counter_power name="counter">
-				<anchored>
-					<top offset="2" />
-					<left parent="leftanchor" anchor="right" relation="relative" offset="0" />
-				</anchored>
-				<invisible />
-			</counter_power>
+      <genericcontrol name="spacer">
+        <anchored height="0">
+          <top parent="columnanchor" anchor="bottom" relation="relative" offset="3" />
+          <left />
+          <right />
+        </anchored>
+        <disabled />
+      </genericcontrol>
+    </sheetdata>
+  </windowclass>
+  
+  <windowclass name="power_page">
+    <margins control="0,0,0,2" />
+    <script file="campaign/scripts/power_page.lua" />
+    <sheetdata>
+      <anchor_column name="columnanchor" />
       
-<!-- 			<button_checkbox name="preparedcheck" source="prepared">
-				<anchored width="20" height="20">
-					<top offset="2" />
-					<left parent="leftanchor" anchor="right" relation="relative" offset="0" />
-				</anchored>
-				<invisible />
-			</button_checkbox>
+      <list_powers name="powers" />
+    </sheetdata>
+  </windowclass>
+  
+    <!-- action listing of power -->
+  <windowclass name="power_item_header">
+    <margins control="0,0,0,3" />
+    <sheetdata>
+      <anchor_column name="leftanchor" />
+      
+      <genericcontrol name="usespacer">
+        <anchored width="10" height="20">
+          <top offset="2" />
+          <left parent="leftanchor" anchor="right" relation="relative" offset="0" />
+        </anchored>
+      </genericcontrol>
+      <genericcontrol name="blank">
+        <anchored width="20" height="20">
+          <top offset="2" />
+          <left parent="leftanchor" anchor="right" relation="relative" offset="0" />
+        </anchored>
+        <invisible />
+      </genericcontrol>
+      <icon_usepower name="usepower">
+        <anchored>
+          <top offset="2" />
+          <left parent="leftanchor" anchor="right" relation="relative" offset="0" />
+        </anchored>
+        <invisible />
+      </icon_usepower>
+      <counter_power name="counter">
+        <anchored>
+          <top offset="2" />
+          <left parent="leftanchor" anchor="right" relation="relative" offset="0" />
+        </anchored>
+        <invisible />
+      </counter_power>
+      
+<!--       <button_checkbox name="preparedcheck" source="prepared">
+        <anchored width="20" height="20">
+          <top offset="2" />
+          <left parent="leftanchor" anchor="right" relation="relative" offset="0" />
+        </anchored>
+        <invisible />
+      </button_checkbox>
  -->
-			<basicnumber name="prepared">
-				<anchored width="30" height="20">
-					<top offset="2" />
-					<left parent="leftanchor" anchor="right" relation="relative" offset="0" />
-				</anchored>
-				<min>0</min>
-				<tooltip textres="power_tooltip_prepared" />
-				<invisible />
-			</basicnumber>
+      <basicnumber name="prepared">
+        <anchored width="30" height="20">
+          <top offset="2" />
+          <left parent="leftanchor" anchor="right" relation="relative" offset="0" />
+        </anchored>
+        <min>0</min>
+        <tooltip textres="power_tooltip_prepared" />
+        <invisible />
+      </basicnumber>
             
-			<cycler_power_useperiod name="usesperiod">
-				<anchored>
-					<top offset="2" />
-					<left parent="leftanchor" anchor="right" relation="relative" offset="10" />
-				</anchored>
-				<invisible />
-			</cycler_power_useperiod>
+      <cycler_power_useperiod name="usesperiod">
+        <anchored>
+          <top offset="2" />
+          <left parent="leftanchor" anchor="right" relation="relative" offset="10" />
+        </anchored>
+        <invisible />
+      </cycler_power_useperiod>
 
             <!-- spell name -->
-			<string_power name="name">
-				<anchored>
-					<top offset="2" />
-					<left parent="leftanchor" anchor="right" relation="relative" offset="10" />
-					<right anchor="center" offset="0" />
-				</anchored>
-				<multilinespacing>20</multilinespacing>
-				<empty textres="library_recordtype_empty_spell" />
-				<delaykeyupdate />
-				<script>
-					function onDoubleClick(x, y)
-						window.parentcontrol.window.usePower(true);
-						return true;
-					end
-				</script>
-			</string_power>
+      <string_power name="name">
+        <anchored>
+          <top offset="2" />
+          <left parent="leftanchor" anchor="right" relation="relative" offset="10" />
+          <right anchor="center" offset="0" />
+        </anchored>
+        <multilinespacing>20</multilinespacing>
+        <empty textres="library_recordtype_empty_spell" />
+        <delaykeyupdate />
+        <script>
+          function onDoubleClick(x, y)
+            window.parentcontrol.window.usePower(true);
+            return true;
+          end
+        </script>
+      </string_power>
 
-			<genericcontrol name="rightanchor">
-				<anchored position="insidetopright" width="0" height="0" />
-			</genericcontrol>
+      <genericcontrol name="rightanchor">
+        <anchored position="insidetopright" width="0" height="0" />
+      </genericcontrol>
             
-			<string_power name="group">
-				<anchored>
-					<top offset="2" />
-					<left parent="name" anchor="right" offset="10" />
-					<right parent="rightanchor" anchor="left" relation="relative" offset="-5" />
-				</anchored>
-				<tooltip textres="power_tooltip_group" />
-				<delaykeyupdate />
-			</string_power>
+      <string_power name="group">
+        <anchored>
+          <top offset="2" />
+          <left parent="name" anchor="right" offset="10" />
+          <right parent="rightanchor" anchor="left" relation="relative" offset="-5" />
+        </anchored>
+        <tooltip textres="power_tooltip_group" />
+        <delaykeyupdate />
+      </string_power>
             
       <number_power_init name="castinitiative">
         <tooltip textres="power_label_initiative_tooltip" />
@@ -392,7 +392,7 @@
       </number_power_init>
       
       <memorize_remove name="memorization_remove" />
- 			<basicnumber name="memorizedcount" source="memorized">
+       <basicnumber name="memorizedcount" source="memorized">
         <anchored to="name" width="23" height="18">
           <top offset="2"/>
           <left anchor="right" relation="relative" offset="0" />
@@ -400,10 +400,10 @@
         <readonly />
         <invisible />
         <tooltip textres="power_label_memorizecount_tooltip" />
-			</basicnumber> 
+      </basicnumber> 
       <memorize_add name="memorization_add" />
       
-  		<!-- hide spell button when all memorizations used -->
+      <!-- hide spell button when all memorizations used -->
       <button_powermemorize name="hidespellbutton">
         <script>
           function onInit()
@@ -443,223 +443,223 @@
         <icon normal="button_dialog_cancel" pressed="button_dialog_cancel_down" />
       </button_powermemorize>
 
-			<windowlist name="actionsmini">
-				<anchored to="name" >
-					<top offset="0"/>
-					<left anchor="right" relation="relative" offset="5" />
+      <windowlist name="actionsmini">
+        <anchored to="name" >
+          <top offset="0"/>
+          <left anchor="right" relation="relative" offset="5" />
           <right parent="rightanchor" anchor="left" relation="relative" offset="-5" /> 
-				</anchored>
+        </anchored>
         <datasource>.actions</datasource>
-				<class>power_action_mini</class>
-				<noscroll />
-				<readonly />
-				<columns width="25" fillwidth="true" /> 
+        <class>power_action_mini</class>
+        <noscroll />
+        <readonly />
+        <columns width="25" fillwidth="true" /> 
         <child></child>
         <child><backcolor>1A40301E</backcolor></child>
-				<invisible />
-			</windowlist>
+        <invisible />
+      </windowlist>
 
-			<string_power name="shortdescription">
-				<anchored>
-					<top offset="2" />
-					<left parent="name" anchor="right" offset="10" />
-					<right parent="rightanchor" anchor="left" relation="relative" offset="-5" />
-				</anchored>
-				<tooltip textres="power_tooltip_summary" />
-				<invisible />
-			</string_power>
-		</sheetdata>
-	</windowclass>
-	
-	<windowclass name="power_item">
-		<margins control="0,0,0,2" />
-		<script file="campaign/scripts/power_item.lua" />
-		<sheetdata>
-			<hs name="group" />
-			<hn name="level" />
-			<hs name="type" />
-			<hs name="name" />
-			<hn name="cast" />
-			<hn name="prepared" />
-			<hs name="usesperiod" />
-			
-			<genericcontrol name="rightanchor">
-				<anchored height="0" width="0">
-					<top offset="2" />
-					<right />
-				</anchored>
-			</genericcontrol>
-			<linkcontrol name="shortcut">
-				<anchored to="rightanchor" width="20" height="20">
-					<top />
-					<right anchor="left" relation="relative" offset="-5" />
-				</anchored>
-				<class>power</class>
-				<readonly />
-			</linkcontrol>
-			<button_idelete name="idelete">
-				<anchored to="rightanchor">
-					<top />
-					<right anchor="left" offset="-5" />
-				</anchored>
-			</button_idelete>
-			<button_toggledetail name="activatedetail">
-				<anchored to="rightanchor">
-					<top />
-					<right anchor="left" relation="relative" offset="0" />
-				</anchored>
-				<invisible />
-				<script>
-					function onInit()
-						local node = window.getDatabaseNode();
-						DB.addHandler(DB.getPath(node, "actions"), "onChildAdded", update);
-						DB.addHandler(DB.getPath(node, "actions"), "onChildDeleted", update);
-						local bShow = (DB.getChildCount(window.getDatabaseNode(), "actions") > 0);
-						setVisible(bShow);
-					end
-					
-					function onClose()
-						local node = window.getDatabaseNode();
-						DB.removeHandler(DB.getPath(node, "actions"), "onChildAdded", update);
-						DB.removeHandler(DB.getPath(node, "actions"), "onChildDeleted", update);
-					end
-					
-					function update()
-						if DB.getChildCount(window.getDatabaseNode(), "actions") > 0 then
-							setValue(0);
-							setVisible(true);
-						else
+      <string_power name="shortdescription">
+        <anchored>
+          <top offset="2" />
+          <left parent="name" anchor="right" offset="10" />
+          <right parent="rightanchor" anchor="left" relation="relative" offset="-5" />
+        </anchored>
+        <tooltip textres="power_tooltip_summary" />
+        <invisible />
+      </string_power>
+    </sheetdata>
+  </windowclass>
+  
+  <windowclass name="power_item">
+    <margins control="0,0,0,2" />
+    <script file="campaign/scripts/power_item.lua" />
+    <sheetdata>
+      <hs name="group" />
+      <hn name="level" />
+      <hs name="type" />
+      <hs name="name" />
+      <hn name="cast" />
+      <hn name="prepared" />
+      <hs name="usesperiod" />
+      
+      <genericcontrol name="rightanchor">
+        <anchored height="0" width="0">
+          <top offset="2" />
+          <right />
+        </anchored>
+      </genericcontrol>
+      <linkcontrol name="shortcut">
+        <anchored to="rightanchor" width="20" height="20">
+          <top />
+          <right anchor="left" relation="relative" offset="-5" />
+        </anchored>
+        <class>power</class>
+        <readonly />
+      </linkcontrol>
+      <button_idelete name="idelete">
+        <anchored to="rightanchor">
+          <top />
+          <right anchor="left" offset="-5" />
+        </anchored>
+      </button_idelete>
+      <button_toggledetail name="activatedetail">
+        <anchored to="rightanchor">
+          <top />
+          <right anchor="left" relation="relative" offset="0" />
+        </anchored>
+        <invisible />
+        <script>
+          function onInit()
+            local node = window.getDatabaseNode();
+            DB.addHandler(DB.getPath(node, "actions"), "onChildAdded", update);
+            DB.addHandler(DB.getPath(node, "actions"), "onChildDeleted", update);
+            local bShow = (DB.getChildCount(window.getDatabaseNode(), "actions") > 0);
+            setVisible(bShow);
+          end
+          
+          function onClose()
+            local node = window.getDatabaseNode();
+            DB.removeHandler(DB.getPath(node, "actions"), "onChildAdded", update);
+            DB.removeHandler(DB.getPath(node, "actions"), "onChildDeleted", update);
+          end
+          
+          function update()
+            if DB.getChildCount(window.getDatabaseNode(), "actions") > 0 then
+              setValue(0);
+              setVisible(true);
+            else
               setValue(0);
               setVisible(false);
-						end
-					end
-				</script>
+            end
+          end
+        </script>
         <tooltip textres="char_label_activatedetail_tooltip" />
-			</button_toggledetail>
+      </button_toggledetail>
 
             <!-- spell name/group name, prep count/etc-->
-			<subwindow name="header">
-				<anchored>
-					<top />
-					<left />
-					<right parent="rightanchor" anchor="left" relation="relative" offset="-2" />
-				</anchored>
-				<class>power_item_header</class>
-				<activate />
-				<fastinit />
-			</subwindow>
+      <subwindow name="header">
+        <anchored>
+          <top />
+          <left />
+          <right parent="rightanchor" anchor="left" relation="relative" offset="-2" />
+        </anchored>
+        <class>power_item_header</class>
+        <activate />
+        <fastinit />
+      </subwindow>
 
-			<subwindow name="initiative">
-				<anchored width="90">
-					<top parent="header" anchor="bottom" relation="relative" offset="-2" />
-					<left offset="15" />
-				</anchored>
-				<class>power_initiative</class>
-				<activate />
-				<fastinit />
+      <subwindow name="initiative">
+        <anchored width="90">
+          <top parent="header" anchor="bottom" relation="relative" offset="-2" />
+          <left offset="15" />
+        </anchored>
+        <class>power_initiative</class>
+        <activate />
+        <fastinit />
                 <invisible />
-			</subwindow>
+      </subwindow>
             
-			<subwindow name="memorization">
-				<anchored to="initiative" position="righthigh" offset="0,0" width="135" />
-				<class>power_memorization</class>
-				<activate />
-				<fastinit />
+      <subwindow name="memorization">
+        <anchored to="initiative" position="righthigh" offset="0,0" width="135" />
+        <class>power_memorization</class>
+        <activate />
+        <fastinit />
         <invisible />
-			</subwindow>
+      </subwindow>
                
-			<list_poweraction name="actions">
-				<anchored>
-					<top parent="header" anchor="bottom" relation="relative" offset="5" />
-					<left offset="10" />
-					<right offset="-10" />
-				</anchored>
-				<invisible />
-			</list_poweraction>
-		</sheetdata>
-	</windowclass>
-	
-	<windowclass name="power_group_header">
-		<margins control="0,2,0,5" />
-		<script file="campaign/scripts/power_group.lua" />
-		<sheetdata>
-			<hsc name="group" />
-			<hnc name="level" />
-			
-			<label_charframetop name="name">
-				<bounds>15,10,-10,20</bounds>
-				<script>
-					function onClickDown()
-						return true;
-					end
-					
-					function onClickRelease()
-						window.onToggle();
-						return true;
-					end
-				</script>
-			</label_charframetop>
+      <list_poweraction name="actions">
+        <anchored>
+          <top parent="header" anchor="bottom" relation="relative" offset="5" />
+          <left offset="10" />
+          <right offset="-10" />
+        </anchored>
+        <invisible />
+      </list_poweraction>
+    </sheetdata>
+  </windowclass>
+  
+  <windowclass name="power_group_header">
+    <margins control="0,2,0,5" />
+    <script file="campaign/scripts/power_group.lua" />
+    <sheetdata>
+      <hsc name="group" />
+      <hnc name="level" />
+      
+      <label_charframetop name="name">
+        <bounds>15,10,-10,20</bounds>
+        <script>
+          function onClickDown()
+            return true;
+          end
+          
+          function onClickRelease()
+            window.onToggle();
+            return true;
+          end
+        </script>
+      </label_charframetop>
 
-			<button_idelete name="idelete">
-				<anchored position="insidetopright" offset="50,10" />
-				<script>
-					function onButtonPress()
-						if getValue() == 0 then
-							window.deleteGroup();
-						end
-					end
-				</script>
-			</button_idelete>
-			
-			<buttoncontrol name="link">
-				<anchored position="insidetopright" offset="27,10" width="20" height="20" />
-				<state icon="details_white" pressed="details_down" />
-				<invisible />
-				<script>
-					local nodeGroup = nil;
-					
-					function setNode(node)
-						nodeGroup = node;
-						if nodeGroup then
-							setVisible(true);
-						else
-							setVisible(false);
-						end
-					end
-					
-					function onButtonPress()
-						local nodeGroup = window.getNode();
-						if nodeGroup then
-							Interface.openWindow("power_groupdetail", nodeGroup);
-						end
-					end
-				</script>
-			</buttoncontrol>
+      <button_idelete name="idelete">
+        <anchored position="insidetopright" offset="50,10" />
+        <script>
+          function onButtonPress()
+            if getValue() == 0 then
+              window.deleteGroup();
+            end
+          end
+        </script>
+      </button_idelete>
+      
+      <buttoncontrol name="link">
+        <anchored position="insidetopright" offset="27,10" width="20" height="20" />
+        <state icon="details_white" pressed="details_down" />
+        <invisible />
+        <script>
+          local nodeGroup = nil;
+          
+          function setNode(node)
+            nodeGroup = node;
+            if nodeGroup then
+              setVisible(true);
+            else
+              setVisible(false);
+            end
+          end
+          
+          function onButtonPress()
+            local nodeGroup = window.getNode();
+            if nodeGroup then
+              Interface.openWindow("power_groupdetail", nodeGroup);
+            end
+          end
+        </script>
+      </buttoncontrol>
 
-			<button_iadd name="iadd">
-				<anchored position="insidetopright" offset="5,10" />
-				<script>
-					function onButtonPress()
-						window.windowlist.window.addGroupPower(window.group.getValue(), window.level.getValue());
-					end
-				</script>
-			</button_iadd>
-		</sheetdata>
-	</windowclass>
-	
+      <button_iadd name="iadd">
+        <anchored position="insidetopright" offset="5,10" />
+        <script>
+          function onButtonPress()
+            window.windowlist.window.addGroupPower(window.group.getValue(), window.level.getValue());
+          end
+        </script>
+      </button_iadd>
+    </sheetdata>
+  </windowclass>
+  
 
-	<windowclass name="power_action_mini">
-		<margins control="0,0,2,2" />
-		<minisheet />
-		<script file="campaign/scripts/power_action_mini.lua" />
-		<sheetdata>
-			<hs name="type" />
-			<button_poweraction_mini name="button" />
-		</sheetdata>
-	</windowclass>
+  <windowclass name="power_action_mini">
+    <margins control="0,0,2,2" />
+    <minisheet />
+    <script file="campaign/scripts/power_action_mini.lua" />
+    <sheetdata>
+      <hs name="type" />
+      <button_poweraction_mini name="button" />
+    </sheetdata>
+  </windowclass>
 
   <windowclass name="power_initiative">
-		<margins control="0,0,2,2" />
+    <margins control="0,0,2,2" />
       <sheetdata>
         <anchor_right />
         <anchor_left />
@@ -670,148 +670,148 @@
             <left anchor="right" relation="relative" offset="5" />
           </anchored>
         </number_power_init>
-			
+      
       <label name="initiativelabel">
-				<anchored to="leftanchor" height="18">
-					<top offset="5"/>
-					<left anchor="right" relation="relative" offset="5" />
-				</anchored>
-				<static textres="power_label_initiative" />
+        <anchored to="leftanchor" height="18">
+          <top offset="5"/>
+          <left anchor="right" relation="relative" offset="5" />
+        </anchored>
+        <static textres="power_label_initiative" />
                 <tooltip textres="power_label_initiative_tooltip" />
-			</label>
+      </label>
       </sheetdata>
     </windowclass>
 
     <windowclass name="power_memorization">
-		<margins control="0,0,2,2" />
+    <margins control="0,0,2,2" />
         <sheetdata>
             <anchor_right />
             <anchor_left />
-			<button_powermemorize name="memorizebutton">
-				<anchored to="leftanchor" height="18">
-					<top offset="5"/>
-					<left anchor="right" relation="relative" offset="2" />
-				</anchored>
+      <button_powermemorize name="memorizebutton">
+        <anchored to="leftanchor" height="18">
+          <top offset="5"/>
+          <left anchor="right" relation="relative" offset="2" />
+        </anchored>
         <tooltip textres="power_label_memorize_tooltip" />
-				<icon normal="button_action_memorize" pressed="button_action_memorize_down" />
-			</button_powermemorize>
-			<label name="memorizelabel">
-				<anchored to="leftanchor"  height="18">
-					<top offset="5"/>
-					<left anchor="right" relation="relative" offset="2" />
-				</anchored>
-				<static textres="power_label_memorize" />
+        <icon normal="button_action_memorize" pressed="button_action_memorize_down" />
+      </button_powermemorize>
+      <label name="memorizelabel">
+        <anchored to="leftanchor"  height="18">
+          <top offset="5"/>
+          <left anchor="right" relation="relative" offset="2" />
+        </anchored>
+        <static textres="power_label_memorize" />
         <tooltip textres="power_label_memorize_tooltip" />
-			</label>
- 			<basicnumber name="memorizedcount" source="memorized">
-				<anchored to="leftanchor" width="25" height="18">
-					<top offset="5"/>
-					<left anchor="right" relation="relative" offset="10" />
-				</anchored>
+      </label>
+       <basicnumber name="memorizedcount" source="memorized">
+        <anchored to="leftanchor" width="25" height="18">
+          <top offset="5"/>
+          <left anchor="right" relation="relative" offset="10" />
+        </anchored>
         <readonly />
         <tooltip textres="power_label_memorizecount_tooltip" />
-			</basicnumber> 
+      </basicnumber> 
         </sheetdata>
     </windowclass>
  
     <!-- cast/heal/damage/save buttons -->
-	<windowclass name="power_action">
-		<margins control="0,0,0,5" />
-		<script file="campaign/scripts/power_action.lua" />
-		<sheetdata>
+  <windowclass name="power_action">
+    <margins control="0,0,0,5" />
+    <script file="campaign/scripts/power_action.lua" />
+    <sheetdata>
       <anchor_right />
       <anchor_left />
             
-			<hn name="order" />
-			<hs name="type">
-				<script>
+      <hn name="order" />
+      <hs name="type">
+        <script>
           function onValueChanged()
-						window.updateDisplay();
-					end
-				</script>
-			</hs>
-			
-			<button_idelete name="idelete">
-				<bounds>-22,3,20,20</bounds>
-			</button_idelete>
-			<!-- CAST -->
-			<button_poweraction name="castbutton">
-        <tooltip textres="power_label_cast_tooltip" />
-				<anchored to="leftanchor" height="18">
-					<top offset="5"/>
-					<left anchor="right" relation="relative" offset="5" />
-				</anchored>
-			</button_poweraction>
+            window.updateDisplay();
+          end
+        </script>
+      </hs>
       
-			<label name="castlabel">
+      <button_idelete name="idelete">
+        <bounds>-22,3,20,20</bounds>
+      </button_idelete>
+      <!-- CAST -->
+      <button_poweraction name="castbutton">
         <tooltip textres="power_label_cast_tooltip" />
-				<anchored to="leftanchor" height="18">
-					<top offset="5"/>
-					<left anchor="right" relation="relative" offset="2" />
-				</anchored>
-				<static textres="power_label_cast" />
-			</label>
+        <anchored to="leftanchor" height="18">
+          <top offset="5"/>
+          <left anchor="right" relation="relative" offset="5" />
+        </anchored>
+      </button_poweraction>
+      
+      <label name="castlabel">
+        <tooltip textres="power_label_cast_tooltip" />
+        <anchored to="leftanchor" height="18">
+          <top offset="5"/>
+          <left anchor="right" relation="relative" offset="2" />
+        </anchored>
+        <static textres="power_label_cast" />
+      </label>
             
-			<button_poweraction name="attackbutton">
+      <button_poweraction name="attackbutton">
         <tooltip textres="power_label_attack_tooltip" />
-				<anchored to="leftanchor" height="18">
-					<top offset="5"/>
-					<left anchor="right" relation="relative" offset="2" />
-				</anchored>
-				<icon normal="button_action_attack" pressed="button_action_attack_down" />
-				<subroll>atk</subroll>
-			</button_poweraction>
-			<label name="attackviewlabel">
+        <anchored to="leftanchor" height="18">
+          <top offset="5"/>
+          <left anchor="right" relation="relative" offset="2" />
+        </anchored>
+        <icon normal="button_action_attack" pressed="button_action_attack_down" />
+        <subroll>atk</subroll>
+      </button_poweraction>
+      <label name="attackviewlabel">
         <tooltip textres="power_label_attack_tooltip" />
-				<anchored to="leftanchor" height="18">
-					<top offset="5"/>
-					<left anchor="right" relation="relative" offset="2" />
-				</anchored>
-				<static textres="power_label_atk" />
-			</label>
-			<string_poweractionview name="attackview">
-				<script>
+        <anchored to="leftanchor" height="18">
+          <top offset="5"/>
+          <left anchor="right" relation="relative" offset="2" />
+        </anchored>
+        <static textres="power_label_atk" />
+      </label>
+      <string_poweractionview name="attackview">
+        <script>
           function onValueChanged()
-						window.updateDisplay();
-					end
-				</script>
-				<anchored to="leftanchor" width="70" height="18">
-					<top offset="5"/>
-					<left anchor="right" relation="relative" offset="5" />
-				</anchored>
-				<subroll>atk</subroll>
-			</string_poweractionview>
+            window.updateDisplay();
+          end
+        </script>
+        <anchored to="leftanchor" width="70" height="18">
+          <top offset="5"/>
+          <left anchor="right" relation="relative" offset="5" />
+        </anchored>
+        <subroll>atk</subroll>
+      </string_poweractionview>
 
-			<button_poweraction name="savebutton">
+      <button_poweraction name="savebutton">
         <tooltip textres="power_label_save_tooltip" />
-				<anchored to="leftanchor" height="18">
-					<top offset="5"/>
-					<left anchor="right" relation="relative" offset="2" />
-				</anchored>
-				<subroll>save</subroll>
-			</button_poweraction>
-			<label name="saveviewlabel">
+        <anchored to="leftanchor" height="18">
+          <top offset="5"/>
+          <left anchor="right" relation="relative" offset="2" />
+        </anchored>
+        <subroll>save</subroll>
+      </button_poweraction>
+      <label name="saveviewlabel">
         <tooltip textres="power_label_save_tooltip" />
-				<anchored to="leftanchor" height="18">
-					<top offset="5"/>
-					<left anchor="right" relation="relative" offset="2" />
-				</anchored>
-				<static textres="power_label_save" />
-			</label>
-			<string_poweractionview name="saveview">
-				<script>
+        <anchored to="leftanchor" height="18">
+          <top offset="5"/>
+          <left anchor="right" relation="relative" offset="2" />
+        </anchored>
+        <static textres="power_label_save" />
+      </label>
+      <string_poweractionview name="saveview">
+        <script>
           function onValueChanged()
-						window.updateDisplay();
-					end
-				</script>
-				<anchored to="leftanchor" width="70" height="18">
-					<top offset="5"/>
-					<left anchor="right" relation="relative" offset="5" />
-				</anchored>
-				<subroll>save</subroll>
-			</string_poweractionview>
+            window.updateDisplay();
+          end
+        </script>
+        <anchored to="leftanchor" width="70" height="18">
+          <top offset="5"/>
+          <left anchor="right" relation="relative" offset="5" />
+        </anchored>
+        <subroll>save</subroll>
+      </string_poweractionview>
             
-			<!-- hide spell button un-memorize -->
+      <!-- hide spell button un-memorize -->
       <button_powermemorize name="hidespellbutton">
           <anchored to="leftanchor" height="18">
             <top offset="5"/>
@@ -825,732 +825,732 @@
             end
           </script>
       </button_powermemorize>
-			<label name="hidespelllabel">
-				<anchored to="leftanchor" height="18">
-					<top offset="5"/>
-					<left anchor="right" relation="relative" offset="2" />
-				</anchored>
-				<static textres="power_label_hidespell" />
+      <label name="hidespelllabel">
+        <anchored to="leftanchor" height="18">
+          <top offset="5"/>
+          <left anchor="right" relation="relative" offset="2" />
+        </anchored>
+        <static textres="power_label_hidespell" />
         <tooltip textres="power_label_hidespell_tooltip" />
-			</label>
+      </label>
 
-			<button_poweractioneditor name="castdetail">
-				<editor>power_cast_editor</editor>
-			</button_poweractioneditor>
-	
+      <button_poweractioneditor name="castdetail">
+        <editor>power_cast_editor</editor>
+      </button_poweractioneditor>
+  
             
-			<!-- DAMAGE -->
-			<button_poweraction name="damagebutton">
-				<!-- <anchored position="insidetopleft" offset="2,2" /> -->
-				<anchored to="leftanchor" height="18">
-					<top offset="5"/>
-					<left anchor="right" relation="relative" offset="5" />
-				</anchored>
-				<icon normal="button_action_damage" pressed="button_action_damage_down" />
-			</button_poweraction>
-			<label name="damagelabel">
-				<anchored to="damagebutton" position="righthigh" offset="5,0" width="35" />
-				<static textres="power_label_dmg" />
-			</label>
-			<string_poweractionview name="damageview">
-				<anchored to="damagelabel" position="righthigh" offset="20,0">
-					<right parent="" offset="-55" />
-				</anchored>
-			</string_poweractionview>
-			<button_poweractioneditor name="damagedetail">
-				<editor>power_damage_editor</editor>
-			</button_poweractioneditor>
+      <!-- DAMAGE -->
+      <button_poweraction name="damagebutton">
+        <!-- <anchored position="insidetopleft" offset="2,2" /> -->
+        <anchored to="leftanchor" height="18">
+          <top offset="5"/>
+          <left anchor="right" relation="relative" offset="5" />
+        </anchored>
+        <icon normal="button_action_damage" pressed="button_action_damage_down" />
+      </button_poweraction>
+      <label name="damagelabel">
+        <anchored to="damagebutton" position="righthigh" offset="5,0" width="35" />
+        <static textres="power_label_dmg" />
+      </label>
+      <string_poweractionview name="damageview">
+        <anchored to="damagelabel" position="righthigh" offset="20,0">
+          <right parent="" offset="-55" />
+        </anchored>
+      </string_poweractionview>
+      <button_poweractioneditor name="damagedetail">
+        <editor>power_damage_editor</editor>
+      </button_poweractioneditor>
 
-			<!-- DAMAGE PSP-->
-			<button_poweraction name="damagepspbutton">
-				<anchored to="leftanchor" height="18">
-					<top offset="5"/>
-					<left anchor="right" relation="relative" offset="5" />
-				</anchored>
-				<icon normal="button_action_damage_psp" pressed="button_action_damage_down_psp" />
-			</button_poweraction>
-			<label name="damagepsplabel">
-				<anchored to="damagepspbutton" position="righthigh" offset="5,0" width="55" />
-				<static text="PSP Dmg" />
-			</label>
-			<string_poweractionview name="damagepspview">
-				<anchored to="damagepsplabel" position="righthigh" offset="20,0">
-					<right parent="" offset="-55" />
-				</anchored>
-			</string_poweractionview>
-			<button_poweractioneditor name="damagepspdetail">
-				<editor>power_damage_psp_editor</editor>
-			</button_poweractioneditor>
+      <!-- DAMAGE PSP-->
+      <button_poweraction name="damagepspbutton">
+        <anchored to="leftanchor" height="18">
+          <top offset="5"/>
+          <left anchor="right" relation="relative" offset="5" />
+        </anchored>
+        <icon normal="button_action_damage_psp" pressed="button_action_damage_down_psp" />
+      </button_poweraction>
+      <label name="damagepsplabel">
+        <anchored to="damagepspbutton" position="righthigh" offset="5,0" width="55" />
+        <static text="PSP Dmg" />
+      </label>
+      <string_poweractionview name="damagepspview">
+        <anchored to="damagepsplabel" position="righthigh" offset="20,0">
+          <right parent="" offset="-55" />
+        </anchored>
+      </string_poweractionview>
+      <button_poweractioneditor name="damagepspdetail">
+        <editor>power_damage_psp_editor</editor>
+      </button_poweractioneditor>
       
-			<!-- HEAL -->
-			<button_poweraction name="healbutton">
-				<!-- <anchored position="insidetopleft" offset="2,2" /> -->
-				<anchored to="leftanchor" height="18">
-					<top offset="5"/>
-					<left anchor="right" relation="relative" offset="5" />
-				</anchored>
-				<icon normal="button_action_heal" pressed="button_action_heal_down" />
-			</button_poweraction>
-			<label name="heallabel">
-				<anchored to="healbutton" position="righthigh" offset="5,0" width="35" />
-				<static textres="power_label_heal" />
-			</label>
-			<string_poweractionview name="healview">
-				<anchored to="heallabel" position="righthigh" offset="20,0">
-					<right parent="" offset="-55" />
-				</anchored>
-			</string_poweractionview>
-			<button_poweractioneditor name="healdetail">
-				<editor>power_heal_editor</editor>
-			</button_poweractioneditor>
+      <!-- HEAL -->
+      <button_poweraction name="healbutton">
+        <!-- <anchored position="insidetopleft" offset="2,2" /> -->
+        <anchored to="leftanchor" height="18">
+          <top offset="5"/>
+          <left anchor="right" relation="relative" offset="5" />
+        </anchored>
+        <icon normal="button_action_heal" pressed="button_action_heal_down" />
+      </button_poweraction>
+      <label name="heallabel">
+        <anchored to="healbutton" position="righthigh" offset="5,0" width="35" />
+        <static textres="power_label_heal" />
+      </label>
+      <string_poweractionview name="healview">
+        <anchored to="heallabel" position="righthigh" offset="20,0">
+          <right parent="" offset="-55" />
+        </anchored>
+      </string_poweractionview>
+      <button_poweractioneditor name="healdetail">
+        <editor>power_heal_editor</editor>
+      </button_poweractioneditor>
 
-			<!-- HEAL PSP -->
-			<button_poweraction name="healpspbutton">
-				<!-- <anchored position="insidetopleft" offset="2,2" /> -->
-				<anchored to="leftanchor" height="18">
-					<top offset="5"/>
-					<left anchor="right" relation="relative" offset="5" />
-				</anchored>
-				<icon normal="button_action_heal_psp" pressed="button_action_heal_down_psp" />
-			</button_poweraction>
-			<label name="healpsplabel">
-				<anchored to="healpspbutton" position="righthigh" offset="5,0" width="55" />
-				<static text="PSP Heal" />
-			</label>
-			<string_poweractionview name="healpspview">
-				<anchored to="healpsplabel" position="righthigh" offset="20,0">
-					<right parent="" offset="-55" />
-				</anchored>
-			</string_poweractionview>
-			<button_poweractioneditor name="healpspdetail">
-				<editor>power_heal_psp_editor</editor>
-			</button_poweractioneditor>
+      <!-- HEAL PSP -->
+      <button_poweraction name="healpspbutton">
+        <!-- <anchored position="insidetopleft" offset="2,2" /> -->
+        <anchored to="leftanchor" height="18">
+          <top offset="5"/>
+          <left anchor="right" relation="relative" offset="5" />
+        </anchored>
+        <icon normal="button_action_heal_psp" pressed="button_action_heal_down_psp" />
+      </button_poweraction>
+      <label name="healpsplabel">
+        <anchored to="healpspbutton" position="righthigh" offset="5,0" width="55" />
+        <static text="PSP Heal" />
+      </label>
+      <string_poweractionview name="healpspview">
+        <anchored to="healpsplabel" position="righthigh" offset="20,0">
+          <right parent="" offset="-55" />
+        </anchored>
+      </string_poweractionview>
+      <button_poweractioneditor name="healpspdetail">
+        <editor>power_heal_psp_editor</editor>
+      </button_poweractioneditor>
 
-			<!-- EFFECT -->
-			<button_poweraction name="effectbutton">
-				<!-- <anchored position="insidetopleft" offset="2,2" /> -->
-				<anchored to="leftanchor" height="18">
-					<top offset="5"/>
-					<left anchor="right" relation="relative" offset="5" />
-				</anchored>
-				<icon normal="button_action_effect" pressed="button_action_effect_down" />
-			</button_poweraction>
-			<label name="effectlabel">
-				<anchored to="effectbutton" position="righthigh" offset="5,0" width="35" />
-				<static textres="power_label_effect" />
-			</label>
-			<string_poweractionview name="effectview">
-				<anchored to="effectbutton" position="righthigh" offset="60,0">
-					<right parent="" offset="-115" />
-				</anchored>
-			</string_poweractionview>
-			<string_poweractionview name="durationview">
-				<anchored to="effectview" position="righthigh" offset="10,0" width="50" />
-			</string_poweractionview>
-			<button_poweractioneditor name="effectdetail">
-				<editor>power_effect_editor</editor>
-			</button_poweractioneditor>
-		</sheetdata>
-	</windowclass>
+      <!-- EFFECT -->
+      <button_poweraction name="effectbutton">
+        <!-- <anchored position="insidetopleft" offset="2,2" /> -->
+        <anchored to="leftanchor" height="18">
+          <top offset="5"/>
+          <left anchor="right" relation="relative" offset="5" />
+        </anchored>
+        <icon normal="button_action_effect" pressed="button_action_effect_down" />
+      </button_poweraction>
+      <label name="effectlabel">
+        <anchored to="effectbutton" position="righthigh" offset="5,0" width="35" />
+        <static textres="power_label_effect" />
+      </label>
+      <string_poweractionview name="effectview">
+        <anchored to="effectbutton" position="righthigh" offset="60,0">
+          <right parent="" offset="-115" />
+        </anchored>
+      </string_poweractionview>
+      <string_poweractionview name="durationview">
+        <anchored to="effectview" position="righthigh" offset="10,0" width="50" />
+      </string_poweractionview>
+      <button_poweractioneditor name="effectdetail">
+        <editor>power_effect_editor</editor>
+      </button_poweractioneditor>
+    </sheetdata>
+  </windowclass>
 
-	<windowclass name="power_groupdetail">
-		<margins control="30,0,0,0" />
-		<frame>charsheethelper</frame>
-		<placement>
-			<size width="430" height="290" />
-		</placement>
-		<nodelete />
-		<playercontrol />
-		<script file="campaign/scripts/power_groupdetail.lua" />
-		<sheetdata>
-			<windowtitlebar_char name="title">
-				<prefix>power_groupdetail_title</prefix>
-			</windowtitlebar_char>
-			<anchor_title_charsheethelper name="contentanchor" />
+  <windowclass name="power_groupdetail">
+    <margins control="30,0,0,0" />
+    <frame>charsheethelper</frame>
+    <placement>
+      <size width="430" height="290" />
+    </placement>
+    <nodelete />
+    <playercontrol />
+    <script file="campaign/scripts/power_groupdetail.lua" />
+    <sheetdata>
+      <windowtitlebar_char name="title">
+        <prefix>power_groupdetail_title</prefix>
+      </windowtitlebar_char>
+      <anchor_title_charsheethelper name="contentanchor" />
 
-			<anchor_column name="columnanchor">
-				<anchored to="contentanchor" position="below" offset="0,-5" />
-			</anchor_column>
-			
-			<label_column name="name_label">
-				<static textres="power_label_groupname" />
-			</label_column>
-			<string_column name="name">
-				<anchored>
-					<right offset="-35" />
-				</anchored>
-				<delaykeyupdate />
-			</string_column>
-			
-			<label_column name="castertype_label">
-				<static textres="power_label_grouptype" />
-			</label_column>
-			<button_grouptype>
-				<anchored>
-					<top parent="columnanchor" anchor="bottom" relation="relative" offset="7" />
-					<left offset="97" />
-				</anchored>
-			</button_grouptype>
-			
-			<line_column>
-				<anchored>
-					<right offset="-30" />
-				</anchored>
-			</line_column>
+      <anchor_column name="columnanchor">
+        <anchored to="contentanchor" position="below" offset="0,-5" />
+      </anchor_column>
+      
+      <label_column name="name_label">
+        <static textres="power_label_groupname" />
+      </label_column>
+      <string_column name="name">
+        <anchored>
+          <right offset="-35" />
+        </anchored>
+        <delaykeyupdate />
+      </string_column>
+      
+      <label_column name="castertype_label">
+        <static textres="power_label_grouptype" />
+      </label_column>
+      <button_grouptype>
+        <anchored>
+          <top parent="columnanchor" anchor="bottom" relation="relative" offset="7" />
+          <left offset="97" />
+        </anchored>
+      </button_grouptype>
+      
+      <line_column>
+        <anchored>
+          <right offset="-30" />
+        </anchored>
+      </line_column>
 
-			<label_column name="groupstat_label">
-				<static textres="power_label_groupstat" />
-			</label_column>
-			<cycler_ability name="stat">
-				<anchored width="30" height="20">
-					<top parent="columnanchor" anchor="bottom" relation="relative" offset="7" />
-					<left offset="97" />
-				</anchored>
-			</cycler_ability>
-			
-			<label_column name="groupatk_label">
-				<static textres="power_label_groupatk" />
-			</label_column>
-			<cycler_abilitybase name="atkstat">
-				<anchored width="30" height="20">
-					<top parent="columnanchor" anchor="bottom" relation="relative" offset="7" />
-					<left offset="97" />
-				</anchored>
-			</cycler_abilitybase>
-			<label name="label_atkplus">
-				<anchored to="atkstat" position="righthigh" offset="5,0" width="10" />
-				<static>+</static>
-				<center />
-			</label>
-<!-- 			<button_prof name="atkprof">
-				<anchored to="label_atkplus" position="righthigh" offset="0,0" height="20" width="20" />
-				<default>1</default>
-			</button_prof>
-			<label name="label_atkplus2">
-				<anchored to="atkprof" position="righthigh" offset="0,0" width="10" />
-				<static>+</static>
-				<center />
-			</label> -->
-			<basicnumber name="atkmod">
-				<anchored to="label_atkplus" position="righthigh" offset="5,0" width="25" height="20" />
-				<hideonvalue value="0" />
-			</basicnumber>
+      <label_column name="groupstat_label">
+        <static textres="power_label_groupstat" />
+      </label_column>
+      <cycler_ability name="stat">
+        <anchored width="30" height="20">
+          <top parent="columnanchor" anchor="bottom" relation="relative" offset="7" />
+          <left offset="97" />
+        </anchored>
+      </cycler_ability>
+      
+      <label_column name="groupatk_label">
+        <static textres="power_label_groupatk" />
+      </label_column>
+      <cycler_abilitybase name="atkstat">
+        <anchored width="30" height="20">
+          <top parent="columnanchor" anchor="bottom" relation="relative" offset="7" />
+          <left offset="97" />
+        </anchored>
+      </cycler_abilitybase>
+      <label name="label_atkplus">
+        <anchored to="atkstat" position="righthigh" offset="5,0" width="10" />
+        <static>+</static>
+        <center />
+      </label>
+<!--       <button_prof name="atkprof">
+        <anchored to="label_atkplus" position="righthigh" offset="0,0" height="20" width="20" />
+        <default>1</default>
+      </button_prof>
+      <label name="label_atkplus2">
+        <anchored to="atkprof" position="righthigh" offset="0,0" width="10" />
+        <static>+</static>
+        <center />
+      </label> -->
+      <basicnumber name="atkmod">
+        <anchored to="label_atkplus" position="righthigh" offset="5,0" width="25" height="20" />
+        <hideonvalue value="0" />
+      </basicnumber>
 
-<!-- 			<label_column name="groupsave_label">
-				<static textres="power_label_groupsave" />
-			</label_column>
-			<label name="groupsavebase_label">
-				<anchored height="20">
-					<top parent="columnanchor" anchor="bottom" relation="relative" offset="7" />
-					<left offset="97" />
-				</anchored>
-				<static>8 +</static>
-			</label>
-			<cycler_group_dc name="savestat">
-				<anchored to="groupsavebase_label" position="righthigh" offset="10,0" height="20" width="30" />
-			</cycler_group_dc>
-			<label name="label_saveplus">
-				<anchored to="savestat" position="righthigh" offset="5,0" width="10" />
-				<static>+</static>
-				<center />
-			</label>
-			<button_prof name="saveprof">
-				<anchored to="label_saveplus" position="righthigh" offset="0,0" height="20" width="20" />
-				<default>1</default>
-			</button_prof>
-			<label name="label_saveplus2">
-				<anchored to="saveprof" position="righthigh" offset="0,0" width="10" />
-				<static>+</static>
-				<center />
-			</label>
-			<basicnumber name="savemod">
-				<anchored to="label_saveplus2" position="righthigh" offset="5,0" width="25" height="20" />
-				<hideonvalue value="0" />
-			</basicnumber>
+<!--       <label_column name="groupsave_label">
+        <static textres="power_label_groupsave" />
+      </label_column>
+      <label name="groupsavebase_label">
+        <anchored height="20">
+          <top parent="columnanchor" anchor="bottom" relation="relative" offset="7" />
+          <left offset="97" />
+        </anchored>
+        <static>8 +</static>
+      </label>
+      <cycler_group_dc name="savestat">
+        <anchored to="groupsavebase_label" position="righthigh" offset="10,0" height="20" width="30" />
+      </cycler_group_dc>
+      <label name="label_saveplus">
+        <anchored to="savestat" position="righthigh" offset="5,0" width="10" />
+        <static>+</static>
+        <center />
+      </label>
+      <button_prof name="saveprof">
+        <anchored to="label_saveplus" position="righthigh" offset="0,0" height="20" width="20" />
+        <default>1</default>
+      </button_prof>
+      <label name="label_saveplus2">
+        <anchored to="saveprof" position="righthigh" offset="0,0" width="10" />
+        <static>+</static>
+        <center />
+      </label>
+      <basicnumber name="savemod">
+        <anchored to="label_saveplus2" position="righthigh" offset="5,0" width="25" height="20" />
+        <hideonvalue value="0" />
+      </basicnumber>
  -->
-			<line_column>
-				<anchored>
-					<right offset="-30" />
-				</anchored>
-			</line_column>
+      <line_column>
+        <anchored>
+          <right offset="-30" />
+        </anchored>
+      </line_column>
 
-			<label_column name="groupuses_label">
-				<static textres="power_label_groupuses" />
-			</label_column>
-			<basicnumber name="uses">
-				<anchored width="20" height="20">
-					<top parent="columnanchor" anchor="bottom" relation="relative" offset="7" />
-					<left offset="97" />
-				</anchored>
-				<hideonvalue>0</hideonvalue>
-			</basicnumber>
-			<cycler_power_useperiod name="usesperiod">
-				<anchored to="uses">
-					<top />
-					<left anchor="right" offset="10" />
-				</anchored>
-			</cycler_power_useperiod>
+      <label_column name="groupuses_label">
+        <static textres="power_label_groupuses" />
+      </label_column>
+      <basicnumber name="uses">
+        <anchored width="20" height="20">
+          <top parent="columnanchor" anchor="bottom" relation="relative" offset="7" />
+          <left offset="97" />
+        </anchored>
+        <hideonvalue>0</hideonvalue>
+      </basicnumber>
+      <cycler_power_useperiod name="usesperiod">
+        <anchored to="uses">
+          <top />
+          <left anchor="right" offset="10" />
+        </anchored>
+      </cycler_power_useperiod>
 
-			<label_column name="groupprepared_label">
-				<static textres="power_label_groupprepared" />
-			</label_column>
-			<basicnumber name="prepared">
-				<anchored width="20" height="20">
-					<top parent="columnanchor" anchor="bottom" relation="relative" offset="7" />
-					<left offset="97" />
-				</anchored>
-				<hideonvalue>0</hideonvalue>
-			</basicnumber>
-			
-			<close_charsheethelper />
-		</sheetdata>
-	</windowclass>
-	
-	<windowclass name="power">
-		<frame>recordsheet</frame>
-		<placement>
-			<size width="350" height="350" />
-		</placement>
-		<sizelimits>
-			<minimum width="300" height="300" />
-			<dynamic />
-		</sizelimits>
-		<minimize>minimized_reference</minimize>
-		<tooltip field="name" />
-		<script>
-			function onLockChanged()
-				if header.subwindow then
-					header.subwindow.update();
-				end
-				if contents.subwindow then
-					contents.subwindow.update();
-				end
-			end
-		</script>
-		<sheetdata>
+      <label_column name="groupprepared_label">
+        <static textres="power_label_groupprepared" />
+      </label_column>
+      <basicnumber name="prepared">
+        <anchored width="20" height="20">
+          <top parent="columnanchor" anchor="bottom" relation="relative" offset="7" />
+          <left offset="97" />
+        </anchored>
+        <hideonvalue>0</hideonvalue>
+      </basicnumber>
+      
+      <close_charsheethelper />
+    </sheetdata>
+  </windowclass>
+  
+  <windowclass name="power">
+    <frame>recordsheet</frame>
+    <placement>
+      <size width="350" height="350" />
+    </placement>
+    <sizelimits>
+      <minimum width="300" height="300" />
+      <dynamic />
+    </sizelimits>
+    <minimize>minimized_reference</minimize>
+    <tooltip field="name" />
+    <script>
+      function onLockChanged()
+        if header.subwindow then
+          header.subwindow.update();
+        end
+        if contents.subwindow then
+          contents.subwindow.update();
+        end
+      end
+    </script>
+    <sheetdata>
             
-			<sub_record_header name="header">
-				<class>power_header</class>
-			</sub_record_header>
+      <sub_record_header name="header">
+        <class>power_header</class>
+      </sub_record_header>
 
-			<frame_record_content name="contentframe" />
+      <frame_record_content name="contentframe" />
             
-			<subwindow_record name="contents">
-				<class>power_stats</class>
-				<activate />
-			</subwindow_record>
+      <subwindow_record name="contents">
+        <class>power_stats</class>
+        <activate />
+      </subwindow_record>
 
-			<subwindow_record name="spellactions">
-				<class>power_item_spellrecord</class>
-			</subwindow_record>
+      <subwindow_record name="spellactions">
+        <class>power_item_spellrecord</class>
+      </subwindow_record>
             
-			<scrollbar_record_power>
-				<target>contents</target>
-			</scrollbar_record_power>
-			<scrollbar_record_power>
-				<target>spellactions</target>
-			</scrollbar_record_power>
+      <scrollbar_record_power>
+        <target>contents</target>
+      </scrollbar_record_power>
+      <scrollbar_record_power>
+        <target>spellactions</target>
+      </scrollbar_record_power>
 
-			<tabs_recordsheet>
-				<tab>
-					<icon>tab_main</icon>
-					<subwindow>contents</subwindow>
-				</tab>
+      <tabs_recordsheet>
+        <tab>
+          <icon>tab_main</icon>
+          <subwindow>contents</subwindow>
+        </tab>
         <tab>
           <icon>tab_actions</icon>
           <subwindow>spellactions</subwindow>
         </tab>
-			</tabs_recordsheet>
-			
-			<resize_recordsheet />
-			<close_recordsheet />
-		</sheetdata>
-	</windowclass>
+      </tabs_recordsheet>
+      
+      <resize_recordsheet />
+      <close_recordsheet />
+    </sheetdata>
+  </windowclass>
 
-	<windowclass name="reference_spell">
-		<frame>recordsheet</frame>
-		<placement>
-			<size width="350" height="350" />
-		</placement>
-		<sizelimits>
-			<minimum width="300" height="300" />
-			<dynamic />
-		</sizelimits>
-		<minimize>minimized_reference</minimize>
-		<tooltip field="name" />
-		<script>
-			function onLockChanged()
-				if header.subwindow then
-					header.subwindow.update();
-				end
-				if contents.subwindow then
-					contents.subwindow.update();
-				end
-			end
-		</script>
-		<sheetdata>
-			<sub_record_header name="header">
-				<class>power_header</class>
-			</sub_record_header>
+  <windowclass name="reference_spell">
+    <frame>recordsheet</frame>
+    <placement>
+      <size width="350" height="350" />
+    </placement>
+    <sizelimits>
+      <minimum width="300" height="300" />
+      <dynamic />
+    </sizelimits>
+    <minimize>minimized_reference</minimize>
+    <tooltip field="name" />
+    <script>
+      function onLockChanged()
+        if header.subwindow then
+          header.subwindow.update();
+        end
+        if contents.subwindow then
+          contents.subwindow.update();
+        end
+      end
+    </script>
+    <sheetdata>
+      <sub_record_header name="header">
+        <class>power_header</class>
+      </sub_record_header>
 
-			<frame_record_content name="contentframe" />
-			<subwindow_record name="contents">
-				<class>power_stats</class>
-				<activate />
-			</subwindow_record>
-			<scrollbar_record>
-				<target>contents</target>
-			</scrollbar_record>
-			
-			<resize_recordsheet />
-			<close_recordsheet />
-		</sheetdata>
-	</windowclass>
+      <frame_record_content name="contentframe" />
+      <subwindow_record name="contents">
+        <class>power_stats</class>
+        <activate />
+      </subwindow_record>
+      <scrollbar_record>
+        <target>contents</target>
+      </scrollbar_record>
+      
+      <resize_recordsheet />
+      <close_recordsheet />
+    </sheetdata>
+  </windowclass>
 
-	<windowclass name="power_header">
-		<margins control="0,0,0,2" />
-		<script>
-			function onInit()
-				update();
-			end
-			function update()
-				local bReadOnly = WindowManager.getReadOnlyState(getDatabaseNode());
-				name.setReadOnly(bReadOnly);
-			end
-		</script>
-		<sheetdata>
-			<link_record_header>
-				<class>power</class>
-			</link_record_header>
-			
-			<anchor_record_header_right name="rightanchor" />
-			<icon_record_locked />
-			<button_record_locked />
+  <windowclass name="power_header">
+    <margins control="0,0,0,2" />
+    <script>
+      function onInit()
+        update();
+      end
+      function update()
+        local bReadOnly = WindowManager.getReadOnlyState(getDatabaseNode());
+        name.setReadOnly(bReadOnly);
+      end
+    </script>
+    <sheetdata>
+      <link_record_header>
+        <class>power</class>
+      </link_record_header>
+      
+      <anchor_record_header_right name="rightanchor" />
+      <icon_record_locked />
+      <button_record_locked />
 
-			<string_record_name name="name">
-				<empty textres="library_recordtype_empty_spell" />
-			</string_record_name>
-			<label_reftype name="reftype">
-				<static textres="ref_type_spell" />
-			</label_reftype>	
-		</sheetdata>
-	</windowclass>
+      <string_record_name name="name">
+        <empty textres="library_recordtype_empty_spell" />
+      </string_record_name>
+      <label_reftype name="reftype">
+        <static textres="ref_type_spell" />
+      </label_reftype>  
+    </sheetdata>
+  </windowclass>
 
 
-	<!-- Spells database view -->
-	<windowclass name="power_stats">
-		<margins control="0,0,20,7" />
-		<script file="campaign/scripts/power_main.lua" />
-		<sheetdata>
-			<anchor_column name="columnanchor" />
+  <!-- Spells database view -->
+  <windowclass name="power_stats">
+    <margins control="0,0,20,7" />
+    <script file="campaign/scripts/power_main.lua" />
+    <sheetdata>
+      <anchor_column name="columnanchor" />
 
-			<label_column name="summary_label">
-				<anchored>
-					<top relation="relative" offset="7" />
-				</anchored>
-				<font>reference-b-large</font>
-			</label_column>
+      <label_column name="summary_label">
+        <anchored>
+          <top relation="relative" offset="7" />
+        </anchored>
+        <font>reference-b-large</font>
+      </label_column>
 
       
-			<label_column name="shortdescription_label">
-				<static textres="ref_label_shortdescription" />
-			</label_column>
-			<string_columnh name="shortdescription" >
-       				<gmeditonly />
+      <label_column name="shortdescription_label">
+        <static textres="ref_label_shortdescription" />
+      </label_column>
+      <string_columnh name="shortdescription" >
+               <gmeditonly />
             </string_columnh>
 
-			<line_column name="divider" />
+      <line_column name="divider" />
 
-			<label_column name="type_label">
+      <label_column name="type_label">
         <script>
           function onValueChanged()
             window.update();
           end
         </script>
-				<static textres="ref_label_type" />
-			</label_column>
-			<string_columnh name="type">
-				<gmeditonly />
+        <static textres="ref_label_type" />
+      </label_column>
+      <string_columnh name="type">
+        <gmeditonly />
         <script>
           function onValueChanged()
             window.update();
           end
         </script>
-			</string_columnh>
-			
-			<label_column name="level_label">
-				<static textres="level" />
-			</label_column>
-			<number_columnh name="level">
-				<gmeditonly />
-				<delaykeyupdate />
-				<script>
-					function onValueChanged()
-						window.onSummaryChanged();
-					end
-				</script>
-			</number_columnh>
+      </string_columnh>
+      
+      <label_column name="level_label">
+        <static textres="level" />
+      </label_column>
+      <number_columnh name="level">
+        <gmeditonly />
+        <delaykeyupdate />
+        <script>
+          function onValueChanged()
+            window.onSummaryChanged();
+          end
+        </script>
+      </number_columnh>
 
-			<label_column name="school_label">
-				<static textres="ref_label_school" />
-			</label_column>
-			<string_columnh name="school">
-				<gmeditonly />
-				<script>
-					function onValueChanged()
-						window.onSummaryChanged();
-					end
-				</script>
-			</string_columnh>
-			
-			<label_column name="sphere_label">
-				<static textres="ref_label_sphere" />
-			</label_column>
-			<string_columnh name="sphere">
-				<gmeditonly />
+      <label_column name="school_label">
+        <static textres="ref_label_school" />
+      </label_column>
+      <string_columnh name="school">
+        <gmeditonly />
+        <script>
+          function onValueChanged()
+            window.onSummaryChanged();
+          end
+        </script>
+      </string_columnh>
+      
+      <label_column name="sphere_label">
+        <static textres="ref_label_sphere" />
+      </label_column>
+      <string_columnh name="sphere">
+        <gmeditonly />
           <script>
             function onValueChanged()
               window.onSummaryChanged();
             end
           </script>
-			</string_columnh>
+      </string_columnh>
 
-			<label_column name="discipline_label">
-				<static textres="ref_label_discipline" />
-			</label_column>
-			<string_columnh name="discipline">
-				<gmeditonly />
+      <label_column name="discipline_label">
+        <static textres="ref_label_discipline" />
+      </label_column>
+      <string_columnh name="discipline">
+        <gmeditonly />
           <script>
             function onValueChanged()
               window.onSummaryChanged();
             end
           </script>
-			</string_columnh>
-
-			<label_column name="disciplinetype_label">
-				<static textres="ref_label_disciplinetype" />
-			</label_column>
-			<string_columnh name="disciplinetype" >
-				<gmeditonly />
       </string_columnh>
 
-			<label_column name="prerequisite_label">
-				<static textres="ref_label_prerequisite" />
-			</label_column>
-			<string_columnh name="prerequisite" >
-				<gmeditonly />
+      <label_column name="disciplinetype_label">
+        <static textres="ref_label_disciplinetype" />
+      </label_column>
+      <string_columnh name="disciplinetype" >
+        <gmeditonly />
+      </string_columnh>
+
+      <label_column name="prerequisite_label">
+        <static textres="ref_label_prerequisite" />
+      </label_column>
+      <string_columnh name="prerequisite" >
+        <gmeditonly />
       </string_columnh>
 
 
-			<line_column name="divider2" />
+      <line_column name="divider2" />
 
-			<label_column name="castingtime_label">
-				<static textres="ref_label_castingtime" />
-			</label_column>
-			<string_columnh name="castingtime" >
-				<gmeditonly />
+      <label_column name="castingtime_label">
+        <static textres="ref_label_castingtime" />
+      </label_column>
+      <string_columnh name="castingtime" >
+        <gmeditonly />
       </string_columnh>
 
-			<label_column name="range_label">
-				<static textres="ref_label_range" />
-			</label_column>
-			<string_columnh name="range" >
-				<gmeditonly />
+      <label_column name="range_label">
+        <static textres="ref_label_range" />
+      </label_column>
+      <string_columnh name="range" >
+        <gmeditonly />
             </string_columnh>
 
-			<label_column name="aoe_label">
-				<tooltip textres="ref_label_aoe_tooltip" />
-				<static textres="ref_label_aoe" />
-			</label_column>
-			<string_columnh name="aoe">
-				<gmeditonly />
-				<tooltip textres="ref_label_aoe_tooltip" />
+      <label_column name="aoe_label">
+        <tooltip textres="ref_label_aoe_tooltip" />
+        <static textres="ref_label_aoe" />
+      </label_column>
+      <string_columnh name="aoe">
+        <gmeditonly />
+        <tooltip textres="ref_label_aoe_tooltip" />
             </string_columnh>
 
-			<label_column name="components_label">
-				<static textres="ref_label_components" />
-			</label_column>
-			<string_columnh name="components" >
-				<gmeditonly />
+      <label_column name="components_label">
+        <static textres="ref_label_components" />
+      </label_column>
+      <string_columnh name="components" >
+        <gmeditonly />
             </string_columnh>
 
-			<label_column name="duration_label">
-				<static textres="ref_label_duration" />
-			</label_column>
-			<string_columnh name="duration" >
-				<gmeditonly />
+      <label_column name="duration_label">
+        <static textres="ref_label_duration" />
+      </label_column>
+      <string_columnh name="duration" >
+        <gmeditonly />
             </string_columnh>
 
-			<label_column name="save_label">
-				<static textres="ref_label_save" />
-			</label_column>
-			<string_columnh name="save" >
-				<gmeditonly />
+      <label_column name="save_label">
+        <static textres="ref_label_save" />
+      </label_column>
+      <string_columnh name="save" >
+        <gmeditonly />
       </string_columnh>
 
-			<label_column name="mac_label">
-				<static textres="ref_label_mac" />
-			</label_column>
-			<number_columnh name="mac" >
-				<gmeditonly />
+      <label_column name="mac_label">
+        <static textres="ref_label_mac" />
+      </label_column>
+      <number_columnh name="mac" >
+        <gmeditonly />
         <default>10</default>
       </number_columnh>
 
-			<label_column name="pspcost_label">
-				<static textres="ref_label_pspcost" />
-			</label_column>
-			<number_columnh name="pspcost" >
-				<gmeditonly />
+      <label_column name="pspcost_label">
+        <static textres="ref_label_pspcost" />
+      </label_column>
+      <number_columnh name="pspcost" >
+        <gmeditonly />
       </number_columnh>
 
-			<label name="pspfail_label">
+      <label name="pspfail_label">
         <anchored to="pspcost" position="insidetopright" offset="-80,0"/>
-				<static textres="ref_label_pspfail" />
-			</label>
-			<number_column_right_adnd name="pspfail" >
+        <static textres="ref_label_pspfail" />
+      </label>
+      <number_column_right_adnd name="pspfail" >
         <anchored to="pspfail_label" />
-				<gmeditonly />
+        <gmeditonly />
       </number_column_right_adnd>
 
-			<ft_columnh name="description" >
-							<gmeditonly />
+      <ft_columnh name="description" >
+              <gmeditonly />
             </ft_columnh>
 
-			<line_column name="divider3" />
-			
-			<label_column name="source_label">
-				<static textres="ref_label_source" />
-			</label_column>
-			<string_columnh name="source" >
-            				<gmeditonly />
+      <line_column name="divider3" />
+      
+      <label_column name="source_label">
+        <static textres="ref_label_source" />
+      </label_column>
+      <string_columnh name="source" >
+                    <gmeditonly />
             </string_columnh>
 
-		</sheetdata>
-	</windowclass>
+    </sheetdata>
+  </windowclass>
     
   <!-- list actions for this spell in the spell record --celestian -->
-	<windowclass name="power_item_spellrecord">
-		<!-- <margins control="0,0,0,2" /> -->
+  <windowclass name="power_item_spellrecord">
+    <!-- <margins control="0,0,0,2" /> -->
     <margins control="0,0,15,7" />
-		<script file="campaign/scripts/power_item.lua" />
-		<sheetdata>
-			<hs name="group" />
-			<hn name="level" />
-			<hs name="type" />
-			<hs name="name" />
-			<hn name="cast" />
-			<hn name="prepared" />
-			<hs name="usesperiod" />
-			
-			<genericcontrol name="rightanchor">
-				<anchored height="0" width="0">
-					<top offset="2" />
-					<right />
-				</anchored>
-			</genericcontrol>
-			<linkcontrol name="shortcut">
-				<anchored to="rightanchor" width="20" height="20">
-					<top />
-					<right anchor="left" relation="relative" offset="-5" />
-				</anchored>
-				<class>power</class>
-				<readonly />
+    <script file="campaign/scripts/power_item.lua" />
+    <sheetdata>
+      <hs name="group" />
+      <hn name="level" />
+      <hs name="type" />
+      <hs name="name" />
+      <hn name="cast" />
+      <hn name="prepared" />
+      <hs name="usesperiod" />
+      
+      <genericcontrol name="rightanchor">
+        <anchored height="0" width="0">
+          <top offset="2" />
+          <right />
+        </anchored>
+      </genericcontrol>
+      <linkcontrol name="shortcut">
+        <anchored to="rightanchor" width="20" height="20">
+          <top />
+          <right anchor="left" relation="relative" offset="-5" />
+        </anchored>
+        <class>power</class>
+        <readonly />
                 <invisible />
-			</linkcontrol>
-			<button_idelete name="idelete">
-				<anchored to="rightanchor">
-					<top />
-					<right anchor="left" offset="-5" />
-				</anchored>
-			</button_idelete>
-			<button_toggledetail name="activatedetail">
-				<anchored to="rightanchor">
-					<top />
-					<right anchor="left" relation="relative" offset="0" />
-				</anchored>
-				<invisible />
-				<script>
-					function onInit()
-						local node = window.getDatabaseNode();
-						DB.addHandler(DB.getPath(node, "actions"), "onChildAdded", update);
-						DB.addHandler(DB.getPath(node, "actions"), "onChildDeleted", update);
+      </linkcontrol>
+      <button_idelete name="idelete">
+        <anchored to="rightanchor">
+          <top />
+          <right anchor="left" offset="-5" />
+        </anchored>
+      </button_idelete>
+      <button_toggledetail name="activatedetail">
+        <anchored to="rightanchor">
+          <top />
+          <right anchor="left" relation="relative" offset="0" />
+        </anchored>
+        <invisible />
+        <script>
+          function onInit()
+            local node = window.getDatabaseNode();
+            DB.addHandler(DB.getPath(node, "actions"), "onChildAdded", update);
+            DB.addHandler(DB.getPath(node, "actions"), "onChildDeleted", update);
                         setValue(1);
-						setVisible(true);
-					end
-					
-					function onClose()
-						local node = window.getDatabaseNode();
-						DB.removeHandler(DB.getPath(node, "actions"), "onChildAdded", update);
-						DB.removeHandler(DB.getPath(node, "actions"), "onChildDeleted", update);
-					end
-					
-					function update()
+            setVisible(true);
+          end
+          
+          function onClose()
+            local node = window.getDatabaseNode();
+            DB.removeHandler(DB.getPath(node, "actions"), "onChildAdded", update);
+            DB.removeHandler(DB.getPath(node, "actions"), "onChildDeleted", update);
+          end
+          
+          function update()
                         setValue(1);
                         setVisible(true);
-					end
-				</script>
-			</button_toggledetail>
+          end
+        </script>
+      </button_toggledetail>
 
             <!-- spell name/group name, prep count/etc-->
-			<subwindow name="header">
-				<anchored>
-					<top />
-					<left />
-					<right parent="rightanchor" anchor="left" relation="relative" offset="-2" />
-				</anchored>
-				<class>power_item_header</class>
-				<activate />
-				<fastinit />
-			</subwindow>
+      <subwindow name="header">
+        <anchored>
+          <top />
+          <left />
+          <right parent="rightanchor" anchor="left" relation="relative" offset="-2" />
+        </anchored>
+        <class>power_item_header</class>
+        <activate />
+        <fastinit />
+      </subwindow>
 
-			<subwindow name="initiative">
-				<anchored width="90">
-					<top parent="header" anchor="bottom" relation="relative" offset="-2" />
-					<left offset="15" />
-				</anchored>
-				<class>power_initiative</class>
-				<activate />
-				<fastinit />
+      <subwindow name="initiative">
+        <anchored width="90">
+          <top parent="header" anchor="bottom" relation="relative" offset="-2" />
+          <left offset="15" />
+        </anchored>
+        <class>power_initiative</class>
+        <activate />
+        <fastinit />
                 <invisible />
-			</subwindow>
+      </subwindow>
             
-			<subwindow name="memorization">
-				<anchored to="initiative" position="righthigh" offset="0,0" width="135" />
-				<class>power_memorization</class>
-				<activate />
-				<fastinit />
+      <subwindow name="memorization">
+        <anchored to="initiative" position="righthigh" offset="0,0" width="135" />
+        <class>power_memorization</class>
+        <activate />
+        <fastinit />
                 <invisible />
-			</subwindow>
-			
-			<list_poweraction name="actions">
-				<anchored>
-					<top parent="header" anchor="bottom" relation="relative" offset="5" />
-					<left offset="10" />
-					<right offset="-10" />
-				</anchored>
-				<invisible />
-			</list_poweraction>
-		</sheetdata>
-	</windowclass>
+      </subwindow>
+      
+      <list_poweraction name="actions">
+        <anchored>
+          <top parent="header" anchor="bottom" relation="relative" offset="5" />
+          <left offset="10" />
+          <right offset="-10" />
+        </anchored>
+        <invisible />
+      </list_poweraction>
+    </sheetdata>
+  </windowclass>
 
   <!-- import power/spell -->
-	<windowclass name="power_import_window">
+  <windowclass name="power_import_window">
     <margins control="2,2,2,2" />
-		<frame>charsheethelper</frame>
-		<placement>
-			<size width="320" height="300" />
-		</placement>
-		<sizelimits>
-			<minimum width="220" height="300" />
-			<dynamic />
-		</sizelimits>
-		<sheetdata>
+    <frame>charsheethelper</frame>
+    <placement>
+      <size width="320" height="300" />
+    </placement>
+    <sizelimits>
+      <minimum width="220" height="300" />
+      <dynamic />
+    </sizelimits>
+    <sheetdata>
       <windowtitlebar name="title">
           <prefix>power_import_window_title</prefix>
           <resource>power_import_window_title</resource>
       </windowtitlebar>
       <anchor_title_charsheethelper name="contentanchor" />
-			<anchor_left />
+      <anchor_left />
       <anchor_right />
       <label_charframetop>
         <anchored>
@@ -1560,30 +1560,30 @@
         </anchored>
         <multilinespacing>20</multilinespacing>
         <static textres="power_import_text_helptext" />
-			</label_charframetop>
+      </label_charframetop>
       <label_charframetop name="importtabletitle">
-				<anchored height="20">
-					<top parent="contentanchor" anchor="bottom" relation="relative" offset="5" />
-					<left offset="35"/>
-					<right offset="-45"/>
-				</anchored>
-				<static textres="power_import_text_title" />
-			</label_charframetop>
+        <anchored height="20">
+          <top parent="contentanchor" anchor="bottom" relation="relative" offset="5" />
+          <left offset="35"/>
+          <right offset="-45"/>
+        </anchored>
+        <static textres="power_import_text_title" />
+      </label_charframetop>
             
-			<subwindow name="contents">
-				<anchored>
-					<top parent="contentanchor" anchor="bottom" relation="relative" offset="0" />
-					<bottom offset="-40" />
-					<left offset="0" />
-					<right offset="-15" />
-				</anchored>
-				<class>power_import_contents</class>
-				<activate />
-				<fastinit />
-			</subwindow>
+      <subwindow name="contents">
+        <anchored>
+          <top parent="contentanchor" anchor="bottom" relation="relative" offset="0" />
+          <bottom offset="-40" />
+          <left offset="0" />
+          <right offset="-15" />
+        </anchored>
+        <class>power_import_contents</class>
+        <activate />
+        <fastinit />
+      </subwindow>
       <scrollbar_charcontents />
             <!-- -->
-			<button_text_sm>
+      <button_text_sm>
       <anchored to="contents" position="belowleft" offset="0,0"  height="20" width="70">
         <left parent="title" anchor="right" offset="-100" />
       </anchored>
@@ -1594,8 +1594,8 @@
           window.close();
         end
       </script>
-				<state textres="power_import_text_button" />
-			</button_text_sm>
+        <state textres="power_import_text_button" />
+      </button_text_sm>
       <close>
         <anchored>
             <top offset="24" />
@@ -1608,14 +1608,14 @@
         <bottom offset="-14" />
       </anchored>
       </resize>
-		</sheetdata>
-	</windowclass>
-	<windowclass name="power_import_contents">
+    </sheetdata>
+  </windowclass>
+  <windowclass name="power_import_contents">
     <margins control="15,15,15,15" />
     <script file="campaign/scripts/power_import.lua" />
-		<sheetdata>
-			<anchor_column name="columnanchor" />
-			<anchor_left />
+    <sheetdata>
+      <anchor_column name="columnanchor" />
+      <anchor_left />
       <anchor_right />
       <stringu name="importtext">
         <anchored>
@@ -1626,7 +1626,7 @@
         <multilinespacing>20</multilinespacing>
       </stringu>
     </sheetdata>
-	</windowclass>
+  </windowclass>
 <!-- end import power/spell -->  
 
     

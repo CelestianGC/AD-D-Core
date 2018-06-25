@@ -6,45 +6,45 @@
 -->
 
 <root>
-	
-	<framedef name="sheetgroup">
-		<bitmap file="graphics/frames/sheetgroup.png" />
-		<offset>18,18,17,17</offset>
-	</framedef>
+  
+  <framedef name="sheetgroup">
+    <bitmap file="graphics/frames/sheetgroup.png" />
+    <offset>18,18,17,17</offset>
+  </framedef>
 
-	<framedef name="abilityfields">
-		<bitmap file="graphics/frames/abilityscore_dark.png" />
-		<offset>7,7,7,7</offset>
-	</framedef>
+  <framedef name="abilityfields">
+    <bitmap file="graphics/frames/abilityscore_dark.png" />
+    <offset>7,7,7,7</offset>
+  </framedef>
 
-	<framedef name="abilityscore_box">
-		<bitmap file="graphics/frames/groupbox.png" />
-		<offset>9,9,9,9</offset>
-	</framedef>
-	
-	<framedef name="shaded_box">
-		<bitmap file="graphics/frames/rowshade.png" />
-		<offset>9,9,9,9</offset>
-	</framedef>
+  <framedef name="abilityscore_box">
+    <bitmap file="graphics/frames/groupbox.png" />
+    <offset>9,9,9,9</offset>
+  </framedef>
+  
+  <framedef name="shaded_box">
+    <bitmap file="graphics/frames/rowshade.png" />
+    <offset>9,9,9,9</offset>
+  </framedef>
 
-	<framedef name="bonus_box">
-		<bitmap file="graphics/frames/bonus.png" />
-		<offset>9,9,9,9</offset>
-	</framedef>
+  <framedef name="bonus_box">
+    <bitmap file="graphics/frames/bonus.png" />
+    <offset>9,9,9,9</offset>
+  </framedef>
 
-	<framedef name="adnd_square">
-		<bitmap file="graphics/frames/adnd_squarebox.png" />
-		<offset>9,9,9,9</offset>
-	</framedef>
+  <framedef name="adnd_square">
+    <bitmap file="graphics/frames/adnd_squarebox.png" />
+    <offset>9,9,9,9</offset>
+  </framedef>
 
-	<framedef name="adnd_rectangle">
-		<bitmap file="graphics/frames/adnd_rectangle.png" />
-		<offset>9,9,9,9</offset>
-	</framedef>
+  <framedef name="adnd_rectangle">
+    <bitmap file="graphics/frames/adnd_rectangle.png" />
+    <offset>9,9,9,9</offset>
+  </framedef>
 
-	<framedef name="adnd_swordicon">
-		<bitmap file="graphics/frames/adnd_sword.png" />
-		<topleft rect="0,0,207,24" />
-	</framedef>
+  <framedef name="adnd_swordicon">
+    <bitmap file="graphics/frames/adnd_sword.png" />
+    <topleft rect="0,0,207,24" />
+  </framedef>
     
 </root>

@@ -8,8 +8,8 @@ function onInit()
   -- or w/o alt and load sheet for token
   Token.onDoubleClick = onDoubleClickADND;
     
-	DB.addHandler("options.DM_SHOW_NPC_EFFECTS", "onUpdate", TokenManager.onOptionChanged);
-	DB.addHandler("options.DM_SHOW_NPC_HEALTHBAR", "onUpdate", TokenManager.onOptionChanged);
+  DB.addHandler("options.DM_SHOW_NPC_EFFECTS", "onUpdate", TokenManager.onOptionChanged);
+  DB.addHandler("options.DM_SHOW_NPC_HEALTHBAR", "onUpdate", TokenManager.onOptionChanged);
 end
 
 function onDoubleClickADND(tokenMap, vImage)
@@ -38,11 +38,11 @@ function onDoubleClickADND(tokenMap, vImage)
         -- end
 --    end    
   if User.isHost() and Input.isAltPressed() then
-		local ctwnd = Interface.findWindow("combattracker_host", "combattracker");
-		if ctwnd then
+    local ctwnd = Interface.findWindow("combattracker_host", "combattracker");
+    if ctwnd then
       local nodeCT = CombatManager.getCTFromToken(tokenMap);
       local sNodeID = nodeCT.getPath();
- 			for k,v in pairs(ctwnd.list.getWindows()) do
+       for k,v in pairs(ctwnd.list.getWindows()) do
         if v.getDatabaseNode().getPath() == sNodeID then 
           ctwnd.list.scrollToWindow(v);
           v.name.setFocus();

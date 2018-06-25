@@ -6,92 +6,92 @@
 -->
 
 <root>
-	
-	<template name="list_editor_grouped">
-		<windowlist name="list">
-			<anchored>
-				<top parent="columnanchor" anchor="bottom" relation="relative" offset="20" />
-				<left />
-				<right />
-			</anchored>
-			<allowdelete />
-			<child></child>
-			<child><backcolor>1A40301E</backcolor></child>
-			<noscroll />
-			<script>
-				function onInit()
-					registerMenuItem(Interface.getString("list_menu_createitem"), "insert", 5);
-				end
-				
-				function onMenuSelection(selection)
-					if selection == 5 then
-						self.addEntry(true);
-					end
-				end
-				
-				function onListChanged()
-					update();
-				end
+  
+  <template name="list_editor_grouped">
+    <windowlist name="list">
+      <anchored>
+        <top parent="columnanchor" anchor="bottom" relation="relative" offset="20" />
+        <left />
+        <right />
+      </anchored>
+      <allowdelete />
+      <child></child>
+      <child><backcolor>1A40301E</backcolor></child>
+      <noscroll />
+      <script>
+        function onInit()
+          registerMenuItem(Interface.getString("list_menu_createitem"), "insert", 5);
+        end
+        
+        function onMenuSelection(selection)
+          if selection == 5 then
+            self.addEntry(true);
+          end
+        end
+        
+        function onListChanged()
+          update();
+        end
 
-				function update()
-					local bEdit = (window.weapon_iedit.getValue() == 1);
-					for _,w in ipairs(getWindows()) do
-						w.idelete.setVisibility(bEdit);
-					end
-				end
-				
-				function addEntry(bFocus)
-					return createWindow();
-				end
-			</script>
-		</windowlist>
-	</template>
+        function update()
+          local bEdit = (window.weapon_iedit.getValue() == 1);
+          for _,w in ipairs(getWindows()) do
+            w.idelete.setVisibility(bEdit);
+          end
+        end
+        
+        function addEntry(bFocus)
+          return createWindow();
+        end
+      </script>
+    </windowlist>
+  </template>
 
-	<template name="sub_charsheet_actions">
-		<subwindow>
-			<anchored to="contentanchor">
-				<!-- <top parent="name" anchor="bottom" offset="2" /> -->
+  <template name="sub_charsheet_actions">
+    <subwindow>
+      <anchored to="contentanchor">
+        <!-- <top parent="name" anchor="bottom" offset="2" /> -->
                 <top />
-				<left />
-				<right />
-				<bottom parent="" offset="-20" />
-			</anchored>
-		</subwindow>
-	</template>
+        <left />
+        <right />
+        <bottom parent="" offset="-20" />
+      </anchored>
+    </subwindow>
+  </template>
 
-	<template name="sub_sheet_actions">
-		<subwindow>
-			<anchored to="contentanchor">
-				<!-- <top parent="name" anchor="bottom" offset="2" /> -->
+  <template name="sub_sheet_actions">
+    <subwindow>
+      <anchored to="contentanchor">
+        <!-- <top parent="name" anchor="bottom" offset="2" /> -->
         <top offset="55" />
-				<left />
-				<right parent="" offset="-12,0" />
-				<bottom parent="" offset="-10" />
-			</anchored>
-		</subwindow>
-	</template>
+        <left />
+        <right parent="" offset="-12,0" />
+        <bottom parent="" offset="-10" />
+      </anchored>
+    </subwindow>
+  </template>
 
-	<template name="sub_npcsheet">
-		<subwindow>
-			<anchored to="contentanchor">
-				<top parent="name" anchor="bottom" offset="0" />
-				<left parent="" offset="1,0" />
-				<right parent="" offset="-10,0" />
-				<bottom parent="" offset="0" />
-			</anchored>
-		</subwindow>
-	</template>
+  <template name="sub_npcsheet">
+    <subwindow>
+      <anchored to="contentanchor">
+        <top parent="name" anchor="bottom" offset="0" />
+        <left parent="" offset="1,0" />
+        <right parent="" offset="-10,0" />
+        <bottom parent="" offset="0" />
+      </anchored>
+    </subwindow>
+  </template>
     
-	<template name="sub_ct_actions">
-		<subwindow>
-			<anchored>
-				<top parent="name" anchor="bottom" relation="relative" offset="3" />
-				<left parent="activeicon" anchor="right" offset="75" />
-				<right offset="-17" />
-				<sizelimits><minimum height="24" /></sizelimits>
-			</anchored>
-		</subwindow>
-	</template>
+  <template name="sub_ct_actions">
+    <subwindow>
+      <anchored>
+        <top parent="name" anchor="bottom" relation="relative" offset="3" />
+        <left parent="activeicon" anchor="right" offset="75" />
+        <right offset="-17" />
+        <sizelimits><minimum height="24" /></sizelimits>
+      </anchored>
+    </subwindow>
+  </template>
     
     <template name ="anchor_left">
         <genericcontrol name="leftanchor">
@@ -112,524 +112,524 @@
     </genericcontrol>
     </template>
     
-	<template name="list_editor_item">
-		<windowlist name="list">
-			<anchored>
-				<top parent="columnanchor" anchor="bottom" relation="relative" offset="0" />
-				<left />
-				<right />
-			</anchored>
-			<allowdelete />
-			<child></child>
-			<child><backcolor>1A40301E</backcolor></child>
-			<noscroll />
-			<script>
-				function onInit()
-					registerMenuItem(Interface.getString("list_menu_createitem"), "insert", 5);
-				end
-				
-				function onMenuSelection(selection)
-					if selection == 5 then
-						self.addEntry(true);
-					end
-				end
-				
-				function onListChanged()
-					update();
-				end
+  <template name="list_editor_item">
+    <windowlist name="list">
+      <anchored>
+        <top parent="columnanchor" anchor="bottom" relation="relative" offset="0" />
+        <left />
+        <right />
+      </anchored>
+      <allowdelete />
+      <child></child>
+      <child><backcolor>1A40301E</backcolor></child>
+      <noscroll />
+      <script>
+        function onInit()
+          registerMenuItem(Interface.getString("list_menu_createitem"), "insert", 5);
+        end
+        
+        function onMenuSelection(selection)
+          if selection == 5 then
+            self.addEntry(true);
+          end
+        end
+        
+        function onListChanged()
+          update();
+        end
 
-				function update()
-					local bEdit = (window.item_iedit.getValue() == 1);
-					for _,w in ipairs(getWindows()) do
-						w.idelete.setVisibility(bEdit);
-					end
-				end
-				
-				function addEntry(bFocus)
-					return createWindow();
-				end
-			</script>
-		</windowlist>
-	</template>
-	<template name="label_savescore_npc">
-		<label_fieldtop>
-			<anchored position="insidetopright" offset="-2,-6" width="35" />
+        function update()
+          local bEdit = (window.item_iedit.getValue() == 1);
+          for _,w in ipairs(getWindows()) do
+            w.idelete.setVisibility(bEdit);
+          end
+        end
+        
+        function addEntry(bFocus)
+          return createWindow();
+        end
+      </script>
+    </windowlist>
+  </template>
+  <template name="label_savescore_npc">
+    <label_fieldtop>
+      <anchored position="insidetopright" offset="-2,-6" width="35" />
             <font>arial-regular-7</font>
-			<!-- <anchored offset="-2,-6" width="35"/> -->
-			<frame name="abilityscore" />
-		</label_fieldtop>
-	</template>
-	<template name="number_savescore">
-		<basicnumber>
-			<rollable />
-			<default>-20</default>
-			<script file="campaign/scripts/number_savescore.lua" />
-		</basicnumber>
-	</template>
-	<template name="label_npc_savescore">
-		<label_savescore_npc />
-	</template>
-	<template name="number_npc_savescore">
-		<number_savescore />
-	</template>
+      <!-- <anchored offset="-2,-6" width="35"/> -->
+      <frame name="abilityscore" />
+    </label_fieldtop>
+  </template>
+  <template name="number_savescore">
+    <basicnumber>
+      <rollable />
+      <default>-20</default>
+      <script file="campaign/scripts/number_savescore.lua" />
+    </basicnumber>
+  </template>
+  <template name="label_npc_savescore">
+    <label_savescore_npc />
+  </template>
+  <template name="number_npc_savescore">
+    <number_savescore />
+  </template>
     
-	<template name="cycler_armortypes">
-		<button_stringcycler>
-			<parameters>
-				<labelsres>armor|shield|other</labelsres>
+  <template name="cycler_armortypes">
+    <button_stringcycler>
+      <parameters>
+        <labelsres>armor|shield|other</labelsres>
                 <values>armor|shield|other</values>
-			</parameters>
-		</button_stringcycler>
-	</template>
-	<template name="button_item_templates">
-		<button_text_sm>
-			<anchored to="buttonanchor" width="80">
-				<top />
-				<left anchor="right" relation="relative" offset="5" />
-			</anchored>
-			<state textres="item_button_templates" />
-			<script>
-				function onClickDown(button, x, y)
-					Interface.openWindow("masterindex", "itemtemplate");
-				end
-			</script>
-		</button_text_sm>
-	</template>
-	<template name="button_item_armor">
-		<button_text_sm>
-			<anchored to="buttonanchor" width="80">
-				<top />
-				<left anchor="right" relation="relative" offset="5" />
-			</anchored>
-			<state textres="item_button_armor" />
-			<script>
-				function onButtonPress()
-					local w = Interface.openWindow("reference_groupedlist", "reference.armor");
-					local rList = {};
-					rList.sRecordType = "item";
-					rList.sTitle = Interface.getString("item_button_armor");
-					rList.aColumns = {};
-					table.insert(rList.aColumns, { sName = "name", sType = "string", sHeading = "Name", nWidth=200, nSortOrder=1 });
-					table.insert(rList.aColumns, { sName = "cost", sType = "string", sHeading = "Cost", bCentered=true });
-					table.insert(rList.aColumns, { sName = "ac", sType = "number", sHeading = "AC", sTooltp = "Armor Class", nWidth=40, bCentered=true });
-					table.insert(rList.aColumns, { sName = "weight", sType = "number", sHeading = "Weight", bCentered=true });
-					rList.aFilters = {};
-					table.insert(rList.aFilters, { sDBField = "type", vFilterValue = "Armor" });
-					rList.aGroups = {};
-					table.insert(rList.aGroups, { sDBField = "subtype" });
-					rList.aGroupValueOrder = { "Light Armor", "Medium Armor", "Heavy Armor", "Shield" };
-					w.init(rList);
-				end
-			</script>
-		</button_text_sm>
-	</template>
-	<template name="button_item_weapons">
-		<button_text_sm>
-			<anchored to="buttonanchor" width="80">
-				<top />
-				<left anchor="right" relation="relative" offset="5" />
-			</anchored>
-			<state textres="item_button_weapons" />
-			<script>
-				function onButtonPress()
-					local w = Interface.openWindow("reference_groupedlist", "reference.weapon");
-					local rList = {};
-					rList.sRecordType = "item";
-					rList.sTitle = Interface.getString("item_button_weapons");
-					rList.aColumns = {};
-					table.insert(rList.aColumns, { sName = "name", sType = "string", sHeading = "Name", nWidth=200, nSortOrder=1 });
-					table.insert(rList.aColumns, { sName = "cost", sType = "string", sHeading = "Cost", bCentered=true });
-					table.insert(rList.aColumns, { sName = "damage", sType = "string", sHeading = "Damage", nWidth=150, bCentered=true });
-					table.insert(rList.aColumns, { sName = "weight", sType = "number", sHeading = "Weight", bCentered=true });
-					table.insert(rList.aColumns, { sName = "properties", sType = "string", sHeading = "Prop.", nWidth=200, bCentered=true });
-					rList.aFilters = {};
-					table.insert(rList.aFilters, { sDBField = "type", vFilterValue = "Weapon" });
-					rList.aGroups = {};
-					table.insert(rList.aGroups, { sDBField = "subtype" });
-					rList.aGroupValueOrder = { "Simple Melee Weapons", "Simple Ranged Weapons", "Martial Weapons", "Martial Melee Weapons", "Martial Ranged Weapons" };
-					w.init(rList);
-				end
-			</script>
-		</button_text_sm>
-	</template>
-	<template name="button_item_list">
-		<button_text_sm>
-			<anchored to="buttonanchor" width="80">
-				<top />
-				<left anchor="right" relation="relative" offset="5" />
-			</anchored>
-			<state textres="item_button_items" />
-			<script>
-				function onButtonPress()
-					local w = Interface.openWindow("reference_groupedlist", "reference.itemlist");
-					local rList = {};
-					rList.sRecordType = "item";
-					rList.sTitle = Interface.getString("item_button_items");
-					rList.aColumns = {};
-					table.insert(rList.aColumns, { sName = "name", sType = "string", sHeading = "Name", nWidth=200, nSortOrder=1 });
-					table.insert(rList.aColumns, { sName = "cost", sType = "string", sHeading = "Cost", bCentered=true });
-					table.insert(rList.aColumns, { sName = "ac", sType = "number", sHeading = "AC", sTooltp = "Armor Class", nWidth=40, bCentered=true });
-					table.insert(rList.aColumns, { sName = "weight", sType = "number", sHeading = "Weight", bCentered=true });
-					rList.aFilters = {};
-					table.insert(rList.aFilters, { sDBField = "type", vFilterValue = "*" });
-					rList.aGroups = {};
-					table.insert(rList.aGroups, { sDBField = "subtype" });
-					rList.aGroupValueOrder = {};
-					w.init(rList);
-				end
-			</script>
-		</button_text_sm>
-	</template>
-	<template name="button_item_armor_player">
-		<button_text_sm>
-			<anchored to="buttonanchor" width="80">
-				<top />
-				<left anchor="right" relation="relative" offset="5" />
-			</anchored>
-			<state textres="item_button_armor" />
-			<script>
-				function onButtonPress()
-					local w = Interface.openWindow("reference_groupedlist", "reference.armor");
-					local rList = {};
-					rList.sRecordType = "item";
-					rList.sTitle = Interface.getString("item_button_armor");
-					rList.aColumns = {};
-					table.insert(rList.aColumns, { sName = "name", sType = "string", sHeading = "Name", nWidth=200, nSortOrder=1 });
-					table.insert(rList.aColumns, { sName = "cost", sType = "string", sHeading = "Cost", bCentered=true });
-					table.insert(rList.aColumns, { sName = "ac", sType = "number", sHeading = "AC", sTooltp = "Armor Class", nWidth=40, bCentered=true });
-					table.insert(rList.aColumns, { sName = "weight", sType = "number", sHeading = "Weight", bCentered=true });
-					rList.aFilters = {};
-					table.insert(rList.aFilters, { sDBField = "type", vFilterValue = "Armor" });
+      </parameters>
+    </button_stringcycler>
+  </template>
+  <template name="button_item_templates">
+    <button_text_sm>
+      <anchored to="buttonanchor" width="80">
+        <top />
+        <left anchor="right" relation="relative" offset="5" />
+      </anchored>
+      <state textres="item_button_templates" />
+      <script>
+        function onClickDown(button, x, y)
+          Interface.openWindow("masterindex", "itemtemplate");
+        end
+      </script>
+    </button_text_sm>
+  </template>
+  <template name="button_item_armor">
+    <button_text_sm>
+      <anchored to="buttonanchor" width="80">
+        <top />
+        <left anchor="right" relation="relative" offset="5" />
+      </anchored>
+      <state textres="item_button_armor" />
+      <script>
+        function onButtonPress()
+          local w = Interface.openWindow("reference_groupedlist", "reference.armor");
+          local rList = {};
+          rList.sRecordType = "item";
+          rList.sTitle = Interface.getString("item_button_armor");
+          rList.aColumns = {};
+          table.insert(rList.aColumns, { sName = "name", sType = "string", sHeading = "Name", nWidth=200, nSortOrder=1 });
+          table.insert(rList.aColumns, { sName = "cost", sType = "string", sHeading = "Cost", bCentered=true });
+          table.insert(rList.aColumns, { sName = "ac", sType = "number", sHeading = "AC", sTooltp = "Armor Class", nWidth=40, bCentered=true });
+          table.insert(rList.aColumns, { sName = "weight", sType = "number", sHeading = "Weight", bCentered=true });
+          rList.aFilters = {};
+          table.insert(rList.aFilters, { sDBField = "type", vFilterValue = "Armor" });
+          rList.aGroups = {};
+          table.insert(rList.aGroups, { sDBField = "subtype" });
+          rList.aGroupValueOrder = { "Light Armor", "Medium Armor", "Heavy Armor", "Shield" };
+          w.init(rList);
+        end
+      </script>
+    </button_text_sm>
+  </template>
+  <template name="button_item_weapons">
+    <button_text_sm>
+      <anchored to="buttonanchor" width="80">
+        <top />
+        <left anchor="right" relation="relative" offset="5" />
+      </anchored>
+      <state textres="item_button_weapons" />
+      <script>
+        function onButtonPress()
+          local w = Interface.openWindow("reference_groupedlist", "reference.weapon");
+          local rList = {};
+          rList.sRecordType = "item";
+          rList.sTitle = Interface.getString("item_button_weapons");
+          rList.aColumns = {};
+          table.insert(rList.aColumns, { sName = "name", sType = "string", sHeading = "Name", nWidth=200, nSortOrder=1 });
+          table.insert(rList.aColumns, { sName = "cost", sType = "string", sHeading = "Cost", bCentered=true });
+          table.insert(rList.aColumns, { sName = "damage", sType = "string", sHeading = "Damage", nWidth=150, bCentered=true });
+          table.insert(rList.aColumns, { sName = "weight", sType = "number", sHeading = "Weight", bCentered=true });
+          table.insert(rList.aColumns, { sName = "properties", sType = "string", sHeading = "Prop.", nWidth=200, bCentered=true });
+          rList.aFilters = {};
+          table.insert(rList.aFilters, { sDBField = "type", vFilterValue = "Weapon" });
+          rList.aGroups = {};
+          table.insert(rList.aGroups, { sDBField = "subtype" });
+          rList.aGroupValueOrder = { "Simple Melee Weapons", "Simple Ranged Weapons", "Martial Weapons", "Martial Melee Weapons", "Martial Ranged Weapons" };
+          w.init(rList);
+        end
+      </script>
+    </button_text_sm>
+  </template>
+  <template name="button_item_list">
+    <button_text_sm>
+      <anchored to="buttonanchor" width="80">
+        <top />
+        <left anchor="right" relation="relative" offset="5" />
+      </anchored>
+      <state textres="item_button_items" />
+      <script>
+        function onButtonPress()
+          local w = Interface.openWindow("reference_groupedlist", "reference.itemlist");
+          local rList = {};
+          rList.sRecordType = "item";
+          rList.sTitle = Interface.getString("item_button_items");
+          rList.aColumns = {};
+          table.insert(rList.aColumns, { sName = "name", sType = "string", sHeading = "Name", nWidth=200, nSortOrder=1 });
+          table.insert(rList.aColumns, { sName = "cost", sType = "string", sHeading = "Cost", bCentered=true });
+          table.insert(rList.aColumns, { sName = "ac", sType = "number", sHeading = "AC", sTooltp = "Armor Class", nWidth=40, bCentered=true });
+          table.insert(rList.aColumns, { sName = "weight", sType = "number", sHeading = "Weight", bCentered=true });
+          rList.aFilters = {};
+          table.insert(rList.aFilters, { sDBField = "type", vFilterValue = "*" });
+          rList.aGroups = {};
+          table.insert(rList.aGroups, { sDBField = "subtype" });
+          rList.aGroupValueOrder = {};
+          w.init(rList);
+        end
+      </script>
+    </button_text_sm>
+  </template>
+  <template name="button_item_armor_player">
+    <button_text_sm>
+      <anchored to="buttonanchor" width="80">
+        <top />
+        <left anchor="right" relation="relative" offset="5" />
+      </anchored>
+      <state textres="item_button_armor" />
+      <script>
+        function onButtonPress()
+          local w = Interface.openWindow("reference_groupedlist", "reference.armor");
+          local rList = {};
+          rList.sRecordType = "item";
+          rList.sTitle = Interface.getString("item_button_armor");
+          rList.aColumns = {};
+          table.insert(rList.aColumns, { sName = "name", sType = "string", sHeading = "Name", nWidth=200, nSortOrder=1 });
+          table.insert(rList.aColumns, { sName = "cost", sType = "string", sHeading = "Cost", bCentered=true });
+          table.insert(rList.aColumns, { sName = "ac", sType = "number", sHeading = "AC", sTooltp = "Armor Class", nWidth=40, bCentered=true });
+          table.insert(rList.aColumns, { sName = "weight", sType = "number", sHeading = "Weight", bCentered=true });
+          rList.aFilters = {};
+          table.insert(rList.aFilters, { sDBField = "type", vFilterValue = "Armor" });
                     if OptionsManager.isOption("MIID", "on") then
                         table.insert(rList.aFilters, { sDBField = "isidentified", vFilterValue = 1 });
                     end
-					rList.aGroups = {};
-					table.insert(rList.aGroups, { sDBField = "subtype" });
-					rList.aGroupValueOrder = { "Light Armor", "Medium Armor", "Heavy Armor", "Shield" };
-					w.init(rList);
-				end
-			</script>
-		</button_text_sm>
-	</template>
-	<template name="button_item_weapons_player">
-		<button_text_sm>
-			<anchored to="buttonanchor" width="80">
-				<top />
-				<left anchor="right" relation="relative" offset="5" />
-			</anchored>
-			<state textres="item_button_weapons" />
-			<script>
-				function onButtonPress()
-					local w = Interface.openWindow("reference_groupedlist", "reference.weapon");
-					local rList = {};
-					rList.sRecordType = "item";
-					rList.sTitle = Interface.getString("item_button_weapons");
-					rList.aColumns = {};
-					table.insert(rList.aColumns, { sName = "name", sType = "string", sHeading = "Name", nWidth=200, nSortOrder=1 });
-					table.insert(rList.aColumns, { sName = "cost", sType = "string", sHeading = "Cost", bCentered=true });
-					table.insert(rList.aColumns, { sName = "damage", sType = "string", sHeading = "Damage", nWidth=150, bCentered=true });
-					table.insert(rList.aColumns, { sName = "weight", sType = "number", sHeading = "Weight", bCentered=true });
-					table.insert(rList.aColumns, { sName = "properties", sType = "string", sHeading = "Prop.", nWidth=200, bCentered=true });
-					rList.aFilters = {};
-					table.insert(rList.aFilters, { sDBField = "type", vFilterValue = "Weapon" });
+          rList.aGroups = {};
+          table.insert(rList.aGroups, { sDBField = "subtype" });
+          rList.aGroupValueOrder = { "Light Armor", "Medium Armor", "Heavy Armor", "Shield" };
+          w.init(rList);
+        end
+      </script>
+    </button_text_sm>
+  </template>
+  <template name="button_item_weapons_player">
+    <button_text_sm>
+      <anchored to="buttonanchor" width="80">
+        <top />
+        <left anchor="right" relation="relative" offset="5" />
+      </anchored>
+      <state textres="item_button_weapons" />
+      <script>
+        function onButtonPress()
+          local w = Interface.openWindow("reference_groupedlist", "reference.weapon");
+          local rList = {};
+          rList.sRecordType = "item";
+          rList.sTitle = Interface.getString("item_button_weapons");
+          rList.aColumns = {};
+          table.insert(rList.aColumns, { sName = "name", sType = "string", sHeading = "Name", nWidth=200, nSortOrder=1 });
+          table.insert(rList.aColumns, { sName = "cost", sType = "string", sHeading = "Cost", bCentered=true });
+          table.insert(rList.aColumns, { sName = "damage", sType = "string", sHeading = "Damage", nWidth=150, bCentered=true });
+          table.insert(rList.aColumns, { sName = "weight", sType = "number", sHeading = "Weight", bCentered=true });
+          table.insert(rList.aColumns, { sName = "properties", sType = "string", sHeading = "Prop.", nWidth=200, bCentered=true });
+          rList.aFilters = {};
+          table.insert(rList.aFilters, { sDBField = "type", vFilterValue = "Weapon" });
                     if OptionsManager.isOption("MIID", "on") then
                         table.insert(rList.aFilters, { sDBField = "isidentified", vFilterValue = 1 });
                     end
-					rList.aGroups = {};
-					table.insert(rList.aGroups, { sDBField = "subtype" });
-					rList.aGroupValueOrder = { "Simple Melee Weapons", "Simple Ranged Weapons", "Martial Weapons", "Martial Melee Weapons", "Martial Ranged Weapons" };
-					w.init(rList);
-				end
-			</script>
-		</button_text_sm>
-	</template>
-	<template name="button_item_list_player">
-		<button_text_sm>
-			<anchored to="buttonanchor" width="80">
-				<top />
-				<left anchor="right" relation="relative" offset="5" />
-			</anchored>
-			<state textres="item_button_items" />
-			<script>
-				function onButtonPress()
-					local w = Interface.openWindow("reference_groupedlist", "reference.itemlist");
-					local rList = {};
-					rList.sRecordType = "item";
-					rList.sTitle = Interface.getString("item_button_items");
-					rList.aColumns = {};
-					table.insert(rList.aColumns, { sName = "name", sType = "string", sHeading = "Name", nWidth=200, nSortOrder=1 });
-					table.insert(rList.aColumns, { sName = "cost", sType = "string", sHeading = "Cost", bCentered=true });
-					table.insert(rList.aColumns, { sName = "weight", sType = "number", sHeading = "Weight", bCentered=true });
-					table.insert(rList.aColumns, { sName = "ac", sType = "number", sHeading = "AC", nWidth=50, bCentered=true });
-					table.insert(rList.aColumns, { sName = "damage", sType = "string", sHeading = "Damage", nWidth=150, bCentered=true });
-					table.insert(rList.aColumns, { sName = "properties", sType = "string", sHeading = "Prop.", nWidth=200, bCentered=true });
-					rList.aFilters = {};
+          rList.aGroups = {};
+          table.insert(rList.aGroups, { sDBField = "subtype" });
+          rList.aGroupValueOrder = { "Simple Melee Weapons", "Simple Ranged Weapons", "Martial Weapons", "Martial Melee Weapons", "Martial Ranged Weapons" };
+          w.init(rList);
+        end
+      </script>
+    </button_text_sm>
+  </template>
+  <template name="button_item_list_player">
+    <button_text_sm>
+      <anchored to="buttonanchor" width="80">
+        <top />
+        <left anchor="right" relation="relative" offset="5" />
+      </anchored>
+      <state textres="item_button_items" />
+      <script>
+        function onButtonPress()
+          local w = Interface.openWindow("reference_groupedlist", "reference.itemlist");
+          local rList = {};
+          rList.sRecordType = "item";
+          rList.sTitle = Interface.getString("item_button_items");
+          rList.aColumns = {};
+          table.insert(rList.aColumns, { sName = "name", sType = "string", sHeading = "Name", nWidth=200, nSortOrder=1 });
+          table.insert(rList.aColumns, { sName = "cost", sType = "string", sHeading = "Cost", bCentered=true });
+          table.insert(rList.aColumns, { sName = "weight", sType = "number", sHeading = "Weight", bCentered=true });
+          table.insert(rList.aColumns, { sName = "ac", sType = "number", sHeading = "AC", nWidth=50, bCentered=true });
+          table.insert(rList.aColumns, { sName = "damage", sType = "string", sHeading = "Damage", nWidth=150, bCentered=true });
+          table.insert(rList.aColumns, { sName = "properties", sType = "string", sHeading = "Prop.", nWidth=200, bCentered=true });
+          rList.aFilters = {};
                     if OptionsManager.isOption("MIID", "on") then
                         table.insert(rList.aFilters, { sDBField = "isidentified", vFilterValue = 1 });
                     end
-					rList.aGroups = {};
-					table.insert(rList.aGroups, { sDBField = "type" });
-					rList.aGroupValueOrder = { };
-					w.init(rList);
-				end
-			</script>
-		</button_text_sm>
-	</template>
-	<template name="button_npc_letter">
-		<button_text_sm>
-			<anchored to="buttonanchor" width="80">
-				<top />
-				<left anchor="right" relation="relative" offset="5" />
-			</anchored>
-			<state textres="npc_button_letter" />
-			<script>
-				function onButtonPress()
-					local w = Interface.openWindow("reference_groupedlist", "reference.npcdatabyletter");
-					local rList = {};
-					rList.sRecordType = "npc";
-					rList.sTitle = Interface.getString("npc_groupedtitle_letter");
-					rList.aColumns = {};
-					table.insert(rList.aColumns, { sName = "name", sType = "string", sHeading = "Name", nWidth=300, nSortOrder=1 });
-					table.insert(rList.aColumns, { sName = "hitDice", sType = "string", sHeading = "HD", bCentered=true });
-					rList.aFilters = {};
-					rList.aGroups = {};
-					table.insert(rList.aGroups, { sDBField = "name", nLength=1 });
-					rList.aGroupValueOrder = {};
-					w.init(rList);
-				end
-			</script>
-		</button_text_sm>
-	</template>
-	<template name="button_npc_hd">
-		<button_text_sm>
-			<anchored to="buttonanchor" width="80">
-				<top />
-				<left anchor="right" relation="relative" offset="5" />
-			</anchored>
-			<state textres="npc_button_hd" />
-			<script>
-				function onButtonPress()
-					local w = Interface.openWindow("reference_groupedlist", "reference.npcdatabyhd");
-					local rList = {};
-					rList.sRecordType = "npc";
-					rList.sTitle = Interface.getString("npc_groupedtitle_hd");
-					rList.aColumns = {};
-					table.insert(rList.aColumns, { sName = "name", sType = "string", sHeading = "Name", nWidth=250, nSortOrder=1 });
-					table.insert(rList.aColumns, { sName = "hitDice", sType = "string", sHeading = "HD", bCentered=true });
-					rList.aFilters = {};
-					rList.aGroups = {};
+          rList.aGroups = {};
+          table.insert(rList.aGroups, { sDBField = "type" });
+          rList.aGroupValueOrder = { };
+          w.init(rList);
+        end
+      </script>
+    </button_text_sm>
+  </template>
+  <template name="button_npc_letter">
+    <button_text_sm>
+      <anchored to="buttonanchor" width="80">
+        <top />
+        <left anchor="right" relation="relative" offset="5" />
+      </anchored>
+      <state textres="npc_button_letter" />
+      <script>
+        function onButtonPress()
+          local w = Interface.openWindow("reference_groupedlist", "reference.npcdatabyletter");
+          local rList = {};
+          rList.sRecordType = "npc";
+          rList.sTitle = Interface.getString("npc_groupedtitle_letter");
+          rList.aColumns = {};
+          table.insert(rList.aColumns, { sName = "name", sType = "string", sHeading = "Name", nWidth=300, nSortOrder=1 });
+          table.insert(rList.aColumns, { sName = "hitDice", sType = "string", sHeading = "HD", bCentered=true });
+          rList.aFilters = {};
+          rList.aGroups = {};
+          table.insert(rList.aGroups, { sDBField = "name", nLength=1 });
+          rList.aGroupValueOrder = {};
+          w.init(rList);
+        end
+      </script>
+    </button_text_sm>
+  </template>
+  <template name="button_npc_hd">
+    <button_text_sm>
+      <anchored to="buttonanchor" width="80">
+        <top />
+        <left anchor="right" relation="relative" offset="5" />
+      </anchored>
+      <state textres="npc_button_hd" />
+      <script>
+        function onButtonPress()
+          local w = Interface.openWindow("reference_groupedlist", "reference.npcdatabyhd");
+          local rList = {};
+          rList.sRecordType = "npc";
+          rList.sTitle = Interface.getString("npc_groupedtitle_hd");
+          rList.aColumns = {};
+          table.insert(rList.aColumns, { sName = "name", sType = "string", sHeading = "Name", nWidth=250, nSortOrder=1 });
+          table.insert(rList.aColumns, { sName = "hitDice", sType = "string", sHeading = "HD", bCentered=true });
+          rList.aFilters = {};
+          rList.aGroups = {};
                     rList.aGroupValueOrder = { };
-					table.insert(rList.aGroups, { sDBField = "hitDice", sPrefix = "HD" });
-					w.init(rList);
-				end
-			</script>
-<!--             					rList.aGroupValueOrder = { 
-							"CR", "CR 0", "CR 1/8", "CR 1/4", "CR 1/2", 
-							"CR 1", "CR 2", "CR 3", "CR 4", "CR 5", "CR 6", "CR 7", "CR 8", "CR 9" }; -->
+          table.insert(rList.aGroups, { sDBField = "hitDice", sPrefix = "HD" });
+          w.init(rList);
+        end
+      </script>
+<!--                       rList.aGroupValueOrder = { 
+              "CR", "CR 0", "CR 1/8", "CR 1/4", "CR 1/2", 
+              "CR 1", "CR 2", "CR 3", "CR 4", "CR 5", "CR 6", "CR 7", "CR 8", "CR 9" }; -->
 
-		</button_text_sm>
-	</template>
-	<template name="button_npc_type">
-		<button_text_sm>
-			<anchored to="buttonanchor" width="80">
-				<top />
-				<left anchor="right" relation="relative" offset="5" />
-			</anchored>
-			<state textres="npc_button_type" />
-			<script>
-				function onButtonPress()
-					local w = Interface.openWindow("reference_groupedlist", "reference.npcdatabytype");
-					local rList = {};
-					rList.sRecordType = "npc";
-					rList.sTitle = Interface.getString("npc_groupedtitle_type");
-					rList.aColumns = {};
-					table.insert(rList.aColumns, { sName = "name", sType = "string", sHeading = "Name", nWidth=250, nSortOrder=1 });
-					table.insert(rList.aColumns, { sName = "hitDice", sType = "string", sHeading = "HD", bCentered=true });
-					rList.aFilters = {};
-					rList.aGroups = {};
-					table.insert(rList.aGroups, { sDBField = "type" });
-					rList.aGroupValueOrder = {};
-					w.init(rList);
-				end
-			</script>
-		</button_text_sm>
-	</template>
+    </button_text_sm>
+  </template>
+  <template name="button_npc_type">
+    <button_text_sm>
+      <anchored to="buttonanchor" width="80">
+        <top />
+        <left anchor="right" relation="relative" offset="5" />
+      </anchored>
+      <state textres="npc_button_type" />
+      <script>
+        function onButtonPress()
+          local w = Interface.openWindow("reference_groupedlist", "reference.npcdatabytype");
+          local rList = {};
+          rList.sRecordType = "npc";
+          rList.sTitle = Interface.getString("npc_groupedtitle_type");
+          rList.aColumns = {};
+          table.insert(rList.aColumns, { sName = "name", sType = "string", sHeading = "Name", nWidth=250, nSortOrder=1 });
+          table.insert(rList.aColumns, { sName = "hitDice", sType = "string", sHeading = "HD", bCentered=true });
+          rList.aFilters = {};
+          rList.aGroups = {};
+          table.insert(rList.aGroups, { sDBField = "type" });
+          rList.aGroupValueOrder = {};
+          w.init(rList);
+        end
+      </script>
+    </button_text_sm>
+  </template>
     
-	<template name="button_spells_school_player">
-		<button_text_sm>
-			<anchored to="buttonanchor" width="80">
-				<top />
-				<left anchor="right" relation="relative" offset="5" />
-			</anchored>
-			<state textres="item_button_spell_school" />
-			<script>
-				function onButtonPress()
-					local w = Interface.openWindow("reference_groupedlist", "reference.spellschool");
-					local rList = {};
-					rList.sRecordType = "spell";
-					rList.sTitle = Interface.getString("item_button_spell_school");
-					rList.aColumns = {};
-					table.insert(rList.aColumns, { sName = "name", sType = "string", sHeading = "Name", nWidth=200, nSortOrder=1 });
-					table.insert(rList.aColumns, { sName = "level", sType = "number", sHeading = "Level", bCentered=true });
-					table.insert(rList.aColumns, { sName = "castingtime", sType = "string", sHeading = "Cast Time", bCentered=true, nWidth=80 });
-					table.insert(rList.aColumns, { sName = "range", sType = "string", sHeading = "Range", bCentered=true, nWidth=120,  });
-					table.insert(rList.aColumns, { sName = "components", sType = "string", sHeading = "Components", bCentered=true, nWidth=80 });
-					table.insert(rList.aColumns, { sName = "save", sType = "string", sHeading = "Save", bCentered=true, nWidth=80 });
-					rList.aFilters = {};
-					table.insert(rList.aFilters, { sDBField = "type", vFilterValue = "Arcane" });
-					rList.aGroups = {};
-					table.insert(rList.aGroups, { sDBField = "school" });
-					rList.aGroupValueOrder = { };
-					w.init(rList);
-				end
-			</script>
-		</button_text_sm>
-	</template>
-	<template name="button_spells_sphere_player">
-		<button_text_sm>
-			<anchored to="buttonanchor" width="80">
-				<top />
-				<left anchor="right" relation="relative" offset="5" />
-			</anchored>
-			<state textres="item_button_spell_sphere" />
-			<script>
-				function onButtonPress()
-					local w = Interface.openWindow("reference_groupedlist", "reference.spellsphere");
-					local rList = {};
-					rList.sRecordType = "spell";
-					rList.sTitle = Interface.getString("item_button_spell_sphere");
-					rList.aColumns = {};
-					table.insert(rList.aColumns, { sName = "name", sType = "string", sHeading = "Name", nWidth=200, nSortOrder=1 });
-					table.insert(rList.aColumns, { sName = "level", sType = "number", sHeading = "Level", bCentered=true });
-					table.insert(rList.aColumns, { sName = "castingtime", sType = "string", sHeading = "Cast Time", bCentered=true, nWidth=80 });
-					table.insert(rList.aColumns, { sName = "range", sType = "string", sHeading = "Range", bCentered=true, nWidth=120,  });
-					table.insert(rList.aColumns, { sName = "components", sType = "string", sHeading = "Components", bCentered=true, nWidth=80 });
-					table.insert(rList.aColumns, { sName = "save", sType = "string", sHeading = "Save", bCentered=true, nWidth=80 });
-					rList.aFilters = {};
-					table.insert(rList.aFilters, { sDBField = "type", vFilterValue = "Divine" });
-					rList.aGroups = {};
-					table.insert(rList.aGroups, { sDBField = "sphere" });
-					rList.aGroupValueOrder = { };
-					w.init(rList);
-				end
-			</script>
-		</button_text_sm>
-	</template>
+  <template name="button_spells_school_player">
+    <button_text_sm>
+      <anchored to="buttonanchor" width="80">
+        <top />
+        <left anchor="right" relation="relative" offset="5" />
+      </anchored>
+      <state textres="item_button_spell_school" />
+      <script>
+        function onButtonPress()
+          local w = Interface.openWindow("reference_groupedlist", "reference.spellschool");
+          local rList = {};
+          rList.sRecordType = "spell";
+          rList.sTitle = Interface.getString("item_button_spell_school");
+          rList.aColumns = {};
+          table.insert(rList.aColumns, { sName = "name", sType = "string", sHeading = "Name", nWidth=200, nSortOrder=1 });
+          table.insert(rList.aColumns, { sName = "level", sType = "number", sHeading = "Level", bCentered=true });
+          table.insert(rList.aColumns, { sName = "castingtime", sType = "string", sHeading = "Cast Time", bCentered=true, nWidth=80 });
+          table.insert(rList.aColumns, { sName = "range", sType = "string", sHeading = "Range", bCentered=true, nWidth=120,  });
+          table.insert(rList.aColumns, { sName = "components", sType = "string", sHeading = "Components", bCentered=true, nWidth=80 });
+          table.insert(rList.aColumns, { sName = "save", sType = "string", sHeading = "Save", bCentered=true, nWidth=80 });
+          rList.aFilters = {};
+          table.insert(rList.aFilters, { sDBField = "type", vFilterValue = "Arcane" });
+          rList.aGroups = {};
+          table.insert(rList.aGroups, { sDBField = "school" });
+          rList.aGroupValueOrder = { };
+          w.init(rList);
+        end
+      </script>
+    </button_text_sm>
+  </template>
+  <template name="button_spells_sphere_player">
+    <button_text_sm>
+      <anchored to="buttonanchor" width="80">
+        <top />
+        <left anchor="right" relation="relative" offset="5" />
+      </anchored>
+      <state textres="item_button_spell_sphere" />
+      <script>
+        function onButtonPress()
+          local w = Interface.openWindow("reference_groupedlist", "reference.spellsphere");
+          local rList = {};
+          rList.sRecordType = "spell";
+          rList.sTitle = Interface.getString("item_button_spell_sphere");
+          rList.aColumns = {};
+          table.insert(rList.aColumns, { sName = "name", sType = "string", sHeading = "Name", nWidth=200, nSortOrder=1 });
+          table.insert(rList.aColumns, { sName = "level", sType = "number", sHeading = "Level", bCentered=true });
+          table.insert(rList.aColumns, { sName = "castingtime", sType = "string", sHeading = "Cast Time", bCentered=true, nWidth=80 });
+          table.insert(rList.aColumns, { sName = "range", sType = "string", sHeading = "Range", bCentered=true, nWidth=120,  });
+          table.insert(rList.aColumns, { sName = "components", sType = "string", sHeading = "Components", bCentered=true, nWidth=80 });
+          table.insert(rList.aColumns, { sName = "save", sType = "string", sHeading = "Save", bCentered=true, nWidth=80 });
+          rList.aFilters = {};
+          table.insert(rList.aFilters, { sDBField = "type", vFilterValue = "Divine" });
+          rList.aGroups = {};
+          table.insert(rList.aGroups, { sDBField = "sphere" });
+          rList.aGroupValueOrder = { };
+          w.init(rList);
+        end
+      </script>
+    </button_text_sm>
+  </template>
 
-	<template name="button_spells_arcane_player">
-		<button_text_sm>
-			<anchored to="buttonanchor" width="80">
-				<top />
-				<left anchor="right" relation="relative" offset="5" />
-			</anchored>
-			<state textres="item_button_spell_arcane" />
-			<script>
-				function onButtonPress()
-					local w = Interface.openWindow("reference_groupedlist", "reference.spellsarcane");
-					local rList = {};
-					rList.sRecordType = "spell";
-					rList.sTitle = Interface.getString("item_button_spell_arcane");
-					rList.aColumns = {};
-					table.insert(rList.aColumns, { sName = "name", sType = "string", sHeading = "Name", nWidth=200, nSortOrder=1 });
-					table.insert(rList.aColumns, { sName = "level", sType = "number", sHeading = "Level", bCentered=true });
-					table.insert(rList.aColumns, { sName = "castingtime", sType = "string", sHeading = "Cast Time", bCentered=true, nWidth=80 });
-					table.insert(rList.aColumns, { sName = "range", sType = "string", sHeading = "Range", bCentered=true, nWidth=120,  });
-					table.insert(rList.aColumns, { sName = "components", sType = "string", sHeading = "Components", bCentered=true, nWidth=80 });
-					table.insert(rList.aColumns, { sName = "save", sType = "string", sHeading = "Save", bCentered=true, nWidth=80 });
-					rList.aFilters = {};
-					table.insert(rList.aFilters, { sDBField = "type", vFilterValue = "Arcane" });
-					rList.aGroups = {};
-					table.insert(rList.aGroups, { sDBField = "level" });
-					rList.aGroupValueOrder = { };
-					w.init(rList);
-				end
-			</script>
-		</button_text_sm>
-	</template>    
-	<template name="button_spells_divine_player">
-		<button_text_sm>
-			<anchored to="buttonanchor" width="80">
-				<top />
-				<left anchor="right" relation="relative" offset="5" />
-			</anchored>
-			<state textres="item_button_spell_divine" />
-			<script>
-				function onButtonPress()
-					local w = Interface.openWindow("reference_groupedlist", "reference.spellsdivine");
-					local rList = {};
-					rList.sRecordType = "spell";
-					rList.sTitle = Interface.getString("item_button_spell_divine");
-					rList.aColumns = {};
-					table.insert(rList.aColumns, { sName = "name", sType = "string", sHeading = "Name", nWidth=200, nSortOrder=1 });
-					table.insert(rList.aColumns, { sName = "level", sType = "number", sHeading = "Level", bCentered=true });
-					table.insert(rList.aColumns, { sName = "castingtime", sType = "string", sHeading = "Cast Time", bCentered=true, nWidth=80 });
-					table.insert(rList.aColumns, { sName = "range", sType = "string", sHeading = "Range", bCentered=true, nWidth=120,  });
-					table.insert(rList.aColumns, { sName = "components", sType = "string", sHeading = "Components", bCentered=true, nWidth=80 });
-					table.insert(rList.aColumns, { sName = "save", sType = "string", sHeading = "Save", bCentered=true, nWidth=80 });
-					rList.aFilters = {};
-					table.insert(rList.aFilters, { sDBField = "type", vFilterValue = "Divine" });
-					rList.aGroups = {};
-					table.insert(rList.aGroups, { sDBField = "level" });
-					rList.aGroupValueOrder = { };
-					w.init(rList);
-				end
-			</script>
-		</button_text_sm>
-	</template>    
-	<template name="button_skills_type_player">
-		<button_text_sm>
-			<anchored to="buttonanchor" width="80">
-				<top />
-				<left anchor="right" relation="relative" offset="5" />
-			</anchored>
-			<state textres="item_button_skill_type" />
-			<script>
-				function onButtonPress()
-					local w = Interface.openWindow("reference_groupedlist", "reference.skills");
-					local rList = {};
-					rList.sRecordType = "skill";
-					rList.sTitle = Interface.getString("item_button_skill_type");
-					rList.aColumns = {};
-					table.insert(rList.aColumns, { sName = "name", sType = "string", sHeading = "Name", nWidth=200, nSortOrder=1 });
-					table.insert(rList.aColumns, { sName = "stat", sType = "string", sHeading = "Type/Stat", bCentered=true });
-					table.insert(rList.aColumns, { sName = "base_check", sType = "number", sHeading = "Base/Check", bCentered=true, nWidth=80 });
-					table.insert(rList.aColumns, { sName = "adj_mod", sType = "number", sHeading = "Modifier", bCentered=true, nWidth=80,  });
-					rList.aFilters = {};
-					rList.aGroups = {};
-					table.insert(rList.aGroups, { sDBField = "stat" });
-					rList.aGroupValueOrder = {};
-					w.init(rList);
-				end
-			</script>
-		</button_text_sm>
-	</template>    
-	<template name="button_skills_type">
-		<button_text_sm>
-			<anchored to="buttonanchor" width="80">
-				<top />
-				<left anchor="right" relation="relative" offset="5" />
-			</anchored>
-			<state textres="item_button_skill_type" />
-			<script>
-				function onButtonPress()
-					local w = Interface.openWindow("reference_groupedlist", "reference.skills");
-					local rList = {};
-					rList.sRecordType = "skill";
-					rList.sTitle = Interface.getString("item_button_skill_type");
-					rList.aColumns = {};
-					table.insert(rList.aColumns, { sName = "name", sType = "string", sHeading = "Name", nWidth=200, nSortOrder=1 });
-					table.insert(rList.aColumns, { sName = "stat", sType = "string", sHeading = "Type/Stat", bCentered=true });
-					table.insert(rList.aColumns, { sName = "base_check", sType = "number", sHeading = "Base/Check", bCentered=true, nWidth=80 });
-					table.insert(rList.aColumns, { sName = "adj_mod", sType = "number", sHeading = "Modifier", bCentered=true, nWidth=80,  });
-					rList.aFilters = {};
-					rList.aGroups = {};
-					table.insert(rList.aGroups, { sDBField = "stat" });
-					rList.aGroupValueOrder = {};
-					w.init(rList);
-				end
-			</script>
-		</button_text_sm>
-	</template>    
+  <template name="button_spells_arcane_player">
+    <button_text_sm>
+      <anchored to="buttonanchor" width="80">
+        <top />
+        <left anchor="right" relation="relative" offset="5" />
+      </anchored>
+      <state textres="item_button_spell_arcane" />
+      <script>
+        function onButtonPress()
+          local w = Interface.openWindow("reference_groupedlist", "reference.spellsarcane");
+          local rList = {};
+          rList.sRecordType = "spell";
+          rList.sTitle = Interface.getString("item_button_spell_arcane");
+          rList.aColumns = {};
+          table.insert(rList.aColumns, { sName = "name", sType = "string", sHeading = "Name", nWidth=200, nSortOrder=1 });
+          table.insert(rList.aColumns, { sName = "level", sType = "number", sHeading = "Level", bCentered=true });
+          table.insert(rList.aColumns, { sName = "castingtime", sType = "string", sHeading = "Cast Time", bCentered=true, nWidth=80 });
+          table.insert(rList.aColumns, { sName = "range", sType = "string", sHeading = "Range", bCentered=true, nWidth=120,  });
+          table.insert(rList.aColumns, { sName = "components", sType = "string", sHeading = "Components", bCentered=true, nWidth=80 });
+          table.insert(rList.aColumns, { sName = "save", sType = "string", sHeading = "Save", bCentered=true, nWidth=80 });
+          rList.aFilters = {};
+          table.insert(rList.aFilters, { sDBField = "type", vFilterValue = "Arcane" });
+          rList.aGroups = {};
+          table.insert(rList.aGroups, { sDBField = "level" });
+          rList.aGroupValueOrder = { };
+          w.init(rList);
+        end
+      </script>
+    </button_text_sm>
+  </template>    
+  <template name="button_spells_divine_player">
+    <button_text_sm>
+      <anchored to="buttonanchor" width="80">
+        <top />
+        <left anchor="right" relation="relative" offset="5" />
+      </anchored>
+      <state textres="item_button_spell_divine" />
+      <script>
+        function onButtonPress()
+          local w = Interface.openWindow("reference_groupedlist", "reference.spellsdivine");
+          local rList = {};
+          rList.sRecordType = "spell";
+          rList.sTitle = Interface.getString("item_button_spell_divine");
+          rList.aColumns = {};
+          table.insert(rList.aColumns, { sName = "name", sType = "string", sHeading = "Name", nWidth=200, nSortOrder=1 });
+          table.insert(rList.aColumns, { sName = "level", sType = "number", sHeading = "Level", bCentered=true });
+          table.insert(rList.aColumns, { sName = "castingtime", sType = "string", sHeading = "Cast Time", bCentered=true, nWidth=80 });
+          table.insert(rList.aColumns, { sName = "range", sType = "string", sHeading = "Range", bCentered=true, nWidth=120,  });
+          table.insert(rList.aColumns, { sName = "components", sType = "string", sHeading = "Components", bCentered=true, nWidth=80 });
+          table.insert(rList.aColumns, { sName = "save", sType = "string", sHeading = "Save", bCentered=true, nWidth=80 });
+          rList.aFilters = {};
+          table.insert(rList.aFilters, { sDBField = "type", vFilterValue = "Divine" });
+          rList.aGroups = {};
+          table.insert(rList.aGroups, { sDBField = "level" });
+          rList.aGroupValueOrder = { };
+          w.init(rList);
+        end
+      </script>
+    </button_text_sm>
+  </template>    
+  <template name="button_skills_type_player">
+    <button_text_sm>
+      <anchored to="buttonanchor" width="80">
+        <top />
+        <left anchor="right" relation="relative" offset="5" />
+      </anchored>
+      <state textres="item_button_skill_type" />
+      <script>
+        function onButtonPress()
+          local w = Interface.openWindow("reference_groupedlist", "reference.skills");
+          local rList = {};
+          rList.sRecordType = "skill";
+          rList.sTitle = Interface.getString("item_button_skill_type");
+          rList.aColumns = {};
+          table.insert(rList.aColumns, { sName = "name", sType = "string", sHeading = "Name", nWidth=200, nSortOrder=1 });
+          table.insert(rList.aColumns, { sName = "stat", sType = "string", sHeading = "Type/Stat", bCentered=true });
+          table.insert(rList.aColumns, { sName = "base_check", sType = "number", sHeading = "Base/Check", bCentered=true, nWidth=80 });
+          table.insert(rList.aColumns, { sName = "adj_mod", sType = "number", sHeading = "Modifier", bCentered=true, nWidth=80,  });
+          rList.aFilters = {};
+          rList.aGroups = {};
+          table.insert(rList.aGroups, { sDBField = "stat" });
+          rList.aGroupValueOrder = {};
+          w.init(rList);
+        end
+      </script>
+    </button_text_sm>
+  </template>    
+  <template name="button_skills_type">
+    <button_text_sm>
+      <anchored to="buttonanchor" width="80">
+        <top />
+        <left anchor="right" relation="relative" offset="5" />
+      </anchored>
+      <state textres="item_button_skill_type" />
+      <script>
+        function onButtonPress()
+          local w = Interface.openWindow("reference_groupedlist", "reference.skills");
+          local rList = {};
+          rList.sRecordType = "skill";
+          rList.sTitle = Interface.getString("item_button_skill_type");
+          rList.aColumns = {};
+          table.insert(rList.aColumns, { sName = "name", sType = "string", sHeading = "Name", nWidth=200, nSortOrder=1 });
+          table.insert(rList.aColumns, { sName = "stat", sType = "string", sHeading = "Type/Stat", bCentered=true });
+          table.insert(rList.aColumns, { sName = "base_check", sType = "number", sHeading = "Base/Check", bCentered=true, nWidth=80 });
+          table.insert(rList.aColumns, { sName = "adj_mod", sType = "number", sHeading = "Modifier", bCentered=true, nWidth=80,  });
+          rList.aFilters = {};
+          rList.aGroups = {};
+          table.insert(rList.aGroups, { sDBField = "stat" });
+          rList.aGroupValueOrder = {};
+          w.init(rList);
+        end
+      </script>
+    </button_text_sm>
+  </template>    
     
     <template name="number_class_column">
         <number_column>
@@ -689,101 +689,101 @@
             <center />
         </label>
     </template>
-	<template name="scrollbar_record_classadvancement">
-		<scrollbar>
-			<anchored to="contentframe" offset="-15,-10,-10,0"/>
-		</scrollbar>
-	</template>
-	<template name="scrollbar_record_item">
-		<scrollbar>
-			<anchored to="contentframe" offset="-15,-10,-10,0"/>
-		</scrollbar>
-	</template>
-	<template name="scrollbar_record_power">
-		<scrollbar>
-			<anchored to="contentframe" offset="-15,-10,-10,0"/>
-		</scrollbar>
-	</template>
-	<template name="string_column_npc_remainder">
-		<basicstring>
+  <template name="scrollbar_record_classadvancement">
+    <scrollbar>
+      <anchored to="contentframe" offset="-15,-10,-10,0"/>
+    </scrollbar>
+  </template>
+  <template name="scrollbar_record_item">
+    <scrollbar>
+      <anchored to="contentframe" offset="-15,-10,-10,0"/>
+    </scrollbar>
+  </template>
+  <template name="scrollbar_record_power">
+    <scrollbar>
+      <anchored to="contentframe" offset="-15,-10,-10,0"/>
+    </scrollbar>
+  </template>
+  <template name="string_column_npc_remainder">
+    <basicstring>
       <script file="common/scripts/column_string.lua" />
-			<anchored position="righthigh" offset="10,0" height="20">
-				<right parent="" offset="-5" />
-			</anchored>
-		</basicstring>
-	</template>
-	<template name="label_column_adnd">
-		<label>
-		</label>
-	</template>
-	<template name="string_column_left_adnd">
-		<string_column>
+      <anchored position="righthigh" offset="10,0" height="20">
+        <right parent="" offset="-5" />
+      </anchored>
+    </basicstring>
+  </template>
+  <template name="label_column_adnd">
+    <label>
+    </label>
+  </template>
+  <template name="string_column_left_adnd">
+    <string_column>
     <script file="common/scripts/column_string.lua" />
-			<anchored width="60">
-				<right merge="delete" />
-			</anchored>
-		</string_column>
-	</template>
-	<template name="number_column_right_adnd">
-		<basicnumber>
+      <anchored width="60">
+        <right merge="delete" />
+      </anchored>
+    </string_column>
+  </template>
+  <template name="number_column_right_adnd">
+    <basicnumber>
       <script file="common/scripts/column_number.lua" />
-			<anchored width="40" height="20">
-				<top />
-				<right parent="" offset="-5" />
-			</anchored>
-		</basicnumber>
-	</template>
+      <anchored width="40" height="20">
+        <top />
+        <right parent="" offset="-5" />
+      </anchored>
+    </basicnumber>
+  </template>
     
 
 <!-- add remove memorized spells -->
-	<template name="button_memorize_remove">
-		<buttoncontrol name="mem_remove">
-			<anchored height="24" width="24" />
-			<!-- <frame name="fieldlight" offset="2,2,2,2" /> -->
-			<state tooltipres="power_label_memorize_remove_tooltip" icon="button_page_prev" />
-			<invisible />
+  <template name="button_memorize_remove">
+    <buttoncontrol name="mem_remove">
+      <anchored height="24" width="24" />
+      <!-- <frame name="fieldlight" offset="2,2,2,2" /> -->
+      <state tooltipres="power_label_memorize_remove_tooltip" icon="button_page_prev" />
+      <invisible />
       <script>
-				function onButtonPress()
+        function onButtonPress()
           local nodeSpell = window.getDatabaseNode();
           PowerManager.removeMemorizedSpell(nil,nodeSpell);
-					return true;
-				end
+          return true;
+        end
       </script>
-		</buttoncontrol>
-	</template>
-	<template name="button_memorize_add">
-		<buttoncontrol name="mem_add">
-			<anchored height="24" width="24" />
-			<!-- <frame name="fieldlight" offset="2,2,2,2" /> -->
-			<state tooltipres="power_label_memorize_add_tooltip" icon="button_page_next" />
-			<invisible />
+    </buttoncontrol>
+  </template>
+  <template name="button_memorize_add">
+    <buttoncontrol name="mem_add">
+      <anchored height="24" width="24" />
+      <!-- <frame name="fieldlight" offset="2,2,2,2" /> -->
+      <state tooltipres="power_label_memorize_add_tooltip" icon="button_page_next" />
+      <invisible />
       <script>
-				function onButtonPress()
+        function onButtonPress()
           local nodeSpell = window.getDatabaseNode();
           PowerManager.memorizeSpell(nil,nodeSpell);
-					return true;
-				end
+          return true;
+        end
       </script>
-		</buttoncontrol>
-	</template>
+    </buttoncontrol>
+  </template>
 
   <template name="memorize_remove">
-		<button_memorize_remove>
+    <button_memorize_remove>
         <anchored to="name" width="18" height="12">
           <top offset="6"/>
           <left anchor="right" relation="relative" offset="5" />
         </anchored>
-		</button_memorize_remove>
-	</template>
+    </button_memorize_remove>
+  </template>
   
-	<template name="memorize_add">
-		<button_memorize_add>
+  <template name="memorize_add">
+    <button_memorize_add>
         <anchored to="name" width="18" height="12">
           <top offset="6"/>
           <left anchor="right" relation="relative" offset="0" />
         </anchored>
-		</button_memorize_add>
-	</template>
+    </button_memorize_add>
+  </template>
 <!-- end add remove memorized spells -->
 
 <!-- templates for *_actions_powers and *_actions_contents_powers -->
@@ -857,5 +857,5 @@
   </template>
   <!-- -->
 
-	
+  
 </root>

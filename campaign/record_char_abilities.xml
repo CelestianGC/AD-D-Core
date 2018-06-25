@@ -6,241 +6,241 @@
 -->
 
 <root>
-	<windowclass name="charsheet_abilities">
-		<sheetdata>
-			<button_iedit name="actions_iedit">
-				<anchored position="insidebottomright" offset="10,10" />
-				<tooltip textres="char_abilities_tooltip_edit" />
-				<script>
-					function onValueChanged()
-						local bEditMode = (getValue() == 1);
-						
-						window.contents.subwindow.features_iadd.setVisible(bEditMode);
-						window.contents.subwindow.features.update();
-						window.contents.subwindow.traits_iadd.setVisible(bEditMode);
-						window.contents.subwindow.traits.update();
-					end
-				</script>
-			</button_iedit>
+  <windowclass name="charsheet_abilities">
+    <sheetdata>
+      <button_iedit name="actions_iedit">
+        <anchored position="insidebottomright" offset="10,10" />
+        <tooltip textres="char_abilities_tooltip_edit" />
+        <script>
+          function onValueChanged()
+            local bEditMode = (getValue() == 1);
+            
+            window.contents.subwindow.features_iadd.setVisible(bEditMode);
+            window.contents.subwindow.features.update();
+            window.contents.subwindow.traits_iadd.setVisible(bEditMode);
+            window.contents.subwindow.traits.update();
+          end
+        </script>
+      </button_iedit>
 
-			<subwindow name="contents">
-				<anchored>
-					<top offset="25" />
-					<bottom offset="-40" />
-					<left offset="15" />
-					<right offset="-15" />
-				</anchored>
-				<class>charsheet_abilities_contents</class>
-				<activate />
-				<fastinit />
-			</subwindow>
-			<scrollbar_charcontents />
-		</sheetdata>
-	</windowclass>
+      <subwindow name="contents">
+        <anchored>
+          <top offset="25" />
+          <bottom offset="-40" />
+          <left offset="15" />
+          <right offset="-15" />
+        </anchored>
+        <class>charsheet_abilities_contents</class>
+        <activate />
+        <fastinit />
+      </subwindow>
+      <scrollbar_charcontents />
+    </sheetdata>
+  </windowclass>
 
-	<windowclass name="charsheet_abilities_contents">
-		<margins control="0,0,0,2" />
-		<script file="campaign/scripts/char_abilities.lua" />
-		<sheetdata>
-			<label_charframetop name="featurestitle">
+  <windowclass name="charsheet_abilities_contents">
+    <margins control="0,0,0,2" />
+    <script file="campaign/scripts/char_abilities.lua" />
+    <sheetdata>
+      <label_charframetop name="featurestitle">
                 <bounds>15,10,-10,20</bounds>
-				<static textres="char_abilities_label_features" />
-				<icons>char_abilities_purple</icons>
-				<target>features</target>
-			</label_charframetop>
-			<list_abilities name="features">
-				<anchored to="featurestitle">
-					<top anchor="bottom" relation="relative" offset="5" />
-					<left />
-					<right />
-				</anchored>
-				<datasource>.featurelist</datasource>
-				<class>ability_item</class>
-				<listheader>featurestitle</listheader>
-			</list_abilities>
-			<button_iadd name="features_iadd">
-				<anchored to="featurestitle" position="insidetopright" offset="5,0" />
-				<target>features</target>
-			</button_iadd>
+        <static textres="char_abilities_label_features" />
+        <icons>char_abilities_purple</icons>
+        <target>features</target>
+      </label_charframetop>
+      <list_abilities name="features">
+        <anchored to="featurestitle">
+          <top anchor="bottom" relation="relative" offset="5" />
+          <left />
+          <right />
+        </anchored>
+        <datasource>.featurelist</datasource>
+        <class>ability_item</class>
+        <listheader>featurestitle</listheader>
+      </list_abilities>
+      <button_iadd name="features_iadd">
+        <anchored to="featurestitle" position="insidetopright" offset="5,0" />
+        <target>features</target>
+      </button_iadd>
 
-			<label_charframetop name="traitstitle">
-				<anchored to="featurestitle" height="20">
-					<top anchor="bottom" relation="relative" offset="7" />
-					<left />
-					<right />
-				</anchored>
-				<static textres="char_abilities_label_traits" />
-				<icons>char_abilities</icons>
-				<target>traits</target>
-			</label_charframetop>
-			<list_abilities name="traits">
-				<anchored to="traitstitle">
-					<top anchor="bottom" relation="relative" offset="5" />
-					<left />
-					<right />
-				</anchored>
-				<datasource>.traitlist</datasource>
-				<class>ability_item</class>
-				<listheader>traitstitle</listheader>
-			</list_abilities>
-			<button_iadd name="traits_iadd">
-				<anchored to="traitstitle" position="insidetopright" offset="5,0" />
-				<target>traits</target>
-			</button_iadd>
+      <label_charframetop name="traitstitle">
+        <anchored to="featurestitle" height="20">
+          <top anchor="bottom" relation="relative" offset="7" />
+          <left />
+          <right />
+        </anchored>
+        <static textres="char_abilities_label_traits" />
+        <icons>char_abilities</icons>
+        <target>traits</target>
+      </label_charframetop>
+      <list_abilities name="traits">
+        <anchored to="traitstitle">
+          <top anchor="bottom" relation="relative" offset="5" />
+          <left />
+          <right />
+        </anchored>
+        <datasource>.traitlist</datasource>
+        <class>ability_item</class>
+        <listheader>traitstitle</listheader>
+      </list_abilities>
+      <button_iadd name="traits_iadd">
+        <anchored to="traitstitle" position="insidetopright" offset="5,0" />
+        <target>traits</target>
+      </button_iadd>
             
             <!-- effects -->
-			<label_charframetop name="advancedeffectstitle">
-				<anchored to="traitstitle" height="20">
-					<top anchor="bottom" relation="relative" offset="7" />
-					<left />
-					<right />
-				</anchored>
-				<static textres="char_abilities_label_advancedeffects" />
-				<icons>char_powers</icons>
-				<target>header_effects</target>
-			</label_charframetop>
+      <label_charframetop name="advancedeffectstitle">
+        <anchored to="traitstitle" height="20">
+          <top anchor="bottom" relation="relative" offset="7" />
+          <left />
+          <right />
+        </anchored>
+        <static textres="char_abilities_label_advancedeffects" />
+        <icons>char_powers</icons>
+        <target>header_effects</target>
+      </label_charframetop>
 
 
-			<button_iedit name="effects_iedit">
-				<anchored to="advancedeffectstitle" position="insidetopright" offset="-5,0" />
- 				<script>
-					function onValueChanged()
-						local bEditMode = (getValue() == 1);
-						
-						window.effects_list_iadd.setVisible(bEditMode);
-						window.effects_list.update();
-					end
-				</script>
-			</button_iedit>
-			<button_iadd name="effects_list_iadd">
-				<anchored to="effects_iedit" position="lefthigh" offset="5,0" />
-				<target>effects_list</target>
-			</button_iadd>
+      <button_iedit name="effects_iedit">
+        <anchored to="advancedeffectstitle" position="insidetopright" offset="-5,0" />
+         <script>
+          function onValueChanged()
+            local bEditMode = (getValue() == 1);
             
-			<list_editor_advanced_effects name="effects_list">
+            window.effects_list_iadd.setVisible(bEditMode);
+            window.effects_list.update();
+          end
+        </script>
+      </button_iedit>
+      <button_iadd name="effects_list_iadd">
+        <anchored to="effects_iedit" position="lefthigh" offset="5,0" />
+        <target>effects_list</target>
+      </button_iadd>
+            
+      <list_editor_advanced_effects name="effects_list">
                 <anchored>
                     <top parent="advancedeffectstitle" anchor="bottom" relation="relative" offset="0" />
                     <left />
                     <right />
                 </anchored>
-				<datasource>.effectlist</datasource>
-				<class>advanced_effects_entry</class>
-				<script>
-					function addEntry(bFocus)
-						local n = getWindowCount();
-						
-						local w = createWindow();
-						return w;
-					end
-				</script>
-			</list_editor_advanced_effects>
+        <datasource>.effectlist</datasource>
+        <class>advanced_effects_entry</class>
+        <script>
+          function addEntry(bFocus)
+            local n = getWindowCount();
+            
+            local w = createWindow();
+            return w;
+          end
+        </script>
+      </list_editor_advanced_effects>
             <!-- end advanced effects entry -->
 
          </sheetdata>
-	</windowclass>
-	
-	<windowclass name="proficiency_item">
-		<margins control="0,0,0,2" />
-		<sheetdata>
-			<genericcontrol name="rightanchor">
-				<anchored position="insidetopright" offset="0,2" height="0" width="0" />
-			</genericcontrol>
+  </windowclass>
+  
+  <windowclass name="proficiency_item">
+    <margins control="0,0,0,2" />
+    <sheetdata>
+      <genericcontrol name="rightanchor">
+        <anchored position="insidetopright" offset="0,2" height="0" width="0" />
+      </genericcontrol>
 
             <!-- skill link button? -->
-			<linkcontrol name="shortcut">
-				<anchored to="rightanchor" width="20" height="20">
-					<top />
-					<right anchor="left" relation="relative" offset="-5" />
-				</anchored>
-				<class>ref_proficiency_item</class>
-				<readonly />
-			</linkcontrol>
+      <linkcontrol name="shortcut">
+        <anchored to="rightanchor" width="20" height="20">
+          <top />
+          <right anchor="left" relation="relative" offset="-5" />
+        </anchored>
+        <class>ref_proficiency_item</class>
+        <readonly />
+      </linkcontrol>
 
             <!-- button delete -->
-			<button_idelete name="idelete">
-				<anchored to="rightanchor">
-					<top />
-					<right anchor="left" offset="-5" />
-				</anchored>
-			</button_idelete>
+      <button_idelete name="idelete">
+        <anchored to="rightanchor">
+          <top />
+          <right anchor="left" offset="-5" />
+        </anchored>
+      </button_idelete>
 
-			<number_adjustment name="dmgadj">
-				<anchored to="rightanchor">
-					<top offset="3" />
-					<right anchor="left" relation="relative" offset="-10" />
-				</anchored>
-				<tabtarget next="name" prev="hitadj" />
-				<tooltip textres="weapon_label_dmgadj_tooltip" />
-			</number_adjustment>
-			<label name="label_dmgadj">
+      <number_adjustment name="dmgadj">
+        <anchored to="rightanchor">
+          <top offset="3" />
+          <right anchor="left" relation="relative" offset="-10" />
+        </anchored>
+        <tabtarget next="name" prev="hitadj" />
+        <tooltip textres="weapon_label_dmgadj_tooltip" />
+      </number_adjustment>
+      <label name="label_dmgadj">
                 <static textres="weapon_label_dmgadj"/>
-				<tooltip textres="weapon_label_dmgadj_tooltip" />
-				<anchored to="rightanchor">
-					<top />
-					<right anchor="left" relation="relative" offset="-10" />
-				</anchored>
-			</label>
+        <tooltip textres="weapon_label_dmgadj_tooltip" />
+        <anchored to="rightanchor">
+          <top />
+          <right anchor="left" relation="relative" offset="-10" />
+        </anchored>
+      </label>
 
-			<number_adjustment name="hitadj">
-				<anchored to="rightanchor">
-					<top offset="3" />
-					<right anchor="left" relation="relative" offset="-10" />
-				</anchored>
-				<tabtarget next="dmgadj" prev="name" />
-				<tooltip textres="weapon_label_hitadj_tooltip" />
-			</number_adjustment>
-			<label name="label_hitadj">
+      <number_adjustment name="hitadj">
+        <anchored to="rightanchor">
+          <top offset="3" />
+          <right anchor="left" relation="relative" offset="-10" />
+        </anchored>
+        <tabtarget next="dmgadj" prev="name" />
+        <tooltip textres="weapon_label_hitadj_tooltip" />
+      </number_adjustment>
+      <label name="label_hitadj">
                 <static textres="weapon_label_hitadj"/>
-				<tooltip textres="weapon_label_hitadj_tooltip" />
-				<anchored to="rightanchor">
-					<top />
-					<right anchor="left" relation="relative" offset="-10" />
-				</anchored>
-			</label>
+        <tooltip textres="weapon_label_hitadj_tooltip" />
+        <anchored to="rightanchor">
+          <top />
+          <right anchor="left" relation="relative" offset="-10" />
+        </anchored>
+      </label>
 
-			<string_textlistitem name="name">
-				<anchored to="rightanchor">
-					<top />
-					<left parent="" offset="10" />
-					<right anchor="left" relation="relative" offset="-15" />
-				</anchored>
-				<multilinespacing>20</multilinespacing>
-				<tabtarget next="hitadj" prev="dmgadj" />
-			</string_textlistitem>
+      <string_textlistitem name="name">
+        <anchored to="rightanchor">
+          <top />
+          <left parent="" offset="10" />
+          <right anchor="left" relation="relative" offset="-15" />
+        </anchored>
+        <multilinespacing>20</multilinespacing>
+        <tabtarget next="hitadj" prev="dmgadj" />
+      </string_textlistitem>
 
 
             </sheetdata>
-	</windowclass>
+  </windowclass>
 
-	<windowclass name="ability_item">
-		<margins control="0,0,0,2" />
-		<sheetdata>
-			<genericcontrol name="rightanchor">
-				<anchored position="insidetopright" offset="0,2" height="0" width="0" />
-			</genericcontrol>
-			<linkcontrol name="shortcut">
-				<anchored to="rightanchor" width="20" height="20">
-					<top />
-					<right anchor="left" relation="relative" offset="-5" />
-				</anchored>
-				<class>ref_ability</class>
-				<readonly />
-			</linkcontrol>
-			<button_idelete name="idelete">
-				<anchored to="rightanchor">
-					<top />
-					<right anchor="left" offset="-5" />
-				</anchored>
-			</button_idelete>
-			
-			<string_textlistitem name="name">
-				<anchored to="rightanchor">
-					<top />
-					<left parent="" offset="5" />
-					<right anchor="left" relation="relative" offset="-10" />
-				</anchored>
-				<multilinespacing>20</multilinespacing>
-			</string_textlistitem>
-		</sheetdata>
-	</windowclass>
+  <windowclass name="ability_item">
+    <margins control="0,0,0,2" />
+    <sheetdata>
+      <genericcontrol name="rightanchor">
+        <anchored position="insidetopright" offset="0,2" height="0" width="0" />
+      </genericcontrol>
+      <linkcontrol name="shortcut">
+        <anchored to="rightanchor" width="20" height="20">
+          <top />
+          <right anchor="left" relation="relative" offset="-5" />
+        </anchored>
+        <class>ref_ability</class>
+        <readonly />
+      </linkcontrol>
+      <button_idelete name="idelete">
+        <anchored to="rightanchor">
+          <top />
+          <right anchor="left" offset="-5" />
+        </anchored>
+      </button_idelete>
+      
+      <string_textlistitem name="name">
+        <anchored to="rightanchor">
+          <top />
+          <left parent="" offset="5" />
+          <right anchor="left" relation="relative" offset="-10" />
+        </anchored>
+        <multilinespacing>20</multilinespacing>
+      </string_textlistitem>
+    </sheetdata>
+  </windowclass>
 </root>
