@@ -139,7 +139,9 @@
             local bEditMode = (getValue() == 1);
             
             window.weapons_iadd.setVisible(bEditMode);
-            window.parentcontrol.window.abilitynotes_iadd.setVisible(bEditMode);
+            if window.parentcontrol.window.abilitynotes_iadd then 
+              window.parentcontrol.window.abilitynotes_iadd.setVisible(bEditMode);
+            end
             
             if bEditMode then
               DB.setValue(window.getDatabaseNode(), "powermode", "string", "standard");
@@ -147,7 +149,9 @@
             end
 
             window.contents.subwindow.weapons.update();
-            window.parentcontrol.window.mini_combat_window.subwindow.abilitynotes.update(bEditMode)
+            if window.parentcontrol.window.mini_combat_window then
+              window.parentcontrol.window.mini_combat_window.subwindow.abilitynotes.update(bEditMode);
+            end
           end
         </script>
       </button_iedit>
