@@ -131,10 +131,11 @@ aRecords = {
   -- },
   ["npc"] = { 
     bExport = true,
+    bID = true,
     aDataMap = { "npc", "reference.npcdata" }, 
     aDisplayIcon = { "button_people", "button_people_down" },
     -- sRecordDisplayClass = "npc", 
-    aGMEditButtons = { "button_npc_import" };
+    aGMEditButtons = { "button_npc_export_file","button_npc_import_file","button_npc_import_text" };
     aGMListButtons = { "button_npc_letter", "button_npc_hd", "button_npc_type" };
     aCustomFilters = {
 --    ["Type"] = { sField = "type", fGetValue = getNPCTypeValue },

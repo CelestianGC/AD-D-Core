@@ -3,10 +3,11 @@
 <!-- 
   Please see the license.html file included with this distribution for 
   attribution and copyright information.
+  
 -->
 
 <root version="3.0" release="27" logo="logo.png">
-  <announcement text="AD&amp;D Core v2018.06.29 For Fantasy Grounds\r--by Celestian 2017-2018" font="emotefont" icon="rulesetlogo_ADnD" />
+  <announcement text="AD&amp;D Core v2018.07.08 For Fantasy Grounds\r--by Celestian 2017-2018" font="emotefont" icon="rulesetlogo_ADnD" />
 
   <!-- Attributes -->
   <description>
@@ -20,6 +21,7 @@
   
   <importinfo>
     <acceptfrom ruleset="2E" />
+    <acceptfrom ruleset="AD&amp;D Core" />
     <acceptfrom ruleset="CoreRPG" />
   </importinfo>
     
@@ -107,9 +109,9 @@
   <includefile source="campaign/record_story_adnd.xml" />
   <includefile source="campaign/template_char_adnd.xml" />
   <includefile source="desktop/template_desktop_adnd.xml" />
+  <!-- <includefile source="campaign/record_ability_notes.xml" /> -->
   <includefile source="campaign/record_quicknotes.xml" />
-  <includefile source="utility/utility_manualrolls_adnd.xml" />
-  <includefile source="common/template_combobox.xml" />
+  <includefile source="common/template_combobox_adnd.xml" />
   
   <!-- Forge -->
   <includefile source="forge/template_forge.xml" />
@@ -135,7 +137,7 @@
   <script name="CampaignDataManager2" file="scripts/manager_campaigndata2.lua" />
   <script name="DataSpell" file="scripts/data_spell.lua" />
   <script name="ActorManager2" file="scripts/manager_actor2.lua" />
-  <script name="CombatManager2" file="scripts/manager_combat2_5e_3.3.5.lua" />
+  <script name="CombatManager2" file="scripts/manager_combat2_5e_3.3.6.lua" />
   <script name="EffectManager5E" file="scripts/manager_effect_5E.lua" />
   <script name="ItemManager2" file="scripts/manager_item2.lua" />
   <script name="PowerManager" file="scripts/manager_power.lua" />
@@ -154,7 +156,7 @@
   <script name="ActionAttack" file="scripts/manager_action_attack.lua" />
   <script name="ActionCheck" file="scripts/manager_action_check.lua" />
   <script name="ActionDamage" file="scripts/manager_action_damage.lua" />
-  <script name="ActionEffect" file="scripts/manager_action_effect.lua" />
+  <!-- <script name="ActionEffect" file="scripts/manager_action_effect.lua" /> -->
   <script name="ActionHeal" file="scripts/manager_action_heal.lua" />
   <script name="ActionInit" file="scripts/manager_action_init.lua" />
   <script name="ActionPower" file="scripts/manager_action_power.lua" />
@@ -163,15 +165,12 @@
   <script name="ActionSave" file="scripts/manager_action_save.lua" />
   <script name="ActionSkill" file="scripts/manager_action_skill.lua" />
 
-    <!-- AD&D specific settings -->
-   <script name="LibraryDataADND" file="scripts/data_library_adnd.lua" />
-   <!-- <script name="ImageManagerADND" file="scripts/manage_image_adnd.lua" /> -->
-   <script name="EffectManagerADND" file="scripts/manager_effect_adnd.lua" />
-  <!-- AccessManagerADND removed, this was used for effects for players but moved to OOB style -->
-   <!-- <script name="AccessManagerADND" file="scripts/manager_access_adnd.lua" /> -->
-  <!-- <script name="CombatManagerADND" file="scripts/manager_combat_adnd.lua" /> -->
-   <script name="TokenManagerADND" file="scripts/manager_token_adnd.lua" />
-   <script name="ActorManagerADND" file="scripts/manager_actor_adnd.lua" />
+  <!-- AD&D specific settings -->
+  <script name="LibraryDataADND" file="scripts/data_library_adnd.lua" />
+  <!-- <script name="ImageManagerADND" file="scripts/manage_image_adnd.lua" /> -->
+  <script name="EffectManagerADND" file="scripts/manager_effect_adnd.lua" />
+  <script name="TokenManagerADND" file="scripts/manager_token_adnd.lua" />
+  <script name="ActorManagerADND" file="scripts/manager_actor_adnd.lua" />
   <script name="ActionSurprise" file="scripts/manager_action_surprise.lua" />
   <script name="ActionTurn" file="scripts/manager_action_turnundead.lua" />
   <script name="WindowManagerADND" file="scripts/windowmanager.lua" />

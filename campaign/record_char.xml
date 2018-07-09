@@ -35,9 +35,9 @@
       </stringu>
       <label name="name_label" >
         <anchored to="name" >
-            <top anchor="bottomleft" relation="relative" offset="-3" />
-            <left anchor="left" />
-            <right anchor="right" />
+          <top anchor="bottomleft" relation="relative" offset="-3" />
+          <left anchor="left" />
+          <right anchor="right" />
         </anchored>
         <static textres="char_label_name" />
         <font>arial-bold-8</font>

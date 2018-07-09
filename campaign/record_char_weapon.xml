@@ -85,23 +85,23 @@
       
 
       <stringu name="name"> 
-                <script>
+        <script>
           function onDoubleClick(x,y)
             return window.onAttackAction();
           end      
-                </script>
-                <anchored height="18">
-                    <top offset="5" />
-                    <left parent="leftanchor" anchor="right" relation="relative" offset="5" />
-                    <right parent="rightanchor" anchor="left" relation="relative" offset="-240" />
-                </anchored>
+        </script>
+        <anchored height="18">
+            <top offset="5" />
+            <left parent="leftanchor" anchor="right" relation="relative" offset="5" />
+            <right parent="rightanchor" anchor="left" relation="relative" offset="-240" />
+        </anchored>
       </stringu>
 
       <state_charweapontype name="type">
-                <anchored height="18" >
-                    <top offset="5" />
-                    <left parent="leftanchor" anchor="right" relation="relative" offset="1" />
-                </anchored>
+        <anchored height="18" >
+          <top offset="5" />
+          <left parent="leftanchor" anchor="right" relation="relative" offset="1" />
+        </anchored>
         <script>
           function onValueChanged()
             window.onTypeChanged();
@@ -530,13 +530,13 @@
         <anchored to="label_plus2" position="righthigh" offset="2,0" width="35" height="20" />
       </number_adjustment>
 
-      <combobox name="prof">
+      <combobox_adnd name="prof">
         <listdirection>down</listdirection>
         <anchored to="dmgadj" position="righthigh" offset="10,0" height="20">
           <right parent="rightanchor" anchor="left" relation="relative" offset="-5" />
         </anchored>
         <script file="campaign/scripts/prof_select.lua"/>
-      </combobox>
+      </combobox_adnd>
       
 
         </sheetdata>

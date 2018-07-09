@@ -8,7 +8,7 @@ OOB_MSGTYPE_APPLYCONC = "applyconc";
 
 function onInit()
   OOBManager.registerOOBMsgHandler(OOB_MSGTYPE_APPLYSAVE, handleApplySave);
-    OOBManager.registerOOBMsgHandler(OOB_MSGTYPE_APPLYCONC, handleApplyConc);
+  OOBManager.registerOOBMsgHandler(OOB_MSGTYPE_APPLYCONC, handleApplyConc);
 
   ActionsManager.registerModHandler("save", modSave);
   ActionsManager.registerResultHandler("save", onSave);

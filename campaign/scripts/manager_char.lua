@@ -3,6 +3,7 @@
 -- attribution and copyright information.
 --
 
+-- remove these at some point, not useful in AD&D --celestian
 RACE_DWARF = "dwarf";
 RACE_DUERGAR = "duergar";
 
@@ -157,77 +158,77 @@ function updateMoveFromEncumbrance2e(nodeChar)
 --Debug.console("number_abilityscore.lua","updateMoveFromEncumbrance2e","nodeChar",nodeChar);
 
     if ActorManager.isPC(nodeChar) then -- only need this is the node is a PC
-        local nEncLight = 0.33;   -- 1/3
-        local nEncModerate = 0.5; -- 1/2
-        local nEncHeavy = 0.67;   -- 2/3
+      local nEncLight = 0.33;   -- 1/3
+      local nEncModerate = 0.5; -- 1/2
+      local nEncHeavy = 0.67;   -- 2/3
+      
+      local nStrength = DB.getValue(nodeChar, "abilities.strength.score", 0);
+      local nPercent = DB.getValue(nodeChar, "abilities.strength.percent", 0);
+      local nWeightCarried = DB.getValue(nodeChar, "encumbrance.load", 0);
+      local nBaseMove = DB.getValue(nodeChar, "speed.base", 0);
+      local nBaseEncOriginal = DB.getValue(nodeChar, "speed.basemodenc", 0);
+      local sEncRankOriginal = DB.getValue(nodeChar, "speed.encumbrancerank", "");
+      local nBaseEnc = 0; 
+      local sEncRank = "Normal";
+      
+      -- Deal with 18 01-100 strength
+      if ((nStrength == 18) and (nPercent > 0)) then
+          local nPercentRank = 50;
+          if (nPercent == 100) then 
+              nPercentRank = 100
+          elseif (nPercent >= 91 and nPercent <= 99) then
+              nPercentRank = 99
+          elseif (nPercent >= 76 and nPercent <= 90) then
+              nPercentRank = 90
+          elseif (nPercent >= 51 and nPercent <= 75) then
+              nPercentRank = 75
+          elseif (nPercent >= 1 and nPercent <= 50) then
+              nPercentRank = 50
+          end
+          nStrength = nPercentRank;
+      end
         
-        local nStrength = DB.getValue(nodeChar, "abilities.strength.score", 0);
-        local nPercent = DB.getValue(nodeChar, "abilities.strength.percent", 0);
-        local nWeightCarried = DB.getValue(nodeChar, "encumbrance.load", 0);
-        local nBaseMove = DB.getValue(nodeChar, "speed.base", 0);
-        local nBaseEncOriginal = DB.getValue(nodeChar, "speed.basemodenc", 0);
-        local sEncRankOriginal = DB.getValue(nodeChar, "speed.encumbrancerank", "");
-        local nBaseEnc = 0; 
-        local sEncRank = "Normal";
-        
-        -- Deal with 18 01-100 strength
-        if ((nStrength == 18) and (nPercent > 0)) then
-            local nPercentRank = 50;
-            if (nPercent == 100) then 
-                nPercentRank = 100
-            elseif (nPercent >= 91 and nPercent <= 99) then
-                nPercentRank = 99
-            elseif (nPercent >= 76 and nPercent <= 90) then
-                nPercentRank = 90
-            elseif (nPercent >= 51 and nPercent <= 75) then
-                nPercentRank = 75
-            elseif (nPercent >= 1 and nPercent <= 50) then
-                nPercentRank = 50
-            end
-            nStrength = nPercentRank;
-        end
-        
-        -- determine if wt carried is greater than a encumbrance rank for strength value
-        if (nWeightCarried >= DataCommonADND.aStrength[nStrength][11]) then
-            nBaseEnc = (nBaseMove - 1); -- greater than max, base is 1
-            sEncRank = "MAX";
-        elseif (nWeightCarried >= DataCommonADND.aStrength[nStrength][10]) then
-            nBaseEnc = (nBaseMove - 1); -- greater than severe, base is 1
-            sEncRank = "Severe";
-        elseif (nWeightCarried >= DataCommonADND.aStrength[nStrength][9]) then
-            nBaseEnc = nBaseMove * nEncHeavy; -- greater than heavy
-            sEncRank = "Heavy";
-        elseif (nWeightCarried >= DataCommonADND.aStrength[nStrength][8]) then
-            nBaseEnc = nBaseMove * nEncModerate; -- greater than moderate
-            sEncRank = "Moderate";
-        elseif (nWeightCarried >= DataCommonADND.aStrength[nStrength][7]) then
-            nBaseEnc = nBaseMove * nEncLight; -- greater than light
-            sEncRank = "Light";
-        end
-        
-        nBaseEnc = math.floor(nBaseEnc);
-        nBaseEnc = nBaseMove - nBaseEnc;
-        if (nBaseEnc < 1) then
-            nBaseEnc = 1;
-        end
-        if nBaseMove == nBaseEnc then
-            DB.setValue(nodeChar,"speed.basemodenc","number",0);
-        else
-            DB.setValue(nodeChar,"speed.basemodenc","number",nBaseEnc);
-        end
-        DB.setValue(nodeChar,"speed.encumbrancerank","string",sEncRank);
-        -- Debug.console("manager_char.lua","updateMoveFromEncumbrance","nodeChar",nodeChar);
-        -- Debug.console("manager_char.lua","updateMoveFromEncumbrance","nWeightCarried",nWeightCarried);
-        -- Debug.console("manager_char.lua","updateMoveFromEncumbrance","nStrength",nStrength);
-        -- Debug.console("manager_char.lua","updateMoveFromEncumbrance","nBaseEnc",nBaseEnc);
-        -- Debug.console("manager_char.lua","updateMoveFromEncumbrance","nBaseEncOriginal",nBaseEncOriginal);
-        -- Debug.console("manager_char.lua","updateMoveFromEncumbrance","nBaseMove",nBaseMove);
-        if (sEncRankOriginal ~= sEncRank ) then
-            local sFormat = Interface.getString("message_encumbrance_changed");
-            local sMsg = string.format(sFormat, DB.getValue(nodeChar, "name", ""),sEncRank,nBaseEnc);
-            ChatManager.SystemMessage(sMsg);
-        end
-        
+      -- determine if wt carried is greater than a encumbrance rank for strength value
+      if (nWeightCarried >= DataCommonADND.aStrength[nStrength][11]) then
+          nBaseEnc = (nBaseMove - 1); -- greater than max, base is 1
+          sEncRank = "MAX";
+      elseif (nWeightCarried >= DataCommonADND.aStrength[nStrength][10]) then
+          nBaseEnc = (nBaseMove - 1); -- greater than severe, base is 1
+          sEncRank = "Severe";
+      elseif (nWeightCarried >= DataCommonADND.aStrength[nStrength][9]) then
+          nBaseEnc = nBaseMove * nEncHeavy; -- greater than heavy
+          sEncRank = "Heavy";
+      elseif (nWeightCarried >= DataCommonADND.aStrength[nStrength][8]) then
+          nBaseEnc = nBaseMove * nEncModerate; -- greater than moderate
+          sEncRank = "Moderate";
+      elseif (nWeightCarried >= DataCommonADND.aStrength[nStrength][7]) then
+          nBaseEnc = nBaseMove * nEncLight; -- greater than light
+          sEncRank = "Light";
+      end
+      
+      nBaseEnc = math.floor(nBaseEnc);
+      nBaseEnc = nBaseMove - nBaseEnc;
+      if (nBaseEnc < 1) then
+          nBaseEnc = 1;
+      end
+      if nBaseMove == nBaseEnc then
+          DB.setValue(nodeChar,"speed.basemodenc","number",0);
+      else
+          DB.setValue(nodeChar,"speed.basemodenc","number",nBaseEnc);
+      end
+      DB.setValue(nodeChar,"speed.encumbrancerank","string",sEncRank);
+      -- Debug.console("manager_char.lua","updateMoveFromEncumbrance","nodeChar",nodeChar);
+      -- Debug.console("manager_char.lua","updateMoveFromEncumbrance","nWeightCarried",nWeightCarried);
+      -- Debug.console("manager_char.lua","updateMoveFromEncumbrance","nStrength",nStrength);
+      -- Debug.console("manager_char.lua","updateMoveFromEncumbrance","nBaseEnc",nBaseEnc);
+      -- Debug.console("manager_char.lua","updateMoveFromEncumbrance","nBaseEncOriginal",nBaseEncOriginal);
+      -- Debug.console("manager_char.lua","updateMoveFromEncumbrance","nBaseMove",nBaseMove);
+      if (sEncRankOriginal ~= sEncRank ) then
+          local sFormat = Interface.getString("message_encumbrance_changed");
+          local sMsg = string.format(sFormat, DB.getValue(nodeChar, "name", ""),sEncRank,nBaseEnc);
+          ChatManager.SystemMessage(sMsg);
+      end
+      
     end
 end
 -- update speed.basemodenc due to weight adjustments for AD&D 1e
@@ -1137,7 +1138,7 @@ function addClassProficiencyDB(nodeChar, sClass, sRecord)
 
   -- Armor, Weapon or Tool Proficiencies
 --  if StringManager.contains({"armor", "weapons", "tools"}, sType) then
-    if sType == "weapon" or sType == "racial" then    -- celestian
+    if sType == "" or sType == "weapon" or sType == "racial" then    -- celestian
       local sText = DB.getText(nodeSource, "name"); -- get name name of the weapon prof
       addProficiencyDB(nodeChar, sType, sText, nodeSource);
   -- Saving Throw Proficiencies
@@ -1251,8 +1252,7 @@ function addProficiencyDB(nodeChar, sType, sText, nodeSource)
   local sValue;
   if sType == "armor" then
     sValue = Interface.getString("char_label_addprof_armor");
---  elseif sType == "weapons" then
-  elseif sType == "weapon" then
+  elseif sType == "" or sType == "weapon" then -- "" or "weapon" type, this is default prof type if nothing is set.
     sValue = Interface.getString("char_label_addprof_weapon");  
   elseif sType == "racial" then
     sValue = Interface.getString("char_label_addprof_racial");  
@@ -1263,7 +1263,7 @@ function addProficiencyDB(nodeChar, sType, sText, nodeSource)
   DB.setValue(nodeEntry, "name", "string", sValue);
 
   -- need these values --celestian
-    if nodeSource and ( sType == "weapon" or sType == "racial" ) then
+    if nodeSource and ( sType == "" or sType == "weapon" or sType == "racial" ) then
       local sDescription = DB.getValue(nodeSource,"text","");
       local nHitADJ = DB.getValue(nodeSource,"hitadj",0);
       local nDMGADJ = DB.getValue(nodeSource,"dmgadj",0);
@@ -1463,7 +1463,10 @@ function addTraitDB(nodeChar, sClass, sRecord)
   if sTraitType == "" then
     sTraitType = nodeSource.getName();
   end
+
+--Debug.console("manager_char.lua","addTraitDB","sTraitType1",sTraitType);
   
+
   if sTraitType == "abilityscoreincrease" then
     local bApplied = false;
     local sAdjust = DB.getText(nodeSource, "text"):lower();
@@ -1549,6 +1552,7 @@ function addTraitDB(nodeChar, sClass, sRecord)
       DB.setValue(nodeChar, "speed.base", "number", nSpeed);
       DB.setValue(nodeChar, "speed.basemodenc","number",0);
       outputUserMessage("char_abilities_message_basespeedset", nSpeed, DB.getValue(nodeChar, "name", ""));
+      return true;
     end
     
     local aSpecial = {};
@@ -1588,7 +1592,7 @@ function addTraitDB(nodeChar, sClass, sRecord)
       DB.setValue(nodeChar, "speed.base", "number", tonumber(sWalkSpeedIncrease));
     end
 
-  elseif sTraitType == "darkvision" then
+  elseif sTraitType == "darkvision" or sTraitType == "infravision" or sTraitType == "ultravision" then
     local sSenses = DB.getValue(nodeChar, "senses", "");
     if sSenses ~= "" then
       sSenses = sSenses .. ", ";
@@ -1604,7 +1608,6 @@ function addTraitDB(nodeChar, sClass, sRecord)
     end
     
     DB.setValue(nodeChar, "senses", "string", sSenses);
-    
   elseif sTraitType == "superiordarkvision" then
     local sSenses = DB.getValue(nodeChar, "senses", "");
 
@@ -1633,10 +1636,11 @@ function addTraitDB(nodeChar, sClass, sRecord)
   elseif sTraitType == "languages" then
     local bApplied = false;
     local sText = DB.getText(nodeSource, "text");
-    local sLanguages = sText:match("You can speak, read, and write ([^.]+)");
-    if not sLanguages then
-      sLanguages = sText:match("You can read and write ([^.]+)");
-    end
+    --local sLanguages = sText:match("You can speak, read, and write ([^.]+)");
+    local sLanguages = sText:match("You can speak ([^.]+)");
+    -- if not sLanguages then
+      -- sLanguages = sText:match("You can read and write ([^.]+)");
+    -- end
     if not sLanguages then
       return false;
     end
@@ -1659,7 +1663,8 @@ function addTraitDB(nodeChar, sClass, sRecord)
   elseif sTraitType == "subrace" then
     return false;
     
-  else
+  --else
+  end
     local sText = DB.getText(nodeSource, "text", "");
     
     -- if sTraitType == "stonecunning" then
@@ -1703,12 +1708,10 @@ function addTraitDB(nodeChar, sClass, sRecord)
       table.insert(aSpecial, "Climb 20 ft.");
       DB.setValue(nodeChar, "speed.special", "string", table.concat(aSpecial, ", "));
     end
-  end
+--  end
   
   -- Announce
-  local sFormat = Interface.getString("char_abilities_message_traitadd");
-  local sMsg = string.format(sFormat, DB.getValue(nodeSource, "name", ""), DB.getValue(nodeChar, "name", ""));
-  ChatManager.SystemMessage(sMsg);
+  outputUserMessage("char_abilities_message_traitadd", DB.getValue(nodeSource, "name", ""), DB.getValue(nodeChar, "name", ""));
   
   return true;
 end
@@ -1903,9 +1906,7 @@ function addLanguageDB(nodeChar, sLanguage)
   DB.setValue(vNew, "name", "string", sLanguage);
 
   -- Announce
-  local sFormat = Interface.getString("char_abilities_message_languageadd");
-  local sMsg = string.format(sFormat, DB.getValue(vNew, "name", ""), DB.getValue(nodeChar, "name", ""));
-  ChatManager.SystemMessage(sMsg);
+  outputUserMessage("char_abilities_message_languageadd", DB.getValue(vNew, "name", ""), DB.getValue(nodeChar, "name", ""));
   
   return true;
 end
@@ -1917,9 +1918,7 @@ function addBackgroundRef(nodeChar, sClass, sRecord)
   end
 
   -- Notify
-  local sFormat = Interface.getString("char_abilities_message_backgroundadd");
-  local sMsg = string.format(sFormat, DB.getValue(nodeSource, "name", ""), DB.getValue(nodeChar, "name", ""));
-  ChatManager.SystemMessage(sMsg);
+  outputUserMessage("char_abilities_message_backgroundadd", DB.getValue(nodeSource, "name", ""), DB.getValue(nodeChar, "name", ""));
   
   -- Add the name and link to the main character sheet
   DB.setValue(nodeChar, "background", "string", DB.getValue(nodeSource, "name", ""));
@@ -2019,34 +2018,40 @@ function addRaceRef(nodeChar, sClass, sRecord)
     aTable["class"] = sClass;
     aTable["record"] = nodeSource;
     
-    local aSelection = {};
-    for _,v in pairs(DB.getChildrenGlobal(nodeSource, "subraces")) do
-      local sName = DB.getValue(v, "name", "");
-      if sName ~= "" then
-        table.insert(aSelection, { text = sName, linkclass = "reference_subrace", linkrecord = v.getPath() });
+    aTable["suboptions"] = {};
+    local sRaceLower = DB.getValue(nodeSource, "name", ""):lower();
+    local aMappings = LibraryData.getMappings("race");
+    for _,vMapping in ipairs(aMappings) do
+      for _,vRace in pairs(DB.getChildrenGlobal(vMapping)) do
+        if sRaceLower == StringManager.trim(DB.getValue(vRace, "name", "")):lower() then
+          for _,vSubRace in pairs(DB.getChildren(vRace, "subraces")) do
+            table.insert(aTable["suboptions"], { text = DB.getValue(vSubRace, "name", ""), linkclass = "reference_subrace", linkrecord = vSubRace.getPath() });
+          end
+        end
       end
     end
     
-    if #aSelection == 0 then
+    if #(aTable["suboptions"]) == 0 then
       addRaceSelect(nil, aTable);
-    elseif #aSelection == 1 then
-      addRaceSelect(aSelection, aTable);
+    elseif #(aTable["suboptions"]) == 1 then
+      addRaceSelect(aTable["suboptions"], aTable);
     else
       -- Display dialog to choose subrace
       local wSelect = Interface.openWindow("select_dialog", "");
       local sTitle = Interface.getString("char_build_title_selectsubrace");
       local sMessage = string.format(Interface.getString("char_build_message_selectsubrace"), DB.getValue(nodeSource, "name", ""), 1);
-      wSelect.requestSelection (sTitle, sMessage, aSelection, addRaceSelect, aTable);
+      wSelect.requestSelection(sTitle, sMessage, aTable["suboptions"], addRaceSelect, aTable);
     end
   else
+    local sSubRaceName = DB.getValue(nodeSource, "name", "");
+    
     local aTable = {};
     aTable["char"] = nodeChar;
     aTable["class"] = "reference_race";
     aTable["record"] = nodeSource.getChild("...");
+    aTable["suboptions"] = { { text = DB.getValue(nodeSource, "name", ""), linkclass = "reference_subrace", linkrecord = sRecord } };
     
-    local aSelection = { DB.getValue(nodeSource, "name", "") };
-    
-    addRaceSelect(aSelection, aTable);
+    addRaceSelect(aTable["suboptions"], aTable);
   end
 end
 
@@ -2079,9 +2084,7 @@ function addRaceSelect(aSelection, aTable)
   end
   
   -- Notify
-  local sFormat = Interface.getString("char_abilities_message_raceadd");
-  local sMsg = string.format(sFormat, sRace, DB.getValue(nodeChar, "name", ""));
-  ChatManager.SystemMessage(sMsg);
+ outputUserMessage("char_abilities_message_raceadd", sRace, DB.getValue(nodeChar, "name", ""));
   
   -- Add the name and link to the main character sheet
   DB.setValue(nodeChar, "race", "string", sRace);
@@ -2099,17 +2102,15 @@ function addRaceSelect(aSelection, aTable)
     end
   
   if sSubRace then
-    for _,vSubRace in pairs(DB.getChildrenGlobal(nodeSource, "subraces")) do
-      if DB.getValue(vSubRace, "name", "") == sSubRace then
-        for _,v in pairs(DB.getChildren(vSubRace, "traits")) do
+    for _,vSubRace in ipairs(aTable["suboptions"]) do
+      if sSubRace == vSubRace.text then
+        for _,v in pairs(DB.getChildren(DB.getPath(vSubRace.linkrecord, "traits"))) do
           addTraitDB(nodeChar, "reference_subracialtrait", v.getPath());
         end
-        
         break;
       end
     end
   end
-
     -- effects
     local nodeEffects = nodeSource.getChild("effectlist");
     addEffectFeature(nodeEffects,nodeChar);
@@ -2128,9 +2129,7 @@ function addClassRef(nodeChar, sClass, sRecord)
   end
   
   -- Notify
-  local sFormat = Interface.getString("char_abilities_message_classadd");
-  local sMsg = string.format(sFormat, DB.getValue(nodeSource, "name", ""), DB.getValue(nodeChar, "name", ""));
-  ChatManager.SystemMessage(sMsg);
+  outputUserMessage("char_abilities_message_classadd", DB.getValue(nodeSource, "name", ""), DB.getValue(nodeChar, "name", ""));
   
   -- Translate Hit Die
   local bHDFound = false;
@@ -2262,9 +2261,7 @@ function addClassRef(nodeChar, sClass, sRecord)
             local nAddHP = (nHDMult * nHDSides);
             nHP = nHP + nAddHP + nConBonus;
 
-            local sFormat = Interface.getString("char_abilities_message_hpaddmax");
-            local sMsg = string.format(sFormat, DB.getValue(nodeSource, "name", ""), DB.getValue(nodeChar, "name", "")) .. " (" .. nAddHP .. "+" .. nConBonus .. ")";
-            ChatManager.SystemMessage(sMsg);
+        outputUserMessage("char_abilities_message_hpaddmax", DB.getValue(nodeSource, "name", ""), " (" .. nAddHP .. "+" .. nConBonus .. ")");
         else
             -- local nAddHP = math.floor(((nHDMult * (nHDSides + 1)) / 2) + 0.5);
             -- nHP = nHP + nAddHP + nConBonus;
@@ -2274,9 +2271,7 @@ function addClassRef(nodeChar, sClass, sRecord)
             -- ChatManager.SystemMessage(sMsg);
 
             -- for now we're going to manually roll hp. We don't have charts with the varying HD 
-            local sFormat = Interface.getString("char_abilities_message_leveledup");
-            local sMsg = string.format(sFormat, DB.getValue(nodeChar, "name", ""),DB.getValue(nodeSource, "name", ""));
-            ChatManager.SystemMessage(sMsg);
+      outputUserMessage("char_abilities_message_hpaddmax", DB.getValue(nodeChar, "name", ""),DB.getValue(nodeSource, "name", ""));
             -- this just sets it's to what it was for now till we get tables of exp/hd if we
             -- we ever get it. Let them manually apply it for now --celestian
             nHP = DB.getValue(nodeChar, "hp.total", 0);
@@ -2939,9 +2934,7 @@ function addAdventureDB(nodeChar, sClass, sRecord)
   DB.setValue(vNew, "locked", "number", 1);
   
   -- Notify
-  local sFormat = Interface.getString("char_logs_message_adventureadd");
-  local sMsg = string.format(sFormat, DB.getValue(nodeSource, "name", ""), DB.getValue(nodeChar, "name", ""));
-  ChatManager.SystemMessage(sMsg);
+  outputUserMessage("char_logs_message_adventureadd", DB.getValue(nodeSource, "name", ""), DB.getValue(nodeChar, "name", ""));
 end
 
 function hasTrait(nodeChar, sTrait)
@@ -2994,9 +2987,7 @@ function applyDwarvenToughness(nodeChar, bInitialAdd)
   nHP = nHP + nAddHP;
   DB.setValue(nodeChar, "hp.total", "number", nHP);
   
-  local sFormat = Interface.getString("char_abilities_message_hpaddtrait");
-  local sMsg = string.format(sFormat, StringManager.capitalizeAll(TRAIT_DWARVEN_TOUGHNESS), DB.getValue(nodeChar, "name", "")) .. " (" .. nAddHP .. ")";
-  ChatManager.SystemMessage(sMsg);
+  outputUserMessage("char_abilities_message_hpaddtrait", StringManager.capitalizeAll(TRAIT_DWARVEN_TOUGHNESS), " (" .. nAddHP .. ")");
 end
 
 -- function applyDraconicResilience(nodeChar, bInitialAdd)
@@ -3049,9 +3040,7 @@ function applyTough(nodeChar, bInitialAdd)
   nHP = nHP + nAddHP;
   DB.setValue(nodeChar, "hp.total", "number", nHP);
   
-  local sFormat = Interface.getString("char_abilities_message_hpaddfeat");
-  local sMsg = string.format(sFormat, StringManager.capitalizeAll(FEAT_TOUGH), DB.getValue(nodeChar, "name", "")) .. " (" .. nAddHP .. ")";
-  ChatManager.SystemMessage(sMsg);
+  outputUserMessage("char_abilities_message_hpaddfeat", StringManager.capitalizeAll(FEAT_TOUGH)," (" .. nAddHP .. ")");
 end
 
 -- return the CTnode by using character sheet node 

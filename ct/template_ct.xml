@@ -6,6 +6,23 @@
 -->
 
 <root>
+  <template name="button_ctentry_activateattributes">
+    <buttoncontrol name="activateattributes">
+      <anchored to="rightanchor" width="35" height="32">
+        <top relation="relative"/>
+        <right anchor="left" relation="relative" offset="10" />
+      </anchored>
+      <tooltip textres="ct_tooltip_attribute" />
+      <state icon="button_fist" />
+      <state icon="button_fist_down" />
+      <script>
+        function onValueChanged()
+          window.setAttributesVisible();
+          window.windowlist.onEntrySectionToggle();
+        end
+      </script>
+    </buttoncontrol>
+  </template>
   <template name="anchor_ctbox_client_header">
     <genericcontrol name="headeranchor">
       <anchored to="contentanchor" height="26">
@@ -191,7 +208,7 @@
       <readonly />
     </stringcontrol>
   </template>
-  <template name="frame_ctsub">
+<!--   <template name="frame_ctsub">
     <genericcontrol>
       <anchored>
         <left parent="token" offset="25" />
@@ -202,12 +219,20 @@
       <frame name="ct_subgroupbox" />
       <disabled />
     </genericcontrol>
-  </template>
+  </template> -->
+<!--   <template name="icon_ctsection">
+    <genericcontrol>
+      <anchored width="25" height="32">
+        <left parent="token" offset="0" />
+        <top parent="active_spacer_top" anchor="bottom" relation="current" offset="3" />
+      </anchored>
+    </genericcontrol>
+  </template> -->
   <template name="icon_ctsection">
     <genericcontrol>
       <anchored width="25" height="32">
         <left parent="token" offset="0" />
-        <top parent="name" anchor="bottom" relation="current" offset="3" />
+        <top parent="active_spacer_top" anchor="bottom" relation="current" offset="10" />
       </anchored>
     </genericcontrol>
   </template>
@@ -388,10 +413,9 @@
 
     <template name="ct_save_label" >
         <label>
-            <center />
-            <anchored width="40"/>
-
-            <font>arial-bold-8</font>
+          <center />
+          <anchored width="40"/>
+          <font>arial-bold-8</font>
         </label>
     </template>
      <template name="ct_save_toplabel">
@@ -404,14 +428,45 @@
     
     <template name="number_ct_savescore">
     <number_ct>
-            <margins control="0,0,0,0" />
-            <anchored width="30" height="20"/>
-            <default>-1</default>
+      <margins control="0,0,0,0" />
+      <anchored width="30" height="20"/>
+      <default>-1</default>
       <rollable />
       <script file="campaign/scripts/number_savescore.lua" />
     </number_ct>
   </template>
     
-    
-    
+  <template name="frame_ctsub">
+    <genericcontrol>
+      <anchored>
+        <left parent="token" offset="25" />
+        <top offset="-8" />
+        <right offset="-4" />
+        <bottom offset="8" />
+      </anchored>
+      <frame name="ct_subgroupbox" />
+      <disabled />
+    </genericcontrol>
+  </template>
+
+	<template name="string_ctname_hidden">
+		<string_ct>
+        <anchored height="20">
+          <top parent="active_spacer_top" anchor="bottom" offset="10" />
+          <left parent="tokenvis" anchor="right" relation="relative" offset="5" />
+          <right parent="rightanchor" anchor="left" relation="relative" offset="-10" />
+        </anchored>
+        <tabtarget next="initresult" />
+		</string_ct>
+	</template>
+	<template name="string_ctname">
+		<string_ct>
+        <anchored height="20">
+          <top parent="active_spacer_top" anchor="bottom"  relation="relative" offset="10" />
+          <left parent="tokenvis" anchor="right" relation="relative" offset="5" />
+        </anchored>
+			<tabtarget next="name_hidden" />
+			<script file="ct/scripts/ct_name.lua" />
+		</string_ct>
+	</template>
 </root>

@@ -235,26 +235,26 @@
         <anchored to="dexterity" />
         <static textres="DEX" />
       </label_abilityscore>
-            <label_abilityscore_actual name="dex_label_actual">
-                <anchored to="dexterity"/>
-                <target>dexterity</target>
-            </label_abilityscore_actual>
+        <label_abilityscore_actual name="dex_label_actual">
+          <anchored to="dexterity"/>
+          <target>dexterity</target>
+        </label_abilityscore_actual>
       
       <ability_fields_container name="dexdetailframe">
         <anchored to="dexterity" />
       </ability_fields_container>      
 
-            <percentile_abilityfield name="dexterity_percent" source="abilities.dexterity.percent">
-           <center />
-                <min> 0 </min>
-                <max> 100 </max>
+      <percentile_abilityfield name="dexterity_percent" source="abilities.dexterity.percent">
+        <center />
+        <min> 0 </min>
+        <max> 100 </max>
         <anchored to="dexdetailframe" position="insidetopleft" offset="5,6"/>
         <labelres>char_label_ability_percent</labelres>
         <tooltip textres="char_tooltip_percentile" />
       </percentile_abilityfield>
        <label_ability_fields>
         <anchored to="dexterity_percent" />
-           <tooltip textres="char_tooltip_percentile" />
+         <tooltip textres="char_tooltip_percentile" />
         <static textres="char_label_ability_percent" />
       </label_ability_fields>
 
@@ -266,7 +266,7 @@
       </number_abilityfield>
         <label_ability_fields>
         <anchored to="dexterity_reactionadj" />
-           <tooltip textres="char_tooltip_dexterity_reactionadj" />
+        <tooltip textres="char_tooltip_dexterity_reactionadj" />
         <static textres="char_label_dexterity_reactionadj" />
       </label_ability_fields>
 
@@ -277,7 +277,7 @@
       </number_abilityfield>
         <label_ability_fields>
         <anchored to="dexterity_missileadj" />
-           <tooltip textres="char_tooltip_dexterity_missileadj" />
+          <tooltip textres="char_tooltip_dexterity_missileadj" />
         <static textres="char_label_dexterity_missileadj" />
       </label_ability_fields>
       
@@ -894,6 +894,16 @@
         <anchored to="wounds" position="lefthigh" offset="10,5" />
         <static textres="hp" />
       </label>
+      
+      <string_labeled name="sensesspecial" source="senses">
+        <anchored to="combatanchor">
+          <top parent="speedspecial" />
+          <left parent= "wounds" offset="0" />
+          <right parent="temphp" />
+        </anchored>
+        <labelres>char_label_senses</labelres>
+        <multilinespacing>20</multilinespacing>
+      </string_labeled>
       
     </sheetdata>
   </windowclass>

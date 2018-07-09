@@ -15,8 +15,11 @@
       <minimum width="450" height="300" />
       <dynamic />
     </sizelimits>
-    <minimize>minimized_item</minimize>
     <nodelete />
+    <playercontrol />
+    <sharable />
+    <tooltip field="name" />
+    <minimize>minimized_item</minimize>
     <script file="campaign/scripts/item.lua" />
     <sheetdata>
       <sub_record_header name="header">

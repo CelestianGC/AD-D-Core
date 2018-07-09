@@ -37,7 +37,7 @@ function processReadyCheck(sCommand, sParams)
 end
 
 -- function that Celestian uses to bulk update things as needed
-function processUpdateADND()
+function processUpdateADND(sCommand, sParams)
   if User.isHost() then
     -- option to flip through spells and add "cast" "initiative" and "duration" effect with name of spell
     
@@ -161,15 +161,17 @@ function processUpdateADND()
     -- end
   -- end
 
- for _,nodeClass in pairs(DB.getChildren("class")) do
-  Debug.console("data_library_adnd.lua","processUpdateADND","name",DB.getValue(nodeClass,"name","NO-NAME"));
-  for _,nodeAdvance in pairs(DB.getChildren("advancement")) do
-    DB.setValue(nodeAdvance,"powerdisplaymode","string","action");
-    DB.setValue(nodeAdvance,"powermode","string","standard");
-    Debug.console("data_library_adnd.lua","processUpdateADND","level",DB.getValue(nodeAdvance,"level"));
-  end
- end
-  
+ -- for _,nodeClass in pairs(DB.getChildren("class")) do
+  -- Debug.console("data_library_adnd.lua","processUpdateADND","name",DB.getValue(nodeClass,"name","NO-NAME"));
+  -- for _,nodeAdvance in pairs(DB.getChildren("advancement")) do
+    -- DB.setValue(nodeAdvance,"powerdisplaymode","string","action");
+    -- DB.setValue(nodeAdvance,"powermode","string","standard");
+    -- Debug.console("data_library_adnd.lua","processUpdateADND","level",DB.getValue(nodeAdvance,"level"));
+  -- end
+ -- end
+Debug.console("data_library_adnd.lua","processUpdateADND","sParams",sParams);
+  local nDiceResult = math.floor(StringManager.evalDiceMathExpression(sParams));
+Debug.console("data_library_adnd.lua","processUpdateADND","nDiceResult",nDiceResult);
   end -- is host
 end
 

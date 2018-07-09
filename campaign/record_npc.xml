@@ -109,8 +109,12 @@
         
     <sheetdata>
       <anchor_column name="columnanchor" />
-      
-<!--       <line_column name="npc_line_summary" /> -->
+      <label_column name="nonid_name_label">
+        <static textres="npc_label_unidentified" />
+      </label_column>
+      <string_columnh name="nonid_name" />
+
+      <line_column name="divider" />      
       
       <label_column name="size_label">
         <static textres="npc_label_size" />

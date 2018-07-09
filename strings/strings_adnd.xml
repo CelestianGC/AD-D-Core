@@ -100,6 +100,8 @@
    <string name="char_label_weapon_penalty">Weapon</string>
    <string name="char_label_weapon_penalty_tooltip">Penalty when using weapon character is not proficient with.</string>
 
+  <string name="char_label_senses">Senses</string>
+
   <string name="char_label_speeddetail">Move:</string>
   <string name="char_label_speeddetail_tooltip">Movement values. How fast the character can move.</string>
   <string name="char_label_speedbase_base">Base</string>
@@ -576,6 +578,8 @@
   
   <!-- NPCs -->
   <string name="npc_import_tooltip">Import NPC from text.</string>
+  <string name="npc_import_file_tooltip">Import NPC from file.</string>
+  <string name="npc_export_file_tooltip">Export NPCs to file.</string>
   <string name="npc_import_window_title">IMPORT NPC</string>
   <string name="npc_import_text_title">IMPORT TEXT</string>
   <string name="npc_import_text_button">Import</string>

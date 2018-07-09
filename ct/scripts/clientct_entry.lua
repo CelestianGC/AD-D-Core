@@ -4,20 +4,12 @@
 --
 
 function onInit()
-  onFactionChanged();
+  super.onInit();
   onHealthChanged();
 end
 
-function onActiveChanged()
-  updateDisplay();
-end
-
 function onFactionChanged()
-  updateHealthDisplay();
-  updateDisplay();
-end
-
-function onTypeChanged()
+  super.onInit();
   updateHealthDisplay();
 end
 

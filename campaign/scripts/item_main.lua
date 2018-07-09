@@ -4,20 +4,9 @@
 --
 
 function onInit()
-    local nodeRecord = getDatabaseNode();
---Debug.console("item_main.lua","onInit1","nodeRecord",nodeRecord);
--- Debug.console("item_main.lua","onInit2","nodeRecord",DB.getPath(nodeRecord, "abilitylist"));
--- Debug.console("item_main.lua","onInit3","nodeRecord",DB.getPath(nodeRecord, "savelist"));
-    --DB.addHandler(DB.getPath(nodeRecord, "abilitylist"), "onChildUpdate", updateAbilityEffects);
-    --DB.addHandler(DB.getPath(nodeRecord, "savelist"), "onChildUpdate", updateSaveEffects);
   update();
-    --updateAbilityEffects();
-    --updateSaveEffects();
 end
 function onClose()
-    local nodeRecord = getDatabaseNode();
-    --DB.removeHandler(DB.getPath(nodeRecord, "abilitylist"), "onChildUpdate", updateAbilityEffects);
-    --DB.removeHandler(DB.getPath(nodeRecord, "savelist"), "onChildUpdate", updateSaveEffects);
 end
 
 function VisDataCleared()
@@ -48,7 +37,7 @@ end
 function update()
   local nodeRecord = getDatabaseNode();
   local bReadOnly = WindowManager.getReadOnlyState(nodeRecord);
-  local bID, bOptionID = LibraryData.getIDState("item", nodeRecord);
+  local bID = LibraryData.getIDState("item", nodeRecord);
       
   local bWeapon, sTypeLower, sSubtypeLower = ItemManager2.isWeapon(nodeRecord);
   local bArmor = ItemManager2.isArmor(nodeRecord);
@@ -66,12 +55,12 @@ function update()
     -- effect.setValue(sEffectString);
   
   local bSection1 = false;
-  if bOptionID and User.isHost() then
+  if User.isHost() then
     if updateControl("nonid_name", bReadOnly, true) then bSection1 = true; end;
   else
     updateControl("nonid_name", false);
   end
-  if bOptionID and (User.isHost() or not bID) then
+  if (User.isHost() or not bID) then
     if updateControl("nonidentified", bReadOnly, true) then bSection1 = true; end;
   else
     updateControl("nonidentified", false);

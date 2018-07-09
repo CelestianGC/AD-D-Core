@@ -24,7 +24,7 @@ function onInit()
 end
 
 function onWheel(notches)
-  if not OptionsManager.isMouseWheelEditEnabled() then
+  if not Input.isControlPressed() then
     return false;
   end
 

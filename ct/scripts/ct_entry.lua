@@ -56,6 +56,7 @@ function updateDisplay()
 
   if DB.getValue(getDatabaseNode(), "active", 0) == 1 then
     name.setFont("sheetlabel");
+    nonid_name.setFont("sheetlabel");
     
     active_spacer_top.setVisible(true);
     active_spacer_bottom.setVisible(true);
@@ -71,6 +72,7 @@ function updateDisplay()
     end
   else
     name.setFont("sheettext");
+    nonid_name.setFont("sheettext");
     
     active_spacer_top.setVisible(false);
     active_spacer_bottom.setVisible(false);
@@ -132,10 +134,8 @@ function onLinkChanged()
   if sClass == "charsheet" then
     linkPCFields();
     name.setLine(false);
-  else
-    --- NPC links.
-    linkNPCFields();
-    end
+  end
+  onIDChanged();
 end
 
 function onHealthChanged()
@@ -147,6 +147,23 @@ function onHealthChanged()
   local sClass,_ = link.getValue();
   if sClass ~= "charsheet" then
     idelete.setVisibility((nPercentWounded >= 1));
+  end
+end
+
+function onIDChanged()
+  local nodeRecord = getDatabaseNode();
+--Debug.console("ct_entry.lua","onIDChanged","nodeRecord",nodeRecord);  
+  local sClass = DB.getValue(nodeRecord, "link", "", "");
+
+  if sClass == "npc" then
+    local bID = LibraryData.getIDState("npc", nodeRecord, true);
+    name.setVisible(bID);
+    nonid_name.setVisible(not bID);
+    isidentified.setVisible(true);
+  else
+    name.setVisible(true);
+    nonid_name.setVisible(false);
+    isidentified.setVisible(false);
   end
 end
 

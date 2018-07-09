@@ -192,6 +192,15 @@ end
 
 function update()
   local bReadOnly = WindowManager.getReadOnlyState(getDatabaseNode());
+  local bID = LibraryData.getIDState("npc", nodeRecord);
+  local bSection1 = false;
+  if User.isHost() then
+    if updateControl("nonid_name", bReadOnly) then bSection1 = true; end;
+  else
+    updateControl("nonid_name", bReadOnly, true);
+  end
+  divider.setVisible(bSection1);
+
 
   updateControl("size", bReadOnly);
   updateControl("type", bReadOnly);

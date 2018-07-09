@@ -11,7 +11,7 @@ end
 
 function onInit()
 --Debug.console("char_invlist.lua","onInit","getDatabaseNode()",getDatabaseNode());
-  OptionsManager.registerCallback("MIID", StateChanged);
+  -- OptionsManager.registerCallback("MIID", StateChanged); -- removed 3.3.6
 
   onEncumbranceChanged();
 
@@ -30,7 +30,7 @@ function onInit()
 end
 
 function onClose()
-  OptionsManager.unregisterCallback("MIID", StateChanged);
+  -- OptionsManager.unregisterCallback("MIID", StateChanged); -- removed 3.3.6
 
   local node = getDatabaseNode();
   DB.removeHandler(DB.getPath(node, "*.isidentified"), "onUpdate", onIDChanged);
@@ -50,12 +50,13 @@ function onMenuSelection(selection)
   end
 end
 
-function StateChanged()
-  for _,w in ipairs(getWindows()) do
-    w.onIDChanged();
-  end
-  applySort();
-end
+-- removed 3.3.6
+--function StateChanged()
+--  for _,w in ipairs(getWindows()) do
+--    w.onIDChanged();
+--  end
+--  applySort();
+--end
 
 function onIDChanged(nodeField)
   local nodeItem = DB.getChild(nodeField, "..");
@@ -126,7 +127,7 @@ end
 function addEntry(bFocus)
   local w = createWindow();
   if w then
-    w.isidentified.setValue(1);
+--    w.isidentified.setValue(1); -- removed 3.3.6
     if bFocus then
       w.name.setFocus();
     end

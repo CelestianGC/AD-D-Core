@@ -414,6 +414,15 @@ function updateNPCSpellHelper(sSpell, nodeNPC, aSpellcasting, nDaily)
     end
   end
   if not nodeRefSpell then
+    for _,v in pairs(DB.getChildrenGlobal("spell")) do
+      local sCheckCleaned = StringManager.trim(DB.getValue(v, "name", ""):lower());
+      if sCleaned == sCheckCleaned then
+        nodeRefSpell = v;
+        break;
+      end
+    end
+  end
+  if not nodeRefSpell then
     return false;
   end
   

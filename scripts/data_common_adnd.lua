@@ -40,7 +40,7 @@
     
     -- required for npcs, base save table
     aWarriorSaves = {};
-    
+        
     -- distance per unit grid, this is for reach? --celestian
     nDefaultDistancePerUnitGrid = 10;
     
@@ -363,6 +363,7 @@ function onInit()
   aTurnUndead[12] = {-3,-3,-3,-3,-2,-2,-1,-1,4,7,10,13,16};
   aTurnUndead[13] = {-3,-3,-3,-3,-2,-2,-1,-1,4,7,10,13,16};
   aTurnUndead[14] = {-3,-3,-3,-3,-3,-2,-2,-1,-1,4,7,10,13};
+
     -- this needs to stick around for NPC save values
     -- since they use the warrior table
     -- Death, Rod, Poly, Breath, Spell
@@ -388,6 +389,7 @@ function onInit()
     aWarriorSaves[19] = {3,5,4,4,6};
     aWarriorSaves[20] = {3,5,4,4,6};
     aWarriorSaves[21] = {3,5,4,4,6};
+    
   --psionic attack/defense adjustments
   --           psionic_attack_index = psionic_defense_index
   psionic_attack_v_defense_table[1] = { 5, 3,-2,-3,-5};

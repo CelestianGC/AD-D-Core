@@ -146,8 +146,8 @@
   <template name="resize_charsheet">
     <resize>
       <anchored>
-        <right offset="-12" />
-        <bottom offset="-14" />
+        <right offset="-10" />
+        <bottom offset="-8" />
       </anchored>
     </resize>
   </template>

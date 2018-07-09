@@ -14,19 +14,23 @@ function onInit()
   onVisibilityToggle();
   onEntrySectionToggle();
 
-  OptionsManager.registerCallback("WNDC", onOptionWNDCChanged);
-  
   local node = getDatabaseNode();
   DB.addHandler(DB.getPath(node, "*.name"), "onUpdate", onNameOrTokenUpdated);
+  DB.addHandler(DB.getPath(node, "*.nonid_name"), "onUpdate", onNameOrTokenUpdated);
+  DB.addHandler(DB.getPath(node, "*.isidentified"), "onUpdate", onNameOrTokenUpdated);
   DB.addHandler(DB.getPath(node, "*.token"), "onUpdate", onNameOrTokenUpdated);
+  
+  OptionsManager.registerCallback("WNDC", onOptionWNDCChanged);
 end
 
 function onClose()
-  OptionsManager.unregisterCallback("WNDC", onOptionWNDCChanged);
-
   local node = getDatabaseNode();
   DB.removeHandler(DB.getPath(node, "*.name"), "onUpdate", onNameOrTokenUpdated);
+  DB.removeHandler(DB.getPath(node, "*.nonid_name"), "onUpdate", onNameOrTokenUpdated);
+  DB.removeHandler(DB.getPath(node, "*.isidentified"), "onUpdate", onNameOrTokenUpdated);
   DB.removeHandler(DB.getPath(node, "*.token"), "onUpdate", onNameOrTokenUpdated);
+
+  OptionsManager.unregisterCallback("WNDC", onOptionWNDCChanged);
 end
 
 function onOptionWNDCChanged()
