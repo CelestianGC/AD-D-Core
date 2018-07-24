@@ -1,7 +1,12 @@
+aIgnoredWindowClasses = {};
+
 function onInit()
+  -- set default window classes we dont only want singles for
+  setIgnoredWindowClasses({"imagewindow","charsheet"});
+  
     -- uncomment this and everytime a window is opened
     -- the combat tracker will be moved ontop.
-    
+  
     --Interface.onWindowOpened = ctOnTopAlways;
   -- assign handlers
   Interface.onWindowOpened = onWindowOpened; 
@@ -9,6 +14,7 @@ function onInit()
 end
 
 -- keep the combat tracker on top all the time
+-- this isn't used right now... 
 function ctOnTopAlways(window)
     if User.isHost() then
         if Interface.findWindow("combattracker_host", "combattracker") then
@@ -49,7 +55,29 @@ end
 
 local gOpenWindowList = {}; 
 
+-- see if there is a collection of this type of window
+function oneWindowGroupExists(sClassName)
+  return gOpenWindowList[sClassName];
+end
 
+-- let extensions tweak this if they like
+function setIgnoredWindowClasses(aList)
+  aIgnoredWindowClasses = {"masterindex"}; -- we always ignore this
+  for _,sIgnoredClass in pairs(aList) do
+    table.insert(aIgnoredWindowClasses,sIgnoredClass);
+  end
+end
+-- any window class in "aIgnoredWindowClasses" array will not be singlewindowed
+function ignoredWindowClass(sClassName)
+  local bIgnored = false;
+  for _,sIgnoredClass in pairs(aIgnoredWindowClasses) do
+    if sClassName == sIgnoredClass then
+      bIgnored = true;
+      break;
+    end
+  end
+  return bIgnored;
+end
 -- WARNING: Race issue can occur if windows are opened in fast successon (automated opening)
 function onWindowOpened(window)
   local dbNode = window.getDatabaseNode(); 
@@ -62,7 +90,8 @@ function onWindowOpened(window)
   if dbNode then
     tClassNodes = gOpenWindowList[sClassName]; 
     -- ignore masterindex
-    if sClassName == 'masterindex' then return; end
+    --if sClassName == 'masterindex' then return; end
+    if ignoredWindowClass(sClassName) then return; end
 
     if gOpenWindowList[sClassName] then
       -- find last entry and get the node path, this must exist, if it doesn't then we didn't delete properly
