@@ -526,8 +526,74 @@
       </script>
     </basicnumber>
   </template>
+  
+  <template name="stringu_action_attack">
+    <stringu> 
+      <script>
+        function onDoubleClick(x,y)
+          return window.onAttackAction();
+        end      
+      </script>
+      <anchored height="18">
+        <top offset="5" />
+        <left parent="leftanchor" anchor="right" relation="relative" offset="5" />
+        <right parent="rightanchor" anchor="left" relation="relative" offset="-240" />
+      </anchored>
+    </stringu>
+  </template>
+
+  <template name="link_weapon_shortcut">
+    <linkfield>
+      <anchored to="rightanchor" width="20" height="20">
+        <top offset="8" />
+        <right anchor="left" relation="relative" offset="-2" />
+      </anchored>
+      <readonly />
+      <script>
+        function onValueChanged()
+          window.onLinkChanged();
+        end
+        
+        function onDrop(x, y, draginfo)
+          if draginfo.isType("shortcut") then
+            local node = window.getDatabaseNode();
+            local sClass, sRecord = draginfo.getShortcutData();
+            if (sClass == "quicknote") then
+              local nodeEncounter = DB.findNode(sRecord);
+              if (nodeEncounter) then
+                local sName = DB.getValue(nodeEncounter,"name","");
+                local sText = DB.getValue(nodeEncounter,"text","");
+                local nLocked = DB.getValue(nodeEncounter,"locked",0);
+                DB.setValue(node,"itemnote.name","string",sName);
+                DB.setValue(node,"itemnote.text","formattedtext",sText);
+                DB.setValue(node,"itemnote.locked","number",nLocked);
+                DB.setValue(node, "shortcut", "windowreference", "quicknote", node.getPath() .. '.itemnote');
+              end
+            end
+            return true;
+          end
+        end
+      </script>
+    </linkfield>
+  </template>
+
+  <template name="detail_button_action">
+    <buttoncontrol>
+      <anchored to="rightanchor" width="20" height="20">
+        <top offset="8" />
+        <right anchor="left" relation="relative" offset="-3" />
+      </anchored>
+      <state icon="details" pressed="details_down" />
+      <script>
+        function onButtonPress()
+          Interface.openWindow("char_weapon_editor", window.getDatabaseNode());
+        end
+      </script>
+    </buttoncontrol>
+  </template>
+  
   <template name="number_charinit">
-    <number_chartotal>
+    <basicnumber>
       <font>reference-b-large</font>
       <rollable />
       <displaysign />
@@ -550,8 +616,68 @@
           return action();
         end
       </script>
-    </number_chartotal>
+    </basicnumber>
   </template>
+  <template name="number_surprise">
+      <basicnumber name="surprise_total_roll" source="surprise.total">
+        <anchored width="30" height="20"> 
+          <top offset="15" />
+          <left anchor="center" offset="-55"/>
+        </anchored>
+        <rollable />
+        <default>3</default>
+        <script>
+          function action(draginfo)
+            local node = getDatabaseNode();
+            local nodeChar = node.getChild("...");
+            local rActor = ActorManager.getActor("pc", nodeChar);
+            ActionSurprise.performRoll(draginfo, rActor, nodeChar);
+            return true;
+          end
+          
+          function onDragStart(button, x, y, draginfo)
+            return action(draginfo);
+          end
+              
+          function onDoubleClick(x,y)
+            return action();
+          end                    
+        </script>
+        <cursor hover="hand" />
+        <gmeditonly />
+        <tooltip textres="char_label_surpriseroll_tooltip" />
+      </basicnumber>
+  </template>
+  <template name="number_turnundead">
+    <basicnumber name="turnlevel" source="turn.total">
+      <script>
+        function action(draginfo)
+          local node = getDatabaseNode();
+          local nodeChar = node.getChild("...");
+          local rActor = ActorManager.getActor("pc", nodeChar);
+          ActionTurn.performRoll(draginfo, rActor);
+          return true;
+        end
+        
+        function onDragStart(button, x, y, draginfo)
+          return action(draginfo);
+        end
+            
+        function onDoubleClick(x,y)
+          return action();
+        end                    
+      </script>
+      <frame name="fielddark" offset="7,5,7,5" />
+      <stateframe>
+          <hover name="rowshade" offset="7,5,7,5" />
+      </stateframe>
+      <cursor hover="hand" />
+      <rollable />
+      <default>0</default>
+      <tooltip textres="char_label_turnlevel_tooltip" />
+    </basicnumber>
+  </template>
+  
 
   <template name="number_charspeed">
     <number_chartotal>

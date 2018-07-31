@@ -300,9 +300,7 @@
           table.insert(rList.aColumns, { sName = "weight", sType = "number", sHeading = "Weight", bCentered=true });
           rList.aFilters = {};
           table.insert(rList.aFilters, { sDBField = "type", vFilterValue = "Armor" });
-                    if OptionsManager.isOption("MIID", "on") then
-                        table.insert(rList.aFilters, { sDBField = "isidentified", vFilterValue = 1 });
-                    end
+          table.insert(rList.aFilters, { sDBField = "isidentified", vFilterValue = 1 });
           rList.aGroups = {};
           table.insert(rList.aGroups, { sDBField = "subtype" });
           rList.aGroupValueOrder = { "Light Armor", "Medium Armor", "Heavy Armor", "Shield" };
@@ -332,9 +330,7 @@
           table.insert(rList.aColumns, { sName = "properties", sType = "string", sHeading = "Prop.", nWidth=200, bCentered=true });
           rList.aFilters = {};
           table.insert(rList.aFilters, { sDBField = "type", vFilterValue = "Weapon" });
-                    if OptionsManager.isOption("MIID", "on") then
-                        table.insert(rList.aFilters, { sDBField = "isidentified", vFilterValue = 1 });
-                    end
+          table.insert(rList.aFilters, { sDBField = "isidentified", vFilterValue = 1 });
           rList.aGroups = {};
           table.insert(rList.aGroups, { sDBField = "subtype" });
           rList.aGroupValueOrder = { "Simple Melee Weapons", "Simple Ranged Weapons", "Martial Weapons", "Martial Melee Weapons", "Martial Ranged Weapons" };
@@ -364,9 +360,7 @@
           table.insert(rList.aColumns, { sName = "damage", sType = "string", sHeading = "Damage", nWidth=150, bCentered=true });
           table.insert(rList.aColumns, { sName = "properties", sType = "string", sHeading = "Prop.", nWidth=200, bCentered=true });
           rList.aFilters = {};
-                    if OptionsManager.isOption("MIID", "on") then
-                        table.insert(rList.aFilters, { sDBField = "isidentified", vFilterValue = 1 });
-                    end
+          table.insert(rList.aFilters, { sDBField = "isidentified", vFilterValue = 1 });
           rList.aGroups = {};
           table.insert(rList.aGroups, { sDBField = "type" });
           rList.aGroupValueOrder = { };
@@ -745,7 +739,12 @@
       <script>
         function onButtonPress()
           local nodeSpell = window.getDatabaseNode();
-          PowerManager.removeMemorizedSpell(nil,nodeSpell);
+          local bForgot = PowerManager.removeMemorizedSpell(nil,nodeSpell);
+          if (bForgot) then
+            local nodeChar = nodeSpell.getChild("...");
+            local sMsg = string.format(Interface.getString("message_forget_memorized"),DB.getValue(nodeSpell, "name", ""));          
+            ChatManager.Message(sMsg, true, ActorManager.getActor("pc", nodeChar));
+          end
           return true;
         end
       </script>
@@ -857,5 +856,18 @@
   </template>
   <!-- -->
 
+	<template name="button_record_locked_adnd">
+		<buttoncontrol name="locked">
+			<anchored to="rightanchor" width="20" height="20">
+				<top />
+				<right anchor="left" relation="relative" offset="0" />
+			</anchored>
+			<state icon="padlock_open" tooltipres="tooltip_unlock" />
+			<state icon="padlock_closed" tooltipres="tooltip_lock" />
+			<script>
+
+			</script>
+		</buttoncontrol>
+	</template>
   
 </root>

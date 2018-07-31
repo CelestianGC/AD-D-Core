@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<!-- 
+  Please see the license.html file included with this distribution for 
+  attribution and copyright information.
+-->
+
+<root>
+	<windowclass name="referencemanualpage" merge="join">
+    <!-- We do this because we use a single window display mode, the original ref-manual tool closes the window -->
+		<script file="ref/scripts/ref_manualpage_CoreRPG3.3.6.lua" mergerule="replace" />
+	</windowclass>
+</root>

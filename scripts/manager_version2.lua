@@ -4,7 +4,7 @@
 --
 
 local rsname = "2E";
-local rsmajorversion = 27;
+local rsmajorversion = 28;
 
 function onInit()
   if User.isHost() or User.isLocal() then
@@ -124,6 +124,9 @@ function updateCampaign()
     end
     if major < 27 then
       fixProfSelectedToProf_Selected();
+    end
+    if major < 28 then
+      fixHitPointsForCharacters();
     end
   end
 --Debug.console("manager_version2.lua","updateCampaign","major",major);
@@ -700,5 +703,12 @@ Debug.console("manager_version2.lua","fixProfSelectedToProf_Selected","sName",sN
                 DB.setValue(nodeProf,"profselected","string","");
             end
         end
+  end
+end
+
+function fixHitPointsForCharacters()
+  for _,nodeChar in pairs(DB.getChildren("charsheet")) do
+    -- set hp.base value
+    DB.setValue(nodeChar,"hp.base","number",DB.getValue(nodeChar,"hp.base",DB.getValue(nodeChar,"hp.total",0)));
   end
 end

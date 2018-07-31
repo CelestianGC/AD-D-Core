@@ -17,12 +17,14 @@ function onUpdate(nodeField)
   --local nodeCT = nodeInit.getChild("..");
   local nodeCT = nodeField.getParent();
   local sIdentity = getIdentityFromCTNode(nodeCT);
-Debug.console("manager_charlist_adnd.lua","onUpdate","nodeCT",nodeCT);
-Debug.console("manager_charlist_adnd.lua","onUpdate","sIdentity",sIdentity);
+--Debug.console("manager_charlist_adnd.lua","onUpdate","nodeCT",nodeCT);
+--Debug.console("manager_charlist_adnd.lua","onUpdate","sIdentity",sIdentity);
   updateWidgets(sIdentity);
 end
 
 function addInitiativeWidget(control, sIdentity)
+--Debug.console("manager_charlist_adnd.lua","addInitiativeWidget","control",control);
+--Debug.console("manager_charlist_adnd.lua","addInitiativeWidget","sIdentity",sIdentity);
   local widget = control.addBitmapWidget("init_rolled");
   widget.setPosition("center", -25, 9);
   widget.setVisible(true);

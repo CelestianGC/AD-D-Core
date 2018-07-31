@@ -169,10 +169,53 @@ function processUpdateADND(sCommand, sParams)
     -- Debug.console("data_library_adnd.lua","processUpdateADND","level",DB.getValue(nodeAdvance,"level"));
   -- end
  -- end
-Debug.console("data_library_adnd.lua","processUpdateADND","sParams",sParams);
-  local nDiceResult = math.floor(StringManager.evalDiceMathExpression(sParams));
-Debug.console("data_library_adnd.lua","processUpdateADND","nDiceResult",nDiceResult);
-  end -- is host
+
+ -- this was to test using dice rolls with math works! 
+-- Debug.console("data_library_adnd.lua","processUpdateADND","sParams",sParams);
+  -- local nDiceResult = math.floor(StringManager.evalDiceMathExpression(sParams));
+-- Debug.console("data_library_adnd.lua","processUpdateADND","nDiceResult",nDiceResult);
+  -- end -- is host
+  
+  --local nCount = 0;
+  --for _,nodeNPC in pairs(DB.getChildren("npc")) do
+  --  nCount = nCount + 1;
+    -- local sNPCName = DB.getValue(nodeNPC,"name","");
+    -- this was to set all action/power tab modes to standard/action buttons
+    --<powerdisplaymode type="string">action</powerdisplaymode>
+    -- DB.setValue(nodeNPC,"powerdisplaymode","string","action");
+    -- DB.setValue(nodeNPC,"powermode","string","standard");
+    -- this was to search for "Surprise" abilities and make sure the 
+    -- surprise value was set properly.
+    -- for _,nodeAbility in pairs(DB.getChildren(nodeNPC, "abilitynoteslist")) do
+-- --Debug.console("data_library_adnd.lua","processUpdateADND","nodeAbility",nodeAbility);     
+      -- local sName = DB.getValue(nodeAbility,"name","");
+      -- local sText = DB.getValue(nodeAbility,"text","");
+      -- local sTextLower = sText:lower();
+      -- if (sName == "Surprise" and sTextLower:match("surprised only")) then
+-- Debug.console("data_library_adnd.lua","processUpdateADND","sNPCName",sNPCName);    
+-- Debug.console("data_library_adnd.lua","processUpdateADND","sName",sName);
+-- Debug.console("data_library_adnd.lua","processUpdateADND","sTextLower",sTextLower);
+        -- local nMatch1,nMatch2 = sTextLower:match("surprised only on a (%d) or (%d)");
+        -- if (nMatch1 and nMatch2) then
+          -- nMatch2 = tonumber(nMatch2) or 0;
+          -- DB.setValue(nodeNPC,"surprise.total","number",nMatch2);
+-- Debug.console("data_library_adnd.lua","processUpdateADND","a)nMatch1",nMatch1);        
+-- Debug.console("data_library_adnd.lua","processUpdateADND","a)nMatch2",nMatch2);        
+        -- else
+          -- nMatch1 = sTextLower:match("surprised only on a (%d)") or sTextLower:match("surprised only on the roll of a (%d)") or sTextLower:match("surprised on a 1 (%d)")
+          -- if (nMatch1) then
+            -- nMatch1 = tonumber(nMatch1) or 0;
+-- Debug.console("data_library_adnd.lua","processUpdateADND","b)nMatch1",nMatch1);        
+            -- DB.setValue(nodeNPC,"surprise.total","number",nMatch1);
+          -- end
+        -- end
+      -- end
+      
+    -- end
+  -- end
+  -- Debug.console("data_library_adnd.lua","processUpdateADND","NPC nCount",nCount);
+
+  end -- isHost()
 end
 
 

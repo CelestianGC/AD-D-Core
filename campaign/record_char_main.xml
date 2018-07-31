@@ -859,6 +859,7 @@
       </label_combatscores>
         
       <number_hptotal_charsheet name="hp" source="hp.total">
+        <readonly />
         <anchored to="contentanchor" width="40" height="30">
           <top parent="combatanchor" anchor="bottom" offset="-40" />
           <right parent="temphp" anchor="left" relation="relative" offset="-10" />
@@ -1227,17 +1228,34 @@
       </anchor_column>
       <anchor_left />
             <anchor_right />
+
             
-      <!-- Init Detail -->
-      <label name="label_initdetail">
+      <!-- proficiencies.weapon.penalty -->
+      <label name="label_proficiency_weapon_penalty">
         <anchored width="60">
           <top parent="columnanchor" anchor="bottom" relation="relative" offset="20" />
           <left offset="30" />
         </anchored>
+        <static textres="char_label_weapon_penalty" />
+        <tooltip textres="char_label_weapon_penalty_tooltip" />
+      </label>
+      <number_basic name="weapon_penalty" source="proficiencies.weapon.penalty">
+        <anchored to="label_proficiency_weapon_penalty" position="righthigh" offset="10,0" height="18" width="30" />
+        <tooltip textres="char_label_weapon_penalty_tooltip" />
+      </number_basic>
+      <label_fieldtop name="label_speedtotal">
+        <anchored to="weapon_penalty" />
+        <static text="Penalty" />
+        <tooltip textres="char_label_weapon_penalty_tooltip" />
+      </label_fieldtop>
+            
+      <!-- Init Detail -->
+      <label name="label_initdetail">
+        <anchored to="weapon_penalty" position="righthigh" offset="15,0" height="18" width="30" />
         <static textres="char_label_initdetail" />
       </label>
       <basicnumber name="initmiscbonus" source="initiative.misc">
-        <anchored to="label_initdetail" position="righthigh" offset="10,0" height="18" width="30" />
+        <anchored to="label_initdetail" position="righthigh" offset="5,0" height="18" width="30" />
         <hideonvalue>0</hideonvalue>
         <tooltip textres="char_label_mod_tooltip" />
       </basicnumber>
@@ -1266,13 +1284,13 @@
         <static textres="char_label_armorbase" />
       </label_fieldtop>
       <label name="label_armorplus">
-        <anchored to="acbase" position="righthigh" offset="10,0"  />
+        <anchored to="acbase" position="righthigh" offset="20,0"  />
         <static>+</static>
         <center />
       </label>
       <basicnumber name="acarmor" source="defenses.ac.armor">
-           <gmeditonly />
-        <anchored to="label_armorplus" position="righthigh" offset="10,0" width="30" height="18" />
+         <gmeditonly />
+        <anchored to="label_armorplus" position="righthigh" offset="25,0" width="30" height="18" />
       </basicnumber>
       <label_fieldtop name="label_acarmor">
         <anchored to="acarmor" />
@@ -1286,7 +1304,7 @@
             
       <basicnumber name="acshield" source="defenses.ac.shield">
            <gmeditonly />
-        <anchored to="label_armorplus2" position="righthigh" offset="10,0" width="30" height="18" />
+        <anchored to="label_armorplus2" position="righthigh" offset="5,0" width="30" height="18" />
       </basicnumber>
       <label_fieldtop name="label_acshield">
         <anchored to="acshield" />
@@ -1320,7 +1338,80 @@
         <static textres="char_label_armormisc" />
       </label_fieldtop>
 
-            <!-- surprise section -->
+
+    <!-- HP section -->
+      <label name="label_hitpointsdetail">
+        <anchored width="60">
+          <top parent="columnanchor" anchor="bottom" relation="relative" offset="20" />
+          <left offset="30" />
+        </anchored>
+        <static textres="char_label_hitpointdetail" />
+        <tooltip textres="char_label_hitpointdetail_tooltip" />
+      </label>
+      
+      <basicnumber name="hpbase" source="hp.base">
+        <gmeditonly />
+        <anchored to="label_hitpointsdetail" position="righthigh" offset="10,0" width="30" height="18" />
+      </basicnumber>
+      <label_fieldtop name="label_hpbase">
+        <anchored to="hpbase" />
+        <static textres="char_label_hpbase" />
+      </label_fieldtop>
+      <label name="label_hpbaseplus" >
+        <anchored to="hpbase" position="righthigh" offset="20,0" />
+        <static>+</static>
+        <center />
+      </label>
+      
+      <basicnumber name="hpconmod" source="hp.conmod">
+        <readonly />
+        <anchored to="label_hpbaseplus" position="righthigh" offset="22,0" width="30" height="18" />
+      </basicnumber>
+      <label_fieldtop name="label_hpconmod">
+        <anchored to="hpconmod" />
+        <static textres="char_label_hpconmod" />
+        <tooltip textres="char_label_hpconmod_tooltip" />
+      </label_fieldtop>
+      <label_plus2 name="label_hpconmodplus">
+        <anchored to="hpconmod" position="righthigh" offset="10,0" width="10" />
+      </label_plus2>
+            
+      <basicnumber name="hpadjustment" source="hp.adjustment">
+        <gmeditonly />
+        <anchored to="label_hpconmodplus" position="righthigh" offset="10,0" width="30" height="18" />
+      </basicnumber>
+      <label_fieldtop name="label_hpadjustment">
+        <anchored to="hpadjustment" />
+        <static textres="char_label_adj" />
+      </label_fieldtop>
+      <label_plus2 name="label_hpadjustmentplus">
+        <anchored to="hpadjustment" position="righthigh" offset="10,0" />
+      </label_plus2>
+
+      <basicnumber name="hptemp" source="hp.tempmod">
+        <gmeditonly />
+        <anchored to="label_hpadjustmentplus" position="righthigh" offset="10,0" width="30" height="18" />
+      </basicnumber>
+      <label_fieldtop name="label_hptemp">
+        <anchored to="hptemp" />
+        <static textres="char_label_mod_temp" />
+      </label_fieldtop>
+      <label_equal name="label_hptempequal">
+        <anchored to="hptemp" position="righthigh" offset="10,0"/>
+      </label_equal>
+
+      <basicnumber name="hptotal" source="hp.total">
+        <readonly />
+        <anchored to="label_hptempequal" position="righthigh" offset="5,0" width="30" height="18" />
+      </basicnumber>
+      <label_fieldtop name="label_hptotal">
+        <anchored to="hptotal" />
+        <static textres="char_label_hptotal" />
+        <tooltip textres="char_label_hptotal_tooltip" />
+      </label_fieldtop>
+      
+      
+      <!-- surprise section -->
       <label name="label_surprisedetail">
         <anchored width="60">
           <top parent="columnanchor" anchor="bottom" relation="relative" offset="20" />
@@ -1330,8 +1421,8 @@
                 <tooltip textres="char_label_surprisedetail_tooltip" />
       </label>
 
-            <!-- dice rolled for surprise check -->
-            <surprise_dice_roll name="surprisedice" source="surprise.dice" />
+      <!-- dice rolled for surprise check -->
+      <surprise_dice_roll name="surprisedice" source="surprise.dice" />
       <label_fieldtop name="label_surprisedice">
         <anchored to="surprisedice" />
         <static textres="char_label_surprisedice" />
@@ -1339,57 +1430,57 @@
       </label_fieldtop>
 
 
-            <surprise_base name="surprisebase" source="surprise.base" />
+      <surprise_base name="surprisebase" source="surprise.base" />
       <label_fieldtop name="label_surprisebase">
         <anchored to="surprisebase" />
         <static textres="char_label_surprisebase" />
         <tooltip textres="char_label_surprisebase_tooltip" />
       </label_fieldtop>
 
-            <surprise_mod_plus />
+      <surprise_mod_plus />
 
-            <surprise_number_mod name="surprise_mod" source="surprise.mod">
-                <anchored height="18" width="30" >
-                    <top parent="surprisebase" />
-                    <left parent="surprisebase" anchor="right" relation="relative" offset="15" />
-                </anchored>
-                <displaysign />
-                <tooltip textres="char_label_mod_mod_tooltip" />
-            </surprise_number_mod>
+      <surprise_number_mod name="surprise_mod" source="surprise.mod">
+        <anchored height="18" width="30" >
+          <top parent="surprisebase" />
+          <left parent="surprisebase" anchor="right" relation="relative" offset="10" />
+        </anchored>
+        <displaysign />
+        <tooltip textres="char_label_mod_mod_tooltip" />
+      </surprise_number_mod>
       <label_fieldtop name="label_speedbasemoditem">
         <anchored to="surprise_mod" />
         <static textres="char_label_mod_mod" />
-                <tooltip textres="char_label_mod_mod_tooltip" />
-            </label_fieldtop>
+        <tooltip textres="char_label_mod_mod_tooltip" />
+      </label_fieldtop>
             
-            <surprise_mod_plus />
+      <surprise_mod_plus />
 
-            <surprise_number_mod name="surprise_tempmod" source="surprise.tempmod">
-                <displaysign />
-                <tooltip textres="char_label_mod_temp_tooltip" />
-            </surprise_number_mod>
+      <surprise_number_mod name="surprise_tempmod" source="surprise.tempmod">
+          <displaysign />
+          <tooltip textres="char_label_mod_temp_tooltip" />
+      </surprise_number_mod>
       <label_fieldtop name="label_surprisetempmod">
         <anchored to="surprise_tempmod" />
         <static textres="char_label_mod_temp" />
                 <tooltip textres="char_label_mod_temp_tooltip" />
             </label_fieldtop>
             
-            <label>
-                <anchored >
-                    <top parent="surprisebase" />
-                    <left parent="surprisebase" anchor="right" relation="relative" offset="10" />
-                </anchored>
-                <static text="=" />
-            </label>
+      <label name="label_surprise_equal_total">
+        <anchored >
+          <top parent="surprisebase" />
+          <left parent="surprisebase" anchor="right" relation="relative" offset="10" />
+        </anchored>
+        <static text="=" />
+      </label>
 
-            <surprise_number_total name="surprise_total" source="surprise.total">
-                <anchored height="18" width="30" >
-                    <top parent="surprisebase" />
-                    <left parent="surprisebase" anchor="right" relation="relative" offset="10" />
-                </anchored>
-                <tooltip textres="char_label_surprisetotal_tooltip" />
-                <font>arial-bold-8</font>
-            </surprise_number_total>
+      <surprise_number_total name="surprise_total" source="surprise.total">
+        <anchored height="18" width="30" >
+          <top parent="surprisebase" />
+          <left parent="surprisebase" anchor="right" relation="relative" offset="10" />
+        </anchored>
+        <tooltip textres="char_label_surprisetotal_tooltip" />
+        <font>arial-bold-8</font>
+      </surprise_number_total>
       <label_fieldtop name="label_surprisetotal">
         <anchored to="surprise_total" />
         <static textres="char_label_surprisetotal" />
@@ -1407,8 +1498,7 @@
         <tooltip textres="char_label_speeddetail_tooltip" />
       </label>
 
-            <speed_number_base name="speedbase" source="speed.base">
-            </speed_number_base>
+      <speed_number_base name="speedbase" source="speed.base" />
 
       <!-- <char_speed_details name="speedbase" source="speed.base">
         <anchored to="label_speeddetail" position="righthigh" offset="5,0" width="45" height="20" />
@@ -1419,9 +1509,9 @@
         <static textres="char_label_speedbase_base" />
                 <tooltip textres="char_label_speedbase_base_tooltip" />
       </label_fieldtop>
-            <speed_number_base name="speed_basemodenc" source="speed.basemodenc">
-                <gmeditonly />
-            </speed_number_base>
+      <speed_number_base name="speed_basemodenc" source="speed.basemodenc">
+          <gmeditonly />
+      </speed_number_base>
       <label_fieldtop name="label_speedbasemodenc">
         <anchored to="speed_basemodenc" />
         <static textres="char_label_speedbase_enc" />
@@ -1429,80 +1519,61 @@
             </label_fieldtop>
 
 
-            <speed_number_base name="speed_basemod" source="speed.basemod">
-            </speed_number_base>
+      <speed_number_base name="speed_basemod" source="speed.basemod" />
       <label_fieldtop name="label_speedbasemod">
         <anchored to="speed_basemod" />
         <static textres="char_label_speedbase_mod" />
                 <tooltip textres="char_label_speedbase_mod_tooltip" />
       </label_fieldtop>
             
-            <speed_mod_plus />
+      <speed_mod_plus />
             
-            <speed_number_mod name="speed_mod" source="speed.mod">
-                <displaysign />
-            </speed_number_mod>
+      <speed_number_mod name="speed_mod" source="speed.mod">
+        <displaysign />
+      </speed_number_mod>
       <label_fieldtop name="label_speedbasemoditem">
         <anchored to="speed_mod" />
         <static text="Mod" />
             </label_fieldtop>
             
-            <speed_mod_plus />
+      <speed_mod_plus />
 
-            <speed_number_mod name="speed_tempmod" source="speed.tempmod">
-                <displaysign />
-            </speed_number_mod>
+      <speed_number_mod name="speed_tempmod" source="speed.tempmod">
+        <displaysign />
+      </speed_number_mod>
       <label_fieldtop name="label_speedtempmod">
         <anchored to="speed_tempmod" />
         <static text="Temp" />
             </label_fieldtop>
             
-            <label>
-                <anchored >
-                    <top parent="label_speeddetail_base" />
-                    <left parent="label_speeddetail_base" anchor="right" relation="relative" offset="10" />
-                </anchored>
-                <static text="=" />
-            </label>
+      <label name="label_speed_equals_total">
+        <anchored >
+          <top parent="label_speeddetail_base" />
+          <left parent="label_speeddetail_base" anchor="right" relation="relative" offset="10" />
+        </anchored>
+        <static text="=" />
+      </label>
 
-            <speed_number_total name="speed_total" source="speed.total">
-            </speed_number_total>
+      <speed_number_total name="speed_total" source="speed.total" />
       <label_fieldtop name="label_speedtotal">
         <anchored to="speed_total" />
         <static text="Total" />
       </label_fieldtop>
-            
-      <!-- proficiencies.weapon.penalty -->
-      <label name="label_proficiency_weapon_penalty">
-        <anchored width="60">
-          <top parent="columnanchor" anchor="bottom" relation="relative" offset="20" />
-          <left offset="30" />
-        </anchored>
-        <static textres="char_label_weapon_penalty" />
-        <tooltip textres="char_label_weapon_penalty_tooltip" />
-      </label>
-      <number_basic name="weapon_penalty" source="proficiencies.weapon.penalty">
-        <anchored to="label_proficiency_weapon_penalty" position="righthigh" offset="10,0" height="18" width="30" />
-        <tooltip textres="char_label_weapon_penalty_tooltip" />
-      </number_basic>
-      <label_fieldtop name="label_speedtotal">
-        <anchored to="weapon_penalty" />
-        <static text="Penalty" />
-        <tooltip textres="char_label_weapon_penalty_tooltip" />
-      </label_fieldtop>
 
+
+      <button_combat_psionic_details name="button_psionic_config">
+        <anchored  position="insidebottomright" offset="15,10" />
+      </button_combat_psionic_details>
       <label name="label_details_psionicpowers">
-        <anchored width="100">
-          <top parent="columnanchor" anchor="bottom" relation="relative" offset="20" />
-          <left offset="30" />
+        <anchored>
+          <top parent="button_psionic_config" />
+          <right parent="button_psionic_config" anchor="left" relation="relative" offset="-5" />
         </anchored>
         <static text="Psionic Powers" />
         <tooltip text="Psionic Power ratings." />
       </label>
 
-      <button_combat_psionic_details>
-        <anchored to="label_details_psionicpowers" position="righthigh" offset="5,0" />
-      </button_combat_psionic_details>
+
       <close_charsheethelper />
     </sheetdata>
   </windowclass>

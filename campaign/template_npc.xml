@@ -30,7 +30,7 @@
         <top />
         <right anchor="left" relation="relative" offset="-5" />
       </anchored>
-      <icon normal="button_import" pressed="button_import_down" />
+      <icon normal="button_import_file" pressed="button_import_file_down" />
       <tooltip textres="npc_import_file_tooltip" />
       <script>
         function onButtonPress()
@@ -52,7 +52,7 @@
         <top />
         <right anchor="left" relation="relative" offset="-5" />
       </anchored>
-      <icon normal="button_export" pressed="button_export_down" />
+      <icon normal="button_export_file" pressed="button_export_file_down" />
       <tooltip textres="npc_export_file_tooltip" />
       <script>
         function onButtonPress()

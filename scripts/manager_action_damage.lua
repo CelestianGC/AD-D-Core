@@ -766,6 +766,64 @@ function getReductionType(rSource, rTarget, sEffectType)
   return aFinal;
 end
 
+function getAbsorbedByType(rSource, rTarget, sEffectType,sDamageType,nDamageToAbsorb)
+ local nodeTarget = DB.findNode(rTarget.sCTNode);
+ local nDMG = nDamageToAbsorb;
+ if (nodeTarget) then
+--Debug.console("manager_action_damage.lua","getAbsorbedByType","rSource",rSource);    
+    for _,nodeEffect in pairs(DB.getChildren(nodeTarget, "effects")) do
+      local sLabel = DB.getValue(nodeEffect,"label","");
+--Debug.console("manager_action_damage.lua","getAbsorbedByType","sLabel",sLabel);    
+      local nStart,nEnd = sLabel:find("DA:%s?%d+%s[%w%s%-]+");
+      if nStart ~= nil and nEnd ~= nil then
+--Debug.console("manager_action_damage.lua","getAbsorbedByType","nStart",nStart);    
+--Debug.console("manager_action_damage.lua","getAbsorbedByType","nEnd",nEnd);    
+        local sDALabel = string.sub(sLabel,nStart,nEnd);
+--Debug.console("manager_action_damage.lua","getAbsorbedByType","sDALabel",sDALabel);    
+        local sMod,sType = sDALabel:match("DA:%s?(%d+)%s([%w%s%-]+)");
+        local nMod = tonumber(sMod) or 0;
+        if (sType and nMod and nMod > 0) then
+          local nRemainder = nMod;
+          if (sType == sDamageType or sType == "all") then
+            if (nDMG > 0) then
+              if (nDMG > nMod) then
+                nDMG = nDMG - nMod;
+                nRemainder = 0;
+              else
+                nRemainder = nMod - nDMG;
+                nDMG = 0;
+              end
+            end -- nDMG > 0
+             -- if sType ==
+          elseif (sType == 'none') then
+          -- with none type we do not absorb but we track the damage to the 
+          -- bubble and remove it. This allows us to have an effect like the armor
+          -- spell that takes X damage before it expires. "BAC:6;DA: 5 none"
+          -- since the entire effect is removed when DA < 0
+            nRemainder =  nMod - nDamageToAbsorb;
+          end
+          if (nRemainder ~= nMod) then
+            if nRemainder > 0 then
+              -- adjust effect nMod to new value, replace old entry value with new
+              local sReplacedLabel = sLabel:gsub(sDALabel,"DA:".. nRemainder .. " " .. sType);
+              DB.setValue(nodeEffect,"label","string",sReplacedLabel);
+            else
+              -- effect is used up, remove it
+              EffectManager.removeEffect(nodeTarget, sLabel);
+              --nodeEffect.delete();
+            end
+          end -- nRemainder > 0
+        end -- if sType and nMod
+      end -- nStart/nEnd ~= nil
+    end -- for
+  end -- if nodeTarget
+  
+  -- get the difference in amount absorbed and the total damage.
+  local nAbsorbed = 0 - (nDMG - nDamageToAbsorb);
+--Debug.console("manager_action_damage.lua","getAbsorbedByType","nAbsorbed",nAbsorbed);      
+  return nAbsorbed;
+ end
+ 
 -- return if item/weapon has magical effect in damage type --celestian
 function isMagicDamage(aDmgType)
     local bMagic = false;
@@ -798,7 +856,7 @@ function checkReductionTypeHelper(rMatch, aDmgType)
         bMatchNegative = true;
         break;
       end
-            -- check to see if "magic" and if so then see if magic item/weapon used --celestian
+      -- check to see if "magic" and if so then see if magic item/weapon used --celestian
       if vNeg:match("^magic$") and isMagicDamage(aDmgType) then
         bMatchNegative = true;
         break;
@@ -874,12 +932,12 @@ function getDamageAdjust(rSource, rTarget, nDamage, rDamageOutput)
   local nDamageAdjust = 0;
   local bVulnerable = false;
   local bResist = false;
+  local bAbsorb = false;
   
   -- Get damage adjustment effects
   local aImmune = getReductionType(rSource, rTarget, "IMMUNE");
   local aVuln = getReductionType(rSource, rTarget, "VULN");
   local aResist = getReductionType(rSource, rTarget, "RESIST");
-  
   local bIncorporealSource = EffectManager5E.hasEffect(rSource, "Incorporeal", rTarget);
   local bIncorporealTarget = EffectManager5E.hasEffect(rTarget, "Incorporeal", rSource);
   local bApplyIncorporeal = (bIncorporealSource ~= bIncorporealTarget);
@@ -908,6 +966,8 @@ function getDamageAdjust(rSource, rTarget, nDamage, rDamageOutput)
     local bLocalVulnerable = checkReductionType(aVuln, aSrcDmgClauseTypes);
     local bLocalResist = checkReductionType(aResist, aSrcDmgClauseTypes);
     local bLocalImmune = checkReductionType(aImmune, aSrcDmgClauseTypes);
+    -- add support for "DA: # type" where damage # is absorbed from type damage and then that value is reduced the amount absorbed. --celestian
+    --local bLocalDamageAbsorb = checkReductionType(aDA, aSrcDmgClauseTypes);
     
     -- Handle incorporeal
     if bApplyIncorporeal then
@@ -956,13 +1016,24 @@ function getDamageAdjust(rSource, rTarget, nDamage, rDamageOutput)
         bVulnerable = true;
       end
     end
+
+
+    -- add support for "DAR: # type" where damage # is absorbed from type damage and then that value is reduced the amount absorbed. --celestian
+    local nAbsorbed = getAbsorbedByType(rSource, rTarget, "DA",k,(nDamage-nLocalDamageAdjust));
+    if nAbsorbed > 0 then
+--Debug.console("manager_action_damage.lua","getDamageAdjust","nAbsorbed",nAbsorbed);    
+      nLocalDamageAdjust = nLocalDamageAdjust - nAbsorbed;
+--Debug.console("manager_action_damage.lua","getDamageAdjust","nLocalDamageAdjust",nLocalDamageAdjust);    
+      bAbsorb = true;
+    end
     
     -- Apply adjustment to this damage type clause
     nDamageAdjust = nDamageAdjust + nLocalDamageAdjust;
   end
-
+  
+    
   -- Results
-  return nDamageAdjust, bVulnerable, bResist;
+  return nDamageAdjust, bVulnerable, bResist, bAbsorb;
 end
 
 function decodeDamageText(nDamage, sDamageDesc)
@@ -1226,7 +1297,8 @@ function applyDamage(rSource, rTarget, bSecret, sDamage, nTotal)
     end
     
     -- Apply damage type adjustments
-    local nDamageAdjust, bVulnerable, bResist = getDamageAdjust(rSource, rTarget, nTotal, rDamageOutput);
+    local nDamageAdjust, bVulnerable, bResist, bAbsorb = getDamageAdjust(rSource, rTarget, nTotal, rDamageOutput);
+--Debug.console("manager_action_damage.lua","applyDamage","nDamageAdjust",nDamageAdjust);       
     local nAdjustedDamage = nTotal + nDamageAdjust;
     if nAdjustedDamage < 0 then
       nAdjustedDamage = 0;
@@ -1240,6 +1312,13 @@ function applyDamage(rSource, rTarget, bSecret, sDamage, nTotal)
     end
     if bVulnerable then
       table.insert(aNotifications, "[VULNERABLE]");
+    end
+    if bAbsorb then
+      if nAdjustedDamage <= 0 then
+        table.insert(aNotifications, "[ABSORBED]");
+      else
+        table.insert(aNotifications, "[PARTIALLY ABSORBED]");
+      end
     end
     
     -- Prepare for concentration checks if damaged

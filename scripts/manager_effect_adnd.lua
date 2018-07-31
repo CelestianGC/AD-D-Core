@@ -15,7 +15,8 @@ function onInit()
     DB.addHandler("combattracker.list.*.inventorylist.*.effectlist.*.durunit", "onUpdate", updateItemEffectsForEdit);
     DB.addHandler("combattracker.list.*.inventorylist.*.effectlist.*.visibility", "onUpdate", updateItemEffectsForEdit);
     DB.addHandler("combattracker.list.*.inventorylist.*.effectlist.*.actiononly", "onUpdate", updateItemEffectsForEdit);
-    DB.addHandler("combattracker.list.*.inventorylist.*", "onChildDeleted", updateFromDeletedInventory);
+    DB.addHandler("combattracker.list.*.inventorylist.*.isidentified", "onUpdate", updateItemEffectsForEdit);
+    DB.addHandler("combattracker.list.*.inventorylist", "onChildDeleted", updateFromDeletedInventory);
 
     -- watch the character/pc inventory list
     DB.addHandler("charsheet.*.inventorylist.*.carried", "onUpdate", inventoryUpdateItemEffects);
@@ -26,7 +27,8 @@ function onInit()
     DB.addHandler("charsheet.*.inventorylist.*.effectlist.*.durunit", "onUpdate", updateItemEffectsForEdit);
     DB.addHandler("charsheet.*.inventorylist.*.effectlist.*.visibility", "onUpdate", updateItemEffectsForEdit);
     DB.addHandler("charsheet.*.inventorylist.*.effectlist.*.actiononly", "onUpdate", updateItemEffectsForEdit);
-    DB.addHandler("charsheet.*.inventorylist.*", "onChildDeleted", updateFromDeletedInventory);
+    DB.addHandler("charsheet.*.inventorylist.*.isidentified", "onUpdate", updateItemEffectsForEdit);
+    DB.addHandler("charsheet.*.inventorylist", "onChildDeleted", updateFromDeletedInventory);
   end
     --CoreRPG replacements
     ActionsManager.decodeActors = decodeActors;
@@ -40,7 +42,8 @@ function onInit()
     --ActionsManager.resolveAction = resolveAction;
     EffectManager5E.evalAbilityHelper = evalAbilityHelper;
     EffectManager.setCustomOnEffectActorStartTurn(onEffectActorStartTurn);
-    EffectManager.setCustomOnEffectAddStart(adndOnEffectAddStart);
+    --EffectManager.setCustomOnEffectAddStart(adndOnEffectAddStart);
+    EffectManager.setCustomOnEffectAddEnd(adndOnEffectAddEnd);
     EffectManager5E.applyOngoingDamageAdjustment = applyOngoingDamageAdjustment;
     
     -- this is for ARMOR() effect type
@@ -85,22 +88,33 @@ function updateItemEffectsForEdit(nodeField)
 end
 -- find the effect for this source and delete and re-build
 function checkEffectsAfterEdit(itemNode)
-    local nodeChar = DB.getChild(itemNode, ".....");
-    local nodeCT = CharManager.getCTNodeByNodeChar(nodeChar);
-    if nodeCT then
-        for _,nodeEffect in pairs(DB.getChildren(nodeCT, "effects")) do
-            local sLabel = DB.getValue(nodeEffect, "label", "");
-            local sEffSource = DB.getValue(nodeEffect, "source_name", "");
-            -- see if the node exists and if it's in an inventory node
-            local nodeFound = DB.findNode(sEffSource);
---Debug.console("manager_effect_adnd.lua","checkEffectsAfterEdit","sEffSource",sEffSource);
---Debug.console("manager_effect_adnd.lua","checkEffectsAfterEdit","nodeFound",nodeFound);
-            if nodeFound and nodeFound == itemNode and string.match(sEffSource,"inventorylist") then
-                nodeEffect.delete();
-                updateItemEffects(DB.getChild(itemNode, "..."));
-            end
+  local nodeChar = nil
+  local bIDUpdated = false;
+  if itemNode.getPath():match("%.effectlist%.") then
+    nodeChar = DB.getChild(itemNode, ".....");
+  else
+    nodeChar = DB.getChild(itemNode, "...");
+    bIDUpdated = true;
+  end
+  local nodeCT = CharManager.getCTNodeByNodeChar(nodeChar);
+  if nodeCT then
+    for _,nodeEffect in pairs(DB.getChildren(nodeCT, "effects")) do
+      local sLabel = DB.getValue(nodeEffect, "label", "");
+      local sEffSource = DB.getValue(nodeEffect, "source_name", "");
+      -- see if the node exists and if it's in an inventory node
+      local nodeEffectFound = DB.findNode(sEffSource);
+      if (nodeEffectFound  and string.match(sEffSource,"inventorylist")) then
+        local nodeEffectItem = nodeEffectFound.getChild("...");
+        if nodeEffectFound == itemNode then -- effect hide/show edit
+          nodeEffect.delete();
+          updateItemEffects(DB.getChild(itemNode, "..."));
+        elseif nodeEffectItem == itemNode then -- id state was changed
+          nodeEffect.delete();
+          updateItemEffects(nodeEffectItem);
         end
+      end
     end
+  end
 end
 -- this checks to see if an effect is missing a associated item that applied the effect 
 -- when items are deleted and then clears that effect if it's missing.
@@ -168,6 +182,7 @@ function updateItemEffects(nodeItem)
     if not nodeChar then
         return;
     end
+--Debug.console("manager_effect_adnd.lua","updateItemEffects","nodeItem",nodeItem);
     local sName = DB.getValue(nodeItem, "name", "");
     -- we swap the node to the combat tracker node
     -- so the "effect" is written to the right node
@@ -182,11 +197,11 @@ function updateItemEffects(nodeItem)
     
     local nCarried = DB.getValue(nodeItem, "carried", 0);
     local bEquipped = (nCarried == 2);
-    local nIdentified = DB.getValue(nodeItem, "isidentified", 0);
-    local bOptionID = OptionsManager.isOption("MIID", "on");
-    if not bOptionID then 
-        nIdentified = 1;
-    end
+    local nIdentified = DB.getValue(nodeItem, "isidentified", 1);
+    -- local bOptionID = OptionsManager.isOption("MIID", "on");
+    -- if not bOptionID then 
+        -- nIdentified = 1;
+    -- end
 -- Debug.console("manager_effect_adnd.lua","updateItemEffects","sUser",sUser);
 -- Debug.console("manager_effect_adnd.lua","updateItemEffects","nodeChar",nodeChar);
 -- Debug.console("manager_effect_adnd.lua","updateItemEffects","nodeItem",nodeItem);
@@ -195,41 +210,29 @@ function updateItemEffects(nodeItem)
 -- Debug.console("manager_effect_adnd.lua","updateItemEffects","nIdentified",nIdentified);
 
     for _,nodeItemEffect in pairs(DB.getChildren(nodeItem, "effectlist")) do
-        updateItemEffect(nodeItem,nodeItemEffect, sName, nodeChar, bEquipped, nIdentified);
+        updateItemEffect(nodeItemEffect, sName, nodeChar, nil, bEquipped, nIdentified);
     end -- for item's effects list
 end
 
 -- update single effect for item
-function updateItemEffect(nodeItem,nodeItemEffect, sName, nodeChar, bEquipped, nIdentified)
---Debug.console("manager_effect_adnd.lua","updateItemEffect","User.isHost()",User.isHost());
+-- update single effect for item
+function updateItemEffect(nodeItemEffect, sName, nodeChar, sUser, bEquipped, nIdentified)
     local sCharacterName = DB.getValue(nodeChar, "name", "");
     local sItemSource = nodeItemEffect.getPath();
---Debug.console("manager_effect_adnd.lua","updateItemEffect","sItemSource",sItemSource);
---Debug.console("manager_effect_adnd.lua","updateItemEffect","itemNode?",nodeItemEffect.getChild("..."));
-    -- local bActionOnly = (DB.getValue(nodeItemEffect, "actiononly", 0) ~= 0);
-    -- local sActionSource = "";
-    -- if (bActionOnly) then
-        -- sActionSource =  nodeItem.getPath();
-    -- end
     local sLabel = DB.getValue(nodeItemEffect, "effect", "");
--- Debug.console("manager_effect_adnd.lua","updateItemEffect","sName",sName);
--- Debug.console("manager_effect_adnd.lua","updateItemEffect","sLabel",sLabel);
---Debug.console("manager_effect_adnd.lua","updateItemEffect","sItemSource",sItemSource);
+-- Debug.console("manager_effect_adnd.lua","updateItemEffect","bEquipped",bEquipped);    
+--Debug.console("manager_effect_adnd.lua","updateItemEffect","nodeItemEffect",nodeItemEffect);  
     if sLabel and sLabel ~= "" then -- if we have effect string
         local bFound = false;
         for _,nodeEffect in pairs(DB.getChildren(nodeChar, "effects")) do
             local nActive = DB.getValue(nodeEffect, "isactive", 0);
             local nDMOnly = DB.getValue(nodeEffect, "isgmonly", 0);
---Debug.console("manager_effect_adnd.lua","updateItemEffect","nActive",nActive);
             if (nActive ~= 0) then
                 local sEffSource = DB.getValue(nodeEffect, "source_name", "");
---Debug.console("manager_effect_adnd.lua","updateItemEffect","sEffSource",sEffSource);
                 if (sEffSource == sItemSource) then
                     bFound = true;
---Debug.console("manager_effect_adnd.lua","updateItemEffect","bFound!!!",bFound);
                     if (not bEquipped) then
-                        sendEffectRemovedMessage(nodeChar, nodeEffect, sLabel, nDMOnly);
-                        --notifyEffectDelete(nodeEffect);
+                        sendEffectRemovedMessage(nodeChar, nodeEffect, sLabel, nDMOnly, sUser)
                         nodeEffect.delete();
                         break;
                     end -- not equipped
@@ -237,34 +240,29 @@ function updateItemEffect(nodeItem,nodeItemEffect, sName, nodeChar, bEquipped, n
             end -- was active
         end -- nodeEffect for
         
---Debug.console("manager_effect_adnd.lua","updateItemEffect","pre bEquipped",bEquipped);
         if (not bFound and bEquipped) then
---Debug.console("manager_effect_adnd.lua","updateItemEffect","bFound and bEquipped",bEquipped);
---Debug.console("manager_effect_adnd.lua","updateItemEffect","nIdentified",nIdentified);
-
             local rEffect = {};
             local nRollDuration = 0;
             local dDurationDice = DB.getValue(nodeItemEffect, "durdice");
             local nModDice = DB.getValue(nodeItemEffect, "durmod", 0);
---Debug.console("manager_effect_adnd.lua","updateItemEffect","dDurationDice",dDurationDice);
---Debug.console("manager_effect_adnd.lua","updateItemEffect","nModDice",nModDice);
-
             if (dDurationDice and dDurationDice ~= "") then
                 nRollDuration = StringManager.evalDice(dDurationDice, nModDice);
             else
                 nRollDuration = nModDice;
             end
---bug.console("manager_effect_adnd.lua","updateItemEffect","nRollDuration",nRollDuration);
-            local nDMOnly = 1;
+            local nDMOnly = 0;
             local sVisibility = DB.getValue(nodeItemEffect, "visibility", "");
-            if sVisibility == "show" then
-              nDMOnly = 0;
-            elseif sVisibility == "hide" then
-              nDMOnly = 1;
-            elseif nIdentified > 0 then
-              nDMOnly = 0;
+--Debug.console("manager_effect_adnd.lua","updateItemEffect","sVisibility",sVisibility);
+--Debug.console("manager_effect_adnd.lua","updateItemEffect","nIdentified",nIdentified);
+
+            if sVisibility == "hide" then
+                nDMOnly = 1;
+            elseif sVisibility == "show"  then
+                nDMOnly = 0;
             elseif nIdentified == 0 then
-              nDMOnly = 1;
+                nDMOnly = 1;
+            elseif nIdentified > 0  then
+                nDMOnly = 0;
             end
             
             rEffect.nDuration = nRollDuration;
@@ -275,12 +273,13 @@ function updateItemEffect(nodeItem,nodeItemEffect, sName, nodeChar, bEquipped, n
             rEffect.sSource = sItemSource;
             rEffect.nGMOnly = nDMOnly;
             rEffect.sApply = "";
+            
+            sendEffectAddedMessage(nodeChar, rEffect, sLabel, nDMOnly, sUser)
             EffectManager.addEffect("", "", nodeChar, rEffect, false);
-            sendEffectAddedMessage(nodeChar, rEffect, sLabel, nDMOnly);
-            --notifyEffectAdd(nodeChar,rEffect);
         end
     end
 end
+
 
 -- flip through all pc/npc effectslist (generally do this in addNPC()/addPC()
 -- nodeChar: node of PC/NPC in PC/NPCs record list
@@ -294,14 +293,12 @@ end
 -- nodeCharEffect: node in effectlist on PC/NPC
 -- nodeEntry: node in combat tracker for PC/NPC
 function updateCharEffect(nodeCharEffect,nodeEntry)
+    local sUser = User.getUsername();
     local sName = DB.getValue(nodeEntry, "name", "");
     local sLabel = DB.getValue(nodeCharEffect, "effect", "");
-    local bActionOnly = (DB.getValue(nodeCharEffect, "actiononly", 0)==1);
     local nRollDuration = 0;
     local dDurationDice = DB.getValue(nodeCharEffect, "durdice");
     local nModDice = DB.getValue(nodeCharEffect, "durmod", 0);
---Debug.console("manager_effect_adnd.lua","updateCharEffect","dDurationDice",dDurationDice);
---Debug.console("manager_effect_adnd.lua","updateCharEffect","nModDice",nModDice);
     if (dDurationDice and dDurationDice ~= "") then
         nRollDuration = StringManager.evalDice(dDurationDice, nModDice);
     else
@@ -315,6 +312,8 @@ function updateCharEffect(nodeCharEffect,nodeEntry)
     elseif sVisibility == "hide" then
         nDMOnly = 1;
     end
+--Debug.console("manager_effect_adnd.lua","updateCharEffect","sVisibility",sVisibility);
+
     local rEffect = {};
     rEffect.nDuration = nRollDuration;
     --rEffect.sName = sName .. ";" .. sLabel;
@@ -1150,16 +1149,54 @@ function applyOngoingDamageAdjustment(nodeActor, nodeEffect, rEffectComp)
     ActionsManager.actionDirect(nil, "damage_psp", { rRoll }, { { rTarget } });
   end
 end
-
 ---- end psionic work
+
+--function adndOnEffectAddStart(rNewEffect)
+--Debug.console("manager_effect_adnd.lua","adndOnEffectAddStart","rNewEffect",rNewEffect); 
+--end
 
 -- AD&D Core only function, rolls dice rolls in [xDx] boxes
 -- used for STR: [1d5] style effects, only rolled when applied.
-function adndOnEffectAddStart(rNewEffect)
-  -- we replaced this with adndOnEffectAddStart, so lets run it here
-  -- to get the time adjustments
-  EffectManager5E.onEffectAddStart(rNewEffect);
-  --
+-- moved to AddEnd instead of start because here we get the target node and
+-- we can do stuff fancy stuff since we have target node 
+-- like [$STR/2] or [$LVL*10], [$ARCANE*10] [$DIVINE*12] 
+-- (generic level, arcane level, divine level)
+function adndOnEffectAddEnd(nodeTargetEffect, rNewEffect)
+  local nodeTarget = nodeTargetEffect.getChild("...");
+  local nodeChar = ActorManager.getCreatureNode(nodeTarget);
+  local bisPC = (ActorManager.getType(nodeTarget) == "pc");
+  local bNodeSourceIsPC = false;
+  local nodeCaster = nil;
+  if (bisPC) then
+    nodeCaster = nodeChar;
+  else
+    nodeCaster = nodeTarget;
+  end
+  
+Debug.console("manager_effect_adnd.lua","adndOnEffectAddEnd","nodeTarget",nodeTarget); 
+Debug.console("manager_effect_adnd.lua","adndOnEffectAddEnd","nodeTargetEffect",nodeTargetEffect); 
+Debug.console("manager_effect_adnd.lua","adndOnEffectAddEnd","rNewEffect",rNewEffect); 
+  -- setup a nodeSource 
+  local sSource = rNewEffect.sSource;
+Debug.console("manager_effect_adnd.lua","adndOnEffectAddEnd","sSource",sSource); 
+  local nodeSource = nodeCaster; -- if no sSource then it's based from the caster?
+  if (sSource and sSource ~= "") then 
+    nodeSource = DB.findNode(sSource);
+Debug.console("manager_effect_adnd.lua","adndOnEffectAddEnd","nodeSource1",nodeSource); 
+    if (nodeSource) then
+      bNodeSourceIsPC = (ActorManager.getType(nodeSource) == "pc");
+Debug.console("manager_effect_adnd.lua","adndOnEffectAddEnd","bNodeSourceIsPC",bNodeSourceIsPC); 
+      if bNodeSourceIsPC then
+        nodeSource = ActorManager.getCreatureNode(nodeSource);
+Debug.console("manager_effect_adnd.lua","adndOnEffectAddEnd","nodeSource2",nodeSource); 
+      end
+    end
+  else
+    --nodeSource = nodeCaster;
+Debug.console("manager_effect_adnd.lua","adndOnEffectAddEnd","nodeSource3",nodeSource); 
+  end
+  -- end nodeSource
+Debug.console("manager_effect_adnd.lua","adndOnEffectAddEnd","nodeSource4",nodeSource); 
   local sEffectFullString = "";
   local sName = rNewEffect.sName;
     -- split the name/label for effect for each:
@@ -1169,21 +1206,65 @@ function adndOnEffectAddStart(rNewEffect)
   -- flip through each sEffectName and look for dice
   for _,sEffectName in pairs(aEachEffect) do
     local sNewName = sEffectName;
-  -- look for [1d6] string in effect text 
+  -- MATCH [1d6] string in effect text 
     for sDice in string.gmatch(sEffectName,"%[%d+[dD]%d+%]") do
       local aDice,nMod = StringManager.convertStringToDice(sDice);
       local nRoll = StringManager.evalDice(aDice,nMod);
       sNewName = sNewName:gsub("%[%d+[dD]%d+%]",tostring(nRoll));
 Debug.console("manager_effect_adnd.lua","adndOnEffectAddStart","Dice rolled for effect:",sEffectName,"nRoll=",nRoll);
     end  -- for sDice
+    
+Debug.console("manager_effect_adnd.lua","adndOnEffectAddStart","sNewName",sNewName);
+    -- find anything else in []'s and consider it a math function with macros
+    -- like [$STR*2] or [$DEX/3] or [$LVL*10]
+    local nStart, nEnd, sFound = sNewName:find("%[(.*)%]");
+    if nStart and nEnd and sFound then     
+Debug.console("manager_effect_adnd.lua","adndOnEffectAddStart","nStart",nStart);
+Debug.console("manager_effect_adnd.lua","adndOnEffectAddStart","nEnd",nEnd);    
+Debug.console("manager_effect_adnd.lua","adndOnEffectAddStart","sFound0",sFound);    
+      for sMacro in string.gmatch(sFound,"%$(%w+)") do
+Debug.console("manager_effect_adnd.lua","adndOnEffectAddStart","sMacro",sMacro);   
+        -- match STR|DEX|CON/etc..
+        local sStatName = DataCommon.ability_stol[sMacro];
+        if (sStatName) then
+          if bisPC then
+            local nodeChar = ActorManager.getCreatureNode(nodeTarget);
+            nScore = DB.getValue(nodeChar,"abilities." .. sStatName .. ".total",0);
+          else
+            nScore = DB.getValue(nodeTarget,"abilities." .. sStatName .. ".total",0);
+          end
+        sFound = sFound:gsub("%$" .. sMacro,tostring(nScore));
+Debug.console("manager_effect_adnd.lua","adndOnEffectAddStart","sFound1",sFound);    
+        end -- end found sStatName
+
+        -- these need to be run by the source, not the target.
+        if nodeSource then
+          -- -- match for $LVL
+          sFound = sFound:gsub("%$LEVEL",tostring(CharManager.getActiveClassMaxLevel(nodeSource)));
+          -- -- match for $ARCANE
+          sFound = sFound:gsub("%$ARCANE",tostring(PowerManager.getCasterLevelByType(nodeSource,"arcane",bNodeSourceIsPC)));
+          -- -- match for $DIVINE
+          sFound = sFound:gsub("%$DIVINE",tostring(PowerManager.getCasterLevelByType(nodeSource,"divine",bNodeSourceIsPC)));
+        end
+        
+      end -- end sMacro fore
+Debug.console("manager_effect_adnd.lua","adndOnEffectAddStart","sFound2",sFound);    
+      local nDiceResult = math.floor(StringManager.evalDiceMathExpression(sFound));
+Debug.console("manager_effect_adnd.lua","adndOnEffectAddStart","nDiceResult",nDiceResult);    
+      -- start/end widened because we dont include []'s in search start/end
+      sNewName = CoreUtilities.replaceStringAt(sNewName,tostring(nDiceResult),nStart-1,nEnd)
+Debug.console("manager_effect_adnd.lua","adndOnEffectAddStart","sNewName",sNewName);    
+    end
+
     local sSep = "";
     if sEffectFullString ~= "" then
       sSep = ";";
     end
     sEffectFullString = sEffectFullString .. sSep .. sNewName;
   end -- for sEffectName
+  -- we changed the effect name so update
   if (sEffectFullString ~= "") then
-    rNewEffect.sName = sEffectFullString;
+    --DB.setValue(nodeTargetEffect,"name","string",sEffectFullString);
+    DB.setValue(nodeTargetEffect,"label","string",sEffectFullString);
   end
 end
-

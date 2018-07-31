@@ -112,7 +112,7 @@ function onInit()
   -- default coin weight, 50 coins = 1 pound
   nDefaultCoinWeight = 0.02;
   -- default surprise dice
-  if (sRulesetName == "SW") then
+  if (sRulesetName == "SW" or sRulesetName == "2E") then
     aDefaultSurpriseDice = {"d10"};
   else
     aDefaultSurpriseDice = {"d6"};

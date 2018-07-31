@@ -17,6 +17,14 @@ function onInit()
   DB.addHandler(DB.getPath(nodeChar, "abilities.*.basemod"),    "onUpdate", updateAbilityScores);
   DB.addHandler(DB.getPath(nodeChar, "abilities.*.adjustment"), "onUpdate", updateAbilityScores);
   DB.addHandler(DB.getPath(nodeChar, "abilities.*.tempmod"),    "onUpdate", updateAbilityScores);
+  
+  DB.addHandler(DB.getPath(nodeChar, "hp.base"),        "onUpdate", updateHealthScore);
+  DB.addHandler(DB.getPath(nodeChar, "hp.basemod"),     "onUpdate", updateHealthScore);
+  --this is managed, not adjusted by players
+  --DB.addHandler(DB.getPath(nodeChar, "hp.hpconmod"),  "onUpdate", updateHealthScore);
+  DB.addHandler(DB.getPath(nodeChar, "hp.adjustment"),  "onUpdate", updateHealthScore);
+  DB.addHandler(DB.getPath(nodeChar, "hp.tempmod"),     "onUpdate", updateHealthScore);
+
   updateAbilityScores(nodeChar);
   updateAscendingValues();
 end
@@ -29,6 +37,11 @@ function onClose()
   DB.removeHandler(DB.getPath(nodeChar, "abilities.*.percentadjustment"), "onUpdate", updateAbilityScores);
   DB.removeHandler(DB.getPath(nodeChar, "abilities.*.percenttempmod"),    "onUpdate", updateAbilityScores);
 
+  DB.removeHandler(DB.getPath(nodeChar, "hp.base"),       "onUpdate", updateHealthScore);
+  DB.removeHandler(DB.getPath(nodeChar, "hp.basemod"),    "onUpdate", updateHealthScore);
+  DB.removeHandler(DB.getPath(nodeChar, "hp.adjustment"), "onUpdate", updateHealthScore);
+  DB.removeHandler(DB.getPath(nodeChar, "hp.tempmod"),    "onUpdate", updateHealthScore);
+  
   DB.removeHandler(DB.getPath(nodeChar, "abilities.*.base"),       "onUpdate", updateAbilityScores);
   DB.removeHandler(DB.getPath(nodeChar, "abilities.*.basemod"),    "onUpdate", updateAbilityScores);
   DB.removeHandler(DB.getPath(nodeChar, "abilities.*.adjustment"), "onUpdate", updateAbilityScores);
@@ -95,6 +108,9 @@ function updateAbilityScores(node)
     intelligence_illusion.setTooltipText(dbAbility.sImmunity_TT);
     intelligence_illusion_label.setTooltipText(dbAbility.sImmunity_TT);
   end
+  
+  -- this makes sure if con changes hp con adjustments are managed
+  updateHealthScore();
 end
 
 function updateAscendingValues()
@@ -148,6 +164,34 @@ function updateTHACO()
  DB.setValue(node,"combat.thaco.score","number",nTHACO);
 end
 
+---
+-- Manage hitpoint modifiers and total
+-- (needs to pickup constitution score adjustments automatically still --celestian)
+---
+function updateHealthScore()
+  local nodeChar = getDatabaseNode();
+  local nBase    = DB.getValue(nodeChar,"hp.base",0);
+  local nBaseMod = DB.getValue(nodeChar,"hp.basemod",0);
+  local nAdj     = DB.getValue(nodeChar,"hp.adjustment",0);
+  local nTemp    = DB.getValue(nodeChar,"hp.tempmod",0);
+  -- we dont use nBaseMod yet but... if we do later (effects?) this will 
+  -- make it work properly, if greater than 0 then use it.
+  if (nBaseMod > 0) then
+    nBase = nBaseMod;
+  end
+
+  local nConMod = CharManager.getAllClassAndLevelConAdjustments(nodeChar);
+  if (nConMod == nil) then 
+    -- we didn't find all our classes, module not loaded?
+    -- so we just keep the value currently set
+    nConMod = DB.getValue(nodeChar,"hp.conmod",0);
+  else
+    DB.setValue(nodeChar,"hp.conmod","number",nConMod);
+  end
+  
+  local nTotal = nBase + nConMod + nAdj + nTemp;
+  DB.setValue(nodeChar,"hp.total","number",nTotal);
+end
 
 
 

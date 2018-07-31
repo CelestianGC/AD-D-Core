@@ -11,7 +11,7 @@ function onInit()
     OptionsManager.addOptionValue("DDCL", "option_val_DDCL_adnd3", "desktopdecal_adnd3", true);
     OptionsManager.addOptionValue("DDCL", "option_val_DDCL_adnd4", "desktopdecal_adnd4", true);
     OptionsManager.setOptionDefault("DDCL", "desktopdecal_adnd2");
-  end  
+  end
 end
 
 function registerOptions()

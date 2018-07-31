@@ -26,10 +26,10 @@ function handleApplyAttack(msgOOB)
   
   local nTotal = tonumber(msgOOB.nTotal) or 0;
   
-  applyAttack(rSource, rTarget, (tonumber(msgOOB.nSecret) == 1), msgOOB.sAttackType, msgOOB.sDesc, nTotal, msgOOB.sResults);
+  applyAttack(rSource, rTarget, (tonumber(msgOOB.nSecret) == 1), msgOOB.sAttackType, msgOOB.sDesc, nTotal, msgOOB.sResults,msgOOB.sAttackLable);
 end
 
-function notifyApplyAttack(rSource, rTarget, bSecret, sAttackType, sDesc, nTotal, sResults)
+function notifyApplyAttack(rSource, rTarget, bSecret, sAttackType, sDesc, nTotal, sResults,sAttackLable)
   if not rTarget then
     return;
   end
@@ -46,6 +46,7 @@ function notifyApplyAttack(rSource, rTarget, bSecret, sAttackType, sDesc, nTotal
   msgOOB.nTotal = nTotal;
   msgOOB.sDesc = sDesc;
   msgOOB.sResults = sResults;
+  msgOOB.sAttackLable = sAttackLable
 
   local sSourceType, sSourceNode = ActorManager.getTypeAndNodeName(rSource);
   msgOOB.sSourceType = sSourceType;
@@ -136,6 +137,8 @@ function getRoll(rActor, rAction)
         rRoll.sDesc = rRoll.sDesc .. " (" .. rAction.range .. ")";
         rRoll.range = rAction.range;
     end
+--Debug.console("manager_action_attack.lua","getRoll","rAction.label",rAction.label);
+    rRoll.sAttackLable = rAction.label;
     rRoll.sDesc = rRoll.sDesc .. "] " .. rAction.label;
 
     -- Add crit range
@@ -150,16 +153,18 @@ function getRoll(rActor, rAction)
           rRoll.sDesc = rRoll.sDesc .. " [MOD:" .. sAbilityEffect .. "]";
       end
 
+      -- not in AD&D --celestian
       -- Check for armor non-proficiency
-      local sActorType, nodeActor = ActorManager.getTypeAndNode(rActor);
-      if sActorType == "pc" then
-        if StringManager.contains({"strength", "dexterity"}, rAction.stat) then
-          if DB.getValue(nodeActor, "defenses.ac.prof", 1) == 0 then
-              rRoll.sDesc = rRoll.sDesc .. " " .. Interface.getString("roll_msg_armor_nonprof");
-              bDIS = true;
-          end
-        end
-      end
+      -- local sActorType, nodeActor = ActorManager.getTypeAndNode(rActor);
+      -- if sActorType == "pc" then
+        -- if StringManager.contains({"strength", "dexterity"}, rAction.stat) then
+          -- if DB.getValue(nodeActor, "defenses.ac.prof", 1) == 0 then
+              -- rRoll.sDesc = rRoll.sDesc .. " " .. Interface.getString("roll_msg_armor_nonprof");
+              -- bDIS = true;
+          -- end
+        -- end
+      -- end
+      
     end
     
     -- Add advantage/disadvantage tags
@@ -607,7 +612,7 @@ function onAttack(rSource, rTarget, rRoll)
   Comm.deliverChatMessage(rMessage);
   
   if rTarget then
-    notifyApplyAttack(rSource, rTarget, rMessage.secret, rRoll.sType, rRoll.sDesc, rAction.nTotal, table.concat(rAction.aMessages, " "));
+    notifyApplyAttack(rSource, rTarget, rMessage.secret, rRoll.sType, rRoll.sDesc, rAction.nTotal, table.concat(rAction.aMessages, " "),rRoll.sAttackLable);
   end
   
   -- TRACK CRITICAL STATE
@@ -634,20 +639,39 @@ function onAttack(rSource, rTarget, rRoll)
   end
 end
 
-function applyAttack(rSource, rTarget, bSecret, sAttackType, sDesc, nTotal, sResults)
+function applyAttack(rSource, rTarget, bSecret, sAttackType, sDesc, nTotal, sResults, sAttackLable)
   local msgShort = {font = "msgfont"};
   local msgLong = {font = "msgfont"};
-  
+
+  local sAttackTypeFull = string.match(sDesc, "(%[ATTACK %(%a%)%])");
+  if not sAttackTypeFull or sAttackTypeFull == "" then
+    sAttackTypeFull = "[ATTACK (?)]";
+  end
+
+-- Debug.console("manager_action_attack.lua","applyAttack","sAttackTypeFull",sAttackTypeFull);  
+-- Debug.console("manager_action_attack.lua","applyAttack","sDesc",sDesc);  
+
   msgShort.text = "Attack ->";
   msgLong.text = "Attack [" .. nTotal .. "] ->";
+
+  -- add in [ATTACK (X)] so DOE can see type and miss/hit on same line for sound trigger
+  msgShort.text = msgShort.text .. sAttackTypeFull;
+  msgLong.text = msgLong.text .. sAttackTypeFull;
+  -- add in weapon used for attack for sound trigger search
+  if (sAttackLable and sAttackLable ~= "") then
+    msgShort.text = msgShort.text .. " " .. sAttackLable .. " ";
+    msgLong.text = msgLong.text .. " " .. sAttackLable .. " ";
+  end
+
   if rTarget then
     msgShort.text = msgShort.text .. " [at " .. rTarget.sName .. "]";
     msgLong.text = msgLong.text .. " [at " .. rTarget.sName .. "]";
   end
+  
   if sResults ~= "" then
     msgLong.text = msgLong.text .. " " .. sResults;
   end
-
+  
   local bPsionicPower = false;
   local sType = string.match(sDesc, "%[ATTACK %((%w+)%)%]");
   if sType and sType == "P" then

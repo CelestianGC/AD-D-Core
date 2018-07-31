@@ -6,8 +6,8 @@
   
 -->
 
-<root version="3.0" release="27" logo="logo.png">
-  <announcement text="AD&amp;D Core v2018.07.08 For Fantasy Grounds\r--by Celestian 2017-2018" font="emotefont" icon="rulesetlogo_ADnD" />
+<root version="3.0" release="28" logo="logo.png">
+  <announcement text="AD&amp;D Core v2018.07.31 For Fantasy Grounds\r--by Celestian 2017-2018" font="emotefont" icon="rulesetlogo_ADnD" />
 
   <!-- Attributes -->
   <description>
@@ -71,6 +71,7 @@
   <includefile source="ref/ref_feat_list.xml" />
   <includefile source="ref/ref_magicitem.xml" />
   <includefile source="ref/ref_pregenchar.xml" />
+  <includefile source="ref/ref_manual_adnd.xml" />
 
   <!-- Campaign Records -->
   <includefile source="campaign/template_campaign.xml" />
@@ -145,10 +146,10 @@
   <!-- AD&D, this needs to be above manager_version2 or the updates wont work properly  -->
   <script name="DataCommonADND" file="scripts/data_common_adnd.lua" />
   <!-- Override CoreRPG item manager for npc inventory requirements, items for npcs/etc -->
-  <script name="ItemManager" file="scripts/manager_item_CoreRPG.3.3.5.lua" />
+  <script name="ItemManager" file="scripts/manager_item_CoreRPG.3.3.6.lua" />
 <!-- Override CoreRPG's "TokenManager" We do this because I have special flags to show bars/effects 
      to DM only and players only. Not just "on for all, or off for all" -->
-  <script name="TokenManager" file="scripts/manager_token_CoreRPG.3.3.5.lua" />
+  <script name="TokenManager" file="scripts/manager_token_CoreRPG.3.3.6.lua" />
   <script name="TokenManager2" file="scripts/manager_token2.lua" />
   <script name="VersionManager2" file="scripts/manager_version2.lua" />
   <script name="ActionsManager2" file="scripts/manager_actions2.lua" />
@@ -168,6 +169,7 @@
   <!-- AD&D specific settings -->
   <script name="LibraryDataADND" file="scripts/data_library_adnd.lua" />
   <!-- <script name="ImageManagerADND" file="scripts/manage_image_adnd.lua" /> -->
+  <script name="CoreUtilities" file="scripts/manager_core_utilities.lua" />
   <script name="EffectManagerADND" file="scripts/manager_effect_adnd.lua" />
   <script name="TokenManagerADND" file="scripts/manager_token_adnd.lua" />
   <script name="ActorManagerADND" file="scripts/manager_actor_adnd.lua" />

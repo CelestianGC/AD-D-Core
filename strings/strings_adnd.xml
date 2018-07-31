@@ -35,6 +35,9 @@
   <string name="casterlevelby4">CL/4</string>
   <string name="casterlevelby5">CL/5</string>
 
+  <string name="arcane">Arcane</string>
+  <string name="divine">Divine</string>
+
   <string name="paralyzation">Paralyzation</string>
   <string name="poison">Poison</string>
   <string name="death">Death</string>
@@ -97,11 +100,25 @@
   <string name="char_label_surprise_tooltip">Surprise check value. A check rolled of this or lesser value indicates surprise.</string>
   <string name="char_abilityscore_actual_tooltip">Actual ability score before effects.</string>
 
-   <string name="char_label_weapon_penalty">Weapon</string>
-   <string name="char_label_weapon_penalty_tooltip">Penalty when using weapon character is not proficient with.</string>
+  <string name="char_label_prof_initial">Initial</string>
+  <string name="char_label_prof_initial_tooltip">Initial amount of proficiencies earned for this class at level 1.</string>
+  <string name="char_label_prof_earned_rate">Rate</string>
+  <string name="char_label_prof_earned_rate_tooltip">How quickly a character gains additional proficiency slots. A new proficiency slot is gained at every experience level that is evenly divisible by the number listed. If rate is 3, then at levels 3, 6 and 9 (and so on) they would gain a new slot.</string>
+  <string name="char_label_weapon_penalty">Penalty</string>
+  <string name="char_label_weapon_penalty_tooltip">Penalty when using weapon character is not proficient with.</string>
+
+
+  <string name="char_label_hitpointdetail">Hitpoints</string>
+  <string name="char_label_hitpointdetail_tooltip">Hitpoint values.</string>
+  <string name="char_label_hp">HP</string>
+  <string name="char_label_hpbase">Base</string>
+  <string name="char_label_hpconmod">Con</string>
+  <string name="char_label_hpconmod_tooltip">Modifier to hitpoints based on constitution adjustment.</string>
+  <string name="char_label_hptotal">Total</string>
+  <string name="char_label_hptotal_tooltip">Total hitpoints including all adjustments.</string>
+
 
   <string name="char_label_senses">Senses</string>
-
   <string name="char_label_speeddetail">Move:</string>
   <string name="char_label_speeddetail_tooltip">Movement values. How fast the character can move.</string>
   <string name="char_label_speedbase_base">Base</string>
@@ -167,7 +184,7 @@
   <string name="char_label_strength_dmgadj">DMG</string>
   <string name="char_tooltip_strength_dmgadj">Damage adjustment</string>
   <string name="char_label_strength_weightallow">Allow</string>
-  <string name="char_tooltip_strength_weightallow">Maximum Weight allowance</string>
+  <string name="char_tooltip_strength_weightallow">Weight allowance before you begin to be encumbered.</string>
   <string name="char_label_strength_maxpress">Press</string>
   <string name="char_tooltip_strength_maxpress">Maximum weight press</string>
   <string name="char_label_strength_opendoors">Doors</string>
@@ -278,6 +295,7 @@
   <string name="power_label_arcane_level_tooltip">Arcane spellcasting level.</string>
   
   <string name="power_label_pactmagicslots">Divine</string>
+  
   <string name="power_label_divine_level_tooltip">Divine spellcasting level.</string>
   
   <string name="power_label_memorize">Memorize</string>
@@ -370,6 +388,8 @@
   <string name="class_profs_nonweapon_tooltip">Non-weapon proficiencies earned at this level.</string>
   <string name="class_profs_nonweapon__used_tooltip">Non-weapon proficiencies spent.</string>
     
+  <string name="class_spelllevels">Spell Levels</string>
+  <string name="class_spelllevels_tooltip">New Arcane/Divine spell level. If Arcane value is set to 12, they will cast at level 12 caster.</string>
   <string name="class_spellslots_tooltip">Spell slots ADDED to current total slots for this level. So if they already have 3 and value set to 1 here, it would result in 3+1 (4) slots for that level.</string>
   <string name="class_spellslots_arcane_tooltip">Arcane spell slots ADDED to current total slots for this level.</string>
   <string name="class_spellslots_divine_tooltip">Divine spell slots ADDED to current total slots for this level.</string>
@@ -618,6 +638,7 @@
   <string name="message_youmemorize">Memorized </string>
   <string name="message_encumbrance_changed">'%s' is at '%s' encumbrance. Movebase now %d.</string>
   <string name="message_nouseleft">Tried to use '%s' but has no uses left.</string>
+  <string name="message_forget_memorized">Forgot %s.</string>
 
   <string name="message_exp_applied">'%s' applied '%d' experience to %s.</string>
     

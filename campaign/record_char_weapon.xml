@@ -18,56 +18,17 @@
         </anchored>
         <invisible />
       </genericcontrol>
-      <linkfield name="shortcut">
-        <anchored to="rightanchor" width="20" height="20">
-          <top offset="8" />
-          <right anchor="left" relation="relative" offset="-2" />
-        </anchored>
-        <readonly />
-        <script>
-          function onValueChanged()
-            window.onLinkChanged();
-          end
-          
-          function onDrop(x, y, draginfo)
-            if draginfo.isType("shortcut") then
-              local node = window.getDatabaseNode();
-              local sClass, sRecord = draginfo.getShortcutData();
-              if (sClass == "quicknote") then
-                local nodeEncounter = DB.findNode(sRecord);
-                if (nodeEncounter) then
-                  local sName = DB.getValue(nodeEncounter,"name","");
-                  local sText = DB.getValue(nodeEncounter,"text","");
-                  local nLocked = DB.getValue(nodeEncounter,"locked",0);
-                  DB.setValue(node,"itemnote.name","string",sName);
-                  DB.setValue(node,"itemnote.text","formattedtext",sText);
-                  DB.setValue(node,"itemnote.locked","number",nLocked);
-                  DB.setValue(node, "shortcut", "windowreference", "quicknote", node.getPath() .. '.itemnote');
-                end
-              end
-              return true;
-            end
-          end
-        </script>
-      </linkfield>
+      
+      <link_weapon_shortcut name="shortcut" />
+      
       <button_idelete name="idelete">
         <anchored to="rightanchor">
           <top offset="8" />
           <right anchor="left" offset="-2" />
         </anchored>
       </button_idelete>
-      <buttoncontrol name="activatedetail">
-        <anchored to="rightanchor" width="20" height="20">
-          <top offset="8" />
-          <right anchor="left" relation="relative" offset="-3" />
-        </anchored>
-        <state icon="details" pressed="details_down" />
-        <script>
-          function onButtonPress()
-            Interface.openWindow("char_weapon_editor", window.getDatabaseNode());
-          end
-        </script>
-      </buttoncontrol>
+      
+      <detail_button_action name="activatedetail" />
       <genericcontrol name="leftanchor">
         <anchored width="0" height="0">
           <top />
@@ -83,24 +44,14 @@
       <script file="common/scripts/button_crosslink.lua" />
       </button_char_inv_carried>
       
+      <number_actions_init name="speedfactor" />
 
-      <stringu name="name"> 
-        <script>
-          function onDoubleClick(x,y)
-            return window.onAttackAction();
-          end      
-        </script>
-        <anchored height="18">
-            <top offset="5" />
-            <left parent="leftanchor" anchor="right" relation="relative" offset="5" />
-            <right parent="rightanchor" anchor="left" relation="relative" offset="-240" />
-        </anchored>
-      </stringu>
+      <stringu_action_attack name="name" /> 
 
       <state_charweapontype name="type">
         <anchored height="18" >
           <top offset="5" />
-          <left parent="leftanchor" anchor="right" relation="relative" offset="1" />
+          <left parent="leftanchor" anchor="right" relation="relative" offset="0" />
         </anchored>
         <script>
           function onValueChanged()
@@ -109,20 +60,11 @@
         </script>
       </state_charweapontype>
 
-
-      <number_actions_init name="speedfactor">
-        <tooltip textres="power_label_initiative_tooltip" />
-        <anchored height="18" width="25" >
-          <top offset="8" />
-          <left parent="leftanchor" anchor="right" relation="relative" offset="10" />
-        </anchored>
-      </number_actions_init>
-
       <genericcontrol name="attackshade">
-                <anchored height="26" width="50" >
-                    <top offset="3" />
-                    <left parent="leftanchor" anchor="right" relation="relative" offset="0" />
-                </anchored>
+        <anchored height="26" width="50" >
+          <top offset="3" />
+          <left parent="leftanchor" anchor="right" relation="relative" offset="0" />
+        </anchored>
       </genericcontrol>
       <genericcontrol name="attackframe">
         <anchored to="attackshade" position="over" />

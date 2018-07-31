@@ -192,8 +192,10 @@
   <icon name="button_action_memorize" file="graphics/buttons/button_action_memorize.png" />
   <icon name="button_action_memorize_down" file="graphics/buttons/button_action_memorize_down.png" />
   <!-- import -->
-  <icon name="button_import" file="graphics/buttons/button_import.png" />
-  <icon name="button_import_down" file="graphics/buttons/button_import_down.png" />
+  <icon name="button_import_file" file="graphics/buttons/button_import_file.png" />
+  <icon name="button_import_file_down" file="graphics/buttons/button_import_file_down.png" />
+  <icon name="button_export_file" file="graphics/buttons/button_export_file.png" />
+  <icon name="button_export_file_down" file="graphics/buttons/button_export_file_down.png" />
   
 
 </root>

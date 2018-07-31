@@ -32,31 +32,31 @@ ability_stol = {
 };
 
 
-    saves = {
-        "poison",
-        "paralyzation",
-        "death",
-        "rod",
-        "staff",
-        "wand",
-        "petrification",
-        "polymorph",
-        "breath",
-        "spell"
-    };
+saves = {
+    "poison",
+    "paralyzation",
+    "death",
+    "rod",
+    "staff",
+    "wand",
+    "petrification",
+    "polymorph",
+    "breath",
+    "spell"
+};
 
-    saves_stol = {
-        ["poison"] = "Poison",
-        ["paralyzation"] = "Paralyzation",
-        ["death"] = "Death",
-        ["rod"] = "Rod",
-        ["staff"] = "Staff",
-        ["wand"] = "Wand",
-        ["petrification"] = "Petrification",
-        ["polymorph"] = "Polymorph",
-        ["breath"] = "Breath",
-        ["spell"] = "Spell",
-    };
+saves_stol = {
+    ["poison"] = "Poison",
+    ["paralyzation"] = "Paralyzation",
+    ["death"] = "Death",
+    ["rod"] = "Rod",
+    ["staff"] = "Staff",
+    ["wand"] = "Wand",
+    ["petrification"] = "Petrification",
+    ["polymorph"] = "Polymorph",
+    ["breath"] = "Breath",
+    ["spell"] = "Spell",
+};
 
 saves_multi_name = {
   ["poison"] = "poison",

@@ -98,15 +98,15 @@ function getFilter()
     local bWasMemorized = (DB.getValue(node,"wasmemorized",0) > 0);
     
     if bisCastSpell then
-        if sMode == "combat" then
-            if (bMemorized) then
-                DB.setValue(node,"wasmemorized","number",1);
-            end
-            bShow = (bMemorized or bWasMemorized);
-        else
-            DB.setValue(node,"wasmemorized","number",0);
-            bShow = true;
+      if sMode == "combat" then
+        if (bMemorized) then
+            DB.setValue(node,"wasmemorized","number",1);
         end
+        bShow = (bMemorized or bWasMemorized);
+      else
+        DB.setValue(node,"wasmemorized","number",0);
+        bShow = true;
+      end
     end
     
     return bShow;
@@ -116,9 +116,9 @@ end
 -- not need to see these
 function firstTimeSpellRecord()
     if (string.match(getDatabaseNode().getPath(),"^spell")) then
-        header.subwindow.group.setVisible(false);
-        header.subwindow.shortdescription.setVisible(false);
-        header.subwindow.name.setVisible(false);
+      header.subwindow.group.setVisible(false);
+      header.subwindow.shortdescription.setVisible(false);
+      header.subwindow.name.setVisible(false);
     end
 end
 
@@ -130,23 +130,23 @@ end
 function firstTimeItemRecord()
   local nodeAttack = getDatabaseNode();
     if string.match(nodeAttack.getPath(),"^item") then
-        local nodeItem = DB.getChild(nodeAttack, "...");
-        if (name.getValue() == "") then
-            local sName = DB.getValue(nodeItem,"name","");
-            local sGroup = DB.getValue(nodeItem,"type","Item");
-            name.setValue(sName);
-            group.setValue(sGroup);
-            usesperiod.setValue("once");
-            local nCharges = 25;
-            local sNameLower = sName:lower();
-            local sGroupLower = sGroup:lower();
-            if string.match(sNameLower,"rod") or string.match(sGroupLower,"rod") then
-                nCharges = 50;
-            elseif string.match(sNameLower,"wand") or string.match(sGroupLower,"wand") then
-                nCharges = 100;
-            end
-            prepared.setValue(nCharges);
+      local nodeItem = DB.getChild(nodeAttack, "...");
+      if (name.getValue() == "") then
+        local sName = DB.getValue(nodeItem,"name","");
+        local sGroup = DB.getValue(nodeItem,"type","Item");
+        name.setValue(sName);
+        group.setValue(sGroup);
+        usesperiod.setValue("once");
+        local nCharges = 25;
+        local sNameLower = sName:lower();
+        local sGroupLower = sGroup:lower();
+        if string.match(sNameLower,"rod") or string.match(sGroupLower,"rod") then
+            nCharges = 50;
+        elseif string.match(sNameLower,"wand") or string.match(sGroupLower,"wand") then
+            nCharges = 100;
         end
+        prepared.setValue(nCharges);
+      end
     end
 end
 
@@ -207,7 +207,7 @@ function onMenuSelection(selection, subselection)
 --Debug.console("power_item.lua","onMenuSelection","selection",selection);
 --Debug.console("power_item.lua","onMenuSelection","subselection",subselection);
   if selection == 6 and subselection == 7 then
-        cleanUpMemorization(getDatabaseNode());
+    cleanUpMemorization(getDatabaseNode());
     getDatabaseNode().delete();
 
   elseif selection == 4 then
@@ -238,7 +238,7 @@ function onMenuSelection(selection, subselection)
   end
 end
 
--- this is to clean up and dangling memorized spells (since we disabled player
+-- this is to clean up and dangling (deleted/removed) memorized spells (since we disabled player
 -- edit options on the tics) when a player decides to delete a memorized spell
 -- AD&D, -celestian
 function cleanUpMemorization(nodeSpell)
@@ -251,13 +251,13 @@ function cleanUpMemorization(nodeSpell)
     local nLeftOver = nUsedArcane - nMemorized;
 
     if (nMemorized > 0) then
-        if (sSpellType == "arcane") then
-            DB.setValue(nodeChar,"powermeta.spellslots" .. nLevel .. ".used","number",nLeftOver);
-        elseif (sSpellType == "divine") then
-            DB.setValue(nodeChar,"powermeta.pactmagicslots" .. nLevel .. ".used","number",nLeftOver);
-        else
-            DB.setValue(nodeChar,"powermeta.spellslots" .. nLevel .. ".used","number",nLeftOver);
-        end
+      if (sSpellType == "arcane") then
+        DB.setValue(nodeChar,"powermeta.spellslots" .. nLevel .. ".used","number",nLeftOver);
+      elseif (sSpellType == "divine") then
+        DB.setValue(nodeChar,"powermeta.pactmagicslots" .. nLevel .. ".used","number",nLeftOver);
+      else
+        DB.setValue(nodeChar,"powermeta.spellslots" .. nLevel .. ".used","number",nLeftOver);
+      end
     end
 end
 

@@ -7,6 +7,6 @@
 
 <root>
   <windowclass name="encounter" merge="join">
-    <script file="campaign/scripts/story_CoreRPG.3.3.5.lua" mergerule="replace"/>
+    <script file="campaign/scripts/story_CoreRPG.3.3.6.lua" mergerule="replace"/>
   </windowclass>
 </root>

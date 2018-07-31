@@ -9,11 +9,11 @@
   <windowclass name="charsheet">
     <frame>charsheet</frame>
     <placement>
-      <size width="510" height="540" />
+      <size width="530" height="580" />
     </placement>
     <sizelimits>
-      <minimum width="510" height="540" />
-      <maximum width="510" />
+      <minimum width="530" height="580" />
+      <!-- <maximum width="510" /> -->
       <dynamic />
     </sizelimits>
     <softclose />
@@ -51,6 +51,9 @@
         <icon>charlist_base</icon>
         <disabled />
       </genericcontrol>
+			<button_charactivate>
+				<anchored to="contentanchor" position="belowright" offset="0,5" width="23" height="22" />
+			</button_charactivate>
       <portrait_charlocal name="localportrait">
         <anchored to="contentanchor" position="belowleft" offset="5,5" width="45" height="45" />
         <invisible />

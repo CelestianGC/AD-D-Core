@@ -95,34 +95,12 @@
     <script file="campaign/scripts/quicknotes.lua" />
     <sheetdata>
       <!-- SURPRISE -->            
-      <basicnumber name="surprise_total_roll" source="surprise.total">
+      <number_surprise name="surprise_total_roll" source="surprise.total">
         <anchored width="30" height="20"> 
           <top offset="15" />
           <left anchor="center" offset="-55"/>
         </anchored>
-        <rollable />
-        <default>3</default>
-        <script>
-          function action(draginfo)
-            local node = getDatabaseNode();
-            local nodeChar = node.getChild("...");
-            local rActor = ActorManager.getActor("pc", nodeChar);
-            ActionSurprise.performRoll(draginfo, rActor, nodeChar);
-            return true;
-          end
-          
-          function onDragStart(button, x, y, draginfo)
-            return action(draginfo);
-          end
-              
-          function onDoubleClick(x,y)
-            return action();
-          end                    
-        </script>
-        <cursor hover="hand" />
-        <gmeditonly />
-        <tooltip textres="char_label_surpriseroll_tooltip" />
-      </basicnumber>
+      </number_surprise>
       <stringcontrol  name="label_surprisetotal">
         <anchored to="surprise_total_roll"  position="aboveleft" offset="-5,1" />
         <font>sheetlabelmini</font>
@@ -150,37 +128,12 @@
             <!-- END INIT -->
             
             <!-- TURN UNDEAD -->            
-      <basicnumber name="turnlevel" source="turn.total">
-        <script>
-          function action(draginfo)
-            local node = getDatabaseNode();
-            local nodeChar = node.getChild("...");
-            local rActor = ActorManager.getActor("pc", nodeChar);
-            ActionTurn.performRoll(draginfo, rActor);
-            return true;
-          end
-          
-          function onDragStart(button, x, y, draginfo)
-            return action(draginfo);
-          end
-              
-          function onDoubleClick(x,y)
-            return action();
-          end                    
-        </script>
-        <frame name="fielddark" offset="7,5,7,5" />
-        <stateframe>
-            <hover name="rowshade" offset="7,5,7,5" />
-        </stateframe>
-        <cursor hover="hand" />
+      <number_turnundead name="turnlevel" source="turn.total">
         <anchored height="20" width="30" >
           <top parent="surprise_total_roll" />
           <left parent="surprise_total_roll" anchor="right" relation="relative" offset="15" />
         </anchored>
-        <rollable />
-        <default>0</default>
-        <tooltip textres="char_label_turnlevel_tooltip" />
-      </basicnumber>
+      </number_turnundead>
       <label_fieldtop name="label_turnlevel">
         <anchored to="turnlevel" />
         <static textres="char_label_turn" />

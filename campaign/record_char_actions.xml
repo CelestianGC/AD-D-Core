@@ -400,10 +400,19 @@
           end
         </script>
       </buttoncontrol>
+      <label name="initiative_header_label">
+        <anchored height="18" width="25" >
+          <top parent="weapontitle"  />
+          <left parent="leftanchor" anchor="right" relation="relative" offset="35" />
+        </anchored>
+        <tooltip textres="char_label_initiative_tooltip" />
+        <static textres="char_label_initiative" />
+        <font>subwindowsmalltitle</font>
+      </label>      
       <label name="weapons_header_label">
         <anchored height="18">
           <top parent="weapontitle" />
-          <left parent="leftanchor" anchor="right" relation="relative" offset="35" />
+          <left parent="leftanchor" anchor="right" relation="relative" offset="10" />
           <right parent="rightanchor" anchor="left" relation="relative" offset="-298" />
         </anchored>
         <font>subwindowsmalltitle</font>
@@ -419,15 +428,6 @@
         <static textres="char_label_type" />
         <font>subwindowsmalltitle</font>
       </label>
-      <label name="initiative_header_label">
-        <anchored height="18" width="25" >
-          <top  parent="weapontitle" />
-          <left parent="weapons_header_label" anchor="right" relation="relative" offset="5" />
-        </anchored>
-        <tooltip textres="char_label_initiative_tooltip" />
-        <static textres="char_label_initiative" />
-        <font>subwindowsmalltitle</font>
-      </label>
       <label name="attack_header_label">
         <anchored height="18" width="25" >
           <top  parent="weapontitle"  />
@@ -440,7 +440,7 @@
       <label name="damage_header_label">
         <anchored height="18" width="35" >
           <top  parent="weapontitle" />
-          <left parent="weapons_header_label" anchor="right" relation="relative" offset="70" />
+          <left parent="weapons_header_label" anchor="right" relation="relative" offset="65" />
         </anchored>
         <tooltip textres="char_label_damage_tooltip" />
         <static textres="char_label_damage" />
@@ -593,10 +593,19 @@
           end
         </script>
       </buttoncontrol>
+      <label name="initiative_header_label">
+        <anchored height="18" width="25" >
+          <top offset="10" />
+          <left parent="leftanchor" anchor="right" relation="relative" offset="35" />
+        </anchored>
+        <tooltip textres="char_label_initiative_tooltip" />
+        <static textres="char_label_initiative" />
+        <font>subwindowsmalltitle</font>
+      </label>
       <label name="weapons_header_label">
         <anchored height="18">
           <top offset="10" />
-          <left parent="leftanchor" anchor="right" relation="relative" offset="35" />
+          <left parent="leftanchor" anchor="right" relation="relative" offset="10" />
           <right parent="rightanchor" anchor="left" relation="relative" offset="-298" />
         </anchored>
         <font>subwindowsmalltitle</font>
@@ -605,26 +614,17 @@
       </label>
       <label name="type_header_label">
         <anchored height="18" width="30" >
-                    <top offset="10" />
-                    <left parent="weapons_header_label" anchor="right" relation="relative" offset="5" />
-                </anchored>
-        <tooltip textres="char_label_type_tooltip" />
-        <static textres="char_label_type" />
-        <font>subwindowsmalltitle</font>
-      </label>
-      <label name="initiative_header_label">
-        <anchored height="18" width="25" >
           <top offset="10" />
           <left parent="weapons_header_label" anchor="right" relation="relative" offset="5" />
         </anchored>
-        <tooltip textres="char_label_initiative_tooltip" />
-        <static textres="char_label_initiative" />
+        <tooltip textres="char_label_type_tooltip" />
+        <static textres="char_label_type" />
         <font>subwindowsmalltitle</font>
       </label>
       <label name="attack_header_label">
         <anchored height="18" width="25" >
           <top offset="10" />
-          <left parent="weapons_header_label" anchor="right" relation="relative" offset="13" />
+          <left parent="weapons_header_label" anchor="right" relation="relative" offset="5" />
         </anchored>
         <tooltip textres="char_label_attack_tooltip" />
         <static textres="char_label_attack" />
@@ -633,7 +633,7 @@
       <label name="damage_header_label">
         <anchored height="18" width="35" >
           <top offset="10" />
-          <left parent="weapons_header_label" anchor="right" relation="relative" offset="70" />
+          <left parent="weapons_header_label" anchor="right" relation="relative" offset="65" />
         </anchored>
         <tooltip textres="char_label_damage_tooltip" />
         <static textres="char_label_damage" />
@@ -1029,9 +1029,9 @@
         <static text="Temp" />
       </label_fieldtop>
       
-      <text_equal name="equal_mac_tempmod">
+      <label_equal name="equal_mac_tempmod">
         <anchored to="mac_tempmod" position="righthigh" offset="10" />
-      </text_equal>
+      </label_equal>
       
       <number_basic name="mac_score" source="combat.mac.score">
         <anchored to="equal_mac_tempmod" position="right" offset="5,0" />
@@ -1091,9 +1091,9 @@
         <static text="Temp" />
       </label_fieldtop>
       
-      <text_equal name="equal_psp_tempmod">
+      <label_equal name="equal_psp_tempmod">
         <anchored to="psp_tempmod" position="righthigh" offset="10" />
-      </text_equal>
+      </label_equal>
       
       <number_basic name="psp_score" source="combat.psp.score"> 
         <anchored to="equal_psp_tempmod" position="right" offset="5,0" />
@@ -1157,9 +1157,9 @@
         <static text="Temp" />
       </label_fieldtop>
       
-      <text_equal name="equal_mthaco_tempmod">
+      <label_equal name="equal_mthaco_tempmod">
         <anchored to="mthaco_tempmod" position="righthigh" offset="10" />
-      </text_equal>
+      </label_equal>
       
       <number_basic name="mthaco_score" source="combat.mthaco.score">
         <anchored to="equal_mthaco_tempmod" position="right" offset="5,0" />

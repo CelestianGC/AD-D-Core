@@ -23,6 +23,8 @@ function convertToPC(nodeNPC)
   
   -- roll hitpoints for the NPC and set on PC node
   local nHP = CombatManager2.rollNPCHitPoints(nodeNPC);
+  local nHPConBonus = DB.getValue(nodePC, "hp.conmod", 0);
+  DB.setValue(nodePC, "hp.base", "number", nHP-nHPConBonus);
   DB.setValue(nodePC, "hp.total", "number", nHP);
   
   -- set race
@@ -68,6 +70,8 @@ function convertToNPC(nodePCIncoming)
   
   -- get HP to set on NPC
   local nHP = DB.getValue(nodePC,"hp.total",0);
+  local nHPConBonus = DB.getValue(nodePC, "hp.conmod", 0);
+
   local sSpeed = DB.getValue(nodePC,"speed.total",12);
 
   -- these are different on npcs, so nuke them before copy
@@ -82,8 +86,8 @@ function convertToNPC(nodePCIncoming)
   DB.setValue(nodeNPC, "type","string","Humanoid");
   
   -- set nHP to hp value for npc
-  DB.setValue(nodeNPC, "hptotal", "number", nHP);
-  DB.setValue(nodeNPC, "hp", "number", nHP);
+  DB.setValue(nodeNPC, "hptotal", "number", nHP+nHPConBonus);
+  DB.setValue(nodeNPC, "hp", "number", nHP+nHPConBonus);
   
   -- set speed
   DB.setValue(nodeNPC, "speed", "string", sSpeed);

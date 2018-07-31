@@ -152,12 +152,12 @@ function addItemToList2(sClass, nodeSource, nodeTarget, nodeTargetList)
     DB.setValue(nodeTarget, "locked", "number", 1);
 
     -- Set the identified field
-    local bOptionID = OptionsManager.isOption("MIID", "on");
-    if bOptionID and (sClass == "reference_magicitem") then
-      DB.setValue(nodeTarget, "isidentified", "number", 0);
-    else
+    -- local bOptionID = OptionsManager.isOption("MIID", "on");
+    -- if bOptionID and (sClass == "reference_magicitem") then
+      -- DB.setValue(nodeTarget, "isidentified", "number", 0);
+    -- else
       DB.setValue(nodeTarget, "isidentified", "number", 1);
-    end
+    --end
       
     return true;
   end

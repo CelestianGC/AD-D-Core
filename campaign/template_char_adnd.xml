@@ -338,17 +338,16 @@
   </template>
     
   <template name="number_actions_init">
-        <basicnumber>
-      <frame name="fieldlight" offset="7,5,7,5" />
+    <basicnumber>
+      <!-- <frame name="fieldlight" offset="7,5,7,5" /> -->
       <showemptywidget />
-      <font>arial-regular-8</font>
+      <font>arial-regular-7</font>
       <hideonvalue>0</hideonvalue>
       <rollable />
       <displaysign />
       <script>
         function action(draginfo)
           local nValue = getValue();
-
           local rItem = {};
           rItem.sName = window.name.getValue();
           rItem.nInit = nValue;
@@ -370,11 +369,16 @@
           return action();
         end
       </script>
-        </basicnumber>
+      <tooltip textres="power_label_initiative_tooltip" />
+      <anchored height="15" width="20" >
+        <top offset="8" />
+        <left parent="leftanchor" anchor="right" relation="relative" offset="10" />
+      </anchored>
+    </basicnumber>
   </template>
   <template name="number_power_init">
-        <basicnumber>
-      <frame name="fieldlight" offset="7,5,7,5" />
+    <basicnumber>
+      <!-- <frame name="fieldlight" offset="7,5,7,5" /> -->
       <showemptywidget />
       <font>arial-regular-8</font>
       <rollable />
@@ -413,7 +417,7 @@
           return action();
         end
       </script>
-        </basicnumber>
+    </basicnumber>
   </template>
 
   <template name="button_charabiltiesdetail">
@@ -439,15 +443,21 @@
     </buttoncontrol>
   </template>
     
-    <template name="label_plus">
-            <label>
-        <anchored>
-          <top  />
-          <left anchor="right" relation="relative" offset="5" />
-        </anchored>
-                <static text="+"/>
-            </label>
-    </template>
+  <template name="label_plus">
+    <label_plus2>
+      <anchored>
+        <top  />
+        <left anchor="right" relation="relative" offset="5" />
+      </anchored>
+    </label_plus2>
+  </template>
+  <template name="label_plus2">
+    <label>
+      <center />
+      <static text="+"/>
+    </label>
+  </template>
+  
     <template name="ability_number_base">
             <basicnumber>
         <anchored width="30" height="20">
@@ -660,144 +670,144 @@
     </button_stringcycler>
   </template>
     
-    <template name="number_adjustment">
-      <basicnumber>
-            <anchored width="20" height="15"/>
-                <default>0</default>
-                <displaysign />
-        <hideonvalue>0</hideonvalue>
-      </basicnumber>
-    </template>
-    
-    <template name="speed_number_base">
-            <basicnumber>
-                <anchored height="18" width="30" >
-                    <top parent="label_speeddetail_base" />
-                    <left parent="label_speeddetail_base" anchor="right" relation="relative" offset="10" />
-                </anchored>
+  <template name="number_adjustment">
+    <basicnumber>
+          <anchored width="20" height="15"/>
+              <default>0</default>
+              <displaysign />
+      <hideonvalue>0</hideonvalue>
+    </basicnumber>
+  </template>
+  
+  <template name="speed_number_base">
+          <basicnumber>
+              <anchored height="18" width="30" >
+                  <top parent="label_speeddetail_base" />
+                  <left parent="label_speeddetail_base" anchor="right" relation="relative" offset="10" />
+              </anchored>
+          
+              <frame name="fielddark" offset="7,5,7,5" />
+              <stateframe>
+                  <hover name="rowshade" offset="7,5,7,5" />
+              </stateframe>
+              <cursor hover="hand" />
+              <font>arial-regular-8</font>
+              <hideonvalue>0</hideonvalue>
+              <default>0</default>
+          </basicnumber>
+  </template>
+  <template name="speed_number_mod">
+          <basicnumber>
+              <anchored height="18" width="30" >
+                  <top parent="label_speeddetail_base" />
+                  <left parent="label_speeddetail_base" anchor="right" relation="relative" offset="10" />
+              </anchored>
+          
+              <frame name="fielddark" offset="7,5,7,5" />
+              <stateframe>
+                  <hover name="rowshade" offset="7,5,7,5" />
+              </stateframe>
+              <cursor hover="hand" />
+              <font>arial-regular-8</font>
+              <hideonvalue>0</hideonvalue>
+              <default>0</default>
+          </basicnumber>
+  </template>
+  <template name="speed_mod_plus">
+    <label>
+      <anchored >
+        <top parent="label_speeddetail_base" />
+        <left parent="label_speeddetail_base" anchor="right" relation="relative" offset="10" />
+      </anchored>
+      <static text="+" />
+    </label>
+  </template>            
+  
+  <template name="speed_number_total">
+          <basicnumber>
+              <anchored height="18" width="30" >
+                  <top parent="label_speeddetail_base" />
+                  <left parent="label_speeddetail_base" anchor="right" relation="relative" offset="10" />
+              </anchored>
+              <script file="campaign/scripts/number_movement.lua"/>
+              <frame name="fielddark" offset="7,5,7,5" />
+              <stateframe>
+                  <hover name="rowshade" offset="7,5,7,5" />
+              </stateframe>
+              <cursor hover="hand" />
+              <readonly />
+              <font>arial-bold-8</font>
+              <readonly />
+          </basicnumber>
+  </template>
+  <template name="surprise_dice_roll">
+    <basicdice>
+      <anchored to="label_surprisedetail" position="righthigh" offset="10,0" width="30" height="18" />
+      <rollable />
+      <tooltip textres="char_label_surprisedice_tooltip" />
+      <script>
+        function action()
+          local node = getDatabaseNode();
+          local nodeChar = node.getChild("...");
+          Debug.console("record_char_main.xml","onDragStart","nodeChar",nodeChar);
+          ActionSurprise.performRoll(draginfo, rActor, nodeChar);
+          return true;
+        end
+        
+        function onDragStart(button, x, y, draginfo)
+          return action(draginfo);
+        end
             
-                <frame name="fielddark" offset="7,5,7,5" />
-                <stateframe>
-                    <hover name="rowshade" offset="7,5,7,5" />
-                </stateframe>
-                <cursor hover="hand" />
-                <font>arial-regular-8</font>
-                <hideonvalue>0</hideonvalue>
-                <default>0</default>
-            </basicnumber>
-    </template>
-    <template name="speed_number_mod">
-            <basicnumber>
-                <anchored height="18" width="30" >
-                    <top parent="label_speeddetail_base" />
-                    <left parent="label_speeddetail_base" anchor="right" relation="relative" offset="10" />
-                </anchored>
-            
-                <frame name="fielddark" offset="7,5,7,5" />
-                <stateframe>
-                    <hover name="rowshade" offset="7,5,7,5" />
-                </stateframe>
-                <cursor hover="hand" />
-                <font>arial-regular-8</font>
-                <hideonvalue>0</hideonvalue>
-                <default>0</default>
-            </basicnumber>
-    </template>
-    <template name="speed_mod_plus">
-      <label>
-        <anchored >
-          <top parent="label_speeddetail_base" />
-          <left parent="label_speeddetail_base" anchor="right" relation="relative" offset="10" />
-        </anchored>
-        <static text="+" />
-      </label>
-    </template>            
-    
-    <template name="speed_number_total">
-            <basicnumber>
-                <anchored height="18" width="30" >
-                    <top parent="label_speeddetail_base" />
-                    <left parent="label_speeddetail_base" anchor="right" relation="relative" offset="10" />
-                </anchored>
-                <script file="campaign/scripts/number_movement.lua"/>
-                <frame name="fielddark" offset="7,5,7,5" />
-                <stateframe>
-                    <hover name="rowshade" offset="7,5,7,5" />
-                </stateframe>
-                <cursor hover="hand" />
-                <readonly />
-                <font>arial-bold-8</font>
-                <readonly />
-            </basicnumber>
-    </template>
-    <template name="surprise_dice_roll">
-        <basicdice>
-            <anchored to="label_surprisedetail" position="righthigh" offset="10,0" width="30" height="18" />
-            <rollable />
-            <tooltip textres="char_label_surprisedice_tooltip" />
-            <script>
-                function action()
-                    local node = getDatabaseNode();
-                    local nodeChar = node.getChild("...");
-                    Debug.console("record_char_main.xml","onDragStart","nodeChar",nodeChar);
-                    ActionSurprise.performRoll(draginfo, rActor, nodeChar);
-                    return true;
-                end
-                
-                function onDragStart(button, x, y, draginfo)
-                    return action(draginfo);
-                end
-                    
-                function onDoubleClick(x,y)
-                    return action();
-                end                    
-            </script>
-        </basicdice>
-    </template>
-     
-    <template name="surprise_base">
-        <basicnumber name="surprisebase" source="surprise.base">
-            <script>
-                function onValueChanged()
-                    window.surpriseTotal();
-                end
-            </script>
-            <anchored to="surprisedice" position="righthigh" offset="28,0" width="30" height="18" /> 
-            <default>3</default>
-            <tooltip textres="char_label_surprisebase_tooltip" />
-        </basicnumber>
-    </template>
-    <template name="surprise_number_mod">
-            <basicnumber>
-                <script>
-                    function onValueChanged()
-                        window.surpriseTotal();
-                    end
-                </script>
-                <anchored height="18" width="30" >
-                    <top parent="surprisebase" />
-                    <left parent="surprisebase" anchor="right" relation="relative" offset="10" />
-                </anchored>
-            
-                <frame name="fielddark" offset="7,5,7,5" />
-                <stateframe>
-                    <hover name="rowshade" offset="7,5,7,5" />
-                </stateframe>
-                <cursor hover="hand" />
-                <font>arial-regular-8</font>
-                <hideonvalue>0</hideonvalue>
-                <default>0</default>
-            </basicnumber>
-    </template>
-    <template name="surprise_mod_plus">
-            <label>
-                <anchored >
-                    <top parent="surprisebase" />
-                    <left parent="surprisebase" anchor="right" relation="relative" offset="10" />
-                </anchored>
-                <static text="+" />
-            </label>
-    </template>            
+        function onDoubleClick(x,y)
+          return action();
+        end                    
+      </script>
+    </basicdice>
+  </template>
+   
+  <template name="surprise_base">
+    <basicnumber name="surprisebase" source="surprise.base">
+      <script>
+        function onValueChanged()
+          window.surpriseTotal();
+        end
+      </script>
+      <anchored to="surprisedice" position="righthigh" offset="50,0" width="30" height="18" /> 
+      <default>3</default>
+      <tooltip textres="char_label_surprisebase_tooltip" />
+    </basicnumber>
+  </template>
+  <template name="surprise_number_mod">
+    <basicnumber>
+      <script>
+        function onValueChanged()
+          window.surpriseTotal();
+        end
+      </script>
+      <anchored height="18" width="30" >
+        <top parent="surprisebase" />
+        <left parent="surprisebase" anchor="right" relation="relative" offset="10" />
+      </anchored>
+  
+      <frame name="fielddark" offset="7,5,7,5" />
+      <stateframe>
+        <hover name="rowshade" offset="7,5,7,5" />
+      </stateframe>
+      <cursor hover="hand" />
+      <font>arial-regular-8</font>
+      <hideonvalue>0</hideonvalue>
+      <default>0</default>
+    </basicnumber>
+  </template>
+  <template name="surprise_mod_plus">
+    <label>
+      <anchored >
+        <top parent="surprisebase" />
+        <left parent="surprisebase" anchor="right" relation="relative" offset="10" />
+      </anchored>
+      <static text="+" />
+    </label>
+  </template>            
 
   <template name="number_charspeed_defaults_charsheet">
         <number_charspeed_defaults>
@@ -973,7 +983,7 @@
     </label>
   </template>     
   
-  <template name="text_equal">
+  <template name="label_equal">
     <label>
       <anchored width="10" />
       <static text="=" />

@@ -849,7 +849,7 @@ function addToWeaponDB(nodeItem)
 end
 
 function initWeaponIDTracking()
-  OptionsManager.registerCallback("MIID", onIDOptionChanged);
+  --OptionsManager.registerCallback("MIID", onIDOptionChanged);
   -- watch PC items
   DB.addHandler("charsheet.*.inventorylist.*.isidentified", "onUpdate", onItemIDChanged);
   -- to watch npc updates
@@ -2122,12 +2122,6 @@ function addClassRef(nodeChar, sClass, sRecord)
     return;
   end
 
-  -- Get the list we are going to add to
-  local nodeList = nodeChar.createChild("classes");
-  if not nodeList then
-    return;
-  end
-  
   -- Notify
   outputUserMessage("char_abilities_message_classadd", DB.getValue(nodeSource, "name", ""), DB.getValue(nodeChar, "name", ""));
   
@@ -2145,6 +2139,11 @@ function addClassRef(nodeChar, sClass, sRecord)
     end
   end
 
+  -- Get the list we are going to add to
+  local nodeList = nodeChar.createChild("classes");
+  if not nodeList then
+    return;
+  end
   -- Check to see if the character already has this class
   local sRecordSansModule = StringManager.split(sRecord, "@")[1];
   local nodeClass = nil;
@@ -2166,7 +2165,6 @@ function addClassRef(nodeChar, sClass, sRecord)
       end
     end
   end
-  
   
   -- If class already exists, then add a level; otherwise, create a new class entry
   local nLevel = 1;
@@ -2200,7 +2198,7 @@ function addClassRef(nodeChar, sClass, sRecord)
   DB.setValue(nodeClass, "level", "number", nLevel);
   if not bExistingClass then
     DB.setValue(nodeClass, "name", "string", sClassName);
-        DB.setValue(nodeClass, "classactive", "number",1);
+    DB.setValue(nodeClass, "classactive", "number",1);
   end
   
   -- Calculate total level
@@ -2222,66 +2220,62 @@ function addClassRef(nodeChar, sClass, sRecord)
     -- get "advancement" fields, look for matching level and process.
     local bHadAdvancement = false;
     for _,nodeAdvance in pairs(DB.getChildren(nodeSource, "advancement")) do
-        --addClassProficiencyDB(nodeChar, "reference_classproficiency", v.getPath());
-        local nAdvanceLevel = DB.getValue(nodeAdvance,"level",0);
-        if (nAdvanceLevel == nLevel) then
-            addAdvancement(nodeChar, nodeAdvance, nodeClass);
-            bHadAdvancement = true;
-            break;
-        end
+      --addClassProficiencyDB(nodeChar, "reference_classproficiency", v.getPath());
+      local nAdvanceLevel = DB.getValue(nodeAdvance,"level",0);
+      if (nAdvanceLevel == nLevel) then
+        addAdvancement(nodeChar, nodeAdvance, nodeClass, nodeSource);
+        bHadAdvancement = true;
+        break;
+      end
     end
   
-    if not bHadAdvancement then
-        -- setup/copy the save/fight as cyclers. --celestian
-        if not bExistingClass then
-            local aDice = {};
-            for i = 1, nHDMult do
-              table.insert(aDice, "d" .. nHDSides);
-            end
-            DB.setValue(nodeClass, "hddie", "dice", aDice);
-            
-            -- local sSaveAs = DB.getValue(nodeSource,"saveas","warrior");
-            -- local sFightAs = DB.getValue(nodeSource,"fightas","warrior");
-            -- DB.setValue(nodeClass,"saveas","string",sSaveAs);
-            -- DB.setValue(nodeClass,"fightas","string",sFightAs);
-        end
-
-        -- we don't need this since we added advancement
-        if not bHDFound then
-          ChatManager.SystemMessage(Interface.getString("char_error_addclasshd"));
-        end
-        -- Add hit points based on level added
-        local nHP = DB.getValue(nodeChar, "hp.total", 0);
-        local nConBonus = tonumber(DB.getValue(nodeChar, "abilities.constitution.hitpointadj", 0));
-        if type(nConBonus) ~= "number" then
-          nConBonus = 0;
-        end
-        
-        if nTotalLevel == 1 then
-            local nAddHP = (nHDMult * nHDSides);
-            nHP = nHP + nAddHP + nConBonus;
-
-        outputUserMessage("char_abilities_message_hpaddmax", DB.getValue(nodeSource, "name", ""), " (" .. nAddHP .. "+" .. nConBonus .. ")");
-        else
-            -- local nAddHP = math.floor(((nHDMult * (nHDSides + 1)) / 2) + 0.5);
-            -- nHP = nHP + nAddHP + nConBonus;
-
-            -- local sFormat = Interface.getString("char_abilities_message_hpaddavg");
-            -- local sMsg = string.format(sFormat, DB.getValue(nodeSource, "name", ""), DB.getValue(nodeChar, "name", "")) .. " (" .. nAddHP .. "+" .. nConBonus .. ")";
-            -- ChatManager.SystemMessage(sMsg);
-
-            -- for now we're going to manually roll hp. We don't have charts with the varying HD 
-      outputUserMessage("char_abilities_message_hpaddmax", DB.getValue(nodeChar, "name", ""),DB.getValue(nodeSource, "name", ""));
-            -- this just sets it's to what it was for now till we get tables of exp/hd if we
-            -- we ever get it. Let them manually apply it for now --celestian
-            nHP = DB.getValue(nodeChar, "hp.total", 0);
-        end
-        DB.setValue(nodeChar, "hp.total", "number", nHP);
-
+  -- do best effort to configure class w/o advancement --celestian
+  if not bHadAdvancement then
+    if not bExistingClass then
+      local aDice = {};
+      for i = 1, nHDMult do
+        table.insert(aDice, "d" .. nHDSides);
+      end
+      DB.setValue(nodeClass, "hddie", "dice", aDice);
+      
+      -- local sSaveAs = DB.getValue(nodeSource,"saveas","warrior");
+      -- local sFightAs = DB.getValue(nodeSource,"fightas","warrior");
+      -- DB.setValue(nodeClass,"saveas","string",sSaveAs);
+      -- DB.setValue(nodeClass,"fightas","string",sFightAs);
     end
 
+    -- we don't need this since we added advancement
+    if not bHDFound then
+      ChatManager.SystemMessage(Interface.getString("char_error_addclasshd"));
+    end
+    -- Add hit points based on level added
+    local nHP = DB.getValue(nodeChar, "hp.base", 0);
+    local nConBonus = tonumber(DB.getValue(nodeChar, "abilities.constitution.hitpointadj", 0));
+    if type(nConBonus) ~= "number" then
+      nConBonus = 0;
+    end
     
-    
+    if nTotalLevel == 1 then
+      local nAddHP = (nHDMult * nHDSides);
+      nHP = nHP + nAddHP + nConBonus;
+      outputUserMessage("char_abilities_message_hpaddmax", DB.getValue(nodeSource, "name", ""), " (" .. nAddHP .. "+" .. nConBonus .. ")");
+    else
+      -- local nAddHP = math.floor(((nHDMult * (nHDSides + 1)) / 2) + 0.5);
+      -- nHP = nHP + nAddHP + nConBonus;
+
+      -- local sFormat = Interface.getString("char_abilities_message_hpaddavg");
+      -- local sMsg = string.format(sFormat, DB.getValue(nodeSource, "name", ""), DB.getValue(nodeChar, "name", "")) .. " (" .. nAddHP .. "+" .. nConBonus .. ")";
+      -- ChatManager.SystemMessage(sMsg);
+
+      -- for now we're going to manually roll hp. We don't have charts with the varying HD 
+      outputUserMessage("char_abilities_message_hpaddmax", DB.getValue(nodeChar, "name", ""),DB.getValue(nodeSource, "name", ""));
+      -- this just sets it's to what it was for now till we get tables of exp/hd if we
+      -- we ever get it. Let them manually apply it for now --celestian
+      nHP = DB.getValue(nodeChar, "hp.base", 0);
+    end
+    DB.setValue(nodeChar, "hp.base", "number", nHP);
+  end
+
   -- Determine whether a specialization is added this level
   local nodeSpecializationFeature = nil;
   local aOptions = {};
@@ -2312,39 +2306,72 @@ function addClassRef(nodeChar, sClass, sRecord)
 end
 
 -- process hp/spellslots/saves/thaco/weaponprof and nonweaponprof slots
-function addAdvancement(nodeChar,nodeAdvance,nodeClass)
+function addAdvancement(nodeChar,nodeAdvance,nodeClass,nodeClassSource)
     local sClassName = DB.getValue(nodeClass,"name","");
     local sClassNameLower = sClassName:lower();
     local nLevel = DB.getValue(nodeClass, "level",0);
-    -- get thaco from nodeAdvance or use thaco that exists already if not
     -- class settings
-
     -- exp needed for next level
     local nEXPNeeded = DB.getValue(nodeAdvance,"expneeded",0);
     DB.setValue(nodeClass,"expneeded","number",nEXPNeeded);
     
     -- character settings
+    -- get thaco from nodeAdvance or use thaco that exists already if not
     -- thaco
     local nTHACO = DB.getValue(nodeAdvance,"thaco",0);
     local nodeCombat = nodeChar.createChild("combat"); -- make sure these exist
     local nodeTHACO = nodeCombat.createChild("thaco"); -- make sure these exist
     local nCurrentTHACO = DB.getValue(nodeChar,"combat.thaco.score",20);
     if nTHACO ~= 0 and nTHACO < nCurrentTHACO then
-        DB.setValue(nodeChar,"combat.thaco.score","number",nTHACO);
-        ChatManager.SystemMessage("THACO updated to new value of " .. nTHACO);
+      DB.setValue(nodeChar,"combat.thaco.score","number",nTHACO);
+      ChatManager.SystemMessage("THACO updated to new value of " .. nTHACO);
     end
     
     --profs
+    -- get prof advancement rates, if not set, get defaults from the class itself
+    local nCharWeapons = DB.getValue(nodeChar,"proficiencies.weapon.max",0);
+    local nCharNonWeapons = DB.getValue(nodeChar,"proficiencies.nonweapon.max",0);
+
+    if nLevel == 1 then
+      -- if level 1 and has more than 1 class we reset the profs to whatever is best.
+      local nWeapons, nNonWeapons = getBestProficiencyInitial(nodeChar,nodeClass,nodeClassSource);
+      if getActiveClassCount(nodeChar) > 1 then
+        nCharWeapons = nWeapons;
+        nCharNonWeapons = nNonWeapons;
+        ChatManager.SystemMessage("Recalculating initial proficiencies for multi-classing.");
+      else -- dual class or single classed
+        nCharWeapons = nCharWeapons + nWeapons;
+        nCharNonWeapons = nCharNonWeapons + nNonWeapons;
+      end
+      DB.setValue(nodeChar,"proficiencies.weapon.max","number",nCharWeapons);
+      DB.setValue(nodeChar,"proficiencies.nonweapon.max","number", nCharNonWeapons);
+      ChatManager.SystemMessage("Initial weapon proficiency slot(s): " .. nCharWeapons);
+      ChatManager.SystemMessage("Initial non-weapon proficiency slot(s): " .. nCharNonWeapons);
+    end
+
+    local nWeaponProfRate, nNonWeaponProfRate = getBestProficiencyRate(nodeChar,nodeClass,nodeClassSource);
+    if nLevel % nWeaponProfRate == 0 then
+      nCharWeapons = nCharWeapons + 1;
+      DB.setValue(nodeChar,"proficiencies.weapon.max","number",nCharWeapons);
+      ChatManager.SystemMessage("Gained weapon a proficiency slot for leveling.");
+    end
+    if nLevel % nNonWeaponProfRate == 0 then
+      nCharNonWeapons = nCharNonWeapons + 1;
+      DB.setValue(nodeChar,"proficiencies.nonweapon.max","number", nCharNonWeapons);
+      ChatManager.SystemMessage("Gained non-weapon a proficiency slot for leveling.");
+    end
+    
+    -- get profs for leveling (if used)
     local nWeaponProfs = DB.getValue(nodeAdvance,"weaponprofs",0);
-    local nNonWeaponProfs = DB.getValue(nodeAdvance,"nonweaponprofs",0);
-    local nPrevWeaponProf = DB.getValue(nodeChar,"proficiencies.weapon.max",0);
-    DB.setValue(nodeChar,"proficiencies.weapon.max","number", nWeaponProfs+nPrevWeaponProf);
     if (nWeaponProfs > 0) then
+      nCharWeapons = nCharWeapons + nWeaponProfs;
+      DB.setValue(nodeChar,"proficiencies.weapon.max","number", nCharWeapons);
       ChatManager.SystemMessage("Gained weapon proficiency slot(s): " .. nWeaponProfs);
     end
-    local nPrevNonWeaponProf = DB.getValue(nodeChar,"proficiencies.nonweapon.max",0);
-    DB.setValue(nodeChar,"proficiencies.nonweapon.max","number", nNonWeaponProfs+nPrevNonWeaponProf);
+    local nNonWeaponProfs = DB.getValue(nodeAdvance,"nonweaponprofs",0);
     if (nNonWeaponProfs > 0) then
+      nCharNonWeapons = nCharNonWeapons + nNonWeaponProfs;
+      DB.setValue(nodeChar,"proficiencies.nonweapon.max","number", nCharNonWeapons);
       ChatManager.SystemMessage("Gained non-weapon proficiency slot(s): " .. nNonWeaponProfs);
     end
     
@@ -2397,14 +2424,11 @@ function addAdvancement(nodeChar,nodeAdvance,nodeClass)
     -- spell slots
     -- arcane
     if (nodeArcaneSlots) then
-      local bNewArcaneSlots = hasSpellSlots(nodeArcaneSlots,"arcane");
       -- set the "spell level" so we can access it in spells
-      if bNewArcaneSlots then
-        local nCurrentSpellLevel = DB.getValue(nodeChar,"arcane.totalLevel",0);
-        if nCurrentSpellLevel < nLevel then
-          DB.setValue(nodeChar,"arcane.totalLevel","number",nLevel);
-          ChatManager.SystemMessage("Arcane spellcasting level improved to " .. nLevel);
-        end
+      local nNewArcaneLevel = DB.getValue(nodeAdvance,"arcane.totallevel",0);
+      if nNewArcaneLevel > 0 then
+        DB.setValue(nodeChar,"arcane.totalLevel","number",nNewArcaneLevel);
+        ChatManager.SystemMessage("Arcane spellcasting level is now " .. nNewArcaneLevel);
       end
       for i = 1, 9 do
         local nSlots = DB.getValue(nodeArcaneSlots,"level" .. i,0);
@@ -2417,22 +2441,19 @@ function addAdvancement(nodeChar,nodeAdvance,nodeClass)
     end
     -- divine
     if (nodeDivineSlots) then
-      local bNewDivineSlots = hasSpellSlots(nodeDivineSlots,"divine");
+      local nNewDivineLevel = DB.getValue(nodeAdvance,"divine.totallevel",0);
         -- set the "spell level" so we can access it in spells 
-      if bNewDivineSlots then
-        local nCurrentSpellLevel = DB.getValue(nodeChar,"divine.totalLevel",0);
-        if nCurrentSpellLevel < nLevel then
-          DB.setValue(nodeChar,"divine.totalLevel","number",nLevel);
-          ChatManager.SystemMessage("Divine spellcasting level improved to " .. nLevel);
-        end
+      if nNewDivineLevel > 0 then
+        DB.setValue(nodeChar,"divine.totalLevel","number",nNewDivineLevel);
+        ChatManager.SystemMessage("Divine spellcasting level is now " .. nNewDivineLevel);
       end
       for i = 1, 7 do
-          local nSlots = DB.getValue(nodeDivineSlots,"level" .. i,0);
-          if (nSlots > 0) then
-              local nCurrentSlots = DB.getValue(nodeChar, "powermeta.pactmagicslots" .. i .. ".max",0);
-              local nAdjustedSlots = nCurrentSlots + nSlots;
-              DB.setValue(nodeChar, "powermeta.pactmagicslots" .. i .. ".max", "number", nAdjustedSlots);
-          end
+        local nSlots = DB.getValue(nodeDivineSlots,"level" .. i,0);
+        if (nSlots > 0) then
+          local nCurrentSlots = DB.getValue(nodeChar, "powermeta.pactmagicslots" .. i .. ".max",0);
+          local nAdjustedSlots = nCurrentSlots + nSlots;
+          DB.setValue(nodeChar, "powermeta.pactmagicslots" .. i .. ".max", "number", nAdjustedSlots);
+        end
       end
     end
 
@@ -2983,9 +3004,9 @@ function applyDwarvenToughness(nodeChar, bInitialAdd)
     end
   end
   
-  local nHP = DB.getValue(nodeChar, "hp.total", 0);
+  local nHP = DB.getValue(nodeChar, "hp.base", 0);
   nHP = nHP + nAddHP;
-  DB.setValue(nodeChar, "hp.total", "number", nHP);
+  DB.setValue(nodeChar, "hp.base", "number", nHP);
   
   outputUserMessage("char_abilities_message_hpaddtrait", StringManager.capitalizeAll(TRAIT_DWARVEN_TOUGHNESS), " (" .. nAddHP .. ")");
 end
@@ -2993,9 +3014,9 @@ end
 -- function applyDraconicResilience(nodeChar, bInitialAdd)
   -- -- Add extra hit points
   -- local nAddHP = 1;
-  -- local nHP = DB.getValue(nodeChar, "hp.total", 0);
+  -- local nHP = DB.getValue(nodeChar, "hp.base", 0);
   -- nHP = nHP + nAddHP;
-  -- DB.setValue(nodeChar, "hp.total", "number", nHP);
+  -- DB.setValue(nodeChar, "hp.base", "number", nHP);
   
   -- local sFormat = Interface.getString("char_abilities_message_hpaddfeature");
   -- local sMsg = string.format(sFormat, StringManager.capitalizeAll(FEATURE_DRACONIC_RESILIENCE), DB.getValue(nodeChar, "name", "")) .. " (" .. nAddHP .. ")";
@@ -3036,9 +3057,9 @@ function applyTough(nodeChar, bInitialAdd)
     end
   end
   
-  local nHP = DB.getValue(nodeChar, "hp.total", 0);
+  local nHP = DB.getValue(nodeChar, "hp.base", 0);
   nHP = nHP + nAddHP;
-  DB.setValue(nodeChar, "hp.total", "number", nHP);
+  DB.setValue(nodeChar, "hp.base", "number", nHP);
   
   outputUserMessage("char_abilities_message_hpaddfeat", StringManager.capitalizeAll(FEAT_TOUGH)," (" .. nAddHP .. ")");
 end
@@ -3113,6 +3134,18 @@ function getActiveClassMaxLevel(nodeChar)
     return nMaxLevel;
 end
 
+-- returns the highest level for all classes, active or not
+function getActiveClassMaxLevel(nodeChar)
+  local nMaxLevel = 0;
+  for _,nodeClass in pairs(DB.getChildren(nodeChar, "classes")) do
+    local nLevel = DB.getValue(nodeClass, "level", 0);
+    if (nLevel > nMaxLevel) then
+      nMaxLevel = nLevel;
+    end
+  end
+    return nMaxLevel;
+end
+
 -- get class level by name
 function getClassLevelByName(nodeChar,sClassName) 
   local nMaxLevel = 0;
@@ -3152,10 +3185,11 @@ function getInActiveClassMaxLevel(nodeChar)
     return nMaxLevel;
 end
 
--- increate HP for character for new level added
+-- increase HP for character for new level added
 function updateHPForLevel(nodeChar,nodeClass,nodeAdvance)
-    local nOriginalHP = DB.getValue(nodeChar,"hp.total",0);
-    local nHP = DB.getValue(nodeChar,"hp.total",0);
+    local nOriginalHP = DB.getValue(nodeChar,"hp.base",0);
+    --local nHP = DB.getValue(nodeChar,"hp.total",0);
+    local nCurrentHPBase = DB.getValue(nodeChar,"hp.base",0);
     local nClassCount = getActiveClassCount(nodeChar);
     local nLevel = DB.getValue(nodeClass, "level",0);
     local sClassName = DB.getValue(nodeClass,"name","");
@@ -3165,25 +3199,22 @@ function updateHPForLevel(nodeChar,nodeClass,nodeAdvance)
     
     if nClassCount == 1 then
         -- everything else, single classed
-        nHPRoll,nConBonus = 
-                    getHPRollForAdvancement(nodeChar,nodeClass,nodeAdvance,nClassCount,nLevel);
+        nHPRoll,nConBonus = getHPRollForAdvancement(nodeChar,nodeClass,nodeAdvance,nClassCount,nLevel);
     elseif nClassCount > 1 and not hasInActiveClass(nodeChar) then
         -- if level 1 across the board we need to recalculate hp
         -- to adjust for division of hp for a new class
         if (getActiveClassMaxLevel(nodeChar) == 1) then
             reCalculateHPForMultiClass(nodeChar,nodeClass);
-            nHP = DB.getValue(nodeChar,"hp.total",0);
+            nHP = DB.getValue(nodeChar,"hp.base",0);
             local sMsg = string.format("Recalculating hitpoints for additional class in multi-class configuration. Previous %d, adjusted to %d.",nOriginalHP,nHP);
             ChatManager.SystemMessage(sMsg);
         end
         -- now we can get the new hp from new class
-        nHPRoll,nConBonus = 
-                getHPRollForAdvancement(nodeChar,nodeClass,nodeAdvance,nClassCount,nLevel);
+        nHPRoll,nConBonus = getHPRollForAdvancement(nodeChar,nodeClass,nodeAdvance,nClassCount,nLevel);
     elseif hasInActiveClass(nodeChar) and getInActiveClassMaxLevel(nodeChar) < nLevel then
         -- this is dual class character, we don't add hp unless the level of the new class is
         -- greater than the inactive class
-        nHPRoll,nConBonus = 
-                    getHPRollForAdvancement(nodeChar,nodeClass,nodeAdvance,nClassCount,nLevel);
+        nHPRoll,nConBonus = getHPRollForAdvancement(nodeChar,nodeClass,nodeAdvance,nClassCount,nLevel);
     else
 --Debug.console("manager_char.lua","updateHPForLevel","Dual class but new class isn't greater than previous.");
     end
@@ -3191,75 +3222,130 @@ function updateHPForLevel(nodeChar,nodeClass,nodeAdvance)
     -- now display text from level up hp
     local sFormat = Interface.getString("char_abilities_message_leveledup");
     local sMsg = string.format(sFormat, DB.getValue(nodeChar, "name", ""),nLevel,sClassName,nHPRoll);
-    DB.setValue(nodeChar, "hp.total", "number", nHP+nHPRoll);
+    --DB.setValue(nodeChar, "hp.total", "number", nHP+nHPRoll);
+    local nNewHPBase = nCurrentHPBase + nHPRoll;
+    DB.setValue(nodeChar, "hp.base", "number", nNewHPBase);
     ChatManager.SystemMessage(sMsg);
 end
 
 -- get constitution bonus for this character/class for hp update
 function getConstitutionHPBonus(nodeChar,nodeClass,nodeAdvance)
-    -- Add hit points based on level added
-    local sClassName = DB.getValue(nodeClass,"name","");
-    local aHDice = DB.getValue(nodeAdvance,"hp.dice");
-    local sConBonus = DB.getValue(nodeChar, "abilities.constitution.hitpointadj");
-    local nConBonus = 0;
-    
-    if (sConBonus ~= "" and string.match(sConBonus,"/") ) then
-        local aConBonus = StringManager.split(sConBonus, "/", true);
-        -- if fighter, give higher bonus
-        if StringManager.contains(DataCommonADND.fighterTypes, sClassName:lower()) then
-            if aConBonus[2] then
-                nConBonus = tonumber(aConBonus[2]);
-            else
-                nConBonus = tonumber(aConBonus[1]);
-            end
-        else
-            nConBonus = tonumber(aConBonus[1]);
-        end
-    elseif (sConBonus ~= "") then
-        nConBonus = tonumber(sConBonus);
+  -- Add hit points based on level added
+  local sClassName = DB.getValue(nodeClass,"name","");
+  local aHDice = DB.getValue(nodeAdvance,"hp.dice");
+  local sConBonus = DB.getValue(nodeChar, "abilities.constitution.hitpointadj");
+  local nConBonus = 0;
+  
+  if (sConBonus ~= "" and string.match(sConBonus,"/") ) then
+    local aConBonus = StringManager.split(sConBonus, "/", true);
+    -- if fighter, give higher bonus
+    if StringManager.contains(DataCommonADND.fighterTypes, sClassName:lower()) then
+      if aConBonus[2] then
+        nConBonus = tonumber(aConBonus[2]);
+      else
+        nConBonus = tonumber(aConBonus[1]);
+      end
+    else
+      nConBonus = tonumber(aConBonus[1]);
     end
-    -- we don't grant con bonus if no longer using hit dice (i.e. only using nHPAdjustment)
-    if (aHDice == nil) then
-            nConBonus = 0;
-    end    
-    return nConBonus;
+  elseif (sConBonus ~= "") then
+    nConBonus = tonumber(sConBonus);
+  end
+  -- we don't grant con bonus if no longer using hit dice (i.e. only using nHPAdjustment)
+  if (aHDice == nil) then
+    nConBonus = 0;
+  end    
+  return nConBonus;
+end
+
+-- return the class node fromo the name sClass ("Fighter","Wizard","Bard"/etc)
+function getClassFromName(sClass)
+  local node = nil;
+  for _,nodeClass in pairs(DB.getChildrenGlobal("class")) do
+    if (sClass == DB.getValue(nodeClass,"name","")) then
+      node = nodeClass;
+      break;
+    end
+  end
+  return node;
+end
+
+-- flip through all classes and levels of each and return the total
+-- constitution adjustments they should have for current con value.
+function getAllClassAndLevelConAdjustments(nodeChar)
+  local nConBonus = 0;
+  local nClassCount = getClassCount(nodeChar);
+  local nFoundClassCount = 0;
+  for _,nodeClass in pairs(DB.getChildren(nodeChar,"classes")) do
+--Debug.console("manager_char.lua","getAllConAdjustments","nodeClass",nodeClass);    
+    local sClassName = DB.getValue(nodeClass,"name","");
+    local nLevel = DB.getValue(nodeClass,"level",0);
+--Debug.console("manager_char.lua","getAllConAdjustments","sClassName",sClassName);      
+--Debug.console("manager_char.lua","getAllConAdjustments","nLevel",nLevel);      
+    local nodeClass = getClassFromName(sClassName);
+--Debug.console("manager_char.lua","getAllConAdjustments","nodeClass",nodeClass);      
+    if (nodeClass) then
+      nFoundClassCount = nFoundClassCount + 1;
+      for i=1,nLevel do
+--Debug.console("manager_char.lua","getAllConAdjustments","Level:i",i);      
+        for _,nodeAdvance in pairs(DB.getChildren(nodeClass,"advancement")) do
+--Debug.console("manager_char.lua","getAllConAdjustments","nodeAdvance",nodeAdvance);
+          local nAdvLevel = DB.getValue(nodeAdvance,"level",0);
+          if (nAdvLevel == i) then
+            local nCon = getConstitutionHPBonus(nodeChar,nodeClass,nodeAdvance);
+            nConBonus = nConBonus + nCon;
+--Debug.console("manager_char.lua","getAllConAdjustments","nCon",nCon);
+--Debug.console("manager_char.lua","getAllConAdjustments","nConBonus",nConBonus);
+          end
+        end
+      end
+    end
+  end
+  -- make sure we found all the classes we have
+  if nFoundClassCount == nClassCount then
+    nConBonus = math.floor(nConBonus/nClassCount) or 0;
+  else
+  -- if not we just say nil and it wont change whats current
+    nConBonus = nil;
+  end
+  return nConBonus;
 end
 
 -- recalculate hp based on new class added at level 1 for multi-class characters
 -- ignore the class we're adding, just recalculate the rest
 function reCalculateHPForMultiClass(nodeChar,nodeClass)
-    local sCurrentClass = DB.getValue(nodeClass,"name","");
-    local nClassCount = getActiveClassCount(nodeChar);
-    local nHPRecalculated = 0;
-    for _,nodeClass in pairs(DB.getChildren(nodeChar, "classes")) do
-        local sClassName = DB.getValue(nodeClass,"name","");
-        if sClassName ~= sCurrentClass then -- skip current class, only deal with others
-            local nodeAdvance = nil;
-            local sClass, sRecord = DB.getValue(nodeClass, "shortcut", "", ""); 
-            if sRecord and sRecord ~= "" then
-                nodeAdvance = DB.findNode(sRecord);
-                if nodeAdvance then
-                    for _,node in pairs(DB.getChildren(nodeAdvance, "advancement")) do
-                        local nAdvanceLevel = DB.getValue(node,"level",0);
-                        if nAdvanceLevel == 1 then
-                            local nHP,nConBonus = getHPRollForAdvancement(nodeChar,nodeClass,node,nClassCount,1);
-                            -- take new value based on new multi-class count
-                            nHPRecalculated = nHPRecalculated + nHP;
-                            DB.setValue(nodeChar, "hp.total", "number", nHPRecalculated);
-                            local sFormat = Interface.getString("char_abilities_message_leveledup");
-                            local sMsg = string.format(sFormat, DB.getValue(nodeChar, "name", ""),1, sClassName .. "(multi)",nHP);
-                            ChatManager.SystemMessage(sMsg);
-                            break; -- we stop at first one that matches level 1
-                        end
-                    end -- for
-                end
+  local sCurrentClass = DB.getValue(nodeClass,"name","");
+  local nClassCount = getActiveClassCount(nodeChar);
+  local nHPRecalculated = 0;
+  for _,nodeClass in pairs(DB.getChildren(nodeChar, "classes")) do
+    local sClassName = DB.getValue(nodeClass,"name","");
+    if sClassName ~= sCurrentClass then -- skip current class, only deal with others
+      local nodeAdvance = nil;
+      local sClass, sRecord = DB.getValue(nodeClass, "shortcut", "", ""); 
+      if sRecord and sRecord ~= "" then
+        nodeAdvance = DB.findNode(sRecord);
+        if nodeAdvance then
+          for _,node in pairs(DB.getChildren(nodeAdvance, "advancement")) do
+            local nAdvanceLevel = DB.getValue(node,"level",0);
+            if nAdvanceLevel == 1 then
+              local nHP,nConBonus = getHPRollForAdvancement(nodeChar,nodeClass,node,nClassCount,1);
+              -- take new value based on new multi-class count
+              nHPRecalculated = nHPRecalculated + nHP;
+              DB.setValue(nodeChar, "hp.base", "number", nHPRecalculated);
+              local sFormat = Interface.getString("char_abilities_message_leveledup");
+              local sMsg = string.format(sFormat, DB.getValue(nodeChar, "name", ""),1, sClassName .. "(multi)",nHP);
+              ChatManager.SystemMessage(sMsg);
+              break; -- we stop at first one that matches level 1
             end
+          end -- for
         end
-    end -- for
-    if nHPRecalculated < 1 then
-        nHPRecalculated = 1;
+      end
     end
-    DB.getValue(nodeChar,"hp.total", nHPRecalculated);
+  end -- for
+  if nHPRecalculated < 1 then
+    nHPRecalculated = 1;
+  end
+  DB.getValue(nodeChar,"hp.base", nHPRecalculated);
 end
 
 -- get hp calculations for new level 
@@ -3272,7 +3358,8 @@ function getHPRollForAdvancement(nodeChar,nodeClass,nodeAdvance,nClassCount,nLev
     local nHDNumber = tonumber(sHDNumber) or 1;
     local nHDSize = tonumber(sHDSize) or 0;
     local nHPRoll = 0;
-    local nConBonus = getConstitutionHPBonus(nodeChar,nodeClass,nodeAdvance);
+    --local nConBonus = getConstitutionHPBonus(nodeChar,nodeClass,nodeAdvance);
+    local nConBonus = 0; -- disabled getting con bonus, it's calculated on the fly now --celestian
     if aHDice ~= nil then
         -- level 1 gets max hp
         if nLevel == 1 then
@@ -3352,4 +3439,75 @@ function getWisIntConPSPBonus(nodeChar,nodeAdvance)
       nIntBonus = 0; 
     end    
     return nWisBonus+nIntBonus+nConBonus;
+end
+
+-- get prof rate from nodeClass (or nodeClassSource if note set)
+function getProficiencyRate(nodeChar,nodeClass,nodeClassSource)
+  local nSourceWeapon = DB.getValue(nodeClassSource, "profs.rate.weapon",0) or 0;
+  local nSourceNonWeapon = DB.getValue(nodeClassSource, "profs.rate.nonweapon",0) or 0;
+  
+  local nWeaponRate = DB.getValue(nodeClass, "profs.rate.weapon",nSourceWeapon);
+  DB.setValue(nodeClass, "profs.rate.weapon","number",nWeaponRate); -- set this so we can access it from other classes during multiclass stuff
+  local nNonWeaponRate = DB.getValue(nodeClass, "profs.rate.nonweapon",nSourceNonWeapon);
+  DB.setValue(nodeClass, "profs.rate.nonweapon","number",nNonWeaponRate); -- set this so we can access it from other classes during multiclass stuff
+  return nWeaponRate, nNonWeaponRate;
+end
+
+-- get Best proficiency rate and return it
+function getBestProficiencyRate(nodeChar,nodeClass,nodeClassSource)
+  local nWeaponRate, nNonWeaponRate = getProficiencyRate(nodeChar,nodeClass,nodeClassSource);
+  
+  local nClassCount = getActiveClassCount(nodeChar);
+  if (nClassCount > 1) then
+    for _,oClass in pairs(DB.getChildren(nodeChar, "classes")) do
+      local bActive = (DB.getValue(oClass, "classactive", 0) == 1);
+      --local sClassName = DB.getValue(oClass, "name","")
+      if bActive and oClass ~= nodeClass then
+        local nWeap, nNonWeap = getProficiencyRate(nodeChar,oClass,nil);
+        if (nWeapon ~= 0 and nWeap < nWeaponRate) then
+          nWeaponRate = nWeap;
+        end
+        if (nNonWeap ~= 0 and nNonWeap < nNonWeaponRate) then
+          nNonWeaponRate = nNonWeap;
+        end
+      end
+    end-- for
+  end
+
+  return nWeaponRate, nNonWeaponRate;
+end
+
+-- get prof initial from nodeClass (or nodeClassSource if note set)
+function getProficiencyInitial(nodeChar,nodeClass,nodeClassSource)
+  local nSourceWeapon = DB.getValue(nodeClassSource, "profs.initial.weapon",0) or 0;
+  local nSourceNonWeapon = DB.getValue(nodeClassSource, "profs.initial.nonweapon",0) or 0;
+  
+  local nWeapons = DB.getValue(nodeClass, "profs.initial.weapon",nSourceWeapon);
+  DB.setValue(nodeClass, "profs.initial.weapon","number",nWeapons); -- set this so we can access it from other classes during multiclass stuff
+  local nNonWeapons = DB.getValue(nodeClass, "profs.initial.nonweapon",nSourceNonWeapon);
+  DB.setValue(nodeClass, "profs.initial.nonweapon","number",nNonWeapons); -- set this so we can access it from other classes during multiclass stuff
+  return nWeapons, nNonWeapons;
+end
+-- get Best initial proficiency slots and return it
+function getBestProficiencyInitial(nodeChar,nodeClass,nodeClassSource)
+  local nWeapons, nNonWeapon = getProficiencyInitial(nodeChar,nodeClass,nodeClassSource);
+  
+  local nClassCount = getActiveClassCount(nodeChar);
+  if (nClassCount > 1) then
+    for _,oClass in pairs(DB.getChildren(nodeChar, "classes")) do
+      local bActive = (DB.getValue(oClass, "classactive", 0) == 1);
+      --local sClassName = DB.getValue(oClass, "name","")
+      if bActive and oClass ~= nodeClass then
+        local nWeap, nNonWeap = getProficiencyInitial(nodeChar,oClass,nil);
+        if (nWeap ~= 0 and nWeap > nWeapons) then
+          nWeapons = nWeap;
+        end
+        if (nNonWeap ~= 0 and nNonWeap > nNonWeapon) then
+          nNonWeapon = nNonWeap;
+        end
+      end
+    end-- for
+  end
+
+  return nWeapons, nNonWeapon;
 end
