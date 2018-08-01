@@ -66,10 +66,10 @@
   <string name="menu_initclear">Clear All Initiatives</string>
   
   <!-- Desktop -->
-  <string name="help_tool_ct">http://www.fantasygrounds.com/wiki/index.php/5E_Combat_Tracker</string>
-  <string name="help_tool_ps">http://www.fantasygrounds.com/wiki/index.php/5E_Party_Sheet</string>
-  <string name="help_tool_effects">http://www.fantasygrounds.com/wiki/index.php/5E_Effects</string>
-  <string name="help_tool_options">http://www.fantasygrounds.com/wiki/index.php/5E_Options</string>
+  <string name="help_tool_ct">https://www.fantasygrounds.com/wiki/index.php/5E_Combat_Tracker</string>
+  <string name="help_tool_ps">https://www.fantasygrounds.com/wiki/index.php/5E_Party_Sheet</string>
+  <string name="help_tool_effects">https://www.fantasygrounds.com/wiki/index.php/5E_Effects</string>
+  <string name="help_tool_options">https://www.fantasygrounds.com/wiki/index.php/5E_Options</string>
 
   <!-- Rolls -->
   <string name="roll_msg_armor_nonprof">[ARMOR NON-PROF]</string>

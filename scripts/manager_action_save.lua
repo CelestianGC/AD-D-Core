@@ -229,7 +229,9 @@ function modSave(rSource, rTarget, rRoll)
     end
     if rRoll.sSaveDesc then
       if rRoll.sSaveDesc:match("%[MAGIC%]") then
-        if EffectManager5E.hasEffectCondition(rSource, "Magic Resistance") then
+      -- add by own checks here for MR:%d+ where %d+ is a percent --celestian NOT DONE
+        --if EffectManager5E.hasEffectCondition(rSource, "Magic Resistance") then
+        if EffectManager5E.hasEffectCondition(rSource, "MR") then
           bEffects = true;
           bADV = true;
         end
@@ -327,12 +329,12 @@ function applySave(rSource, rOrigin, rAction, sUser)
   msgShort.text = msgShort.text .. " ->";
   msgLong.text = msgLong.text .. " ->";
   if rSource then
-    msgShort.text = msgShort.text .. " [for " .. rSource.sName .. "]";
-    msgLong.text = msgLong.text .. " [for " .. rSource.sName .. "]";
+    msgShort.text = msgShort.text .. " [for " .. ActorManager.getDisplayName(rSource) .. "]";
+    msgLong.text = msgLong.text .. " [for " .. ActorManager.getDisplayName(rSource) .. "]";
   end
   if rOrigin then
-    msgShort.text = msgShort.text .. " [vs " .. rOrigin.sName .. "]";
-    msgLong.text = msgLong.text .. " [vs " .. rOrigin.sName .. "]";
+    msgShort.text = msgShort.text .. " [vs " .. ActorManager.getDisplayName(rOrigin) .. "]";
+    msgLong.text = msgLong.text .. " [vs " .. ActorManager.getDisplayName(rOrigin) .. "]";
   end
   
   msgShort.icon = "roll_cast";
@@ -638,8 +640,8 @@ function applyConcentrationRoll(rSource, rAction)
   msgShort.text = msgShort.text .. " ->";
   msgLong.text = msgLong.text .. " ->";
   if rSource then
-    msgShort.text = msgShort.text .. " [for " .. rSource.sName .. "]";
-    msgLong.text = msgLong.text .. " [for " .. rSource.sName .. "]";
+    msgShort.text = msgShort.text .. " [for " .. ActorManager.getDisplayName(rSource) .. "]";
+    msgLong.text = msgLong.text .. " [for " .. ActorManager.getDisplayName(rSource) .. "]";
   end
   
   msgShort.icon = "roll_cast";

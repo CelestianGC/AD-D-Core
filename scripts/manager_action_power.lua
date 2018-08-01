@@ -184,7 +184,7 @@ function onPowerCast(rSource, rTarget, rRoll)
   rMessage.icon = "roll_cast";
 
   if rTarget then
-    rMessage.text = rMessage.text .. " [at " .. rTarget.sName .. "]";
+    rMessage.text = rMessage.text .. " [at " .. ActorManager.getDisplayName(rTarget) .. "]";
   end
   
   Comm.deliverChatMessage(rMessage);

@@ -6,6 +6,9 @@
 -->
 
 <root>
+	<panel name="modifierstack" modes="host,client" merge="join">
+    <bounds>15,-100,200,57</bounds>
+	</panel>
   <panel name="dicetower" modes="host,client" merge="join">
     <anchored height="100" width="100" />
   </panel>

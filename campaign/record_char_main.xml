@@ -847,13 +847,13 @@
       
             
         <!-- Health/Wounds -->
-      <number_hptemp_charsheet>
+      <number_hptemp_charsheet >
         <anchored to="contentanchor" width="40" height="30">
           <top parent="combatanchor" anchor="bottom" offset="-40" />
           <right anchor="right" relation="relative" offset="-10" />
         </anchored>
       </number_hptemp_charsheet>
-      <label_combatscores>
+      <label_combatscores name="temphp_label">
         <anchored to="temphp"  />
         <static textres="char_label_hptemp" />
       </label_combatscores>
@@ -873,7 +873,7 @@
           end
         </script>
       </number_hptotal_charsheet>
-      <label_combatscores>
+      <label_combatscores name="hp_label">
         <anchored to="hp" />
         <static textres="char_label_hpmax" />
       </label_combatscores>
@@ -886,7 +886,7 @@
         <font>reference-b-large</font>
         <description textres="char_tooltip_wounds" />
       </number_charwounds_charsheet>
-      <label_combatscores>
+      <label_combatscores name="wounds_label">
         <anchored to="wounds" />
         <static textres="char_label_wounds" />
       </label_combatscores>

@@ -664,8 +664,8 @@ function applyAttack(rSource, rTarget, bSecret, sAttackType, sDesc, nTotal, sRes
   end
 
   if rTarget then
-    msgShort.text = msgShort.text .. " [at " .. rTarget.sName .. "]";
-    msgLong.text = msgLong.text .. " [at " .. rTarget.sName .. "]";
+    msgShort.text = msgShort.text .. " [at " .. ActorManager.getDisplayName(rTarget) .. "]";
+    msgLong.text = msgLong.text .. " [at " .. ActorManager.getDisplayName(rTarget) .. "]";
   end
   
   if sResults ~= "" then

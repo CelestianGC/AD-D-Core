@@ -627,9 +627,9 @@ function addToWeaponDB(nodeItem)
         DB.setValue(nodeWeapon, "shortcut", "windowreference", "item", "....inventorylist." .. nodeItem.getName());
         DB.setValue(nodeWeapon,"name","string",sName);
         -- first time check.
---Debug.console("manager_char.lua","addToWeaponDB","nodeWeapon",nodeWeapon);            
-        onIDOptionChanged(nodeWeapon);
-        --DB.setValue(nodeWeapon, "isidentified", "number", nItemID);
+--Debug.console("manager_char.lua","addToWeaponDB","nodeWeapon",nodeWeapon);     
+--- 3.3.6 dropped this function, testing w/o --celestian       
+        --onIDOptionChanged(nodeWeapon);
       end
     else
         local nSpeedFactor = DB.getValue(nodeItem, "speedfactor", 0);
@@ -849,7 +849,6 @@ function addToWeaponDB(nodeItem)
 end
 
 function initWeaponIDTracking()
-  --OptionsManager.registerCallback("MIID", onIDOptionChanged);
   -- watch PC items
   DB.addHandler("charsheet.*.inventorylist.*.isidentified", "onUpdate", onItemIDChanged);
   -- to watch npc updates
@@ -857,24 +856,25 @@ function initWeaponIDTracking()
   DB.addHandler("npc.*.inventorylist.*.isidentified", "onUpdate", onItemIDChanged);
 end
 
-function onIDOptionChanged()
-  for _,vChar in pairs(DB.getChildren("charsheet")) do
-    for _,vWeapon in pairs(DB.getChildren(vChar, "weaponlist")) do
-      checkWeaponIDChange(vWeapon);
-    end
-  end
-  -- to get npcs in the CT also
-  for _,vNPC in pairs(DB.getChildren("combattracker.list")) do
-    for _,vWeapon in pairs(DB.getChildren(vNPC, "weaponlist")) do
-      checkWeaponIDChange(vWeapon);
-    end
-  end
-  for _,vNPC in pairs(DB.getChildren("npc")) do
-    for _,vWeapon in pairs(DB.getChildren(vNPC, "weaponlist")) do
-      checkWeaponIDChange(vWeapon);
-    end
-  end
-end
+--- 3.3.6 dropped this function, testing w/o --celestian
+-- function onIDOptionChanged()
+  -- for _,vChar in pairs(DB.getChildren("charsheet")) do
+    -- for _,vWeapon in pairs(DB.getChildren(vChar, "weaponlist")) do
+      -- checkWeaponIDChange(vWeapon);
+    -- end
+  -- end
+  -- -- to get npcs in the CT also
+  -- for _,vNPC in pairs(DB.getChildren("combattracker.list")) do
+    -- for _,vWeapon in pairs(DB.getChildren(vNPC, "weaponlist")) do
+      -- checkWeaponIDChange(vWeapon);
+    -- end
+  -- end
+  -- for _,vNPC in pairs(DB.getChildren("npc")) do
+    -- for _,vWeapon in pairs(DB.getChildren(vNPC, "weaponlist")) do
+      -- checkWeaponIDChange(vWeapon);
+    -- end
+  -- end
+-- end
 
 function onItemIDChanged(nodeItemID)
   local nodeItem = nodeItemID.getChild("..");

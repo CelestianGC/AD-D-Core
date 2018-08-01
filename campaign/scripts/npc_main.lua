@@ -191,7 +191,8 @@ function updateControl(sControl, bReadOnly, bForceHide)
 end
 
 function update()
-  local bReadOnly = WindowManager.getReadOnlyState(getDatabaseNode());
+  local nodeRecord = getDatabaseNode();
+  local bReadOnly = WindowManager.getReadOnlyState(nodeRecord);
   local bID = LibraryData.getIDState("npc", nodeRecord);
   local bSection1 = false;
   if User.isHost() then

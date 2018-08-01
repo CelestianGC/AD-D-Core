@@ -11,8 +11,6 @@ end
 
 function onInit()
 --Debug.console("char_invlist.lua","onInit","getDatabaseNode()",getDatabaseNode());
-  -- OptionsManager.registerCallback("MIID", StateChanged); -- removed 3.3.6
-
   onEncumbranceChanged();
 
   registerMenuItem(Interface.getString("list_menu_createitem"), "insert", 5);
@@ -49,14 +47,6 @@ function onMenuSelection(selection)
     addEntry(true);
   end
 end
-
--- removed 3.3.6
---function StateChanged()
---  for _,w in ipairs(getWindows()) do
---    w.onIDChanged();
---  end
---  applySort();
---end
 
 function onIDChanged(nodeField)
   local nodeItem = DB.getChild(nodeField, "..");
@@ -127,7 +117,6 @@ end
 function addEntry(bFocus)
   local w = createWindow();
   if w then
---    w.isidentified.setValue(1); -- removed 3.3.6
     if bFocus then
       w.name.setFocus();
     end

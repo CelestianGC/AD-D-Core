@@ -450,10 +450,6 @@ function modDamage(rSource, rTarget, rRoll)
 end
 
 function onDamageRoll(rSource, rRoll)
-  decodeDamageTypes(rRoll, true);
-end
-
-function onDamage(rSource, rTarget, rRoll)
   -- Handle max damage
   local bMax = rRoll.sDesc:match("%[MAX%]") or rRoll.sCriticalType:match("max");
   if bMax then
@@ -500,7 +496,11 @@ function onDamage(rSource, rTarget, rRoll)
       end
     end
   end
-  
+
+  decodeDamageTypes(rRoll, true);
+end
+
+function onDamage(rSource, rTarget, rRoll)
   local rMessage = ActionsManager.createActionMessage(rSource, rRoll);
   rMessage.text = string.gsub(rMessage.text, " %[MOD:[^]]*%]", "");
 
@@ -515,7 +515,8 @@ function onDamage(rSource, rTarget, rRoll)
 
   -- Apply damage to the PC or CT entry referenced
   local nTotal = ActionsManager.total(rRoll);
-  notifyApplyDamage(rSource, rTarget, rMessage.secret, rMessage.text, nTotal);
+  --notifyApplyDamage(rSource, rTarget, rMessage.secret, rMessage.text, nTotal);
+  notifyApplyDamage(rSource, rTarget, rRoll.bTower, rMessage.text, nTotal);
 end
 
 --
@@ -1514,8 +1515,8 @@ function messageDamage(rSource, rTarget, bSecret, sDamageType, sDamageDesc, sTot
   msgShort.text = sDamageType .. " ->";
   msgLong.text = sDamageType .. " [" .. sTotal .. "] ->";
   if rTarget then
-    msgShort.text = msgShort.text .. " [to " .. rTarget.sName .. "]";
-    msgLong.text = msgLong.text .. " [to " .. rTarget.sName .. "]";
+    msgShort.text = msgShort.text .. " [to " .. ActorManager.getDisplayName(rTarget) .. "]";
+    msgLong.text = msgLong.text .. " [to " .. ActorManager.getDisplayName(rTarget) .. "]";
   end
   
   if sExtraResult and sExtraResult ~= "" then

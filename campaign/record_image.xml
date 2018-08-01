@@ -8,7 +8,8 @@
 <root>
   <template name="image_record">
     <image_record_step>
-            <bounds>21,93,-27,-29</bounds>
+            <!-- <bounds>21,93,-27,-29</bounds> -->
+            <bounds>21,63,-27,-29</bounds>
 <!--       <bounds>21,110,-27,-29</bounds> -->
       <!-- <pointertypes merge="merge">
         <arrow>
