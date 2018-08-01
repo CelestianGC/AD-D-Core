@@ -1266,5 +1266,6 @@ Debug.console("manager_effect_adnd.lua","adndOnEffectAddStart","sNewName",sNewNa
   if (sEffectFullString ~= "") then
     --DB.setValue(nodeTargetEffect,"name","string",sEffectFullString);
     DB.setValue(nodeTargetEffect,"label","string",sEffectFullString);
+    rNewEffect.sName = sEffectFullString;
   end
 end

@@ -614,11 +614,11 @@
       <frame_ctsub name="frame_active">
         <anchored>
           <top parent="activeicon" offset="1"/>
-          <bottom parent="sub_actions" offset="8" />
+          <bottom parent="active_spacer_top" anchor="bottom" relation="relative" offset="40" />
         </anchored>
       </frame_ctsub>
 
-      <!-- Space/Size/Reach subsection -->
+      <!-- Space/Size/Reach/Spacing/HD/Morale subsection -->
       <icon_ctsection_spacing name="spacingicon" />
 
       <number_ctentry_space name="space">
@@ -668,8 +668,8 @@
 
       <frame_ctsub name="frame_spacing">
         <anchored>
-          <top parent="spacingicon" offset="-2"/>
-          <bottom parent="space" offset="8"/>
+          <top parent="spacingicon" offset="-10"/>
+          <bottom parent="active_spacer_top" anchor="bottom" relation="relative" offset="20" />
         </anchored>
       </frame_ctsub>
 
