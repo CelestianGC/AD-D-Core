@@ -60,29 +60,17 @@ end
 -- ACTIONS
 --
 
-function isItemClass(sClass)
-  --Debug.console('DEPRECATED (v3.2.2) (ItemManager.isItemClass): Use LibraryData.isRecordDisplayClass("item", sClass)');
-  if sClass == "item" then
-    return true;
-  elseif ItemManager2 and ItemManager2.isItemClass then
-    return ItemManager2.isItemClass(sClass);
-  end
-  
-  return false;
-end
-
 function getIDState(nodeRecord, bIgnoreHost)
-  if ItemManager2 and ItemManager2.getIDState then
-    return ItemManager2.getIDState(nodeRecord, bIgnoreHost);
-  end
-  
-  local bID = true;
-  local bOptionID = OptionsManager.isOption("MIID", "on");
-  if bOptionID and (bIgnoreHost or not User.isHost()) then
-    bID = (DB.getValue(nodeRecord, "isidentified", 0) == 1);
-  end
-  
-  return bID, bOptionID;
+	if ItemManager2 and ItemManager2.getIDState then
+		return ItemManager2.getIDState(nodeRecord, bIgnoreHost);
+	end
+	
+	local bID = true;
+	if (bIgnoreHost or not User.isHost()) then
+		bID = (DB.getValue(nodeRecord, "isidentified", 1) == 1);
+	end
+	
+	return bID, true;
 end
 
 function getDisplayName(nodeItem, bIgnoreHost)
@@ -188,68 +176,8 @@ function handleAnyDrop(vTarget, draginfo)
   return false;
 end
 
-function handleDrop(nodeList, draginfo, bTransferAll)
-  Debug.console('DEPRECATED (v3.2.0) (ItemManager.handleDrop): Use ItemManager.handleAnyDrop(nodeTargetRecord, draginfo)');
-  if draginfo.isType("shortcut") then
-    local sClass,sRecord = draginfo.getShortcutData();
-    if LibraryData.isRecordDisplayClass("item", sClass) then
-      local msgOOB = {};
-      msgOOB.type = OOB_MSGTYPE_TRANSFERITEM;
-      msgOOB.sTarget = nodeList.getParent();
-      msgOOB.sTargetList = nodeList.getName();
-      msgOOB.sClass = sClass;
-      msgOOB.sRecord = sRecord;
-      if bTransferAll then
-        msgOOB.sTransferAll = "true";
-      end
-      handleItemTransfer(msgOOB);
-      return true;
-    end
-  end
-  
-  return nil;
-end
-
 function getItemSourceType(vNode)
-  local sType = "";
-  local nodeTemp = nil;
-  if type(vNode) == "databasenode" then
-    nodeTemp = vNode;
-  elseif type(vNode) == "string" then
-    nodeTemp = DB.findNode(vNode);
-  end
-  while nodeTemp do
-    sType = nodeTemp.getName();
-    nodeTemp = nodeTemp.getParent();
-  end
-  return sType;
-end
-
-function compareNames(node1, node2, bTop)
-  if node1 == node2 then
-    return false;
-  end
-  
-  local bOptionID = OptionsManager.isOption("MIID", "on");
-  
-    local sName1 = DB.getValue(node1,"name","");
-    local bisIdentified1 = (DB.getValue(node1,"isidentified",0)==1);
-    
-    local sName2 = DB.getValue(node2,"name","");
-    local bisIdentified2 = (DB.getValue(node2,"isidentified",0)==1);
-
-    -- no match if either is no identified
-    if (bOptionID) and (not bisIdentified1 or not bisIdentified2) then
-        return false;
-    end
-    if (sName1 == "") or (sName2 == "") then
-        return false;
-    end
-    if sName1 ~= sName2 then
-        return false;
-    end
-    
-  return true;
+	return UtilityManager.getRootNodeName(vNode);
 end
 
 function compareFields(node1, node2, bTop)
@@ -257,13 +185,10 @@ function compareFields(node1, node2, bTop)
     return false;
   end
   
-  local bOptionID = OptionsManager.isOption("MIID", "on");
-  
+
   for _,vChild1 in pairs(node1.getChildren()) do
     local sName = vChild1.getName();
     if bTop and StringManager.contains(aDeleteCopyFields, sName) then
-      -- SKIP
-    elseif bTop and not bOptionID and sName == "isidentified" then
       -- SKIP
     else
       local sType = vChild1.getType();
@@ -311,6 +236,32 @@ function compareFields(node1, node2, bTop)
   end
   
   return true;
+end
+
+-- check non-id'd items in party list
+function compareNames(node1, node2, bTop)
+	if node1 == node2 then
+		return false;
+	end
+	
+  local sName1 = DB.getValue(node1,"name","");
+  local bisIdentified1 = (DB.getValue(node1,"isidentified",0)==1);
+  
+  local sName2 = DB.getValue(node2,"name","");
+  local bisIdentified2 = (DB.getValue(node2,"isidentified",0)==1);
+
+  -- no match if either is no identified
+  if (not bisIdentified1 or not bisIdentified2) then
+    return false;
+  end
+  if (sName1 == "") or (sName2 == "") then
+    return false;
+  end
+  if sName1 ~= sName2 then
+    return false;
+  end
+    
+	return true;
 end
 
 --
@@ -484,18 +435,6 @@ end
 --
 -- ADD/TRANSFER ITEM
 --
-
-function notifyTransfer(sTargetInvRecord, sClass, sRecord, bTransferAll)
-  Debug.console('DEPRECATED (v3.2.0) (ItemManager.notifyTransfer): Use ItemManager.handleItem(sTargetRecord, sTargetList, sClass, sRecord, bTransferAll)');
-  local aSplit = StringManager.split(sTargetInvRecord, ".");
-  if #aSplit < 2 then
-    return;
-  end
-  local sTargetList = aSplit[#aSplit];
-  table.remove(aSplit, #aSplit);
-  
-  handleItem(table.concat(aSplit, "."), sTargetList, sClass, sRecord, bTransferAll);
-end
 
 function sendItemTransfer (sTargetRecord, sTargetList, sClass, sRecord, bTransferAll)
 --Debug.console("manager_item.lua","sendItemTransfer","sTargetRecord",sTargetRecord);
