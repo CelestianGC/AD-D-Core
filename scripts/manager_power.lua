@@ -667,25 +667,27 @@ function getLevelBasedDiceValues(nodeCaster, isPC, node, nodeAction)
   local nCustomValue = DB.getValue(nodeAction, "customvalue", 0);
   local aDmgDiceCustom = DB.getValue(nodeAction, "dicecustom", {});
   local nodeSpell = node.getChild("...");
-  local nCasterLevel = 1;
   local sSpellType = DB.getValue(nodeSpell, "type", ""):lower();
-    if (sSpellType:match("arcane")) then
-      nCasterLevel = DB.getValue(nodeCaster, "arcane.totalLevel",1);
-    elseif (sSpellType:match("divine")) then
-      nCasterLevel = DB.getValue(nodeCaster, "divine.totalLevel",1);
-    elseif (sSpellType:match("psionic")) then
-      nCasterLevel = DB.getValue(nodeCaster, "psionic.totalLevel",1);
-    else
-      if (isPC) then
-        -- use spelltype name and match it with class and return that level
-        nCasterLevel = CharManager.getClassLevelByName(nodeCaster,sSpellType);
-        if (nCasterLevel <= 0) then
-          nCasterLevel = CharManager.getActiveClassMaxLevel(nodeCaster);
-        end
-      else
-        nCasterLevel = DB.getValue(nodeCaster, "level",1);
-      end
-    end
+  local nCasterLevel = getCasterLevelByType(nodeCaster,sSpellType,isPC);
+  -- local nCasterLevel = 1;
+  -- local sSpellType = DB.getValue(nodeSpell, "type", ""):lower();
+    -- if (sSpellType:match("arcane")) then
+      -- nCasterLevel = DB.getValue(nodeCaster, "arcane.totalLevel",1);
+    -- elseif (sSpellType:match("divine")) then
+      -- nCasterLevel = DB.getValue(nodeCaster, "divine.totalLevel",1);
+    -- elseif (sSpellType:match("psionic")) then
+      -- nCasterLevel = DB.getValue(nodeCaster, "psionic.totalLevel",1);
+    -- else
+      -- if (isPC) then
+        -- -- use spelltype name and match it with class and return that level
+        -- nCasterLevel = CharManager.getClassLevelByName(nodeCaster,sSpellType);
+        -- if (nCasterLevel <= 0) then
+          -- nCasterLevel = CharManager.getActiveClassMaxLevel(nodeCaster);
+        -- end
+      -- else
+        -- nCasterLevel = DB.getValue(nodeCaster, "level",1);
+      -- end
+    -- end
   -- if castertype ~= "" then setup the dice
   if (sCasterType ~= nil) then
     -- make sure nCasterLevel is not larger than max size
@@ -2493,37 +2495,36 @@ end
 -- to also allow the 5e spells if someone happened to use them and 5e uses "source" not type
 function isArcaneSpellType(sSpellType)
   local bValid = false;
+  
   local aArcane = {};
-      aArcane[1] = "arcane";
-      aArcane[2] = "wizard";
-  local nMaxArcane = 2;
-
-  for i = 1, nMaxArcane do
-      if string.find(sSpellType,aArcane[i]) then
-          bValid = true;
-          break;
-      end
-  end        
-    return bValid
+  aArcane[1] = "arcane";
+  aArcane[2] = "wizard";
+  
+  for _,sArcaneName in pairs(aArcane) do
+    if string.find(sSpellType:lower(),sArcaneName) then
+      bValid = true;
+      break;
+    end
+  end
+  return bValid
 end
 function isDivineSpellType(sSpellType)
-    local bValid = false;
-    local aDivine = {};
-        aDivine[1] = "divine";
-        aDivine[2] = "cleric";
-        aDivine[3] = "bard";
-        aDivine[4] = "druid";
-        aDivine[5] = "paladin";
-        aDivine[6] = "ranger";
-    local nMaxDivine = 6;
+  local bValid = false;
+  local aDivine = {};
+  aDivine[1] = "divine";
+  aDivine[2] = "cleric";
+  aDivine[3] = "bard";
+  aDivine[4] = "druid";
+  aDivine[5] = "paladin";
+  aDivine[6] = "ranger";
 
-    for i = 1, nMaxDivine do
-        if string.find(sSpellType,aDivine[i]) then
-            bValid = true;
-            break;
-        end
-  end        
-    return bValid
+  for _,sDivineName in pairs(aDivine) do
+    if string.find(sSpellType:lower(),sDivineName) then
+      bValid = true;
+      break;
+    end
+  end
+  return bValid
 end
 function isPsionicPowerType(sSpellType)
   local sTypeLower = sSpellType:lower();
@@ -2699,3 +2700,31 @@ function getActionHealPSPText(nodeAction)
   return sHeal;
 end
 
+-- get the casterlevel for sSpellType (arcane,divine or type from spell)
+function getCasterLevelByType(nodeCaster,sSpellType,bIsPC)
+--Debug.console("manager_power.lua","getCasterLevelByType","nodeCaster",nodeCaster);  
+--Debug.console("manager_power.lua","getCasterLevelByType","sSpellType",sSpellType);  
+--Debug.console("manager_power.lua","getCasterLevelByType","bIsPC",bIsPC);  
+  local nCasterLevel = 1;
+  sSpellType = sSpellType:lower();
+  if (sSpellType:match("arcane")) then
+    nCasterLevel = DB.getValue(nodeCaster, "arcane.totalLevel",1);
+  elseif (sSpellType:match("divine")) then
+    nCasterLevel = DB.getValue(nodeCaster, "divine.totalLevel",1);
+  elseif (sSpellType:match("psionic")) then
+    nCasterLevel = DB.getValue(nodeCaster, "psionic.totalLevel",1);
+  elseif (bIsPC) then
+      -- use spelltype name and match it with class and return that level
+      nCasterLevel = CharManager.getClassLevelByName(nodeCaster,sSpellType);
+      if (nCasterLevel <= 0) then
+        nCasterLevel = 1;
+      end
+      -- if (nCasterLevel <= 0) then
+        -- nCasterLevel = CharManager.getActiveClassMaxLevel(nodeCaster);
+      -- end
+  elseif (not bIsPC) then -- npcs default to their HD/level
+    nCasterLevel = DB.getValue(nodeCaster, "level",1);
+  end
+--Debug.console("manager_power.lua","getCasterLevelByType","nCasterLevel",nCasterLevel);  
+  return nCasterLevel;
+end
