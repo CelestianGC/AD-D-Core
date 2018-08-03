@@ -3188,8 +3188,8 @@ end
 -- increase HP for character for new level added
 function updateHPForLevel(nodeChar,nodeClass,nodeAdvance)
     local nOriginalHP = DB.getValue(nodeChar,"hp.base",0);
-    --local nHP = DB.getValue(nodeChar,"hp.total",0);
-    local nCurrentHPBase = DB.getValue(nodeChar,"hp.base",0);
+--Debug.console("manager_char.lua","updateHPForLevel","nOriginalHP",nOriginalHP);    
+    local nHP = DB.getValue(nodeChar,"hp.base",0);
     local nClassCount = getActiveClassCount(nodeChar);
     local nLevel = DB.getValue(nodeClass, "level",0);
     local sClassName = DB.getValue(nodeClass,"name","");
@@ -3204,13 +3204,14 @@ function updateHPForLevel(nodeChar,nodeClass,nodeAdvance)
         -- if level 1 across the board we need to recalculate hp
         -- to adjust for division of hp for a new class
         if (getActiveClassMaxLevel(nodeChar) == 1) then
-            reCalculateHPForMultiClass(nodeChar,nodeClass);
+            DB.setValue(nodeChar,"hp.base","number",0); -- reset base to 0
+            reCalculateHPForMultiClass(nodeChar,nodeClass); -- recalculate hps for other classes
             nHP = DB.getValue(nodeChar,"hp.base",0);
             local sMsg = string.format("Recalculating hitpoints for additional class in multi-class configuration. Previous %d, adjusted to %d.",nOriginalHP,nHP);
             ChatManager.SystemMessage(sMsg);
         end
         -- now we can get the new hp from new class
-        nHPRoll,nConBonus = getHPRollForAdvancement(nodeChar,nodeClass,nodeAdvance,nClassCount,nLevel);
+        nHPRoll,nConBonus = getHPRollForAdvancement(nodeChar,nodeClass,nodeAdvance,nClassCount,nLevel); -- add current class hp
     elseif hasInActiveClass(nodeChar) and getInActiveClassMaxLevel(nodeChar) < nLevel then
         -- this is dual class character, we don't add hp unless the level of the new class is
         -- greater than the inactive class
@@ -3223,7 +3224,7 @@ function updateHPForLevel(nodeChar,nodeClass,nodeAdvance)
     local sFormat = Interface.getString("char_abilities_message_leveledup");
     local sMsg = string.format(sFormat, DB.getValue(nodeChar, "name", ""),nLevel,sClassName,nHPRoll);
     --DB.setValue(nodeChar, "hp.total", "number", nHP+nHPRoll);
-    local nNewHPBase = nCurrentHPBase + nHPRoll;
+    local nNewHPBase = nHP + nHPRoll;
     DB.setValue(nodeChar, "hp.base", "number", nNewHPBase);
     ChatManager.SystemMessage(sMsg);
 end
@@ -3302,7 +3303,7 @@ function getAllClassAndLevelConAdjustments(nodeChar)
     end
   end
   -- make sure we found all the classes we have
-  if nFoundClassCount == nClassCount and nFoundClassCount ~= 0 then
+  if nFoundClassCount == nClassCount and nFoundClassCount ~= 0 and nClassCount ~= 0 then
     nConBonus = math.floor(nConBonus/nClassCount) or 0;
   else
   -- if not we just say nil and it wont change whats current
@@ -3331,6 +3332,7 @@ function reCalculateHPForMultiClass(nodeChar,nodeClass)
               local nHP,nConBonus = getHPRollForAdvancement(nodeChar,nodeClass,node,nClassCount,1);
               -- take new value based on new multi-class count
               nHPRecalculated = nHPRecalculated + nHP;
+Debug.console("manager_char.lua","reCalculateHPForMultiClass","nHPRecalculated",nHPRecalculated);                 
               DB.setValue(nodeChar, "hp.base", "number", nHPRecalculated);
               local sFormat = Interface.getString("char_abilities_message_leveledup");
               local sMsg = string.format(sFormat, DB.getValue(nodeChar, "name", ""),1, sClassName .. "(multi)",nHP);
@@ -3342,10 +3344,10 @@ function reCalculateHPForMultiClass(nodeChar,nodeClass)
       end
     end
   end -- for
-  if nHPRecalculated < 1 then
-    nHPRecalculated = 1;
-  end
-  DB.getValue(nodeChar,"hp.base", nHPRecalculated);
+  -- if nHPRecalculated < 1 then
+    -- nHPRecalculated = 1;
+  -- end
+  --DB.setValue(nodeChar,"hp.base","number", nHPRecalculated);
 end
 
 -- get hp calculations for new level 
