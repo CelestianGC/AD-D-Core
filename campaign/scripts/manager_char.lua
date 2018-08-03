@@ -3302,7 +3302,7 @@ function getAllClassAndLevelConAdjustments(nodeChar)
     end
   end
   -- make sure we found all the classes we have
-  if nFoundClassCount == nClassCount then
+  if nFoundClassCount == nClassCount and nFoundClassCount ~= 0 then
     nConBonus = math.floor(nConBonus/nClassCount) or 0;
   else
   -- if not we just say nil and it wont change whats current

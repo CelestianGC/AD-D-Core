@@ -215,6 +215,11 @@ function processUpdateADND(sCommand, sParams)
   -- end
   -- Debug.console("data_library_adnd.lua","processUpdateADND","NPC nCount",nCount);
 
+  -- local sMajor, sMinor, sPoint = Interface.getVersion();
+  -- Debug.console("data_library_adnd.lua","processUpdateADND","sMajor",sMajor);          
+  -- Debug.console("data_library_adnd.lua","processUpdateADND","sMinor",sMinor);          
+  -- Debug.console("data_library_adnd.lua","processUpdateADND","sPoint",sPoint);          
+  
   end -- isHost()
 end
 

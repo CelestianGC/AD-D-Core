@@ -22,6 +22,7 @@ function onInit()
   DB.addHandler(DB.getPath(nodeChar, "hp.basemod"),     "onUpdate", updateHealthScore);
   --this is managed, not adjusted by players
   --DB.addHandler(DB.getPath(nodeChar, "hp.hpconmod"),  "onUpdate", updateHealthScore);
+  
   DB.addHandler(DB.getPath(nodeChar, "hp.adjustment"),  "onUpdate", updateHealthScore);
   DB.addHandler(DB.getPath(nodeChar, "hp.tempmod"),     "onUpdate", updateHealthScore);
 
