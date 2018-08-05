@@ -767,7 +767,7 @@ function getReductionType(rSource, rTarget, sEffectType)
   return aFinal;
 end
 
-function getAbsorbedByType(rSource, rTarget, sEffectType,aSrcDmgClauseTypes,sRangeType,nDamageToAbsorb)
+function getAbsorbedByType(rTarget,aSrcDmgClauseTypes,sRangeType,nDamageToAbsorb)
  local nodeTarget = DB.findNode(rTarget.sCTNode);
  local nDMG = nDamageToAbsorb;
  if (nodeTarget) then
@@ -787,9 +787,9 @@ function getAbsorbedByType(rSource, rTarget, sEffectType,aSrcDmgClauseTypes,sRan
         if nStart ~= nil and nEnd ~= nil then
           local sDALabel = string.sub(sLabel,nStart,nEnd);
 --Debug.console("manager_action_damage.lua","getAbsorbedByType","sDALabel",sDALabel);              
-          --local sMod,sType = sDALabel:match("DA:%s?(%d+)[%s,]+([%w%s%-]+)");
           local sMod,sTypes = sDALabel:match("DA:%s?(%d+)%s?,?(.*)$");
           local nMod = tonumber(sMod) or 0;
+          local nRemainder = nMod;
           local aAbsorbDamageTypes = StringManager.split(sTypes, ",", true);
 --Debug.console("manager_action_damage.lua","getAbsorbedByType","aAbsorbDamageTypes",aAbsorbDamageTypes);     
           -- flip through all damage types for this DA
@@ -797,7 +797,6 @@ function getAbsorbedByType(rSource, rTarget, sEffectType,aSrcDmgClauseTypes,sRan
 --Debug.console("manager_action_damage.lua","getAbsorbedByType","nMod",nMod);              
 --Debug.console("manager_action_damage.lua","getAbsorbedByType","sType",sType);              
             if (sType and nMod and nMod > 0) then
-              local nRemainder = nMod;
               -- absorb if DA sType match incoming Damage type, or type is ALL or the incoming range type (melee|range) match DA sType
               if (sType == sDamageType or sType == "all" or sRangeType == sType) then
                 if (nDMG > 0) then
@@ -817,19 +816,19 @@ function getAbsorbedByType(rSource, rTarget, sEffectType,aSrcDmgClauseTypes,sRan
               -- since the entire effect is removed when DA < 0
                 nRemainder =  nMod - nDamageToAbsorb;
               end
-              if (nRemainder ~= nMod) then
-                if nRemainder > 0 then
-                  -- adjust effect nMod to new value, replace old entry value with new
-                  local sReplacedLabel = sLabel:gsub(sDALabel,"DA:".. nRemainder .. " " .. sType);
-                  DB.setValue(nodeEffect,"label","string",sReplacedLabel);
-                else
-                  -- effect is used up, remove it
-                  EffectManager.removeEffect(nodeTarget, sLabel);
-                  --nodeEffect.delete();
-                end
-              end -- nRemainder > 0
             end -- if sType and nMod
           end -- aAbsorbDamageTypes for
+          if (nRemainder ~= nMod) then
+            if nRemainder > 0 then
+              -- adjust effect nMod to new value, replace old entry value with new
+              local sReplacedLabel = sLabel:gsub(sDALabel,"DA:".. nRemainder .. " " .. sTypes);
+              DB.setValue(nodeEffect,"label","string",sReplacedLabel);
+            else
+              -- effect is used up, remove it
+              EffectManager.removeEffect(nodeTarget, sLabel);
+              --nodeEffect.delete();
+            end
+          end -- nRemainder > 0
         end -- nStart/nEnd ~= nil
       end -- for aSrcDmgClauseTypes
     end -- for "effects"
@@ -1048,7 +1047,7 @@ function getDamageAdjust(rSource, rTarget, nDamage, rDamageOutput)
     end
 
     -- add support for "DAR: # type" where damage # is absorbed from type damage and then that value is reduced the amount absorbed. --celestian
-    local nAbsorbed = getAbsorbedByType(rSource, rTarget, "DA",aSrcDmgClauseTypes,sRangeType,(nDamage-nLocalDamageAdjust));
+    local nAbsorbed = getAbsorbedByType(rTarget,aSrcDmgClauseTypes,sRangeType,(nDamage-nLocalDamageAdjust));
     if nAbsorbed > 0 then
 --Debug.console("manager_action_damage.lua","getDamageAdjust","nAbsorbed",nAbsorbed);    
       nLocalDamageAdjust = nLocalDamageAdjust - nAbsorbed;
