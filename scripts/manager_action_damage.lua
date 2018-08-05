@@ -767,11 +767,11 @@ function getReductionType(rSource, rTarget, sEffectType)
   return aFinal;
 end
 
-function getAbsorbedByType(rSource, rTarget, sEffectType,aSrcDmgClauseTypes,nDamageToAbsorb)
+function getAbsorbedByType(rSource, rTarget, sEffectType,aSrcDmgClauseTypes,sRangeType,nDamageToAbsorb)
  local nodeTarget = DB.findNode(rTarget.sCTNode);
  local nDMG = nDamageToAbsorb;
  if (nodeTarget) then
---Debug.console("manager_action_damage.lua","getAbsorbedByType","rSource",rSource);    
+--Debug.console("manager_action_damage.lua","getAbsorbedByType","sRangeType",sRangeType);    
     for _,nodeEffect in pairs(DB.getChildren(nodeTarget, "effects")) do
       local sLabel = DB.getValue(nodeEffect,"label","");
 --Debug.console("manager_action_damage.lua","getAbsorbedByType","sLabel",sLabel);            
@@ -779,45 +779,57 @@ function getAbsorbedByType(rSource, rTarget, sEffectType,aSrcDmgClauseTypes,nDam
       for _,sDamageType in pairs(aSrcDmgClauseTypes) do 
 --Debug.console("manager_action_damage.lua","getAbsorbedByType","sDamageType",sDamageType);            
         -- we search for "DA: # type" but because [xDx] adds a comma 
-        -- for some coreRPG or other thing we also check for "DA: #, type"
+        -- for some coreRPG or other thing we also check for "DA: #, type{,type,type}"
         -- I think it comes from rebuildParsedEffectComp(rComp) -- celelstian
-        local nStart,nEnd = sLabel:find("DA:%s?%d+[%s,]+[%w%s%-]+");
+        local nStart,nEnd = sLabel:find("DA:%s?%d+%s?,?.*$");
+--Debug.console("manager_action_damage.lua","getAbsorbedByType","nStart",nStart);          
+--Debug.console("manager_action_damage.lua","getAbsorbedByType","nEnd",nEnd);          
         if nStart ~= nil and nEnd ~= nil then
           local sDALabel = string.sub(sLabel,nStart,nEnd);
-          local sMod,sType = sDALabel:match("DA:%s?(%d+)[%s,]+([%w%s%-]+)");
+--Debug.console("manager_action_damage.lua","getAbsorbedByType","sDALabel",sDALabel);              
+          --local sMod,sType = sDALabel:match("DA:%s?(%d+)[%s,]+([%w%s%-]+)");
+          local sMod,sTypes = sDALabel:match("DA:%s?(%d+)%s?,?(.*)$");
           local nMod = tonumber(sMod) or 0;
-          if (sType and nMod and nMod > 0) then
-            local nRemainder = nMod;
-            if (sType == sDamageType or sType == "all") then
-              if (nDMG > 0) then
-                if (nDMG > nMod) then
-                  nDMG = nDMG - nMod;
-                  nRemainder = 0;
-                else
-                  nRemainder = nMod - nDMG;
-                  nDMG = 0;
-                end
-              end -- nDMG > 0
-               -- if sType ==
-            elseif (sType == 'none') then
-            -- with none type we do not absorb but we track the damage to the 
-            -- bubble and remove it. This allows us to have an effect like the armor
-            -- spell that takes X damage before it expires. "BAC:6;DA: 5 none"
-            -- since the entire effect is removed when DA < 0
-              nRemainder =  nMod - nDamageToAbsorb;
-            end
-            if (nRemainder ~= nMod) then
-              if nRemainder > 0 then
-                -- adjust effect nMod to new value, replace old entry value with new
-                local sReplacedLabel = sLabel:gsub(sDALabel,"DA:".. nRemainder .. " " .. sType);
-                DB.setValue(nodeEffect,"label","string",sReplacedLabel);
-              else
-                -- effect is used up, remove it
-                EffectManager.removeEffect(nodeTarget, sLabel);
-                --nodeEffect.delete();
+          local aAbsorbDamageTypes = StringManager.split(sTypes, ",", true);
+--Debug.console("manager_action_damage.lua","getAbsorbedByType","aAbsorbDamageTypes",aAbsorbDamageTypes);     
+          -- flip through all damage types for this DA
+          for _,sType in pairs(aAbsorbDamageTypes) do
+--Debug.console("manager_action_damage.lua","getAbsorbedByType","nMod",nMod);              
+--Debug.console("manager_action_damage.lua","getAbsorbedByType","sType",sType);              
+            if (sType and nMod and nMod > 0) then
+              local nRemainder = nMod;
+              -- absorb if DA sType match incoming Damage type, or type is ALL or the incoming range type (melee|range) match DA sType
+              if (sType == sDamageType or sType == "all" or sRangeType == sType) then
+                if (nDMG > 0) then
+                  if (nDMG > nMod) then
+                    nDMG = nDMG - nMod;
+                    nRemainder = 0;
+                  else
+                    nRemainder = nMod - nDMG;
+                    nDMG = 0;
+                  end
+                end -- nDMG > 0
+                 -- if sType ==
+              elseif (sType == 'none') then
+              -- with none type we do not absorb but we track the damage to the 
+              -- bubble and remove it. This allows us to have an effect like the armor
+              -- spell that takes X damage before it expires. "BAC:6;DA: 5 none"
+              -- since the entire effect is removed when DA < 0
+                nRemainder =  nMod - nDamageToAbsorb;
               end
-            end -- nRemainder > 0
-          end -- if sType and nMod
+              if (nRemainder ~= nMod) then
+                if nRemainder > 0 then
+                  -- adjust effect nMod to new value, replace old entry value with new
+                  local sReplacedLabel = sLabel:gsub(sDALabel,"DA:".. nRemainder .. " " .. sType);
+                  DB.setValue(nodeEffect,"label","string",sReplacedLabel);
+                else
+                  -- effect is used up, remove it
+                  EffectManager.removeEffect(nodeTarget, sLabel);
+                  --nodeEffect.delete();
+                end
+              end -- nRemainder > 0
+            end -- if sType and nMod
+          end -- aAbsorbDamageTypes for
         end -- nStart/nEnd ~= nil
       end -- for aSrcDmgClauseTypes
     end -- for "effects"
@@ -934,10 +946,19 @@ function checkNumericalReductionType(aReduction, aDmgType, nLimit)
 end
 
 function getDamageAdjust(rSource, rTarget, nDamage, rDamageOutput)
+--Debug.console("manager_action_damage.lua","getDamageAdjust","rDamageOutput",rDamageOutput);    
   local nDamageAdjust = 0;
   local bVulnerable = false;
   local bResist = false;
   local bAbsorb = false;
+  local sRangeType = "untypedRange";
+  if (rDamageOutput.sRange == "R") then
+    sRangeType = "range";
+  elseif (rDamageOutput.sRange == "M") then
+    sRangeType = "melee";
+  elseif (rDamageOutput.sRange == "P") then
+    sRangeType = "psionic";
+  end
   
   -- Get damage adjustment effects
   local aImmune = getReductionType(rSource, rTarget, "IMMUNE");
@@ -1027,7 +1048,7 @@ function getDamageAdjust(rSource, rTarget, nDamage, rDamageOutput)
     end
 
     -- add support for "DAR: # type" where damage # is absorbed from type damage and then that value is reduced the amount absorbed. --celestian
-    local nAbsorbed = getAbsorbedByType(rSource, rTarget, "DA",aSrcDmgClauseTypes,(nDamage-nLocalDamageAdjust));
+    local nAbsorbed = getAbsorbedByType(rSource, rTarget, "DA",aSrcDmgClauseTypes,sRangeType,(nDamage-nLocalDamageAdjust));
     if nAbsorbed > 0 then
 --Debug.console("manager_action_damage.lua","getDamageAdjust","nAbsorbed",nAbsorbed);    
       nLocalDamageAdjust = nLocalDamageAdjust - nAbsorbed;
