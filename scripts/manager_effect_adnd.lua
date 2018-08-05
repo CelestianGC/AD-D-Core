@@ -1173,30 +1173,24 @@ function adndOnEffectAddEnd(nodeTargetEffect, rNewEffect)
     nodeCaster = nodeTarget;
   end
   
-Debug.console("manager_effect_adnd.lua","adndOnEffectAddEnd","nodeTarget",nodeTarget); 
-Debug.console("manager_effect_adnd.lua","adndOnEffectAddEnd","nodeTargetEffect",nodeTargetEffect); 
-Debug.console("manager_effect_adnd.lua","adndOnEffectAddEnd","rNewEffect",rNewEffect); 
+-- Debug.console("manager_effect_adnd.lua","adndOnEffectAddEnd","nodeTarget",nodeTarget); 
+-- Debug.console("manager_effect_adnd.lua","adndOnEffectAddEnd","nodeTargetEffect",nodeTargetEffect); 
+-- Debug.console("manager_effect_adnd.lua","adndOnEffectAddEnd","rNewEffect",rNewEffect); 
   -- setup a nodeSource 
   local sSource = rNewEffect.sSource;
-Debug.console("manager_effect_adnd.lua","adndOnEffectAddEnd","sSource",sSource); 
   local nodeSource = nodeCaster; -- if no sSource then it's based from the caster?
   if (sSource and sSource ~= "") then 
     nodeSource = DB.findNode(sSource);
-Debug.console("manager_effect_adnd.lua","adndOnEffectAddEnd","nodeSource1",nodeSource); 
     if (nodeSource) then
       bNodeSourceIsPC = (ActorManager.getType(nodeSource) == "pc");
-Debug.console("manager_effect_adnd.lua","adndOnEffectAddEnd","bNodeSourceIsPC",bNodeSourceIsPC); 
       if bNodeSourceIsPC then
         nodeSource = ActorManager.getCreatureNode(nodeSource);
-Debug.console("manager_effect_adnd.lua","adndOnEffectAddEnd","nodeSource2",nodeSource); 
       end
     end
   else
     --nodeSource = nodeCaster;
-Debug.console("manager_effect_adnd.lua","adndOnEffectAddEnd","nodeSource3",nodeSource); 
   end
   -- end nodeSource
-Debug.console("manager_effect_adnd.lua","adndOnEffectAddEnd","nodeSource4",nodeSource); 
   local sEffectFullString = "";
   local sName = rNewEffect.sName;
     -- split the name/label for effect for each:
@@ -1214,16 +1208,11 @@ Debug.console("manager_effect_adnd.lua","adndOnEffectAddEnd","nodeSource4",nodeS
 Debug.console("manager_effect_adnd.lua","adndOnEffectAddStart","Dice rolled for effect:",sEffectName,"nRoll=",nRoll);
     end  -- for sDice
     
-Debug.console("manager_effect_adnd.lua","adndOnEffectAddStart","sNewName",sNewName);
     -- find anything else in []'s and consider it a math function with macros
     -- like [$STR*2] or [$DEX/3] or [$LVL*10]
     local nStart, nEnd, sFound = sNewName:find("%[(.*)%]");
     if nStart and nEnd and sFound then     
-Debug.console("manager_effect_adnd.lua","adndOnEffectAddStart","nStart",nStart);
-Debug.console("manager_effect_adnd.lua","adndOnEffectAddStart","nEnd",nEnd);    
-Debug.console("manager_effect_adnd.lua","adndOnEffectAddStart","sFound0",sFound);    
       for sMacro in string.gmatch(sFound,"%$(%w+)") do
-Debug.console("manager_effect_adnd.lua","adndOnEffectAddStart","sMacro",sMacro);   
         -- match STR|DEX|CON/etc..
         local sStatName = DataCommon.ability_stol[sMacro];
         if (sStatName) then
@@ -1234,7 +1223,6 @@ Debug.console("manager_effect_adnd.lua","adndOnEffectAddStart","sMacro",sMacro);
             nScore = DB.getValue(nodeTarget,"abilities." .. sStatName .. ".total",0);
           end
         sFound = sFound:gsub("%$" .. sMacro,tostring(nScore));
-Debug.console("manager_effect_adnd.lua","adndOnEffectAddStart","sFound1",sFound);    
         end -- end found sStatName
 
         -- these need to be run by the source, not the target.
@@ -1247,13 +1235,10 @@ Debug.console("manager_effect_adnd.lua","adndOnEffectAddStart","sFound1",sFound)
           sFound = sFound:gsub("%$DIVINE",tostring(PowerManager.getCasterLevelByType(nodeSource,"divine",bNodeSourceIsPC)));
         end
         
-      end -- end sMacro fore
-Debug.console("manager_effect_adnd.lua","adndOnEffectAddStart","sFound2",sFound);    
+      end -- end sMacro for
       local nDiceResult = math.floor(StringManager.evalDiceMathExpression(sFound));
-Debug.console("manager_effect_adnd.lua","adndOnEffectAddStart","nDiceResult",nDiceResult);    
       -- start/end widened because we dont include []'s in search start/end
       sNewName = CoreUtilities.replaceStringAt(sNewName,tostring(nDiceResult),nStart-1,nEnd)
-Debug.console("manager_effect_adnd.lua","adndOnEffectAddStart","sNewName",sNewName);    
     end
 
     local sSep = "";
