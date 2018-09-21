@@ -1227,7 +1227,7 @@ Debug.console("manager_effect_adnd.lua","adndOnEffectAddStart","Dice rolled for 
 
         -- these need to be run by the source, not the target.
         if nodeSource then
-          -- -- match for $LVL
+          -- -- match for $LEVEL
           sFound = sFound:gsub("%$LEVEL",tostring(CharManager.getActiveClassMaxLevel(nodeSource)));
           -- -- match for $ARCANE
           sFound = sFound:gsub("%$ARCANE",tostring(PowerManager.getCasterLevelByType(nodeSource,"arcane",bNodeSourceIsPC)));
@@ -1251,6 +1251,6 @@ Debug.console("manager_effect_adnd.lua","adndOnEffectAddStart","Dice rolled for 
   if (sEffectFullString ~= "") then
     --DB.setValue(nodeTargetEffect,"name","string",sEffectFullString);
     DB.setValue(nodeTargetEffect,"label","string",sEffectFullString);
-    rNewEffect.sName = sEffectFullString;
+    rNewEffect.sName = sEffectFullString; -- so the chat output is also updated
   end
 end

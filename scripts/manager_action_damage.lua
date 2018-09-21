@@ -794,17 +794,19 @@ function getAbsorbedByType(rTarget,aSrcDmgClauseTypes,sRangeType,nDamageToAbsorb
 --Debug.console("manager_action_damage.lua","getAbsorbedByType","aAbsorbDamageTypes",aAbsorbDamageTypes);     
           -- flip through all damage types for this DA
           for _,sType in pairs(aAbsorbDamageTypes) do
+--Debug.console("manager_action_damage.lua","getAbsorbedByType","nDMG",nDMG);       
 --Debug.console("manager_action_damage.lua","getAbsorbedByType","nMod",nMod);              
 --Debug.console("manager_action_damage.lua","getAbsorbedByType","sType",sType);              
             if (sType and nMod and nMod > 0) then
               -- absorb if DA sType match incoming Damage type, or type is ALL or the incoming range type (melee|range) match DA sType
               if (sType == sDamageType or sType == "all" or sRangeType == sType) then
                 if (nDMG > 0) then
-                  if (nDMG > nMod) then
+                  if (nDMG >= nMod) then
                     nDMG = nDMG - nMod;
                     nRemainder = 0;
                   else
-                    nRemainder = nMod - nDMG;
+                    nRemainder = (nMod - nDMG);
+--Debug.console("manager_action_damage.lua","getAbsorbedByType","nRemainder1",nRemainder);                      
                     nDMG = 0;
                   end
                 end -- nDMG > 0
@@ -814,7 +816,7 @@ function getAbsorbedByType(rTarget,aSrcDmgClauseTypes,sRangeType,nDamageToAbsorb
               -- bubble and remove it. This allows us to have an effect like the armor
               -- spell that takes X damage before it expires. "BAC:6;DA: 5 none"
               -- since the entire effect is removed when DA < 0
-                nRemainder =  nMod - nDamageToAbsorb;
+                nRemainder =  (nMod - nDamageToAbsorb);
               end
             end -- if sType and nMod
           end -- aAbsorbDamageTypes for
@@ -1046,7 +1048,7 @@ function getDamageAdjust(rSource, rTarget, nDamage, rDamageOutput)
       end
     end
 
-    -- add support for "DAR: # type" where damage # is absorbed from type damage and then that value is reduced the amount absorbed. --celestian
+    -- add support for "DA: # type" where damage # is absorbed from type damage and then that value is reduced the amount absorbed. --celestian
     local nAbsorbed = getAbsorbedByType(rTarget,aSrcDmgClauseTypes,sRangeType,(nDamage-nLocalDamageAdjust));
     if nAbsorbed > 0 then
 --Debug.console("manager_action_damage.lua","getDamageAdjust","nAbsorbed",nAbsorbed);    

@@ -284,65 +284,59 @@ function modAttack(rSource, rTarget, rRoll)
     end
 
     -- Get condition modifiers
-    if (EffectManager5E.hasEffect(rSource, "ADVATK", rTarget)) then
-      bADV = true;
-      bEffects = true;
-    elseif (#(EffectManager5E.getEffectsByType(rSource, "ADVATK", aAttackFilter, rTarget)) > 0) then
-      bADV = true;
-      bEffects = true;
-    end
-    if EffectManager5E.hasEffect(rSource, "DISATK", rTarget) then
-      bDIS = true;
-      bEffects = true;
-    elseif (#(EffectManager5E.getEffectsByType(rSource, "DISATK", aAttackFilter, rTarget)) > 0)  then
-      bDIS = true;
-      bEffects = true;
-    end
+    -- if (EffectManager5E.hasEffect(rSource, "ADVATK", rTarget)) then
+      -- bADV = true;
+      -- bEffects = true;
+    -- elseif (#(EffectManager5E.getEffectsByType(rSource, "ADVATK", aAttackFilter, rTarget)) > 0) then
+      -- bADV = true;
+      -- bEffects = true;
+    -- end
+    -- if EffectManager5E.hasEffect(rSource, "DISATK", rTarget) then
+      -- bDIS = true;
+      -- bEffects = true;
+    -- elseif (#(EffectManager5E.getEffectsByType(rSource, "DISATK", aAttackFilter, rTarget)) > 0)  then
+      -- bDIS = true;
+      -- bEffects = true;
+    -- end
     if EffectManager5E.hasEffectCondition(rSource, "Blinded") then
-      bEffects = true;
-      bDIS = true;
-            nAddMod = nAddMod - 4;
+      nAddMod = nAddMod - 4;
     end
     if EffectManager5E.hasEffectCondition(rSource, "Incorporeal") then
       bEffects = true;
       table.insert(aAddDesc, "[INCORPOREAL]");
     end
-    if EffectManager5E.hasEffectCondition(rSource, "Encumbered") then
-      bEffects = true;
-      bDIS = true;
-    end
-    if EffectManager5E.hasEffectCondition(rSource, "Frightened") then
-      bEffects = true;
-      bDIS = true;
-    end
+    -- if EffectManager5E.hasEffectCondition(rSource, "Encumbered") then
+      -- bEffects = true;
+      -- bDIS = true;
+    -- end
+    -- if EffectManager5E.hasEffectCondition(rSource, "Frightened") then
+      -- bEffects = true;
+      -- bDIS = true;
+    -- end
     if EffectManager5E.hasEffectCondition(rSource, "Intoxicated") then
       bEffects = true;
-      bDIS = true;
-            nAddMod = nAddMod - 1;
+      nAddMod = nAddMod - 1;
     end
     if EffectManager5E.hasEffectCondition(rSource, "Invisible") then
       bEffects = true;
-      bADV = true;
-            nAddMod = nAddMod + 2;
+      nAddMod = nAddMod + 2;
     end
-    if EffectManager5E.hasEffectCondition(rSource, "Poisoned") then
-      bEffects = true;
-      bDIS = true;
-    end
+    -- if EffectManager5E.hasEffectCondition(rSource, "Poisoned") then
+      -- bEffects = true;
+      -- bDIS = true;
+    -- end
     if EffectManager5E.hasEffectCondition(rSource, "Prone") then
       bEffects = true;
-      bDIS = true;
-            nAddMod = nAddMod - 2;
+      nAddMod = nAddMod - 2;
     end
     if EffectManager5E.hasEffectCondition(rSource, "Restrained") then
       bEffects = true;
-      bDIS = true;
-            nAddMod = nAddMod - 2;
+      nAddMod = nAddMod - 2;
     end
-    if EffectManager5E.hasEffectCondition(rSource, "Unconscious") then
-      bEffects = true;
-      bDIS = true; -- (from assumed prone state)
-    end
+    -- if EffectManager5E.hasEffectCondition(rSource, "Unconscious") then
+      -- bEffects = true;
+      -- bDIS = true; -- (from assumed prone state)
+    -- end
 
     -- Get Base Attack modifier
     if (bPsionicPower) then
@@ -366,13 +360,13 @@ function modAttack(rSource, rTarget, rRoll)
         -- end
     
     -- Get exhaustion modifiers
-    local nExhaustMod, nExhaustCount = EffectManager5E.getEffectsBonus(rSource, {"EXHAUSTION"}, true);
-    if nExhaustCount > 0 then
-      bEffects = true;
-      if nExhaustMod >= 3 then
-        bDIS = true;
-      end
-    end
+    -- local nExhaustMod, nExhaustCount = EffectManager5E.getEffectsBonus(rSource, {"EXHAUSTION"}, true);
+    -- if nExhaustCount > 0 then
+      -- bEffects = true;
+      -- if nExhaustMod >= 3 then
+        -- bDIS = true;
+      -- end
+    -- end
     
     -- Determine crit range
     local aCritRange = EffectManager5E.getEffectsByType(rSource, "CRIT");

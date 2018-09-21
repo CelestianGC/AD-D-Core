@@ -224,45 +224,45 @@ function modRoll(rSource, rTarget, rRoll)
     -- end
     
     -- Dexterity check conditions
-    if EffectManager5E.hasEffectCondition(rSource, "ADVCHK") then
-      bADV = true;
-      bEffects = true;
-    elseif #(EffectManager5E.getEffectsByType(rSource, "ADVCHK", aCheckFilter)) > 0 then
-      bADV = true;
-      bEffects = true;
-    end
-    if EffectManager5E.hasEffectCondition(rSource, "DISCHK") then
-      bDIS = true;
-      bEffects = true;
-    elseif #(EffectManager5E.getEffectsByType(rSource, "DISCHK", aCheckFilter)) > 0 then
-      bDIS = true;
-      bEffects = true;
-    end
-    if EffectManager5E.hasEffectCondition(rSource, "Frightened") then
-      bDIS = true;
-      bEffects = true;
-    end
-    if EffectManager5E.hasEffectCondition(rSource, "Intoxicated") then
-      bDIS = true;
-      bEffects = true;
-    end
-    if EffectManager5E.hasEffectCondition(rSource, "Poisoned") then
-      bDIS = true;
-      bEffects = true;
-    end
-    if EffectManager5E.hasEffectCondition(rSource, "Encumbered") then
-      bEffects = true;
-      bDIS = true;
-    end
+    -- if EffectManager5E.hasEffectCondition(rSource, "ADVCHK") then
+      -- bADV = true;
+      -- bEffects = true;
+    -- elseif #(EffectManager5E.getEffectsByType(rSource, "ADVCHK", aCheckFilter)) > 0 then
+      -- bADV = true;
+      -- bEffects = true;
+    -- end
+    -- if EffectManager5E.hasEffectCondition(rSource, "DISCHK") then
+      -- bDIS = true;
+      -- bEffects = true;
+    -- elseif #(EffectManager5E.getEffectsByType(rSource, "DISCHK", aCheckFilter)) > 0 then
+      -- bDIS = true;
+      -- bEffects = true;
+    -- end
+    -- if EffectManager5E.hasEffectCondition(rSource, "Frightened") then
+      -- bDIS = true;
+      -- bEffects = true;
+    -- end
+    -- if EffectManager5E.hasEffectCondition(rSource, "Intoxicated") then
+      -- bDIS = true;
+      -- bEffects = true;
+    -- end
+    -- if EffectManager5E.hasEffectCondition(rSource, "Poisoned") then
+      -- bDIS = true;
+      -- bEffects = true;
+    -- end
+    -- if EffectManager5E.hasEffectCondition(rSource, "Encumbered") then
+      -- bEffects = true;
+      -- bDIS = true;
+    -- end
 
     -- Get exhaustion modifiers
-    local nExhaustMod, nExhaustCount = EffectManager5E.getEffectsBonus(rSource, {"EXHAUSTION"}, true);
-    if nExhaustCount > 0 then
-      bEffects = true;
-      if nExhaustMod >= 1 then
-        bDIS = true;
-      end
-    end
+    -- local nExhaustMod, nExhaustCount = EffectManager5E.getEffectsBonus(rSource, {"EXHAUSTION"}, true);
+    -- if nExhaustCount > 0 then
+      -- bEffects = true;
+      -- if nExhaustMod >= 1 then
+        -- bDIS = true;
+      -- end
+    -- end
     
     -- If effects happened, then add note
     if bEffects then
