@@ -106,7 +106,7 @@ function modSave(rSource, rTarget, rRoll)
   elseif rRoll.sDesc:match("%[CONCENTRATION%]") then
     sSave = "concentration";
   else
-    sSave = rRoll.sDesc:match("%[SAVE%] (%w+)");
+    sSave = rRoll.sDesc:match("%[SAVE%] vs%. (%w+)");
     if sSave then
       sSave = sSave:lower();
     end
@@ -158,75 +158,82 @@ function modSave(rSource, rTarget, rRoll)
     if nEffectCount > 0 then
       bEffects = true;
     end
+
+  -- Get save modifiers
+    local nBonusSave, nBonusSaveEffects = EffectManager5E.getEffectsBonus(rSource, sSave:upper(),true);
+    if nBonusSaveEffects > 0 then
+      bEffects = true;
+      nAddMod = nAddMod + nBonusSave;
+    end
     
-    -- Get condition modifiers
-    if EffectManager5E.hasEffect(rSource, "ADVSAV", rTarget) then
-      bADV = true;
-      bEffects = true;
-    elseif #(EffectManager5E.getEffectsByType(rSource, "ADVSAV", aSaveFilter, rTarget)) > 0 then
-      bADV = true;
-      bEffects = true;
-    elseif sSave == "death" and EffectManager5E.hasEffect(rSource, "ADVDEATH") then
-      bADV = true;
-      bEffects = true;
-    end
-    if EffectManager5E.hasEffect(rSource, "DISSAV", rTarget) then
-      bDIS = true;
-      bEffects = true;
-    elseif #(EffectManager5E.getEffectsByType(rSource, "DISSAV", aSaveFilter, rTarget)) > 0 then
-      bDIS = true;
-      bEffects = true;
-    elseif sSave == "death" and EffectManager5E.hasEffect(rSource, "DISDEATH") then
-      bDIS = true;
-      bEffects = true;
-    end
-    if sSave == "dexterity" then
-      if EffectManager5E.hasEffectCondition(rSource, "Restrained") then
-        bDIS = true;
-        bEffects = true;
-      end
-      if nCover < 5 then
-        if EffectManager5E.hasEffect(rSource, "SCOVER", rTarget) then
-          nCover = 5;
-          bEffects = true;
-        elseif nCover < 2 then
-          if EffectManager5E.hasEffect(rSource, "COVER", rTarget) then
-            nCover = 2;
-            bEffects = true;
-          end
-        end
-      end
-    end
-    if StringManager.contains({ "strength", "dexterity" }, sSave) then
-      if EffectManager5E.hasEffectCondition(rSource, "Paralyzed") then
-        bAutoFail = true;
-        bEffects = true;
-      end
-      if EffectManager5E.hasEffectCondition(rSource, "Stunned") then
-        bAutoFail = true;
-        bEffects = true;
-      end
-      if EffectManager5E.hasEffectCondition(rSource, "Unconscious") then
-        bAutoFail = true;
-        bEffects = true;
-      end
-    end
-    if StringManager.contains({ "strength", "dexterity", "constitution", "concentration" }, sSave) then
-      if EffectManager5E.hasEffectCondition(rSource, "Encumbered") then
-        bEffects = true;
-        bDIS = true;
-      end
-    end
-    if sSave == "dexterity" and EffectManager5E.hasEffectCondition(rSource, "Dodge") and 
-        not (EffectManager5E.hasEffectCondition(rSource, "Paralyzed") or
-        EffectManager5E.hasEffectCondition(rSource, "Stunned") or
-        EffectManager5E.hasEffectCondition(rSource, "Unconscious") or
-        EffectManager5E.hasEffectCondition(rSource, "Incapacitated") or
-        EffectManager5E.hasEffectCondition(rSource, "Grappled") or
-        EffectManager5E.hasEffectCondition(rSource, "Restrained")) then
-      bEffects = true;
-      bADV = true;
-    end
+    -- -- Get condition modifiers
+    -- if EffectManager5E.hasEffect(rSource, "ADVSAV", rTarget) then
+      -- bADV = true;
+      -- bEffects = true;
+    -- elseif #(EffectManager5E.getEffectsByType(rSource, "ADVSAV", aSaveFilter, rTarget)) > 0 then
+      -- bADV = true;
+      -- bEffects = true;
+    -- elseif sSave == "death" and EffectManager5E.hasEffect(rSource, "ADVDEATH") then
+      -- bADV = true;
+      -- bEffects = true;
+    -- end
+    -- if EffectManager5E.hasEffect(rSource, "DISSAV", rTarget) then
+      -- bDIS = true;
+      -- bEffects = true;
+    -- elseif #(EffectManager5E.getEffectsByType(rSource, "DISSAV", aSaveFilter, rTarget)) > 0 then
+      -- bDIS = true;
+      -- bEffects = true;
+    -- elseif sSave == "death" and EffectManager5E.hasEffect(rSource, "DISDEATH") then
+      -- bDIS = true;
+      -- bEffects = true;
+    -- end
+    -- if sSave == "dexterity" then
+      -- if EffectManager5E.hasEffectCondition(rSource, "Restrained") then
+        -- bDIS = true;
+        -- bEffects = true;
+      -- end
+      -- if nCover < 5 then
+        -- if EffectManager5E.hasEffect(rSource, "SCOVER", rTarget) then
+          -- nCover = 5;
+          -- bEffects = true;
+        -- elseif nCover < 2 then
+          -- if EffectManager5E.hasEffect(rSource, "COVER", rTarget) then
+            -- nCover = 2;
+            -- bEffects = true;
+          -- end
+        -- end
+      -- end
+    -- end
+    -- if StringManager.contains({ "strength", "dexterity" }, sSave) then
+      -- if EffectManager5E.hasEffectCondition(rSource, "Paralyzed") then
+        -- bAutoFail = true;
+        -- bEffects = true;
+      -- end
+      -- if EffectManager5E.hasEffectCondition(rSource, "Stunned") then
+        -- bAutoFail = true;
+        -- bEffects = true;
+      -- end
+      -- if EffectManager5E.hasEffectCondition(rSource, "Unconscious") then
+        -- bAutoFail = true;
+        -- bEffects = true;
+      -- end
+    -- end
+    -- if StringManager.contains({ "strength", "dexterity", "constitution", "concentration" }, sSave) then
+      -- if EffectManager5E.hasEffectCondition(rSource, "Encumbered") then
+        -- bEffects = true;
+        -- bDIS = true;
+      -- end
+    -- end
+    -- if sSave == "dexterity" and EffectManager5E.hasEffectCondition(rSource, "Dodge") and 
+        -- not (EffectManager5E.hasEffectCondition(rSource, "Paralyzed") or
+        -- EffectManager5E.hasEffectCondition(rSource, "Stunned") or
+        -- EffectManager5E.hasEffectCondition(rSource, "Unconscious") or
+        -- EffectManager5E.hasEffectCondition(rSource, "Incapacitated") or
+        -- EffectManager5E.hasEffectCondition(rSource, "Grappled") or
+        -- EffectManager5E.hasEffectCondition(rSource, "Restrained")) then
+      -- bEffects = true;
+      -- bADV = true;
+    -- end
     if rRoll.sSaveDesc then
       if rRoll.sSaveDesc:match("%[MAGIC%]") then
       -- add by own checks here for MR:%d+ where %d+ is a percent --celestian NOT DONE
@@ -237,22 +244,6 @@ function modSave(rSource, rTarget, rRoll)
         end
       end
     end
-        -- Get save modifiers
-    local nBonusSave, nBonusSaveEffects = EffectManager5E.getEffectsBonus(rSource, sSave:upper(),true);
-    if nBonusSaveEffects > 0 then
-      bEffects = true;
-      nAddMod = nAddMod + nBonusSave;
-    end
-
-
-
-
-
-
-
-
-
-
         -- Get exhaustion modifiers
     local nExhaustMod, nExhaustCount = EffectManager5E.getEffectsBonus(rSource, {"EXHAUSTION"}, true);
     if nExhaustCount > 0 then
@@ -359,7 +350,7 @@ function applySave(rSource, rOrigin, rAction, sUser)
                         bAvoidDamage = true;
                         msgLong.text = msgLong.text .. " [AVOIDANCE]";
                     elseif EffectManager5E.hasEffectCondition(rSource, "Evasion") then
-                        local sSave = rAction.sDesc:match("%[SAVE%] (%w+)");
+                        local sSave = rAction.sDesc:match("%[SAVE%] vs%. (%w+)");
                         if sSave then
                             sSave = sSave:lower();
                         end
@@ -392,7 +383,7 @@ function applySave(rSource, rOrigin, rAction, sUser)
                         bHalfDamage = true;
                         msgLong.text = msgLong.text .. " [AVOIDANCE]";
                     elseif EffectManager5E.hasEffectCondition(rSource, "Evasion") then
-                        local sSave = rAction.sDesc:match("%[SAVE%] (%w+)");
+                        local sSave = rAction.sDesc:match("%[SAVE%] vs%. (%w+)");
                         if sSave then
                             sSave = sSave:lower();
                         end
@@ -410,7 +401,8 @@ function applySave(rSource, rOrigin, rAction, sUser)
         end
     end
 
-  ActionsManager.messageResult(bSecret, rSource, rOrigin, msgLong, msgShort);
+  --ActionsManager.messageResult(rAction.bSecret, rSource, rOrigin, msgLong, msgShort);
+  ActionsManager.outputResult(rAction.bSecret, rSource, rTarget, msgLong, msgShort);
   
   if rSource and rOrigin then
     ActionDamage.setDamageState(rOrigin, rSource, StringManager.trim(sAttack), rAction.sResult);

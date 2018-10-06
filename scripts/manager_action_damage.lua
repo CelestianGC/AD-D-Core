@@ -1517,7 +1517,8 @@ function applyDamage(rSource, rTarget, bSecret, sDamage, nTotal)
       local sSmsg = {font = "msgfont"};
       sSmsg.text = string.format("%s's spell casting interrupted.", rTarget.sName);
       
-      ActionsManager.messageResult(bSecret, nil, rTarget, sLmsg, sSmsg);
+      --ActionsManager.messageResult(bSecret, nil, rTarget, sLmsg, sSmsg);
+      ActionsManager.outputResult(bSecret, nil, rTarget, sLmsg, sSmsg);
     end
   end
 end
