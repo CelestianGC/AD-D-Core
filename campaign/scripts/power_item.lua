@@ -301,5 +301,5 @@ end
 
 function usePower(bShowFull)
   local node = getDatabaseNode();
-  ChatManager.Message(getDescription(bShowFull), true, ActorManager.getActor("pc", node.getChild("...")));
+  ChatManager.Message(getDescription(bShowFull), true, ActorManager.getActor("", node.getChild("...")));
 end

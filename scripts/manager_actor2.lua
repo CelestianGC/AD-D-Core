@@ -881,7 +881,6 @@ function isCreatureType(rActor, sTypeCheck)
   -- so split on comma and go.
   local sTypeString = DB.getValue(nodeActor, sField, "")
   local aTypeActor = StringManager.split(sTypeString:lower(), ",", true);
-  
   local bReturn = false;
   for kCheck,vCheck in ipairs(aTypeCheck) do
     if StringManager.contains(aTypeActor, vCheck) then
@@ -889,6 +888,7 @@ function isCreatureType(rActor, sTypeCheck)
       break;
     end
   end
+--Debug.console("manager_actor2","isCreatureType","bReturn",bReturn);  
   return bReturn;
 end
 

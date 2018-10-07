@@ -153,7 +153,7 @@ end
 function onDamageChanged(p1, p2)
   local nodeWeapon = getDatabaseNode();
   local nodeChar = nodeWeapon.getChild("...")
-  local rActor = ActorManager.getActor("pc", nodeChar);
+  local rActor = ActorManager.getActor("", nodeChar);
 
   local sBaseAbility = "strength";
   if type.getValue() == 1 then
@@ -205,7 +205,7 @@ end
 function onAttackAction(draginfo)
   local nodeWeapon = getDatabaseNode();
   local nodeChar = nodeWeapon.getChild("...")
-  local rActor = ActorManager.getActor("pc", nodeChar);
+  local rActor = ActorManager.getActor("", nodeChar);
 
   -- add itemPath to rActor so that when effects are checked we can 
   -- make compare against action only effects
@@ -283,7 +283,7 @@ function onDamageActionSingle(nodeDamage, draginfo)
     
   local nodeWeapon = getDatabaseNode();
   local nodeChar = nodeWeapon.getChild("...");
-  local rActor = ActorManager.getActor("pc", nodeChar);
+  local rActor = ActorManager.getActor("", nodeChar);
   -- add itemPath to rActor so that when effects are checked we can 
   -- make compare against action only effects
   local _, sRecord = DB.getValue(nodeWeapon, "shortcut", "", "");

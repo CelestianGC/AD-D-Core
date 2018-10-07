@@ -1392,7 +1392,7 @@ function addClassFeatureDB(nodeChar, sClass, sRecord, nodeClass)
       DB.setValue(nodeNewGroup, "name", "string", sNewGroupName);
       
       if sSpellcasting:match("Preparing and Casting Spells") then
-        local rActor = ActorManager.getActor("pc", nodeChar);
+        local rActor = ActorManager.getActor("", nodeChar);
         DB.setValue(nodeNewGroup, "prepared", "number", math.min(1 + ActorManager2.getAbilityBonus(rActor, sAbility:lower())));
       end
     end

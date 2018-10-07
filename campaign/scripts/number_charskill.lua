@@ -79,7 +79,7 @@ end
 function action(draginfo)
     local nodeSkill = window.getDatabaseNode();
     local nodeChar = nodeSkill.getChild("...");
-    local rActor = ActorManager.getActor("pc", nodeChar);
+    local rActor = ActorManager.getActor("", nodeChar);
     local sAbility = DB.getValue(nodeSkill, "stat", "");
     local nTargetDC = DB.getValue(nodeSkill, "total", 20);
     

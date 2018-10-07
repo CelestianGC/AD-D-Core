@@ -49,6 +49,8 @@ function onInit()
     -- this is for ARMOR() effect type
     --IFT: ARMOR(plate,platemail);ATK: 2 and it will then give you +2 to hit versus targets that are wearing plate/platemail armor.
     EffectManager5E.checkConditional = checkConditional; 
+    -- this was for debug/testing
+    --ActorManager.getTypeAndNode = getTypeAndNodeADND;
     
     -- 5E effects replacements
     EffectManager5E.checkConditionalHelper = checkConditionalHelper;
@@ -1254,3 +1256,30 @@ Debug.console("manager_effect_adnd.lua","adndOnEffectAddStart","Dice rolled for 
     rNewEffect.sName = sEffectFullString; -- so the chat output is also updated
   end
 end
+
+-- -- MY TEST FUNCTION
+-- function getTypeAndNodeADND(varActor)
+	-- local rActor = ActorManager.resolveActor(varActor);
+-- Debug.console("manager_effect_adnd.lua","getTypeAndNodeADND","rActor",rActor);  
+	-- if not rActor then return nil, nil; end
+	
+	-- if rActor.sType == "pc" then
+		-- local nodeCreature = ActorManager.getCreatureNode(rActor);
+-- Debug.console("manager_effect_adnd.lua","getTypeAndNodeADND","nodeCreature",nodeCreature);  
+		-- if nodeCreature then
+			-- if nodeCreature.isOwner() then return "pc", nodeCreature; end
+		-- end
+	-- end
+	
+	-- local nodeCT = ActorManager.getCTNode(rActor);
+-- Debug.console("manager_effect_adnd.lua","getTypeAndNodeADND","nodeCT",nodeCT);  
+	-- if nodeCT then return "ct", nodeCT; end
+	
+	-- if rActor.sType ~= "pc" then
+		-- local nodeNPC = ActorManager.getCreatureNode(rActor);
+-- Debug.console("manager_effect_adnd.lua","getTypeAndNodeADND","nodeNPC",nodeNPC);  
+		-- if nodeNPC then return "npc", nodeNPC; end
+	-- end
+	
+	-- return nil, nil;
+-- end
