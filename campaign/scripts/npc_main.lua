@@ -209,10 +209,10 @@ function update()
   updateControl("ac", bReadOnly);
   updateControl("ac_ascending", bReadOnly);
   updateControl("actext", bReadOnly);
-  updateControl("hp", bReadOnly, bReadOnly);
-  updateControl("hd", bReadOnly, bReadOnly);
+  updateControl("hp", false);
+  updateControl("hd", bReadOnly);
   updateControl("hitDice", bReadOnly);
-  updateControl("hdtext", bReadOnly,bReadOnly);
+  updateControl("hdtext", bReadOnly);
   updateControl("thaco", bReadOnly);
   updateControl("bab", bReadOnly);
   updateControl("speed", bReadOnly);
@@ -266,11 +266,12 @@ function update()
   updateControl("effect_combat", bReadOnly);
   
   updateControl("organization", bReadOnly);
-  updateControl("diet", bReadOnly);
+  updateControl("diet", bReadOnly,(bReadOnly and diet.getValue() == ""));
   updateControl("frequency", bReadOnly);
   updateControl("activity", bReadOnly);
   updateControl("climate", bReadOnly);
   updateControl("numberappearing", bReadOnly);
+  updateControl("inlair", bReadOnly, (bReadOnly and inlair.getValue() == ""));
   updateControl("intelligence_text", bReadOnly);
   updateControl("treasure", bReadOnly);
 
@@ -298,6 +299,7 @@ function update()
   activity.setReadOnly(bReadOnly);
   climate.setReadOnly(bReadOnly);
   numberappearing.setReadOnly(bReadOnly);
+  inlair.setReadOnly(bReadOnly);
   intelligence_text.setReadOnly(bReadOnly);
   treasure.setReadOnly(bReadOnly);
 

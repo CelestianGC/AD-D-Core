@@ -96,9 +96,11 @@ function handleAnyDrop(vTarget, draginfo)
 --Debug.console("manager_item.lua","onDrop","draginfo",draginfo );
 
   local sDragType = draginfo.getType();
+--Debug.console("manager_item.lua","onDrop","sDragType1",sDragType );    
   
   if not User.isHost() then
     local sTargetType = getItemSourceType(vTarget);
+--Debug.console("manager_item.lua","onDrop","sTargetType",sTargetType );    
     if sTargetType == "item" then
       return false;
     elseif sTargetType == "treasureparcels" then
@@ -108,10 +110,13 @@ function handleAnyDrop(vTarget, draginfo)
         return false;
       end
       local sClass, sRecord = draginfo.getShortcutData();
+--Debug.console("manager_item.lua","onDrop","sClass",sClass );    
+--Debug.console("manager_item.lua","onDrop","sRecord",sRecord );    
       if not LibraryData.isRecordDisplayClass("item", sClass) then
         return false;
       end
       local sSourceType = getItemSourceType(sRecord);
+--Debug.console("manager_item.lua","onDrop","sSourceType",sSourceType );    
       if sSourceType ~= "charsheet" then
         return false;
       end
@@ -122,6 +127,8 @@ function handleAnyDrop(vTarget, draginfo)
     end
   end
   
+--Debug.console("manager_item.lua","onDrop","sDragType2",sDragType );
+
   if sDragType == "number" then
     handleString(vTarget, draginfo.getDescription(), draginfo.getNumberData());
     return true;

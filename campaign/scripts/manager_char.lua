@@ -1249,21 +1249,11 @@ function addProficiencyDB(nodeChar, sType, sText, nodeSource)
   end
   
   local nodeEntry = nodeList.createChild();
-  local sValue;
-  if sType == "armor" then
-    sValue = Interface.getString("char_label_addprof_armor");
-  elseif sType == "" or sType == "weapon" then -- "" or "weapon" type, this is default prof type if nothing is set.
-    sValue = Interface.getString("char_label_addprof_weapon");  
-  elseif sType == "racial" then
-    sValue = Interface.getString("char_label_addprof_racial");  
-  else
-    sValue = Interface.getString("char_label_addprof_tool");
-  end
-  sValue = sValue .. ": " .. sText;
-  DB.setValue(nodeEntry, "name", "string", sValue);
-
+  local sName = DB.getValue(nodeSource,"name","");
+  DB.setValue(nodeEntry, "name", "string", sName);
   -- need these values --celestian
-    if nodeSource and ( sType == "" or sType == "weapon" or sType == "racial" ) then
+    if nodeSource and ( sType == "" and sType == "weapon") then
+      local sName = DB.getValue(nodeSource,"name","");
       local sDescription = DB.getValue(nodeSource,"text","");
       local nHitADJ = DB.getValue(nodeSource,"hitadj",0);
       local nDMGADJ = DB.getValue(nodeSource,"dmgadj",0);
@@ -2004,6 +1994,20 @@ function addBackgroundRef(nodeChar, sClass, sRecord)
   if sLanguages ~= "" and sLanguages ~= "None" then
     addLanguageDB(nodeChar, sLanguages);
   end
+  
+  addAttackAbilities(nodeSource,nodeChar);
+  addSkillAbilities(nodeSource,nodeChar);
+  addPowerAbilities(nodeSource,nodeChar);
+  addProficiencySlots(nodeSource,nodeChar);
+  addWeaponProficiencies(nodeSource,nodeChar);
+end
+
+-- add weapon profs
+function addWeaponProficiencies(nodeSource,nodeChar)
+  -- Add proficiencies
+  for _,v in pairs(DB.getChildren(nodeSource, "proficiencies")) do
+      addClassProficiencyDB(nodeChar, "reference_classproficiency", v.getPath());
+  end
 end
 
 function addRaceRef(nodeChar, sClass, sRecord)
@@ -2360,20 +2364,8 @@ function addAdvancement(nodeChar,nodeAdvance,nodeClass,nodeClassSource)
       DB.setValue(nodeChar,"proficiencies.nonweapon.max","number", nCharNonWeapons);
       ChatManager.SystemMessage("Gained non-weapon a proficiency slot for leveling.");
     end
-    
-    -- get profs for leveling (if used)
-    local nWeaponProfs = DB.getValue(nodeAdvance,"weaponprofs",0);
-    if (nWeaponProfs > 0) then
-      nCharWeapons = nCharWeapons + nWeaponProfs;
-      DB.setValue(nodeChar,"proficiencies.weapon.max","number", nCharWeapons);
-      ChatManager.SystemMessage("Gained weapon proficiency slot(s): " .. nWeaponProfs);
-    end
-    local nNonWeaponProfs = DB.getValue(nodeAdvance,"nonweaponprofs",0);
-    if (nNonWeaponProfs > 0) then
-      nCharNonWeapons = nCharNonWeapons + nNonWeaponProfs;
-      DB.setValue(nodeChar,"proficiencies.nonweapon.max","number", nCharNonWeapons);
-      ChatManager.SystemMessage("Gained non-weapon proficiency slot(s): " .. nNonWeaponProfs);
-    end
+
+    addProficiencySlots(nodeAdvance,nodeChar);
     
     --saves
     local bDualClassOverHump = 
@@ -2514,6 +2506,26 @@ function addAdvancement(nodeChar,nodeAdvance,nodeClass,nodeClassSource)
   updateHPForLevel(nodeChar,nodeClass,nodeAdvance);
 end
 
+-- add weapon/nonweapon slots granted
+function addProficiencySlots(nodeAdvance,nodeChar)
+  -- get current prof slots
+  local nCharWeapons = DB.getValue(nodeChar,"proficiencies.weapon.max",0);
+  local nCharNonWeapons = DB.getValue(nodeChar,"proficiencies.nonweapon.max",0);
+  -- get profs for leveling (if used)
+  local nWeaponProfs = DB.getValue(nodeAdvance,"weaponprofs",0);
+  if (nWeaponProfs > 0) then
+    nCharWeapons = nCharWeapons + nWeaponProfs;
+    DB.setValue(nodeChar,"proficiencies.weapon.max","number", nCharWeapons);
+    ChatManager.SystemMessage("Gained weapon proficiency slot(s): " .. nWeaponProfs);
+  end
+  local nNonWeaponProfs = DB.getValue(nodeAdvance,"nonweaponprofs",0);
+  if (nNonWeaponProfs > 0) then
+    nCharNonWeapons = nCharNonWeapons + nNonWeaponProfs;
+    DB.setValue(nodeChar,"proficiencies.nonweapon.max","number", nCharNonWeapons);
+    ChatManager.SystemMessage("Gained non-weapon proficiency slot(s): " .. nNonWeaponProfs);
+  end
+end
+
 -- add attacks/weapon style abilities
 function addAttackAbilities(nodeAdvance,nodeChar)
   local bItemHasWeapons = (DB.getChildCount(nodeAdvance, "weaponlist") > 0);
@@ -2527,6 +2539,8 @@ function addAttackAbilities(nodeAdvance,nodeChar)
       local nodeWeapon = nodeWeapons.createChild();
       DB.copyNode(v,nodeWeapon);
       --DB.setValue(nodeWeapon, "shortcut", "windowreference", "item", "....inventorylist." .. nodeItem.getName());
+      local sName = DB.getValue(nodeWeapon,"name");
+      ChatManager.SystemMessage("Adding new attack: " .. sName .. ".");
     end
   end
 end
@@ -2546,48 +2560,23 @@ function addSkillAbilities(nodeAdvance,nodeChar)
       if (originalSkill) then
         -- skill exists already with same name, only update values that are improvements.
         local sName = DB.getValue(originalSkill,"name","");
-        -- <base_check type="number">6</base_check>
-        local base_check = DB.getValue(originalSkill,"base_check",0);
-        local base_checkNew = DB.getValue(advancementSkill,"base_check",0);
-        if (base_checkNew ~= base_check) then
-          ChatManager.SystemMessage("Updated Skill: " .. sName .. " base_check to new value of " .. base_checkNew);
-          DB.setValue(originalSkill,"base_check","number",base_checkNew);
-        end
-        -- <adj_armor type="number">0</adj_armor>
-        local adj_armor = DB.getValue(originalSkill,"adj_armor",0);
-        local adj_armorNew = DB.getValue(advancementSkill,"adj_armor",0);
-        if (adj_armorNew ~= adj_armor) then
-          ChatManager.SystemMessage("Updated Skill: " .. sName .. " adj_armor to new value of " .. adj_armorNew);
-          DB.setValue(originalSkill,"adj_armor","number",adj_armorNew);
-        end
-        -- <adj_class type="number">0</adj_class>
-        local adj_class = DB.getValue(originalSkill,"adj_class",0);
-        local adj_classNew = DB.getValue(advancementSkill,"adj_class",0);
-        if (adj_classNew ~= adj_class) then
-          ChatManager.SystemMessage("Updated Skill: " .. sName .. " adj_class to new value of " .. adj_classNew);
-          DB.setValue(originalSkill,"adj_class","number",adj_classNew);
-        end
-        -- <adj_mod type="number">0</adj_mod>
-        local adj_mod = DB.getValue(originalSkill,"adj_mod",0);
-        local adj_modNew = DB.getValue(advancementSkill,"adj_mod",0);
-        if (adj_modNew ~= adj_mod) then
-          ChatManager.SystemMessage("Updated Skill: " .. sName .. " adj_mod to new value of " .. adj_modNew);
-          DB.setValue(originalSkill,"adj_mod","number",adj_modNew);
-        end
-        -- <adj_stat type="number">0</adj_stat>
-        local adj_stat = DB.getValue(originalSkill,"adj_stat",0);
-        local adj_statNew = DB.getValue(advancementSkill,"adj_stat",0);
-        if (adj_statNew ~= adj_stat) then
-          ChatManager.SystemMessage("Updated Skill: " .. sName .. " adj_stat to new value of " .. adj_statNew);
-          DB.setValue(originalSkill,"adj_stat","number",adj_statNew);
-        end
-        -- <misc type="number">0</misc>
-        local misc = DB.getValue(originalSkill,"misc",0);
-        local miscNew = DB.getValue(advancementSkill,"misc",0);
-        if (miscNew ~= misc) then
-          ChatManager.SystemMessage("Updated Skill: " .. sName .. " misc to new value of " .. miscNew);
-          DB.setValue(originalSkill,"misc","number",miscNew);
-        end
+        local bAdditive = (DB.getValue(advancementSkill,"skill_additive",0) == 1);
+
+        -- flip through all values and update
+        local aValues = {"base_check","adj_armor","adj_class","adj_mod","adj_stat","misc"};
+        for _, sValue in ipairs(aValues) do
+          local nCheck = DB.getValue(originalSkill,sValue,0);
+          local nCheckNew = DB.getValue(advancementSkill,sValue,0);
+          -- this adjusts the skill +/- the skill value
+          if (bAdditive) then
+            nCheckNew = nCheck + nCheckNew;
+          end
+          if (nCheckNew ~= nCheck) then
+            ChatManager.SystemMessage("Updated Skill: " .. sName .. " " .. sValue .. " to new value of " .. nCheckNew);
+            DB.setValue(originalSkill,sValue,"number",nCheckNew);
+          end
+        end -- end flipping through sValues
+        
         -- <stat type="string">percent</stat>
         local stat = DB.getValue(originalSkill,"stat","");
         local statNew = DB.getValue(advancementSkill,"stat","");
@@ -2641,6 +2630,8 @@ function addPowerAbilities(nodeAdvance,nodeChar)
       --DB.setValue(nodePower, "description","formattedtext",DB.getValue(nodeItem,"description",""));
       --DB.setValue(nodePower, "shortcut", "windowreference", "item", "....inventorylist." .. nodeItem.getName());
       DB.setValue(nodePower, "locked", "number", 1); -- want this to start locked
+      local sName = DB.getValue(nodePower,"name");
+      ChatManager.SystemMessage("Adding new power: " .. sName .. ".");
     end
   end
 end
@@ -3513,3 +3504,33 @@ function getBestProficiencyInitial(nodeChar,nodeClass,nodeClassSource)
 
   return nWeapons, nNonWeapon;
 end
+
+---
+-- Manage hitpoint modifiers and total
+-- (needs to pickup constitution score adjustments automatically still --celestian)
+---
+function updateHealthScore(nodeChar)
+  local nBase    = DB.getValue(nodeChar,"hp.base",0);
+  local nBaseMod = DB.getValue(nodeChar,"hp.basemod",0);
+  local nAdj     = DB.getValue(nodeChar,"hp.adjustment",0);
+  local nTemp    = DB.getValue(nodeChar,"hp.tempmod",0);
+  -- we dont use nBaseMod yet but... if we do later (effects?) this will 
+  -- make it work properly, if greater than 0 then use it.
+  if (nBaseMod > 0) then
+    nBase = nBaseMod;
+  end
+  local nConMod = CharManager.getAllClassAndLevelConAdjustments(nodeChar);
+  if (nConMod == nil) then 
+    -- we didn't find all our classes, module not loaded?
+    -- so we just keep the value currently set
+    nConMod = DB.getValue(nodeChar,"hp.conmod",0);
+  else
+    DB.setValue(nodeChar,"hp.conmod","number",nConMod);
+  end
+
+  local nTotal = nBase + nConMod + nAdj + nTemp;
+  DB.setValue(nodeChar,"hp.total","number",nTotal);
+end
+
+
+

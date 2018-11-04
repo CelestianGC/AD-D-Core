@@ -77,7 +77,7 @@
       <icon_record_locked />
       <button_record_locked />
 
-            <anchor_column name="columnanchor"/>
+      <anchor_column name="columnanchor"/>
 
       <label_skill name="reftype">
         <static textres="ref_type_skill" />
@@ -128,7 +128,7 @@
             </number_columnh>
 
 
-         <line_column name="divider3" />
+      <line_column name="divider3" />
             
     </sheetdata>
   </windowclass>

@@ -4,10 +4,10 @@ function onInit()
   -- set default window classes we dont only want singles for
   setIgnoredWindowClasses({"imagewindow","charsheet"});
   
-    -- uncomment this and everytime a window is opened
-    -- the combat tracker will be moved ontop.
+  -- uncomment this and everytime a window is opened
+  -- the combat tracker will be moved ontop.
+  --Interface.onWindowOpened = ctOnTopAlways;
   
-    --Interface.onWindowOpened = ctOnTopAlways;
   -- assign handlers
   Interface.onWindowOpened = onWindowOpened; 
   Interface.onWindowClosed = onWindowClosed; 
@@ -16,15 +16,15 @@ end
 -- keep the combat tracker on top all the time
 -- this isn't used right now... 
 function ctOnTopAlways(window)
-    if User.isHost() then
-        if Interface.findWindow("combattracker_host", "combattracker") then
-            Interface.findWindow("combattracker_host", "combattracker").bringToFront();
-        end
-    else
-        if Interface.findWindow("combattracker_client", "combattracker") then
-            Interface.findWindow("combattracker_client", "combattracker").bringToFront();
-        end
+  if User.isHost() then
+    if Interface.findWindow("combattracker_host", "combattracker") then
+      Interface.findWindow("combattracker_host", "combattracker").bringToFront();
     end
+  else
+    if Interface.findWindow("combattracker_client", "combattracker") then
+      Interface.findWindow("combattracker_client", "combattracker").bringToFront();
+    end
+  end
 end
 
 --[[

@@ -249,7 +249,7 @@
         <anchored position="insidetopright" offset="0,2" height="0" width="0" />
       </genericcontrol>
 
-            <!-- skill link button? -->
+      <!-- skill link button -->
       <linkcontrol name="shortcut">
         <anchored to="rightanchor" width="20" height="20">
           <top />
@@ -259,7 +259,7 @@
         <readonly />
       </linkcontrol>
 
-            <!-- button delete -->
+      <!-- button delete -->
       <button_idelete name="idelete">
         <anchored to="rightanchor">
           <top />
@@ -281,8 +281,7 @@
         </script>
       </buttoncontrol>
 
-
-            <!-- total -->
+      <!-- total -->
       <number_charskilltotal_nosign name="total">
         <anchored to="rightanchor">
           <top />
@@ -305,7 +304,7 @@
         <tabtarget next="name" />
       </button_skillprof>
  -->
-            <!-- skill name -->
+      <!-- skill name -->
       <string_textlistitem name="name">
         <anchored to="rightanchor">
           <top />
@@ -315,7 +314,13 @@
         <multilinespacing>20</multilinespacing>
         <tabtarget next="base_check" prev="prof" />
       </string_textlistitem>
-    </sheetdata>
+      
+       <button_checkbox name="skill_additive">
+        <anchored to="name" position="left" offset="5,0" width="10" />
+        <tooltip textres="char_label_skill_skill_additive_tooltip" />
+      </button_checkbox>
+
+      </sheetdata>
   </windowclass>
     
     <!-- skill edit window -->

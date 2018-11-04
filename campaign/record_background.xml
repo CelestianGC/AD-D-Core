@@ -9,10 +9,10 @@
   <windowclass name="reference_background">
     <frame>recordsheet</frame>
     <placement>
-      <size width="350" height="350" />
+      <size width="480" height="475" />
     </placement>
     <sizelimits>
-      <minimum width="300" height="300" />
+      <minimum width="480" height="450" />
       <dynamic />
     </sizelimits>
     <minimize>minimized_reference</minimize>
@@ -52,6 +52,28 @@
         <target>stats</target>
       </scrollbar_record>
       
+      <subwindow_record name="skills">
+        <class>recordslist_skills_contents</class>
+      </subwindow_record>
+
+      <subwindow_record name="weaponactions">
+        <class>charsheet_actions_weapons</class>
+      </subwindow_record>
+
+      <subwindow_record name="spellactions">
+        <class>recordslist_actions_powers</class>
+      </subwindow_record>
+      
+      <scrollbar_record_item>
+        <class>skills</class>
+      </scrollbar_record_item>
+      <scrollbar_record_item>
+        <target>weaponactions</target>
+      </scrollbar_record_item>
+      <scrollbar_record_power>
+        <target>spellactions</target>
+      </scrollbar_record_power>
+      
       <tabs_recordsheet>
         <tab>
           <icon>tab_main</icon>
@@ -60,6 +82,18 @@
         <tab>
           <icon>tab_other</icon>
           <subwindow>stats</subwindow>
+        </tab>
+        <tab>
+          <icon>tab_skills</icon>
+          <subwindow>skills</subwindow>
+        </tab>
+        <tab>
+          <icon>tab_weapons</icon>
+          <subwindow>weaponactions</subwindow>
+        </tab>
+        <tab>
+          <icon>tab_powers</icon>
+          <subwindow>spellactions</subwindow>
         </tab>
       </tabs_recordsheet>
       
@@ -105,26 +139,23 @@
       end
       function update()
         local bReadOnly = WindowManager.getReadOnlyState(getDatabaseNode());
-        skill.update(bReadOnly);
         languages.update(bReadOnly);
-        tool.update(bReadOnly);
-        equipment.update(bReadOnly);
         features.update(bReadOnly);
       end
     </script>
     <sheetdata>
       <anchor_column name="columnanchor" />
       
-      <label_column name="skill_label">
+<!--       <label_column name="skill_label">
         <static textres="background_label_skills" />
       </label_column>
       <string_columnh name="skill" />
-      
+ -->      
       <label_column name="languages_label">
         <static textres="background_label_languages" />
       </label_column>
       <string_columnh name="languages" />
-      
+<!--       
       <label_column name="tool_label">
         <static textres="background_label_tools" />
       </label_column>
@@ -134,7 +165,44 @@
         <static textres="background_label_equipment" />
       </label_column>
       <string_columnh name="equipment" />
-      
+ -->      
+      <!-- prof slots and profs -->
+      <header_column name="additiona_profs_header">
+        <static textres="background_header_additional_profs"/>
+        <center />
+      </header_column>
+      <label_column name="weapon_profs_label">
+        <static textres="background_label_weapon_profs" />
+      </label_column>
+      <number_column name="weaponprofs" />
+      <label_column name="nonweapon_profs_label">
+        <static textres="background_label_nonweapon_profs" />
+      </label_column>
+      <number_column name="nonweaponprofs" />
+
+      <header_column name="proficiencies_header_adnd">  
+        <static textres="class_header_weaponproficiencies"/>
+        <center />
+      </header_column>
+      <button_iedit name="proficiencies_iedit">
+        <anchored to="proficiencies_header_adnd" position="righthigh" offset="-20,0" />
+        <target>proficiencies</target>
+      </button_iedit>
+      <button_iadd name="proficiencies_iadd">
+        <anchored to="proficiencies_iedit" position="lefthigh" offset="5,0" />
+        <target>proficiencies</target>
+      </button_iadd>
+      <list_column name="proficiencies">
+        <anchored >
+          <top parent="columnanchor" anchor="bottom" relation="relative" offset="5" />
+          <left offset="0" />
+          <right offset="-5" />
+        </anchored>
+        <datasource>.proficiencies</datasource>
+        <class>proficiency_item</class>
+      </list_column>
+
+      <!-- features -->
       <header_column name="features_header">
         <static textres="background_header_features"/>
         <center />

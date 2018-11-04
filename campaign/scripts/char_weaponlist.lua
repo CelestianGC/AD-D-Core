@@ -38,12 +38,13 @@ function onModeChanged()
     --celestian
     
     -- if this is a item record, we don't go into prepmode for carried
-    if string.match(node.getPath(),"^item") or string.match(node.getPath(),"^class") then
+    if string.match(node.getPath(),"^item") or string.match(node.getPath(),"^class") or string.match(node.getPath(),"^background") then
         bPrepMode = false;
     end
     
   for _,w in ipairs(getWindows()) do
-    w.carried.setVisible(bPrepMode);
+    --w.carried.setVisible(bPrepMode);
+    w.carried.setVisible(true);
   end
   
   applyFilter();
@@ -75,10 +76,35 @@ end
 
 function onDrop(x, y, draginfo)
 --Debug.console("char_weaponslist.lua","onDrop","draginfo",draginfo );
-
   if draginfo.isType("shortcut") then
     local sClass, sRecord = draginfo.getShortcutData();
-    if LibraryData.isRecordDisplayClass("item", sClass) and ItemManager2.isWeapon(sRecord) then
+    local node = getDatabaseNode().getParent();
+--Debug.console("char_weaponslist.lua","onDrop","sClass",sClass );
+--Debug.console("char_weaponslist.lua","onDrop","sRecord",sRecord );
+--Debug.console("char_weaponslist.lua","onDrop","node",node );
+    -- match items dropped into item/class/background fields to populate damage/etc
+    if string.match(node.getPath(),"^item") or 
+       string.match(node.getPath(),"^class") or 
+       string.match(node.getPath(),"^background") then
+      -- load item
+      local nodeItem = DB.findNode(sRecord);
+      if nodeItem then
+        local sItemName = DB.getValue(nodeItem,"name","UNKNOWN");
+        local sDesc = DB.getValue(nodeItem,"description","");
+        local nodeWeapons = node.createChild("weaponlist");
+        for _,v in pairs(DB.getChildren(nodeItem, "weaponlist")) do
+          local nodeWeapon = nodeWeapons.createChild();
+          DB.copyNode(v,nodeWeapon);
+          DB.setValue(nodeWeapon,"name","string",sItemName);
+          DB.setValue(nodeWeapon,"itemnote.name","string",sItemName);
+          DB.setValue(nodeWeapon,"itemnote.text","formattedtext",sDesc);
+          DB.setValue(nodeWeapon,"itemnote.locked","number",1);
+          DB.setValue(nodeWeapon, "shortcut", "windowreference", "quicknote", nodeWeapon.getPath() .. '.itemnote');
+        end
+        return true;
+      end
+    -- otherwise it's a item on a npc/character and we need to deal with inventory/etc
+    elseif LibraryData.isRecordDisplayClass("item", sClass) and ItemManager2.isWeapon(sRecord) then
       return ItemManager.handleAnyDrop(window.getDatabaseNode(), draginfo);
     end
   end

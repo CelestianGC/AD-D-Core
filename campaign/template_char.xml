@@ -537,7 +537,7 @@
       <anchored height="18">
         <top offset="5" />
         <left parent="leftanchor" anchor="right" relation="relative" offset="5" />
-        <right parent="rightanchor" anchor="left" relation="relative" offset="-240" />
+        <right parent="rightanchor" anchor="left" relation="relative" offset="-200" />
       </anchored>
     </stringu>
   </template>
@@ -619,34 +619,34 @@
     </basicnumber>
   </template>
   <template name="number_surprise">
-      <basicnumber name="surprise_total_roll" source="surprise.total">
-        <anchored width="30" height="20"> 
-          <top offset="15" />
-          <left anchor="center" offset="-55"/>
-        </anchored>
-        <rollable />
-        <default>3</default>
-        <script>
-          function action(draginfo)
-            local node = getDatabaseNode();
-            local nodeChar = node.getChild("...");
-            local rActor = ActorManager.getActor("", nodeChar);
-            ActionSurprise.performRoll(draginfo, rActor, nodeChar);
-            return true;
-          end
-          
-          function onDragStart(button, x, y, draginfo)
-            return action(draginfo);
-          end
-              
-          function onDoubleClick(x,y)
-            return action();
-          end                    
-        </script>
-        <cursor hover="hand" />
-        <gmeditonly />
-        <tooltip textres="char_label_surpriseroll_tooltip" />
-      </basicnumber>
+    <basicnumber name="surprise_total_roll" source="surprise.total">
+      <anchored width="30" height="20"> 
+        <top offset="15" />
+        <left anchor="center" offset="-55"/>
+      </anchored>
+      <rollable />
+      <default>3</default>
+      <script>
+        function action(draginfo)
+          local node = getDatabaseNode();
+          local nodeChar = node.getChild("...");
+          local rActor = ActorManager.getActor("", nodeChar);
+          ActionSurprise.performRoll(draginfo, rActor, nodeChar);
+          return true;
+        end
+        
+        function onDragStart(button, x, y, draginfo)
+          return action(draginfo);
+        end
+            
+        function onDoubleClick(x,y)
+          return action();
+        end                    
+      </script>
+      <cursor hover="hand" />
+      <gmeditonly />
+      <tooltip textres="char_label_surpriseroll_tooltip" />
+    </basicnumber>
   </template>
   <template name="number_turnundead">
     <basicnumber name="turnlevel" source="turn.total">
@@ -695,7 +695,7 @@
       <font>reference-b-large</font>
       <modifiersize>mini</modifiersize>
       <description textres="char_tooltip_speed" />
-            <script file="campaign/scripts/number_movement.lua"/>
+      <script file="campaign/scripts/number_movement.lua"/>
     </basicnumber>
   </template>
   
@@ -705,8 +705,8 @@
       <sortby><control>name</control></sortby>
       <allowcreate />
       <allowdelete />
-            <child></child>
-            <child><backcolor>1A40301E</backcolor></child>
+      <child></child>
+      <child><backcolor>1A40301E</backcolor></child>
       <script file="campaign/scripts/char_weaponlist.lua" />
     </windowlist>
   </template>

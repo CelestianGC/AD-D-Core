@@ -60,7 +60,8 @@
         </script>
       </state_charweapontype>
 
-      <genericcontrol name="attackshade">
+      <actions_attack name="attackview" />      
+<!--       <genericcontrol name="attackshade">
         <anchored height="26" width="50" >
           <top offset="3" />
           <left parent="leftanchor" anchor="right" relation="relative" offset="0" />
@@ -130,18 +131,20 @@
           end
         </script>
       </simplenumberc>
+  -->     
+          
             <!-- damage section -->
-            <windowlist name="damage_split_list">
-                <anchored width="125" >
-                    <top offset="5" /> 
-                    <left parent="leftanchor" anchor="right" relation="relative" offset="5" />
-                </anchored>
-                <child></child>
-                <child><backcolor>1A40301E</backcolor></child>
-                <noscroll />
+      <windowlist name="damage_split_list">
+        <anchored width="135" >
+          <top offset="5" /> 
+          <left parent="leftanchor" anchor="right" relation="relative" offset="5" />
+        </anchored>
+        <child></child>
+        <child><backcolor>1A40301E</backcolor></child>
+        <noscroll />
         <datasource>.damagelist</datasource>
         <class>split_damage_entries</class>
-            </windowlist>
+      </windowlist>
             
       <label name="label_ammo">
         <anchored width="50">
@@ -164,45 +167,44 @@
 
     <!-- window, display damage rolls, each in their own clickable to have s/m and large damage types -->
   <windowclass name="split_damage_entries">
-        <margins control="0,0,0,5" />
-       <sheetdata>
-      <genericcontrol name="rightanchor">
-        <anchored width="0" height="0">
-          <top offset="4" />
-          <right />
-        </anchored>
-        <invisible />
-      </genericcontrol>
-      <stringfield name="damageasstring">
-                <script>
-                    function onDoubleClick(x,y)
-                        local node = getDatabaseNode();
-                        local nodeDamage = node.getChild("..");
-                        return window.windowlist.window.onDamageActionSingle(nodeDamage);
-                    end      
+    <margins control="0,0,0,5" />
+      <sheetdata>
+        <stringfield name="damageasstring">
+          <script>
+            function onHover(oncontrol)
+              if oncontrol then
+                setColor("ba2323");
+              else
+                setColor(nil);
+              end
+            end
+            function onDoubleClick(x,y)
+              local node = getDatabaseNode();
+              local nodeDamage = node.getChild("..");
+              return window.windowlist.window.onDamageActionSingle(nodeDamage);
+            end      
 
-                    function onDragStart(button, x, y, draginfo)
-                        local node = getDatabaseNode();
-                        local nodeDamage = node.getChild("..");
-                        return window.windowlist.window.onDamageActionSingle(nodeDamage, draginfo);
-                    end
-                </script>
-                <font>arial-regular-8</font>
-                <multilinespacing>12</multilinespacing>
-                <anchored to="rightanchor">
-                    <top />
-                    <left parent="" offset="4" />
-                    <right anchor="left" offset="-4"/>
-                </anchored>
-                <frame name="fielddark" offset="7,8,7,8" />
-                <stateframe>
-                    <hover name="rowshade" offset="7,8,7,8" />
-                </stateframe>
-                <cursor hover="hand" />
-                <readonly />
-      </stringfield>
-
-        </sheetdata>
+            function onDragStart(button, x, y, draginfo)
+              local node = getDatabaseNode();
+              local nodeDamage = node.getChild("..");
+              return window.windowlist.window.onDamageActionSingle(nodeDamage, draginfo);
+            end
+          </script>
+          <font>arial-regular-8</font>
+          <multilinespacing>12</multilinespacing>
+          <anchored >
+            <top offset="3"/>
+            <left  offset="4" />
+            <right offset="-4"/>
+          </anchored>
+          <frame name="fielddark" offset="7,8,7,8" />
+          <stateframe>
+            <hover name="rowshade" offset="7,8,7,8" />
+          </stateframe>
+          <cursor hover="hand" />
+          <readonly />
+        </stringfield>
+      </sheetdata>
     </windowclass>
 
   <windowclass name="char_weapon_editor">
@@ -278,11 +280,20 @@
       </label_column>
       <string_column name="properties" />
       
+      <header_column name="header_initiative">
+        <static textres="weapon_header_initiative" />
+        <center />
+      </header_column>
+      <label_column name="speedfactor_label">
+        <static textres="weapon_labelr_speedfactor" />
+      </label_column>
+      <number_column name="speedfactor" />
+
       <header_column name="header_attack">
         <static textres="weapon_header_attack" />
         <center />
       </header_column>
-            <!-- global edit button -->
+      <!-- global edit button -->
       <button_iedit name="weapon_iedit">
         <anchored to="header_attack" position="insidetopright" offset="-5,0" />
         <tooltip textres="char_abilities_tooltip_edit" />

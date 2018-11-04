@@ -49,7 +49,7 @@
       end
 
       function onOptionChanged()
-                CharManager.updateEncumbrance(getDatabaseNode());
+        CharManager.updateEncumbrance(getDatabaseNode());
       end
       
       function onDrop(x, y, draginfo)

@@ -240,6 +240,7 @@
   <string name="char_label_skill_misc_adj_tooltip">Miscellaneous modifiers.</string>
   <string name="char_label_skilltotal">VALUE</string>
   <string name="skill_title">Skill</string>
+  <string name="char_label_skill_skill_additive_tooltip">This skill is additive. Adjusts number value (plus or minus) to an existing skill. When not using this checkbox the value will update to listed value if greater than current skill. If skill does not exist it will create it with this value.</string>
   
   <string name="char_label_class_exp">XP</string>
   <string name="char_label_class_exp_tooltip">Experince Earned for Each Class</string>
@@ -419,6 +420,8 @@
   <string name="char_abilities_label_proficiencies">WEAPON PROFICIENCIES</string>
     
   <!-- Weapon Editors -->
+  <string name="weapon_header_initiative">INITIATIVE</string>
+  <string name="weapon_labelr_speedfactor">Weapon Speed</string>
   <string name="weapon_header_prof">Proficiencies Applied</string>
   <string name="weapon_label_profdefault">Not-Proficient</string>
   <string name="weapon_label_profname">PROF</string>
@@ -556,9 +559,16 @@
      <!-- Pregens -->
   <string name="pregen_label_background">Kit</string>
     
+  <!-- labels for backgrounds -->
+  <string name="background_header_additional_profs">ADDITIONAL PROFICIENCY SLOTS</string>
+  <string name="background_label_weapon_profs">Weapon</string>
+  <string name="background_label_weapon_profs_tooltip">Additional weapon proficiencies granted by this kit.</string>
+  <string name="background_label_nonweapon_profs">Non-Weapon</string>
+  <string name="background_label_nonweapon_profs_toolsip">Additional non-weapon proficiencies granted by this kit.</string>
+
   <!-- Reference -->
-    <string name="ref_type_background">Kit</string>
-   <string name="ref_type_backgroundfeature">Kit Feature</string>
+  <string name="ref_type_background">Kit</string>
+  <string name="ref_type_backgroundfeature">Kit Feature</string>
   <string name="ref_type_backgroundproficiency">Kit Proficiency</string>
   <string name="ref_type_characteristic">Kit Characteristic</string>
   <string name="ref_label_sphere">Sphere</string>
@@ -616,6 +626,7 @@
   <string name="npc_label_activity">Activity</string>  
   <string name="npc_label_alignment">Alignment</string>  
   <string name="npc_label_climate">Climate</string>  
+  <string name="npc_label_inlair">% Chance In Lair</string>  
   <string name="npc_label_diet">Diet</string>  
   <string name="npc_label_frequency">Frequency</string>  
   <string name="npc_label_intelligence">Intelligence</string>  

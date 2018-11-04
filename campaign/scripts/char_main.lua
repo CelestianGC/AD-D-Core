@@ -166,32 +166,13 @@ function updateTHACO()
 end
 
 ---
--- Manage hitpoint modifiers and total
--- (needs to pickup constitution score adjustments automatically still --celestian)
+-- Manage hitpoint modifiers and total, HANDOFF to CharManager
+-- we hand off to CharManager because we need to access the healupdate
+-- when effects are updated and con changes. ct_entry.lua, updateForEffects(effect) also
 ---
 function updateHealthScore()
   local nodeChar = getDatabaseNode();
-  local nBase    = DB.getValue(nodeChar,"hp.base",0);
-  local nBaseMod = DB.getValue(nodeChar,"hp.basemod",0);
-  local nAdj     = DB.getValue(nodeChar,"hp.adjustment",0);
-  local nTemp    = DB.getValue(nodeChar,"hp.tempmod",0);
-  -- we dont use nBaseMod yet but... if we do later (effects?) this will 
-  -- make it work properly, if greater than 0 then use it.
-  if (nBaseMod > 0) then
-    nBase = nBaseMod;
-  end
-
-  local nConMod = CharManager.getAllClassAndLevelConAdjustments(nodeChar);
-  if (nConMod == nil) then 
-    -- we didn't find all our classes, module not loaded?
-    -- so we just keep the value currently set
-    nConMod = DB.getValue(nodeChar,"hp.conmod",0);
-  else
-    DB.setValue(nodeChar,"hp.conmod","number",nConMod);
-  end
-  
-  local nTotal = nBase + nConMod + nAdj + nTemp;
-  DB.setValue(nodeChar,"hp.total","number",nTotal);
+  CharManager.updateHealthScore(nodeChar);
 end
 
 

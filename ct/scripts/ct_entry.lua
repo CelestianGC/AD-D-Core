@@ -458,7 +458,9 @@ function updateForEffects(effect)
      if rActor.sType == "pc" then
          nodeChar = DB.findNode(rActor.sCreatureNode);
      end
+     
     AbilityScoreADND.updateForEffects(nodeChar);
+    CharManager.updateHealthScore(nodeChar);
 end
 
 function updateAscendingValues()

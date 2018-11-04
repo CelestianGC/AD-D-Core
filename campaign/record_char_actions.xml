@@ -413,7 +413,7 @@
         <anchored height="18">
           <top parent="weapontitle" />
           <left parent="leftanchor" anchor="right" relation="relative" offset="10" />
-          <right parent="rightanchor" anchor="left" relation="relative" offset="-298" />
+          <right parent="rightanchor" anchor="left" relation="relative" offset="-258" />
         </anchored>
         <font>subwindowsmalltitle</font>
         <tooltip textres="char_label_weapon_tooltip" />
@@ -431,7 +431,7 @@
       <label name="attack_header_label">
         <anchored height="18" width="25" >
           <top  parent="weapontitle"  />
-          <left parent="weapons_header_label" anchor="right" relation="relative" offset="13" />
+          <left parent="weapons_header_label" anchor="right" relation="relative" offset="5" />
         </anchored>
         <tooltip textres="char_label_attack_tooltip" />
         <static textres="char_label_attack" />
@@ -440,7 +440,7 @@
       <label name="damage_header_label">
         <anchored height="18" width="35" >
           <top  parent="weapontitle" />
-          <left parent="weapons_header_label" anchor="right" relation="relative" offset="65" />
+          <left parent="weapons_header_label" anchor="right" relation="relative" offset="55" />
         </anchored>
         <tooltip textres="char_label_damage_tooltip" />
         <static textres="char_label_damage" />
@@ -606,7 +606,7 @@
         <anchored height="18">
           <top offset="10" />
           <left parent="leftanchor" anchor="right" relation="relative" offset="10" />
-          <right parent="rightanchor" anchor="left" relation="relative" offset="-298" />
+          <right parent="rightanchor" anchor="left" relation="relative" offset="-258" />
         </anchored>
         <font>subwindowsmalltitle</font>
         <tooltip textres="char_label_weapon_tooltip" />
@@ -633,7 +633,7 @@
       <label name="damage_header_label">
         <anchored height="18" width="35" >
           <top offset="10" />
-          <left parent="weapons_header_label" anchor="right" relation="relative" offset="65" />
+          <left parent="weapons_header_label" anchor="right" relation="relative" offset="55" />
         </anchored>
         <tooltip textres="char_label_damage_tooltip" />
         <static textres="char_label_damage" />

@@ -8,7 +8,7 @@ local iscustom = true;
 function onInit()
   setRadialOptions();
     
-    --updateVisibility();
+  updateVisibility();
 end
 
 function onMenuSelection(selection, subselection)
@@ -51,6 +51,15 @@ function setRadialOptions()
   end
 end
 
+function updateVisibility()
+  local node = getDatabaseNode();
+  if (string.match(node.getPath(),"^npc") == nil 
+      and string.match(node.getPath(),"^charsheet") == nil) then
+    skill_additive.setVisible(true);
+  else
+    skill_additive.setVisible(false);
+  end
+end
 -- function updateVisibility()
     -- local bVisible = false;
 

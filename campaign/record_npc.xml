@@ -606,38 +606,28 @@
       <label_column name="diet_label">
         <static textres="npc_label_diet" />
       </label_column>
-      <string_columnh name="diet" >
-        <anchored width="120">
-          <right merge="delete" />
-        </anchored>
-      </string_columnh>
+      <string_columnh name="diet" />
 
-      <label_npc name="frequency_label">
+      <label_column name="frequency_label">
         <static textres="npc_label_frequency" />
-        <anchored to="diet" position="right" offset="10,0" />
-      </label_npc>
-      <string_column_npc_remainder name="frequency">
-              <anchored to="frequency_label" />
-      </string_column_npc_remainder>
+      </label_column>
+      <string_columnh name="frequency"/>
 
       <label_column name="activity_label">
         <static textres="npc_label_activity" />
       </label_column>
-      <string_columnh name="activity" >
-        <anchored width="120">
-          <right merge="delete" />
-        </anchored>
-      </string_columnh>
+      <string_columnh name="activity" />
 
-      <label_npc name="climate_label">
+      <label_column name="climate_label">
         <static textres="npc_label_climate" />
-        <anchored to="activity" position="right" offset="10,0" />
-      </label_npc>
-      <string_column_npc_remainder name="climate">
-              <anchored to="climate_label" />
-      </string_column_npc_remainder>
+      </label_column>
+      <string_columnh name="climate"/>
 
-      
+     <label_column name="inlair_label">
+        <static textres="npc_label_inlair" />
+      </label_column>
+      <string_columnh name="inlair" />
+
       <label_column name="numberappearing_label">
         <static textres="npc_label_numberappearing" />
       </label_column>

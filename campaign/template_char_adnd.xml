@@ -337,22 +337,86 @@
     </stringcontrol>
   </template>
     
-  <template name="number_actions_init">
+  <template name="actions_attack">
     <basicnumber>
+      <rollable />
+      <displaysign />
+      <default>0</default>     
+      <readonly />
+      <cursor hover="hand" /> 
+      <!-- <showemptywidget /> -->
+      <!-- <font>sheetlabelmini</font> -->
+      <!-- <font>arial-regular-8</font> -->
+      <script>
+        function onHover(bOnControl)
+          if bOnControl then
+            setColor("ba2323");
+          else
+            setColor(nil);
+          end
+        end
+
+        function onDoubleClick(x,y)
+          return window.onAttackAction();
+        end      
+
+        function onDragStart(button, x, y, draginfo)
+          return window.onAttackAction(draginfo);
+        end
+      </script>
+      <tooltip textres="char_label_attack_tooltip" />
+      <anchored height="20" width="25" >
+        <top offset="4" />
+        <left parent="leftanchor" anchor="right" relation="relative" offset="10" />
+      </anchored>
+    </basicnumber>
+  </template>
+  
+  <template name="number_actions_init">
+    <label>
+      <anchored height="20" width="25" >
+        <top offset="3" />
+        <left parent="leftanchor" anchor="right" relation="relative" offset="10" />
+      </anchored>
       <!-- <frame name="fieldlight" offset="7,5,7,5" /> -->
       <showemptywidget />
-      <font>arial-regular-7</font>
+      <cursor hover="hand" />
+      <font>arial-regular-9</font>
       <hideonvalue>0</hideonvalue>
       <rollable />
       <displaysign />
       <script>
+        function onInit()
+          local node = window.getDatabaseNode();
+          DB.addHandler(DB.getPath(node, "speedfactor"), "onUpdate", setLabelValue);
+          setLabelValue();
+        end
+        function onClose()
+          local node = window.getDatabaseNode();
+          DB.removeHandler(DB.getPath(node, "speedfactor"), "onUpdate", setLabelValue);
+        end
+        function setLabelValue()
+          local nodeWeapon = window.getDatabaseNode();
+          local nSpeedFactor = DB.getValue(nodeWeapon,"speedfactor",0);
+          setValue("[" .. nSpeedFactor .. "]");
+        end
+        function onHover(oncontrol)
+          if oncontrol then
+            setColor("31b22c");
+          else
+            setColor(nil);
+          end
+        end
         function action(draginfo)
-          local nValue = getValue();
+          local nodeWeapon = window.getDatabaseNode();
+          local nodeChar = nodeWeapon.getChild("...");
+
+          local sName = DB.getValue(nodeWeapon,"name","");
+          local nSpeedFactor = DB.getValue(nodeWeapon,"speedfactor",0);
           local rItem = {};
-          rItem.sName = window.name.getValue();
-          rItem.nInit = nValue;
-          local nodeWeapon = getDatabaseNode();
-          local nodeChar = nodeWeapon.getChild("....");
+          rItem.sName = sName;
+          rItem.nInit = nSpeedFactor;
+
           local rActor = ActorManager.getActor("pc", nodeChar);
           local _, sRecord = DB.getValue(nodeWeapon.getChild(".."), "shortcut", "", "");
           rActor.itemPath = sRecord;
@@ -370,12 +434,9 @@
         end
       </script>
       <tooltip textres="power_label_initiative_tooltip" />
-      <anchored height="15" width="20" >
-        <top offset="8" />
-        <left parent="leftanchor" anchor="right" relation="relative" offset="10" />
-      </anchored>
-    </basicnumber>
+    </label>
   </template>
+  
   <template name="number_power_init">
     <basicnumber>
       <!-- <frame name="fieldlight" offset="7,5,7,5" /> -->
@@ -514,21 +575,21 @@
             </basicnumber>
     </template>
     <template name="ability_details_total">
-            <basicnumber>
-                <anchored width="30" height="20">
-                    <top  />
-                    <left anchor="right" relation="relative" offset="10" />
-                </anchored>
-                <frame name="fielddark" offset="7,5,7,5" />
-                <stateframe>
-                    <hover name="rowshade" offset="7,5,7,5" />
-                </stateframe>
-                <cursor hover="hand" />
-                <readonly />
-                <font>arial-bold-8</font>
-                <readonly />
-                <hideonvalue>0</hideonvalue>
-            </basicnumber>
+      <basicnumber>
+        <anchored width="30" height="20">
+          <top  />
+          <left anchor="right" relation="relative" offset="10" />
+        </anchored>
+        <frame name="fielddark" offset="7,5,7,5" />
+        <stateframe>
+          <hover name="rowshade" offset="7,5,7,5" />
+        </stateframe>
+        <cursor hover="hand" />
+        <readonly />
+        <font>arial-bold-8</font>
+        <readonly />
+        <hideonvalue>0</hideonvalue>
+      </basicnumber>
     </template>
     <template name="ability_details_percent_total" >
             <basicnumber>

@@ -180,7 +180,7 @@ function onDamageChanged(p1, p2)
       if sType ~= "" then
         sDamage = sDamage .. " " .. sType;
       end
-            DB.setValue(v, "damageasstring","string",sDamage);
+        DB.setValue(v, "damageasstring","string",sDamage);
     end
   end
 end
@@ -194,12 +194,13 @@ function getToDamageProfs(nodeWeapon)
     return nMod;
 end
 
+-- disabled for now, not using shadow, using color highlight -- celestian
 function highlightAttack(bOnControl)
-  if bOnControl then
-    attackshade.setFrame("rowshade");
-  else
-    attackshade.setFrame(nil);
-  end
+  -- if bOnControl then
+    -- attackshade.setFrame("rowshade");
+  -- else
+    -- attackshade.setFrame(nil);
+  -- end
 end
       
 function onAttackAction(draginfo)
