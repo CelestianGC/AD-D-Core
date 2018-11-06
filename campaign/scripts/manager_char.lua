@@ -1319,6 +1319,12 @@ function addClassFeatureDB(nodeChar, sClass, sRecord, nodeClass)
   if not nodeSource then
     return;
   end
+
+-- Debug.console("manager_char","addClassFeatureDB","nodeChar",nodeChar);  
+-- Debug.console("manager_char","addClassFeatureDB","sClass",sClass);  
+-- Debug.console("manager_char","addClassFeatureDB","sRecord",sRecord);  
+-- Debug.console("manager_char","addClassFeatureDB","nodeClass",nodeClass);  
+-- Debug.console("manager_char","addClassFeatureDB","nodeSource",nodeSource);  
   
   -- Get the list we are going to add to
   local nodeList = nodeChar.createChild("featurelist");
@@ -1335,11 +1341,7 @@ function addClassFeatureDB(nodeChar, sClass, sRecord, nodeClass)
   local sFeatureName = sOriginalName;
   for _,v in pairs(nodeList.getChildren()) do
     if DB.getValue(v, "name", ""):lower() == sOriginalNameLower then
-      if sOriginalNameLower == FEATURE_SPELLCASTING or sOriginalNameLower == FEATURE_PACT_MAGIC then
-        sFeatureName = sFeatureName .. " (" .. sClassName .. ")";
-      else
-        return false;
-      end
+      return false;
     end
   end
   
@@ -1353,86 +1355,28 @@ function addClassFeatureDB(nodeChar, sClass, sRecord, nodeClass)
   DB.setValue(vNew, "source", "string", DB.getValue(nodeSource, "...name", ""));
   DB.setValue(vNew, "locked", "number", 1);
 
-  -- Special handling
-  if sOriginalNameLower == FEATURE_SPELLCASTING then
-    -- Add spell casting ability
-    local sSpellcasting = DB.getText(vNew, "text", "");
-    local sAbility = sSpellcasting:match("(%a+) is your spellcasting ability");
-    if sAbility then
-      local sSpellsLabel = Interface.getString("power_label_groupspells");
-      local sLowerSpellsLabel = sSpellsLabel:lower();
-      
-      local bFoundSpellcasting = false;
-      for _,vGroup in pairs (DB.getChildren(nodeChar, "powergroup")) do
-        if DB.getValue(vGroup, "name", ""):lower() == sLowerSpellsLabel then
-          bFoundSpellcasting = true;
-          break;
-        end
-      end
-      
-      local sNewGroupName = sSpellsLabel;
-      if bFoundSpellcasting then
-        sNewGroupName = sNewGroupName .. " (" .. sClassName .. ")";
-      end
-      
-      local nodePowerGroups = DB.createChild(nodeChar, "powergroup");
-      local nodeNewGroup = nodePowerGroups.createChild();
-      DB.setValue(nodeNewGroup, "castertype", "string", "memorization");
-      DB.setValue(nodeNewGroup, "stat", "string", sAbility:lower());
-      DB.setValue(nodeNewGroup, "name", "string", sNewGroupName);
-      
-      if sSpellcasting:match("Preparing and Casting Spells") then
-        local rActor = ActorManager.getActor("", nodeChar);
-        DB.setValue(nodeNewGroup, "prepared", "number", math.min(1 + ActorManager2.getAbilityBonus(rActor, sAbility:lower())));
-      end
-    end
-    
-    -- Add spell slot calculation info
-    if nodeClass and nFeatureLevel > 0 then
-      DB.setValue(nodeClass, "casterlevelinvmult", "number", nFeatureLevel);
-    end
-
-  elseif sOriginalNameLower == FEATURE_PACT_MAGIC then
-    -- Add spell casting ability
-    local sAbility = DB.getText(vNew, "text", ""):match("(%a+) is your spellcasting ability");
-    if sAbility then
-      local sSpellsLabel = Interface.getString("power_label_groupspells");
-      local sLowerSpellsLabel = sSpellsLabel:lower();
-      
-      local bFoundSpellcasting = false;
-      for _,vGroup in pairs (DB.getChildren(nodeChar, "powergroup")) do
-        if DB.getValue(vGroup, "name", ""):lower() == sLowerSpellsLabel then
-          bFoundSpellcasting = true;
-          break;
-        end
-      end
-      
-      local sNewGroupName = sSpellsLabel;
-      if bFoundSpellcasting then
-        sNewGroupName = sNewGroupName .. " (" .. sClassName .. ")";
-      end
-      
-      local nodePowerGroups = DB.createChild(nodeChar, "powergroup");
-      local nodeNewGroup = nodePowerGroups.createChild();
-      DB.setValue(nodeNewGroup, "castertype", "string", "memorization");
-      DB.setValue(nodeNewGroup, "stat", "string", sAbility:lower());
-      DB.setValue(nodeNewGroup, "name", "string", sNewGroupName);
-
-    end
-    
-    -- Add spell slot calculation info
-    DB.setValue(nodeClass, "casterpactmagic", "number", 1);
-    if nodeClass and nFeatureLevel > 0 then
-      DB.setValue(nodeClass, "casterlevelinvmult", "number", nFeatureLevel);
-    end
+--Debug.console("manager_char","addClassFeatureDB","sOriginalNameLower",sOriginalNameLower);      
   
---  elseif sOriginalNameLower == FEATURE_DRACONIC_RESILIENCE then
---    applyDraconicResilience(nodeChar, true);
-  elseif sOriginalNameLower == FEATURE_UNARMORED_DEFENSE then
-    applyUnarmoredDefense(nodeChar, nodeClass);
---  else
---    local sText = DB.getText(vNew, "text", "");
---    checkSkillProficiencies(nodeChar, sText);
+  -- Special handling
+  -- parse out choices of profs
+  if sOriginalNameLower:match("weapon specialization") then
+  -- there is no reason to function for single entry, those can be added
+  -- in skills tab. Only need to know if they get a "choose" type list
+    local sText = DB.getText(nodeSource, "text");
+--Debug.console("manager_char","addClassFeatureDB","sText",sText);      
+    if (sText:match("Choose ")) then
+      local sChoices, sWeapons = sText:match("Choose (%d+) from ([^$]+)");
+      local numChoices = tonumber(sChoices) or 0;
+--Debug.console("manager_char","addClassFeatureDB","numChoices",numChoices);      
+--Debug.console("manager_char","addClassFeatureDB","sWeapons",sWeapons);      
+      sWeapons = sWeapons:gsub("or ",","); -- replace or's with commas
+      local aWeapons = StringManager.split(sWeapons, ",", true);
+--Debug.console("manager_char","addClassFeatureDB","aWeapons",aWeapons);      
+--Debug.console("manager_char","addClassFeatureDB","nodeChar",nodeChar);      
+      pickWeaponProfs(nodeChar,aWeapons,numChoices);
+    else
+--Debug.console("manager_char","addClassFeatureDB","NOT FOUND",sText);          
+    end
   end
   
   -- Announce
@@ -1442,6 +1386,50 @@ function addClassFeatureDB(nodeChar, sClass, sRecord, nodeClass)
   
   return true;
 end
+
+-- Give the option to select a weapon proficiency
+function pickWeaponProfs(nodeChar, aWeapons, nPicks, nProf)
+  -- Display dialog to choose skill selection
+  local rWeaponAdd = { nodeChar = nodeChar, nProf = nProf };
+--Debug.console("manager_char","pickWeaponProfs","rWeaponAdd",rWeaponAdd);  
+  local wSelect = Interface.openWindow("select_dialog", "");
+  local sTitle = Interface.getString("char_build_title_selectskills");
+  local sMessage = string.format(Interface.getString("char_build_message_selectskills"), nPicks);
+  wSelect.requestSelection (sTitle, sMessage, aWeapons, CharManager.onWeaponSpecializationSelect, rWeaponAdd, nPicks);
+end
+
+-- Runtime Notice: s'manager_char' | s'onWeaponSpecializationSelect' | s'aSelection' | { #1 = s'Short Sword' }
+-- Runtime Notice: s'manager_char' | s'onWeaponSpecializationSelect' | s'nodeChar' | { s'nodeChar' = databasenode = { charsheet.id-00002 } }
+-- process a weapon selection
+function onWeaponSpecializationSelect(aSelection, rWeaponAdd)
+  local nodeChar = rWeaponAdd.nodeChar;
+--Debug.console("manager_char","onWeaponSpecializationSelect","aSelection",aSelection);
+--Debug.console("manager_char","onWeaponSpecializationSelect","nodeChar",nodeChar);
+  local nodeList = nodeChar.createChild("proficiencylist");
+  for _,sProfName in ipairs(aSelection) do
+--Debug.console("manager_char","onWeaponSpecializationSelect","sProfName",sProfName);  
+    -- for each selection add a node.
+  -- I'd much rather hand this add off to addWeaponProficiencies() but that is not possible
+  -- with how I do it right now --celestian
+    local nodeEntry = nodeList.createChild();
+    DB.setValue(nodeEntry,"name","string",sProfName);
+    DB.setValue(nodeEntry,"text","string","");
+    -- default specialization is +1 hit, +2 damage
+    local nHit = 1;
+    local nDMG = 2;
+    local sNameLower = sProfName:lower();
+    -- -- if bow tweak damage?
+    -- if sNameLower:match("bow") then
+    -- end
+    DB.setValue(nodeEntry,"hitadj","number",nHit);
+    DB.setValue(nodeEntry,"dmgadj","number",nDMG);
+    -- Announce
+    local sFormat = Interface.getString("char_abilities_message_profadd");
+    local sMsg = string.format(sFormat, DB.getValue(nodeEntry, "name", ""), DB.getValue(nodeChar, "name", ""));
+    ChatManager.SystemMessage(sMsg);
+  end
+end
+
 
 function addTraitDB(nodeChar, sClass, sRecord)
   local nodeSource = resolveRefNode(sRecord);
