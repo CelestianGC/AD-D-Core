@@ -170,6 +170,30 @@
     <bitmap file="graphics/frames/fielddark.png" />
     <offset>12,12,12,12</offset>
   </framedef>
+  <framedef name="field-blue">
+    <bitmap file="graphics/frames/field-blue.png" />
+    <offset>12,12,12,12</offset>
+  </framedef>
+  <framedef name="field-cyan">
+    <bitmap file="graphics/frames/field-cyan.png" />
+    <offset>12,12,12,12</offset>
+  </framedef>
+  <framedef name="field-green">
+    <bitmap file="graphics/frames/field-green.png" />
+    <offset>12,12,12,12</offset>
+  </framedef>
+  <framedef name="field-red">
+    <bitmap file="graphics/frames/field-red.png" />
+    <offset>12,12,12,12</offset>
+  </framedef>
+  <framedef name="field-yellow">
+    <bitmap file="graphics/frames/field-yellow.png" />
+    <offset>12,12,12,12</offset>
+  </framedef>
+  <framedef name="field-initiative">
+    <bitmap file="graphics/frames/field-initiative.png" />
+    <offset>12,12,12,12</offset>
+  </framedef>
   <framedef name="fielddice">
     <bitmap file="graphics/frames/fielddice.png" />
     <topleft rect="0,0,12,12" />

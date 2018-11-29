@@ -659,7 +659,7 @@ function applyAttack(rSource, rTarget, bSecret, sAttackType, sDesc, nTotal, sRes
   msgLong.text = msgLong.text .. sAttackTypeFull;
   -- add in weapon used for attack for sound trigger search
   if (sAttackLable and sAttackLable ~= "") then
-    if (bOptSHRR or bOptREVL) then
+    if (bOptSHRR) then
       msgShort.text = msgShort.text .. " " .. sAttackLable .. " ";
     end
     msgLong.text = msgLong.text .. " " .. sAttackLable .. " ";
