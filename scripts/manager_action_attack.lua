@@ -474,6 +474,8 @@ end
 
 function onAttack(rSource, rTarget, rRoll)
   local bOptAscendingAC = (OptionsManager.getOption("HouseRule_ASCENDING_AC"):match("on") ~= nil);
+  local bOptSHRR = (OptionsManager.getOption("SHRR") ~= "off");
+  local bOptREVL = (OptionsManager.getOption("REVL") == "on");
   ActionsManager2.decodeAdvantage(rRoll);
   
 
@@ -519,9 +521,11 @@ function onAttack(rSource, rTarget, rRoll)
           nTargetAC = nDefenseVal;
         end
         if (bPsionic) then
-          rMessage.text = rMessage.text .. "[Hit-MAC: " .. nACHit .. " vs. ".. nTargetAC .." ]" .. table.concat(rAction.aMessages, " ");
+          --rMessage.text = rMessage.text .. "[Hit-MAC: " .. nACHit .. " vs. ".. nTargetAC .." ]" .. table.concat(rAction.aMessages, " ");
+          rMessage.text = rMessage.text .. table.concat(rAction.aMessages, " ");
         else
-          rMessage.text = rMessage.text .. "[Hit-AC: " .. nACHit .. " vs. ".. nTargetAC .." ]" .. table.concat(rAction.aMessages, " ");
+          --rMessage.text = rMessage.text .. "[Hit-AC: " .. nACHit .. " vs. ".. nTargetAC .." ]" .. table.concat(rAction.aMessages, " ");
+          rMessage.text = rMessage.text .. table.concat(rAction.aMessages, " ");
         end
     end
   elseif nDefenseVal and bPsionic and not rRoll.Psionic_DisciplineType:match("attack") then -- no source but nDefenseVal and not a psionic attack (it's a power)
@@ -530,13 +534,15 @@ function onAttack(rSource, rTarget, rRoll)
       if bOptAscendingAC then
         nTargetAC = nDefenseVal;
       end
-    rMessage.text = rMessage.text .. "[Hit-MAC: " .. nACHit .. " vs. ".. nTargetAC .." ]" .. table.concat(rAction.aMessages, " ");
+    --rMessage.text = rMessage.text .. "[Hit-MAC: " .. nACHit .. " vs. ".. nTargetAC .." ]" .. table.concat(rAction.aMessages, " ");
+    rMessage.text = rMessage.text .. table.concat(rAction.aMessages, " ");
   end
   
   if (bPsionic) then
     bCanCrit = false;
     table.insert(rAction.aMessages, string.format("[MAC: %d ]" , nACHit) );
   else
+    --"[Hit-AC: " .. nACHit .. " vs. ".. nTargetAC .." ]"
     table.insert(rAction.aMessages, string.format("[AC: %d ]" , nACHit) );
   end
     
@@ -653,7 +659,9 @@ function applyAttack(rSource, rTarget, bSecret, sAttackType, sDesc, nTotal, sRes
   msgLong.text = msgLong.text .. sAttackTypeFull;
   -- add in weapon used for attack for sound trigger search
   if (sAttackLable and sAttackLable ~= "") then
-    msgShort.text = msgShort.text .. " " .. sAttackLable .. " ";
+    if (bOptSHRR or bOptREVL) then
+      msgShort.text = msgShort.text .. " " .. sAttackLable .. " ";
+    end
     msgLong.text = msgLong.text .. " " .. sAttackLable .. " ";
   end
 
@@ -664,6 +672,9 @@ function applyAttack(rSource, rTarget, bSecret, sAttackType, sDesc, nTotal, sRes
   
   if sResults ~= "" then
     msgLong.text = msgLong.text .. " " .. sResults;
+    if (bOptSHRR or bOptREVL) then
+      msgShort.text = msgShort.text .. " " .. sResults;
+    end
   end
   
   local bPsionicPower = false;

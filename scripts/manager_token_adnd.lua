@@ -8,8 +8,8 @@ function onInit()
   -- or w/o alt and load sheet for token
   Token.onDoubleClick = onDoubleClickADND;
     
-  DB.addHandler("options.DM_SHOW_NPC_EFFECTS", "onUpdate", TokenManager.onOptionChanged);
-  DB.addHandler("options.DM_SHOW_NPC_HEALTHBAR", "onUpdate", TokenManager.onOptionChanged);
+  -- DB.addHandler("options.DM_SHOW_NPC_EFFECTS", "onUpdate", TokenManager.onOptionChanged);
+  -- DB.addHandler("options.DM_SHOW_NPC_HEALTHBAR", "onUpdate", TokenManager.onOptionChanged);
 end
 
 function onDoubleClickADND(tokenMap, vImage)

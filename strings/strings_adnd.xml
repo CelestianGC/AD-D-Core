@@ -306,7 +306,7 @@
   <string name="power_label_memorize_add_tooltip">Memorize spell slot.</string>
   
   <string name="power_label_initiative">Initiative</string>
-  <string name="power_label_initiative_tooltip">Roll (or change) initiative for this action.</string>
+  <string name="power_label_initiative_tooltip">Roll initiative for this action.</string>
   <string name="power_label_hidespell">Hide</string>
   <string name="power_label_hidespell_tooltip">Hide spell from combat listing since it is no longer memorized.</string>
   <string name="power_label_cast_tooltip">Cast this spell or use power.</string>
@@ -672,8 +672,8 @@
   <string name="effect_label_durunitmin">TRN</string>
     
     <!-- Strings used in the campaign settings -->
-  <string name="option_label_DM_SHOW_NPC_EFFECTS">Token: DM:Show NPC effects</string>
-  <string name="option_label_DM_SHOW_NPC_HEALTHBAR">Token: DM:Show NPC health</string>
+  <string name="option_label_DM_SHOW_NPC_EFFECTS">Token: DM:Show N/PC effects</string>
+  <string name="option_label_DM_SHOW_NPC_HEALTHBAR">Token: DM:Show N/PC health</string>
   <string name="option_label_TNPCE">Token: PC:Show Enemy effects</string>
   <string name="option_label_TNPCH">Token: PC:Show Enemy health</string>
   <string name="option_label_TPCE">Token: PC:Show Ally effects</string>

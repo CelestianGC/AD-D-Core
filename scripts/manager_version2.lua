@@ -466,7 +466,7 @@ function updateNPCs()
         -- -- set default saves for HDice.
 -- --Debug.console("manager_version2.lua","updateNPCs","nodeNPC",nodeNPC);
         -- if (DB.getValue(nodeNPC, "saves.poison.score",0) == 0) then
-            -- CombatManager2.updateNPCSaves(nodeNPC, nodeNPC, true);
+            -- CombatManagerADND.updateNPCSaves(nodeNPC, nodeNPC, true);
         -- end
         
         -- if DB.getChildCount(nodeNPC, "abilities") < 6 then
@@ -553,7 +553,7 @@ function fixNPCSaves(nodeNPC)
     -- set default saves for HDice.
 --Debug.console("manager_version2.lua","updateNPCs","nodeNPC",nodeNPC);
     if (DB.getValue(nodeNPC, "saves.poison.score",0) == 0) then
-        CombatManager2.updateNPCSaves(nodeNPC, nodeNPC, true);
+        CombatManagerADND.updateNPCSaves(nodeNPC, nodeNPC, true);
     end
 end
 
@@ -563,13 +563,13 @@ function updateNPCs21()
   for _,nodeNPC in pairs(DB.getChildren("combattracker.list")) do
         local sClass, sRecord = DB.getValue(nodeNPC, "link", "", "");
         if (sClass == "npc") then
-          CombatManager2.updateNPCLevels(nodeNPC, true);
+          CombatManagerADND.updateNPCLevels(nodeNPC, true);
         end
   end
     -- fix all npc records
   for _,nodeNPC in pairs(DB.getChildren("npc")) do
   --Debug.console("manager_version2.lua","updateNPCs19","nodeNPC",nodeNPC);
-    CombatManager2.updateNPCLevels(nodeNPC, true);
+    CombatManagerADND.updateNPCLevels(nodeNPC, true);
   end
 end
 

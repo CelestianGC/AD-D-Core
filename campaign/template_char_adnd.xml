@@ -350,7 +350,7 @@
       <script>
         function onHover(bOnControl)
           if bOnControl then
-            setColor("ba2323");
+            setColor("#FFFFFF");
           else
             setColor(nil);
           end
@@ -364,6 +364,7 @@
           return window.onAttackAction(draginfo);
         end
       </script>
+      <frame name="field-red" offset="5,6,5,6" />
       <tooltip textres="char_label_attack_tooltip" />
       <anchored height="20" width="25" >
         <top offset="4" />
@@ -376,8 +377,14 @@
     <label>
       <anchored height="20" width="25" >
         <top offset="3" />
-        <left parent="leftanchor" anchor="right" relation="relative" offset="10" />
+        <left parent="leftanchor" anchor="right" relation="relative" offset="5" />
       </anchored>
+      <center />
+      <!-- <frame name="fielddark" offset="5,6,5,6" /> -->
+      <frame name="field-initiative" offset="5,6,5,6" />
+      <stateframe>
+        <hover name="rowshade" offset="5,6,5,6" />
+      </stateframe>
       <!-- <frame name="fieldlight" offset="7,5,7,5" /> -->
       <showemptywidget />
       <cursor hover="hand" />
@@ -398,11 +405,12 @@
         function setLabelValue()
           local nodeWeapon = window.getDatabaseNode();
           local nSpeedFactor = DB.getValue(nodeWeapon,"speedfactor",0);
-          setValue("[" .. nSpeedFactor .. "]");
+          setValue(nSpeedFactor);
+          onHover(nil);
         end
         function onHover(oncontrol)
           if oncontrol then
-            setColor("31b22c");
+            setColor("c44242");
           else
             setColor(nil);
           end

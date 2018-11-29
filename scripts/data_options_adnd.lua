@@ -13,6 +13,10 @@ function onInit()
     OptionsManager.addOptionValue("DDCL", "option_val_DDCL_adnd4", "desktopdecal_adnd4", true);
     OptionsManager.setOptionDefault("DDCL", "desktopdecal_adnd2");
   end
+
+  -- if this is updated, let the token manager know
+  DB.addHandler("options.DM_SHOW_NPC_EFFECTS", "onUpdate", TokenManager.onOptionChanged);
+  DB.addHandler("options.DM_SHOW_NPC_HEALTHBAR", "onUpdate", TokenManager.onOptionChanged);
 end
 
 -- return ruleset name
@@ -56,4 +60,5 @@ function registerOptions()
       { labels = "option_val_hr_crit_maxdmg|option_val_hr_crit_timestwo|option_val_hr_crit_none", values = "max|timestwo|none", baselabel = "option_val_hr_crit_doubledice", baseval = "doubledice", default = "doubledice" });
   OptionsManager.registerOption2("HouseRule_ASCENDING_AC", false, "option_header_houserule", "option_label_HR_ASENDING_AC", "option_entry_cycler", 
       { labels = "option_val_on", values = "on", baselabel = "option_val_off", baseval = "off", default = "off" });
+        
 end

@@ -28,7 +28,6 @@ function updateCTEntries()
   end
 end
 
--- various updates thanks to suggestions from Andraax
 function updateHealth(nodeField)
   local nodeCT = nodeField.getParent();
   local tokenCT = CombatManager.getTokenFromCT(nodeCT);

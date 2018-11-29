@@ -300,7 +300,7 @@
           table.insert(rList.aColumns, { sName = "weight", sType = "number", sHeading = "Weight", bCentered=true });
           rList.aFilters = {};
           table.insert(rList.aFilters, { sDBField = "type", vFilterValue = "Armor" });
-          table.insert(rList.aFilters, { sDBField = "isidentified", vFilterValue = 1 });
+          table.insert(rList.aFilters, { sCustom = "item_isidentified" });
           rList.aGroups = {};
           table.insert(rList.aGroups, { sDBField = "subtype" });
           rList.aGroupValueOrder = { "Light Armor", "Medium Armor", "Heavy Armor", "Shield" };
@@ -330,7 +330,7 @@
           table.insert(rList.aColumns, { sName = "properties", sType = "string", sHeading = "Prop.", nWidth=200, bCentered=true });
           rList.aFilters = {};
           table.insert(rList.aFilters, { sDBField = "type", vFilterValue = "Weapon" });
-          table.insert(rList.aFilters, { sDBField = "isidentified", vFilterValue = 1 });
+          table.insert(rList.aFilters, { sCustom = "item_isidentified" });
           rList.aGroups = {};
           table.insert(rList.aGroups, { sDBField = "subtype" });
           rList.aGroupValueOrder = { "Simple Melee Weapons", "Simple Ranged Weapons", "Martial Weapons", "Martial Melee Weapons", "Martial Ranged Weapons" };
@@ -360,7 +360,7 @@
           table.insert(rList.aColumns, { sName = "damage", sType = "string", sHeading = "Damage", nWidth=150, bCentered=true });
           table.insert(rList.aColumns, { sName = "properties", sType = "string", sHeading = "Prop.", nWidth=200, bCentered=true });
           rList.aFilters = {};
-          table.insert(rList.aFilters, { sDBField = "isidentified", vFilterValue = 1 });
+          table.insert(rList.aFilters, { sCustom = "item_isidentified" });
           rList.aGroups = {};
           table.insert(rList.aGroups, { sDBField = "type" });
           rList.aGroupValueOrder = { };
@@ -585,7 +585,7 @@
           rList.sTitle = Interface.getString("item_button_skill_type");
           rList.aColumns = {};
           table.insert(rList.aColumns, { sName = "name", sType = "string", sHeading = "Name", nWidth=200, nSortOrder=1 });
-          table.insert(rList.aColumns, { sName = "stat", sType = "string", sHeading = "Type/Stat", bCentered=true });
+          table.insert(rList.aColumns, { sName = "stat", sType = "string", sHeading = "Type/Stat", bCentered=true, nWidth=110 });
           table.insert(rList.aColumns, { sName = "base_check", sType = "number", sHeading = "Base/Check", bCentered=true, nWidth=80 });
           table.insert(rList.aColumns, { sName = "adj_mod", sType = "number", sHeading = "Modifier", bCentered=true, nWidth=80,  });
           rList.aFilters = {};

@@ -1370,6 +1370,7 @@ function addClassFeatureDB(nodeChar, sClass, sRecord, nodeClass)
 --Debug.console("manager_char","addClassFeatureDB","numChoices",numChoices);      
 --Debug.console("manager_char","addClassFeatureDB","sWeapons",sWeapons);      
       sWeapons = sWeapons:gsub("or ",","); -- replace or's with commas
+      sWeapons = sWeapons:gsub(".",""); -- replace . with nothing
       local aWeapons = StringManager.split(sWeapons, ",", true);
 --Debug.console("manager_char","addClassFeatureDB","aWeapons",aWeapons);      
 --Debug.console("manager_char","addClassFeatureDB","nodeChar",nodeChar);      
@@ -3517,7 +3518,17 @@ function updateHealthScore(nodeChar)
   end
 
   local nTotal = nBase + nConMod + nAdj + nTemp;
-  DB.setValue(nodeChar,"hp.total","number",nTotal);
+  local bNPC = (not ActorManager.isPC(nodeChar)); 
+--Debug.console("manager_char.lua","updateHealthScore","bNPC",bNPC);  
+--Debug.console("manager_char.lua","updateHealthScore","nodeChar",nodeChar);  
+
+  if (bNPC) then
+    -- npcs don't use this, need to not set it
+    --DB.setValue(nodeChar,"hptotal","number",nTotal);
+  else
+    DB.setValue(nodeChar,"hp.total","number",nTotal);
+  end
+
 end
 
 

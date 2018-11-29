@@ -1,0 +1,504 @@
+--
+-- AD&D Specific combat needs
+--
+--
+
+function onInit()
+  CombatManager.setCustomSort(sortfuncADnD);
+  CombatManager.setCustomAddNPC(addNPC);
+  CombatManager.setCustomAddPC(addPC);
+  
+  CombatManager.setCustomCombatReset(resetInit);
+  
+  CombatManager.setCustomRoundStart(onRoundStart);
+  
+  CombatManager.setCustomTurnStart(onTurnStart);
+
+  if User.isHost() then
+    DB.addHandler("combattracker.list.*.active", "onUpdate", updateInititiativeIndicator);
+    updateAllInititiativeIndicators();
+  end
+end
+
+function resetInit()
+  function resetCombatantInit(nodeCT)
+    DB.setValue(nodeCT, "initresult", "number", 0);
+    DB.setValue(nodeCT, "reaction", "number", 0);
+    
+    --set not rolled initiative portrait icon to active on new round
+    CharlistManagerADND.turnOffInitRolled(nodeCT);
+  end
+  CombatManager.callForEachCombatant(resetCombatantInit);
+end
+
+function onRoundStart(nCurrent)
+  if OptionsManager.isOption("HouseRule_InitEachRound", "on") then
+    CombatManager2.rollInit();
+  end
+  -- toggle portrait initiative icon
+  CharlistManagerADND.turnOffAllInitRolled();
+end
+
+function onTurnStart(nodeEntry)
+	if not nodeEntry then
+		return;
+	end
+	
+	-- Handle beginning of turn changes
+	DB.setValue(nodeEntry, "reaction", "number", 0);
+end
+
+-- get widget
+function getHasInitiativeWidget(nodeField)
+--Debug.console("manager_combat_adnd","getHasInitiativeWidget","nodeField",nodeField);     
+  local widgetInitIndicator = nil;
+  local nodeCT = nodeField;
+  local tokenCT = CombatManager.getTokenFromCT(nodeCT);
+  if (tokenCT) then
+    widgetInitIndicator = tokenCT.findWidget("initiativeindicator");
+    if not widgetInitIndicator then
+      widgetInitIndicator = createWidget(tokenCT,nodeCT);
+    end
+  end
+  return widgetInitIndicator;
+end
+-- create has initiative indicator widget if it doesn't exist.
+function createWidget(tokenCT,nodeCT)
+  local sInitiativeIconName = "token_has_initiative";
+  local nWidth, nHeight = tokenCT.getSize();
+  local nScale = tokenCT.getScale();
+  local sName = DB.getValue(nodeCT,"name","Unknown");
+  widgetInitIndicator = tokenCT.addBitmapWidget(sInitiativeIconName);
+  widgetInitIndicator.setBitmap(sInitiativeIconName);
+  widgetInitIndicator.setName("initiativeindicator");
+  widgetInitIndicator.setTooltipText(sName .. " has initiative.");
+  --widgetInitIndicator.setPosition("top", 0, 0);
+  widgetInitIndicator.setPosition("center", 0, 0);
+  --widgetInitIndicator.setSize(nWidth*2, nHeight*2);
+  return widgetInitIndicator;
+end
+
+-- show/hide widget
+function setInitiativeIndicator(widgetInitIndicator,bShowINIT)
+  if widgetInitIndicator then
+    widgetInitIndicator.setVisible(bShowINIT);
+  end
+end
+
+-- update has initiative first time start up
+function updateAllInititiativeIndicators()
+  for _,vChild in pairs(CombatManager.getCombatantNodes()) do
+    local bActive = (DB.getValue(vChild,"active",0) == 1);
+    setInitiativeIndicator(getHasInitiativeWidget(vChild),bActive);
+  end
+end
+-- update has initiative first time start up
+function updateInititiativeIndicator(nodeField)
+  local nodeCT = nodeField.getParent();
+  local bActive = (DB.getValue(nodeCT,"active",0) == 1);
+  setInitiativeIndicator(getHasInitiativeWidget(nodeCT),bActive);
+end
+
+--
+--
+-- AD&D Style ordering (low to high initiative)
+--
+function sortfuncADnD(node2, node1)
+  local bHost = User.isHost();
+  local sOptCTSI = OptionsManager.getOption("CTSI");
+  
+  local sFaction1 = DB.getValue(node1, "friendfoe", "");
+  local sFaction2 = DB.getValue(node2, "friendfoe", "");
+  
+  local bShowInit1 = bHost or ((sOptCTSI == "friend") and (sFaction1 == "friend")) or (sOptCTSI == "on");
+  local bShowInit2 = bHost or ((sOptCTSI == "friend") and (sFaction2 == "friend")) or (sOptCTSI == "on");
+  
+  if bShowInit1 ~= bShowInit2 then
+    if bShowInit1 then
+      return true;
+    elseif bShowInit2 then
+      return false;
+    end
+  else
+    if bShowInit1 then
+      local nValue1 = DB.getValue(node1, "initresult", 0);
+      local nValue2 = DB.getValue(node2, "initresult", 0);
+      if nValue1 ~= nValue2 then
+        return nValue1 > nValue2;
+      end
+      
+      nValue1 = DB.getValue(node1, "init", 0);
+      nValue2 = DB.getValue(node2, "init", 0);
+      if nValue1 ~= nValue2 then
+        return nValue1 > nValue2;
+      end
+    else
+      if sFaction1 ~= sFaction2 then
+        if sFaction1 == "friend" then
+          return true;
+        elseif sFaction2 == "friend" then
+          return false;
+        end
+      end
+    end
+  end
+  
+  local sValue1 = DB.getValue(node1, "name", "");
+  local sValue2 = DB.getValue(node2, "name", "");
+  if sValue1 ~= sValue2 then
+    return sValue1 < sValue2;
+  end
+
+  return node1.getNodeName() < node2.getNodeName();
+end
+
+---
+-- NPC functions
+---
+-- calculate npc level from HD and return it -celestian
+-- move to manager_action_save.lua?
+function getNPCLevelFromHitDice(nodeNPC) 
+    local nLevel = 1;
+    local sHitDice = DB.getValue(nodeNPC, "hitDice", "1");
+    if (sHitDice) then
+        -- Match #-#, #+# or just #
+        -- (\d+)([\-\+])?(\d+)?
+        -- Full match  0-4  `12+3`
+        -- Group 1.  0-2  `12`
+        -- Group 2.  2-3  `+`
+        -- Group 3.  3-4  `3`
+        local nAdjustment = 0;
+        local nHitDice = 0;
+        local match1, match2, match3 = sHitDice:match("(%d+)([%-+])(%d+)");
+        if (match1 and not match2) then -- single digit
+            nHitDice = tonumber(match1);
+        elseif (match1 and match2 and match3) then -- match x-x or x+x
+            nHitDice = tonumber(match1);
+            -- minus
+            if (match2 == "-") then
+                nAdjustment = tonumber(match2 .. match3);
+            else -- plus
+                nAdjustment = tonumber(match3);
+            end
+            if (nAdjustment ~= 0) then
+                local nFourCount = (nAdjustment/4);
+                if (nFourCount < 0) then
+                    nFourCount = math.ceil(nFourCount);
+                else
+                    nFourCount = math.floor(nFourCount);
+                end
+                nLevel = (nHitDice+nFourCount);
+            else -- adjust = 0
+                nLevel = nHitDice;
+            end -- nAdjustment
+        else -- didn't find X-X or X+x-x
+            match1 = sHitDice:match("(%d+)");
+            if (match1) then -- single digit
+                nHitDice = tonumber(match1);
+                nLevel = nHitDice;
+            else
+                -- pop up menu and ask them for a decent value? -celestian
+                ChatManager.SystemMessage("Unable to find a working hitDice [" .. sHitDice .. "] for " .. DB.getValue(nodeNPC, "name", "") .." to calculate saves. It should be # or #+# or #-#."); 
+                nAdjustment = 0;
+                nHitDice = 0;
+            end
+        end
+    end -- hitDice
+    
+    return nLevel;
+end
+
+-- Set NPC Saves -celestian
+-- move to manager_action_save.lua?
+function updateNPCSaves(nodeEntry, nodeNPC, bForceUpdate)
+--    Debug.console("manager_combat2.lua","updateNPCSaves","nodeNPC",nodeNPC);
+    if  (bForceUpdate) or (DB.getChildCount(nodeNPC, "saves") <= 0) then
+        for i=1,10,1 do
+            local sSave = DataCommon.saves[i];
+            local nSave = DB.getValue(nodeNPC, "saves." .. sSave .. ".score", -1);
+            if (nSave <= 0 or bForceUpdate) then
+                ActionSave.setNPCSave(nodeEntry, sSave, nodeNPC)
+            end
+        end
+    end
+end
+-- set Level, Arcane/Divine levels based on HD "level"
+function updateNPCLevels(nodeNPC, bForceUpdate) 
+    if  (bForceUpdate) then
+      local nLevel = CombatManagerADND.getNPCLevelFromHitDice(nodeNPC);
+      DB.setValue(nodeNPC, "arcane.totalLevel","number",nLevel);
+      DB.setValue(nodeNPC, "divine.totalLevel","number",nLevel);
+      DB.setValue(nodeNPC, "psionic.totalLevel","number",nLevel);
+      DB.setValue(nodeNPC, "level","number",nLevel);
+    end
+end
+
+-- remove everything in (*) because thats DM only "Orc (3HD)" and return "Orc"
+function stripHiddenNameText(sStr)
+  return StringManager.trim(sStr:gsub("%(.*%)", "")); 
+end
+-- get the hidden portion in "name" within ()'s and return it, "Orc (3HD)" and return "(3HD)"
+function getHiddenNameText(sStr)
+  return string.match(sStr, "%(.*%)");
+end
+
+function addNPC(sClass, nodeNPC, sName)
+--Debug.console("manager_combat2.lua","addNPC","sClass",sClass);
+  local sNPCFullName = DB.getValue(nodeNPC,"name","");
+  local sNPCName = stripHiddenNameText(sNPCFullName);
+  local sNPCNameHidden = getHiddenNameText(sNPCFullName);
+  
+  if sName == nil then 
+    sName = sNPCName; -- set name to non-hidden part
+  else
+    sNPCNameHidden = getHiddenNameText(sName);
+    sName = stripHiddenNameText(sName);
+  end
+  
+  local nodeEntry, nodeLastMatch = CombatManager.addNPCHelper(nodeNPC, sName);
+  
+  -- save DM only "hiddten text" if necessary to display in host CT
+  if sNPCNameHidden ~= nil and sNPCNameHidden ~= "" then
+    DB.setValue(nodeEntry,"name_hidden","string",sNPCNameHidden);
+  end
+
+  -- update NPC Saves for HD
+  updateNPCSaves(nodeEntry, nodeNPC);
+
+  -- Fill in spells
+  CampaignDataManager2.updateNPCSpells(nodeEntry);
+
+  -- Set initiative from Dexterity modifier
+--  local nDex = DB.getValue(nodeNPC, "abilities.dexterity.score", 10);
+--  local nDexMod = math.floor((nDex - 10) / 2);
+--  DB.setValue(nodeEntry, "init", "number", nDexMod);
+
+  -- base modifier for initiative
+  -- we set modifiers based on size per DMG for AD&D -celestian
+  DB.setValue(nodeEntry, "init", "number", 0);
+  
+  -- Determine size
+  local sSize = StringManager.trim(DB.getValue(nodeEntry, "size", ""):lower());
+  local sSizeNoLower = StringManager.trim(DB.getValue(nodeEntry, "size", ""));
+  if sSize == "tiny" or string.find(sSizeNoLower,"T") then
+        -- tokenscale doesn't work, guessing it's "reset" when
+        -- the token is actually dropped on the map
+        -- need to figure out a work around -celestian
+    DB.setValue(nodeEntry, "tokenscale", "number", 0.5);
+        DB.setValue(nodeEntry, "init", "number", 0);
+  elseif sSize == "small" or string.find(sSizeNoLower,"S") then
+        -- tokenscale doesn't work, guessing it's "reset" when
+        -- the token is actually dropped on the map
+    DB.setValue(nodeEntry, "tokenscale", "number", 0.75);
+        DB.setValue(nodeEntry, "init", "number", 3);
+  elseif sSize == "medium" or string.find(sSizeNoLower,"M") then
+        DB.setValue(nodeEntry, "init", "number", 3);
+  elseif sSize == "large" or string.find(sSizeNoLower,"L") then
+    DB.setValue(nodeEntry, "space", "number", 10);
+        DB.setValue(nodeEntry, "init", "number", 6);
+  elseif sSize == "huge" or string.find(sSizeNoLower,"H") then
+    DB.setValue(nodeEntry, "space", "number", 15);
+        DB.setValue(nodeEntry, "init", "number", 9);
+  elseif sSize == "gargantuan" or string.find(sSizeNoLower,"G") then
+    DB.setValue(nodeEntry, "space", "number", 20);
+        DB.setValue(nodeEntry, "init", "number", 12);
+  end
+    -- if the combat window initiative is set to something, use it instead --celestian
+    local nInitMod = DB.getValue(nodeNPC, "initiative.total", 0);
+    if nInitMod ~= 0 then
+        DB.setValue(nodeEntry, "init", "number", nInitMod);
+    end
+
+  local nHP = rollNPCHitPoints(nodeNPC);
+  DB.setValue(nodeEntry, "hptotal", "number", nHP);
+  
+  -- Track additional damage types and intrinsic effects
+  local aEffects = {};
+  
+  -- Vulnerabilities
+  local aVulnTypes = CombatManager2.parseResistances(DB.getValue(nodeEntry, "damagevulnerabilities", ""));
+  if #aVulnTypes > 0 then
+    for _,v in ipairs(aVulnTypes) do
+      if v ~= "" then
+        table.insert(aEffects, "VULN: " .. v);
+      end
+    end
+  end
+      
+  -- Damage Resistances
+  local aResistTypes = CombatManager2.parseResistances(DB.getValue(nodeEntry, "damageresistances", ""));
+  if #aResistTypes > 0 then
+    for _,v in ipairs(aResistTypes) do
+      if v ~= "" then
+        table.insert(aEffects, "RESIST: " .. v);
+      end
+    end
+  end
+  
+  -- Damage immunities
+  local aImmuneTypes = CombatManager2.parseResistances(DB.getValue(nodeEntry, "damageimmunities", ""));
+  if #aImmuneTypes > 0 then
+    for _,v in ipairs(aImmuneTypes) do
+      if v ~= "" then
+        table.insert(aEffects, "IMMUNE: " .. v);
+      end
+    end
+  end
+
+  -- Condition immunities
+  local aImmuneCondTypes = {};
+  local sCondImmune = DB.getValue(nodeEntry, "conditionimmunities", ""):lower();
+  for _,v in ipairs(StringManager.split(sCondImmune, ",;\r", true)) do
+    if StringManager.isWord(v, DataCommon.conditions) then
+      table.insert(aImmuneCondTypes, v);
+    end
+  end
+  if #aImmuneCondTypes > 0 then
+    table.insert(aEffects, "IMMUNE: " .. table.concat(aImmuneCondTypes, ", "));
+  end
+  
+  -- Decode traits and actions
+    -- if it has no actions... 
+    if DB.getChildCount(nodeEntry, "actions") == 0 then
+        -- add a single default entry that has at least a melee attack, ranged attack, simple damage and saves for each type. -celestian
+        --Debug.console("manager_combat2.lua","addNPC","!Actions",DB.getChildren(nodeEntry, "actions"));
+        local nodeDefaultActions = nodeEntry.createChild("actions");
+    if nodeDefaultActions then
+      local nodeDefaultAction = nodeDefaultActions.createChild();
+      if nodeDefaultAction then
+        DB.setValue(nodeDefaultAction, "name", "string", "Default:");
+        DB.setValue(nodeDefaultAction, "desc", "string", "Melee Weapon Attack: +0 to hit. Ranged Weapon Attack: +0 to hit. Hit: 1d6 slashing damage.\rVictims must make a saving throw versus spell. Victims must make a saving throw versus poison. Victims must make a saving throw versus rod.\rVictims must make a saving throw versus polymorph. Victims must make a saving throw versus breath.");
+      end
+    end
+    end
+
+  -- -- Add special effects
+  if #aEffects > 0 then
+    EffectManager.addEffect("", "", nodeEntry, { sName = table.concat(aEffects, "; "), nDuration = 0, nGMOnly = 1 }, false);
+  end
+
+    -- check to see if npc effects exists and if so apply --celestian
+    EffectManagerADND.updateCharEffects(nodeNPC,nodeEntry);
+    
+    -- now flip through inventory and pass each to updateEffects()
+    -- so that if they have a combat_effect it will be applied.
+    for _,nodeItem in pairs(DB.getChildren(nodeEntry, "inventorylist")) do
+        EffectManagerADND.updateItemEffects(nodeItem,true);
+    end
+    -- end
+    
+  -- Roll initiative and sort
+  local sOptINIT = OptionsManager.getOption("INIT");
+    if (nInitMod == 0) then
+        nInitMod = DB.getValue(nodeEntry, "init", 0);
+    end
+    local nInitiativeRoll = math.random(DataCommonADND.nDefaultInitiativeDice) + nInitMod;
+  if sOptINIT == "group" then
+    if nodeLastMatch then
+      local nLastInit = DB.getValue(nodeLastMatch, "initresult", 0);
+      DB.setValue(nodeEntry, "initresult", "number", nLastInit);
+    else
+      DB.setValue(nodeEntry, "initresult", "number", nInitiativeRoll);
+    end
+  elseif sOptINIT == "on" then
+    DB.setValue(nodeEntry, "initresult", "number", nInitiativeRoll);
+  end
+
+    -- set mode/display default to standard/actions
+    DB.setValue(nodeEntry,"powermode","string", "standard");
+    DB.setValue(nodeEntry,"powerdisplaymode","string","action");
+    
+    -- sanitize special defense/attack string
+    setSpecialDefenseAttack(nodeEntry);
+    
+    
+  return nodeEntry;
+end
+
+-- generate hitpoint value for NPC and return it
+function rollNPCHitPoints(nodeNPC)
+  -- Set current hit points
+  local sOptHRNH = OptionsManager.getOption("HRNH");
+  local nHP = DB.getValue(nodeNPC, "hp", 0);
+  if (nHP == 0) then -- if HP value not set, we roll'm
+    local sHD = StringManager.trim(DB.getValue(nodeNPC, "hd", ""));
+    if sOptHRNH == "max" and sHD ~= "" then
+      -- max hp
+      nHP = StringManager.evalDiceString(sHD, true, true);
+    elseif sOptHRNH == "random" and sHD ~= "" then
+      nHP = math.max(StringManager.evalDiceString(sHD, true), 1);
+      elseif sOptHRNH == "80plus" and sHD ~= "" then        
+          -- roll hp, if it's less than 80% of what max then set to 80% of max
+          -- i.e. if hp max is 100, 80% of that is 80. If the random is less than
+          -- that the value will be set to 80.
+          local nMaxHP = StringManager.evalDiceString(sHD, true, true);
+          local n80 = math.floor(nMaxHP * 0.8);
+          nHP = math.max(StringManager.evalDiceString(sHD, true), 1);
+          if (nHP < n80) then
+              nHP = n80;
+          end
+    end
+  end
+  return nHP
+end
+
+-- clean up and create special attack and defense strings.
+function setSpecialDefenseAttack(node)
+    local sSD = DB.getValue(node,"specialDefense",""):lower();
+    local sSA = DB.getValue(node,"specialAttacks",""):lower();
+
+    local sDefense = "";
+    local sAttacks = "";
+    if (not string.match(sSD,"nil") and not string.match(sSD,"see desc") and sSD ~= "") then
+        sDefense = DB.getValue(node,"specialDefense","");
+    end
+    if (not string.match(sSA,"nil") and not string.match(sSA,"see desc") and sSA ~= "") then
+        sAttacks = DB.getValue(node,"specialAttacks","");
+    end
+    
+    DB.setValue(node,"specialDefense","string",sDefense);
+    DB.setValue(node,"specialAttacks","string",sAttacks);
+end
+
+
+---
+-- PC functions
+---
+-- custom version of the one in CoreRPG to deal with adding new 
+-- pcs to the combat tracker to deal with item effects. --celestian
+function addPC(nodePC)
+  -- Parameter validation
+  if not nodePC then
+    return;
+  end
+
+  -- Create a new combat tracker window
+  local nodeEntry = DB.createChild("combattracker.list");
+  if not nodeEntry then
+    return;
+  end
+  
+  -- Set up the CT specific information
+  DB.setValue(nodeEntry, "link", "windowreference", "charsheet", nodePC.getNodeName());
+  DB.setValue(nodeEntry, "friendfoe", "string", "friend");
+
+  local sToken = DB.getValue(nodePC, "token", nil);
+  if not sToken or sToken == "" then
+    sToken = "portrait_" .. nodePC.getName() .. "_token"
+  end
+  DB.setValue(nodeEntry, "token", "token", sToken);
+    
+    -- now flip through inventory and pass each to updateEffects()
+    -- so that if they have a combat_effect it will be applied.
+    for _,nodeItem in pairs(DB.getChildren(nodePC, "inventorylist")) do
+        EffectManagerADND.updateItemEffects(nodeItem,true);
+    end
+    -- end
+
+    -- check to see if npc effects exists and if so apply --celestian
+    EffectManagerADND.updateCharEffects(nodePC,nodeEntry);
+
+    -- make sure active users get ownership of their CT nodes
+    -- otherwise effects applied by items/etc won't work.
+    -- AccessManagerADND.manageCTOwners(nodeEntry);
+end

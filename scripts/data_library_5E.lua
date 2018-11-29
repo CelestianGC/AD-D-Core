@@ -3,6 +3,11 @@
 -- attribution and copyright information.
 --
 
+-- get identified state for sCustom 
+function getItemIsIdentified(vRecord, vDefault)
+	return LibraryData.getIDState("item", vRecord, true);
+end
+
 function sortNPCCRValues(aFilterValues)
   local function fNPCSortValue(a)
     local v;
@@ -84,14 +89,27 @@ function isItemIdentifiable(vNode)
   return (getItemRecordDisplayClass(vNode) == "item");
 end
 
+-- remove ()'s and replace / with commas
+function sanitizevNodeText(sText)
+  sText = sText:gsub(" ","");
+  sText = sText:gsub("%(","");
+  sText = sText:gsub("%)","");
+  sText = sText:gsub("/",",");
+  sText = sText:gsub("\\",",");
+  return sText;
+end
 function getSpellSourceValue(vNode)
-  return StringManager.split(DB.getValue(vNode, "source", ""), ",", true);
+  local sText = sanitizevNodeText(DB.getValue(vNode, "source", ""));
+  
+  return StringManager.split(sText, ",", true);
 end
 function getSpellSphereValue(vNode)
-  return StringManager.split(DB.getValue(vNode, "sphere", ""), ",", true);
+  local sText = sanitizevNodeText(DB.getValue(vNode, "sphere", ""));
+  return StringManager.split(sText, ",", true);
 end
 function getSpellSchoolValue(vNode)
-  return StringManager.split(DB.getValue(vNode, "school", ""), ",", true);
+  local sText = sanitizevNodeText(DB.getValue(vNode, "school", ""));
+  return StringManager.split(sText, ",", true);
 end
 
 function getSkillTypeValue(vNode)
@@ -206,11 +224,11 @@ aRecords = {
     aDataMap = { "skill", "reference.skilldata" }, 
     aDisplayIcon = { "button_skills", "button_skills_down" },
     sRecordDisplayClass = "reference_skill", 
-        aGMListButtons = { "button_skills_type" };
+    aGMListButtons = { "button_skills_type" };
     aCustomFilters = {
       ["Type"] = { sField = "stat", fGetValue = getSkillTypeValue},
     },
-        aPlayerListButtons = { "button_skills_type_player" };
+    aPlayerListButtons = { "button_skills_type_player" };
   },
   ["spell"] = {
     bExport = true, 
@@ -278,81 +296,82 @@ aListViews = {
 			aGroupValueOrder = { },
 		},
 	},
-	["item"] = {
-		["armor"] = {
-			sTitleRes = "item_grouped_title_armor",
-			aColumns = {
-				{ sName = "name", sType = "string", sHeadingRes = "item_grouped_label_name", nWidth=150 },
-				{ sName = "cost", sType = "string", sHeadingRes = "item_grouped_label_cost", bCentered=true },
-				{ sName = "ac", sType = "number", sHeadingRes = "item_grouped_label_ac", sTooltipRes = "item_grouped_tooltip_ac", nWidth=40, bCentered=true, nSortOrder=1 },
-				--{ sName = "dexbonus", sType = "string", sHeadingRes = "item_grouped_label_dexbonus", sTooltipRes = "item_grouped_tooltip_dexbonus", nWidth=70, bCentered=true },
-				--{ sName = "strength", sType = "string", sHeadingRes = "item_grouped_label_strength", sTooltipRes = "item_grouped_tooltip_strength", bCentered=true },
-				--{ sName = "stealth", sType = "string", sHeadingRes = "item_grouped_label_stealth", sTooltipRes = "item_grouped_tooltip_stealth", nWidth=100, bCentered=true },
-				{ sName = "weight", sType = "number", sHeadingRes = "item_grouped_label_weight", sTooltipRes = "item_grouped_tooltip_weight", nWidth=30, bCentered=true }
-			},
-			aFilters = { 
-				{ sDBField = "type", vFilterValue = "Armor" }, 
-				{ sCustom = "item_isidentified" } 
-			},
-			aGroups = { { sDBField = "subtype" } },
-			aGroupValueOrder = { "Light Armor", "Medium Armor", "Heavy Armor", "Shield" },
-		},
-		["weapon"] = {
-			sTitleRes = "item_grouped_title_weapons",
-			aColumns = {
-				{ sName = "name", sType = "string", sHeadingRes = "item_grouped_label_name", nWidth=150 },
-				{ sName = "cost", sType = "string", sHeadingRes = "item_grouped_label_cost", bCentered=true },
-				--{ sName = "damage", sType = "string", sHeadingRes = "item_grouped_label_damage", nWidth=150, bCentered=true },
-				{ sName = "weight", sType = "number", sHeadingRes = "item_grouped_label_weight", sTooltipRes = "item_grouped_tooltip_weight", nWidth=30, bCentered=true },
-				{ sName = "properties", sType = "string", sHeadingRes = "item_grouped_label_properties", nWidth=300, bWrapped=true },
-			},
-			aFilters = { 
-				{ sDBField = "type", vFilterValue = "Weapon" }, 
-				{ sCustom = "item_isidentified" } 
-			},
-			aGroups = { { sDBField = "subtype" } },
-			aGroupValueOrder = { "Simple Melee Weapons", "Simple Ranged Weapons", "Martial Weapons", "Martial Melee Weapons", "Martial Ranged Weapons" },
-		},
-		["vehicledrawn"] = {
-			sTitleRes = "item_grouped_title_vehicledrawn",
-			aColumns = {
-				{ sName = "name", sType = "string", sHeadingRes = "item_grouped_label_name", nWidth=150 },
-				{ sName = "cost", sType = "string", sHeadingRes = "item_grouped_label_cost", nWidth=70, bCentered=true },
-				{ sName = "speed", sType = "string", sHeadingRes = "item_grouped_label_speed", nWidth=60, bCentered=true },
-				{ sName = "carryingcapacity", sType = "string", sHeadingRes = "item_grouped_label_carryingcapacity", sTooltipRes="item_grouped_tooltip_carryingcapacity", nWidth=70, bCentered=true },
-			},
-			aFilters = { { sDBField = "type", vFilterValue = "Mounts And Other Animals" } },
-			aGroups = { { sDBField = "subtype" } },
-			aGroupValueOrder = { },
-		},
-		["vehiclemount"] = {
-			sTitleRes = "item_grouped_title_vehiclemount",
-			aColumns = {
-				{ sName = "name", sType = "string", sHeadingRes = "item_grouped_label_name", nWidth=150 },
-				{ sName = "cost", sType = "string", sHeadingRes = "item_grouped_label_cost", nWidth=70, bCentered=true },
-				{ sName = "speed", sType = "string", sHeadingRes = "item_grouped_label_speed", nWidth=60, bCentered=true },
-				{ sName = "carryingcapacity", sType = "string", sHeadingRes = "item_grouped_label_carryingcapacity", sTooltipRes="item_grouped_tooltip_carryingcapacity", nWidth=70, bCentered=true },
-			},
-			aFilters = { { sDBField = "type", vFilterValue = "Tack, Harness, And Drawn Vehicles" } },
-			aGroups = { { sDBField = "subtype" } },
-			aGroupValueOrder = { },
-		},
-		["vehiclewater"] = {
-			sTitleRes = "item_grouped_title_vehiclewater",
-			aColumns = {
-				{ sName = "name", sType = "string", sHeadingRes = "item_grouped_label_name", nWidth=150 },
-				{ sName = "cost", sType = "string", sHeadingRes = "item_grouped_label_cost", nWidth=70, bCentered=true },
-				{ sName = "speed", sType = "string", sHeadingRes = "item_grouped_label_speed", nWidth=60, bCentered=true },
-				{ sName = "carryingcapacity", sType = "string", sHeadingRes = "item_grouped_label_carryingcapacity", sTooltipRes="item_grouped_tooltip_carryingcapacity", nWidth=70, bCentered=true },
-			},
-			aFilters = { { sDBField = "type", vFilterValue = "Waterborne Vehicles" } },
-			aGroups = { { sDBField = "subtype" } },
-			aGroupValueOrder = { },
-		},
-	},
+	-- ["item"] = {
+		-- ["armor"] = {
+			-- sTitleRes = "item_grouped_title_armor",
+			-- aColumns = {
+				-- { sName = "name", sType = "string", sHeadingRes = "item_grouped_label_name", nWidth=150 },
+				-- { sName = "cost", sType = "string", sHeadingRes = "item_grouped_label_cost", bCentered=true },
+				-- { sName = "ac", sType = "number", sHeadingRes = "item_grouped_label_ac", sTooltipRes = "item_grouped_tooltip_ac", nWidth=40, bCentered=true, nSortOrder=1 },
+				-- --{ sName = "dexbonus", sType = "string", sHeadingRes = "item_grouped_label_dexbonus", sTooltipRes = "item_grouped_tooltip_dexbonus", nWidth=70, bCentered=true },
+				-- --{ sName = "strength", sType = "string", sHeadingRes = "item_grouped_label_strength", sTooltipRes = "item_grouped_tooltip_strength", bCentered=true },
+				-- --{ sName = "stealth", sType = "string", sHeadingRes = "item_grouped_label_stealth", sTooltipRes = "item_grouped_tooltip_stealth", nWidth=100, bCentered=true },
+				-- { sName = "weight", sType = "number", sHeadingRes = "item_grouped_label_weight", sTooltipRes = "item_grouped_tooltip_weight", nWidth=30, bCentered=true }
+			-- },
+			-- aFilters = { 
+				-- { sDBField = "type", vFilterValue = "Armor" }, 
+				-- { sCustom = "item_isidentified" } 
+			-- },
+			-- aGroups = { { sDBField = "subtype" } },
+			-- aGroupValueOrder = { "Light Armor", "Medium Armor", "Heavy Armor", "Shield" },
+		-- },
+		-- ["weapon"] = {
+			-- sTitleRes = "item_grouped_title_weapons",
+			-- aColumns = {
+				-- { sName = "name", sType = "string", sHeadingRes = "item_grouped_label_name", nWidth=150 },
+				-- { sName = "cost", sType = "string", sHeadingRes = "item_grouped_label_cost", bCentered=true },
+				-- --{ sName = "damage", sType = "string", sHeadingRes = "item_grouped_label_damage", nWidth=150, bCentered=true },
+				-- { sName = "weight", sType = "number", sHeadingRes = "item_grouped_label_weight", sTooltipRes = "item_grouped_tooltip_weight", nWidth=30, bCentered=true },
+				-- { sName = "properties", sType = "string", sHeadingRes = "item_grouped_label_properties", nWidth=300, bWrapped=true },
+			-- },
+			-- aFilters = { 
+				-- { sDBField = "type", vFilterValue = "Weapon" }, 
+				-- { sCustom = "item_isidentified" } 
+			-- },
+			-- aGroups = { { sDBField = "subtype" } },
+			-- aGroupValueOrder = { "Simple Melee Weapons", "Simple Ranged Weapons", "Martial Weapons", "Martial Melee Weapons", "Martial Ranged Weapons" },
+		-- },
+		-- ["vehicledrawn"] = {
+			-- sTitleRes = "item_grouped_title_vehicledrawn",
+			-- aColumns = {
+				-- { sName = "name", sType = "string", sHeadingRes = "item_grouped_label_name", nWidth=150 },
+				-- { sName = "cost", sType = "string", sHeadingRes = "item_grouped_label_cost", nWidth=70, bCentered=true },
+				-- { sName = "speed", sType = "string", sHeadingRes = "item_grouped_label_speed", nWidth=60, bCentered=true },
+				-- { sName = "carryingcapacity", sType = "string", sHeadingRes = "item_grouped_label_carryingcapacity", sTooltipRes="item_grouped_tooltip_carryingcapacity", nWidth=70, bCentered=true },
+			-- },
+			-- aFilters = { { sDBField = "type", vFilterValue = "Mounts And Other Animals" } },
+			-- aGroups = { { sDBField = "subtype" } },
+			-- aGroupValueOrder = { },
+		-- },
+		-- ["vehiclemount"] = {
+			-- sTitleRes = "item_grouped_title_vehiclemount",
+			-- aColumns = {
+				-- { sName = "name", sType = "string", sHeadingRes = "item_grouped_label_name", nWidth=150 },
+				-- { sName = "cost", sType = "string", sHeadingRes = "item_grouped_label_cost", nWidth=70, bCentered=true },
+				-- { sName = "speed", sType = "string", sHeadingRes = "item_grouped_label_speed", nWidth=60, bCentered=true },
+				-- { sName = "carryingcapacity", sType = "string", sHeadingRes = "item_grouped_label_carryingcapacity", sTooltipRes="item_grouped_tooltip_carryingcapacity", nWidth=70, bCentered=true },
+			-- },
+			-- aFilters = { { sDBField = "type", vFilterValue = "Tack, Harness, And Drawn Vehicles" } },
+			-- aGroups = { { sDBField = "subtype" } },
+			-- aGroupValueOrder = { },
+		-- },
+		-- ["vehiclewater"] = {
+			-- sTitleRes = "item_grouped_title_vehiclewater",
+			-- aColumns = {
+				-- { sName = "name", sType = "string", sHeadingRes = "item_grouped_label_name", nWidth=150 },
+				-- { sName = "cost", sType = "string", sHeadingRes = "item_grouped_label_cost", nWidth=70, bCentered=true },
+				-- { sName = "speed", sType = "string", sHeadingRes = "item_grouped_label_speed", nWidth=60, bCentered=true },
+				-- { sName = "carryingcapacity", sType = "string", sHeadingRes = "item_grouped_label_carryingcapacity", sTooltipRes="item_grouped_tooltip_carryingcapacity", nWidth=70, bCentered=true },
+			-- },
+			-- aFilters = { { sDBField = "type", vFilterValue = "Waterborne Vehicles" } },
+			-- aGroups = { { sDBField = "subtype" } },
+			-- aGroupValueOrder = { },
+		-- },
+	-- },
 };
 
 function onInit()
+	LibraryData.setCustomFilterHandler("item_isidentified", getItemIsIdentified);
   for kDefSidebar,vDefSidebar in pairs(aDefaultSidebarState) do
     DesktopManager.setDefaultSidebarState(kDefSidebar, vDefSidebar);
   end

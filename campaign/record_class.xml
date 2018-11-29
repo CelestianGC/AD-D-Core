@@ -67,6 +67,7 @@
       <close_recordsheet />
     </sheetdata>
   </windowclass>
+  
   <windowclass name="ref_class_header">
     <margins control="0,0,0,2" />
     <script>

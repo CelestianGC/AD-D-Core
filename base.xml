@@ -7,7 +7,7 @@
 -->
 
 <root version="3.0" release="28" logo="logo.png">
-  <announcement text="AD&amp;D Core v2018.11.05 For Fantasy Grounds\r--by Celestian 2017-2018" font="emotefont" icon="rulesetlogo_ADnD" />
+  <announcement text="AD&amp;D Core v2018.11.29 For Fantasy Grounds\r--by Celestian 2017-2018" font="emotefont" icon="rulesetlogo_ADnD" />
 
   <!-- Attributes -->
   <description>
@@ -180,8 +180,10 @@
   <script name="ConvertManagerADND" file="scripts/manager_convert_adnd.lua" />
   <script name="ConnectionManagerADND" file="scripts/manager_connection_adnd.lua" />
   <script name="ChatManagerADND" file="scripts/manager_chat_adnd.lua" />
-  <script name="ManagerCharlistADND" file="scripts/manager_charlist_adnd.lua" />
+  <script name="CharlistManagerADND" file="scripts/manager_charlist_adnd.lua" />
+  <script name="CombatManagerADND" file="scripts/manager_combat_adnd.lua" />
   <script name="ManagerImportADND" file="scripts/manager_import_adnd.lua" />
+  <script name="ManagerActionsADND" file="scripts/manager_actions_adnd.lua" />
   <script name="TokenManagerDeathIndicator" file="scripts/manager_token_DeathIndicator.lua" />
   <script name="ManagerPsionics" file="scripts/manager_psionics_adnd.lua" />
   <script name="ActionDamagePSP" file="scripts/manager_action_damagepsp.lua" />

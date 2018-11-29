@@ -267,6 +267,10 @@ function updateItemEffect(nodeItemEffect, sName, nodeChar, sUser, bEquipped, nId
                 nDMOnly = 0;
             end
             
+            local bTokenVis = (DB.getValue(nodeChar,"tokenvis",1) == 1);
+            if not bTokenVis then
+              nDMOnly = 1; -- hide if token not visible
+            end
             rEffect.nDuration = nRollDuration;
             rEffect.sName = sName .. ";" .. sLabel;
             rEffect.sLabel = sLabel; 
@@ -295,42 +299,49 @@ end
 -- nodeCharEffect: node in effectlist on PC/NPC
 -- nodeEntry: node in combat tracker for PC/NPC
 function updateCharEffect(nodeCharEffect,nodeEntry)
-    local sUser = User.getUsername();
-    local sName = DB.getValue(nodeEntry, "name", "");
-    local sLabel = DB.getValue(nodeCharEffect, "effect", "");
-    local nRollDuration = 0;
-    local dDurationDice = DB.getValue(nodeCharEffect, "durdice");
-    local nModDice = DB.getValue(nodeCharEffect, "durmod", 0);
-    if (dDurationDice and dDurationDice ~= "") then
-        nRollDuration = StringManager.evalDice(dDurationDice, nModDice);
-    else
-        nRollDuration = nModDice;
-    end
+--Debug.console("manager_effect_adnd.lua","updateCharEffect","nodeCharEffect",nodeCharEffect);    
+--Debug.console("manager_effect_adnd.lua","updateCharEffect","nodeEntry",nodeEntry);    
+  local sUser = User.getUsername();
+  local sName = DB.getValue(nodeEntry, "name", "");
+  local sLabel = DB.getValue(nodeCharEffect, "effect", "");
+  local nRollDuration = 0;
+  local dDurationDice = DB.getValue(nodeCharEffect, "durdice");
+  local nModDice = DB.getValue(nodeCharEffect, "durmod", 0);
+  if (dDurationDice and dDurationDice ~= "") then
+      nRollDuration = StringManager.evalDice(dDurationDice, nModDice);
+  else
+      nRollDuration = nModDice;
+  end
 --Debug.console("manager_effect_adnd.lua","updateCharEffect","nRollDuration",nRollDuration);
-    local nDMOnly = 0;
-    local sVisibility = DB.getValue(nodeCharEffect, "visibility", "");
-    if sVisibility == "show" then
-        nDMOnly = 0;
-    elseif sVisibility == "hide" then
-        nDMOnly = 1;
-    end
+  local nDMOnly = 0;
+  local sVisibility = DB.getValue(nodeCharEffect, "visibility", "");
+  if sVisibility == "show" then
+      nDMOnly = 0;
+  elseif sVisibility == "hide" then
+      nDMOnly = 1;
+  end
+  local bisPC = (ActorManager.getType(nodeEntry) == "pc");
+  if (not bisPC) then
+    bDMOnly = 1; -- npcs effects always hidden from PCs when we first drag/drop into CT
+  end
+--Debug.console("manager_effect_adnd.lua","updateCharEffect","bisPC",bisPC);    
 --Debug.console("manager_effect_adnd.lua","updateCharEffect","sVisibility",sVisibility);
 
-    local rEffect = {};
-    rEffect.nDuration = nRollDuration;
-    --rEffect.sName = sName .. ";" .. sLabel;
-    rEffect.sName = sLabel;
-    rEffect.sLabel = sLabel; 
-    rEffect.sUnits = DB.getValue(nodeCharEffect, "durunit", "");
-    rEffect.nInit = 0;
-    --rEffect.sSource = nodeEntry.getPath();
-    rEffect.nGMOnly = nDMOnly;
-    rEffect.sApply = "";
-    --EffectManager.addEffect("", "", nodeEntry, rEffect, true);
-    
-    --notifyEffectAdd(nodeEntry,rEffect);
-    EffectManager.addEffect("", "", nodeEntry, rEffect, false);
-    sendEffectAddedMessage(nodeEntry, rEffect, sLabel, nDMOnly);
+  local rEffect = {};
+  rEffect.nDuration = nRollDuration;
+  --rEffect.sName = sName .. ";" .. sLabel;
+  rEffect.sName = sLabel;
+  rEffect.sLabel = sLabel; 
+  rEffect.sUnits = DB.getValue(nodeCharEffect, "durunit", "");
+  rEffect.nInit = 0;
+  --rEffect.sSource = nodeEntry.getPath();
+  rEffect.nGMOnly = nDMOnly;
+  rEffect.sApply = "";
+  --EffectManager.addEffect("", "", nodeEntry, rEffect, true);
+  
+  --notifyEffectAdd(nodeEntry,rEffect);
+  EffectManager.addEffect("", "", nodeEntry, rEffect, false);
+  sendEffectAddedMessage(nodeEntry, rEffect, sLabel, nDMOnly);
 end
 
 -- get the Connected Player's name that has this identity
@@ -1031,8 +1042,8 @@ end
 
 -- run these functions when initiative is ROLLED
 function updateForInitiativeRolled(nodeField)
-  if ManagerCharlistADND then
-    ManagerCharlistADND.onUpdate(nodeField);
+  if CharlistManagerADND then
+    CharlistManagerADND.onUpdate(nodeField);
   end
 end
 

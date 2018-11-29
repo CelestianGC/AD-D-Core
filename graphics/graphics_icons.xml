@@ -244,5 +244,10 @@
     <!-- charlist_ -->
    <icon name="init_rolled" file="graphics/icons/d10_dice_notdone_small.png" />
 
-
+  <!-- initiative indicator -->
+  <icon name="token_has_initiative" file="graphics/icons/has_initiative.png" />
+  
+  <!-- customized dm only dice roll -->
+  <icon name="gmdieicon" file="graphics/icons/gmdie_icon.png" />
+  
 </root>

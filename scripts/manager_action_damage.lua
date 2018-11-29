@@ -1494,7 +1494,7 @@ function applyDamage(rSource, rTarget, bSecret, sDamage, nTotal)
   end
   
   -- Output results
-  messageDamage(rSource, rTarget, bSecret, rDamageOutput.sTypeOutput, sDamage, rDamageOutput.sVal, table.concat(aNotifications, " "));
+  messageDamage(rSource, rTarget, bSecret, rDamageOutput.sTypeOutput, sDamage, rDamageOutput.sVal, table.concat(aNotifications, " "),nTotal);
 
   -- Remove target after applying damage
   if bRemoveTarget and rSource and rTarget then
@@ -1523,11 +1523,15 @@ function applyDamage(rSource, rTarget, bSecret, sDamage, nTotal)
   end
 end
 
-function messageDamage(rSource, rTarget, bSecret, sDamageType, sDamageDesc, sTotal, sExtraResult)
+function messageDamage(rSource, rTarget, bSecret, sDamageType, sDamageDesc, sTotal, sExtraResult,nOriginalTotal)
   if not (rTarget or sExtraResult ~= "") then
     return;
   end
   
+  local sOptSHRR = OptionsManager.getOption("SHRR");
+  local bOptREVL = (OptionsManager.getOption("REVL") == "on");
+  local bFriendly = (ActorManager.getFaction(rTarget) == "friend");
+
   local msgShort = {font = "msgfont"};
   local msgLong = {font = "msgfont"};
 
@@ -1542,7 +1546,12 @@ function messageDamage(rSource, rTarget, bSecret, sDamageType, sDamageDesc, sTot
     msgLong.icon = "roll_damage";
   end
 
-  msgShort.text = sDamageType .. " ->";
+  if (bFriendly and sOptSHRR == "pc") or (sOptSHRR == "on")  then 
+    msgShort.text = sDamageType .. " [" .. sTotal .. "] ->";
+  else
+    -- otherwise the damage listed is pre-absorb/resist/immune so they don't know
+    msgShort.text = sDamageType .. " [" .. nOriginalTotal .. "] ->";
+  end
   msgLong.text = sDamageType .. " [" .. sTotal .. "] ->";
   if rTarget then
     msgShort.text = msgShort.text .. " [to " .. ActorManager.getDisplayName(rTarget) .. "]";

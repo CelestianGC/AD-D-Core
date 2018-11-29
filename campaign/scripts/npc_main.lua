@@ -109,7 +109,7 @@ function checkNPCForSanity(nodeNPC)
     -- if set to default -20, then we build the saves from 
     -- creatures HDice
     if nPoison == -20 then
-        CombatManager2.updateNPCSaves(nodeNPC, nodeNPC, true);
+        CombatManagerADND.updateNPCSaves(nodeNPC, nodeNPC, true);
     end
 end
 
@@ -201,6 +201,11 @@ function update()
     updateControl("nonid_name", bReadOnly, true);
   end
   divider.setVisible(bSection1);
+  -- divider2.setVisible(bSection1)
+  -- divider3.setVisible(bSection1)
+  -- divider4.setVisible(bSection1)
+  divider5.setVisible(not bReadOnly);
+  divider6.setVisible(not bReadOnly);
 
 
   updateControl("size", bReadOnly);
@@ -265,15 +270,15 @@ function update()
   updateControl("challengerating", bReadOnly);
   updateControl("effect_combat", bReadOnly);
   
-  updateControl("organization", bReadOnly);
+  updateControl("organization", bReadOnly, (bReadOnly and organization.getValue() == ""));
   updateControl("diet", bReadOnly,(bReadOnly and diet.getValue() == ""));
-  updateControl("frequency", bReadOnly);
-  updateControl("activity", bReadOnly);
-  updateControl("climate", bReadOnly);
-  updateControl("numberappearing", bReadOnly);
+  updateControl("frequency", bReadOnly, (bReadOnly and frequency.getValue() == ""));
+  updateControl("activity", bReadOnly, (bReadOnly and activity.getValue() == ""));
+  updateControl("climate", bReadOnly, (bReadOnly and climate.getValue() == ""));
+  updateControl("numberappearing", bReadOnly, (bReadOnly and numberappearing.getValue() == ""));
   updateControl("inlair", bReadOnly, (bReadOnly and inlair.getValue() == ""));
-  updateControl("intelligence_text", bReadOnly);
-  updateControl("treasure", bReadOnly);
+  updateControl("intelligence_text", bReadOnly, (bReadOnly and intelligence_text.getValue() == ""));
+  updateControl("treasure", bReadOnly, (bReadOnly and treasure.getValue() == ""));
 
   ac.setReadOnly(bReadOnly);
   ac_ascending.setReadOnly(bReadOnly);

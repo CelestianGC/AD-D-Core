@@ -82,6 +82,7 @@ function onDrop(x, y, draginfo)
 --Debug.console("char_weaponslist.lua","onDrop","sClass",sClass );
 --Debug.console("char_weaponslist.lua","onDrop","sRecord",sRecord );
 --Debug.console("char_weaponslist.lua","onDrop","node",node );
+
     -- match items dropped into item/class/background fields to populate damage/etc
     if string.match(node.getPath(),"^item") or 
        string.match(node.getPath(),"^class") or 

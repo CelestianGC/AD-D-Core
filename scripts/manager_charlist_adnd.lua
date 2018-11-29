@@ -72,7 +72,7 @@ end
 
 -- this toggles all initrolled values off
 -- used for "new round" or when rest initiated
-function turnOffInitRolled()
+function turnOffAllInitRolled()
   for _,vChild in pairs(CombatManager.getCombatantNodes()) do
     -- toggle the rolled init value to false till
     -- until PC actually rolls.
@@ -81,5 +81,14 @@ function turnOffInitRolled()
     if (sActorType == "pc") then
       DB.setValue(vChild, "initrolled", "number", 0);
     end
+  end
+end
+
+-- turn off a CT node initiative rolled portrait indicator
+function turnOffInitRolled(vChild)
+  local rActor = ActorManager.getActorFromCT(vChild);
+  local sActorType, nodeActor = ActorManager.getTypeAndNode(rActor);    
+  if (sActorType == "pc") then
+    DB.setValue(vChild, "initrolled", "number", 0);
   end
 end

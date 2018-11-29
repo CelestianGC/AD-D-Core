@@ -22,7 +22,7 @@ function convertToPC(nodeNPC)
   DB.copyNode(nodeNPC, nodePC);
   
   -- roll hitpoints for the NPC and set on PC node
-  local nHP = CombatManager2.rollNPCHitPoints(nodeNPC);
+  local nHP = CombatManagerADND.rollNPCHitPoints(nodeNPC);
   local nHPConBonus = DB.getValue(nodePC, "hp.conmod", 0);
   DB.setValue(nodePC, "hp.base", "number", nHP-nHPConBonus);
   DB.setValue(nodePC, "hp.total", "number", nHP);

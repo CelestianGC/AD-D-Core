@@ -8,7 +8,7 @@
 <root>
   <font name="sidebar">
     <fgffile name="graphics/fonts/rockwell_bold_11.fgf" />
-    <color value="#dedede" />
+    <color value="#1d1d1d" />
   </font>
 
   <font name="sheetlabelmini_percent">

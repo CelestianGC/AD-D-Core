@@ -182,8 +182,8 @@
           function onValueChanged()
             local node = getDatabaseNode();
             local nodeNPC = node.getChild("..");
-            CombatManager2.updateNPCSaves(nodeNPC, nodeNPC, true);
-            CombatManager2.updateNPCLevels(nodeNPC, true);
+            CombatManagerADND.updateNPCSaves(nodeNPC, nodeNPC, true);
+            CombatManagerADND.updateNPCLevels(nodeNPC, true);
             window.onSummaryChanged();
           end
         </script>
@@ -412,7 +412,7 @@
         <static textres="CHA" />
       </label_npc_abilityscore>
       
-      <line_column />
+      <line_column name="divider2"/>
             
             <!-- saves -->
       <number_npc_savescore name="paralyzation" source="saves.paralyzation.score">
@@ -556,7 +556,7 @@
         <anchored to="spell"  />
       </label_npc_savescore>
             
-      <line_column>
+      <line_column name="divider3">
         <anchored>
           <top parent="columnanchor" anchor="bottom" relation="relative" offset="12" />
         </anchored>
@@ -596,7 +596,7 @@
         </script>
       </list_editor_advanced_effects>
 
-      <line_column />
+      <line_column name="divider4"/>
 
       <label_column name="organization_label">
         <static textres="npc_label_organization" />
@@ -633,7 +633,7 @@
       </label_column>
       <string_columnh name="numberappearing" />
 
-      <label_column name="intelligence_label">
+      <label_column name="intelligence_text_label">
         <static textres="npc_label_intelligence" />
       </label_column>
       <string_columnh name="intelligence_text" />
@@ -644,8 +644,7 @@
       <string_columnh name="treasure" />
 
 
-      <line_column />
-            <!-- end effects -->
+      <line_column name="divider5" />
             
       <label_column name="savingthrows_label">
         <static textres="npc_label_savingthrows" />
@@ -702,7 +701,7 @@
         <!-- hide CR, not used in AD&D --celestian -->
         <invisible />
       </string_columnh>
-      <line_column />
+      <line_column name="divider6" />
       
       <label_column name="psionicpowers_label">
         <static text="Psionic Powers" />

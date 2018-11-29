@@ -274,14 +274,6 @@ function modSave(rSource, rTarget, rRoll)
       rRoll.sDesc = rRoll.sDesc .. " " .. sEffects;
     end
   end
-  
-
-
-
-
-
-
-
 
   if nCover > 0 then
     rRoll.nMod = rRoll.nMod + nCover;
@@ -674,7 +666,7 @@ function setNPCSave(nodeEntry, sSave, nodeNPC)
     local sHitDice = DB.getValue(nodeNPC, "hitDice", "1");
     DB.setValue(nodeEntry,"hitDice","string", sHitDice);
     
-    local nLevel = CombatManager2.getNPCLevelFromHitDice(nodeNPC);
+    local nLevel = CombatManagerADND.getNPCLevelFromHitDice(nodeNPC);
 
     -- store it incase we wanna look at it later
     DB.setValue(nodeEntry, "level", "number", nLevel);

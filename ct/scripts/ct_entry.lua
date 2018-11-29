@@ -131,9 +131,14 @@ end
 function onLinkChanged()
   -- If a PC, then set up the links to the char sheet
   local sClass, sRecord = link.getValue();
+--Debug.console("ct_Entry.lua","onLinkChanged","sRecord",sRecord);            
+--Debug.console("ct_Entry.lua","onLinkChanged","sClass",sClass);            
   if sClass == "charsheet" then
     linkPCFields();
     name.setLine(false);
+  elseif sClass == "npc" then
+    linkNPCFields();
+    --name.setLine(false);
   end
   onIDChanged();
 end
@@ -190,8 +195,8 @@ end
 function linkNPCFields()
   local nodeChar = link.getTargetDatabaseNode();
   if nodeChar then
-    name.setLink(nodeChar.createChild("name", "string"), false);
-        
+    --name.setLink(nodeChar.createChild("name", "string"), false);
+    
     -- hptotal.setLink(nodeChar.createChild("hptotal", "number"));
     -- hptemp.setLink(nodeChar.createChild("hptemp", "number"));
     -- wounds.setLink(nodeChar.createChild("wounds", "number"));
