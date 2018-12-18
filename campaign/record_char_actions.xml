@@ -449,18 +449,18 @@
 
       <list_charweapon name="weapons">
         <script>
-            function onInit()
-              local node = getDatabaseNode();
-              if not string.match(node.getPath(),"^charsheet") and not User.isHost() then
-                return;
-              end        
-              registerMenuItem(Interface.getString("list_menu_createitem"), "insert", 5);
+          function onInit()
+            local node = getDatabaseNode();
+            if not string.match(node.getPath(),"^charsheet") and not User.isHost() then
+              return;
+            end        
+            registerMenuItem(Interface.getString("list_menu_createitem"), "insert", 5);
+          end
+          function onMenuSelection(selection, subselection)
+            if selection == 5 then
+              addEntry(true);
             end
-            function onMenuSelection(selection, subselection)
-              if selection == 5 then
-                addEntry(true);
-              end
-            end                    
+          end                    
         </script>
         <anchored>
           <top parent="columnanchor" anchor="bottom" relation="relative" offset="7" />

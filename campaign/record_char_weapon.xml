@@ -7,9 +7,8 @@
 
 <root>
   <windowclass name="char_weapon">
+    <margins control="0,2,0,2" />
     <script file="campaign/scripts/char_weapon.lua"/>
-        
-    <margins control="0,0,0,2" />
     <sheetdata>
       <genericcontrol name="rightanchor">
         <anchored width="0" height="0">
@@ -167,7 +166,7 @@
 
     <!-- window, display damage rolls, each in their own clickable to have s/m and large damage types -->
   <windowclass name="split_damage_entries">
-    <margins control="0,0,0,5" />
+    <margins control="0,2,0,5" />
       <sheetdata>
         <stringfield name="damageasstring">
           <script>

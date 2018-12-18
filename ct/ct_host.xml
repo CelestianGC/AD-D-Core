@@ -518,9 +518,9 @@
         <static textres="thaco" />
         <anchored to="activeicon" position="righthigh" offset="20,9" />
       </label>
-      <number_ct name="thaco">
+      <number_ct_thaco name="thaco">
         <anchored to="thacolabel" position="righthigh" offset="10" width="25" height="20" />           
-      </number_ct>
+      </number_ct_thaco>
       <number_ct name="bab">
         <anchored to="thacolabel" position="righthigh" offset="10" width="25" height="20" />           
         <invisible />

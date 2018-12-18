@@ -426,13 +426,39 @@
     </label_fieldtop>
   </template>
     
-    <template name="number_ct_savescore">
+  <template name="number_ct_savescore">
     <number_ct>
       <margins control="0,0,0,0" />
       <anchored width="30" height="20"/>
       <default>-1</default>
       <rollable />
       <script file="campaign/scripts/number_savescore.lua" />
+    </number_ct>
+  </template>
+
+  <template name="number_ct_thaco">
+    <number_ct>
+      <margins control="0,0,0,0" />
+      <script>
+      function action(draginfo)
+        local node = getDatabaseNode();
+        local nodeCT = getDatabaseNode().getParent();
+        local rActor = ActorManager.getActor("", nodeCT);
+        ActionAttack.performRoll(draginfo, rActor, nil);        
+        return true;
+      end
+
+      function onDragStart(button, x, y, draginfo)
+        return action(draginfo);
+      end
+
+      function onDoubleClick(x,y)
+        return action();
+      end
+      </script>
+      <anchored width="30" height="20"/>
+      <default>20</default>
+      <rollable />
     </number_ct>
   </template>
     

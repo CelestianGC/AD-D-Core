@@ -367,6 +367,9 @@ function sendEffectRemovedMessage(nodeChar, nodeEffect, sLabel, nDMOnly)
   local sCharacterName = DB.getValue(nodeChar, "name", "");
   -- Build output message
   local msg = ChatManager.createBaseMessage(ActorManager.getActorFromCT(nodeChar),sUser);
+  msg.font = "msgfont";
+  msg.icon = "roll_effect";
+  
   msg.text = "Advanced Effect ['" .. sLabel .. "'] ";
   msg.text = msg.text .. "removed [from " .. sCharacterName .. "]";
   -- HANDLE APPLIED BY SETTING
@@ -382,6 +385,9 @@ function sendEffectAddedMessage(nodeCT, rNewEffect, sLabel, nDMOnly)
 --Debug.console("manager_effect_adnd.lua","sendEffectAddedMessage","sUser",sUser);  
   -- Build output message
   local msg = ChatManager.createBaseMessage(ActorManager.getActorFromCT(nodeCT),sUser);
+  msg.font = "msgfont";
+  msg.icon = "roll_effect";
+
   msg.text = "Advanced Effect ['" .. rNewEffect.sName .. "'] ";
   msg.text = msg.text .. "-> [to " .. DB.getValue(nodeCT, "name", "") .. "]";
   if rNewEffect.sSource and rNewEffect.sSource ~= "" then
@@ -397,9 +403,6 @@ function sendRawMessage(sUser, nDMOnly, msg)
   end
   if sIdentity then
     msg.icon = "portrait_" .. User.getCurrentIdentity(sUser) .. "_chat";
-  else
-    msg.font = "msgfont";
-    msg.icon = "roll_effect";
   end
   if nDMOnly == 1 then
       msg.secret = true;
@@ -1294,3 +1297,39 @@ end
 	
 	-- return nil, nil;
 -- end
+
+
+-- find effect by name (MIRRORIMAGE, AC, STONESKIN) and return array of nodes
+-- Looks for:
+-- "sEffectName : ##"
+function getEffectNodesByName(nodeCT,sEffectName)
+  local nodesFound = {}
+  
+  for _,nodeEffect in pairs(DB.getChildren(nodeCT, "effects")) do
+    local sLabel = DB.getValue(nodeEffect,"label","");
+    if (sLabel:find(sEffectName .. "%s?:%s?%d+")) then
+      table.insert(nodesFound,nodeEffect);
+    end
+  end
+
+  return nodesFound;
+end
+
+-- remove count from nodeEffect value
+--- MIRRORIMAGE: 13 or STONESKIN: 2
+function removeEffectCount(nodeCT, sEffectName, nRemoveCount)
+  local nodeEffect = (getEffectNodesByName(nodeCT,sEffectName)[1]);
+  if (nodeEffect) then 
+    local sLabel = DB.getValue(nodeEffect,"label","");
+    local sCount = sLabel:match(sEffectName .. ":%s?(%d+)");
+    local nCount = tonumber(sCount) or 0;
+    nCount = nCount - nRemoveCount;
+    if nCount > 0 then
+      -- replace the first one with this new count
+      local sReplacedLabel = sLabel:gsub(sLabel,sEffectName .. ":" .. nCount,1);
+      DB.setValue(nodeEffect,"label","string",sReplacedLabel);
+    else
+      EffectManager.removeEffect(nodeCT, sLabel);
+    end
+  end
+end

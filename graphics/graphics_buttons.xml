@@ -197,5 +197,12 @@
   <icon name="button_export_file" file="graphics/buttons/button_export_file.png" />
   <icon name="button_export_file_down" file="graphics/buttons/button_export_file_down.png" />
   
+  <!-- Upper combat mini section, init/surprise/turn undead -->
+  <icon name="button_turnundead" file="graphics/buttons/button_turnundead.png" />
+  <icon name="button_surprise" file="graphics/buttons/button_surprise.png" />
+  <icon name="button_initiative" file="graphics/buttons/button_initiative.png" />
+  <icon name="button_turnundead_down" file="graphics/buttons/button_turnundead_down.png" />
+  <icon name="button_surprise_down" file="graphics/buttons/button_surprise_down.png" />
+  <icon name="button_initiative_down" file="graphics/buttons/button_initiative_down.png" />
 
 </root>

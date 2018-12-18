@@ -315,13 +315,13 @@
   
   <string name="char_combatcalc_title">COMBAT CALC</string>
   <string name="char_combat_psionic_title">PSIONIC COMBAT</string>
-  <string name="char_label_initdetail">Init:</string>
+  <string name="char_label_initdetail">Initiative</string>
   <string name="char_label_initmisc">Misc</string>
   <string name="char_label_speeddetail">Speed:</string>
   <string name="char_label_speedbase">Base</string>
   <string name="char_label_speedarmor">Armor</string>
   <string name="char_label_speedmisc">Misc</string>
-  <string name="char_label_armordetail">Armor:</string>
+  <string name="char_label_armordetail">Armor</string>
   <string name="char_label_armormain">Armor</string>
   <string name="char_label_armorbase">Base</string>
   <string name="char_label_armorshield">Shield</string>

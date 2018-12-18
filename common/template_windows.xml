@@ -387,4 +387,45 @@
       </anchored>
     </help>
   </template>
+	<template name="help_imagebox">
+		<help>
+			<anchored>
+				<top offset="0" />
+				<right offset="-42" />
+			</anchored>
+		</help>
+	</template>
+
+	<template name="button_imagewindow_sizeup">
+		<button_window_sizeup>
+			<anchored position="insidetopright" offset="64,0" />
+		</button_window_sizeup>
+	</template>
+	<template name="button_imagepanel_help">
+		<help>
+			<anchored>
+				<top offset="1" />
+				<right offset="-23" />
+			</anchored>
+			<invisible />
+		</help>
+	</template>
+	<template name="button_imagebackpanel_sizedown">
+		<button_window_sizedown>
+			<anchored position="insidetopright" offset="67,1" />
+			<invisible />
+		</button_window_sizedown>
+	</template>
+	<template name="button_imagebackpanel_sizeup">
+		<button_window_sizeup>
+			<anchored position="insidetopright" offset="45,1" />
+			<invisible />
+		</button_window_sizeup>
+	</template>
+	<template name="button_imagefullpanel_sizedown">
+		<button_window_sizedown>
+			<anchored position="insidetopright" offset="45,1" />
+			<invisible />
+		</button_window_sizedown>
+	</template>
 </root>

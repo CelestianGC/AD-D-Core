@@ -4,6 +4,9 @@
 --
 
 function onInit()
+  -- replace this with ours
+  CombatManager.nextActor = nextActor;
+  ----
   CombatManager.setCustomSort(sortfuncADnD);
   CombatManager.setCustomAddNPC(addNPC);
   CombatManager.setCustomAddPC(addPC);
@@ -159,6 +162,7 @@ end
 -- move to manager_action_save.lua?
 function getNPCLevelFromHitDice(nodeNPC) 
     local nLevel = 1;
+    local nHitDice = 0;
     local sHitDice = DB.getValue(nodeNPC, "hitDice", "1");
     if (sHitDice) then
         -- Match #-#, #+# or just #
@@ -168,7 +172,6 @@ function getNPCLevelFromHitDice(nodeNPC)
         -- Group 2.  2-3  `+`
         -- Group 3.  3-4  `3`
         local nAdjustment = 0;
-        local nHitDice = 0;
         local match1, match2, match3 = sHitDice:match("(%d+)([%-+])(%d+)");
         if (match1 and not match2) then -- single digit
             nHitDice = tonumber(match1);
@@ -208,6 +211,114 @@ function getNPCLevelFromHitDice(nodeNPC)
     return nLevel;
 end
 
+-- get NPC HitDice for use on Matrix chart.
+-- Smaller than 1-1 (-1)
+-- 1-1
+-- 1
+-- 1+
+-- ...
+-- 16+
+function getNPCHitDice(nodeNPC)
+--Debug.console("manager_combat_adnd","getNPCHitDice","nodeNPC",nodeNPC);  
+  local sSantizedHitDice = "-1";
+  local sHitDice = DB.getValue(nodeNPC, "hitDice", "1");
+  local s1, s2, s3 = sHitDice:match("(%d+)([%-+])(%d+)");
+  if s1 and s2 and s3 then
+    -- deal with 1+,1-2,1-1
+    if s1 == "1" then
+      if s2 == "+" then
+        sSantizedHitDice = "1+";
+      elseif (s2 == "-") and ((tonumber(s3) or 0) < 1) then -- if 1-X and X > 1
+        sSantizedHitDice = "-1";
+      else
+        sSantizedHitDice = "1-1";
+      end
+    else
+      local nHD = tonumber(s1) or 16;
+      if nHD > 16 then
+        sSantizedHitDice = "16";
+      else
+        sSantizedHitDice = s1;
+      end
+    end
+  elseif s1 then
+    sSantizedHitDice = s1;
+  else -- no string matched
+    sSantizedHitDice = sHitDice:match("(%d+)");
+  end
+  
+--Debug.console("manager_combat_adnd","getNPCHitDice","sSantizedHitDice",sSantizedHitDice);  
+  return sSantizedHitDice;
+end
+
+-- return the Best ac hit from a roll for this NPC
+function getACHitFromMatrixForNPC(nodeNPC,nRoll)
+  local nACHit = 20;
+  local sHitDice = getNPCHitDice(nodeNPC);
+--Debug.console("manager_combat_adnd","getACHitFromMatrixForNPC","DataCommonADND.aMatrix",DataCommonADND.aMatrix);         
+  if DataCommonADND.aMatrix[sHitDice] then
+    local aMatrixRolls = DataCommonADND.aMatrix[sHitDice];
+-- Debug.console("manager_combat_adnd","getACHitFromMatrixForNPC","DataCommonADND.aMatrix[sHitDice]",DataCommonADND.aMatrix[sHitDice]);         
+-- Debug.console("manager_combat_adnd","getACHitFromMatrixForNPC","aMatrixRolls",aMatrixRolls);         
+    -- starting from AC -10 and work up till we find match to our nRoll
+    --for i=-10,10,1 do
+    for i=21,1,-1 do
+      local sCurrentTHAC = "thac" .. i;
+      local nAC = 11 - i;
+      local nCurrentTHAC = aMatrixRolls[i];
+-- Debug.console("manager_combat_adnd","getACHitFromMatrixForNPC","sCurrentTHAC",sCurrentTHAC);        
+-- Debug.console("manager_combat_adnd","getACHitFromMatrixForNPC","nAC",nAC);        
+-- Debug.console("manager_combat_adnd","getACHitFromMatrixForNPC","nCurrentTHAC",nCurrentTHAC);        
+      if nCurrentTHAC == nRoll then
+        -- find first AC that matches our roll
+        nACHit = nAC;
+        break;
+      end
+    end
+    
+  end
+--Debug.console("manager_combat_adnd","getACHitFromMatrixForNPC","nACHit",nACHit);    
+  return nACHit;
+end
+
+-- return the Best ac hit from a roll for PC
+function getACHitFromMatrixForPC(nodePC,nRoll)
+  local nACHit = 20;
+  local nodeCombat = nodePC.createChild("combat"); -- make sure these exist
+  local nodeMATRIX = nodeCombat.createChild("matrix"); -- make sure these exist
+  
+  -- starting from AC -10 and work up till we find match to our nRoll
+  for i=-10,10,1 do
+    local sCurrentTHAC = "thac" .. i;
+    local nAC = i;
+    local nCurrentTHAC = DB.getValue(nodeMATRIX,sCurrentTHAC, 100);
+    if nCurrentTHAC == nRoll then
+      -- find first AC that matches our roll
+      nACHit = i;
+      break;
+    end
+  end
+--Debug.console("manager_combat_adnd","getACHitFromMatrixForPC","nACHit",nACHit);        
+  return nACHit;
+end
+
+-- return best AC Hit for this node (pc/npc) from Matrix with this nRoll
+function getACHitFromMatrix(node,nRoll)
+--Debug.console("manager_combat_adnd","getACHitFromMatrix","node",node);          
+--Debug.console("manager_combat_adnd","getACHitFromMatrixForNPC","nRoll",nRoll);        
+  local nACHit = 20;
+  local bisNPC = (not ActorManager.isPC(node));
+--Debug.console("manager_combat_adnd","getACHitFromMatrix","bisNPC",bisNPC);          
+  if (bisNPC) then
+    nACHit = getACHitFromMatrixForNPC(node,nRoll);
+  else
+    nACHit = getACHitFromMatrixForPC(node,nRoll);
+  end
+  
+--Debug.console("manager_combat_adnd","getACHitFromMatrix","nACHit",nACHit);        
+  return nACHit;
+end
+
 -- Set NPC Saves -celestian
 -- move to manager_action_save.lua?
 function updateNPCSaves(nodeEntry, nodeNPC, bForceUpdate)
@@ -225,7 +336,7 @@ end
 -- set Level, Arcane/Divine levels based on HD "level"
 function updateNPCLevels(nodeNPC, bForceUpdate) 
     if  (bForceUpdate) then
-      local nLevel = CombatManagerADND.getNPCLevelFromHitDice(nodeNPC);
+      local nLevel = getNPCLevelFromHitDice(nodeNPC);
       DB.setValue(nodeNPC, "arcane.totalLevel","number",nLevel);
       DB.setValue(nodeNPC, "divine.totalLevel","number",nLevel);
       DB.setValue(nodeNPC, "psionic.totalLevel","number",nLevel);
@@ -501,4 +612,92 @@ function addPC(nodePC)
     -- make sure active users get ownership of their CT nodes
     -- otherwise effects applied by items/etc won't work.
     -- AccessManagerADND.manageCTOwners(nodeEntry);
+end
+
+function getTHAC(nodeChar,nRoll)
+
+end
+
+--
+-- CoreRPG Replaced functions for customizations
+--
+--
+function nextActor(bSkipBell, bNoRoundAdvance)
+	if not User.isHost() then
+		return;
+	end
+
+	local nodeActive = CombatManager.getActiveCT();
+	local nIndexActive = 0;
+	
+	-- Check the skip hidden NPC option
+	local bSkipHidden = OptionsManager.isOption("CTSH", "on");
+  local bSkipDeadNPC = OptionsManager.isOption("CT_SKIP_DEAD_NPC", "on");
+	
+	-- Determine the next actor
+	local nodeNext = nil;
+	local aEntries = CombatManager.getSortedCombatantList();
+	if #aEntries > 0 then
+		if nodeActive then
+			for i = 1,#aEntries do
+				if aEntries[i] == nodeActive then
+					nIndexActive = i;
+					break;
+				end
+			end
+		end
+		if bSkipHidden or bSkipDeadNPC then
+			local nIndexNext = 0;
+			for i = nIndexActive + 1, #aEntries do
+				if DB.getValue(aEntries[i], "friendfoe", "") == "friend" then
+					nIndexNext = i;
+					break;
+				else
+          local nPercentWounded = ActorManager2.getPercentWounded(aEntries[i]);
+          local bisNPC = (not ActorManager.isPC(aEntries[i]));
+          -- is the actor dead?
+          local bSkipDead = (bSkipDeadNPC and bisNPC and nPercentWounded >= 1);
+          -- is the actor hidden?
+          local bSkipHiddenActor = (bSkipHidden and CombatManager.isCTHidden(aEntries[i]));
+          
+          if (not bSkipDead and not bSkipHiddenActor) then
+						nIndexNext = i;
+						break;
+          end
+        end
+			end
+			if nIndexNext > nIndexActive then
+				nodeNext = aEntries[nIndexNext];
+				for i = nIndexActive + 1, nIndexNext - 1 do
+					CombatManager.showTurnMessage(aEntries[i], false);
+				end
+			end
+		else
+			nodeNext = aEntries[nIndexActive + 1];
+		end
+	end
+
+	-- If next actor available, advance effects, activate and start turn
+	if nodeNext then
+		-- End turn for current actor
+		CombatManager.onTurnEndEvent(nodeActive);
+	
+		-- Process effects in between current and next actors
+		if nodeActive then
+			CombatManager.onInitChangeEvent(nodeActive, nodeNext);
+		else
+			CombatManager.onInitChangeEvent(nil, nodeNext);
+		end
+		
+		-- Start turn for next actor
+		CombatManager.requestActivation(nodeNext, bSkipBell);
+		CombatManager.onTurnStartEvent(nodeNext);
+	elseif not bNoRoundAdvance then
+		if bSkipHidden or bSkipDeadNPC then
+			for i = nIndexActive + 1, #aEntries do
+				CombatManager.showTurnMessage(aEntries[i], false);
+			end
+		end
+		CombatManager.nextRound(1);
+	end
 end

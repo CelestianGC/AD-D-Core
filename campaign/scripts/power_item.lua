@@ -100,7 +100,7 @@ function getFilter()
     if bisCastSpell then
       if sMode == "combat" then
         if (bMemorized) then
-            DB.setValue(node,"wasmemorized","number",1);
+          DB.setValue(node,"wasmemorized","number",1);
         end
         bShow = (bMemorized or bWasMemorized);
       else

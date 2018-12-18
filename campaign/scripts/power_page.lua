@@ -48,7 +48,7 @@ function onInit()
   DB.addHandler(DB.getPath(node, "powers.*.group"), "onUpdate", onPowerGroupChanged);
   DB.addHandler(DB.getPath(node, "powers.*.level"), "onUpdate", onPowerGroupChanged);
   DB.addHandler(DB.getPath(node, "powers.*.memorized"), "onUpdate", onPowerGroupChanged);
-  DB.addHandler(DB.getPath(node, "powers.*.wasmemorized"), "onUpdate", onPowerGroupChanged);
+  --DB.addHandler(DB.getPath(node, "powers.*.wasmemorized"), "onUpdate", onPowerGroupChanged);
 end
 
 function onClose()
@@ -88,7 +88,7 @@ function onClose()
   DB.removeHandler(DB.getPath(node, "powers.*.group"), "onUpdate", onPowerGroupChanged);
   DB.removeHandler(DB.getPath(node, "powers.*.level"), "onUpdate", onPowerGroupChanged);
   DB.removeHandler(DB.getPath(node, "powers.*.memorized"), "onUpdate", onPowerGroupChanged);
-  DB.removeHandler(DB.getPath(node, "powers.*.wasmemorized"), "onUpdate", onPowerGroupChanged);
+  --DB.removeHandler(DB.getPath(node, "powers.*.wasmemorized"), "onUpdate", onPowerGroupChanged);
 end
 
 function onAbilityChanged()

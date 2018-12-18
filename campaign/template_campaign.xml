@@ -281,5 +281,18 @@
     </subwindow>
   </template>
 
-    
+  <template name="class_advancement_subwindow">
+   <subwindow >
+      <anchored>
+        <top parent="columnanchor" anchor="bottom" relation="relative" offset="15" />
+        <left offset="5" />
+        <right offset="-5" />
+      </anchored>
+      <frame name="bonus_box" offset="7,11,7,7" />
+      <activate />
+      <fastinit />
+      <invisible />
+      <center />
+    </subwindow>  
+  </template>
 </root>

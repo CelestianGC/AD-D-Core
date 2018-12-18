@@ -119,6 +119,9 @@
 
 
   <string name="char_label_senses">Senses</string>
+  <string name="char_label_initdetail_tooltip">Initiative modifier applied when using base initiative roll.</string>
+  <string name="char_label_turndetail">Undead</string>
+  <string name="char_label_turndetail_tooltip">Effective of priest to turn undead.</string>
   <string name="char_label_speeddetail">Move:</string>
   <string name="char_label_speeddetail_tooltip">Movement values. How fast the character can move.</string>
   <string name="char_label_speedbase_base">Base</string>
@@ -127,7 +130,7 @@
   <string name="char_label_speedbase_enc_tooltip">Encumbrance based movement value.</string>
   <string name="char_label_speedbase_mod">Mod</string>
   <string name="char_label_speedbase_mod_tooltip">Modifier based movement value.</string>
-  <string name="char_label_surprisedetail">Surprise:</string>
+  <string name="char_label_surprisedetail">Surprise</string>
   <string name="char_label_surprisedetail_tooltip">Surprise value and dice.</string>
   <string name="char_label_surprisedice">Dice</string>
   <string name="char_label_surprisedice_tooltip">The dice rolled for surprise. Default is d10 if not set.</string>
@@ -644,12 +647,12 @@
   <string name="npc_label_effects_tooltip">Effects applied to NPC when placed into combat tracker.</string>  
     
     <!-- Chat -->
-  <string name="message_notmemorized">Cast a spell NOT memorized.</string>
-  <string name="message_nomoreslots">Tried to memorize a spell but had with no more spell slots left.</string>
-  <string name="message_youmemorize">Memorized </string>
+  <string name="message_notmemorized">%s cast a spell NOT memorized.</string>
+  <string name="message_nomoreslots">%s tried to memorize a spell but had with no more spell slots left.</string>
+  <string name="message_youmemorize">%s memorized %s</string>
   <string name="message_encumbrance_changed">'%s' is at '%s' encumbrance. Movebase now %d.</string>
   <string name="message_nouseleft">Tried to use '%s' but has no uses left.</string>
-  <string name="message_forget_memorized">Forgot %s.</string>
+  <string name="message_forget_memorized">%s forgot %s.</string>
 
   <string name="message_exp_applied">'%s' applied '%d' experience to %s.</string>
     
@@ -698,7 +701,10 @@
   <string name="option_label_ADND_AE_EDIT">PC: Adv. Effect Edit</string>
   <string name="option_label_ADND_AE_enabled">Enabled</string>
   <string name="option_label_ADND_AE_disabled">Disabled</string>
-    
+  
+  <!-- Skip dead npcs during initiative cycle -->
+  <string name="option_label_CT_SKIP_DEAD_NPC">Turn: Skip dead NPC</string>
+  
   <!-- ding/ring on private message  -->
   <string name="option_label_ADND_PM_DING">Whisper: DING on Received</string>
   <string name="option_label_ADND_PM_DING_enabled">Enabled</string>
@@ -734,6 +740,16 @@
   <string name="ref_type_nonweaponproficiency">Non-Weapon Proficiency</string>
   <string name="library_recordtype_empty_nonweaponproficiency">&#171; New Non-Weapon Proficiency &#187;</string>
   <string name="class_header_advancement">ADVANCEMENT</string>
+  <!-- class advancement strings -->
+  <string name="class_advancement_header_level">LEVEL</string>
+  <string name="class_advancement_header_combat">COMBAT</string>
+  <string name="class_advancement_header_matrix">COMBAT MATRIX</string>
+  <string name="class_advancement_details_matrix_ac">Armor Class</string>
+  <string name="class_advancement_details_matrix_roll">Roll</string>
+  <string name="class_advancement_header_profs">PROFICIENCIES</string>
+  <string name="class_advancement_header_spells">SPELLCASTING</string>
+  <string name="class_advancement_header_saves">SAVINGTHROWS</string>
+  <string name="class_advancement_header_misc">MISC</string>
     
      <!-- Grouplist buttons -->
   <string name="npc_button_hd">By HD</string>
@@ -754,4 +770,8 @@
   <string name="readycheck_button_label_tooltip">The DM has asked if you are ready, are you?</string>    
   
   <string name="list_menu_cloneitem">Clone Item</string>
+  <!-- mirror image/stoneskin miss/deflect -->
+  
+  <string name="chat_combat_hit_stoneskin">Attack struck a protective skin and deflected your attack!</string>
+  <string name="chat_combat_hit_mirrorimage">Attack struck shimmering image, you missed your target!</string>
 </root>

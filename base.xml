@@ -7,13 +7,13 @@
 -->
 
 <root version="3.0" release="28" logo="logo.png">
-  <announcement text="AD&amp;D Core v2018.11.29 For Fantasy Grounds\r--by Celestian 2017-2018" font="emotefont" icon="rulesetlogo_ADnD" />
+  <announcement text="AD&amp;D Core v2018.12.18 For Fantasy Grounds\r--by Celestian 2017-2018" font="emotefont" icon="rulesetlogo_ADnD" />
 
   <!-- Attributes -->
   <description>
     <text>Advanced Dungeons &amp; Dragons ruleset</text>
     <author>Celestian</author>
-    <website>http://www.fantasygrounds.com</website>
+    <website>https://www.fantasygrounds.com</website>
   </description>
 
   <!-- Layers -->
@@ -23,6 +23,7 @@
     <acceptfrom ruleset="2E" />
     <acceptfrom ruleset="AD&amp;D Core" />
     <acceptfrom ruleset="CoreRPG" />
+    <!-- <acceptfrom ruleset="5E" /> -->
   </importinfo>
     
   <!-- Tabletop settings -->
@@ -72,6 +73,7 @@
   <includefile source="ref/ref_magicitem.xml" />
   <includefile source="ref/ref_pregenchar.xml" />
   <includefile source="ref/ref_manual_adnd.xml" />
+  <includefile source="ref/ref_groupedlist_adnd.xml" />
 
   <!-- Campaign Records -->
   <includefile source="campaign/template_campaign.xml" />
@@ -107,7 +109,6 @@
   <includefile source="campaign/record_power_roll.xml" />
   <includefile source="campaign/record_race.xml" />
   <includefile source="campaign/record_skill.xml" />
-  <includefile source="campaign/record_story_adnd.xml" />
   <includefile source="campaign/template_char_adnd.xml" />
   <includefile source="desktop/template_desktop_adnd.xml" />
   <!-- <includefile source="campaign/record_ability_notes.xml" /> -->
@@ -138,18 +139,18 @@
   <script name="CampaignDataManager2" file="scripts/manager_campaigndata2.lua" />
   <script name="DataSpell" file="scripts/data_spell.lua" />
   <script name="ActorManager2" file="scripts/manager_actor2.lua" />
-  <script name="CombatManager2" file="scripts/manager_combat2_5e_3.3.6.lua" />
-  <script name="EffectManager5E" file="scripts/manager_effect_5E.lua" />
+  <script name="CombatManager2" file="scripts/manager_combat2_5E_3.3.7.lua" />
+  <script name="EffectManager5E" file="scripts/manager_effect_5E_3.3.7.lua" />
   <script name="ItemManager2" file="scripts/manager_item2.lua" />
   <script name="PowerManager" file="scripts/manager_power.lua" />
   
   <!-- AD&D, this needs to be above manager_version2 or the updates wont work properly  -->
   <script name="DataCommonADND" file="scripts/data_common_adnd.lua" />
   <!-- Override CoreRPG item manager for npc inventory requirements, items for npcs/etc -->
-  <script name="ItemManager" file="scripts/manager_item_CoreRPG.3.3.6.lua" />
+  <script name="ItemManager" file="scripts/manager_item_CoreRPG_3.3.7.lua" />
 <!-- Override CoreRPG's "TokenManager" We do this because I have special flags to show bars/effects 
      to DM only and players only. Not just "on for all, or off for all" -->
-  <script name="TokenManager" file="scripts/manager_token_CoreRPG.3.3.6.lua" />
+  <script name="TokenManager" file="scripts/manager_token_CoreRPG_3.3.7.lua" />
   <script name="TokenManager2" file="scripts/manager_token2.lua" />
   <script name="VersionManager2" file="scripts/manager_version2.lua" />
   <script name="ActionsManager2" file="scripts/manager_actions2.lua" />

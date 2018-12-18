@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<!-- 
+  Please see the license.html file included with this distribution for 
+  attribution and copyright information.
+-->
+
+<root>
+	<windowclass name="reference_groupedlist_groupitem" merge="join">
+		<script file="ref/scripts/ref_groupedlist_groupitem_adnd.lua" mergerule="replace"/>
+	</windowclass>
+
+<!--  -->
+	<template name="itemdamage_refgroupedlistgroupitem_wrap">
+		<stringfield>
+      <script file="ref/scripts/ref_itemdamage_adnd.lua" mergerule="replace"/>
+			<anchored to="leftanchor" width="50">
+				<top />
+				<left anchor="right" relation="relative" offset="5" />
+			</anchored>
+			<multilinespacing>20</multilinespacing>
+			<font>reference-r</font>
+			<empty>-</empty>
+			<readonly />
+		</stringfield>
+	</template>
+  
+</root>

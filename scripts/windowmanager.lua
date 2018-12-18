@@ -1,3 +1,7 @@
+---
+---
+---
+
 aIgnoredWindowClasses = {};
 
 function onInit()
@@ -28,22 +32,6 @@ function ctOnTopAlways(window)
 end
 
 --[[
-  Copyright (C) 2018 Ken L.
-  Licensed under the GPL Version 3 license.
-  http://www.gnu.org/licenses/gpl.html
-  This script is free software: you can redistribute it and/or modify
-  it under the terms of the GNU General Public License as published by
-  the Free Software Foundation, either version 3 of the License, or
-  (at your option) any later version.
-
-  This script is distributed in the hope that it will be useful,
-  but WITHOUT ANY WARRANTY; without even the implied warranty of
-  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  GNU General Public License for more details.
-]]--
-
-
---[[
   datastructure:
 
   classname  
@@ -52,7 +40,6 @@ end
     -> node path
     -> ...
 ]]--
-
 local gOpenWindowList = {}; 
 
 -- see if there is a collection of this type of window
@@ -85,8 +72,12 @@ function onWindowOpened(window)
   local tClassNodes = gOpenWindowList[sClassName]; 
   local sNodePath = nil; 
 
+--Debug.console("windowmanager.lua","onWindowOpened","dbNode",dbNode); 
+--Debug.console("windowmanager.lua","onWindowOpened","sClassName",sClassName); 
+--Debug.console("windowmanager.lua","onWindowOpened","tClassNodes",tClassNodes); 
+
   -- if the window had no database node attached, we don't care about it (currently)
-  --Debug.console('Windowclass opened: ' .. tostring(sClassName)); 
+--Debug.console("windowmanager.lua","onWindowOpened",'Windowclass opened: ' .. tostring(sClassName)); 
   if dbNode then
     tClassNodes = gOpenWindowList[sClassName]; 
     -- ignore masterindex
@@ -121,9 +112,9 @@ function onWindowOpened(window)
     else
       -- create a new classnode list at this key
       sNodePath = dbNode.getPath(); 
-      --Debug.console('creating new class index (' .. sClassName ..')'); 
+--Debug.console("windowmanager.lua","onWindowOpened",'creating new class index (' .. sClassName ..')'); 
       tClassNodes = {}; 
-      --Debug.console('creating new node (' .. sNodePath .. ') @ ( ' .. sClassName .. ' ) '); 
+--Debug.console("windowmanager.lua","onWindowOpened",'creating new node (' .. sNodePath .. ') @ ( ' .. sClassName .. ' ) '); 
       table.insert(tClassNodes, sNodePath); 
       gOpenWindowList[sClassName] = tClassNodes; 
     end
@@ -135,6 +126,10 @@ function onWindowClosed(window)
   local sClassName = window.getClass(); 
   local tClassNodes = gOpenWindowList[sClassName]; 
   local sNodePath = nil; 
+
+--Debug.console("windowmanager.lua","onWindowClosed","dbNode",dbNode); 
+--Debug.console("windowmanager.lua","onWindowClosed","sClassName",sClassName); 
+--Debug.console("windowmanager.lua","onWindowClosed","tClassNodes",tClassNodes); 
 
   -- remove from the tClassNodes the current window node, if that leaves the list empty, delete the key to that list
   if dbNode then

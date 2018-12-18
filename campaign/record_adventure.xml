@@ -1,273 +1,401 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
 
-<!-- 
-  Please see the license.html file included with this distribution for 
+<!--
+  Please see the license.html file included with this distribution for
   attribution and copyright information.
 -->
 
 <root>
-  <template name="string_adventure_log">
-    <basicstring>
-      <anchored position="righthigh" offset="10,0" width="75" height="20" />
-    </basicstring>
-  </template>
-  
-  <windowclass name="ref_adventure">
-    <frame>recordsheet</frame>
-    <placement>
-      <size width="550" height="300" />
-    </placement>
-    <sizelimits>
-      <minimum width="550" height="300" />
-      <dynamic />
-    </sizelimits>
-    <minimize>minimized_reference</minimize>
-    <tooltip field="name" />
-    <nodelete />
-    <script>
-      function onLockChanged()
-        if header.subwindow then
-          header.subwindow.update();
-        end
-        if main.subwindow then
-          main.subwindow.update();
-        end
-      end
-    </script>
-    <sheetdata>
-      <sub_record_header name="header">
-        <class>adventure_header</class>
-      </sub_record_header>
+	<template name="string_adventure_log">
+		<basicstring>
+			<anchored position="righthigh" offset="10,0" width="75" height="20" />
+		</basicstring>
+	</template>
 
-      <frame_record_content name="contentframe" />
+	<windowclass name="ref_adventure">
+		<frame>recordsheet</frame>
+		<placement>
+			<size width="550" height="300" />
+		</placement>
+		<sizelimits>
+			<minimum width="550" height="300" />
+			<dynamic />
+		</sizelimits>
+		<minimize>minimized_reference</minimize>
+		<tooltip field="name" />
+		<nodelete />
+		<script>
+			function onLockChanged()
+				if header.subwindow then
+					header.subwindow.update();
+				end
+				if main.subwindow then
+					main.subwindow.update();
+				end
+			end
+		</script>
+		<sheetdata>
+			<sub_record_header name="header">
+				<class>adventure_header</class>
+			</sub_record_header>
 
-      <subwindow_record name="main">
-        <class>adventure_main</class>
-        <activate />
-      </subwindow_record>
-      <scrollbar_record>
-        <target>main</target>
-      </scrollbar_record>
+			<frame_record_content name="contentframe" />
 
-      <resize_recordsheet />
-      <close_recordsheet />
-    </sheetdata>
-  </windowclass>
+			<subwindow_record name="main">
+				<class>adventure_main</class>
+				<activate />
+			</subwindow_record>
+			<scrollbar_record>
+				<target>main</target>
+			</scrollbar_record>
 
-  <windowclass name="adventure_header">
-    <margins control="0,0,0,2" />
-    <script>
-      function onInit()
-        update();
-      end
-      function update()
-        local bReadOnly = WindowManager.getReadOnlyState(getDatabaseNode());
-        name.setReadOnly(bReadOnly);
-      end
-    </script>
-    <sheetdata>
-      <link_record_header>
-        <class>ref_adventure</class>
-      </link_record_header>
+			<resize_recordsheet />
+			<close_recordsheet />
+		</sheetdata>
+	</windowclass>
 
-      <anchor_record_header_right name="rightanchor" />
-      <icon_record_locked />
-      <button_record_locked />
+	<windowclass name="adventure_header">
+		<margins control="0,0,0,2" />
+		<script>
+			function onInit()
+				update();
+			end
+			function update()
+				local bReadOnly = WindowManager.getReadOnlyState(getDatabaseNode());
+				name.setReadOnly(bReadOnly);
+			end
+		</script>
+		<sheetdata>
+			<link_record_header>
+				<class>ref_adventure</class>
+			</link_record_header>
 
-      <string_record_name name="name" />
-      
-      <label_reftype name="reftype">
-        <static textres="ref_type_adventure" />
-      </label_reftype>  
-    </sheetdata>
-  </windowclass>
+			<anchor_record_header_right name="rightanchor" />
+			<icon_record_locked />
+			<button_record_locked />
 
-  <windowclass name="adventure_main">
-    <margins control="0,0,0,2" />
-    <script>
-      function onInit()
-        update();
-      end
-      
-      function update()
-        local bReadOnly = WindowManager.getReadOnlyState(getDatabaseNode());
-        
-        sessionno.setReadOnly(bReadOnly);
-        date.setReadOnly(bReadOnly);
-        dmname.setReadOnly(bReadOnly);
-        
-        startxp.setReadOnly(bReadOnly);
-        startgold.setReadOnly(bReadOnly);
-        startdt.setReadOnly(bReadOnly);
-        startrenown.setReadOnly(bReadOnly);
-        startmagic.setReadOnly(bReadOnly);
-        earnxp.setReadOnly(bReadOnly);
-        earngold.setReadOnly(bReadOnly);
-        earndt.setReadOnly(bReadOnly);
-        earnrenown.setReadOnly(bReadOnly);
-        earnmagic.setReadOnly(bReadOnly);
-        totalxp.setReadOnly(bReadOnly);
-        totalgold.setReadOnly(bReadOnly);
-        totaldt.setReadOnly(bReadOnly);
-        totalrenown.setReadOnly(bReadOnly);
-        totalmagic.setReadOnly(bReadOnly);
-        
-        text.setReadOnly(bReadOnly);
-      end
-    </script>
-    <sheetdata>
-      <anchor_column name="columnanchor" />
-      
-      <metalplate name="detailstitle">
-        <anchored height="20">
-          <top parent="columnanchor" anchor="bottom" relation="relative" offset="10" />
-          <left offset="15" />
-          <right offset="-10" />
-        </anchored>
-      </metalplate>
-      <stringu name="sessionno">
-        <anchored width="150" height="20">
-          <top parent="columnanchor" anchor="bottom" relation="relative" offset="5" />
-          <left parent="detailstitle" />
-        </anchored>
-      </stringu>
-      <stringu name="date">
-        <anchored to="sessionno" position="righthigh" offset="5,0" width="150" height="20" />
-      </stringu>
-      <stringu name="dmname">
-        <anchored to="date" position="righthigh" offset="5,0" width="150" height="20" />
-      </stringu>
-      <label_charfieldtop>
-        <anchored to="sessionno" offset="0,5" />
-        <static textres="char_logs_label_sessionno" />
-      </label_charfieldtop>
-      <label_charfieldtop>
-        <anchored to="date" offset="0,5" />
-        <static textres="char_logs_label_date" />
-      </label_charfieldtop>
-      <label_charfieldtop>
-        <anchored to="dmname" offset="0,5" />
-        <static textres="char_logs_label_dmname" />
-      </label_charfieldtop>
+			<string_record_name name="name" />
 
-      <metalplate name="detailstitle2">
-        <anchored height="20">
-          <top parent="columnanchor" anchor="bottom" relation="relative" offset="10" />
-          <left offset="15" />
-          <right offset="-10" />
-        </anchored>
-      </metalplate>
+			<label_reftype name="reftype">
+				<static textres="ref_type_adventure" />
+			</label_reftype>
+		</sheetdata>
+	</windowclass>
 
-      <string_adventure_log name="startxp">
-        <anchored>
-          <top parent="columnanchor" anchor="bottom" relation="relative" offset="5" />
-          <left parent="" offset="90" />
-        </anchored>
-      </string_adventure_log>
-      <string_adventure_log name="startgold">
-        <anchored to="startxp" />
-      </string_adventure_log>
-      <string_adventure_log name="startdt">
-        <anchored to="startgold" />
-      </string_adventure_log>
-      <string_adventure_log name="startrenown">
-        <anchored to="startdt" />
-      </string_adventure_log>
-      <string_adventure_log name="startmagic">
-        <anchored to="startrenown" />
-      </string_adventure_log>
-      
-      <string_adventure_log name="earnxp">
-        <anchored>
-          <top parent="columnanchor" anchor="bottom" relation="relative" offset="5" />
-          <left parent="" offset="90" />
-        </anchored>
-      </string_adventure_log>
-      <string_adventure_log name="earngold">
-        <anchored to="earnxp" />
-      </string_adventure_log>
-      <string_adventure_log name="earndt">
-        <anchored to="earngold" />
-      </string_adventure_log>
-      <string_adventure_log name="earnrenown">
-        <anchored to="earndt" />
-      </string_adventure_log>
-      <string_adventure_log name="earnmagic">
-        <anchored to="earnrenown" />
-      </string_adventure_log>
-      
-      <string_adventure_log name="totalxp">
-        <anchored>
-          <top parent="columnanchor" anchor="bottom" relation="relative" offset="5" />
-          <left parent="" offset="90" />
-        </anchored>
-      </string_adventure_log>
-      <string_adventure_log name="totalgold">
-        <anchored to="totalxp" />
-      </string_adventure_log>
-      <string_adventure_log name="totaldt">
-        <anchored to="totalgold" />
-      </string_adventure_log>
-      <string_adventure_log name="totalrenown">
-        <anchored to="totaldt" />
-      </string_adventure_log>
-      <string_adventure_log name="totalmagic">
-        <anchored to="totalrenown" />
-      </string_adventure_log>
-      
-      <label_charfieldtop>
-        <anchored to="startxp" offset="0,5" />
-        <static textres="char_logs_label_xp" />
-      </label_charfieldtop>
-      <label_charfieldtop>
-        <anchored to="startgold" offset="0,5" />
-        <static textres="char_logs_label_gold" />
-      </label_charfieldtop>
-      <label_charfieldtop>
-        <anchored to="startdt" offset="0,5" />
-        <static textres="char_logs_label_dt" />
-      </label_charfieldtop>
-      <label_charfieldtop>
-        <anchored to="startrenown" offset="0,5" />
-        <static textres="char_logs_label_renown" />
-      </label_charfieldtop>
-      <label_charfieldtop>
-        <anchored to="startmagic" offset="0,5" />
-        <static textres="char_logs_label_magic" />
-      </label_charfieldtop>
-      
-      <label>
-        <anchored height="20">
-          <top parent="startxp" />
-          <left offset="10" />
-        </anchored>
-        <static textres="char_logs_label_start" />
-      </label>
-      <label>
-        <anchored height="20">
-          <top parent="earnxp" />
-          <left offset="10" />
-        </anchored>
-        <static textres="char_logs_label_earn" />
-      </label>
-      <label>
-        <anchored height="20">
-          <top parent="totalxp" />
-          <left offset="10" />
-        </anchored>
-        <static textres="char_logs_label_total" />
-      </label>
+	<windowclass name="adventure_main">
+		<margins control="0,0,0,2" />
+		<script>
+			function onInit()
+				update();
+			end
 
-      <label_charframetop name="texttitle">
-        <anchored height="20">
-          <top parent="columnanchor" anchor="bottom" relation="relative" offset="10" />
-          <left offset="15" />
-          <right offset="-10" />
-        </anchored>
-        <static textres="char_logs_label_notes" />
-      </label_charframetop>
+			function update()
+				local bReadOnly = WindowManager.getReadOnlyState(getDatabaseNode());
 
-      <ft_columnh name="text" />
-    </sheetdata>
-  </windowclass>
+				sessionno.setReadOnly(bReadOnly);
+				date.setReadOnly(bReadOnly);
+				dmname.setReadOnly(bReadOnly);
+
+				startxp.setReadOnly(bReadOnly);
+				startgold.setReadOnly(bReadOnly);
+				startdt.setReadOnly(bReadOnly);
+				startrenown.setReadOnly(bReadOnly);
+				earnxp.setReadOnly(bReadOnly);
+				earngold.setReadOnly(bReadOnly);
+				earndt.setReadOnly(bReadOnly);
+				earnrenown.setReadOnly(bReadOnly);
+				totalxp.setReadOnly(bReadOnly);
+				totalgold.setReadOnly(bReadOnly);
+				totaldt.setReadOnly(bReadOnly);
+				totalrenown.setReadOnly(bReadOnly);
+
+				text.setReadOnly(bReadOnly);
+				magicitem.setReadOnly(bReadOnly);
+				storyrewards.setReadOnly(bReadOnly);
+				purchases.setReadOnly(bReadOnly);
+
+				startmagic.setReadOnly(bReadOnly);
+				treasure_pt_tier2.setReadOnly(bReadOnly);
+				treasure_pt_tier3.setReadOnly(bReadOnly);
+				treasure_pt_tier4.setReadOnly(bReadOnly);
+				earnmagic.setReadOnly(bReadOnly);
+				earn_treasure_pt_tier2.setReadOnly(bReadOnly);
+				earn_treasure_pt_tier3.setReadOnly(bReadOnly);
+				earn_treasure_pt_tier4.setReadOnly(bReadOnly);
+				totalmagic.setReadOnly(bReadOnly);
+				total_treasure_pt_tier2.setReadOnly(bReadOnly);
+				total_treasure_pt_tier3.setReadOnly(bReadOnly);
+				total_treasure_pt_tier4.setReadOnly(bReadOnly);
+
+				magicitemtitle.setReadOnly(bReadOnly);
+				storyrewardstitle.setReadOnly(bReadOnly);
+				purchasestitle.setReadOnly(bReadOnly);
+
+			end
+		</script>
+		<sheetdata>
+			<anchor_column name="columnanchor" />
+
+			<metalplate name="detailstitle">
+				<anchored height="20">
+					<top parent="columnanchor" anchor="bottom" relation="relative" offset="10" />
+					<left offset="15" />
+					<right offset="-10" />
+				</anchored>
+			</metalplate>
+			<stringu name="sessionno">
+				<anchored width="150" height="20">
+					<top parent="columnanchor" anchor="bottom" relation="relative" offset="5" />
+					<left parent="detailstitle" />
+				</anchored>
+			</stringu>
+			<stringu name="date">
+				<anchored to="sessionno" position="righthigh" offset="5,0" width="150" height="20" />
+			</stringu>
+			<stringu name="dmname">
+				<anchored to="date" position="righthigh" offset="5,0" width="150" height="20" />
+			</stringu>
+			<label_charfieldtop>
+				<anchored to="sessionno" offset="0,5" />
+				<static textres="char_logs_label_sessionno" />
+			</label_charfieldtop>
+			<label_charfieldtop>
+				<anchored to="date" offset="0,5" />
+				<static textres="char_logs_label_date" />
+			</label_charfieldtop>
+			<label_charfieldtop>
+				<anchored to="dmname" offset="0,5" />
+				<static textres="char_logs_label_dmname" />
+			</label_charfieldtop>
+
+			<metalplate name="detailstitle2">
+				<anchored height="20">
+					<top parent="columnanchor" anchor="bottom" relation="relative" offset="20" />
+					<left offset="15" />
+					<right offset="-10" />
+				</anchored>
+			</metalplate>
+
+			<string_adventure_log name="startxp">
+				<anchored>
+					<top parent="columnanchor" anchor="bottom" relation="relative" offset="5" />
+					<left parent="" offset="100" />
+				</anchored>
+			</string_adventure_log>
+			<string_adventure_log name="startgold">
+				<anchored to="startxp" />
+			</string_adventure_log>
+			<string_adventure_log name="startdt">
+				<anchored to="startgold" />
+			</string_adventure_log>
+			<string_adventure_log name="startrenown">
+				<anchored to="startdt" />
+			</string_adventure_log>
+
+			<string_adventure_log name="earnxp">
+				<anchored>
+					<top parent="columnanchor" anchor="bottom" relation="relative" offset="5" />
+					<left parent="" offset="100" />
+				</anchored>
+			</string_adventure_log>
+			<string_adventure_log name="earngold">
+				<anchored to="earnxp" />
+			</string_adventure_log>
+			<string_adventure_log name="earndt">
+				<anchored to="earngold" />
+			</string_adventure_log>
+			<string_adventure_log name="earnrenown">
+				<anchored to="earndt" />
+			</string_adventure_log>
+
+			<string_adventure_log name="totalxp">
+				<anchored>
+					<top parent="columnanchor" anchor="bottom" relation="relative" offset="5" />
+					<left parent="" offset="100" />
+				</anchored>
+			</string_adventure_log>
+			<string_adventure_log name="totalgold">
+				<anchored to="totalxp" />
+			</string_adventure_log>
+			<string_adventure_log name="totaldt">
+				<anchored to="totalgold" />
+			</string_adventure_log>
+			<string_adventure_log name="totalrenown">
+				<anchored to="totaldt" />
+			</string_adventure_log>
+
+			<label_charfieldtop>
+				<anchored to="startxp" offset="0,5" />
+				<static textres="char_logs_label_xp" />
+			</label_charfieldtop>
+			<label_charfieldtop>
+				<anchored to="startgold" offset="0,5" />
+				<static textres="char_logs_label_gold" />
+			</label_charfieldtop>
+			<label_charfieldtop>
+				<anchored to="startdt" offset="0,5" />
+				<static textres="char_logs_label_dt" />
+			</label_charfieldtop>
+			<label_charfieldtop>
+				<anchored to="startrenown" offset="0,5" />
+				<static textres="char_logs_label_renown" />
+			</label_charfieldtop>
+
+			<label>
+				<anchored height="20">
+					<top parent="startxp" />
+					<left offset="10" />
+				</anchored>
+				<static textres="char_logs_label_start" />
+			</label>
+			<label>
+				<anchored height="20">
+					<top parent="earnxp" />
+					<left offset="10" />
+				</anchored>
+				<static textres="char_logs_label_earn" />
+			</label>
+			<label>
+				<anchored height="20">
+					<top parent="totalxp" />
+					<left offset="10" />
+				</anchored>
+				<static textres="char_logs_label_total" />
+			</label>
+
+			<label_charframetop name="texttitle">
+				<anchored height="20">
+					<top parent="columnanchor" anchor="bottom" relation="relative" offset="10" />
+					<left offset="15" />
+					<right offset="-10" />
+				</anchored>
+				<static textres="char_logs_label_notes" />
+			</label_charframetop>
+			<ft_columnh name="text" />
+
+			<metalplate name="detailstitle3">
+				<anchored height="20">
+					<top parent="columnanchor" anchor="bottom" relation="relative" offset="10" />
+					<left offset="15" />
+					<right offset="-10" />
+				</anchored>
+			</metalplate>
+			<string_adventure_log name="startmagic">
+				<anchored>
+					<top parent="columnanchor" anchor="bottom" relation="relative" offset="5" />
+					<left parent="" offset="100" />
+				</anchored>
+			</string_adventure_log>
+			<string_adventure_log name="treasure_pt_tier2">
+				<anchored to="startmagic" />
+			</string_adventure_log>
+			<string_adventure_log name="treasure_pt_tier3">
+				<anchored to="treasure_pt_tier2" />
+			</string_adventure_log>
+			<string_adventure_log name="treasure_pt_tier4">
+				<anchored to="treasure_pt_tier3" />
+			</string_adventure_log>
+
+			<string_adventure_log name="earnmagic">
+				<anchored>
+					<top parent="columnanchor" anchor="bottom" relation="relative" offset="5" />
+					<left parent="" offset="100" />
+				</anchored>
+			</string_adventure_log>
+			<string_adventure_log name="earn_treasure_pt_tier2">
+				<anchored to="earnmagic" />
+			</string_adventure_log>
+			<string_adventure_log name="earn_treasure_pt_tier3">
+				<anchored to="earn_treasure_pt_tier2" />
+			</string_adventure_log>
+			<string_adventure_log name="earn_treasure_pt_tier4">
+				<anchored to="earn_treasure_pt_tier3" />
+			</string_adventure_log>
+
+			<string_adventure_log name="totalmagic">
+				<anchored>
+					<top parent="columnanchor" anchor="bottom" relation="relative" offset="5" />
+					<left parent="" offset="100" />
+				</anchored>
+			</string_adventure_log>
+			<string_adventure_log name="total_treasure_pt_tier2">
+				<anchored to="totalmagic" />
+			</string_adventure_log>
+			<string_adventure_log name="total_treasure_pt_tier3">
+				<anchored to="total_treasure_pt_tier2" />
+			</string_adventure_log>
+			<string_adventure_log name="total_treasure_pt_tier4">
+				<anchored to="total_treasure_pt_tier3" />
+			</string_adventure_log>
+
+			<label_charfieldtop>
+				<anchored to="startmagic" offset="0,5" />
+				<static textres="char_logs_label_magic" />
+			</label_charfieldtop>
+			<label_charfieldtop>
+				<anchored to="treasure_pt_tier2" offset="0,5" />
+				<static textres="char_logs_label_treasure_pt_tier2" />
+			</label_charfieldtop>
+			<label_charfieldtop>
+				<anchored to="treasure_pt_tier3" offset="0,5" />
+				<static textres="char_logs_label_treasure_pt_tier3" />
+			</label_charfieldtop>
+			<label_charfieldtop>
+				<anchored to="treasure_pt_tier4" offset="0,5" />
+				<static textres="char_logs_label_treasure_pt_tier4" />
+			</label_charfieldtop>
+
+			<label>
+				<anchored height="20">
+					<top parent="startmagic" />
+					<left offset="10" />
+				</anchored>
+				<static textres="char_logs_label_start" />
+			</label>
+			<label>
+				<anchored height="20">
+					<top parent="earnmagic" />
+					<left offset="10" />
+				</anchored>
+				<static textres="char_logs_label_earn" />
+			</label>
+			<label>
+				<anchored height="20">
+					<top parent="totalmagic" />
+					<left offset="10" />
+				</anchored>
+				<static textres="char_logs_label_total" />
+			</label>
+
+			<label_charframetop name="magicitemtitle">
+				<anchored height="20">
+					<top parent="columnanchor" anchor="storyrewardstitle" relation="relative" offset="10" />
+					<left offset="15" />
+					<right offset="-10" />
+				</anchored>
+				<static textres="log_magic_item" />
+			</label_charframetop>
+			<ft_columnh name="magicitem" />
+
+			<label_charframetop name="storyrewardstitle">
+				<anchored height="20">
+					<top parent="columnanchor" anchor="purchasestitle" relation="relative" offset="10" />
+					<left offset="15" />
+					<right offset="-10" />
+				</anchored>
+				<static textres="log_story_rewards" />
+			</label_charframetop>
+			<ft_columnh name="storyrewards" />
+
+			<label_charframetop name="purchasestitle">
+				<anchored height="20">
+					<top parent="columnanchor" anchor="bottom" relation="relative" offset="10" />
+					<left offset="15" />
+					<right offset="-10" />
+				</anchored>
+				<static textres="log_purchases" />
+			</label_charframetop>
+			<ft_columnh name="purchases" />
+		</sheetdata>
+	</windowclass>
 </root>

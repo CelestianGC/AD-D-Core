@@ -275,35 +275,8 @@
           end
         </script>
       </hlink>
-      <hnx name="hptotal">
-        <script>
-          function onValueChanged()
-            window.onHPChanged();
-          end
-        </script>
-      </hnx>
-      <hnx name="wounds">
-        <script>
-          function onValueChanged()
-            window.onHPChanged();
-          end
-        </script>
-      </hnx>
-<!--       <hnx name="hd">
-        <script>
-          function onValueChanged()
-            window.onHDChanged();
-          end
-        </script>
-      </hnx>
- --><!--       <hnx name="hdused">
-        <script>
-          function onValueChanged()
-            window.onHDChanged();
-          end
-        </script>
-      </hnx>
- -->    
+	<hnx name="hptotal" />
+	<hnx name="wounds" />
       <portrait_base>
         <bounds>10,10,40,40</bounds>
       </portrait_base>
@@ -322,11 +295,16 @@
         <anchored position="insidetopleft" offset="55,30" width="180" />
       </string_ps>
       
-      <statusbar name="hpbar">
-        <anchored position="insidetopleft" offset="245,10" width="10" height="40" />
-        <frame name="border" />
-        <barback>006600</barback>
-      </statusbar>
+			<progressbar name="hpbar">
+				<anchored position="insidetopleft" offset="245,10" width="10" height="40" />
+				<source><max>hptotal</max><used>wounds</used></source>
+				<textprefix><textres>hp</textres></textprefix>
+				<script>
+					function onValueChanged()
+						setFillColor(ColorManager.getHealthColor(1 - getPercent(), true));
+					end
+				</script>
+			</progressbar>
 <!--       <statusbar name="hdbar">
                 <invisible />
         <anchored position="insidetopleft" offset="258,10" width="10" height="40" />

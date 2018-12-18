@@ -17,6 +17,9 @@
     </sizelimits>
     <minimize>minimized_reference</minimize>
     <tooltip field="name" />
+    <nodelete />
+    <playercontrol />
+    <sharable />
     <script>
       function onLockChanged()
         if header.subwindow then

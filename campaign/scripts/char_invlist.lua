@@ -76,24 +76,25 @@ function onCarriedChanged(nodeField)
   if nodeChar then
     local nodeItem = DB.getChild(nodeField, "..");
 
-    local nCarried = nodeField.getValue();
-    local sCarriedItem = ItemManager.getDisplayName(nodeItem);
-    if sCarriedItem ~= "" then
-      for _,vNode in pairs(DB.getChildren(nodeChar, "inventorylist")) do
-        if vNode ~= nodeItem then
-          local sLoc = DB.getValue(vNode, "location", "");
-          if sLoc == sCarriedItem then
-            DB.setValue(vNode, "carried", "number", nCarried);
-          end
-        end
-      end
-    end
-    
-    if ItemManager2.isArmor(nodeItem) then
-      CharManager.calcItemArmorClass(nodeChar);
-    end
-  end
-  onEncumbranceChanged();
+		local nCarried = nodeField.getValue();
+		local sCarriedItem = StringManager.trim(ItemManager.getDisplayName(nodeItem)):lower();
+		if sCarriedItem ~= "" then
+			for _,vNode in pairs(DB.getChildren(nodeChar, "inventorylist")) do
+				if vNode ~= nodeItem then
+					local sLoc = StringManager.trim(DB.getValue(vNode, "location", "")):lower();
+					if sLoc == sCarriedItem then
+						DB.setValue(vNode, "carried", "number", nCarried);
+					end
+				end
+			end
+		end
+		
+		if ItemManager2.isArmor(nodeItem) then
+			CharManager.calcItemArmorClass(nodeChar);
+		end
+	end
+	
+	onEncumbranceChanged();
 end
 
 function onEncumbranceChanged()

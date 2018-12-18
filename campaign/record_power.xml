@@ -409,16 +409,23 @@
           function onInit()
             local nodeSpell = window.getDatabaseNode();
             DB.addHandler(DB.getPath(nodeSpell, "memorized"),"onUpdate", update);
+            local nodeChar = nodeSpell.getChild("...");
+            DB.addHandler(DB.getPath(nodeChar, "powermode"), "onUpdate", update);
+            DB.addHandler(DB.getPath(nodeChar, "powerdisplaymode"), "onUpdate", update);
             update();
           end
           function onClose()
             local nodeSpell = window.getDatabaseNode();
             DB.removeHandler(DB.getPath(nodeSpell, "memorized"),"onUpdate", update);
+            local nodeChar = nodeSpell.getChild(".....");
+            DB.removeHandler(DB.getPath(nodeChar, "powermode"), "onUpdate", update);
+            DB.removeHandler(DB.getPath(nodeChar, "powerdisplaymode"), "onUpdate", update);
           end
           
           function onButtonPress()
             local nodeSpell = window.getDatabaseNode();
             DB.setValue(nodeSpell,"wasmemorized","number",0);
+            update();
           end
           
           function update()
@@ -426,9 +433,10 @@
             local nodeChar = nodeSpell.getChild("...");
             local sSpellName = DB.getValue(nodeSpell,"name","");
             local sMode = DB.getValue(nodeChar, "powermode", "");
+            local sDisplay = DB.getValue(nodeChar, "powerdisplaymode", "");
             local bMemorized = ((DB.getValue(nodeSpell,"memorized",0) > 0));
             local bWasMemorized = (DB.getValue(nodeSpell,"wasmemorized",0) == 1);
-            if (sMode == "combat") and bWasMemorized and not bMemorized then
+            if sMode == "combat" and sDisplay == "action" and bWasMemorized and not bMemorized then
               setVisible(true);
             else
               setVisible(false);
@@ -684,10 +692,10 @@
 
     <windowclass name="power_memorization">
     <margins control="0,0,2,2" />
-        <sheetdata>
-            <anchor_right />
-            <anchor_left />
-      <button_powermemorize name="memorizebutton">
+      <sheetdata>
+        <anchor_right />
+        <anchor_left />
+        <button_powermemorize name="memorizebutton">
         <anchored to="leftanchor" height="18">
           <top offset="5"/>
           <left anchor="right" relation="relative" offset="2" />
@@ -711,7 +719,7 @@
         <readonly />
         <tooltip textres="power_label_memorizecount_tooltip" />
       </basicnumber> 
-        </sheetdata>
+      </sheetdata>
     </windowclass>
  
     <!-- cast/heal/damage/save buttons -->
@@ -1117,6 +1125,9 @@
     </sizelimits>
     <minimize>minimized_reference</minimize>
     <tooltip field="name" />
+    <nodelete />
+    <playercontrol />
+    <sharable />
     <script>
       function onLockChanged()
         if header.subwindow then

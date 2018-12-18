@@ -278,7 +278,7 @@
       <anchored width="32" height="20" />
       <frame name="fieldlight" offset="7,5,7,5" />
       <rollable />
-            <script file="campaign/scripts/number_charskill.lua" />
+      <script file="campaign/scripts/number_charskill.lua" />
     </number_linked>
   </template>
     
@@ -292,7 +292,7 @@
       <script>
       function action(draginfo)
         local nodeChar = getDatabaseNode().getChild("....");
-        local rActor = ActorManager.getActor("pc", nodeChar);
+        local rActor = ActorManager.getActor("", nodeChar);
         ActionAttack.performRoll(draginfo, rActor, nil);        
         return true;
       end

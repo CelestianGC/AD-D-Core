@@ -53,8 +53,9 @@ end
 
 function updateVisibility()
   local node = getDatabaseNode();
-  if (string.match(node.getPath(),"^npc") == nil 
-      and string.match(node.getPath(),"^charsheet") == nil) then
+  local sNodePath = node.getPath();
+  -- we only show the "additive" toggle in the class advancement.
+  if (sNodePath:match("^class%.") ~= nil and sNodePath:match("%.advancement%.") ~= nil) then
     skill_additive.setVisible(true);
   else
     skill_additive.setVisible(false);

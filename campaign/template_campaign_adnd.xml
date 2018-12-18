@@ -154,7 +154,7 @@
   <template name="label_savescore_npc">
     <label_fieldtop>
       <anchored position="insidetopright" offset="-2,-6" width="35" />
-            <font>arial-regular-7</font>
+      <font>arial-regular-7</font>
       <!-- <anchored offset="-2,-6" width="35"/> -->
       <frame name="abilityscore" />
     </label_fieldtop>
@@ -239,7 +239,7 @@
           rList.aColumns = {};
           table.insert(rList.aColumns, { sName = "name", sType = "string", sHeading = "Name", nWidth=200, nSortOrder=1 });
           table.insert(rList.aColumns, { sName = "cost", sType = "string", sHeading = "Cost", bCentered=true });
-          table.insert(rList.aColumns, { sName = "damage", sType = "string", sHeading = "Damage", nWidth=150, bCentered=true });
+          table.insert(rList.aColumns, { bItemDamage=true, sName = "damage", sType = "string", sHeading = "Damage", nWidth=150, bCentered=true });
           table.insert(rList.aColumns, { sName = "weight", sType = "number", sHeading = "Weight", bCentered=true });
           table.insert(rList.aColumns, { sName = "properties", sType = "string", sHeading = "Prop.", nWidth=200, bCentered=true });
           rList.aFilters = {};
@@ -633,11 +633,11 @@
         </number_column>
     </template>
     <template name="number_class">
-        <basicnumber>
-            <anchored width="32" height="20" />
-            <hideonvalue>0</hideonvalue>
-            <default>0</default>
-        </basicnumber>
+      <basicnumber>
+        <anchored width="32" height="20" />
+        <hideonvalue>0</hideonvalue>
+        <default>0</default>
+      </basicnumber>
     </template>
 
     <template name="number_class_slot_column">
@@ -656,11 +656,12 @@
     </template>
     
     <template name="number_class_save">
-        <basicnumber>
-            <anchored width="15" height="20" />
-            <hideonvalue>0</hideonvalue>
-            <default>0</default>
-        </basicnumber>
+      <basicnumber>
+        <anchored width="15" height="20" />
+        <hideonvalue>0</hideonvalue>
+        <default>0</default>
+        <center />
+      </basicnumber>
     </template>
 
     <template name="class_advancement_label">
@@ -741,9 +742,10 @@
           local nodeSpell = window.getDatabaseNode();
           local bForgot = PowerManager.removeMemorizedSpell(nil,nodeSpell);
           if (bForgot) then
+            DB.setValue(nodeSpell,"wasmemorized","number",1);
             local nodeChar = nodeSpell.getChild("...");
-            local sMsg = string.format(Interface.getString("message_forget_memorized"),DB.getValue(nodeSpell, "name", ""));          
-            ChatManager.Message(sMsg, true, ActorManager.getActor("pc", nodeChar));
+            local sMsg = string.format(Interface.getString("message_forget_memorized"),DB.getValue(nodeChar,"name",""),DB.getValue(nodeSpell, "name", ""));          
+            ChatManager.SystemMessage(sMsg);
           end
           return true;
         end
@@ -869,5 +871,28 @@
 			</script>
 		</buttoncontrol>
 	</template>
+  
+	<template name="label_fieldtop_matrix">
+		<stringcontrol>
+      <anchored >
+        <bottom parent="matrix_roll_label" anchor="top" offset="1"/>
+        <left />
+      </anchored> 
+			<font>sheetlabelmini</font>
+			<center />
+		</stringcontrol>
+	</template>
+
+  <template name="number_matrix">
+    <basicnumber>
+			<font>sheetlabelmini</font>
+      <anchored width="15" height="15">
+        <top parent="matrix_roll_label" />
+        <left parent="matrix_roll_label" anchor="right" relation="relative" offset="5" />
+      </anchored> 
+      <default>0</default>
+      <hideonvalue>0</hideonvalue>
+    </basicnumber>
+  </template>
   
 </root>

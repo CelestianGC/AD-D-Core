@@ -2348,44 +2348,52 @@ function memorizeSpell(draginfo, nodeSpell)
   if not nodeChar then
     return false;
   end
-    
-    local sName = DB.getValue(nodeSpell, "name", "");
-    local nLevel = DB.getValue(nodeSpell, "level", 0);
-    local sSpellType = DB.getValue(nodeSpell, "type", ""):lower();
-    local sSource = DB.getValue(nodeSpell, "source", ""):lower();
-    local sCastTime = DB.getValue(nodeSpell, "castingtime", "");
-    local sDuration = DB.getValue(nodeSpell, "duration", "");
-    local nMemorized = DB.getValue(nodeSpell, "memorized", 0);
-    
-    --if (nLevel>0 and (isArcaneSpellType(sSpellType) or isArcaneSpellType(sSource) or isDivineSpellType(sSpellType) or isDivineSpellType(sSource)and not isPsionicPowerType(sSpellType)) ) then
-    if canMemorizeSpellType(nLevel, sSpellType) then
-        local nUsedArcane = DB.getValue(nodeChar, "powermeta.spellslots" .. nLevel .. ".used", 0);
-        local nMaxArcane = DB.getValue(nodeChar, "powermeta.spellslots" .. nLevel .. ".max", 0);
-        local nUsedDivine = DB.getValue(nodeChar, "powermeta.pactmagicslots" .. nLevel .. ".used", 0);
-        local nMaxDivine = DB.getValue(nodeChar, "powermeta.pactmagicslots" .. nLevel .. ".max", 0);
+  
+  local sName = DB.getValue(nodeSpell, "name", "");
+  local nLevel = DB.getValue(nodeSpell, "level", 0);
+  local sSpellType = DB.getValue(nodeSpell, "type", ""):lower();
+  local sSource = DB.getValue(nodeSpell, "source", ""):lower();
+  local sCastTime = DB.getValue(nodeSpell, "castingtime", "");
+  local sDuration = DB.getValue(nodeSpell, "duration", "");
+  local nMemorized = DB.getValue(nodeSpell, "memorized", 0);
+  
+  --if (nLevel>0 and (isArcaneSpellType(sSpellType) or isArcaneSpellType(sSource) or isDivineSpellType(sSpellType) or isDivineSpellType(sSource)and not isPsionicPowerType(sSpellType)) ) then
+  if canMemorizeSpellType(nLevel, sSpellType) then
+    local nUsedArcane = DB.getValue(nodeChar, "powermeta.spellslots" .. nLevel .. ".used", 0);
+    local nMaxArcane = DB.getValue(nodeChar, "powermeta.spellslots" .. nLevel .. ".max", 0);
+    local nUsedDivine = DB.getValue(nodeChar, "powermeta.pactmagicslots" .. nLevel .. ".used", 0);
+    local nMaxDivine = DB.getValue(nodeChar, "powermeta.pactmagicslots" .. nLevel .. ".max", 0);
 
-        if (isArcaneSpellType(sSpellType) or isArcaneSpellType(sSource)) then
-            if (nUsedArcane+1 <= nMaxArcane) then
-                DB.setValue(nodeChar,"powermeta.spellslots" .. nLevel .. ".used","number",(nUsedArcane+1));
-                DB.setValue(nodeSpell,"memorized","number",(nMemorized+1));
-                ChatManager.Message(Interface.getString("message_youmemorize") .. " " .. sName .. ".", true, ActorManager.getActor("pc", nodeChar));
-            else
-                -- not enough slots left
-                bSuccess = false;
-                ChatManager.Message(Interface.getString("message_nomoreslots"), true, ActorManager.getActor("pc", nodeChar));
-            end
-        elseif (isDivineSpellType(sSpellType) or isDivineSpellType(sSource)) then
-            if (nUsedDivine+1 <= nMaxDivine) then
-                DB.setValue(nodeChar,"powermeta.pactmagicslots" .. nLevel .. ".used","number",(nUsedDivine+1));
-                DB.setValue(nodeSpell,"memorized","number",(nMemorized+1));
-                ChatManager.Message(Interface.getString("message_youmemorize") .. " " .. sName .. ".", true, ActorManager.getActor("pc", nodeChar));
-            else
-                -- not enough slots left
-                bSuccess = false;
-                ChatManager.Message(Interface.getString("message_nomoreslots"), true, ActorManager.getActor("pc", nodeChar));
-            end
-        end -- spelltype
-    end -- nLevel > 0
+    if (isArcaneSpellType(sSpellType) or isArcaneSpellType(sSource)) then
+      if (nUsedArcane+1 <= nMaxArcane) then
+        DB.setValue(nodeChar,"powermeta.spellslots" .. nLevel .. ".used","number",(nUsedArcane+1));
+        DB.setValue(nodeSpell,"memorized","number",(nMemorized+1));
+        --ChatManager.Message(Interface.getString("message_youmemorize") .. " " .. sName .. ".", true, ActorManager.getActor("pc", nodeChar));
+        local sMsg = string.format(Interface.getString("message_youmemorize"), DB.getValue(nodeChar, "name", ""),sName);
+        ChatManager.SystemMessage(sMsg);
+      else
+        -- not enough slots left
+        bSuccess = false;
+        --ChatManager.Message(Interface.getString("message_nomoreslots"), true, ActorManager.getActor("pc", nodeChar));
+        local sMsg = string.format(Interface.getString("message_nomoreslots"), DB.getValue(nodeChar, "name", ""));
+        ChatManager.SystemMessage(sMsg);
+      end
+    elseif (isDivineSpellType(sSpellType) or isDivineSpellType(sSource)) then
+      if (nUsedDivine+1 <= nMaxDivine) then
+        DB.setValue(nodeChar,"powermeta.pactmagicslots" .. nLevel .. ".used","number",(nUsedDivine+1));
+        DB.setValue(nodeSpell,"memorized","number",(nMemorized+1));
+        --ChatManager.Message(Interface.getString("message_youmemorize") .. " " .. sName .. ".", true, ActorManager.getActor("pc", nodeChar));
+        local sMsg = string.format(Interface.getString("message_youmemorize"), DB.getValue(nodeChar, "name", ""),sName);
+        ChatManager.SystemMessage(sMsg);
+      else
+        -- not enough slots left
+        bSuccess = false;
+        --ChatManager.Message(Interface.getString("message_nomoreslots"), true, ActorManager.getActor("pc", nodeChar));
+        local sMsg = string.format(Interface.getString("message_nomoreslots"), DB.getValue(nodeChar, "name", ""));
+        ChatManager.SystemMessage(sMsg);
+      end
+    end -- spelltype
+  end -- nLevel > 0
     
     return bSuccess;
 end
@@ -2411,17 +2419,17 @@ function incrementUse(draginfo, node)
   local bHadCharge = true;
   local nPrepared = DB.getValue(nodeSpell, "prepared", 0);
   if not bPsionic and not bSpellCasting and sActionType == "cast" then
-      local nCast = DB.getValue(nodeSpell, "cast", 0);
-      if (nPrepared >= (nCast+1) or bisNPC) then -- ignore check for npcs
-          DB.setValue(nodeSpell, "cast","number", (nCast+1));
-          bHadCharge = true;
-      else
-          --bHadCharge = false;
-          bHadCharge = true; -- we let the effect happen and just spam with text error
-          local sFormat = Interface.getString("message_nouseleft");
-          local sMsg = string.format(sFormat, DB.getValue(nodeSpell, "name", ""));
-          ChatManager.Message(sMsg, true, ActorManager.getActor("pc", nodeChar));            
-      end
+    local nCast = DB.getValue(nodeSpell, "cast", 0);
+    if (nPrepared >= (nCast+1) or bisNPC) then -- ignore check for npcs
+      DB.setValue(nodeSpell, "cast","number", (nCast+1));
+      bHadCharge = true;
+    else
+      --bHadCharge = false;
+      bHadCharge = true; -- we let the effect happen and just spam with text error
+      local sFormat = Interface.getString("message_nouseleft");
+      local sMsg = string.format(sFormat, DB.getValue(nodeSpell, "name", ""));
+      ChatManager.Message(sMsg, true, ActorManager.getActor("pc", nodeChar));            
+    end
   end
 
     return bHadCharge;

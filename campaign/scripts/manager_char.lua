@@ -1306,12 +1306,9 @@ function addSkillDB(nodeChar, sSkill, nodeSource)
     -- DB.setValue(nodeSkill, "prof", "number", nProficient);
   -- end
 
-  -- Announce
-  local sFormat = Interface.getString("char_abilities_message_skilladd");
-  local sMsg = string.format(sFormat, DB.getValue(nodeSkill, "name", ""), DB.getValue(nodeChar, "name", ""));
-  ChatManager.SystemMessage(sMsg);
-  
-  return nodeSkill;
+	-- Announce
+	outputUserMessage("char_abilities_message_skilladd", DB.getValue(nodeSkill, "name", ""), DB.getValue(nodeChar, "name", ""));
+	return nodeSkill;
 end
 
 function addClassFeatureDB(nodeChar, sClass, sRecord, nodeClass)
@@ -1425,9 +1422,7 @@ function onWeaponSpecializationSelect(aSelection, rWeaponAdd)
     DB.setValue(nodeEntry,"hitadj","number",nHit);
     DB.setValue(nodeEntry,"dmgadj","number",nDMG);
     -- Announce
-    local sFormat = Interface.getString("char_abilities_message_profadd");
-    local sMsg = string.format(sFormat, DB.getValue(nodeEntry, "name", ""), DB.getValue(nodeChar, "name", ""));
-    ChatManager.SystemMessage(sMsg);
+    outputUserMessage("char_abilities_message_profadd", DB.getValue(nodeEntry, "name", ""), DB.getValue(nodeChar, "name", ""));
   end
 end
 
@@ -2314,10 +2309,25 @@ function addAdvancement(nodeChar,nodeAdvance,nodeClass,nodeClassSource)
     local nTHACO = DB.getValue(nodeAdvance,"thaco",0);
     local nodeCombat = nodeChar.createChild("combat"); -- make sure these exist
     local nodeTHACO = nodeCombat.createChild("thaco"); -- make sure these exist
+    local nodeCharMATRIX = nodeCombat.createChild("matrix"); -- make sure these exist
+    
     local nCurrentTHACO = DB.getValue(nodeChar,"combat.thaco.score",20);
     if nTHACO ~= 0 and nTHACO < nCurrentTHACO then
       DB.setValue(nodeChar,"combat.thaco.score","number",nTHACO);
       ChatManager.SystemMessage("THACO updated to new value of " .. nTHACO);
+    end
+    
+    for i=10,-10,-1 do
+      local sCurrentTHAC = "thac" .. i;
+      --local nTHACO = 20; -- default will be 20, shouldn't need it.
+      --local nDefaultnTHAC = nTHACO - i;
+      local nCurrentTHAC = DB.getValue(nodeCharMATRIX,sCurrentTHAC, 100);
+      local nNewTHAC = DB.getValue(nodeAdvance,"combat.matrix." .. sCurrentTHAC, 0);
+      -- only match of new value and new value != 0 as long as current nTHAC == 1.
+      if (nNewTHAC < nCurrentTHAC) and (nNewTHAC ~= 0 or nCurrentTHAC == 1) then 
+        ChatManager.SystemMessage(string.upper(sCurrentTHAC) .. " updated from ".. nCurrentTHAC .. " to new value of " .. nNewTHAC);
+        DB.setValue(nodeCharMATRIX,sCurrentTHAC,"number",nNewTHAC);
+      end
     end
     
     --profs

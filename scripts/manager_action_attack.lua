@@ -18,6 +18,8 @@ function onInit()
   ActionsManager.registerTargetingHandler("attack", onTargeting);
   ActionsManager.registerModHandler("attack", modAttack);
   ActionsManager.registerResultHandler("attack", onAttack);
+    -- callback for mirror/stoneskins
+  ActionsManager.registerResultHandler("roll_against_mirrorimages", againstMirrors);
 end
 
 function handleApplyAttack(msgOOB)
@@ -476,7 +478,11 @@ function onAttack(rSource, rTarget, rRoll)
   local bOptAscendingAC = (OptionsManager.getOption("HouseRule_ASCENDING_AC"):match("on") ~= nil);
   local bOptSHRR = (OptionsManager.getOption("SHRR") ~= "off");
   local bOptREVL = (OptionsManager.getOption("REVL") == "on");
+  local is2e = (DataCommonADND.coreVersion == "2e");
+  local bHitTarget = false;
+  
   ActionsManager2.decodeAdvantage(rRoll);
+  local nAttackMatrixRoll = ActionsManager.total(rRoll);
   
 
   local rMessage = ActionsManager.createActionMessage(rSource, rRoll);
@@ -487,14 +493,17 @@ function onAttack(rSource, rTarget, rRoll)
   local rAction = {};
   rAction.nTotal = ActionsManager.total(rRoll);
 
-    -- add base attack bonus here(converted THACO to BaB remember?) so it doesn't confuse players and show up as a +tohit --celestian
-  rAction.nTotal = rAction.nTotal + rRoll.nBaseAttack;
+    -- add base attack bonus here(converted THACO to BaB remember?) so it doesn't confuse players and show up as a +tohit --celestian]
+  -- if is2e then
+    -- rAction.nTotal = rAction.nTotal + rRoll.nBaseAttack;
+  -- end
     
   rAction.aMessages = {};
   
   local nDefenseVal, nAtkEffectsBonus, nDefEffectsBonus = ActorManager2.getDefenseValue(rSource, rTarget, rRoll);
   if nAtkEffectsBonus ~= 0 then
     rAction.nTotal = rAction.nTotal + nAtkEffectsBonus;
+    nAttackMatrixRoll = nAttackMatrixRoll + nAtkEffectsBonus;
     local sFormat = "[" .. Interface.getString("effects_tag") .. " %+d]"
     table.insert(rAction.aMessages, string.format(sFormat, nAtkEffectsBonus));
   end
@@ -507,26 +516,31 @@ function onAttack(rSource, rTarget, rRoll)
     local bCanCrit = true;
   -- insert AC hit
 --Debug.console("manager_action_attack.lua","onAttack","nDefenseVal",nDefenseVal);
-  local nACHit = (20 - rAction.nTotal);
-  if bOptAscendingAC then
-    nACHit = rAction.nTotal;
+  local nACHit = (20 - (rAction.nTotal + rRoll.nBaseAttack));
+  if not is2e then
+    nACHit = CombatManagerADND.getACHitFromMatrix(ActorManager.getCTNode(rSource),nAttackMatrixRoll);
+Debug.console("manager_action_attack.lua","onAttack","Matrix ACHit--------->",nACHit);  
+  elseif bOptAscendingAC then   -- you can't have AscendingAC and 1e Matrix (right now)
+    nACHit = (rAction.nTotal + rRoll.nBaseAttack);
   end
   
   if rTarget ~= nil then
     if (nDefenseVal and nDefenseVal ~= 0) then
-        -- adjust bCanCrit based on target AC, if they need roll+bab 20 to hit target ac then they cant crit
-        bCanCrit = (not bPsionic and canCrit(rRoll.nBaseAttack,nDefenseVal));
-        local nTargetAC = (20 - nDefenseVal);
-        if bOptAscendingAC then
-          nTargetAC = nDefenseVal;
-        end
-        if (bPsionic) then
-          --rMessage.text = rMessage.text .. "[Hit-MAC: " .. nACHit .. " vs. ".. nTargetAC .." ]" .. table.concat(rAction.aMessages, " ");
-          rMessage.text = rMessage.text .. table.concat(rAction.aMessages, " ");
-        else
-          --rMessage.text = rMessage.text .. "[Hit-AC: " .. nACHit .. " vs. ".. nTargetAC .." ]" .. table.concat(rAction.aMessages, " ");
-          rMessage.text = rMessage.text .. table.concat(rAction.aMessages, " ");
-        end
+      -- adjust bCanCrit based on target AC, if they need roll+bab 20 to hit target ac then they cant crit
+      bCanCrit = (not bPsionic and canCrit(rRoll.nBaseAttack,nDefenseVal));
+      local nTargetAC = (20 - nDefenseVal);
+      if bOptAscendingAC then
+        nTargetAC = nDefenseVal;
+      end
+      if (bPsionic) then
+        --rMessage.text = rMessage.text .. "[Hit-MAC: " .. nACHit .. " vs. ".. nTargetAC .." ]" .. table.concat(rAction.aMessages, " ");
+        rMessage.text = rMessage.text .. table.concat(rAction.aMessages, " ");
+        table.insert(rAction.aMessages, "[Hit-MAC: " .. nACHit .. " vs. ".. nTargetAC .." ]" );
+      else
+        --rMessage.text = rMessage.text .. "[Hit-AC: " .. nACHit .. " vs. ".. nTargetAC .." ]" .. table.concat(rAction.aMessages, " ");
+        rMessage.text = rMessage.text .. table.concat(rAction.aMessages, " ");
+        table.insert(rAction.aMessages, "[Hit-AC: " .. nACHit .. " vs. ".. nTargetAC .." ]" );
+      end
     end
   elseif nDefenseVal and bPsionic and not rRoll.Psionic_DisciplineType:match("attack") then -- no source but nDefenseVal and not a psionic attack (it's a power)
     bCanCrit = false;
@@ -543,6 +557,7 @@ function onAttack(rSource, rTarget, rRoll)
     table.insert(rAction.aMessages, string.format("[MAC: %d ]" , nACHit) );
   else
     --"[Hit-AC: " .. nACHit .. " vs. ".. nTargetAC .." ]"
+    --table.insert(rAction.aMessages, "[Hit-AC: " .. nACHit .. " vs. ".. nTargetAC .." ]" );
     table.insert(rAction.aMessages, string.format("[AC: %d ]" , nACHit) );
   end
     
@@ -560,6 +575,7 @@ function onAttack(rSource, rTarget, rRoll)
   
   if rAction.nFirstDie >= nCritThreshold and bCanCrit then
     rAction.bSpecial = true;
+    bHitTarget = true;
     rAction.sResult = "crit";
     table.insert(rAction.aMessages, "[CRITICAL HIT]");
   elseif rAction.nFirstDie == 1 then
@@ -569,39 +585,46 @@ function onAttack(rSource, rTarget, rRoll)
       rMessage.icon = "roll_psionic_hit";
       rMessage.text = rMessage.text .. sAdjustPSPText;
     end
-    table.insert(rAction.aMessages, "[AUTOMATIC MISS]");
+    table.insert(rAction.aMessages, "[MISS-AUTOMATIC]");
   elseif nDefenseVal and nDefenseVal ~= 0 then 
+    local nTargetDecendingAC = (20 - nDefenseVal);
+    local bMatrixHit = ( nTargetDecendingAC >= nACHit );
+    local bHit = ((rAction.nTotal + rRoll.nBaseAttack) >= nDefenseVal or rAction.nFirstDie == 20);
     if (rTarget == nil and rRoll.Psionic_DisciplineType:match("attack")) then
       -- psionic attacks only work with a target, powers however have target MACs so... this lovely confusing mess.
-    else
-  --Debug.console("manager_action_attack.lua","onAttack","nDefenseVal",nDefenseVal);
-      -- nFirstDie = natural roll, nat 20 == auto-hit, if you can't crit you can still hit on a 20
-      if rAction.nTotal >= nDefenseVal or rAction.nFirstDie == 20 then
-        rMessage.font = "hitfont";
-        rMessage.icon = "chat_hit";
-        rAction.sResult = "hit";
-        local sHitText = "[HIT]";
-        if (rAction.nFirstDie == 20) then
-          sHitText = "[AUTOMATIC HIT]";
-        end
-        if bPsionic then
-          rMessage.icon = "roll_psionic_hit";
-        end
-        -- if bPsionic then 
-          -- table.insert(rAction.aMessages,adjustPSPs(rSource,tonumber(rRoll.Psionic_PSP)));
-        -- end
-        table.insert(rAction.aMessages, sHitText);
-      else
-        rMessage.font = "missfont";
-        rMessage.icon = "chat_miss";
-        rAction.sResult = "miss";
-        if bPsionic then
-          local sAdjustPSPText = adjustPSPs(rSource,tonumber(rRoll.Psionic_PSPOnFail));
-          rMessage.icon = "roll_psionic_miss";
-          rMessage.text = rMessage.text .. sAdjustPSPText;
-        end
-        table.insert(rAction.aMessages, "[MISS]");
+    else if (is2e and bHit) or (not is2e and not bOptAscendingAC and bMatrixHit) then
+    --Debug.console("manager_action_attack.lua","onAttack","nDefenseVal",nDefenseVal);
+    -- nFirstDie = natural roll, nat 20 == auto-hit, if you can't crit you can still hit on a 20
+    -- if rAction.nTotal >= nDefenseVal or rAction.nFirstDie == 20 then
+-------------------------------------
+      bHitTarget = true;
+      rMessage.font = "hitfont";
+      rMessage.icon = "chat_hit";
+      rAction.sResult = "hit";
+      local sHitText = "[HIT]";
+      if (rAction.nFirstDie == 20) then
+        sHitText = "[HIT-AUTOMATIC]";
       end
+      if bPsionic then
+        rMessage.icon = "roll_psionic_hit";
+      end
+      -- if bPsionic then 
+        -- table.insert(rAction.aMessages,adjustPSPs(rSource,tonumber(rRoll.Psionic_PSP)));
+      -- end
+      table.insert(rAction.aMessages, sHitText);
+-------------------------------------
+    else
+      rMessage.font = "missfont";
+      rMessage.icon = "chat_miss";
+      rAction.sResult = "miss";
+      if bPsionic then
+        local sAdjustPSPText = adjustPSPs(rSource,tonumber(rRoll.Psionic_PSPOnFail));
+        rMessage.icon = "roll_psionic_miss";
+        rMessage.text = rMessage.text .. sAdjustPSPText;
+      end
+      table.insert(rAction.aMessages, "[MISS]");
+    end
+    
     end
   end
 
@@ -637,8 +660,46 @@ function onAttack(rSource, rTarget, rRoll)
   if rAction.sResult == "crit" and ((sOptionHRFC == "both") or (sOptionHRFC == "criticalhit")) then
     notifyApplyHRFC("Critical Hit");
   end
+  
+  -- check for MIRRORIMAGE and STONESKIN /etc...
+  if rTarget and bHitTarget and not bPsionic then
+    local _, nStoneSkinCount, _ = EffectManager5E.getEffectsBonus(rTarget, {"STONESKIN"}, false, nil);
+    local _, nMirrorCount, nEffectCount = EffectManager5E.getEffectsBonus(rTarget, {"MIRRORIMAGE"}, false, nil);
+    if (nStoneSkinCount > 0) then
+      -- remove a stoneskin from count
+      local nodeCT = ActorManager.getCTNode(rTarget);
+      EffectManagerADND.removeEffectCount(nodeCT, "STONESKIN", 1);
+      local rMessage = ActionsManager.createActionMessage(rSource, rRoll);
+      rMessage.text = "[STONESKIN HIT] " .. Interface.getString("chat_combat_hit_stoneskin");
+      Comm.deliverChatMessage(rMessage);
+    elseif nMirrorCount > 0 then
+      local rMirrorRoll = { sType = "roll_against_mirrorimages", sDesc = "[MIRROR-IMAGE]", aDice = { "d100","d10" }, nMod = 0 ,bSecret = false, sUser = User.getUsername()};
+      ActionsManager.roll(rSource, rTarget, rMirrorRoll,false);
+    end
+  end
 end
 
+--- see if the attack hit mirror/stoneskin instead
+function againstMirrors(rSource, rTarget, rRoll)
+  local nodeCT = ActorManager.getCTNode(rTarget);
+  local nCheckTotal = ActionsManager.total(rRoll);
+  local _, nMirrorCount, _ = EffectManager5E.getEffectsBonus(rTarget, {"MIRRORIMAGE"}, false, nil);
+  
+  if (nMirrorCount > 0) then
+    local fHitMirror = ((nMirrorCount / (1 + nMirrorCount)) * 100)
+    local nHitMirror =  math.floor(fHitMirror-0.5); 
+
+    if (nCheckTotal <= nHitMirror) then
+      -- remove a mirror from count
+      EffectManagerADND.removeEffectCount(nodeCT, "MIRRORIMAGE", 1);
+      local rMessage = ActionsManager.createActionMessage(rSource, rRoll);
+      rMessage.text = "[MIRROR-IMAGE HIT] " .. Interface.getString("chat_combat_hit_mirrorimage");
+      Comm.deliverChatMessage(rMessage);
+    end
+  end
+  -- remove a mirror
+end
+--- applyAttack
 function applyAttack(rSource, rTarget, bSecret, sAttackType, sDesc, nTotal, sResults, sAttackLable)
   local msgShort = {font = "msgfont"};
   local msgLong = {font = "msgfont"};

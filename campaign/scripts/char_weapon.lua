@@ -150,39 +150,65 @@ function getToHitProfs(nodeWeapon)
   return nMod;
 end
 
-function onDamageChanged(p1, p2)
+-- damage changed on a weapon
+function onDamageChanged()
   local nodeWeapon = getDatabaseNode();
-  local nodeChar = nodeWeapon.getChild("...")
+  --local nodeItem = nodeWpn.getChild("...");
+-- Debug.console("char_weapon.lua","onDamageChanged","nodeWpn",nodeWpn);   
+-- Debug.console("char_weapon.lua","onDamageChanged","nodeItem",nodeItem);   
+  local nodeChar = nodeWeapon.getChild("...");
   local rActor = ActorManager.getActor("", nodeChar);
 
-  local sBaseAbility = "strength";
-  if type.getValue() == 1 then
-    sBaseAbility = "dexterity";
-  end
-  
-  local aDamage = {};
-  local aDamageNodes = UtilityManager.getSortedTable(DB.getChildren(nodeWeapon, "damagelist"));
-  for _,v in ipairs(aDamageNodes) do
-    local nMod = DB.getValue(v, "bonus", 0);
-    local sAbility = DB.getValue(v, "stat", "");
-    if sAbility == "base" then
-      sAbility = sBaseAbility;
+  -- local sDamageAll = "";
+  -- local sDamageOriginal = "";
+  -- local bItemUpdate = false;
+  -- --weaponlist
+  -- local aWeaponNodes = {};
+  -- if (nodeItem.getPath():match("^item%.") ~= nil) then
+    -- aWeaponNodes = UtilityManager.getSortedTable(DB.getChildren(nodeItem, "weaponlist"));
+    -- bItemUpdate = true;
+    -- sDamageOriginal = DB.getValue(nodeItem,"damage","");
+  -- else
+    -- table.insert(aWeaponNodes,nodeWpn);
+  -- end
+  -- for _,nodeWeapon in ipairs(aWeaponNodes) do
+    local sBaseAbility = "strength";
+    if type.getValue() == 1 then
+      sBaseAbility = "dexterity";
     end
-    if sAbility ~= "" then
-      nMod = nMod + ActorManager2.getAbilityBonus(rActor, sAbility, "damageadj");
-    end
-        nMod = nMod + getToDamageProfs(nodeWeapon);
-        
-    local aDice = DB.getValue(v, "dice", {});
-    if #aDice > 0 or nMod ~= 0 then
-      local sDamage = StringManager.convertDiceToString(DB.getValue(v, "dice", {}), nMod);
-      local sType = DB.getValue(v, "type", "");
-      if sType ~= "" then
-        sDamage = sDamage .. " " .. sType;
+    -- -- flip through all damage entries and update damage display string
+    -- -- also update the weapons "damage" string field to contain them all so
+    -- -- that they show up decently in the item records "weapons" list.
+    local aDamageNodes = UtilityManager.getSortedTable(DB.getChildren(nodeWeapon, "damagelist"));
+    for _,nodeDMG in ipairs(aDamageNodes) do
+      local nMod = DB.getValue(nodeDMG, "bonus", 0);
+      local sAbility = DB.getValue(nodeDMG, "stat", "");
+      if sAbility == "base" then
+        sAbility = sBaseAbility;
       end
-        DB.setValue(v, "damageasstring","string",sDamage);
+      if sAbility ~= "" then
+        nMod = nMod + ActorManager2.getAbilityBonus(rActor, sAbility, "damageadj");
+      end
+      nMod = nMod + getToDamageProfs(nodeWeapon);
+      local aDice = DB.getValue(nodeDMG, "dice", {});
+      if #aDice > 0 or nMod ~= 0 then
+        local sDamage = StringManager.convertDiceToString(DB.getValue(nodeDMG, "dice", {}), nMod);
+        local sType = DB.getValue(nodeDMG, "type", "");
+        if sType ~= "" then
+          sDamage = sDamage .. " " .. sType;
+        end
+          --sDamageAll = sDamageAll .. sDamage .. ";";
+          DB.setValue(nodeDMG, "damageasstring","string",sDamage);
+      end
     end
-  end
+  --end -- aWeaponNodes
+  
+  -- -- and lastly add the damage string for all of them if this is a 
+  -- -- item record
+  -- if bItemUpdate and sDamageOriginal ~= sDamageAll then
+    -- DB.setValue(nodeItem,"damage","string",sDamageAll);
+-- --Debug.console("char_weapon.lua","onDamageChanged","sDamageAll",sDamageAll);   
+  -- end
 end
 
 -- return dmgadj values for all profs attached to weapon

@@ -218,9 +218,79 @@ function processUpdateADND(sCommand, sParams)
   -- local sMajor, sMinor, sPoint = Interface.getVersion();
   -- Debug.console("data_library_adnd.lua","processUpdateADND","sMajor",sMajor);          
   -- Debug.console("data_library_adnd.lua","processUpdateADND","sMinor",sMinor);          
-  -- Debug.console("data_library_adnd.lua","processUpdateADND","sPoint",sPoint);          
+  -- Debug.console("data_library_adnd.lua","processUpdateADND","sPoint",sPoint);       
+
+-- damage changed on a weapon, bulk update  
+  -- for _,nodeItem in pairs(DB.getChildren("item")) do
+-- Debug.console("data_library_adnd.lua","processUpdateADND","nodeItem",nodeItem);  
+    -- updateDamageString(nodeItem);
+  -- end
+
+  -- sound testing
+  -- local sURLCommand = "winamp.exe";
+  -- sURLCommand = "file:///";
+  
+  -- local sCommandOpts = " /PLCLEAR /PLADD ";
+  -- sCommandOpts = "";
+  
+  -- local sSoundFilePath = "D:\\Sounds\\ADnD\\Creature\\";
+  -- local sSoundFile = sSoundFilePath .. sParams;
+  -- local sSoundString = sURLCommand .. sCommandOpts ..  sSoundFile;
+  
+  -- --sSoundString = "vlc://pause:10";
+  -- --sSoundString = "vlc://quit";
+  -- --sSoundString = "vlc:///D:\\Sounds\\ADnD\\Creature\\878b87_Godzilla_Roar_Sound_FX.mp3"
+  -- --sSoundString = "file:///D:\\Sounds\\ADnD\\Creature\\878b87_Godzilla_Roar_Sound_FX.mp3"
+  
+-- Debug.console("data_library_adnd.lua","processUpdateADND","sSoundString",sSoundString);    
+  -- Interface.openWindow("url",sSoundString);
   
   end -- isHost()
+end
+
+-- damage changed on a weapon, bulk update
+function updateDamageString(nodeItem)
+Debug.console("data_library_adnd.lua","updateDamageString","nodeItem",nodeItem); 
+  local sDamageAll = "";
+  --weaponlist
+  local aWeaponNodes = UtilityManager.getSortedTable(DB.getChildren(nodeItem, "weaponlist"));
+  local bUpdateDamageString = (#aWeaponNodes > 0)
+  for _,nodeWeapon in ipairs(aWeaponNodes) do
+Debug.console("data_library_adnd.lua","updateDamageString","nodeWeapon",nodeWeapon); 
+    local nType = DB.getValue(nodeWeapon,"type",0);
+    local sBaseAbility = "strength";
+    if nType == 1 then
+      sBaseAbility = "dexterity";
+    end
+    -- flip through all damage entries and update damage display string
+    -- also update the weapons "damage" string field to contain them all so
+    -- that they show up decently in the item records "weapons" list.
+    local aDamageNodes = UtilityManager.getSortedTable(DB.getChildren(nodeWeapon, "damagelist"));
+    for _,nodeDMG in ipairs(aDamageNodes) do
+Debug.console("data_library_adnd.lua","updateDamageString","nodeDMG",nodeDMG); 
+      local nMod = DB.getValue(nodeDMG, "bonus", 0);
+      local sAbility = DB.getValue(nodeDMG, "stat", "");
+      if sAbility == "base" then
+        sAbility = sBaseAbility;
+      end
+      local aDice = DB.getValue(nodeDMG, "dice", {});
+      if #aDice > 0 or nMod ~= 0 then
+        local sDamage = StringManager.convertDiceToString(DB.getValue(nodeDMG, "dice", {}), nMod);
+        local sType = DB.getValue(nodeDMG, "type", "");
+        if sType ~= "" then
+          sDamage = sDamage .. " " .. sType;
+        end
+          sDamageAll = sDamageAll .. sDamage .. ";";
+          --DB.setValue(nodeDMG, "damageasstring","string",sDamage);
+      end
+    end
+    -- and lastly add the damage string for all of them
+  end -- aWeaponNodes  
+Debug.console("data_library_adnd.lua","updateDamageString","bUpdateDamageString",bUpdateDamageString); 
+  if bUpdateDamageString then
+    DB.setValue(nodeItem,"damage","string",sDamageAll);
+Debug.console("data_library_adnd.lua","updateDamageString","updateDamageString",sDamageAll); 
+  end
 end
 
 

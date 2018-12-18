@@ -7,7 +7,6 @@ function onInit()
   registerMenuItem(Interface.getString("power_menu_actiondelete"), "deletepointer", 4);
   registerMenuItem(Interface.getString("list_menu_deleteconfirm"), "delete", 4, 3);
   
-
   updateDisplay();
   
   local node = getDatabaseNode();
@@ -29,6 +28,7 @@ function onInit()
   DB.addHandler(DB.getPath(nodeChar, "divine.totalLevel"), "onUpdate", onDataChanged);
   DB.addHandler(DB.getPath(nodeChar, "psionic.totalLevel"), "onUpdate", onDataChanged);
   
+  --DB.addHandler(DB.getPath(nodeChar, "powermode"), "onUpdate", updateDisplay);
   onDataChanged();
 end
 
@@ -46,6 +46,8 @@ function onClose()
   DB.removeHandler(DB.getPath(nodeChar, "arcane.totalLevel"), "onUpdate", onDataChanged);
   DB.removeHandler(DB.getPath(nodeChar, "divine.totalLevel"), "onUpdate", onDataChanged);
   DB.removeHandler(DB.getPath(nodeChar, "psionic.totalLevel"), "onUpdate", onDataChanged);
+  
+  --DB.removeHandler(DB.getPath(nodeChar, "powermode"), "onUpdate", updateDisplay);
 end
 
 function onMenuSelection(selection, subselection)
@@ -69,8 +71,10 @@ function updateDisplay()
   local nodeChar = node.getChild(".....");
   --local bisNPC = (not ActorManager.isPC(nodeChar));
   local sType = DB.getValue(node, "type", "");
+--Debug.console("power_action.lua","updateDisplay","sType",sType);
   
   local bShowCast = (sType == "cast");
+  --local bShowAttack = (sType == "attack");
   local bShowDamage = (sType == "damage");
   local bShowHeal = (sType == "heal");
   local bShowEffect = (sType == "effect");
@@ -80,10 +84,10 @@ function updateDisplay()
 --Debug.console("power_action.lua","updateDisplay","node",node);
 --Debug.console("power_action.lua","updateDisplay","nodeSpell",nodeSpell);
     
-    local sSpellType = DB.getValue(nodeSpell, "type", ""):lower();
-    local sSource = DB.getValue(nodeSpell, "source", ""):lower();
+  local sSpellType = DB.getValue(nodeSpell, "type", ""):lower();
+  local sSource = DB.getValue(nodeSpell, "source", ""):lower();
 
-    local bShowMemorize = ( PowerManager.canMemorizeSpell(nodeSpell) );
+  local bShowMemorize = ( PowerManager.canMemorizeSpell(nodeSpell) );
     -- local bShowMemorize = ( ( PowerManager.isArcaneSpellType(sSpellType) or 
                               -- PowerManager.isArcaneSpellType(sSource) or 
                               -- PowerManager.isDivineSpellType(sSpellType) or 
@@ -91,20 +95,19 @@ function updateDisplay()
                               -- (sType == "cast")   );
     
 --Debug.console("power_action.lua","updateDisplay","bShowMemorize",bShowMemorize);
-    local sMode = DB.getValue(nodeChar, "powermode", "");
+  local sMode = DB.getValue(nodeChar, "powermode", "");
 --Debug.console("power_action.lua","updateDisplay","sMode",sMode);
-    local bMemorized = ((DB.getValue(nodeSpell,"memorized",0) > 0));
+  local bMemorized = ((DB.getValue(nodeSpell,"memorized",0) > 0));
 --Debug.console("power_action.lua","updateDisplay","bMemorized",bMemorized);
-    local bWasMemorized = (DB.getValue(nodeSpell,"wasmemorized",0) == 1);
+  local bWasMemorized = (DB.getValue(nodeSpell,"wasmemorized",0) == 1);
 --Debug.console("power_action.lua","updateDisplay","bWasMemorized",bWasMemorized);
-    local bShowSpellHide = false;
---Debug.console("power_action.lua","updateDisplay","bShowSpellHide",bShowSpellHide);
+  local bShowSpellHide = false;
+--Debug.console("power_action.lua","updateDisplay","bShowSpellHide1",bShowSpellHide);
     -- show the button to hide this spell since it was cast
   if (sMode == "combat") and (sType == "cast") and bWasMemorized and not bMemorized then
-        bShowSpellHide = true;
-        bShowMemorize = false;
---Debug.console("power_action.lua","updateDisplay","bShowSpellHide",bShowSpellHide);
-    end
+    bShowSpellHide = true;
+    bShowMemorize = false;
+  end
     --local bShowInitiative = false;
 -- Debug.console("power_action.lua","updateDisplay","castinitiative.getValue(",castinitiative.getValue());    
     -- if (sMode == "combat") and (sType == "cast") and (castinitiative.getValue() > 0) then
@@ -133,8 +136,9 @@ function updateDisplay()
         -- memorizedcount.setVisible(bShowMemorize);
     -- end
     
-     hidespellbutton.setVisible(bShowSpellHide);
-     hidespelllabel.setVisible(bShowSpellHide);
+--Debug.console("power_action.lua","updateDisplay","bShowSpellHide",bShowSpellHide);    
+  hidespellbutton.setVisible(bShowSpellHide);
+  hidespelllabel.setVisible(bShowSpellHide);
     
   attackbutton.setVisible(bShowCast);
   attackviewlabel.setVisible(bShowCast);
@@ -142,9 +146,9 @@ function updateDisplay()
     
     -- hide if no attack set.
     if (bShowCast and attackview.getValue() == "") then
-        attackbutton.setVisible(false);
-        attackviewlabel.setVisible(false);
-        attackview.setVisible(false);
+      attackbutton.setVisible(false);
+      attackviewlabel.setVisible(false);
+      attackview.setVisible(false);
     end
     
   savebutton.setVisible(bShowCast);
@@ -152,9 +156,9 @@ function updateDisplay()
   saveview.setVisible(bShowCast);
     -- hide if no save set.
     if (bShowCast and saveview.getValue() == "") then
-        savebutton.setVisible(false);
-        saveviewlabel.setVisible(false);
-        saveview.setVisible(false);
+      savebutton.setVisible(false);
+      saveviewlabel.setVisible(false);
+      saveview.setVisible(false);
     end
     
   castdetail.setVisible(bShowCast);
@@ -192,13 +196,11 @@ end
 -- when "hidespell pressed" and the spell was memorized (not any longer) 
 -- we remove the wasmemorized flag and force display update to clear it from list.
 function hideSpellPressed()
-    local node = getDatabaseNode();
-    local nodeSpell = node.getChild("...");
+  local node = getDatabaseNode();
+  local nodeSpell = node.getChild("...");
 
---    Debug.console("power_action.lua","hideSpellPressed","node",node);
---    Debug.console("power_action.lua","hideSpellPressed","nodeSpell",nodeSpell);
-    DB.setValue(nodeSpell,"wasmemorized","number",0);
-    updateDisplay();
+  DB.setValue(nodeSpell,"wasmemorized","number",0);
+  updateDisplay();
 end
 
 function updateViews()

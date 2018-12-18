@@ -6,6 +6,7 @@
 -->
 
 <root>
+  <!-- DONT CHANGE THIS IF PORTING FROM 2E. AD&D Core uses black background and needs white font ! -->
   <font name="sidebar">
     <fgffile name="graphics/fonts/rockwell_bold_11.fgf" />
     <color value="#dedede" />

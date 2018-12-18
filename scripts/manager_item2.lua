@@ -123,7 +123,7 @@ function isWeapon(vRecord)
 end
 
 function isRefBaseItemClass(sClass)
-  return StringManager.contains({"reference_armor", "reference_weapon", "reference_equipment", "reference_mountsandotheranimals", "reference_waterbornevehicles"}, sClass);
+	return StringManager.contains({"reference_armor", "reference_weapon", "reference_equipment", "reference_mountsandotheranimals", "reference_waterbornevehicles", "reference_vehicle"}, sClass);
 end
 
 function addItemToList2(sClass, nodeSource, nodeTarget, nodeTargetList)
@@ -152,7 +152,7 @@ function addItemToList2(sClass, nodeSource, nodeTarget, nodeTargetList)
     DB.setValue(nodeTarget, "locked", "number", 1);
 
     -- Set the identified field
-    if (sClass == "reference_magicitem") then
+    if ((sClass == "reference_magicitem") and (not User.isLocal())) then
       DB.setValue(nodeTarget, "isidentified", "number", 0);
     else
       DB.setValue(nodeTarget, "isidentified", "number", 1);

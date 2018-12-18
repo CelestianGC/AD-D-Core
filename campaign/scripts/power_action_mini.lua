@@ -21,7 +21,7 @@ end
 
 function updateDisplay()
   local sType = DB.getValue(getDatabaseNode(), "type", "");
-  
+--Debug.console("power_action_mini","updateDisplay","sType",sType);  
   if sType == "cast" then
     button.setIcons("button_roll", "button_roll_down");
   elseif sType == "damage" then

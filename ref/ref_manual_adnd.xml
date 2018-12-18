@@ -8,6 +8,6 @@
 <root>
 	<windowclass name="referencemanualpage" merge="join">
     <!-- We do this because we use a single window display mode, the original ref-manual tool closes the window -->
-		<script file="ref/scripts/ref_manualpage_CoreRPG3.3.6.lua" mergerule="replace" />
+		<script file="ref/scripts/ref_manualpage_CoreRPG_3.3.7.lua" mergerule="replace" />
 	</windowclass>
 </root>

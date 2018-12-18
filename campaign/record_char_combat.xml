@@ -34,9 +34,14 @@
         </script>
       </label_charframetop>
       <button_iadd_abilitynotes name="abilitynotes_iadd">
-        <anchored to="minicombattitle" position="insidetopright" offset="5,0" />
+        <anchored to="minicombattitle" position="insidetopright" offset="-5,0" />
         <target>abilitynotes</target>
       </button_iadd_abilitynotes>
+      
+      <button_charcombatcalc name="button_combatcalc">
+        <anchored to="minicombattitle" position="insidetopright" offset="12,0" width="20" height="20" />
+      </button_charcombatcalc>
+      
       <subwindow name="mini_combat_window">
         <anchored to="minicombattitle">
           <top anchor="bottom" />
@@ -95,15 +100,15 @@
     <script file="campaign/scripts/quicknotes.lua" />
     <sheetdata>
       <!-- SURPRISE -->            
-      <number_surprise name="surprise_total_roll" source="surprise.total">
-        <anchored width="30" height="20"> 
+      <button_surprise name="surprise_total_roll" source="surprise.total">
+        <anchored height="25" width="20" >
           <top offset="15" />
-          <left anchor="center" offset="-55"/>
+          <left anchor="center" offset="-45"/>
         </anchored>
-      </number_surprise>
+      </button_surprise>
       <stringcontrol  name="label_surprisetotal">
         <anchored to="surprise_total_roll"  position="aboveleft" offset="-5,1" />
-        <font>sheetlabelmini</font>
+        <font>arial-regular-6</font>
         <center />
         <static textres="char_label_surpriseroll" />
         <tooltip textres="char_label_surpriseroll_tooltip" />
@@ -111,16 +116,15 @@
       <!-- END SURPRISE -->
 
             <!-- INIT -->
-      <number_charinit name="initiative" source="initiative.total">
-        <font>sheetlabelmini</font>
-        <anchored height="20" width="30" >
+      <button_charinit name="initiative" source="initiative.total">
+        <anchored height="25" width="20" >
           <top parent="surprise_total_roll" />
           <left parent="surprise_total_roll" anchor="right" relation="relative" offset="15" />
         </anchored>
-      </number_charinit>
+      </button_charinit>
       <stringcontrol>
         <anchored to="initiative"  position="aboveleft" offset="-5,1" />
-        <font>sheetlabelmini</font>
+        <font>arial-regular-6</font>
         <center />
         <static textres="char_label_initiativeroll" />
         <tooltip textres="char_label_initiativeroll_tooltip" />
@@ -128,14 +132,15 @@
             <!-- END INIT -->
             
             <!-- TURN UNDEAD -->            
-      <number_turnundead name="turnlevel" source="turn.total">
-        <anchored height="20" width="30" >
+      <button_turnundead name="turnlevel" source="turn.total">
+        <anchored height="25" width="20" >
           <top parent="surprise_total_roll" />
           <left parent="surprise_total_roll" anchor="right" relation="relative" offset="15" />
         </anchored>
-      </number_turnundead>
+      </button_turnundead>
       <label_fieldtop name="label_turnlevel">
         <anchored to="turnlevel" />
+        <font>arial-regular-6</font>
         <static textres="char_label_turn" />
         <tooltip textres="char_label_turn_tooltip" />
       </label_fieldtop>

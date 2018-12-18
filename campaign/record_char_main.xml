@@ -1227,23 +1227,30 @@
         <anchored to="contentanchor" position="below" offset="0,-5" />
       </anchor_column>
       <anchor_left />
-            <anchor_right />
+      <anchor_right />
 
             
       <!-- proficiencies.weapon.penalty -->
       <label name="label_proficiency_weapon_penalty">
         <anchored width="60">
-          <top parent="columnanchor" anchor="bottom" relation="relative" offset="20" />
+          <top parent="columnanchor" anchor="bottom" relation="relative" offset="25" />
           <left offset="30" />
         </anchored>
         <static textres="char_label_weapon_penalty" />
         <tooltip textres="char_label_weapon_penalty_tooltip" />
       </label>
+      <stringcontrol name="label_nonprof_penalty">
+        <anchored to="label_proficiency_weapon_penalty"  position="aboveleft" offset="-5,1" />
+        <center />
+        <static text="Weapon" />
+        <tooltip textres="char_label_weapon_penalty_tooltip" />
+      </stringcontrol>
+
       <number_basic name="weapon_penalty" source="proficiencies.weapon.penalty">
         <anchored to="label_proficiency_weapon_penalty" position="righthigh" offset="10,0" height="18" width="30" />
         <tooltip textres="char_label_weapon_penalty_tooltip" />
       </number_basic>
-      <label_fieldtop name="label_speedtotal">
+      <label_fieldtop name="label_nonprof_penalty_number">
         <anchored to="weapon_penalty" />
         <static text="Penalty" />
         <tooltip textres="char_label_weapon_penalty_tooltip" />
@@ -1251,13 +1258,14 @@
             
       <!-- Init Detail -->
       <label name="label_initdetail">
-        <anchored to="weapon_penalty" position="righthigh" offset="15,0" height="18" width="30" />
+        <anchored to="weapon_penalty" position="righthigh" offset="40,0" height="18" width="60" />
         <static textres="char_label_initdetail" />
+        <tooltip textres="char_label_initdetail_tooltip" />
       </label>
       <basicnumber name="initmiscbonus" source="initiative.misc">
         <anchored to="label_initdetail" position="righthigh" offset="5,0" height="18" width="30" />
         <hideonvalue>0</hideonvalue>
-        <tooltip textres="char_label_mod_tooltip" />
+        <tooltip textres="char_label_initdetail_tooltip" />
       </basicnumber>
       <label_fieldtop name="label_initmiscbonus">
         <anchored to="initmiscbonus" />
@@ -1265,6 +1273,26 @@
         <tooltip textres="char_label_mod_tooltip" />
       </label_fieldtop>
       
+      <!-- Turn Undead Detail -->
+      <label name="label_turnundeaddetail">
+        <anchored to="initmiscbonus" position="righthigh" offset="25,0" height="18" width="50" />
+        <static textres="char_label_turndetail" />
+      </label>
+      <stringcontrol name="label_turnundeaddetail_top">
+        <anchored to="label_turnundeaddetail"  position="aboveleft" offset="7,1" />
+        <center />
+        <static text="Turn" />
+        <tooltip textres="char_label_turndetail_tooltip" />
+      </stringcontrol>
+      <basicnumber name="turnundead_level" source="turn.total">
+        <anchored to="label_turnundeaddetail" position="righthigh" offset="10,0" height="18" width="30" />
+        <tooltip textres="char_label_turndetail_tooltip" />
+      </basicnumber>
+      <label_fieldtop name="label_turnundeadbonus">
+        <anchored to="turnundead_level" />
+        <static text="Turn" />
+        <tooltip textres="char_label_turndetail_tooltip" />
+      </label_fieldtop>
 
       <!-- Armor Detail -->
       <label name="label_armordetail">
