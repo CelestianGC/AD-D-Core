@@ -265,7 +265,6 @@
   <windowclass name="ps_mainitem">
     <margins control="0,0,0,10" />
     <frame>partysheetentry</frame>
-    <script file="ps/scripts/ps_mainitem.lua" />
     <sheetdata>
       <htoken name="token" />
       <hlink name="link">
@@ -275,8 +274,8 @@
           end
         </script>
       </hlink>
-	<hnx name="hptotal" />
-	<hnx name="wounds" />
+      <hnx name="hptotal" />
+      <hnx name="wounds" />
       <portrait_base>
         <bounds>10,10,40,40</bounds>
       </portrait_base>

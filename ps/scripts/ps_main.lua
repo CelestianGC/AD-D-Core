@@ -4,24 +4,17 @@
 --
 
 function onInit()
-  OptionsManager.registerCallback("REVL", update);
-  
-  if not User.isHost() then
-    list.setAnchor("bottom", "", "bottom", "absolute", -30);
-  end
+	OptionsManager.registerCallback("REVL", update);
+	
+	if not User.isHost() then
+		list.setAnchor("bottom", "", "bottom", "absolute", -30);
+	end
 end
 
 function onClose()
-  OptionsManager.unregisterCallback("REVL", update);
+	OptionsManager.unregisterCallback("REVL", update);
 end
 
 function update()
-  hiderollresults.setVisible(OptionsManager.isOption("REVL", "on"));
-end
-
-function onSubwindowInstantiated()
-  for _,v in pairs(list.getWindows()) do
-    v.onHPChanged();
-    --v.onHDChanged();
-  end
+	hiderollresults.setVisible(OptionsManager.isOption("REVL", "on"));
 end
