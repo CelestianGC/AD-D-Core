@@ -83,8 +83,9 @@ function onDrop(x, y, draginfo)
 --Debug.console("char_weaponslist.lua","onDrop","sRecord",sRecord );
 --Debug.console("char_weaponslist.lua","onDrop","node",node );
 
-    -- match items dropped into item/class/background fields to populate damage/etc
+    -- match items dropped into item/class/background fields to populate damage/etc but not add to inventory
     if string.match(node.getPath(),"^item") or 
+       string.match(node.getPath(),"^treasureparcels") or 
        string.match(node.getPath(),"^class") or 
        string.match(node.getPath(),"^background") then
       -- load item

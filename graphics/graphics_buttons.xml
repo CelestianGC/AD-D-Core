@@ -196,6 +196,9 @@
   <icon name="button_import_file_down" file="graphics/buttons/button_import_file_down.png" />
   <icon name="button_export_file" file="graphics/buttons/button_export_file.png" />
   <icon name="button_export_file_down" file="graphics/buttons/button_export_file_down.png" />
+
+  <icon name="button_import_statblock" file="graphics/buttons/button_import_statblock.png" />
+  <icon name="button_import_down" file="graphics/buttons/button_import_down.png" />
   
   <!-- Upper combat mini section, init/surprise/turn undead -->
   <icon name="button_turnundead" file="graphics/buttons/button_turnundead.png" />

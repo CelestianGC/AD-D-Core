@@ -88,9 +88,7 @@ function checkNPCForSanity(nodeNPC)
     if sHitDice == "" and sHDother ~= "" then
         local sRawHD = string.gsub(sHDother,"[Dd]%d+","");
         -- remove spaces and () 
-        sRawHD = string.gsub(sRawHD,"%s","");
-        sRawHD = string.gsub(sRawHD,"%(","");
-        sRawHD = string.gsub(sRawHD,"%)","");
+        sRawHD = string.gsub(sRawHD,"[%s%(%)]+","");
         -- match \d+[+-]\d+
         local sM1, sM2 = sRawHD:match("(%d+)([%-+]%d+)");
         -- just using the first number, 5e has large +/- which scale off the charts for AD&D style

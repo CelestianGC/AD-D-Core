@@ -6,6 +6,7 @@
 function onInit()
   -- replace this with ours
   CombatManager.nextActor = nextActor;
+  CombatManager2.rollRandomInit = rollRandomInit;
   ----
   CombatManager.setCustomSort(sortfuncADnD);
   CombatManager.setCustomAddNPC(addNPC);
@@ -32,6 +33,15 @@ function resetInit()
     CharlistManagerADND.turnOffInitRolled(nodeCT);
   end
   CombatManager.callForEachCombatant(resetCombatantInit);
+end
+
+function rollRandomInit(nMod, bADV)
+  local nInitResult = math.random(DataCommonADND.nDefaultInitiativeDice);
+  if bADV then
+    nInitResult = math.max(nInitResult, math.random(DataCommonADND.nDefaultInitiativeDice));
+  end
+  nInitResult = nInitResult + nMod;
+  return nInitResult;
 end
 
 function onRoundStart(nCurrent)

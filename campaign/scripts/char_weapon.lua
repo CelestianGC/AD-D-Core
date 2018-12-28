@@ -35,7 +35,8 @@ function onInit()
   DB.addHandler(DB.getPath(sWeaponPath, "damagelist.*.bonus"), "onUpdate", onDamageChanged);
   --DB.addHandler(DB.getPath(sWeaponPath, "proflist.*.dmgadj"), "onUpdate", onDamageChanged);
   DB.addHandler(DB.getPath(sCreaturePath, "abilities.*.dmgadj"), "onUpdate", onDamageChanged);
-  
+  ---proficiencies.weapon.penalty
+  DB.addHandler(DB.getPath(sCreaturePath, "proficiencies.weapon.penalty"), "onUpdate", onAttackChanged);
 
     -- item record first time tweaks
     -- give it a name of the item
@@ -70,6 +71,8 @@ function onClose()
   DB.removeHandler(DB.getPath(sWeaponPath, "damagelist.*.stat"), "onUpdate", onDamageChanged);
   DB.removeHandler(DB.getPath(sWeaponPath, "damagelist.*.bonus"), "onUpdate", onDamageChanged);
   DB.removeHandler(DB.getPath(sCreaturePath, "abilities.*.dmgadj"), "onUpdate", onDamageChanged);
+  ---proficiencies.weapon.penalty
+  DB.removeHandler(DB.getPath(sCreaturePath, "proficiencies.weapon.penalty"), "onUpdate", onAttackChanged);
 end
 
 -- the create is handled in record_char_actions.xml, charsheet_actions_contents->weapons
@@ -348,7 +351,10 @@ function onDamageActionSingle(nodeDamage, draginfo)
 
   table.insert(rAction.clauses, { dice = aDmgDice, stat = sDmgAbility, modifier = nDmgMod, dmgtype = sDmgType });
 
-  -- Check for reroll tag
+  -- check for attached weapon profs and special features like crit/rerolls? -- Celestian
+  ---????
+  
+  -- Check for reroll tag in weapon's properties
   local nReroll = 0;
   for _,vProperty in ipairs(aWeaponProps) do
     local nPropReroll = tonumber(vProperty:match("reroll (%d+)")) or 0;

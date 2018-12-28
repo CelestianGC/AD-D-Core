@@ -51,8 +51,8 @@
           <right offset="0" />
           <bottom offset="-20" />
         </anchored>
-                <child></child>
-                <child><backcolor>1A40301E</backcolor></child>
+        <child></child>
+        <child><backcolor>1A40301E</backcolor></child>
         <datasource>.npclist</datasource>
         <class>battle_npc</class>
         <allowdelete />
@@ -74,7 +74,7 @@
         <icon normal="button_arrowdown" pressed="button_arrowdown_down" />
         <tooltip textres="battle_tooltip_addct" />
         <gmvisibleonly />
-                <!-- ADDED COUNTER HERE TO NUMBER OF TIMES SPAWNED --celestian -->
+        <!-- ADDED COUNTER HERE TO NUMBER OF TIMES SPAWNED --celestian -->
         <script>
           function onButtonPress()
             if User.isHost() then
@@ -83,25 +83,25 @@
                   vMapLink.deleteLink();
                 end
               end
-              
-                            local node = window.getDatabaseNode();
-                            local nSpawncount = DB.getValue(node,"spawncount",0);
-                            nSpawncount = nSpawncount + 1;
-                            DB.setValue(node,"spawncount","number",nSpawncount)
+
+              local node = window.getDatabaseNode();
+              local nSpawncount = DB.getValue(node,"spawncount",0);
+              nSpawncount = nSpawncount + 1;
+              DB.setValue(node,"spawncount","number",nSpawncount)
                             
               CombatManager.addBattle(window.getDatabaseNode());
             end
           end
         </script>
       </buttoncontrol>
-                <!-- Add label "Times spawned ", add label spawncount -->
-                <label name="label_spawn">
-                    <anchored to="addct" position="righthigh" offset="10,3" />
-                    <static text="Times spawned" />
-                </label>
-                <basicnumber name="spawncount">
-                    <anchored to="label_spawn" position="righthigh" offset="10,0"  width="20" height="20" />
-                </basicnumber>
+      <!-- Add label "Times spawned ", add label spawncount -->
+      <label name="label_spawn">
+          <anchored to="addct" position="righthigh" offset="10,3" />
+          <static text="Times spawned" />
+      </label>
+      <basicnumber name="spawncount">
+          <anchored to="label_spawn" position="righthigh" offset="10,0"  width="20" height="20" />
+      </basicnumber>
                 
       <resize_recordsheet />
       <close_recordsheet />
@@ -164,8 +164,8 @@
           <left offset="15" />
         </anchored>
         <static textres="cr" />
-                <!-- hiding CR, dont use in AD&D, --celestian -->
-                <invisible />
+        <!-- hiding CR, dont use in AD&D, --celestian -->
+        <invisible />
       </label>
       <basicstring name="cr">
         <anchored to="cr_label" position="righthigh" offset="10,0" width="20" height="20" />
@@ -173,10 +173,10 @@
         <description textres="cr" />
         <frame name="fielddark" offset="7,5,7,5" />
         <center />
-                <!-- hiding CR, dont use in AD&D, --celestian -->
-                <invisible />
+        <!-- hiding CR, dont use in AD&D, --celestian -->
+        <invisible />
       </basicstring>
-             <!-- hiding CR, dont use in AD&D, --celestian -->
+      <!-- hiding CR, dont use in AD&D, --celestian -->
       <!-- <button_enc_refreshcr name="button_refreshcr" /> -->
       
       <basicnumber name="exp">

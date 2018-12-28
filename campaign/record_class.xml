@@ -968,34 +968,7 @@
 
   <!-- for matrix attacks 10..-10 ac with d20 value matching -->
   <windowclass name="class_advancement_editor_matrix">
-    <script>
-      function onInit()
-        local nTHACO = 20;
-        local node = getDatabaseNode();
-        local sACLabelName = "matrix_ac_label";
-        local sRollLabelName = "matrix_roll_label";
-        for i=-10,10,1 do
-          local nDefaultnTHAC = nTHACO - i;
-          local nTHAC = DB.getValue(node,"thac" .. i, 0);
-          local sMatrixACName = "matrix_ac_" .. i;
-          local sMatrixACValue = i;
-          local sMatrixNumberName = "thac" .. i;
-          local cntNum = createControl("number_matrix", sMatrixNumberName, "combat.matrix." .. sMatrixNumberName);
-          cntNum.setValue(nTHAC);
-
-          local cntAC = createControl("label_fieldtop_matrix", sMatrixACName);
-          cntAC.setReadOnly(true);
-          cntAC.setValue(sMatrixACValue);
-          local nOffset = 2;
-          if (i &lt;= 9 and i &gt;= 0) then
-            nOffset = 4;
-          elseif (i &lt;= -10) then
-            nOffset = 1;
-          end
-          cntAC.setAnchor("left", sMatrixNumberName,"left","absolute",nOffset);
-        end
-      end
-    </script>
+    <script file="campaign/scripts/char_matrix.lua" />
     <sheetdata>
       <anchor_column name="columnanchor" />
       <anchor_left name="leftanchor" />

@@ -611,12 +611,16 @@
   
   <!-- NPCs -->
   <string name="npc_import_tooltip">Import NPC from text.</string>
+  <string name="npc_statblock_import_tooltip">Import NPC from statblock.</string>
   <string name="npc_import_file_tooltip">Import NPC from file.</string>
   <string name="npc_export_file_tooltip">Export NPCs to file.</string>
   <string name="npc_import_window_title">IMPORT NPC</string>
   <string name="npc_import_text_title">IMPORT TEXT</string>
   <string name="npc_import_text_button">Import</string>
   <string name="npc_import_text_helptext">Paste in the text of the NPC you want to create. </string>
+  <string name="npc_statblock_import_text_helptext">Paste in the text of the statblock for the NPC you want to create. </string>
+  <string name="npc_statblock_import_window_title">IMPORT NPC FROM STATBLOCK</string>
+  <string name="npc_statblock_import_text_title">IMPORT STATBLOCK</string>
   
   <string name="npc_label_clone_to_pc">CLONE TO PC</string>  
   <string name="npc_label_hitdice">Hit Dice</string>  
@@ -745,6 +749,8 @@
   <string name="class_advancement_header_combat">COMBAT</string>
   <string name="class_advancement_header_matrix">COMBAT MATRIX</string>
   <string name="class_advancement_details_matrix_ac">Armor Class</string>
+  <string name="thaco_attack_matrix_ac">AC</string>
+  <string name="thaco_attack_matrix_title">Attack Matrix</string>
   <string name="class_advancement_details_matrix_roll">Roll</string>
   <string name="class_advancement_header_profs">PROFICIENCIES</string>
   <string name="class_advancement_header_spells">SPELLCASTING</string>

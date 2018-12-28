@@ -102,7 +102,8 @@
       <!-- SURPRISE -->            
       <button_surprise name="surprise_total_roll" source="surprise.total">
         <anchored height="25" width="20" >
-          <top offset="15" />
+          <!-- <top offset="15" /> -->
+          <top anchor="bottom" relation="relative" offset="15" />
           <left anchor="center" offset="-45"/>
         </anchored>
       </button_surprise>
@@ -146,9 +147,25 @@
       </label_fieldtop>
       <!-- END TURN -->
       
+      <!-- THACO MATRIX -->
+      <subwindow name="combat_thaco_matrix">
+        <anchored>
+          <top anchor="bottom" relation="relative" offset="45" />
+          <left anchor="center" offset="-180" />
+          <right offset="-5" />
+        </anchored>
+        <!-- <frame name="fieldlight" offset="9,4,-9,4" /> -->
+        <activate />
+        <fastinit />
+        <invisible />
+        <center />
+        <class>combat_mini_thaco_matrix</class>
+      </subwindow>  
+      <!-- END THACO MATRIX -->
+      
       <list_abilitynotes name="abilitynotes">
         <anchored>
-          <top anchor="bottom" relation="relative" offset="40" />
+          <top parent="combat_thaco_matrix" anchor="bottom" relation="relative" offset="10" />
           <left />
           <right />
         </anchored>
@@ -278,4 +295,53 @@
     </sheetdata>
   </windowclass>
   
+    <!-- for thaco matrix attacks 10..-10 ac with d20 value matching -->
+  <windowclass name="combat_mini_thaco_matrix">
+    <script file="campaign/scripts/char_matrix_thaco.lua" />
+    <sheetdata>
+      <anchor_left name="leftanchor" />
+      <label name="thaco_attack_matrix_title_label">
+      <font>arial-bold-7</font>
+        <anchored >
+          <top parent="leftanchor" anchor="bottom" relation="relative" offset="1" />
+          <left offset="150" />
+          <right />
+        </anchored>
+        <static textres="thaco_attack_matrix_title" />
+      </label>
+      <line_column name="divider1">       
+        <anchored >
+          <top parent="leftanchor" anchor="bottom" relation="relative" offset="-3" />
+          <left />
+          <right />
+        </anchored>
+        <center />
+      </line_column>
+      <label name="matrix_ac_label">
+      <font>arial-bold-7</font>
+        <anchored width="20" height="15" >
+          <top parent="leftanchor" anchor="bottom" relation="relative" offset="1"/>
+          <left offset="5" />
+        </anchored>
+        <static textres="thaco_attack_matrix_ac" />
+      </label>
+      <label name="matrix_roll_label">
+      <font>arial-bold-7</font>
+        <anchored width="20" height="15" >
+          <top parent="leftanchor" anchor="bottom" relation="relative" offset="1" />
+          <left offset="5" />
+        </anchored>
+        <static textres="class_advancement_details_matrix_roll" />
+      </label>
+      <line_column name="divider2">       
+        <anchored >
+          <top parent="leftanchor" anchor="bottom" relation="relative" offset="1" />
+          <left />
+          <right />
+        </anchored>
+        <center />
+      </line_column>
+    </sheetdata>
+  </windowclass>  
+
 </root>

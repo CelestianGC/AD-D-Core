@@ -17,13 +17,32 @@
       <script>
         function onButtonPress()
             if User.isHost() then
-                Interface.openWindow("npc_import_window", "");
+              Interface.openWindow("npc_import_window", "");
             end
         end
       </script>
       <invisible />
     </buttoncontrol>
   </template>
+  <template name="button_npc_statblock_import_text">
+    <buttoncontrol insertbefore="filter_sharedonly">
+      <anchored to="rightanchor" width="20" height="20">
+        <top />
+        <right anchor="left" relation="relative" offset="-5" />
+      </anchored>
+      <icon normal="button_import_statblock" pressed="button_import_down" />
+      <tooltip textres="npc_statblock_import_tooltip" />
+      <script>
+        function onButtonPress()
+            if User.isHost() then
+              Interface.openWindow("npc_statblock_import_window", "");
+            end
+        end
+      </script>
+      <invisible />
+    </buttoncontrol>
+  </template>
+  
   <template name="button_npc_import_file">
     <buttoncontrol insertbefore="filter_sharedonly">
       <anchored to="rightanchor" width="20" height="20">

@@ -1205,18 +1205,18 @@
     </placement>
     <nodelete />
     <playercontrol />
-        <script>
-          function onInit()
-            surpriseTotal();
-          end
-          function surpriseTotal()
-            local nBase = surprisebase.getValue();
-            local nMod = surprise_mod.getValue();
-            local nTmp = surprise_tempmod.getValue();
-            local nTotal = nBase + nMod + nTmp;
-            surprise_total.setValue(nTotal);
-          end
-        </script>
+    <script>
+      function onInit()
+        surpriseTotal();
+      end
+      function surpriseTotal()
+        local nBase = surprisebase.getValue();
+        local nMod = surprise_mod.getValue();
+        local nTmp = surprise_tempmod.getValue();
+        local nTotal = nBase + nMod + nTmp;
+        surprise_total.setValue(nTotal);
+      end
+    </script>
     <sheetdata>
       <windowtitlebar_char name="title">
         <prefix>char_combatcalc_title</prefix>
@@ -1240,8 +1240,9 @@
         <tooltip textres="char_label_weapon_penalty_tooltip" />
       </label>
       <stringcontrol name="label_nonprof_penalty">
-        <anchored to="label_proficiency_weapon_penalty"  position="aboveleft" offset="-5,1" />
+        <anchored to="label_proficiency_weapon_penalty"  position="aboveleft" offset="-1,1" />
         <center />
+        <font>arial-bold-8</font>
         <static text="Weapon" />
         <tooltip textres="char_label_weapon_penalty_tooltip" />
       </stringcontrol>
@@ -1281,6 +1282,7 @@
       <stringcontrol name="label_turnundeaddetail_top">
         <anchored to="label_turnundeaddetail"  position="aboveleft" offset="7,1" />
         <center />
+        <font>arial-bold-8</font>
         <static text="Turn" />
         <tooltip textres="char_label_turndetail_tooltip" />
       </stringcontrol>

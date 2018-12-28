@@ -874,7 +874,7 @@
   
 	<template name="label_fieldtop_matrix">
 		<stringcontrol>
-      <anchored >
+      <anchored width="15" height="15">
         <bottom parent="matrix_roll_label" anchor="top" offset="1"/>
         <left />
       </anchored> 
@@ -892,7 +892,32 @@
       </anchored> 
       <default>0</default>
       <hideonvalue>0</hideonvalue>
+			<center />
     </basicnumber>
+  </template>
+
+	<template name="label_fieldtop_thaco_matrix">
+		<stringcontrol>
+      <anchored  width="15" height="15">
+        <bottom parent="matrix_roll_label" anchor="top" offset="1"/>
+        <left />
+      </anchored> 
+			<font>arial-regular-7</font>
+			<center />
+		</stringcontrol>
+	</template>
+  
+  <template name="number_thaco_matrix">
+    <stringcontrol>
+			<font>arial-regular-7</font>
+			<center />
+      <anchored width="15" height="15">
+        <top parent="matrix_roll_label" />
+        <left parent="matrix_roll_label" anchor="right" relation="relative" offset="1" />
+      </anchored> 
+      <readonly />
+      <nodrag />
+    </stringcontrol>
   </template>
   
 </root>

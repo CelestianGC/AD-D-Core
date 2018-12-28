@@ -596,11 +596,20 @@
     <buttoncontrol>
       <icon normal="button_initiative" pressed="button_initiative_down" />
       <script>
-        function onButtonPress()
+        function action(draginfo)
+          local nodeChar = window.getDatabaseNode();
           local rActor = ActorManager.getActor("", window.getDatabaseNode());
           ActionInit.performRoll(draginfo, rActor);
 
           return true;
+        end
+        
+        function onDragStart(button, x, y, draginfo)
+          return action(draginfo);
+        end
+        
+        function onButtonPress()
+          return action();
         end
       </script>
       <frame name="fielddark" offset="7,5,7,5" />
@@ -614,11 +623,19 @@
     <buttoncontrol>
       <icon normal="button_surprise" pressed="button_surprise_down" />
       <script>
-        function onButtonPress()
+        function action(draginfo)
           local nodeChar = window.getDatabaseNode();
           local rActor = ActorManager.getActor("", nodeChar);
           ActionSurprise.performRoll(draginfo, rActor, nodeChar);
           return true;
+        end
+        
+        function onDragStart(button, x, y, draginfo)
+          return action(draginfo);
+        end
+        
+        function onButtonPress()
+          return action();
         end
       </script>
       <frame name="fielddark" offset="7,5,7,5" />
@@ -633,12 +650,21 @@
     <buttoncontrol>
       <icon normal="button_turnundead" pressed="button_turnundead_down" />
       <script>
-        function onButtonPress()
+        function action(draginfo)
           local nodeChar = window.getDatabaseNode();
           local rActor = ActorManager.getActor("", nodeChar);
           ActionTurn.performRoll(draginfo, rActor);
           return true;
         end
+        
+        function onDragStart(button, x, y, draginfo)
+          return action(draginfo);
+        end
+        
+        function onButtonPress()
+          return action();
+        end
+        
       </script>
       <frame name="fielddark" offset="7,5,7,5" />
       <stateframe>

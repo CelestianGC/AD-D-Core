@@ -2,6 +2,8 @@
 ---
 ---
 
+
+aWindowList = {}; 
 aIgnoredWindowClasses = {};
 
 function onInit()
@@ -31,20 +33,9 @@ function ctOnTopAlways(window)
   end
 end
 
---[[
-  datastructure:
-
-  classname  
-    -> node path
-    -> node path
-    -> node path
-    -> ...
-]]--
-local gOpenWindowList = {}; 
-
 -- see if there is a collection of this type of window
-function oneWindowGroupExists(sClassName)
-  return gOpenWindowList[sClassName];
+function oneWindowGroupExists(sName)
+  return aWindowList[sName];
 end
 
 -- let extensions tweak this if they like
@@ -54,98 +45,88 @@ function setIgnoredWindowClasses(aList)
     table.insert(aIgnoredWindowClasses,sIgnoredClass);
   end
 end
--- any window class in "aIgnoredWindowClasses" array will not be singlewindowed
-function ignoredWindowClass(sClassName)
+
+-- any window class in "aIgnoredWindowClasses" array will not be managed 
+function ignoredWindowClass(sName)
   local bIgnored = false;
   for _,sIgnoredClass in pairs(aIgnoredWindowClasses) do
-    if sClassName == sIgnoredClass then
+    if sName == sIgnoredClass then
       bIgnored = true;
       break;
     end
   end
   return bIgnored;
 end
--- WARNING: Race issue can occur if windows are opened in fast successon (automated opening)
+
+-- called when window opened
 function onWindowOpened(window)
-  local dbNode = window.getDatabaseNode(); 
-  local sClassName = window.getClass(); 
-  local tClassNodes = gOpenWindowList[sClassName]; 
-  local sNodePath = nil; 
+  local node = window.getDatabaseNode(); 
+  local sName = window.getClass(); 
+  local aNodes = aWindowList[sName]; 
+  local sPath = nil; 
 
---Debug.console("windowmanager.lua","onWindowOpened","dbNode",dbNode); 
---Debug.console("windowmanager.lua","onWindowOpened","sClassName",sClassName); 
---Debug.console("windowmanager.lua","onWindowOpened","tClassNodes",tClassNodes); 
+--Debug.console("windowmanager.lua","onWindowOpened","node",node); 
+--Debug.console("windowmanager.lua","onWindowOpened","sName",sName); 
+--Debug.console("windowmanager.lua","onWindowOpened","aNodes",aNodes); 
 
-  -- if the window had no database node attached, we don't care about it (currently)
---Debug.console("windowmanager.lua","onWindowOpened",'Windowclass opened: ' .. tostring(sClassName)); 
-  if dbNode then
-    tClassNodes = gOpenWindowList[sClassName]; 
+--Debug.console("windowmanager.lua","onWindowOpened",'Windowclass opened: ' .. tostring(sName)); 
+  if node then
+    aNodes = aWindowList[sName]; 
     -- ignore masterindex
-    --if sClassName == 'masterindex' then return; end
-    if ignoredWindowClass(sClassName) then return; end
-
-    if gOpenWindowList[sClassName] then
-      -- find last entry and get the node path, this must exist, if it doesn't then we didn't delete properly
-      sNodePath = tClassNodes[#tClassNodes]; 
-      local wndOther = Interface.findWindow(sClassName,sNodePath); 
-      if wndOther then
-        sNodePath = dbNode.getPath(); 
-        table.insert(tClassNodes,sNodePath); 
-        window.setPosition(wndOther.getPosition());
-        window.setSize(wndOther.getSize());
-        -- if control down, we don't close current open windows of this class
-        -- else we close them
-        if not Input.isControlPressed() then
-          -- due to async issues, we're going to process the delete immediately
-          onWindowClosed(wndOther); 
-          wndOther.close(); 
+    if not ignoredWindowClass(sName) then 
+      if aWindowList[sName] then
+        sPath = aNodes[#aNodes]; 
+        local w = Interface.findWindow(sName,sPath); 
+        if w then
+          sPath = node.getPath(); 
+          table.insert(aNodes,sPath); 
+          window.setPosition(w.getPosition());
+          window.setSize(w.getSize());
+          -- if control down, we don't close current open windows of this class
+          -- else we close them
+          if not Input.isControlPressed() then
+            onWindowClosed(w); 
+            w.close(); 
+          end
+        else
+          -- window we manage is not around or not open
+          table.remove(aNodes,#aNodes); 
+          if #aNodes == 0 then
+            aWindowList[sName] = nil; 
+          end
         end
       else
-        Debug.console('BAD NODE: node: (' .. sNodePath .. ') class: (' .. sClassName .. ') is not open! purging node!! [PURGING]'); 
-        table.remove(tClassNodes,#tClassNodes); 
-        if #tClassNodes == 0 then
-          -- remove class from open window list (we have none of that window class open)
-          Debug.console('removing class index: (' .. sClassName .. ') [PURGING]'); 
-          gOpenWindowList[sClassName] = nil; 
-        end
+        sPath = node.getPath(); 
+        aNodes = {}; 
+        table.insert(aNodes, sPath); 
+        aWindowList[sName] = aNodes; 
       end
-    else
-      -- create a new classnode list at this key
-      sNodePath = dbNode.getPath(); 
---Debug.console("windowmanager.lua","onWindowOpened",'creating new class index (' .. sClassName ..')'); 
-      tClassNodes = {}; 
---Debug.console("windowmanager.lua","onWindowOpened",'creating new node (' .. sNodePath .. ') @ ( ' .. sClassName .. ' ) '); 
-      table.insert(tClassNodes, sNodePath); 
-      gOpenWindowList[sClassName] = tClassNodes; 
     end
   end
 end
 
+-- function called when any window is closed.
 function onWindowClosed(window)
-  local dbNode = window.getDatabaseNode(); 
-  local sClassName = window.getClass(); 
-  local tClassNodes = gOpenWindowList[sClassName]; 
-  local sNodePath = nil; 
+  local node = window.getDatabaseNode(); 
+  local sName = window.getClass(); 
+  local aNodes = aWindowList[sName]; 
+  local sPath = nil; 
 
---Debug.console("windowmanager.lua","onWindowClosed","dbNode",dbNode); 
---Debug.console("windowmanager.lua","onWindowClosed","sClassName",sClassName); 
---Debug.console("windowmanager.lua","onWindowClosed","tClassNodes",tClassNodes); 
+--Debug.console("windowmanager.lua","onWindowClosed","node",node); 
+--Debug.console("windowmanager.lua","onWindowClosed","sName",sName); 
+--Debug.console("windowmanager.lua","onWindowClosed","aNodes",aNodes); 
 
-  -- remove from the tClassNodes the current window node, if that leaves the list empty, delete the key to that list
-  if dbNode then
-    local sNodePath = dbNode.getPath(); 
-    if tClassNodes ~= nil then
-      for i = #tClassNodes,1,-1 do
-        if tClassNodes[i] == sNodePath then
-          --Debug.console('removing classnode: (' .. sNodePath .. ') @ (' .. sClassName .. ')'); 
-          table.remove(tClassNodes,i); 
+  if node then
+    local sPath = node.getPath(); 
+    if aNodes ~= nil then
+      for i = #aNodes,1,-1 do
+        if aNodes[i] == sPath then
+          table.remove(aNodes,i); 
           break; 
         end
       end
-      if #tClassNodes == 0 then
-        -- remove class from open window list (we have none of that window class open)
-        --Debug.console('removing class index: (' .. sClassName .. ')'); 
-        gOpenWindowList[sClassName] = nil; 
+      if #aNodes == 0 then
+        aWindowList[sName] = nil; 
       end
     end
   end

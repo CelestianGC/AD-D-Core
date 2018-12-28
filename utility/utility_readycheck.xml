@@ -7,7 +7,7 @@
 
 <root>
   <windowclass name="readycheck" >
-    <frame>charsheethelper</frame>
+    <frame>chatbox</frame>
     <placement>
       <size width="300" height="300" />
     </placement>
@@ -19,50 +19,55 @@
     <nodelete />
     <script file="utility/scripts/readycheck.lua" />
     <sheetdata>
-      <windowtitlebar name="title">
-        <resource>readycheck_window_title</resource>
-      </windowtitlebar>
+			<windowtitlebar name="title">
+				<resource>readycheck_window_title</resource>
+			</windowtitlebar>
       <anchor_title_charsheet name="contentanchor" />
-      <anchor_column name="columnanchor" />
-      <genericcontrol name="rightanchor">
-        <anchored width="0" height="20">
-          <top parent="columnanchor" anchor="bottom" relation="relative" offset="4" />
-          <right offset="-15" />
-        </anchored>
-      </genericcontrol>
-      <genericcontrol name="leftanchor">
-        <anchored width="0" height="20">
-          <top parent="columnanchor" anchor="bottom" relation="relative" offset="4" />
-          <left offset="-15" />
-        </anchored>
-      </genericcontrol>
-      <genericcontrol name="contentframe">
-        <anchored to="contentanchor">
-          <top anchor="bottom" offset="0" />
-          <left />
-          <right />
-          <bottom parent="" offset="-30" />
-        </anchored>
-      </genericcontrol>
+			<anchor_column name="columnanchor" />
+			<genericcontrol name="rightanchor">
+				<anchored width="0" height="20">
+					<top parent="columnanchor" anchor="bottom" relation="relative" offset="4" />
+					<right offset="-15" />
+				</anchored>
+			</genericcontrol>
+			<genericcontrol name="leftanchor">
+				<anchored width="0" height="20">
+					<top parent="columnanchor" anchor="bottom" relation="relative" offset="4" />
+					<left offset="-15" />
+				</anchored>
+			</genericcontrol>
+			<genericcontrol name="contentframe">
+				<anchored to="contentanchor">
+					<top anchor="bottom" offset="0" />
+					<left />
+					<right />
+					<bottom parent="" offset="-30" />
+				</anchored>
+			</genericcontrol>
 
-      <subwindow_record name="main">
-        <anchored>
-          <top offset="20" />
-          <bottom offset="-35" />
-          <left offset="15" />
-          <right offset="-15" />
-        </anchored>
-        <class>ready_check_main</class>
-        <activate />
-        <fastinit />
-      </subwindow_record>
+			<subwindow_record name="main">
+        <script>
+          function readyPressed(sUser,nCheck)
+            window.readyPressed(sUser,nCheck);
+          end
+        </script>
+				<anchored>
+					<top offset="20" />
+					<bottom offset="-35" />
+					<left offset="15" />
+					<right offset="-15" />
+				</anchored>
+				<class>ready_check_main</class>
+				<activate />
+				<fastinit />
+			</subwindow_record>
 
-      <scrollbar_record>
-        <target>main</target>
-      </scrollbar_record>
+			<scrollbar_record>
+				<target>main</target>
+			</scrollbar_record>
 
-      <resize_charsheethelper />
-      <close_charsheethelper />
+			<resize_charsheethelper />
+			<close_charsheethelper />
       
     </sheetdata>
   </windowclass>
@@ -106,40 +111,45 @@
   </windowclass>
   
   <windowclass name="ready_check_entry">
-    <margins control="0,0,0,5" />
+		<margins control="0,0,0,5" />
     <script file="utility/scripts/readycheck_host.lua" />
     <sheetdata>
-      <anchor_column name="columnanchor" />
-
-      <label name="name_label">
-        <anchored>
-          <top position="bottom" relation="relative"/>
-          <left anchor="center" offset="-20"/>
+      <portrait_readycheck name="readycheck_portrait">
+        <anchored width="75" height="75" >
+          <top position="bottom" relation="relative" />
+          <left anchor="center" offset="-35" />
+        </anchored>
+      </portrait_readycheck>
+      
+			<label name="name_label">
+        <anchored to="readycheck_portrait">
+          <top anchor="bottom" />
+          <left position="left" />
           <right />
         </anchored>
         <font>reference-b-large</font>
-      </label>
+			</label>
  
-    <buttoncontrol name="ready_check_select">
-        <anchored to="name_label" position="left" offset="2,0" width="50"/>
+      <buttoncontrol name="ready_check_select">
+        <anchored to="readycheck_portrait" position="left" offset="2,0" width="50"/>
         <tooltip text="ARE THEY READY???" />
-      <state icon="chat_fail" pressed="chat_fail" />
-    </buttoncontrol>
-    <buttoncontrol name="ready_check_select_ready">
-        <anchored to="name_label" position="left" offset="2,0" width="50"/>
+        <state icon="chat_fail" pressed="chat_fail" />
+      </buttoncontrol>
+      <buttoncontrol name="ready_check_select_ready">
+        <anchored to="readycheck_portrait" position="left" offset="2,0" width="50"/>
         <tooltip text="THEY ARE READY???" />
-      <state icon="chat_success" pressed="chat_success" />
-      <invisible />
-    </buttoncontrol>
+        <state icon="chat_success" pressed="chat_success" />
+        <invisible />
+      </buttoncontrol>
       
     </sheetdata>
   </windowclass>
   
   <windowclass name="ready_check_entry_user">
-    <margins control="0,0,0,5" />
+		<margins control="0,0,0,5" />
     <script file="utility/scripts/readycheck_user.lua" />
     <sheetdata>
-      <anchor_column name="columnanchor" />
+			<anchor_column name="columnanchor" />
 
       <label name="name_label">
         <script>
@@ -190,5 +200,40 @@
       <noscroll />
     </windowlist>
   </template>
+  
+	<template name="anchor_title_charsheet">
+		<genericcontrol>
+			<anchored height="0">
+				<top offset="35" />
+				<left parent="" anchor="left" offset="15" />
+				<right parent="" anchor="right" offset="-30" />
+			</anchored>
+			<disabled />
+		</genericcontrol>
+	</template>
+  
+	<template name="close_charsheethelper">
+		<close>
+			<anchored>
+				<top offset="24" />
+				<right offset="-12" />
+			</anchored>
+		</close>
+	</template>
 
-</root>
+	<template name="resize_charsheethelper">
+		<resize>
+			<anchored>
+				<right offset="-12" />
+				<bottom offset="-14" />
+			</anchored>
+		</resize>
+	</template>
+
+  <template name="portrait_readycheck">
+    <genericcontrol>
+      <disabled />
+    </genericcontrol>
+  </template>
+  
+  </root>

@@ -366,6 +366,7 @@ function modDamage(rSource, rTarget, rRoll)
         elseif rRoll.range == "M" then
           nCritDice = DB.getValue(nodePC, "weapon.critdicebonus.melee", 0);
         elseif rRoll.range == "P" then
+          -- no crits on psionics
           --nCritDice = DB.getValue(nodePC, "weapon.critdicebonus.melee", 0);
         end
       end

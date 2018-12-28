@@ -32,6 +32,20 @@ function updateName()
   local node = getDatabaseNode();
   local sName = DB.getValue(node,"name","UNKNOWN");
   name_label.setValue(sName);
+
+--Debug.console("readycheck_host.lua","updateName","node",node);
+--Debug.console("readycheck_host.lua","updateName","sName",sName);
+  
+  -- -- set Player portrait
+  local sID = User.getCurrentIdentity(sName);
+  --local node = DB.findNode("charsheet." .. sID);
+  if sID then
+    local sCharName = DB.getValue(node,"name","");
+--Debug.console("readycheck_host.lua","updateName","sID",sID);
+    readycheck_portrait.setIcon("portrait_" .. sID .. "_charlist", true);
+  else
+    readycheck_portrait.setIcon(nil);
+  end
 end
 
 function updateCheck()
