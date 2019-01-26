@@ -878,14 +878,14 @@
         <bottom parent="matrix_roll_label" anchor="top" offset="1"/>
         <left />
       </anchored> 
-			<font>sheetlabelmini</font>
+			<font>arial-regular-7</font>
 			<center />
 		</stringcontrol>
 	</template>
 
   <template name="number_matrix">
     <basicnumber>
-			<font>sheetlabelmini</font>
+			<font>arial-regular-7</font>
       <anchored width="15" height="15">
         <top parent="matrix_roll_label" />
         <left parent="matrix_roll_label" anchor="right" relation="relative" offset="5" />

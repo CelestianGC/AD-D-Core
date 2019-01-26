@@ -652,9 +652,14 @@
       <script>
         function action(draginfo)
           local nodeChar = window.getDatabaseNode();
-          local rActor = ActorManager.getActor("", nodeChar);
-          ActionTurn.performRoll(draginfo, rActor);
-          return true;
+          local nTurnLevel = DB.getValue(nodeChar,"turn.total",0);
+          if (nTurnLevel > 0) then
+            local rActor = ActorManager.getActor("", nodeChar);
+            ActionTurn.performRoll(draginfo, rActor);
+            return true;
+          else 
+            return false;
+          end
         end
         
         function onDragStart(button, x, y, draginfo)

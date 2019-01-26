@@ -1203,11 +1203,17 @@
     <placement>
       <size width="440" height="320" />
     </placement>
+    <sizelimits>
+      <minimum width="490" height="350" />
+      <dynamic />
+    </sizelimits>
     <nodelete />
     <playercontrol />
     <script>
       function onInit()
         surpriseTotal();
+        local bUseMatrix = (DataCommonADND.coreVersion == "1e");
+        combat_matrix.setVisible(bUseMatrix);
       end
       function surpriseTotal()
         local nBase = surprisebase.getValue();
@@ -1590,9 +1596,24 @@
         <static text="Total" />
       </label_fieldtop>
 
-
+    <!-- attack matrix (for 1e style to hit AC values) -->
+   <subwindow name="combat_matrix">
+      <anchored>
+        <top parent="columnanchor" anchor="bottom" relation="relative" offset="15" />
+        <left offset="15" />
+        <right offset="-20" />
+      </anchored>
+      <frame name="fielddark" offset="7,11,7,7" />
+      <activate />
+      <fastinit />
+      <invisible />
+      <center />
+      <class>char_matrix_edit</class>
+    </subwindow>  
+    
+    <!-- psionic edit button -->
       <button_combat_psionic_details name="button_psionic_config">
-        <anchored  position="insidebottomright" offset="15,10" />
+        <anchored  position="insidebottomright" offset="35,10" />
       </button_combat_psionic_details>
       <label name="label_details_psionicpowers">
         <anchored>
@@ -1604,6 +1625,12 @@
       </label>
 
 
+      <resize>
+        <anchored>
+          <right offset="-10" />
+          <bottom offset="-6" />
+        </anchored>
+      </resize>
       <close_charsheethelper />
     </sheetdata>
   </windowclass>

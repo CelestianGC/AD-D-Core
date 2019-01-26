@@ -140,7 +140,7 @@
   <script name="DataSpell" file="scripts/data_spell.lua" />
   <script name="ActorManager2" file="scripts/manager_actor2.lua" />
   <script name="CombatManager2" file="scripts/manager_combat2_5E_3.3.7.lua" />
-  <script name="EffectManager5E" file="scripts/manager_effect_5E_3.3.7.lua" />
+  <script name="EffectManager5E" file="scripts/manager_effect_5E.lua" />
   <script name="ItemManager2" file="scripts/manager_item2.lua" />
   <script name="PowerManager" file="scripts/manager_power.lua" />
   

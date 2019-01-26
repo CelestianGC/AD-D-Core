@@ -42,9 +42,6 @@
             
     </number_savescore>
   </template>
-  
-
-
 
   <template name="number_labeled">
     <numberfield>
@@ -1059,5 +1056,42 @@
     </label>
   </template>            
 
+  <!-- for matrix attacks 10..-10 ac with d20 value matching -->
+  <windowclass name="char_matrix_edit">
+    <script file="campaign/scripts/char_matrix.lua" />
+    <sheetdata>
+      <anchor_column name="columnanchor" />
+      <anchor_left name="leftanchor" />
+      
+      <label name="matrix_title_label">
+        <font>arial-bold-7</font>
+        <anchored >
+          <top parent="columnanchor" anchor="bottom" relation="relative" offset="1" />
+          <left />
+          <right />
+        </anchored>
+        <static textres="class_advancement_header_matrix" />
+        <center />
+      </label>
+
+      <label name="matrix_ac_label">
+        <font>arial-bold-7</font>
+        <anchored width="20" height="15" >
+          <top parent="leftanchor" anchor="bottom" relation="relative" offset="8"/>
+          <left offset="5" />
+        </anchored>
+        <static textres="thaco_attack_matrix_ac" />
+      </label>
+      <label name="matrix_roll_label">
+        <font>arial-bold-7</font>
+        <anchored width="25" height="20" >
+          <top parent="leftanchor" anchor="bottom" relation="relative" offset="1" />
+          <left offset="5" />
+        </anchored>
+        <static textres="class_advancement_details_matrix_roll" />
+      </label>
+      
+    </sheetdata>
+  </windowclass>  
   
 </root>
