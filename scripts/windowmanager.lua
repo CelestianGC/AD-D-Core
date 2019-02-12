@@ -69,7 +69,7 @@ function onWindowOpened(window)
 --Debug.console("windowmanager.lua","onWindowOpened","sName",sName); 
 --Debug.console("windowmanager.lua","onWindowOpened","aNodes",aNodes); 
 
---Debug.console("windowmanager.lua","onWindowOpened",'Windowclass opened: ' .. tostring(sName)); 
+--Debug.console("windowmanager.lua","onWindowOpened",'onWindowOpened:' .. tostring(sName)); 
   if node then
     aNodes = aWindowList[sName]; 
     -- ignore masterindex

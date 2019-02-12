@@ -32,7 +32,7 @@ function handleWhisperDING(msgOOB)
     User.ringBell(sUser);
   else
     -- nil user == Host/GM
-    --User.ringBell("GM"); --this doesn't work, ringBell only works for clients, NOT host ;(
+    User.ringBell(); -- this should work in 3.3.7+
   end
 end
 

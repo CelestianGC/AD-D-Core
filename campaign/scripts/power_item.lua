@@ -271,13 +271,13 @@ function toggleDetail()
   local status = (activatedetail.getValue() == 1);
 --Debug.console("------------power_item.lua","toggleDetail","status",status);    
   actions.setVisible(status);
-  initiative.setVisible(status);
+  --initiative.setVisible(status);
   local node = getDatabaseNode();
-  if PowerManager.canMemorizeSpell(node) then
-    memorization.setVisible(status);
-  else
-    memorization.setVisible(false);
-  end
+  -- if PowerManager.canMemorizeSpell(node) then
+    -- memorization.setVisible(status);
+  -- else
+    -- memorization.setVisible(false);
+  -- end
   
   for _,v in pairs(actions.getWindows()) do
     v.updateDisplay();

@@ -101,60 +101,38 @@
       <label_column name="type_label">
         <static textres="item_label_type" />
       </label_column>
-      <genericcontrol name="type_rightanchor">
-        <anchored>
-          <top parent="type_label" />
-          <right />
-        </anchored>
-      </genericcontrol>
-      <button_checkbox name="istemplate">
-        <anchored width="20" height="20">
-          <top parent="type_label" />
-          <right parent="type_rightanchor" anchor="left" relation="relative" />
-        </anchored>
-        <gmvisibleonly />
-      </button_checkbox>
-      <label name="template_label">
-        <anchored>
-          <top parent="type_label" />
-          <right parent="type_rightanchor" anchor="left" relation="relative" />
-        </anchored>
-        <static textres="item_label_template" />
-        <gmvisibleonly />
-      </label>
-      <string_columnh name="type">
-        <anchored>
-          <right parent="type_rightanchor" anchor="left" relation="relative" offset="-10" />
-        </anchored>
-        <nohide />
-        <gmeditonly />
-        <delaykeyupdate />
+      <item_typeselections_dropdown name="type">
         <script>
-          function onValueChanged()
-            window.update();
+          function onInit()
+            super.onInit();
+            addItems(DataCommonADND.itemTypes);
           end
         </script>
-      </string_columnh>
-
+      </item_typeselections_dropdown>
+      
       <label_column name="subtype_label">
         <static textres="item_label_subtype" />
       </label_column>
-      <string_columnh name="subtype">
-        <gmeditonly />
-        <delaykeyupdate />
+      <item_typeselections_dropdown name="subtype">
         <script>
-          function onValueChanged()
-            window.update();
+          function onInit()
+            super.onInit();
+            addItems(DataCommonADND.itemSubTypes);
           end
         </script>
-      </string_columnh>
+      </item_typeselections_dropdown>
 
       <label_column name="rarity_label">
         <static textres="item_label_rarity" />
       </label_column>
-      <string_columnh name="rarity">
-        <gmeditonly />
-      </string_columnh>
+      <item_typeselections_dropdown name="rarity">
+        <script>
+          function onInit()
+            super.onInit();
+            addItems(DataCommonADND.itemRarity);
+          end
+        </script>
+      </item_typeselections_dropdown>
 
       <line_column name="divider2" />
 

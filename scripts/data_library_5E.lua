@@ -46,14 +46,10 @@ function sortNPCHitDice(aFilterValues)
   return aFilterValues;
 end
 
+-- search filter by type, split type by commas.
 function getNPCTypeValue(vNode)
-  local v = StringManager.trim(DB.getValue(vNode, "type", ""));
-  local sType = v:match("^[^(%s]+");
-  if sType then
-    v = StringManager.trim(sType);
-  end
-  v = StringManager.capitalize(v);
-  return v;
+  local sText = sanitizevNodeText(DB.getValue(vNode, "type", ""));
+  return StringManager.split(sText, ",", true);
 end
 
 
@@ -156,9 +152,9 @@ aRecords = {
     aGMEditButtons = { "button_npc_export_file","button_npc_import_file","button_npc_import_text","button_npc_statblock_import_text" };
     aGMListButtons = { "button_npc_letter", "button_npc_hd", "button_npc_type" };
     aCustomFilters = {
---    ["Type"] = { sField = "type", fGetValue = getNPCTypeValue },
+      ["Type"] = { sField = "type", fGetValue = getNPCTypeValue },
       ["HitDice"] = { sField = "hitDice", fGetValue = getNPCHitDice,fSort = sortNPCHitDice },
-      ["Type"] = { sField = "type", sType = "string" },
+--      ["Type"] = { sField = "type", sType = "string" },
       ["Organization"] = { sField = "organization", sType = "string" },
       ["Activity"] = { sField = "activity", sType = "string" },
       ["Diet"] = { sField = "diet", sType = "string" },

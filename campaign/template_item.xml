@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<!-- 
+  Please see the license.html file included with this distribution for 
+  attribution and copyright information.
+-->
+
+<root>
+  <!-- drop down template for type/subtype/rarity for items -->
+  <template name="item_typeselections_dropdown">
+    <combobox>
+			<anchored>
+				<top parent="columnanchor" anchor="bottom" relation="relative" offset="7" />
+				<left offset="97" />
+				<right offset="-5" />
+			</anchored>
+      <gmvisibleonly />
+      <script>
+        function onValueChanged()
+          window.update();
+        end
+        function setReadOnlyState(bState)
+          super.setComboBoxReadOnly(bState);
+        end
+      </script>
+      <listdirection>down</listdirection>
+      <listmaxsize>6</listmaxsize>
+    </combobox>
+  </template>
+
+</root>
+

@@ -106,6 +106,32 @@ psionic_defense_index = {
 -- this stores the modifiers for attack mode versus a defense mode
 psionic_attack_v_defense_table = {};
     
+-- Item records, type fields    
+itemTypes = {
+  "",
+  "Ammunition",
+  "Armor",
+  "Art",
+  "Clothing",
+  "Gear",
+  "Gem",
+  "Jewelry",
+  "Magic",
+  "Provisions",
+  "Weapon",
+  "Other",
+}
+itemSubTypes = itemTypes;
+itemRarity = {
+  "",
+  "Common",
+  "Uncommon",
+  "Rare",
+  "Very Rare",
+  "Unique",
+  "Other"
+}
+
 function onInit()
   local sRulesetName = User.getRulesetName();
   

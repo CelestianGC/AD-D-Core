@@ -68,34 +68,19 @@ function update()
 
   local bSection2 = false;
   if updateControl("type", bReadOnly, bID) then bSection2 = true; end
-    bSection2 = (type.getValue() ~= "");
---Debug.console("item_main.lua","update","bSection2",bSection2);    
---Debug.console("item_main.lua","update","bReadOnly",bReadOnly);    
---Debug.console("item_main.lua","update","bID",bID);    
-  if bHost then
-    istemplate.setVisible(bID);
-    istemplate.setReadOnly(bReadOnly);
-        istemplate.setVisible(bSection2 or not bReadOnly);
-        template_label.setVisible(bSection2 or not bReadOnly);
-        type_label.setVisible(bSection2 or not bReadOnly);
-        -- -- show effect features for DM
-        -- header_effects.setVisible(true);
-        -- effects_iedit.setVisible(true);
-        -- effects_list_iadd.setVisible(true);
-        -- effects_list.setVisible(true);
-  else
-        type_label.setVisible(false);
-        
-        -- -- hide effect features for pcs
-        -- header_effects.setVisible(false);
-        -- effects_iedit.setVisible(false);
-        -- effects_list_iadd.setVisible(false);
-        -- effects_list.setVisible(false);
-    end
-    
+  type.setReadOnlyState(bReadOnly);
+  type.setVisible((type.getValue() ~= "" or not bReadOnly));
+  type_label.setVisible((type.getValue() ~= "" or not bReadOnly));
+  bSection2 = (type.getValue() ~= "");
   if updateControl("subtype", bReadOnly, bID) then bSection2 = true; end
   if updateControl("rarity", bReadOnly, bID) then bSection2 = true; end
-  
+  subtype.setReadOnlyState(bReadOnly);
+  subtype.setVisible((subtype.getValue() ~= "" or not bReadOnly));
+  subtype_label.setVisible((subtype.getValue() ~= "" or not bReadOnly));
+  rarity.setReadOnlyState(bReadOnly);
+  rarity.setVisible((rarity.getValue() ~= "" or not bReadOnly));
+  rarity_label.setVisible((rarity.getValue() ~= "" or not bReadOnly));
+
   local bSection3 = false;
   if updateControl("cost", bReadOnly, bID) then bSection3 = true; end
   if updateControl("exp", bReadOnly, bID) then bSection3 = true; end

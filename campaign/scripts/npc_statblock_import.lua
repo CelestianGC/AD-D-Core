@@ -98,7 +98,7 @@ Debug.console("npc_statblock_import.lua","processImportText","nEXP",nEXP);
       --getClassLevelAsHD(nodeNPC,sTextClean);
       ManagerImportADND.setHD(nodeNPC);
       ManagerImportADND.setAC(nodeNPC);
-      ManagerImportADND.setActionWeapon(nodeNPC);
+      ManagerImportADND.setActionWeapon(nodeNPC,true);
       ManagerImportADND.setSomeDefaults(nodeNPC);
       
       setAbilityScores(nodeNPC,sTextClean);
@@ -160,22 +160,22 @@ end
 -- This will try and find all spells within the stat block and add them to the NPC
 --
 local sSpellFilter = "['’,%w%d%s%-%(%)]+";
+local aLevelsAsName = { "first","second","third","fourth","fifth","sixth","seventh","eighth","ninth"};
 function importSpells(nodeNPC,sText)
   local sTextLower = sText:lower();
 Debug.console("npc_statblock_import.lua","importSpells","nodeNPC",nodeNPC);    
 Debug.console("npc_statblock_import.lua","importSpells","sTextLower",sTextLower);  
   local spells = {};
-  spells[1] = sTextLower:match("first level: (".. sSpellFilter .. ") [%w]+ level:");
-  spells[2] = sTextLower:match("second level: (".. sSpellFilter .. ") [%w]+ level:");
-  spells[3] = sTextLower:match("third level: (".. sSpellFilter .. ") [%w]+ level:");
-  spells[4] = sTextLower:match("fourth level: (".. sSpellFilter .. ") [%w]+ level:");
-  spells[5] = sTextLower:match("fifth level: (".. sSpellFilter .. ") [%w]+ level:");
-  spells[6] = sTextLower:match("sixth level: (".. sSpellFilter .. ") [%w]+ level:");
-  spells[7] = sTextLower:match("seventh level: (".. sSpellFilter .. ") [%w]+ level:");
-  spells[8] = sTextLower:match("eighth level: (".. sSpellFilter .. ") [%w]+ level:");
-  spells[9] = sTextLower:match("ninth level: (".. sSpellFilter .. ")");
-  
-Debug.console("npc_statblock_import.lua","importSpells","spells[1]",spells[1]);    
+  -- 'spells memorized: first level: command, cure light wounds (x2), remove fear, sanctuary second level: hold person (x2), resist fire, silence 15' radius, slow poison third level: dispel magic, prayer, bestow curse fourth level: cure serious wounds'
+  -- or 
+  -- 'spells memorized: level 1: detect magic, magic missile (x2), unseen servant level 2: detect invisibility, invisibility, web level 3: dispel magic, haste, lightning bolt level 4: charm monster, polymorph self level 5: teleport '
+  for i=1,9,1 do
+    spells[i] = sTextLower:match(aLevelsAsName[i] .. " level: (".. sSpellFilter .. ") %w+ level:") 
+             or sTextLower:match(aLevelsAsName[i] .. " level: (".. sSpellFilter .. ")")
+             or sTextLower:match("level " .. i .. ": (".. sSpellFilter .. ") level %d+:")
+             or sTextLower:match("level " .. i .. ": (".. sSpellFilter .. ")");
+Debug.console("npc_statblock_import.lua","importSpells","spells[i]",spells[i]);                 
+  end
   for i=1,9,1 do
 Debug.console("npc_statblock_import.lua","importSpells","spells[".. i .. "]",spells[i]);    
     local aSpells = StringManager.split(spells[i],",",true);

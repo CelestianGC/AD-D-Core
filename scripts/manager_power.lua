@@ -390,6 +390,8 @@ end
 
 
 function performAction(draginfo, nodeAction, sSubRoll)
+--Debug.console("manager_power.lua","performAction","nodeAction",nodeAction);
+--Debug.console("manager_power.lua","performAction","sSubRoll",sSubRoll);
   if not nodeAction then
     return;
   end
@@ -397,17 +399,15 @@ function performAction(draginfo, nodeAction, sSubRoll)
   if not rActor then
     return;
   end
+--Debug.console("manager_power.lua","performAction","rActor",rActor);
 
---Debug.console("manager_power.lua","performAction","nodeAction",nodeAction);
---Debug.console("manager_power.lua","performAction","sSubRoll",sSubRoll);
-  
     -- add itemPath to rActor so that when effects are checked we can 
     -- make compare against action only effects
     local nodeWeapon = nodeAction.getChild("...");
     local _, sRecord = DB.getValue(nodeWeapon, "shortcut", "", "");
     rActor.itemPath = sRecord;
     if (draginfo and rActor.itemPath and rActor.itemPath ~= "") then
-        draginfo.setMetaData("itemPath",rActor.itemPath);
+      draginfo.setMetaData("itemPath",rActor.itemPath);
     end
     --
     
@@ -415,17 +415,17 @@ function performAction(draginfo, nodeAction, sSubRoll)
     local sType = DB.getValue(nodeAction, "type", "");
 --Debug.console("manager_power.lua","performAction","sType",sType);    
     if sType == "cast" then 
-        if not removeMemorizedSpell(draginfo,nodeAction) then 
-            -- spell wasn't memorized so stop here
-            return; 
-        end
+      if not removeMemorizedSpell(draginfo,nodeAction) then 
+        -- spell wasn't memorized so stop here
+        return; 
+      end
     end
     
     
     -- mark one use of this used
     if not incrementUse(draginfo, nodeAction) then
-        -- no uses left, stop
-        return;
+      -- no uses left, stop
+      return;
     end
     
     local rAction = getPowerRoll(rActor, nodeAction, sSubRoll);
@@ -477,7 +477,7 @@ function performAction(draginfo, nodeAction, sSubRoll)
     elseif rAction.type == "effect" then
         local rRoll = ActionEffect.getRoll(draginfo, rActor, rAction);
         if rRoll then
-            table.insert(rRolls, rRoll);
+          table.insert(rRolls, rRoll);
         end
     elseif rAction.type == "damage_psp" then
         table.insert(rRolls, ActionDamagePSP.getRoll(rActor, rAction));
@@ -2710,7 +2710,7 @@ end
 
 -- get the casterlevel for sSpellType (arcane,divine or type from spell)
 function getCasterLevelByType(nodeCaster,sSpellType,bIsPC)
---Debug.console("manager_power.lua","getCasterLevelByType","nodeCaster",nodeCaster);  
+Debug.console("manager_power.lua","getCasterLevelByType","nodeCaster",nodeCaster);  
 --Debug.console("manager_power.lua","getCasterLevelByType","sSpellType",sSpellType);  
 --Debug.console("manager_power.lua","getCasterLevelByType","bIsPC",bIsPC);  
   local nCasterLevel = 1;

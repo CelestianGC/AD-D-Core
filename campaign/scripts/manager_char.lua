@@ -1364,13 +1364,9 @@ function addClassFeatureDB(nodeChar, sClass, sRecord, nodeClass)
     if (sText:match("Choose ")) then
       local sChoices, sWeapons = sText:match("Choose (%d+) from ([^$]+)");
       local numChoices = tonumber(sChoices) or 0;
---Debug.console("manager_char","addClassFeatureDB","numChoices",numChoices);      
---Debug.console("manager_char","addClassFeatureDB","sWeapons",sWeapons);      
       sWeapons = sWeapons:gsub("or ",","); -- replace or's with commas
-      sWeapons = sWeapons:gsub(".",""); -- replace . with nothing
+      sWeapons = sWeapons:gsub("%.",""); -- replace . with nothing
       local aWeapons = StringManager.split(sWeapons, ",", true);
---Debug.console("manager_char","addClassFeatureDB","aWeapons",aWeapons);      
---Debug.console("manager_char","addClassFeatureDB","nodeChar",nodeChar);      
       pickWeaponProfs(nodeChar,aWeapons,numChoices);
     else
 --Debug.console("manager_char","addClassFeatureDB","NOT FOUND",sText);          
@@ -3113,6 +3109,7 @@ end
 
 -- returns the highest level for all active classes.
 function getActiveClassMaxLevel(nodeChar)
+--Debug.console("manager_char.lua","getActiveClassMaxLevel","nodeChar",nodeChar);
   local nMaxLevel = 0;
   for _,nodeClass in pairs(DB.getChildren(nodeChar, "classes")) do
     local bClassActive = (DB.getValue(nodeClass, "classactive", 0) ~= 0);
@@ -3125,7 +3122,7 @@ function getActiveClassMaxLevel(nodeChar)
 end
 
 -- returns the highest level for all classes, active or not
-function getActiveClassMaxLevel(nodeChar)
+function getAbsoluteClassMaxLevel(nodeChar)
   local nMaxLevel = 0;
   for _,nodeClass in pairs(DB.getChildren(nodeChar, "classes")) do
     local nLevel = DB.getValue(nodeClass, "level", 0);
@@ -3420,11 +3417,11 @@ function getWisIntConPSPBonus(nodeChar,nodeAdvance)
     -- Add hit points based on level added
     local aPSPDice = DB.getValue(nodeAdvance,"psp.dice");
     local dbAbilityWis = AbilityScoreADND.getWisdomProperties(nodeChar);
-    local nWisBonus = dbAbilityWis.psp_bonus;
+    local nWisBonus = dbAbilityWis.psp_bonus or 0;
     local dbAbilityInt = AbilityScoreADND.getIntelligenceProperties(nodeChar);
-    local nIntBonus = dbAbilityInt.psp_bonus;
+    local nIntBonus = dbAbilityInt.psp_bonus or 0;
     local dbAbilityCon = AbilityScoreADND.getConstitutionProperties(nodeChar);
-    local nConBonus = dbAbilityCon.psp_bonus;
+    local nConBonus = dbAbilityCon.psp_bonus or 0;
     -- no more con/int bonuses once we stop using dice
     if (aPSPDice == nil) then
       nConBonus = 0;

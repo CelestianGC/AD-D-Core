@@ -5,6 +5,10 @@
 --
 
 function onInit()
+  -- temporary till 3.3.8+/bugfixed?  
+  ActionEffect.onEffect = bugfix_onEffect;
+ 	ActionsManager.registerResultHandler("effect", bugfix_onEffect);
+  --
   if User.isHost() then
     -- watch the combatracker/npc inventory list
     DB.addHandler("combattracker.list.*.inventorylist.*.carried", "onUpdate", inventoryUpdateItemEffects);
@@ -42,9 +46,10 @@ function onInit()
     --ActionsManager.resolveAction = resolveAction;
     EffectManager5E.evalAbilityHelper = evalAbilityHelper;
     EffectManager.setCustomOnEffectActorStartTurn(onEffectActorStartTurn);
-    --EffectManager.setCustomOnEffectAddStart(adndOnEffectAddStart);
+    EffectManager.setCustomOnEffectAddStart(adndOnEffectAddStart);
     EffectManager.setCustomOnEffectAddEnd(adndOnEffectAddEnd);
     EffectManager5E.applyOngoingDamageAdjustment = applyOngoingDamageAdjustment;
+    EffectManager5E.getEffectsBonusByType = getEffectsBonusByType;
     
     -- this is for ARMOR() effect type
     --IFT: ARMOR(plate,platemail);ATK: 2 and it will then give you +2 to hit versus targets that are wearing plate/platemail armor.
@@ -1167,9 +1172,23 @@ function applyOngoingDamageAdjustment(nodeActor, nodeEffect, rEffectComp)
 end
 ---- end psionic work
 
---function adndOnEffectAddStart(rNewEffect)
+-- Replace [$STRING_MACROS] here at the start?
+function adndOnEffectAddStart(rNewEffect)
 --Debug.console("manager_effect_adnd.lua","adndOnEffectAddStart","rNewEffect",rNewEffect); 
---end
+  local sSource = rNewEffect.sSource;
+--Debug.console("manager_effect_adnd.lua","adndOnEffectAddStart","sSource",sSource); 
+  if sSource and sSource ~= '' then
+    local nodeSource = DB.findNode(sSource);
+    if nodeSource then
+      local sNewName = rNewEffect.sName;
+      -- --- Match $NAME and replace them with the nodeSource name
+      sNewName = sNewName:gsub("%[%$NAME%]",DB.getValue(nodeSource,"name","NO-NAME-FOUND"));
+      
+      -- finally set the string to efffect
+      rNewEffect.sName = sNewName;
+    end
+  end
+end
 
 -- AD&D Core only function, rolls dice rolls in [xDx] boxes
 -- used for STR: [1d5] style effects, only rolled when applied.
@@ -1189,11 +1208,14 @@ function adndOnEffectAddEnd(nodeTargetEffect, rNewEffect)
     nodeCaster = nodeTarget;
   end
   
--- Debug.console("manager_effect_adnd.lua","adndOnEffectAddEnd","nodeTarget",nodeTarget); 
 -- Debug.console("manager_effect_adnd.lua","adndOnEffectAddEnd","nodeTargetEffect",nodeTargetEffect); 
+-- Debug.console("manager_effect_adnd.lua","adndOnEffectAddEnd","nodeTarget",nodeTarget); 
+-- Debug.console("manager_effect_adnd.lua","adndOnEffectAddEnd","nodeCaster",nodeCaster); 
+-- Debug.console("manager_effect_adnd.lua","adndOnEffectAddEnd","nodeChar",nodeChar); 
 -- Debug.console("manager_effect_adnd.lua","adndOnEffectAddEnd","rNewEffect",rNewEffect); 
   -- setup a nodeSource 
   local sSource = rNewEffect.sSource;
+Debug.console("manager_effect_adnd.lua","adndOnEffectAddEnd","sSource",sSource);   
   local nodeSource = nodeCaster; -- if no sSource then it's based from the caster?
   if (sSource and sSource ~= "") then 
     nodeSource = DB.findNode(sSource);
@@ -1207,6 +1229,8 @@ function adndOnEffectAddEnd(nodeTargetEffect, rNewEffect)
     --nodeSource = nodeCaster;
   end
   -- end nodeSource
+--Debug.console("manager_effect_adnd.lua","adndOnEffectAddEnd","->>nodeCaster2",nodeCaster); 
+
   local sEffectFullString = "";
   local sName = rNewEffect.sName;
     -- split the name/label for effect for each:
@@ -1216,6 +1240,8 @@ function adndOnEffectAddEnd(nodeTargetEffect, rNewEffect)
   -- flip through each sEffectName and look for dice
   for _,sEffectName in pairs(aEachEffect) do
     local sNewName = sEffectName;
+    -- match some string values for replacement, $NAME
+    
   -- MATCH [1d6] string in effect text 
     for sDice in string.gmatch(sEffectName,"%[%d+[dD]%d+%]") do
       local aDice,nMod = StringManager.convertStringToDice(sDice);
@@ -1225,7 +1251,7 @@ Debug.console("manager_effect_adnd.lua","adndOnEffectAddStart","Dice rolled for 
     end  -- for sDice
     
     -- find anything else in []'s and consider it a math function with macros
-    -- like [$STR*2] or [$DEX/3] or [$LVL*10]
+    -- like [$STR*2] or [$DEX/3] or [$LEVEL*10]
     local nStart, nEnd, sFound = sNewName:find("%[(.*)%]");
     if nStart and nEnd and sFound then     
       for sMacro in string.gmatch(sFound,"%$(%w+)") do
@@ -1242,13 +1268,19 @@ Debug.console("manager_effect_adnd.lua","adndOnEffectAddStart","Dice rolled for 
         end -- end found sStatName
 
         -- these need to be run by the source, not the target.
-        if nodeSource then
+        if nodeCaster then
           -- -- match for $LEVEL
-          sFound = sFound:gsub("%$LEVEL",tostring(CharManager.getActiveClassMaxLevel(nodeSource)));
+          if sFound:match("%$LEVEL") then
+            sFound = sFound:gsub("%$LEVEL",tostring(CharManager.getActiveClassMaxLevel(nodeCaster)));
+          end
           -- -- match for $ARCANE
-          sFound = sFound:gsub("%$ARCANE",tostring(PowerManager.getCasterLevelByType(nodeSource,"arcane",bNodeSourceIsPC)));
+          if sFound:match("%$ARCANE") then
+            sFound = sFound:gsub("%$ARCANE",tostring(PowerManager.getCasterLevelByType(nodeCaster,"arcane",bNodeSourceIsPC)));
+          end
           -- -- match for $DIVINE
-          sFound = sFound:gsub("%$DIVINE",tostring(PowerManager.getCasterLevelByType(nodeSource,"divine",bNodeSourceIsPC)));
+          if sFound:match("%$DIVINE") then
+            sFound = sFound:gsub("%$DIVINE",tostring(PowerManager.getCasterLevelByType(nodeCaster,"divine",bNodeSourceIsPC)));
+          end
         end
         
       end -- end sMacro for
@@ -1263,6 +1295,7 @@ Debug.console("manager_effect_adnd.lua","adndOnEffectAddStart","Dice rolled for 
     end
     sEffectFullString = sEffectFullString .. sSep .. sNewName;
   end -- for sEffectName
+  
   -- we changed the effect name so update
   if (sEffectFullString ~= "") then
     --DB.setValue(nodeTargetEffect,"name","string",sEffectFullString);
@@ -1298,6 +1331,128 @@ end
 	-- return nil, nil;
 -- end
 
+--
+-- AD&D Core Only, for Base Str/Dex/etc. handles the BSTR, BPSTR/etc style abilites settings
+--
+function getEffectsBonusByType(rActor, aEffectType, bAddEmptyBonus, aFilter, rFilterActor, bTargetedOnly)
+  if not rActor or not aEffectType then
+    return {}, 0;
+  end
+  
+  -- MAKE BONUS TYPE INTO TABLE, IF NEEDED
+  if type(aEffectType) ~= "table" then
+    aEffectType = { aEffectType };
+  end
+  
+  -- PER EFFECT TYPE VARIABLES
+  local results = {};
+  local bonuses = {};
+  local penalties = {};
+  local nEffectCount = 0;
+  
+  for k, v in pairs(aEffectType) do
+    -- LOOK FOR EFFECTS THAT MATCH BONUSTYPE
+    local aEffectsByType = EffectManager5E.getEffectsByType(rActor, v, aFilter, rFilterActor, bTargetedOnly);
+
+    -- ITERATE THROUGH EFFECTS THAT MATCHED
+    for k2,v2 in pairs(aEffectsByType) do
+      -- LOOK FOR ENERGY OR BONUS TYPES
+      local dmg_type = nil;
+      local mod_type = nil;
+      local low_type = nil;
+      -- this handles the BSTR, BPSTR/etc style abilites settings --celestian
+
+      -- get highest value base
+      if (StringManager.contains(DataCommonADND.basetypes, v2.type)) then
+        mod_type = v2.type;
+      end
+      -- get lowest value base
+      if (StringManager.contains(DataCommonADND.lowtypes, v2.type)) then
+        low_type = v2.type;
+      end
+      
+      for _,v3 in pairs(v2.remainder) do
+        if StringManager.contains(DataCommon.dmgtypes, v3) or StringManager.contains(DataCommon.conditions, v3) or v3 == "all" then
+          dmg_type = v3;
+          break;
+        elseif StringManager.contains(DataCommon.bonustypes, v3) then
+          mod_type = v3;
+          break;
+        end
+      end
+      
+      -- IF MODIFIER TYPE IS UNTYPED, THEN APPEND MODIFIERS
+      -- (SUPPORTS DICE)
+      if dmg_type or (not mod_type and not low_type) then
+        -- ADD EFFECT RESULTS 
+        local new_key = dmg_type or "";
+        local new_results = results[new_key] or {dice = {}, mod = 0, remainder = {}};
+
+        -- BUILD THE NEW RESULT
+        for _,v3 in pairs(v2.dice) do
+          table.insert(new_results.dice, v3); 
+        end
+        if bAddEmptyBonus then
+          new_results.mod = new_results.mod + v2.mod;
+        else
+          new_results.mod = math.max(new_results.mod, v2.mod);
+        end
+        for _,v3 in pairs(v2.remainder) do
+          table.insert(new_results.remainder, v3);
+        end
+
+        -- SET THE NEW DICE RESULTS BASED ON ENERGY TYPE
+        results[new_key] = new_results;
+      
+      elseif (low_type) then -- get lowest base value, used for base AC (low is good)
+        if (not bonuses[low_type]) then
+          bonuses[low_type] = v2.mod;
+        elseif (v2.mod < bonuses[low_type]) then
+          bonuses[low_type] = v2.mod;
+        end
+      -- OTHERWISE, TRACK BONUSES AND PENALTIES BY MODIFIER TYPE 
+      -- (IGNORE DICE, ONLY TAKE BIGGEST BONUS AND/OR PENALTY FOR EACH MODIFIER TYPE)
+      else
+        local bStackable = StringManager.contains(DataCommon.stackablebonustypes, mod_type);
+        if v2.mod >= 0 then
+          if bStackable then
+            bonuses[mod_type] = (bonuses[mod_type] or 0) + v2.mod;
+          else
+            bonuses[mod_type] = math.max(v2.mod, bonuses[mod_type] or 0);
+          end
+        elseif v2.mod < 0 then
+          if bStackable then
+            penalties[mod_type] = (penalties[mod_type] or 0) + v2.mod;
+          else
+            penalties[mod_type] = math.min(v2.mod, penalties[mod_type] or 0);
+          end
+        end
+
+      end
+      
+      -- INCREMENT EFFECT COUNT
+      nEffectCount = nEffectCount + 1;
+    end
+  end
+
+  -- COMBINE BONUSES AND PENALTIES FOR NON-ENERGY TYPED MODIFIERS
+  for k2,v2 in pairs(bonuses) do
+    if results[k2] then
+      results[k2].mod = results[k2].mod + v2;
+    else
+      results[k2] = {dice = {}, mod = v2, remainder = {}};
+    end
+  end
+  for k2,v2 in pairs(penalties) do
+    if results[k2] then
+      results[k2].mod = results[k2].mod + v2;
+    else
+      results[k2] = {dice = {}, mod = v2, remainder = {}};
+    end
+  end
+
+  return results, nEffectCount;
+end
 
 -- find effect by name (MIRRORIMAGE, AC, STONESKIN) and return array of nodes
 -- Looks for:
@@ -1332,4 +1487,90 @@ function removeEffectCount(nodeCT, sEffectName, nRemoveCount)
       EffectManager.removeEffect(nodeCT, sLabel);
     end
   end
+end
+
+---
+--- Temporary replacement till 3.3.8+ is released?
+--- https://www.fantasygrounds.com/forums/showthread.php?47601-The-Source-of-an-effect-question-why-it-s-based-on-CT-Actor-and-not-the-origin
+--- CoreRPG scripts/manager_action_effect.lua onEffect()
+--- 
+function bugfix_onEffect(rSource, rTarget, rRoll)
+--Debug.console("manager_effect_adnd.lua","bugfix_onEffect","rSource",rSource);
+--Debug.console("manager_effect_adnd.lua","bugfix_onEffect","rTarget",rTarget);
+--Debug.console("manager_effect_adnd.lua","bugfix_onEffect","rRoll",rRoll);
+	-- Decode effect from roll
+	local rEffect = EffectManager.decodeEffect(rRoll);
+	if not rEffect then
+		ChatManager.SystemMessage(Interface.getString("ct_error_effectdecodefail"));
+		return;
+	end
+	
+	-- If no target, then report to chat window and exit
+	if not rTarget then
+		EffectManager.onUntargetedDrop(rEffect);
+		rRoll.sDesc = EffectManager.encodeEffectAsText(rEffect);
+
+		-- Report effect to chat window
+		local rMessage = ActionsManager.createActionMessage(nil, rRoll);
+		rMessage.icon = "roll_effect";
+		Comm.deliverChatMessage(rMessage);
+		return;
+	end
+
+	-- If target not in combat tracker, then we're done
+	local sTargetCT = ActorManager.getCTNodeName(rTarget);
+	if sTargetCT == "" then
+		ChatManager.SystemMessage(Interface.getString("ct_error_effectdroptargetnotinct"));
+		return;
+	end
+
+	-- If effect is not a CT effect drag, then figure out source and init
+	if rEffect.sSource == "" then
+		local sSourceCT = "";
+    -- bugfix
+    if rSource then
+			sSourceCT = ActorManager.getCTNodeName(rSource);
+--Debug.console("manager_effect_adnd.lua","onEffect","sSourceCT",sSourceCT);
+		end    
+    -- end bugfix
+		if sSourceCT == "" then
+			local nodeTempCT = nil;
+			if User.isHost() then
+				nodeTempCT = CombatManager.getActiveCT();
+			else
+				nodeTempCT = CombatManager.getCTFromNode("charsheet." .. User.getCurrentIdentity());
+			end
+			if nodeTempCT then
+				sSourceCT = nodeTempCT.getNodeName();
+			end
+		end
+		if sSourceCT ~= "" then
+			rEffect.sSource = sSourceCT;
+			EffectManager.onEffectSourceChanged(rEffect, DB.findNode(sSourceCT));
+		end
+	end
+	
+	-- If source is same as target, then don't specify a source
+	if rEffect.sSource == sTargetCT then
+		rEffect.sSource = "";
+	end
+	
+	-- If source is non-friendly faction and target does not exist or is non-friendly, then effect should be GM only
+	if (rSource and ActorManager.getFaction(rSource) ~= "friend") and (not rTarget or ActorManager.getFaction(rTarget) ~= "friend") then
+		rEffect.nGMOnly = 1;
+	end
+	
+	-- Resolve
+	-- If shift-dragging, then apply to the source actor targets, then target the effect to the drop target
+	if rRoll.aTargets then
+		local aTargets = StringManager.split(rRoll.aTargets, "|");
+		for _,v in ipairs(aTargets) do
+			rEffect.sTarget = sTargetCT;
+			EffectManager.notifyApply(rEffect, v);
+		end
+	
+	-- Otherwise, just apply effect to drop target normally
+	else
+		EffectManager.notifyApply(rEffect, sTargetCT);
+	end
 end

@@ -160,6 +160,7 @@ function onRoll(rSource, rTarget, rRoll)
     end
 
     Debug.console("manager_action_turnundead.lua","onRoll","sTurn=",sTurn);
+    ChatManager.SystemMessage("TURN VALUE: " .. sTurn);
     
     -- if we have a dice count we turned something so roll it
     if (bTurnedSome) then
@@ -180,6 +181,7 @@ function onRoll(rSource, rTarget, rRoll)
           local aTurnedList = {};
           local nTurnBase = StringManager.evalDice(aTurnDice, 0);
           Debug.console("manager_action_turnundead.lua","onRoll","Turned Slots, 2d6, nTurnBase=",nTurnBase);
+          ChatManager.SystemMessage("TURNED SLOTS [" .. nTurnBase .. "]");
           -- flip through #aHDTurn
           for i=1, #aHDTurn do
             local nTurnExtra = 0;
@@ -190,6 +192,7 @@ function onRoll(rSource, rTarget, rRoll)
             -- destroy+ turn (add 2d4)
               nTurnExtra = StringManager.evalDice(aExtraTurn, 0);
               Debug.console("manager_action_turnundead.lua","onRoll","Gained extra turn, 2d4, nTurnExtra=",nTurnExtra," For HD=",aHDTurn[i].nHD);
+              ChatManager.SystemMessage("TURNED EXTRA SLOTS [" .. nTurnExtra .. "] for HD [" .. aHDTurn[i].nHD .. "]");
             end
             -- flip through sorted Targets
             local aTurnIDs = {};

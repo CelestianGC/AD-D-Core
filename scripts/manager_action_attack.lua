@@ -7,11 +7,6 @@ OOB_MSGTYPE_APPLYATK = "applyatk";
 OOB_MSGTYPE_APPLYHRFC = "applyhrfc";
 
 function onInit()
-  -- replace default roll with adnd_roll to allow
-  -- control-dice click to prompt for manual roll
-  ActionsManager.roll = adnd_roll;
-  --
-
   OOBManager.registerOOBMsgHandler(OOB_MSGTYPE_APPLYATK, handleApplyAttack);
   OOBManager.registerOOBMsgHandler(OOB_MSGTYPE_APPLYHRFC, handleApplyHRFC);
 
@@ -686,9 +681,11 @@ function againstMirrors(rSource, rTarget, rRoll)
   local _, nMirrorCount, _ = EffectManager5E.getEffectsBonus(rTarget, {"MIRRORIMAGE"}, false, nil);
   
   if (nMirrorCount > 0) then
+    -- calculate a percentage to hit mirror based on number of mirrors
     local fHitMirror = ((nMirrorCount / (1 + nMirrorCount)) * 100)
     local nHitMirror =  math.floor(fHitMirror-0.5); 
 
+    -- if the percentage rolled less than/equal to the "to hit value" then we announce a mirror was hit.
     if (nCheckTotal <= nHitMirror) then
       -- remove a mirror from count
       EffectManagerADND.removeEffectCount(nodeCT, "MIRRORIMAGE", 1);
@@ -878,26 +875,6 @@ function canCrit(nBaB,nAscendingAC,nRange)
 --Debug.console("manager_action_attack.lua","canCrit","bCanCrit",bCanCrit);    
     return bCanCrit;
 end
-
--- replace default roll with adnd_roll to allow
--- control-dice click to prompt for manual roll
-function adnd_roll(rSource, vTargets, rRoll, bMultiTarget)
-  if #(rRoll.aDice) > 0 then
-    if not rRoll.bTower and (OptionsManager.isOption("MANUALROLL", "on") or (User.isHost() and Input.isControlPressed())) then
-      local wManualRoll = Interface.openWindow("manualrolls", "");
-      wManualRoll.addRoll(rRoll, rSource, vTargets);
-    else
-      local rThrow = ActionsManager.buildThrow(rSource, vTargets, rRoll, bMultiTarget);
-      Comm.throwDice(rThrow);
-    end
-  else
-    if bMultiTarget then
-      ActionsManager.handleResolution(rRoll, rSource, vTargets);
-    else
-      ActionsManager.handleResolution(rRoll, rSource, { vTargets });
-    end
-  end
-end 
 
 -- return PSP cost string
 function adjustPSPs(rSource,nPSPCost,bAdditive)

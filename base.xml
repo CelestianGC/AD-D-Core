@@ -7,7 +7,7 @@
 -->
 
 <root version="3.0" release="28" logo="logo.png">
-  <announcement text="AD&amp;D Core v2019.01.25 For Fantasy Grounds\r--by Celestian 2017-2019" font="emotefont" icon="rulesetlogo_ADnD" />
+  <announcement text="AD&amp;D Core v2019.02.11 For Fantasy Grounds\r--by Celestian 2017-2019" font="emotefont" icon="rulesetlogo_ADnD" />
 
   <!-- Attributes -->
   <description>
@@ -81,6 +81,7 @@
   <includefile source="campaign/template_char.xml" />
   <includefile source="campaign/template_power.xml" />
   <includefile source="campaign/template_npc.xml" />
+  <includefile source="campaign/template_item.xml" />
 
   <includefile source="campaign/record_char.xml" />
   <includefile source="campaign/record_char_main.xml" />

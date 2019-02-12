@@ -39,8 +39,18 @@ end
 -- function that Celestian uses to bulk update things as needed
 function processUpdateADND(sCommand, sParams)
   if User.isHost() then
+    local aBlockFrames = {};
+    local aFrames = Interface.getFrames();
+    for _,sFrame in pairs(aFrames) do
+      local sThisFrame = sFrame:match("^referenceblock%-([%w%a]+)");
+      if (sThisFrame) then
+        table.insert(aBlockFrames,sThisFrame);
+Debug.console("data_library_adnd.lua","processUpdateADND","sThisFrame",sThisFrame);            
+      end
+    end -- for frames
+  
+  
     -- option to flip through spells and add "cast" "initiative" and "duration" effect with name of spell
-    
     -- I use this to set default values on spells w/o them
     -- for _,nodeSpell in pairs(DB.getChildren("spell")) do
       -- local sName = DB.getValue(nodeSpell,"name","UNKNOWN");
@@ -244,8 +254,109 @@ function processUpdateADND(sCommand, sParams)
   
 -- Debug.console("data_library_adnd.lua","processUpdateADND","sSoundString",sSoundString);    
   -- Interface.openWindow("url",sSoundString);
-  
   end -- isHost()
+end
+
+function fixNPCPowerToWEapons()
+    -- this is to flip through all powers of a npc, find ones with are action type "melee"
+    -- and if slash/piercing/bludgeoning we convert it to weapon attack, grab first damage within the power
+    -- and add that also, then remove the damage/melee action.
+    local nCount = 0 ;
+    local aDeleteTheseNodes = {};
+    for _,nodeNPC in pairs(UtilityManager.getSortedTable(DB.getChildren("npc"))) do
+      local sNPCName = DB.getValue(nodeNPC,"name","");
+      local nodeWeapons = nodeNPC.createChild("weaponlist");  
+--Debug.console("data_library_adnd.lua","processUpdateADND","sNPCName",sNPCName);              
+      for _, nodePower in pairs(DB.getChildren(nodeNPC,"powers")) do
+        local sPowerName = DB.getValue(nodePower,"name","");
+        local sDesc = DB.getValue(nodePower,"description","");
+--Debug.console("data_library_adnd.lua","processUpdateADND","sPowerName",sPowerName);              
+        for _, nodeAction in pairs(DB.getChildren(nodePower,"actions")) do
+          local sActionName = DB.getValue(nodeAction,"name","");
+          local sActionType = DB.getValue(nodeAction,"type","");
+          local sAtkType = DB.getValue(nodeAction,"atktype","");
+          local nSpeedFactor = DB.getValue(nodeAction,"castinitiative",1);
+--Debug.console("data_library_adnd.lua","processUpdateADND","sActionName",sActionName);              
+--Debug.console("data_library_adnd.lua","processUpdateADND","sActionType",sActionType);    
+          -- get actions with atkType melee, convert them to a weapon attack
+          if (sAtkType == "melee") then --or (sAtkType == "ranged")
+--Debug.console("data_library_adnd.lua","processUpdateADND","sPowerName",sPowerName);              
+--Debug.console("data_library_adnd.lua","processUpdateADND","sActionName",sActionName);              
+--Debug.console("data_library_adnd.lua","processUpdateADND","sActionType",sActionType);              
+--Debug.console("data_library_adnd.lua","processUpdateADND","sAtkType",sAtkType);           
+
+            for _,sDamageNode in pairs(getDamageActions(nodePower)) do
+--Debug.console("data_library_adnd.lua","processUpdateADND","DMG:sDamageNode",sDamageNode);            
+              local nodeDamage = DB.findNode(sDamageNode);
+              local nodeActionDamage = nodeDamage.getChild("...");
+-- Debug.console("data_library_adnd.lua","processUpdateADND","DMG:nodeActionDamage",nodeActionDamage);            
+-- Debug.console("data_library_adnd.lua","processUpdateADND","DMG:nodeDamage",nodeDamage);            
+              -- <bonus type="number">0</bonus>
+              -- <castermax type="number">10</castermax>
+              -- <customvalue type="number">0</customvalue>
+              -- <dice type="dice">d6</dice>
+              -- <dicecustom type="dice"></dicecustom>
+              -- <type type="string">bludgeoning</type>
+              local aDice = DB.getValue(nodeDamage,"dice");
+              local aDiceCustom = DB.getValue(nodeDamage,"dicecustom");
+              local nBonus = DB.getValue(nodeDamage,"bonus",0);
+              local sType = DB.getValue(nodeDamage,"type","");
+              
+              if aDice == nil then aDice = aDiceCustom; end;
+              if (sType == "bludgeoning" or sType == "slashing" or sType == "piercing") then 
+                nCount = nCount + 1;
+                -- we're replacing this node as a weapon style attack so remove it.
+Debug.console("data_library_adnd.lua","processUpdateADND","sNPCName",sNPCName);              
+                DB.setValue(nodeAction,"atktype","string",""); -- remove melee/ranged attack
+                -- can't delete a node in a for loop for a child in loop
+                table.insert(aDeleteTheseNodes,nodeActionDamage.getPath());
+                
+  Debug.console("data_library_adnd.lua","processUpdateADND","DMG:sPowerName",sPowerName);                       
+  --Debug.console("data_library_adnd.lua","processUpdateADND","DMG:nSpeedFactor",nSpeedFactor);                       
+  --Debug.console("data_library_adnd.lua","processUpdateADND","DMG:sDesc",sDesc);                       
+  --Debug.console("data_library_adnd.lua","processUpdateADND","DMG:aDice",aDice);                       
+  --Debug.console("data_library_adnd.lua","processUpdateADND","DMG:nBonus",nBonus);                       
+  --Debug.console("data_library_adnd.lua","processUpdateADND","DMG:sType",sType);                       
+                local nodeWeapon = nodeWeapons.createChild();
+                DB.setValue(nodeWeapon,"name","string",sPowerName);
+                DB.setValue(nodeWeapon,"speedfactor","number",nSpeedFactor);
+                
+                DB.setValue(nodeWeapon,"itemnote.name","string",sPowerName);
+                DB.setValue(nodeWeapon,"itemnote.text","formattedtext",sDesc);
+                DB.setValue(nodeWeapon,"itemnote.locked","number",1);
+                DB.setValue(nodeWeapon, "shortcut", "windowreference", "quicknote", nodeWeapon.getPath() .. '.itemnote');
+                
+                local nodeDamageLists = nodeWeapon.createChild("damagelist"); 
+                local nodeWeaponDamage = nodeDamageLists.createChild();
+                DB.setValue(nodeWeaponDamage,"dice","dice",aDice);
+                DB.setValue(nodeWeaponDamage,"bonus","number",nBonus);
+                DB.setValue(nodeWeaponDamage,"stat","string","base");
+                DB.setValue(nodeWeaponDamage,"type","string",sType);
+              end -- slash/piercing/bludgeoning
+            end -- sDamageNode
+          end -- sAtkType
+        end -- for actions
+      end -- for nodePower
+    end -- for npc
+    for _,sDeleteNode in pairs(aDeleteTheseNodes) do
+      local nodeDelete = DB.findNode(sDeleteNode);
+      nodeDelete.delete();
+    end -- 
+Debug.console("data_library_adnd.lua","processUpdateADND","nCount--------------------->",nCount);              
+
+end
+-- find all the damage for this power
+function getDamageActions(nodePower)
+  local aDamageActions = {}
+  for _, nodeAction in pairs(DB.getChildren(nodePower,"actions")) do
+    local bIsDamage = (DB.getChildCount(nodeAction,"damagelist") > 0);
+    if (bIsDamage) then
+      for _, nodeDamage in pairs(DB.getChildren(nodeAction,"damagelist")) do
+        table.insert(aDamageActions,nodeDamage.getPath());
+      end
+    end
+  end
+  return aDamageActions;
 end
 
 -- damage changed on a weapon, bulk update

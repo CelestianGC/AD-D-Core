@@ -280,63 +280,49 @@ Debug.console("manager_import_adnd.lua","setAC","sACText",sACText);
 end
 
 -- apply "damage" string and do best effort to parse and make action/weapons
-function setActionWeapon(nodeNPC)
+function setActionWeapon(nodeNPC,bImportFromStatBlock)
   local sDamageRaw = DB.getValue(nodeNPC,"damage","");
   sDamageRaw = string.gsub(sDamageRaw:lower(),"by weapon","");
-  sDamageRaw = string.gsub(sDamageRaw:lower(),"or","");
+  sDamageRaw = string.gsub(sDamageRaw:lower(),"or","/");
   local sAttacksRaw = DB.getValue(nodeNPC,"numberattacks","");
   sAttacksRaw = string.gsub(sAttacksRaw:lower(),"by weapon","");
-  sAttacksRaw = string.gsub(sAttacksRaw:lower(),"or","");
+  sAttacksRaw = string.gsub(sAttacksRaw:lower(),"or","/");
   sAttacksRaw = StringManager.trim(sAttacksRaw);
   sDamageRaw = StringManager.trim(sDamageRaw);
   local aAttacks = {};
   
 Debug.console("manager_import_adnd.lua","setActionWeapon","sDamageRaw",sDamageRaw);                  
 Debug.console("manager_import_adnd.lua","setActionWeapon","sAttacksRaw",sAttacksRaw);                  
-
-  if (sDamageRaw ~= "" or sAttacksRaw ~= "") then
-    if (string.match(sDamageRaw,"/")) then
-      aAttacks = StringManager.split(sDamageRaw, "/", true);
-Debug.console("manager_import_adnd.lua","setActionWeapon","aAttacks1",aAttacks);                  
-    end
-    if #aAttacks < 1 then
+  if (sDamageRaw == '' and sAttacksRaw ~= nil) then
+    sDamageRaw = sAttacksRaw;
+  end
+Debug.console("manager_import_adnd.lua","setActionWeapon","sDamageRaw2",sDamageRaw);                  
+  if (sDamageRaw ~= "") then
+Debug.console("manager_import_adnd.lua","setActionWeapon","aAttacks1.1",aAttacks);                  
 Debug.console("manager_import_adnd.lua","setActionWeapon","aAttacks2",aAttacks);     
-      for sDice in string.gmatch(sDamageRaw,"%d+[dD%-]%d+[%+%-]%d+") do
-Debug.console("manager_import_adnd.lua","setActionWeapon","sDice1",sDice);                  
-        table.insert(aAttacks, sDice)
+Debug.console("manager_import_adnd.lua","setActionWeapon","sDamageRaw2.1",sDamageRaw);     
+      for sCount,sDChar,sSize,sSign,sMod in string.gmatch(sDamageRaw,"(%d+)([dD%-])(%d+)([%+%-]?)(%d*)") do
+Debug.console("manager_import_adnd.lua","setActionWeapon","sCount",sCount);                  
+Debug.console("manager_import_adnd.lua","setActionWeapon","sDChar",sDChar);                  
+Debug.console("manager_import_adnd.lua","setActionWeapon","sSize",sSize);                  
+Debug.console("manager_import_adnd.lua","setActionWeapon","sSign",sSign);                  
+Debug.console("manager_import_adnd.lua","setActionWeapon","sMod",sMod);                  
+        if (sCount ~= nil) and sSize ~= nil and sSign ~= nil and sMod ~= nil then
+          local sDice = sCount .. sDChar .. sSize .. sSign .. sMod;
+          sDamageRaw = string.gsub(sDamageRaw,sDice,"",1);      
+  Debug.console("manager_import_adnd.lua","setActionWeapon","sDamageRaw1",sDamageRaw);                  
+  Debug.console("manager_import_adnd.lua","setActionWeapon","sDice1",sDice);                  
+          table.insert(aAttacks, sDice);
+        elseif (sCount ~= nil and sSize ~= nil) then
+          local sDice = sCount .. sDChar .. sSize;
+          sDamageRaw = string.gsub(sDamageRaw,sDice,"",1);      
+  Debug.console("manager_import_adnd.lua","setActionWeapon","sDamageRaw1.1",sDamageRaw);                  
+  Debug.console("manager_import_adnd.lua","setActionWeapon","sDice1.1",sDice);                  
+          table.insert(aAttacks, sDice);
+        end
       end
-      -- for sDice, sOther in string.gmatch(sDamageRaw,"(%d+[dD%-]%d+)([^%d%+%-])") do
--- Debug.console("manager_import_adnd.lua","setActionWeapon","sDice2",sDice);                  
--- Debug.console("manager_import_adnd.lua","setActionWeapon","sOther1",sOther);                  
-        -- if sDice ~= "" and sOther ~= "" then
-          -- table.insert(aAttacks, sDice);
-        -- end
-      -- end
-      for sDice in string.gmatch(sDamageRaw,"(%d+[dD%-]%d+)") do
-Debug.console("manager_import_adnd.lua","setActionWeapon","sDice5",sDice);                  
-        table.insert(aAttacks, sDice)
-      end
-    end
-    if #aAttacks < 1 then
-Debug.console("manager_import_adnd.lua","setActionWeapon","aAttacks3",aAttacks);         
-      for sDice in string.gmatch(sAttacksRaw,"%d+[dD%-]%d+[%+%-]%d+") do
-Debug.console("manager_import_adnd.lua","setActionWeapon","sDice3",sDice);                  
-        table.insert(aAttacks, sDice)
-      end
-      -- for sDice, sOther in string.gmatch(sAttacksRaw,"(%d+[dD-]%d+)([^%d%+%-])") do
--- Debug.console("manager_import_adnd.lua","setActionWeapon","sDice4",sDice);                  
--- Debug.console("manager_import_adnd.lua","setActionWeapon","sOther2",sOther);   
-        -- if sDice ~= "" and sOther ~= "" then
-          -- table.insert(aAttacks, sDice);
-        -- end
-      -- end
-      for sDice in string.gmatch(sAttacksRaw,"(%d+[dD%-]%d+)") do
-Debug.console("manager_import_adnd.lua","setActionWeapon","sDice6",sDice);                  
-        table.insert(aAttacks, sDice)
-      end
-    end
+    
     if #aAttacks > 0 then
-
   -- this will try and fix 1-4, 1-8, 2-8 damage dice
       for nIndex,sAttack in pairs(aAttacks) do 
   Debug.console("manager_import_adnd.lua","setActionWeapon","nIndex",nIndex);            

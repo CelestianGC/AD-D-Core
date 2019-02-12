@@ -138,7 +138,7 @@ Debug.console("npc_import.lua","importTextAsNPC","END sParagraph",sParagraph);
       ManagerImportADND.setDescription(nodeNPC,sDescription,"text");
       ManagerImportADND.setHD(nodeNPC);
       ManagerImportADND.setAC(nodeNPC);
-      ManagerImportADND.setActionWeapon(nodeNPC);
+      ManagerImportADND.setActionWeapon(nodeNPC,false);
       ManagerImportADND.setSomeDefaults(nodeNPC);
     end
 end

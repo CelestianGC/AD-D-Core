@@ -545,7 +545,7 @@
         <tooltip textres="char_label_activatedetail_tooltip" />
       </button_toggledetail>
 
-            <!-- spell name/group name, prep count/etc-->
+      <!-- spell name/group name, prep count/etc-->
       <subwindow name="header">
         <anchored>
           <top />
@@ -557,6 +557,7 @@
         <fastinit />
       </subwindow>
 
+      <!-- 
       <subwindow name="initiative">
         <anchored width="90">
           <top parent="header" anchor="bottom" relation="relative" offset="-2" />
@@ -565,9 +566,10 @@
         <class>power_initiative</class>
         <activate />
         <fastinit />
-                <invisible />
+        <invisible />
       </subwindow>
-            
+ -->            
+<!--       
       <subwindow name="memorization">
         <anchored to="initiative" position="righthigh" offset="0,0" width="135" />
         <class>power_memorization</class>
@@ -575,15 +577,16 @@
         <fastinit />
         <invisible />
       </subwindow>
-               
+ -->               
       <list_poweraction name="actions">
         <anchored>
-          <top parent="header" anchor="bottom" relation="relative" offset="5" />
+          <top parent="header" anchor="bottom" relation="relative" offset="0" />
           <left offset="10" />
           <right offset="-10" />
         </anchored>
         <invisible />
       </list_poweraction>
+      
     </sheetdata>
   </windowclass>
   
@@ -685,7 +688,7 @@
           <left anchor="right" relation="relative" offset="5" />
         </anchored>
         <static textres="power_label_initiative" />
-                <tooltip textres="power_label_initiative_tooltip" />
+        <tooltip textres="power_label_initiative_tooltip" />
       </label>
       </sheetdata>
     </windowclass>
