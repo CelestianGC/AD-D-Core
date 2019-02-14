@@ -1281,6 +1281,14 @@ Debug.console("manager_effect_adnd.lua","adndOnEffectAddStart","Dice rolled for 
           if sFound:match("%$DIVINE") then
             sFound = sFound:gsub("%$DIVINE",tostring(PowerManager.getCasterLevelByType(nodeCaster,"divine",bNodeSourceIsPC)));
           end
+          -- TODO -- celestian
+          -- Add test to check each class [$CLASSNAME] so you can match $MONK or $THIEF so they can get a specific level.
+          -- local aClassList = CharManager.getAllClassNames(nodeCaster);
+          -- for _, sClass in pairs(aClassList) do
+          --  if sFound:match("%$" .. sClass) then
+          --    sFound = sFound:gsub("%$" .. sClass,tostring(CharManager.getClassLevelByName(nodeCaster,sClass)));
+          --  end
+          -- end aClassList
         end
         
       end -- end sMacro for

@@ -41,6 +41,7 @@ Debug.console("npc_statblock_import.lua","processImportText","sTextClean",sTextC
                         {"^mr ","magicresistance"},
                         {"^int ","intelligence_text"},
                         {"^al ","alignment"},
+                        {"^alignment ","alignment"},
                         {"^morale ","morale"},
                         {"^ml ","morale"},
                         };
