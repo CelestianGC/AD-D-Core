@@ -323,12 +323,11 @@ function getACHitFromMatrix(node,nRoll)
   --local bisNPC = (not ActorManager.isPC(node));
   --local sActorType, nodeActor = ActorManager.getTypeAndNode(rActor);
   -- get the link from the combattracker record to see what this is.
-	local sClass, sRecord = DB.getValue(node, "link", "npc", "");
-	local bisPC = (sClass == "charsheet");
+	local bisPC = (node.getPath():match("^charsheet%."));
   if (bisPC) then
-    local nodeChar = DB.findNode(sRecord);
-    nACHit = getACHitFromMatrixForPC(nodeChar,nRoll);
+    nACHit = getACHitFromMatrixForPC(node,nRoll);
   else
+    -- NPCs get this from matrix for HD value
     nACHit = getACHitFromMatrixForNPC(node,nRoll);
   end
   
