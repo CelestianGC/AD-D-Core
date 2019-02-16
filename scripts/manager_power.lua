@@ -2710,7 +2710,7 @@ end
 
 -- get the casterlevel for sSpellType (arcane,divine or type from spell)
 function getCasterLevelByType(nodeCaster,sSpellType,bIsPC)
-Debug.console("manager_power.lua","getCasterLevelByType","nodeCaster",nodeCaster);  
+--Debug.console("manager_power.lua","getCasterLevelByType","nodeCaster",nodeCaster);  
 --Debug.console("manager_power.lua","getCasterLevelByType","sSpellType",sSpellType);  
 --Debug.console("manager_power.lua","getCasterLevelByType","bIsPC",bIsPC);  
   local nCasterLevel = 1;

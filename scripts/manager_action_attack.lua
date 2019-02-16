@@ -514,7 +514,7 @@ function onAttack(rSource, rTarget, rRoll)
   local nACHit = (20 - (rAction.nTotal + rRoll.nBaseAttack));
   if not is2e then
     nACHit = CombatManagerADND.getACHitFromMatrix(ActorManager.getCTNode(rSource),nAttackMatrixRoll);
-Debug.console("manager_action_attack.lua","onAttack","Matrix ACHit--------->",nACHit);  
+--Debug.console("manager_action_attack.lua","onAttack","Matrix ACHit--------->",nACHit);  
   elseif bOptAscendingAC then   -- you can't have AscendingAC and 1e Matrix (right now)
     nACHit = (rAction.nTotal + rRoll.nBaseAttack);
   end

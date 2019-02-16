@@ -1215,7 +1215,7 @@ function adndOnEffectAddEnd(nodeTargetEffect, rNewEffect)
 -- Debug.console("manager_effect_adnd.lua","adndOnEffectAddEnd","rNewEffect",rNewEffect); 
   -- setup a nodeSource 
   local sSource = rNewEffect.sSource;
-Debug.console("manager_effect_adnd.lua","adndOnEffectAddEnd","sSource",sSource);   
+--Debug.console("manager_effect_adnd.lua","adndOnEffectAddEnd","sSource",sSource);   
   local nodeSource = nodeCaster; -- if no sSource then it's based from the caster?
   if (sSource and sSource ~= "") then 
     nodeSource = DB.findNode(sSource);

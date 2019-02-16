@@ -506,9 +506,11 @@ end
 
 -- if the item has powers configured place them into the action->powers
 function addToPowerDB(nodeItem)
+--Debug.console("manager_char.lua","addToPowerDB","nodeItem",nodeItem);
     local bItemHasPowers = (DB.getChildCount(nodeItem, "powers") > 0); 
-    if not bItemHasPowers then
-        return;
+    local bItemIdentified = (DB.getValue(nodeItem, "isidentified",1) == 1); 
+    if not bItemHasPowers or not bItemIdentified then
+      return;
     end
     
   local nodeChar = nodeItem.getChild("...");

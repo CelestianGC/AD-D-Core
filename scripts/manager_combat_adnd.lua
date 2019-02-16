@@ -319,15 +319,17 @@ end
 
 -- return best AC Hit for this node (pc/npc) from Matrix with this nRoll
 function getACHitFromMatrix(node,nRoll)
---Debug.console("manager_combat_adnd","getACHitFromMatrix","node",node);          
---Debug.console("manager_combat_adnd","getACHitFromMatrixForNPC","nRoll",nRoll);        
   local nACHit = 20;
-  local bisNPC = (not ActorManager.isPC(node));
---Debug.console("manager_combat_adnd","getACHitFromMatrix","bisNPC",bisNPC);          
-  if (bisNPC) then
-    nACHit = getACHitFromMatrixForNPC(node,nRoll);
+  --local bisNPC = (not ActorManager.isPC(node));
+  --local sActorType, nodeActor = ActorManager.getTypeAndNode(rActor);
+  -- get the link from the combattracker record to see what this is.
+	local sClass, sRecord = DB.getValue(node, "link", "npc", "");
+	local bisPC = (sClass == "charsheet");
+  if (bisPC) then
+    local nodeChar = DB.findNode(sRecord);
+    nACHit = getACHitFromMatrixForPC(nodeChar,nRoll);
   else
-    nACHit = getACHitFromMatrixForPC(node,nRoll);
+    nACHit = getACHitFromMatrixForNPC(node,nRoll);
   end
   
 --Debug.console("manager_combat_adnd","getACHitFromMatrix","nACHit",nACHit);        
