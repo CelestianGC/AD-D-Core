@@ -53,6 +53,12 @@ function onIDChanged(nodeField)
   if (DB.getValue(nodeItem, "carried", 0) == 2) and ItemManager2.isArmor(nodeItem) then
     CharManager.calcItemArmorClass(DB.getChild(nodeItem, "..."));
   end
+  local bItemIdentified = (DB.getValue(nodeItem, "isidentified",1) == 1); 
+  if bItemIdentified then
+    CharManager.addToPowerDB(nodeItem);
+  else
+    CharManager.removeFromPowerDB(nodeItem);
+  end
 end
 
 function onBonusChanged(nodeField)
@@ -78,13 +84,6 @@ function onCarriedChanged(nodeField)
 
 		local nCarried = nodeField.getValue();
 
-    -- item Equipped, lets try and add it's powers if it has any
-    if nCarried == 2 then
-      CharManager.addToPowerDB(nodeItem);
-    else
-      CharManager.removeFromPowerDB(nodeItem);
-    end
-    
 		local sCarriedItem = StringManager.trim(ItemManager.getDisplayName(nodeItem)):lower();
 		if sCarriedItem ~= "" then
 			for _,vNode in pairs(DB.getChildren(nodeChar, "inventorylist")) do

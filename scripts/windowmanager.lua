@@ -82,14 +82,14 @@ function onWindowOpened(window)
           table.insert(aNodes,sPath); 
           window.setPosition(w.getPosition());
           window.setSize(w.getSize());
-          -- if control down, we don't close current open windows of this class
+          -- if control down, we don't close current open window of this class
           -- else we close them
           if not Input.isControlPressed() then
             onWindowClosed(w); 
             w.close(); 
           end
         else
-          -- window we manage is not around or not open
+          -- window is not around/opened
           table.remove(aNodes,#aNodes); 
           if #aNodes == 0 then
             aWindowList[sName] = nil; 
@@ -107,10 +107,10 @@ end
 
 -- function called when any window is closed.
 function onWindowClosed(window)
-  local node = window.getDatabaseNode(); 
   local sName = window.getClass(); 
   local aNodes = aWindowList[sName]; 
   local sPath = nil; 
+  local node = window.getDatabaseNode(); 
 
 --Debug.console("windowmanager.lua","onWindowClosed","node",node); 
 --Debug.console("windowmanager.lua","onWindowClosed","sName",sName); 

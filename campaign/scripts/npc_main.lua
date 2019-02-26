@@ -544,7 +544,7 @@ function addSpellDrop(nodeSource, bInnate)
   addSpell(DB.getValue(nodeSource, "name", ""), table.concat(aDesc, "\r"), bInnate);
 end
 
-function onDrop(x, y, draginfo)
+--function onDrop(x, y, draginfo)
 -- all of these moved to actions/skills so no longer needed for drag/drop here.
 
   -- if draginfo.isType("shortcut") then
@@ -564,6 +564,36 @@ function onDrop(x, y, draginfo)
     -- end
     -- return true;
   -- end
+--end
+
+--
+-- Drag/drop functions for NPC MAIN page/tab
+--
+function onDrop(x, y, draginfo)
+  
+  if draginfo.isType("shortcut") then
+    local sClass, sRecord = draginfo.getShortcutData();
+    
+    -- Control+Drag/Drop of another NPC on this NPC will replace that NPC's contents
+    -- with the one you've dropped.
+    if (sClass == "npc") then
+      local nodeNPC = getDatabaseNode();
+      local bLocked = (DB.getValue(nodeNPC,"locked",0) == 1);
+      
+      if not bLocked and Input.isControlPressed() then
+        local nodeSource = draginfo.getDatabaseNode();
+        Debug.console("npc_main.lua","onDrop","Replacing contents of :",nodeNPC, "with :",nodeSource);
+        DB.deleteChild(nodeNPC,"weaponlist");
+        DB.deleteChild(nodeNPC,"powers");
+        DB.deleteChild(nodeNPC,"effectlist");
+        DB.deleteChild(nodeNPC,"link");
+        DB.deleteChild(nodeNPC,"powermeta");
+        DB.deleteChild(nodeNPC,"abilitynoteslist");
+        DB.deleteChild(nodeNPC,"saves");
+        DB.copyNode(nodeSource,nodeNPC);
+      end -- not locked
+    end -- was npc class
+  end -- was shortcut
 end
 
 function updateACandBaB()

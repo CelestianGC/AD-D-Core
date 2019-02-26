@@ -23,9 +23,9 @@
     <tooltip field="name" />
     <script file="campaign/scripts/story.lua" />
     <sheetdata>
-      <sub_note_header name="header">
+      <sub_quicknote_header name="header">
         <class>quicknote_header</class>
-      </sub_note_header>
+      </sub_quicknote_header>
 
       <frame_story_content name="contentframe" />
 

@@ -156,3 +156,30 @@ function update()
   --divider6.setVisible(bSection6);
 end
 
+--
+-- Drag/drop functions for NPC MAIN page/tab
+--
+function onDrop(x, y, draginfo)
+  
+  if draginfo.isType("shortcut") then
+    local sClass, sRecord = draginfo.getShortcutData();
+    
+    -- Control+Drag/Drop of another NPC on this NPC will replace that NPC's contents
+    -- with the one you've dropped.
+    if (sClass == "item") then
+      local nodeItem = getDatabaseNode();
+      local bLocked = (DB.getValue(nodeItem,"locked",0) == 1);
+      
+      if not bLocked and Input.isControlPressed() then
+        local nodeSource = draginfo.getDatabaseNode();
+        Debug.console("item_main.lua","onDrop","Replacing contents of :",nodeItem, "with :",nodeSource);
+        DB.deleteChild(nodeItem,"weaponlist");
+        DB.deleteChild(nodeItem,"powers");
+        DB.deleteChild(nodeItem,"effectlist");
+        DB.deleteChild(nodeItem,"link");
+        DB.deleteChild(nodeItem,"powermeta");
+        DB.copyNode(nodeSource,nodeItem);
+      end -- not locked
+    end -- was item class
+  end -- was shortcut
+end

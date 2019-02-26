@@ -303,5 +303,17 @@
       <invisible />
     </buttoncontrol>
   </template>
+  
+	<template name="sub_quicknote_header">
+		<subwindow>
+			<anchored>
+				<top offset="23" />
+				<left offset="15" />
+				<right offset="-15" />
+			</anchored>
+			<activate />
+			<fastinit />
+		</subwindow>
+	</template>
 
 </root>

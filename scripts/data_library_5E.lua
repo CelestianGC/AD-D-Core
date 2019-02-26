@@ -190,7 +190,13 @@ aRecords = {
     aDisplayIcon = { "button_quests", "button_quests_down" },
     -- sRecordDisplayClass = "quest", 
   },
-  
+  -- this is for replica "Story" entries that we don't want to show as Story records
+  ["hiddenstory"] = { 
+    bExport = true,
+		bHidden = true,
+    aDataMap = { "hiddenstory", "reference.hiddendata" }, 
+    sRecordDisplayClass = "encounter", 
+  },
   ["background"] = {
     bExport = true, 
     aDataMap = { "background", "reference.backgrounddata" }, 

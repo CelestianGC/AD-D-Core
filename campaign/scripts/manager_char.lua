@@ -507,25 +507,29 @@ end
 -- if the item has powers configured place them into the action->powers
 function addToPowerDB(nodeItem)
 --Debug.console("manager_char.lua","addToPowerDB","nodeItem",nodeItem);
-    local bItemHasPowers = (DB.getChildCount(nodeItem, "powers") > 0); 
-    local bItemIdentified = (DB.getValue(nodeItem, "isidentified",1) == 1); 
-    if not bItemHasPowers or not bItemIdentified then
-      return;
-    end
+  local bItemHasPowers = (DB.getChildCount(nodeItem, "powers") > 0); 
+  local bItemIdentified = (DB.getValue(nodeItem, "isidentified",1) == 1); 
+  if not bItemHasPowers or not bItemIdentified then
+    return;
+  end
     
+  -- do nothing if power already exists.
+  if doesPowerDBItemExist(nodeItem) ~= nil then
+    return;
+  end
+  
   local nodeChar = nodeItem.getChild("...");
 
   local nodePowers = nodeChar.createChild("powers");
   if not nodePowers then
     return;
   end
-
   for _,v in pairs(DB.getChildren(nodeItem, "powers")) do
-      local nodePower = nodePowers.createChild();
-      DB.copyNode(v,nodePower);
-      DB.setValue(nodePower, "description","formattedtext",DB.getValue(nodeItem,"description",""));
-      DB.setValue(nodePower, "shortcut", "windowreference", "item", "....inventorylist." .. nodeItem.getName());
-      DB.setValue(nodePower, "locked", "number", 1); -- want this to start locked
+    local nodePower = nodePowers.createChild();
+    DB.copyNode(v,nodePower);
+    DB.setValue(nodePower, "description","formattedtext",DB.getValue(nodeItem,"description",""));
+    DB.setValue(nodePower, "shortcut", "windowreference", "item", "....inventorylist." .. nodeItem.getName());
+    DB.setValue(nodePower, "locked", "number", 1); -- want this to start locked
   end
 
 end
@@ -541,6 +545,7 @@ function removeFromPowerDB(nodeItem)
     end
   
   -- Check to see if any of the power nodes linked to this item node should be deleted
+  -- make sure to remove all of them if more than one entry exists somehow...
   local sItemNode = nodeItem.getNodeName();
   local sItemNode2 = "....inventorylist." .. nodeItem.getName();
   local bFound = false;
@@ -553,6 +558,24 @@ function removeFromPowerDB(nodeItem)
   end
 
   return bFound;
+end
+
+-- does this item already have it's powers listed?
+function doesPowerDBItemExist(nodeItem)
+  local nodeFound = nil;
+  -- Check to see if any of the power nodes linked to this item node should be deleted
+  local sItemNode = nodeItem.getNodeName();
+  local sItemNode2 = "....inventorylist." .. nodeItem.getName();
+  local bFound = false;
+  for _,v in pairs(DB.getChildren(nodeItem, "...powers")) do
+    local sClass, sRecord = DB.getValue(v, "shortcut", "", "");
+    if sRecord == sItemNode or sRecord == sItemNode2 then
+      nodeFound = v;
+      break;
+    end
+  end
+  
+  return nodeFound;
 end
 
 --
@@ -2136,20 +2159,24 @@ function addClassRef(nodeChar, sClass, sRecord)
   local sClassName = DB.getValue(nodeSource, "name", "");
   local sClassNameLower = StringManager.trim(sClassName):lower();
   for _,v in pairs(nodeList.getChildren()) do
-    local _,sExistingClassPath = DB.getValue(v, "shortcut", "", "");
-    if sExistingClassPath == "" then
-      local sExistingClassName = StringManager.trim(DB.getValue(v, "name", "")):lower();
+    local sExistingClassName = StringManager.trim(DB.getValue(v, "name", "")):lower();
       if sExistingClassName ~= "" and (sExistingClassName == sClassNameLower) then
         nodeClass = v;
         break;
       end
-    else
-      local sExistingClassPathSansModule = StringManager.split(sExistingClassPath, "@")[1];
-      if sExistingClassPathSansModule == sRecordSansModule then
-        nodeClass = v;
-        break;
-      end
-    end
+    -- local _,sExistingClassPath = DB.getValue(v, "shortcut", "", "");
+    -- if sExistingClassPath == "" then
+      -- if sExistingClassName ~= "" and (sExistingClassName == sClassNameLower) then
+        -- nodeClass = v;
+        -- break;
+      -- end
+    -- else
+      -- local sExistingClassPathSansModule = StringManager.split(sExistingClassPath, "@")[1];
+      -- if sExistingClassPathSansModule == sRecordSansModule then
+        -- nodeClass = v;
+        -- break;
+      -- end
+    -- end
   end
   
   -- If class already exists, then add a level; otherwise, create a new class entry
