@@ -179,6 +179,7 @@ function onDrop(x, y, draginfo)
         DB.deleteChild(nodeItem,"link");
         DB.deleteChild(nodeItem,"powermeta");
         DB.copyNode(nodeSource,nodeItem);
+        UtilityManagerADND.replaceWindow(self.parentcontrol.window, "item", nodeItem.getPath());
       end -- not locked
     end -- was item class
   end -- was shortcut

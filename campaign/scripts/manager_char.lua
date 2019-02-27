@@ -1255,6 +1255,11 @@ end
 
 
 function addProficiencyDB(nodeChar, sType, sText, nodeSource)
+--Debug.console("manager_char.lua","addProficiencyDB","nodeChar",nodeChar);
+--Debug.console("manager_char.lua","addProficiencyDB","sType",sType);
+--Debug.console("manager_char.lua","addProficiencyDB","sText",sText);
+--Debug.console("manager_char.lua","addProficiencyDB","nodeSource",nodeSource);
+
   -- Get the list we are going to add to
   local nodeList = nodeChar.createChild("proficiencylist");
   if not nodeList then
@@ -1273,11 +1278,12 @@ function addProficiencyDB(nodeChar, sType, sText, nodeSource)
     end
   end
   
+  
   local nodeEntry = nodeList.createChild();
   local sName = DB.getValue(nodeSource,"name","");
   DB.setValue(nodeEntry, "name", "string", sName);
   -- need these values --celestian
-    if nodeSource and ( sType == "" and sType == "weapon") then
+    if nodeSource and ( sType == "racial") then
       local sName = DB.getValue(nodeSource,"name","");
       local sDescription = DB.getValue(nodeSource,"text","");
       local nHitADJ = DB.getValue(nodeSource,"hitadj",0);
@@ -1285,6 +1291,7 @@ function addProficiencyDB(nodeChar, sType, sText, nodeSource)
       DB.setValue(nodeEntry, "hitadj", "number", nHitADJ);
       DB.setValue(nodeEntry, "dmgadj", "number", nDMGADJ);
       DB.setValue(nodeEntry, "text", "formattedtext", sDescription);
+      DB.setValue(nodeEntry, "locked", "number", 1);
     end
 
   -- Announce
@@ -2104,10 +2111,10 @@ function addRaceSelect(aSelection, aTable)
   end
 
     for _,v in pairs(DB.getChildren(nodeSource, "proficiencies")) do
-        addClassProficiencyDB(nodeChar, "reference_racialproficiency", v.getPath());
+      addClassProficiencyDB(nodeChar, "reference_racialproficiency", v.getPath());
     end
     for _,v in pairs(DB.getChildren(nodeSource, "nonweaponprof")) do
-        addClassProficiencyDB(nodeChar, "reference_racialproficiency", v.getPath());
+      addClassProficiencyDB(nodeChar, "reference_racialproficiency", v.getPath());
     end
   
   if sSubRace then

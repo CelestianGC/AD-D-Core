@@ -64,12 +64,10 @@ function onWindowOpened(window)
   local sName = window.getClass(); 
   local aNodes = aWindowList[sName]; 
   local sPath = nil; 
-
---Debug.console("windowmanager.lua","onWindowOpened","node",node); 
---Debug.console("windowmanager.lua","onWindowOpened","sName",sName); 
---Debug.console("windowmanager.lua","onWindowOpened","aNodes",aNodes); 
-
---Debug.console("windowmanager.lua","onWindowOpened",'onWindowOpened:' .. tostring(sName)); 
+-- Debug.console("windowmanager.lua","onWindowOpened","node",node); 
+-- Debug.console("windowmanager.lua","onWindowOpened","sName",sName); 
+-- Debug.console("windowmanager.lua","onWindowOpened","aNodes",aNodes); 
+-- Debug.console("windowmanager.lua","onWindowOpened",'onWindowOpened:' .. tostring(sName)); 
   if node then
     aNodes = aWindowList[sName]; 
     -- ignore masterindex
@@ -112,9 +110,9 @@ function onWindowClosed(window)
   local sPath = nil; 
   local node = window.getDatabaseNode(); 
 
---Debug.console("windowmanager.lua","onWindowClosed","node",node); 
---Debug.console("windowmanager.lua","onWindowClosed","sName",sName); 
---Debug.console("windowmanager.lua","onWindowClosed","aNodes",aNodes); 
+-- Debug.console("windowmanager.lua","onWindowClosed","node",node); 
+-- Debug.console("windowmanager.lua","onWindowClosed","sName",sName); 
+-- Debug.console("windowmanager.lua","onWindowClosed","aNodes",aNodes); 
 
   if node then
     local sPath = node.getPath(); 

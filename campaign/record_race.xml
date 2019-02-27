@@ -640,6 +640,7 @@
       </list_column>    
     </sheetdata>
   </windowclass>
+  
  <!-- --> 
   <windowclass name="ref_racial_proficiencies">
     <margins control="0,0,0,2" />
@@ -649,8 +650,6 @@
         <class>reference_racialproficiency</class>
       </link_listitem_column>
       <button_listitem_column_delete name="idelete" />
-
-            
       <number_adjustment name="dmgadj">
         <anchored to="rightanchor">
           <top offset="3" />
@@ -660,14 +659,13 @@
         <tooltip textres="weapon_label_dmgadj_tooltip" />
       </number_adjustment>
       <label name="label_dmgadj">
-                <static textres="weapon_label_dmgadj"/>
+        <static textres="weapon_label_dmgadj"/>
         <tooltip textres="weapon_label_dmgadj_tooltip" />
         <anchored to="rightanchor">
           <top />
           <right anchor="left" relation="relative" offset="-10" />
         </anchored>
       </label>
-
       <number_adjustment name="hitadj">
         <anchored to="rightanchor">
           <top offset="3" />
@@ -677,15 +675,13 @@
         <tooltip textres="weapon_label_hitadj_tooltip" />
       </number_adjustment>
       <label name="label_hitadj">
-                <static textres="weapon_label_hitadj"/>
+        <static textres="weapon_label_hitadj"/>
         <tooltip textres="weapon_label_hitadj_tooltip" />
         <anchored to="rightanchor">
           <top />
           <right anchor="left" relation="relative" offset="-10" />
         </anchored>
       </label>
-
-    
        <string_textlistitem name="name">
         <anchored to="rightanchor">
           <top />
@@ -695,22 +691,16 @@
         <multilinespacing>20</multilinespacing>
         <tabtarget next="hitadj" prev="dmgadj" />
       </string_textlistitem>
-
-            <stringfield name="name">
-                <anchored>
-                    <top />
-                    <right parent="rightanchor" anchor="left" relation="relative" offset="-5" />
-                </anchored>
-                <font>sheetlabel</font>
-                <multilinespacing>20</multilinespacing>
-                <empty textres="library_recordtype_empty_racialtrait" />
-            </stringfield>
-      
-
-        </sheetdata>
+      <stringfield name="name">
+        <anchored>
+          <top />
+          <right parent="rightanchor" anchor="left" relation="relative" offset="-5" />
+        </anchored>
+        <font>sheetlabel</font>
+        <multilinespacing>20</multilinespacing>
+        <empty textres="library_recordtype_empty_racialtrait" />
+      </stringfield>
+    </sheetdata>
   </windowclass>
-  
-  
 
-  
-  </root>
+</root>

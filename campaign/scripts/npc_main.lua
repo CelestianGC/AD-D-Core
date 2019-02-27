@@ -591,6 +591,7 @@ function onDrop(x, y, draginfo)
         DB.deleteChild(nodeNPC,"abilitynoteslist");
         DB.deleteChild(nodeNPC,"saves");
         DB.copyNode(nodeSource,nodeNPC);
+        UtilityManagerADND.replaceWindow(self.parentcontrol.window, "npc", nodeNPC.getPath());
       end -- not locked
     end -- was npc class
   end -- was shortcut
