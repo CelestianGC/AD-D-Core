@@ -44,6 +44,9 @@ function createAttackMatrix()
     local sMatrixNumberName = "thac" .. i;
     local cntNum = createControl("number_matrix", sMatrixNumberName, "combat.matrix." .. sMatrixNumberName);
     cntNum.setValue(nTHAC);
+    if bUseMatrix and not bisPC then
+      cntNum.setReadOnly(true);
+    end
 
     local cntAC = createControl("label_fieldtop_matrix", sMatrixACName);
     cntAC.setReadOnly(true);
