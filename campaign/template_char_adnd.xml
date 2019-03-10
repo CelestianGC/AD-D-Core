@@ -876,8 +876,12 @@
   </template>            
 
   <template name="number_charspeed_defaults_charsheet">
-        <number_charspeed_defaults>
-        </number_charspeed_defaults>
+    <number_charspeed_defaults>
+      <anchored to="combatanchor" width="30" height="30">
+        <top parent="combatanchor" offset="4" />
+        <left anchor="right" relation="relative" offset="15" />
+      </anchored>    
+    </number_charspeed_defaults>
   </template>
 
     <template name="surprise_number_total_charsheet">
@@ -886,31 +890,31 @@
     </template>            
     
     <template name="surprise_number_total">
-            <basicnumber>
-                <rollable />
+      <basicnumber>
+        <rollable />
         <script>
-                    function action(draginfo)
-                        local node = getDatabaseNode();
-                        local nodeChar = node.getChild("...");
-                        ActionSurprise.performRoll(draginfo, rActor, nodeChar);
-                        return true;
-                    end
-                    
-                    function onDragStart(button, x, y, draginfo)
-                        return action(draginfo);
-                    end
-                        
-                    function onDoubleClick(x,y)
-                        return action();
-                    end                    
+          function action(draginfo)
+            local node = getDatabaseNode();
+            local nodeChar = node.getChild("...");
+            ActionSurprise.performRoll(draginfo, rActor, nodeChar);
+            return true;
+          end
+          
+          function onDragStart(button, x, y, draginfo)
+            return action(draginfo);
+          end
+              
+          function onDoubleClick(x,y)
+            return action();
+          end                    
         </script>
-                <frame name="fielddark" offset="7,5,7,5" />
-                <stateframe>
-                    <hover name="rowshade" offset="7,5,7,5" />
-                </stateframe>
-                <cursor hover="hand" />
-                <readonly />
-            </basicnumber>
+        <frame name="fielddark" offset="7,5,7,5" />
+        <stateframe>
+          <hover name="rowshade" offset="7,5,7,5" />
+        </stateframe>
+        <cursor hover="hand" />
+        <readonly />
+      </basicnumber>
     </template>
 
     <template name="number_profs_weapon">

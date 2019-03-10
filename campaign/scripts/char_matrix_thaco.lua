@@ -47,6 +47,16 @@ function createTHACOMatrix()
   if (not bisPC) then
     nTHACO = DB.getValue(node,"thaco",20);
   end
+  -- 1e matrix
+  local aMatrixRolls = {};
+  if bUseMatrix and not bisPC then 
+    local sHitDice = CombatManagerADND.getNPCHitDice(node);
+    if DataCommonADND.aMatrix[sHitDice] then
+      aMatrixRolls = DataCommonADND.aMatrix[sHitDice];
+    end
+  end
+  --
+
   local sACLabelName = "matrix_ac_label";
   local sRollLabelName = "matrix_roll_label";
   local sHightlightColor = "a5a7aa";
@@ -56,6 +66,13 @@ function createTHACOMatrix()
     local nTHAC = nTHACO - i; -- to hit AC value. Current THACO for this Armor Class. so 20 - 10 for AC 10 would be 30.
     if bUseMatrix then
       nTHAC = DB.getValue(node,"combat.matrix.thac" .. i, 20);
+      -- 1e matrix
+      if not bisPC and #aMatrixRolls > 0 then
+      -- math.abs(i-11), this table is reverse of how we display the matrix
+      -- so we start at the end instead of at the front by taking I - 11 then get the absolute value of it.
+       nTHAC = aMatrixRolls[math.abs(i-11)];
+      end
+      --
     end
     local sMatrixACName = "thaco_matrix_ac_" .. i; -- control name for the AC label
     local sMatrixACValue = i;                      -- AC control value
@@ -93,7 +110,7 @@ function update()
 --Debug.console("char_matrix_thaco.lua","update","node",node);
   local bisPC = (ActorManager.isPC(node)); 
 --Debug.console("char_matrix_thaco.lua","createTHACOMatrix","node",node);
-  local bUseMatrix = (DataCommonADND.coreVersion == "1e");
+  local bUseMatrix = (DataCommonADND.coreVersion ~= "2e");
 
   local nTHACO = DB.getValue(node,"combat.thaco.score",20);
   if (not bisPC) then

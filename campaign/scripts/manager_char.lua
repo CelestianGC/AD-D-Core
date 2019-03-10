@@ -3286,7 +3286,8 @@ end
 function getClassFromName(sClass)
   local node = nil;
   for _,nodeClass in pairs(DB.getChildrenGlobal("class")) do
-    if (sClass == DB.getValue(nodeClass,"name","")) then
+    local sName = DB.getValue(nodeClass,"name","");
+    if (sClass == sName ) then
       node = nodeClass;
       break;
     end
@@ -3319,7 +3320,7 @@ function getAllClassAndLevelConAdjustments(nodeChar)
             local nCon = getConstitutionHPBonus(nodeChar,nodeClass,nodeAdvance);
             nConBonus = nConBonus + nCon;
 --Debug.console("manager_char.lua","getAllConAdjustments","nCon",nCon);
---Debug.console("manager_char.lua","getAllConAdjustments","nConBonus",nConBonus);
+--Debug.console("manager_char.lua","getAllConAdjustments","nConBonus1",nConBonus);
           end
         end
       end
@@ -3332,6 +3333,7 @@ function getAllClassAndLevelConAdjustments(nodeChar)
   -- if not we just say nil and it wont change whats current
     nConBonus = nil;
   end
+--Debug.console("manager_char.lua","getAllConAdjustments","nConBonus2",nConBonus);
   return nConBonus;
 end
 
@@ -3552,6 +3554,7 @@ function updateHealthScore(nodeChar)
     nBase = nBaseMod;
   end
   local nConMod = CharManager.getAllClassAndLevelConAdjustments(nodeChar);
+--Debug.console("manager_char.lua","updateHealthScore","nConMod",nConMod);    
   if (nConMod == nil) then 
     -- we didn't find all our classes, module not loaded?
     -- so we just keep the value currently set

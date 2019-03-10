@@ -835,6 +835,8 @@
     <script>
       function onInit()
         class_advancement_leveling.subwindow.level.setFocus();
+        local bUseMatrix = (DataCommonADND.coreVersion ~= "2e");
+        class_advancement_matrix.setVisible(bUseMatrix);
       end
     </script>
     <sheetdata>

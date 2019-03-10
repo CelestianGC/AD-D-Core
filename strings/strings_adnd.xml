@@ -597,7 +597,7 @@
   <string name="library_recordtype_label_background">Kits</string>
   <string name="library_recordtype_empty_background">&#171; New Kit &#187;</string>
   <string name="library_recordtype_empty_backgroundfeature">&#171; New Kit Feature &#187;</string>
-  <string name="library_recordtype_label_hiddenstory">Hidden Story</string>
+  <string name="library_recordtype_label_hiddenstory">Story Reference</string>
 
   <!-- Party Sheet -->
   <string name="ps_default_groupsave">Paralyzation</string>

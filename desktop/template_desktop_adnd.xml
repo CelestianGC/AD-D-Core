@@ -6,12 +6,7 @@
 -->
 
 <root>
-  
-  <template name="chatwindow_step">
-    <chatwindow name="chat"  merge="join">
-      <linkicon normal="button_link" pressed="button_link_down" mergerule="replace" />
-      <script file="desktop/scripts/chat_window_adnd.lua" mergerule="replace"/>
-    </chatwindow>
-  </template>
-
+  <chatwindow name="chat" merge="join">
+    <script file="desktop/scripts/chat_window_adnd.lua" mergerule="replace"/>
+  </chatwindow>
 </root>

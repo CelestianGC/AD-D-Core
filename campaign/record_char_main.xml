@@ -813,10 +813,6 @@
 
       <number_charspeed_defaults_charsheet name="speed" source="speed.total">
         <readonly />
-        <anchored to="combatanchor" width="30" height="30">
-          <top parent="combatanchor" offset="4" />
-          <left anchor="right" relation="relative" offset="15" />
-        </anchored>
         <static textres="char_label_speed" />
       </number_charspeed_defaults_charsheet>
       <label_combatscores>
