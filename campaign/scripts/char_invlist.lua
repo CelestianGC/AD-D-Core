@@ -78,6 +78,7 @@ end
 
 function onCarriedChanged(nodeField)
 --Debug.console("char_invlist.lua","onCarriedChanged","nodeField",nodeField);
+
   local nodeChar = DB.getChild(nodeField, "....");
   if nodeChar then
     local nodeItem = DB.getChild(nodeField, "..");

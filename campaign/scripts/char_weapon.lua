@@ -52,6 +52,15 @@ function onInit()
         end
         carried.setVisible(false);
     end
+    
+    -- npcs don't see weapon item shortcuts, they use quicknotes.
+    if string.match(sCreaturePath,"^charsheet") == nil then
+      shortcut.setVisible(false);
+      quicknote.setVisible(true);
+    else
+      shortcut.setVisible(true);
+      quicknote.setVisible(false);
+    end
 end
 
 function onClose()

@@ -8,9 +8,6 @@
 <root>
   <!-- Decal -->
   <string name="option_val_DDCL_adnd1">Advanced D&amp;D</string>
-  <string name="option_val_DDCL_adnd2">AD&amp;D MM</string>
-  <string name="option_val_DDCL_adnd3">AD&amp;D PHB</string>
-  <string name="option_val_DDCL_adnd4">AD&amp;D DMG</string>
 
   <!-- Common -->
   <string name="fighter">Fighter</string>

@@ -19,6 +19,7 @@
       </genericcontrol>
       
       <link_weapon_shortcut name="shortcut" />
+      <link_npc_weapon_quicknotes name="quicknote" />
       
       <button_idelete name="idelete">
         <anchored to="rightanchor">
@@ -60,79 +61,8 @@
       </state_charweapontype>
 
       <actions_attack name="attackview" />      
-<!--       <genericcontrol name="attackshade">
-        <anchored height="26" width="50" >
-          <top offset="3" />
-          <left parent="leftanchor" anchor="right" relation="relative" offset="0" />
-        </anchored>
-      </genericcontrol>
-      <genericcontrol name="attackframe">
-        <anchored to="attackshade" position="over" />
-        <frame name="fielddark" />
-        <script>
-          function onInit()
-            setHoverCursor("hand");
-          end
-          
-          function onHover(bOnControl)
-            window.highlightAttack(bOnControl);
-          end
 
-          function onDoubleClick(x,y)
-            return window.onAttackAction();
-          end      
-
-          function onDragStart(button, x, y, draginfo)
-            return window.onAttackAction(draginfo);
-          end
-        </script>
-      </genericcontrol>
-      <genericcontrol name="attackicon">
-        <anchored to="attackframe" position="insidetopleft" offset="7,5" width="15" height="20" />
-        <icon>d20ricon</icon>
-        <script>
-          function onInit()
-            setHoverCursor("hand");
-          end
-          
-          function onHover(bOnControl)
-            window.highlightAttack(bOnControl);
-          end
-
-          function onDoubleClick(x,y)
-            return window.onAttackAction();
-          end      
-
-          function onDragStart(button, x, y, draginfo)
-            return window.onAttackAction(draginfo);
-          end
-        </script>
-      </genericcontrol>
-      <simplenumberc name="attackview">
-        <anchored to="attackicon" position="righthigh" offset="2,-1" width="15" height="20" />
-        <displaysign />
-        <readonly />
-        <script>
-          function onInit()
-            setHoverCursor("hand");
-          end
-          
-          function onHover(bOnControl)
-            window.highlightAttack(bOnControl);
-          end
-
-          function onDoubleClick(x,y)
-            return window.onAttackAction();
-          end      
-
-          function onDragStart(button, x, y, draginfo)
-            return window.onAttackAction(draginfo);
-          end
-        </script>
-      </simplenumberc>
-  -->     
-          
-            <!-- damage section -->
+      <!-- damage section -->
       <windowlist name="damage_split_list">
         <anchored width="135" >
           <top offset="5" /> 

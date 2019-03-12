@@ -85,10 +85,10 @@ function onDrop(x, y, draginfo)
 
     -- match items dropped into item/class/background fields to populate damage/etc but not add to inventory
     if (string.match(node.getPath(),"^npc") and not Input.isControlPressed()) or
-       string.match(node.getPath(),"^item") or 
-       string.match(node.getPath(),"^treasureparcels") or 
-       string.match(node.getPath(),"^class") or 
-       string.match(node.getPath(),"^background") then
+        string.match(node.getPath(),"^item") or 
+        string.match(node.getPath(),"^treasureparcels") or 
+        string.match(node.getPath(),"^class") or 
+        string.match(node.getPath(),"^background") then
       -- load item
       local nodeItem = DB.findNode(sRecord);
       if nodeItem then

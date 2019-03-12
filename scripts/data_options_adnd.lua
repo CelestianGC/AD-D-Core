@@ -8,10 +8,7 @@ function onInit()
   
   if (getRulesetName() == "2E") then
     OptionsManager.addOptionValue("DDCL", "option_val_DDCL_adnd1", "desktopdecal_adnd1", true);
-    OptionsManager.addOptionValue("DDCL", "option_val_DDCL_adnd2", "desktopdecal_adnd2", true);
-    OptionsManager.addOptionValue("DDCL", "option_val_DDCL_adnd3", "desktopdecal_adnd3", true);
-    OptionsManager.addOptionValue("DDCL", "option_val_DDCL_adnd4", "desktopdecal_adnd4", true);
-    OptionsManager.setOptionDefault("DDCL", "desktopdecal_adnd2");
+    OptionsManager.setOptionDefault("DDCL", "desktopdecal_adnd1");
   end
 
   -- if this is updated, let the token manager know

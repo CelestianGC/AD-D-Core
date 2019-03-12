@@ -1098,4 +1098,47 @@
     </sheetdata>
   </windowclass>  
   
+  <template name="link_npc_weapon_quicknotes">
+    <buttoncontrol>
+      <anchored to="rightanchor" width="20" height="20">
+        <top offset="8" />
+        <right anchor="left" relation="relative" offset="-2" />
+      </anchored>
+      <icon normal="button_link" pressed="button_link_down" empty="button_link_empty" />
+      <invisible />
+      <script>
+        function onDrop(x, y, draginfo)
+          if draginfo.isType("shortcut") then
+            local node = window.getDatabaseNode();
+            local sClass, sRecord = draginfo.getShortcutData();
+            if (sClass == "quicknote") then
+              local nodeEncounter = DB.findNode(sRecord);
+              if (nodeEncounter) then
+                local sName = DB.getValue(nodeEncounter,"name","");
+                local sText = DB.getValue(nodeEncounter,"text","");
+                local nLocked = DB.getValue(nodeEncounter,"locked",0);
+                DB.setValue(node,"itemnote.name","string",sName);
+                DB.setValue(node,"itemnote.text","formattedtext",sText);
+                DB.setValue(node,"itemnote.locked","number",nLocked);
+              end
+            end
+            return true;
+          end
+        end
+        
+        function onButtonPress()
+          local node = window.getDatabaseNode();
+          local sPathToItem = node.getPath() .. ".itemnote";
+          local sPath, sModule = node.getPath():match("([^@]*)@(.*)");
+          if sPath and sModule then
+            sPathToItem = sPath .. ".itemnote" .. "@" .. sModule;
+          end
+          Interface.openWindow("quicknote", sPathToItem);
+          return true;
+        end
+
+      </script>
+    </buttoncontrol>
+  </template>
+  
 </root>
