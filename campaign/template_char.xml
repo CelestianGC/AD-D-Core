@@ -779,7 +779,7 @@
         end
 
         function update()
-                    local bEdit = (window.parentcontrol.window.skills_iedit.getValue() == 1);
+          local bEdit = (window.parentcontrol.window.skills_iedit.getValue() == 1);
           for _,w in ipairs(getWindows()) do
             w.idelete.setVisibility(bEdit);
           end
@@ -787,10 +787,33 @@
 
         function addEntry(bFocus)
           local w = createWindow();
-                    if bFocus and w then
+          if bFocus and w then
             w.name.setFocus();
           end
           return w;
+        end
+      
+        function addWeaponProf(nodeSource)
+          if not nodeSource then
+            return;
+          end
+
+          local sName = StringManager.trim(DB.getValue(nodeSource, "name", ""));
+          if sName == "" then
+            return;
+          end
+
+          local wWeaponProf = nil;
+          for _,w in pairs(getWindows()) do
+            if StringManager.trim(w.name.getValue()) == sName then
+              wWeaponProf = w;
+              break;
+            end
+          end
+          if not wWeaponProf then
+            wWeaponProf = createWindow();
+            wWeaponProf.name.setValue(sName);
+          end
         end
       </script>
     </list_text>

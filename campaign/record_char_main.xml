@@ -1712,23 +1712,23 @@
     </placement>
     <nodelete />
     <sheetdata>
-            <windowtitlebar name="title">
-                <prefix>charsheet_abilities_detail_title</prefix>
-                <bounds merge="replace">0,10,-1,120</bounds>
-                <field>name</field>
-                <font>subwindowtitle</font>
-                <script>
-                    function setValue(sTitle)
-                        if widgetTitle then
-                            if prefix then
-                                sTitle = Interface.getString(prefix[1]) .. " - " .. sTitle;
-                            end
-                            widgetTitle.setText(sTitle);
-                            updatePosition();
-                        end
-                    end
-                </script>
-            </windowtitlebar>
+    <windowtitlebar name="title">
+        <prefix>charsheet_abilities_detail_title</prefix>
+        <bounds merge="replace">0,10,-1,120</bounds>
+        <field>name</field>
+        <font>subwindowtitle</font>
+        <script>
+          function setValue(sTitle)
+            if widgetTitle then
+              if prefix then
+                sTitle = Interface.getString(prefix[1]) .. " - " .. sTitle;
+              end
+              widgetTitle.setText(sTitle);
+              updatePosition();
+            end
+          end
+        </script>
+    </windowtitlebar>
             
     <genericcontrol name="contentanchor" >
       <anchored height="0">
@@ -1809,14 +1809,14 @@
       <anchored to="strength_label" />
     </ability_number_mod>
     <label_fieldtop name="label_ability_strtempmod_top">
-      <tooltip textres="charsheet_abilities_tempmod_tooltip" />
+      <tooltip textres="charsheet_abilities_adjustment_2_tooltip" />
       <anchored to="strength_temp" />
       <static text="Mod" />
     </label_fieldtop>
     <label_fieldtop name="label_ability_strtempmod_top_top">
-      <tooltip textres="charsheet_abilities_tempmod_tooltip" />
+      <tooltip textres="charsheet_abilities_adjustment_2_tooltip" />
       <anchored to="label_ability_strtempmod_top" />
-      <static text="Temp." />
+      <static text="Second" />
     </label_fieldtop>
 
             <!-- strength total -->
@@ -2457,14 +2457,14 @@
         <anchored to="paralyzation_label" />
             </save_number_mod>
       <label_fieldtop name="label_saves_tempmod_top">
-                <tooltip textres="charsheet_saves_tempmod_tooltip" />
+                <tooltip textres="charsheet_saves_adjustment_2_tooltip" />
         <anchored to="paralyzation_temp" />
         <static text="Mod" />
       </label_fieldtop>
       <label_fieldtop >
-                <tooltip textres="charsheet_saves_tempmod_tooltip" />
+        <tooltip textres="charsheet_saves_adjustment_2_tooltip" />
         <anchored to="label_saves_tempmod_top" />
-        <static text="Temp." />
+        <static text="Second" />
       </label_fieldtop>
 
             <!-- paralyzation total -->

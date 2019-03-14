@@ -49,10 +49,16 @@
           local sClass = draginfo.getShortcutData();
           if sClass == "reference_skill" then
             skills.addSkillReference(draginfo.getDatabaseNode());
+          elseif sClass == "item" then
+            local sRecord = draginfo.getDatabaseNode().getPath();
+            if ItemManager2.isWeapon(sRecord) then
+              proficiencies.addWeaponProf(draginfo.getDatabaseNode());
+            end
           end
           return true;
         end
       end
+      
     </script>
     <sheetdata>
       <anchor_column name="columnanchor" />
@@ -327,7 +333,7 @@
     <windowclass name="char_skill_editor">
     <frame>charsheethelper</frame>
     <placement>
-      <size width="350" height="350" />
+      <size width="350" height="300" />
     </placement>
     <sizelimits>
       <minimum width="350" height="350" />
@@ -365,6 +371,7 @@
       <close_charsheethelper />
     </sheetdata>
   </windowclass>
+
   <windowclass name="char_skill_editor_main">
     <sheetdata>
       <anchor_column name="columnanchor" />
@@ -389,19 +396,19 @@
       <cycler_skill_type name="stat">
       <script>
           function onValueChanged()
-              updateVisibility();
+            updateVisibility();
           end
           function updateVisibility(nodeSkill)
-              local bVisible = false;
+            local bVisible = false;
 
-              if (nodeSkill) then 
-                  bVisible = (DB.getValue(nodeSkill,"stat","Strength"):lower() == "percent");
-              elseif window.stat.getValue() == "%" then
-                  bVisible = true;
-              end
+            if (nodeSkill) then 
+              bVisible = (DB.getValue(nodeSkill,"stat","Strength"):lower() == "percent");
+            elseif window.stat.getValue() == "%" then
+              bVisible = true;
+            end
 
-              window.base_check.setVisible(bVisible);
-              window.base_label.setVisible(bVisible);
+            window.base_check.setVisible(bVisible);
+            window.base_label.setVisible(bVisible);
           end
       </script>
       <anchored width="40" height="20">
@@ -415,66 +422,76 @@
         <static textres="char_label_skill_base_check" />
       </label_column>
       <number_charskill_nosign name="base_check">
-                <anchored width="40" height="20">
-                    <top parent="columnanchor" anchor="bottom" relation="relative" offset="7" />
-                    <left offset="97" />
-                </anchored>
-                <tooltip textres="char_label_skill_base_check_tooltip" /> 
+        <anchored width="40" height="20">
+            <top parent="columnanchor" anchor="bottom" relation="relative" offset="7" />
+            <left offset="97" />
+        </anchored>
+        <tooltip textres="char_label_skill_base_check_tooltip" /> 
       </number_charskill_nosign>
 
 
       <label_column name="class_adj_label" >
-                <tooltip textres="char_label_skill_class_adj_tooltip" />
+        <tooltip textres="char_label_skill_class_adj_tooltip" />
         <static textres="char_label_skill_class_adj" />
       </label_column>
-            <number_column name="adj_class" >
-                <hideonvalue>0</hideonvalue>
-                <default>0</default>
-                <displaysign />
-            </number_column>
+        <number_column name="adj_class" >
+            <hideonvalue>0</hideonvalue>
+            <default>0</default>
+            <displaysign />
+        </number_column>
             
             
       <label_column name="stat_adj_label" >
-                <tooltip textres="char_label_skill_stat_adj_tooltip" />
+        <tooltip textres="char_label_skill_stat_adj_tooltip" />
         <static textres="char_label_skill_stat_adj" />
       </label_column>
-            <number_column name="adj_stat" >
-                <hideonvalue>0</hideonvalue>
-                <default>0</default>
-                <displaysign />
-            </number_column>
+        <number_column name="adj_stat" >
+            <hideonvalue>0</hideonvalue>
+            <default>0</default>
+            <displaysign />
+        </number_column>
 
+      <label_column name="racial_adj_label" >
+        <tooltip textres="char_label_skill_racial_adj_tooltip" />
+        <static textres="char_label_skill_racial_adj" />
+      </label_column>
+      <number_column name="adj_racial" >
+        <hideonvalue>0</hideonvalue>
+        <default>0</default>
+        <displaysign />
+      </number_column>
+            
       <label_column name="armor_adj_label" >
-                <tooltip textres="char_label_skill_armor_adj_tooltip" />
+        <tooltip textres="char_label_skill_armor_adj_tooltip" />
         <static textres="char_label_skill_armor_adj" />
       </label_column>
-            <number_column name="adj_armor" >
-                <hideonvalue>0</hideonvalue>
-                <default>0</default>
-                <displaysign />
-            </number_column>
+      <number_column name="adj_armor" >
+          <hideonvalue>0</hideonvalue>
+          <default>0</default>
+          <displaysign />
+      </number_column>
 
       <label_column name="mod_adj_label" >
-                <tooltip textres="char_label_skill_mod_adj_tooltip" />
+        <tooltip textres="char_label_skill_mod_adj_tooltip" />
         <static textres="char_label_skill_mod_adj" />
       </label_column>
-            <number_column name="adj_mod" >
-                <hideonvalue>0</hideonvalue>
-                <default>0</default>
-                <displaysign />
-            </number_column>
+      <number_column name="adj_mod" >
+        <hideonvalue>0</hideonvalue>
+        <default>0</default>
+        <displaysign />
+      </number_column>
 
       <label_column name="misc_label" >
-                <tooltip textres="char_label_skill_misc_adj_tooltip" />
+        <tooltip textres="char_label_skill_misc_adj_tooltip" />
         <static textres="char_label_skill_misc_adj" />
       </label_column>
-            <number_column name="misc" >
-                <hideonvalue>0</hideonvalue>
-                <default>0</default>
-                <displaysign />
-            </number_column>
+      <number_column name="misc" >
+        <hideonvalue>0</hideonvalue>
+        <default>0</default>
+        <displaysign />
+      </number_column>
 
-            </sheetdata>
+    </sheetdata>
   </windowclass>
 
    <windowclass name="recordslist_skills_contents">

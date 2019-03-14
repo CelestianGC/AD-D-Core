@@ -296,7 +296,8 @@
       </number_linked>
       <label_fieldtop name="encumbrancemax_label">
         <anchored to="encumbrancemax" />
-        <static textres="char_label_encmax" />
+        <static textres="char_label_encmaxpress" />
+        <tooltip textres="char_label_encmaxpress_tooltip" />
       </label_fieldtop>
     </sheetdata>
   </windowclass>

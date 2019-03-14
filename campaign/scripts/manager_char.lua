@@ -3285,10 +3285,13 @@ end
 -- return the class node fromo the name sClass ("Fighter","Wizard","Bard"/etc)
 function getClassFromName(sClass)
   local node = nil;
+--Debug.console("manager_char.lua","getClassFromName","sClass",sClass);  
   for _,nodeClass in pairs(DB.getChildrenGlobal("class")) do
     local sName = DB.getValue(nodeClass,"name","");
+--Debug.console("manager_char.lua","getClassFromName","sName",sName);  
     if (sClass == sName ) then
       node = nodeClass;
+--Debug.console("manager_char.lua","getClassFromName","node",node);  
       break;
     end
   end

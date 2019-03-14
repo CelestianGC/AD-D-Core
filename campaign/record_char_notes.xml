@@ -41,8 +41,11 @@
       <stringu name="age">
         <anchored to="gender" position="righthigh" offset="5,0" width="70" height="20" />
       </stringu>
-      <stringu name="height">
+      <stringu name="agemax">
         <anchored to="age" position="righthigh" offset="5,0" width="70" height="20" />
+      </stringu>
+      <stringu name="height">
+        <anchored to="agemax" position="righthigh" offset="5,0" width="70" height="20" />
       </stringu>
       <stringu name="weight">
         <anchored to="height" position="righthigh" offset="5,0" width="70" height="20" />
@@ -58,6 +61,11 @@
       <label_charfieldtop>
         <anchored to="age" offset="0,5" />
         <static textres="char_label_age" />
+      </label_charfieldtop>
+      <label_charfieldtop>
+        <anchored to="agemax" offset="0,5" />
+        <static textres="char_label_agemax" />
+        <tooltip textres="char_label_agemax_tooltip" />
       </label_charfieldtop>
       <label_charfieldtop>
         <anchored to="height" offset="0,5" />
@@ -99,7 +107,7 @@
         <anchored to="deity" offset="0,5" />
         <static textres="char_label_deity" />
       </label_charfieldtop>
-            <!-- END alignment/deity title -->
+      <!-- END alignment/deity title -->
 
       <label_charframetop name="traitstitle">
         <anchored height="20">

@@ -194,7 +194,7 @@ aRecords = {
   ["hiddenstory"] = { 
     bExport = true,
 		bHidden = true,
-    aDataMap = { "hiddenstory", "reference.hiddendata" }, 
+    aDataMap = { "hiddenstory", "hiddenstory" }, 
     sRecordDisplayClass = "encounter", 
   },
   ["background"] = {

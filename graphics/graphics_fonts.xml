@@ -5,6 +5,7 @@
   attribution and copyright information.
 -->
 
+
 <root>
   <!-- Windows -->
   <font name="subwindowtitle">
@@ -88,16 +89,20 @@
   <!-- Reference -->
   <font name="reference-header">
     <fgffile name="graphics/fonts/bold-10.fgf" />
-    <color value="FFFFFF" />
+    <color value="#FFFFFF" />
   </font>
+
+  <!-- fall back to CoreRPG versions, we like white text -->
+  <!--   
   <font name="reference-groupdesc">
     <fgffile name="graphics/fonts/bold-10.fgf" />
     <color value="#000000" />
   </font>
   <font name="reference-groupsubdesc">
     <fgffile name="graphics/fonts/italic-10.fgf" />
-    <color value="#FFFFFF" />
-  </font>
+    <color value="#000000" />
+  </font> 
+  -->
 
   <!-- Languages -->
   <font name="Dwarven">
@@ -142,4 +147,5 @@
     <color value="#1d97cc" />
   </font>
 
+  
 </root>
