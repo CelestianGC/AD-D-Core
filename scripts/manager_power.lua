@@ -414,7 +414,8 @@ function performAction(draginfo, nodeAction, sSubRoll)
     -- capture this and increment spells used -celestian
     local sType = DB.getValue(nodeAction, "type", "");
 --Debug.console("manager_power.lua","performAction","sType",sType);    
-    if sType == "cast" then 
+    -- check that sSubRoll is nil so we dont remove memorization for a save.
+    if sType == "cast" and not sSubRoll then 
       if not removeMemorizedSpell(draginfo,nodeAction) then 
         -- spell wasn't memorized so stop here
         return; 

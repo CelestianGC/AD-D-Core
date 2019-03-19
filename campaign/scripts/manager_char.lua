@@ -2594,7 +2594,7 @@ function addSkillAbilities(nodeAdvance,nodeChar)
         local bAdditive = (DB.getValue(advancementSkill,"skill_additive",0) == 1);
 
         -- flip through all values and update
-        local aValues = {"base_check","adj_armor","adj_class","adj_mod","adj_stat","misc"};
+        local aValues = {"base_check","adj_armor","adj_class","adj_racial","adj_mod","adj_stat","misc"};
         for _, sValue in ipairs(aValues) do
           local nCheck = DB.getValue(originalSkill,sValue,0);
           local nCheckNew = DB.getValue(advancementSkill,sValue,0);

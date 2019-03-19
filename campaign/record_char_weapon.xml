@@ -179,23 +179,7 @@
   </windowclass>
     
   <windowclass name="char_weapon_editor_main">
-    <script>
-      function onDrop(x, y, draginfo)
-        local sDragType = draginfo.getType();
-        
-        if sDragType == "dice" then
-          local w = list.addEntry(true);
-          for _, vDie in ipairs(draginfo.getDieList()) do
-            w.dice.addDie(vDie.type);
-          end
-          return true;
-        elseif sDragType == "number" then
-          local w = list.addEntry(true);
-          w.bonus.setValue(draginfo.getNumberData());
-          return true;
-        end
-      end
-    </script>
+    <script file="campaign/scripts/char_weapon_editor.lua"/>
     <sheetdata>
       <anchor_column name="columnanchor" />
       <genericcontrol name="rightanchor">

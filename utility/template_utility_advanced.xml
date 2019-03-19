@@ -69,8 +69,8 @@
     <button_stringcycler>
       <parameters>
         <defaultlabelres mergerule="replace">dash</defaultlabelres>
-        <labelsres>save|ability|susceptiblity|misc</labelsres>
-                <values>save|ability|susceptiblity|misc</values>
+        <labelsres>save|ability|susceptibility|misc</labelsres>
+                <values>save|ability|susceptibility|misc</values>
       </parameters>
     </button_stringcycler>
   </template>
@@ -94,7 +94,7 @@
         </script>
       </combobox>
   </template>
-  <template name="cycler_susceptiblitytypes">
+  <template name="cycler_susceptibilitytypes">
     <button_stringcycler>
       <parameters>
         <defaultlabelres mergerule="replace">immune</defaultlabelres>
@@ -103,7 +103,7 @@
       </parameters>
     </button_stringcycler>
   </template>
-  <template name="combobox_susceptiblity_items">
+  <template name="combobox_susceptibility_items">
       <combobox>
         <listdirection>down</listdirection>
         <script>

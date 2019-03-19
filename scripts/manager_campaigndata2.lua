@@ -52,210 +52,214 @@ function lookupCharData(sRecord, aRefModules)
   return node;
 end
 
+-- We don't need the 5E special tweaks --celestian
 function addPregenChar(nodeSource)
   -- Standard record copy
   local nodeTarget = DB.createChild("charsheet");
   DB.copyNode(nodeSource, nodeTarget);
 
-  -- Perform 5E specific conversions
-  local aRefModules = {};
-  local aModules = Module.getModules();
-  for _, v in ipairs(aModules) do
-    if DB.findNode("reference@" .. v) then
-      table.insert(aRefModules, v);
-    end
-  end
+  -- -- Perform 5E specific conversions
+  -- local aRefModules = {};
+  -- local aModules = Module.getModules();
+  -- for _, v in ipairs(aModules) do
+    -- if DB.findNode("reference@" .. v) then
+      -- table.insert(aRefModules, v);
+    -- end
+  -- end
   
-  local bMissingData = false;
+  -- local bMissingData = false;
   
-  -- Feature/trait links
-  for _,v in pairs(DB.getChildren(nodeTarget, "featurelist")) do
-    local sName = DB.getValue(v, "name", "");
-    local _, sRecord = DB.getValue(v, "link", "", "");
-    if sRecord ~= "" then
-      local nodeFeatureSource = lookupCharData(sRecord, aRefModules);
-      if nodeFeatureSource then
-        DB.copyNode(nodeFeatureSource, v);
+  -- -- Feature/trait links
+  -- for _,v in pairs(DB.getChildren(nodeTarget, "featurelist")) do
+    -- local sName = DB.getValue(v, "name", "");
+    -- local _, sRecord = DB.getValue(v, "link", "", "");
+    -- if sRecord ~= "" then
+      -- local nodeFeatureSource = lookupCharData(sRecord, aRefModules);
+      -- if nodeFeatureSource then
+        -- DB.copyNode(nodeFeatureSource, v);
         
-        DB.setValue(v, "name", "string", sName);
-        DB.setValue(v, "locked", "number", 1);
-      else
-        bMissingData = true;
-      end
-    end
-  end
-  for _,v in pairs(DB.getChildren(nodeTarget, "traitlist")) do
-    local sName = DB.getValue(v, "name", "");
-    local _, sRecord = DB.getValue(v, "link", "", "");
-    if sRecord ~= "" then
-      local nodeTraitSource = lookupCharData(sRecord, aRefModules);
-      if nodeTraitSource then
-        DB.copyNode(nodeTraitSource, v);
+        -- DB.setValue(v, "name", "string", sName);
+        -- DB.setValue(v, "locked", "number", 1);
+      -- else
+        -- bMissingData = true;
+      -- end
+    -- end
+  -- end
+  -- for _,v in pairs(DB.getChildren(nodeTarget, "traitlist")) do
+    -- local sName = DB.getValue(v, "name", "");
+    -- local _, sRecord = DB.getValue(v, "link", "", "");
+    -- if sRecord ~= "" then
+      -- local nodeTraitSource = lookupCharData(sRecord, aRefModules);
+      -- if nodeTraitSource then
+        -- DB.copyNode(nodeTraitSource, v);
         
-        DB.setValue(v, "name", "string", sName);
-        DB.setValue(v, "locked", "number", 1);
-      else
-        bMissingData = true;
-      end
-    end
-  end
+        -- DB.setValue(v, "name", "string", sName);
+        -- DB.setValue(v, "locked", "number", 1);
+      -- else
+        -- bMissingData = true;
+      -- end
+    -- end
+  -- end
   
-  -- Inventory processing
-  for _,v in pairs(DB.getChildren(nodeTarget, "inventorylist")) do
-    local sName = DB.getValue(v, "name", "");
-    local _, sRecord = DB.getValue(v, "link", "", "");
-    if sRecord ~= "" then
-      local nodeItemSource = lookupCharData(sRecord, aRefModules);
-      if nodeItemSource then
-        DB.copyNode(nodeItemSource, v);
+  -- -- Inventory processing
+  -- for _,v in pairs(DB.getChildren(nodeTarget, "inventorylist")) do
+    -- local sName = DB.getValue(v, "name", "");
+    -- local _, sRecord = DB.getValue(v, "link", "", "");
+    -- if sRecord ~= "" then
+      -- local nodeItemSource = lookupCharData(sRecord, aRefModules);
+      -- if nodeItemSource then
+-- Debug.console("manager_campaignbdata2.lua","addPregenChar","v",v);
+-- Debug.console("manager_campaignbdata2.lua","addPregenChar","nodeItemSource",nodeItemSource);
+      
+        -- DB.copyNode(nodeItemSource, v);
         
-        DB.setValue(v, "name", "string", sName);
-        DB.setValue(v, "isidentified", "number", 1)
-        DB.setValue(v, "locked", "number", 1);
-        DB.setValue(v, "carried", "number", 1);
+        -- DB.setValue(v, "name", "string", sName);
+        -- DB.setValue(v, "isidentified", "number", 1)
+        -- DB.setValue(v, "locked", "number", 1);
+        -- DB.setValue(v, "carried", "number", 1);
         
-        CharManager.addToWeaponDB(v);
-      else
-        bMissingData = true;
-      end
-    end
-  end
+        -- CharManager.addToWeaponDB(v);
+      -- else
+        -- bMissingData = true;
+      -- end
+    -- end
+  -- end
   
-  -- Spell processing
-  local nodePowers = nodeTarget.createChild("powers");
-  local bHasSpells = false;
+  -- -- Spell processing
+  -- local nodePowers = nodeTarget.createChild("powers");
+  -- local bHasSpells = false;
   
-  for _,v in pairs(DB.getChildren(nodeTarget, "cantriplist")) do
-    local sName = DB.getValue(v, "name", "");
-    local _, sRecord = DB.getValue(v, "link", "", "");
-    if sRecord == "" then
-      local nodePower = nodePowers.createChild();
-      DB.copyNode(v, nodePower);
-    else
-      local nodeSpellSource = lookupCharData(sRecord, aRefModules);
-      if nodeSpellSource then
-        local nodePower = nodePowers.createChild();
+  -- for _,v in pairs(DB.getChildren(nodeTarget, "cantriplist")) do
+    -- local sName = DB.getValue(v, "name", "");
+    -- local _, sRecord = DB.getValue(v, "link", "", "");
+    -- if sRecord == "" then
+      -- local nodePower = nodePowers.createChild();
+      -- DB.copyNode(v, nodePower);
+    -- else
+      -- local nodeSpellSource = lookupCharData(sRecord, aRefModules);
+      -- if nodeSpellSource then
+        -- local nodePower = nodePowers.createChild();
         
-        DB.copyNode(nodeSpellSource, nodePower);
+        -- DB.copyNode(nodeSpellSource, nodePower);
         
-        DB.setValue(nodePower, "name", "string", sName);
-        DB.setValue(nodePower, "group", "string", Interface.getString("power_label_groupspells"));
-        DB.setValue(nodePower, "prepared", "number", 1);
+        -- DB.setValue(nodePower, "name", "string", sName);
+        -- DB.setValue(nodePower, "group", "string", Interface.getString("power_label_groupspells"));
+        -- DB.setValue(nodePower, "prepared", "number", 1);
 
-        DB.setValue(nodePower, "locked", "number", 1);
-        DB.setValue(nodePower, "parse", "number", 1);
+        -- DB.setValue(nodePower, "locked", "number", 1);
+        -- DB.setValue(nodePower, "parse", "number", 1);
         
-        bHasSpells = true;
-      else
-        bMissingData = true;
-      end
-    end
-  end
-  for _,v in pairs(DB.getChildren(nodeTarget, "domainspells")) do
-    local sName = DB.getValue(v, "name", "");
-    local _, sRecord = DB.getValue(v, "link", "", "");
-    if sRecord == "" then
-      local nodePower = nodePowers.createChild();
-      DB.copyNode(v, nodePower);
-    else
-      local nodeSpellSource = lookupCharData(sRecord, aRefModules);
-      if nodeSpellSource then
-        local nodePower = nodePowers.createChild();
+        -- bHasSpells = true;
+      -- else
+        -- bMissingData = true;
+      -- end
+    -- end
+  -- end
+  -- for _,v in pairs(DB.getChildren(nodeTarget, "domainspells")) do
+    -- local sName = DB.getValue(v, "name", "");
+    -- local _, sRecord = DB.getValue(v, "link", "", "");
+    -- if sRecord == "" then
+      -- local nodePower = nodePowers.createChild();
+      -- DB.copyNode(v, nodePower);
+    -- else
+      -- local nodeSpellSource = lookupCharData(sRecord, aRefModules);
+      -- if nodeSpellSource then
+        -- local nodePower = nodePowers.createChild();
         
-        DB.copyNode(nodeSpellSource, nodePower);
+        -- DB.copyNode(nodeSpellSource, nodePower);
         
-        DB.setValue(nodePower, "name", "string", sName);
-        DB.setValue(nodePower, "group", "string", Interface.getString("power_label_groupspells"));
-        DB.setValue(nodePower, "prepared", "number", 1);
+        -- DB.setValue(nodePower, "name", "string", sName);
+        -- DB.setValue(nodePower, "group", "string", Interface.getString("power_label_groupspells"));
+        -- DB.setValue(nodePower, "prepared", "number", 1);
 
-        DB.setValue(nodePower, "locked", "number", 1);
-        DB.setValue(nodePower, "parse", "number", 1);
+        -- DB.setValue(nodePower, "locked", "number", 1);
+        -- DB.setValue(nodePower, "parse", "number", 1);
         
-        bHasSpells = true;
-      else
-        bMissingData = true;
-      end
-    end
-  end
-  for _,v in pairs(DB.getChildren(nodeTarget, "spellslist")) do
-    local sName = DB.getValue(v, "name", "");
-    local _, sRecord = DB.getValue(v, "link", "", "");
-    if sRecord == "" then
-      local nodePower = nodePowers.createChild();
-      DB.copyNode(v, nodePower);
-    else
-      local nodeSpellSource = lookupCharData(sRecord, aRefModules);
-      if nodeSpellSource then
-        local nodePower = nodePowers.createChild();
+        -- bHasSpells = true;
+      -- else
+        -- bMissingData = true;
+      -- end
+    -- end
+  -- end
+  -- for _,v in pairs(DB.getChildren(nodeTarget, "spellslist")) do
+    -- local sName = DB.getValue(v, "name", "");
+    -- local _, sRecord = DB.getValue(v, "link", "", "");
+    -- if sRecord == "" then
+      -- local nodePower = nodePowers.createChild();
+      -- DB.copyNode(v, nodePower);
+    -- else
+      -- local nodeSpellSource = lookupCharData(sRecord, aRefModules);
+      -- if nodeSpellSource then
+        -- local nodePower = nodePowers.createChild();
         
-        DB.copyNode(nodeSpellSource, nodePower);
+        -- DB.copyNode(nodeSpellSource, nodePower);
         
-        DB.setValue(nodePower, "name", "string", sName);
-        DB.setValue(nodePower, "group", "string", Interface.getString("power_label_groupspells"));
-        DB.setValue(nodePower, "prepared", "number", 1);
+        -- DB.setValue(nodePower, "name", "string", sName);
+        -- DB.setValue(nodePower, "group", "string", Interface.getString("power_label_groupspells"));
+        -- DB.setValue(nodePower, "prepared", "number", 1);
 
-        DB.setValue(nodePower, "locked", "number", 1);
-        DB.setValue(nodePower, "parse", "number", 1);
+        -- DB.setValue(nodePower, "locked", "number", 1);
+        -- DB.setValue(nodePower, "parse", "number", 1);
         
-        bHasSpells = true;
-      else
-        bMissingData = true;
-      end
-    end
-  end
-  for _,v in pairs(DB.getChildren(nodeTarget, "spellbook")) do
-    local sName = DB.getValue(v, "name", "");
-    local _, sRecord = DB.getValue(v, "link", "", "");
-    if sRecord == "" then
-      local nodePower = nodePowers.createChild();
-      DB.copyNode(v, nodePower);
-    else
-      local nodeSpellSource = lookupCharData(sRecord, aRefModules);
-      if nodeSpellSource then
-        local nodePower = nodePowers.createChild();
+        -- bHasSpells = true;
+      -- else
+        -- bMissingData = true;
+      -- end
+    -- end
+  -- end
+  -- for _,v in pairs(DB.getChildren(nodeTarget, "spellbook")) do
+    -- local sName = DB.getValue(v, "name", "");
+    -- local _, sRecord = DB.getValue(v, "link", "", "");
+    -- if sRecord == "" then
+      -- local nodePower = nodePowers.createChild();
+      -- DB.copyNode(v, nodePower);
+    -- else
+      -- local nodeSpellSource = lookupCharData(sRecord, aRefModules);
+      -- if nodeSpellSource then
+        -- local nodePower = nodePowers.createChild();
         
-        DB.copyNode(nodeSpellSource, nodePower);
+        -- DB.copyNode(nodeSpellSource, nodePower);
         
-        DB.setValue(nodePower, "name", "string", sName);
-        DB.setValue(nodePower, "group", "string", Interface.getString("power_label_groupspells"));
+        -- DB.setValue(nodePower, "name", "string", sName);
+        -- DB.setValue(nodePower, "group", "string", Interface.getString("power_label_groupspells"));
 
-        DB.setValue(nodePower, "locked", "number", 1);
-        DB.setValue(nodePower, "parse", "number", 1);
+        -- DB.setValue(nodePower, "locked", "number", 1);
+        -- DB.setValue(nodePower, "parse", "number", 1);
         
-        bHasSpells = true;
-      else
-        bMissingData = true;
-      end
-    end
-  end
-  if bHasSpells then
-    for i = 1,PowerManager.SPELL_LEVELS do
-      local nSlots = DB.getValue(nodeTarget, "spellslots.level" .. i, 0);
-      DB.setValue(nodeTarget, "powermeta.spellslots" .. i .. ".max", "number", nSlots);
-    end
+        -- bHasSpells = true;
+      -- else
+        -- bMissingData = true;
+      -- end
+    -- end
+  -- end
+  -- if bHasSpells then
+    -- for i = 1,PowerManager.SPELL_LEVELS do
+      -- local nSlots = DB.getValue(nodeTarget, "spellslots.level" .. i, 0);
+      -- DB.setValue(nodeTarget, "powermeta.spellslots" .. i .. ".max", "number", nSlots);
+    -- end
 
-    for i = 1,PowerManager.SPELL_LEVELS do
-      local nSlots = DB.getValue(nodeTarget, "pactmagicslots.level" .. i, 0);
-      DB.setValue(nodeTarget, "powermeta.pactmagicslots" .. i .. ".max", "number", nSlots);
-    end
+    -- for i = 1,PowerManager.SPELL_LEVELS do
+      -- local nSlots = DB.getValue(nodeTarget, "pactmagicslots.level" .. i, 0);
+      -- DB.setValue(nodeTarget, "powermeta.pactmagicslots" .. i .. ".max", "number", nSlots);
+    -- end
 
-    local nodeGroups = DB.createChild(nodeTarget, "powergroup");
-    local nodeNewGroup = nodeGroups.createChild();
-    DB.setValue(nodeNewGroup, "name", "string", Interface.getString("power_label_groupspells"));
-    DB.setValue(nodeNewGroup, "castertype", "string", "memorization");
+    -- local nodeGroups = DB.createChild(nodeTarget, "powergroup");
+    -- local nodeNewGroup = nodeGroups.createChild();
+    -- DB.setValue(nodeNewGroup, "name", "string", Interface.getString("power_label_groupspells"));
+    -- DB.setValue(nodeNewGroup, "castertype", "string", "memorization");
 
-    local nPrepared = DB.getValue(nodeTarget, "preparedspells.level1", 0);
-    DB.setValue(nodeNewGroup, "prepared", "number", nPrepared);
-  end
+    -- local nPrepared = DB.getValue(nodeTarget, "preparedspells.level1", 0);
+    -- DB.setValue(nodeNewGroup, "prepared", "number", nPrepared);
+  -- end
   
-  -- Spell Data Cleanup
-  DB.deleteChild(nodeTarget, "attacklist");
-  DB.deleteChild(nodeTarget, "cantriplist");
-  DB.deleteChild(nodeTarget, "spellslots");
-  DB.deleteChild(nodeTarget, "pactmagicslots");
-  DB.deleteChild(nodeTarget, "preparedspells");
-  DB.deleteChild(nodeTarget, "spellslist");
-  DB.deleteChild(nodeTarget, "spellbook");
+  -- -- Spell Data Cleanup
+  -- DB.deleteChild(nodeTarget, "attacklist");
+  -- DB.deleteChild(nodeTarget, "cantriplist");
+  -- DB.deleteChild(nodeTarget, "spellslots");
+  -- DB.deleteChild(nodeTarget, "pactmagicslots");
+  -- DB.deleteChild(nodeTarget, "preparedspells");
+  -- DB.deleteChild(nodeTarget, "spellslist");
+  -- DB.deleteChild(nodeTarget, "spellbook");
 
   -- Notifications
   ChatManager.SystemMessage(Interface.getString("pregenchar_message_add"));

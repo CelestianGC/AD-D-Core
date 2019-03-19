@@ -231,13 +231,16 @@
   <string name="char_label_skill_stat_adj_tooltip">Adjustment applied for ability scores.</string>
   <string name="char_label_skill_armor_adj">Armor Modifier</string>
   <string name="char_label_skill_armor_adj_tooltip">Adjustment applied for armor worn.</string>
-  <string name="char_label_skill_mod_adj">Skill Modifiers</string>
+  <string name="char_label_skill_mod_adj">Skill Modifier</string>
   <string name="char_label_skill_mod_adj_tooltip">Modifiers applied due to ease or difficulty of the skill.</string>
   <string name="char_label_skill_misc_adj_tooltip">Adjustment applied for various reasons that do not fit any of the other areas.</string>
   <string name="char_label_skill_class_adj">Class Modifier</string>
   <string name="char_label_skill_class_adj_tooltip">Modifiers to a skill check based on class.</string>
   <string name="char_label_skill_misc_adj">Miscellaneous</string>
   <string name="char_label_skill_misc_adj_tooltip">Miscellaneous modifiers.</string>
+  <string name="char_label_skill_racial_adj">Racial Modifier</string>
+  <string name="char_label_skill_racial_adj_tooltip">Modifiers applied due to race.</string>
+  
   <string name="char_label_skilltotal">VALUE</string>
   <string name="skill_title">Skill</string>
   <string name="char_label_skill_skill_additive_tooltip">This skill is additive. Adjusts number value (plus or minus) to an existing skill. When not using this checkbox the value will update to listed value if greater than current skill. If skill does not exist it will create it with this value.</string>
@@ -279,11 +282,13 @@
   <string name="charsheet_abilities_base_tooltip">Base Score of this ability.</string>
   <string name="charsheet_abilities_basemod_tooltip">Set base score using this value instead of real base. DM only set.</string>
   <string name="charsheet_abilities_adjustment_tooltip">Manually set modifier applied to this ability score.</string>
+  <string name="charsheet_abilities_adjustment_2_tooltip">Manually set modifier applied to this ability score.</string>
   <string name="charsheet_abilities_tempmod_tooltip">Manually set, temporary modifier applied to this ability score.</string>
 
   <string name="charsheet_saves_base_tooltip">Base Score of this save.</string>
   <string name="charsheet_saves_basemod_tooltip">Set base score using this value instead of real base. DM only set.</string>
   <string name="charsheet_saves_adjustment_tooltip">Manually set modifier applied to this save score.</string>
+  <string name="charsheet_saves_adjustment_2_tooltip">Manually set modifier applied to this save score.</string>
   <string name="charsheet_saves_tempmod_tooltip">Manually set, temporary modifier applied to this save score.</string>
 
   <string name="char_abilities_label_advancedeffects">ADVANCED EFFECTS</string>
@@ -352,10 +357,14 @@
   <string name="ct_wounds_tooltip">Double click to manually adjust wounds.</string>
     <string name="ct_tooltip_space">Size, Reach, HD and Morale</string>
   <!-- Character - Abilities -->
-    <string name="char_abilities_message_backgroundadd">Kit '%s' added to '%s'.</string>
+  <string name="char_abilities_message_backgroundadd">Kit '%s' added to '%s'.</string>
+  <!-- Character notes -->
+  <string name="char_label_agemax">MAX. AGE</string>
+  <string name="char_label_agemax_tooltip">Maximum age the character will reach before dying natural death.</string>
   <string name="char_label_notes_ideals">PHILOSOPHY</string>
   <string name="char_label_notes_bonds">RELATIONSHIPS</string>
   <string name="char_label_notes_flaws">FAULTS</string>
+  
   
   <string name="char_label_clone_to_npc">CLONE TO NPC</string>
 
@@ -363,6 +372,8 @@
   <string name="char_label_encumbrancerank">Load</string>
   <string name="char_label_encumbrancerank_tooltip">Encumbrance with current weight carried.</string>
   <string name="char_label_weightallowance">Weight Allowance</string>
+  <string name="char_label_encmaxpress">Max Press</string>
+  <string name="char_label_encmaxpress_tooltip">Maximum weight press</string>
     
     
     <!-- class -->
@@ -448,7 +459,7 @@
   <string name="resistant">Resistant</string>
   <string name="immune">Immunity</string>
   <string name="vuln">Vulnerability</string>
-  <string name="susceptiblity">Susceptiblity</string>
+  <string name="susceptibility">susceptibility</string>
   <string name="misc">Miscellaneous</string>
 
   <string name="modifier">Modifier</string>
@@ -661,7 +672,7 @@
   <string name="message_concentration_failed">%s's concentration broken by damage, spell casting interrupted!</string>
   <!-- Sidebar -->
   <string name="library_recordtype_label_image">Images</string>
-  <string name="library_recordtype_label_treasureparcel">Loot</string>
+  <string name="library_recordtype_label_treasureparcel">Parcels</string>
 
     <!-- Item -->
   <string name="item_label_speedfactor">Speedfactor</string>

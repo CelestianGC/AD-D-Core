@@ -21,9 +21,12 @@ end
 
 function updateDisplay()
   local sType = DB.getValue(getDatabaseNode(), "type", "");
---Debug.console("power_action_mini","updateDisplay","sType",sType);  
+--Debug.console("power_action_mini.lua","updateDisplay","sType",sType);  
   if sType == "cast" then
     button.setIcons("button_roll", "button_roll_down");
+    -- check if save
+    -- check if melee
+    -- if either then createControl and add buttons for both?
   elseif sType == "damage" then
     button.setIcons("button_action_damage", "button_action_damage_down");
   elseif sType == "heal" then

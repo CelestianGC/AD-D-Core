@@ -24,9 +24,9 @@ function onInit()
     DB.addHandler(DB.getPath(node, ".ability"), "onUpdate", updateAbilityEffects);
     DB.addHandler(DB.getPath(node, ".ability_modifier"), "onUpdate", updateAbilityEffects);
 
-    DB.addHandler(DB.getPath(node, ".susceptiblity_type"), "onUpdate", updateSusceptibleEffects);
-    DB.addHandler(DB.getPath(node, ".susceptiblity"), "onUpdate", updateSusceptibleEffects);
-    DB.addHandler(DB.getPath(node, ".susceptiblity_modifier"), "onUpdate", updateSusceptibleEffects);
+    DB.addHandler(DB.getPath(node, ".susceptibility_type"), "onUpdate", updateSusceptibleEffects);
+    DB.addHandler(DB.getPath(node, ".susceptibility"), "onUpdate", updateSusceptibleEffects);
+    DB.addHandler(DB.getPath(node, ".susceptibility_modifier"), "onUpdate", updateSusceptibleEffects);
 
     DB.addHandler(DB.getPath(node, ".misc_type"), "onUpdate", updateMiscEffects);
     DB.addHandler(DB.getPath(node, ".misc_modifier"), "onUpdate", updateMiscEffects);
@@ -44,9 +44,9 @@ function onClose()
     DB.removeHandler(DB.getPath(node, ".ability"), "onUpdate", updateAbilityEffects);
     DB.removeHandler(DB.getPath(node, ".ability_modifier"), "onUpdate", updateAbilityEffects);
     
-    DB.removeHandler(DB.getPath(node, ".susceptiblity_type"), "onUpdate", updateSusceptibleEffects);
-    DB.removeHandler(DB.getPath(node, ".susceptiblity"), "onUpdate", updateSusceptibleEffects);
-    DB.removeHandler(DB.getPath(node, ".susceptiblity_modifier"), "onUpdate", updateSusceptibleEffects);
+    DB.removeHandler(DB.getPath(node, ".susceptibility_type"), "onUpdate", updateSusceptibleEffects);
+    DB.removeHandler(DB.getPath(node, ".susceptibility"), "onUpdate", updateSusceptibleEffects);
+    DB.removeHandler(DB.getPath(node, ".susceptibility_modifier"), "onUpdate", updateSusceptibleEffects);
 
     DB.removeHandler(DB.getPath(node, ".misc_type"), "onUpdate", updateMiscEffects);
     DB.removeHandler(DB.getPath(node, ".misc_modifier"), "onUpdate", updateMiscEffects);
@@ -59,7 +59,7 @@ function update()
     local bCustom = (sType == "");
     local bSave = (sType == "save");
     local bAbility = (sType == "ability");
-    local bSusceptiblity = (sType == "susceptiblity");
+    local bsusceptibility = (sType == "susceptibility");
     local bMisc = (sType == "misc");
     
     local w = Interface.findWindow("advanced_effect_editor", "");
@@ -91,19 +91,19 @@ function update()
         ability_modifier.setVisible(false);
     end
     
-    if (bSusceptiblity) then
-        -- bSusceptiblity
-        susceptiblity_type.setVisible(true);
-        susceptiblity.setComboBoxVisible(true);
-        --susceptiblity.setVisible(true);
+    if (bsusceptibility) then
+        -- bsusceptibility
+        susceptibility_type.setVisible(true);
+        susceptibility.setComboBoxVisible(true);
+        --susceptibility.setVisible(true);
         -- we dont use modifier yet? hiding
-        susceptiblity_modifier.setVisible(false);
+        susceptibility_modifier.setVisible(false);
         updateSusceptibleEffects();
     else
-        susceptiblity_type.setVisible(false);
-        susceptiblity.setComboBoxVisible(false);
-        --susceptiblity.setVisible(false);
-        susceptiblity_modifier.setVisible(false);
+        susceptibility_type.setVisible(false);
+        susceptibility.setComboBoxVisible(false);
+        --susceptibility.setVisible(false);
+        susceptibility_modifier.setVisible(false);
     end
     
     if (bMisc) then
@@ -196,9 +196,9 @@ function updateSusceptibleEffects()
     local nodeRecord = getDatabaseNode();
 --Debug.console("advanced_effects_editor.lua","updateSusceptibleEffects","nodeRecord",nodeRecord);
     local sEffectString = "";
-    local sType = DB.getValue(nodeRecord,"susceptiblity_type","");
-    local sSuscept = DB.getValue(nodeRecord,"susceptiblity","");
-    local nModifier = DB.getValue(nodeRecord,"susceptiblity_modifier",0);
+    local sType = DB.getValue(nodeRecord,"susceptibility_type","");
+    local sSuscept = DB.getValue(nodeRecord,"susceptibility","");
+    local nModifier = DB.getValue(nodeRecord,"susceptibility_modifier",0);
     local sTypeChar = "";
     
     if (sType == "") then

@@ -211,6 +211,7 @@ aRecords = {
   },
   ["feat"] = {
     bExport = true, 
+		bHidden = true,
     aDataMap = { "feat", "reference.featdata" }, 
     aDisplayIcon = { "button_feats", "button_feats_down" },
     sRecordDisplayClass = "reference_feat", 

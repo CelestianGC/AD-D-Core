@@ -9,6 +9,7 @@ function onInit()
     addSource("adj_class");
     addSource("adj_armor");
     addSource("adj_mod");
+    addSource("adj_racial");
     addSource("adj_stat");
     addSource("base_check");
 
@@ -39,6 +40,7 @@ function onSourceUpdate(node)
     local nBaseCheck = DB.getValue(nodeSkill, "base_check", 0);
     local nClassADJ = DB.getValue(nodeSkill, "adj_class", 0);
     local nArmorADJ = DB.getValue(nodeSkill, "adj_armor", 0);
+    local nRacialADJ = DB.getValue(nodeSkill, "adj_racial", 0);
     local nStatADJ = DB.getValue(nodeSkill, "adj_stat", 0);
     local nModADJ = DB.getValue(nodeSkill, "adj_mod", 0);
     local nMisc = DB.getValue(nodeSkill, "misc", 0);
@@ -71,7 +73,7 @@ function onSourceUpdate(node)
 --    end
     
 
-    nValue = nValue + nClassADJ + nModADJ + nStatADJ + nArmorADJ +  nMisc;
+    nValue = nValue + nClassADJ + nModADJ + nStatADJ + nArmorADJ + nRacialADJ + nMisc;
     --DB.setValue(nodeSkill, "total","number", nValue);
     setValue(nValue);
 end

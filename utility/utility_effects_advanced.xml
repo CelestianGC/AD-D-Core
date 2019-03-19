@@ -261,25 +261,25 @@
             
             <!-- end ability version -->
             
-            <!-- Susceptiblity version -->
-      <cycler_susceptiblitytypes name="susceptiblity_type">
+            <!-- susceptibility version -->
+      <cycler_susceptibilitytypes name="susceptibility_type">
         <anchored>
           <top parent="columnanchor" anchor="bottom" relation="relative" offset="7" />
           <left offset="5" />
           <right offset="-230" />
         </anchored>
         <tooltip textres="item_ability_type_tooltip" />
-      </cycler_susceptiblitytypes>
+      </cycler_susceptibilitytypes>
 
-      <combobox_susceptiblity_items name="susceptiblity">
-        <anchored to="susceptiblity_type" position="righthigh" offset="10,0" width="80"  height="20"/>
-      </combobox_susceptiblity_items>
+      <combobox_susceptibility_items name="susceptibility">
+        <anchored to="susceptibility_type" position="righthigh" offset="10,0" width="80"  height="20"/>
+      </combobox_susceptibility_items>
 
-            <!-- Susceptiblity modifier/score -->
-      <advanced_effect_number name="susceptiblity_modifier">
-        <anchored to="susceptiblity" position="righthigh" offset="10,0" width="20"  height="20"/>
+            <!-- susceptibility modifier/score -->
+      <advanced_effect_number name="susceptibility_modifier">
+        <anchored to="susceptibility" position="righthigh" offset="10,0" width="20"  height="20"/>
       </advanced_effect_number>
-            <!-- end Susceptiblity version -->
+            <!-- end susceptibility version -->
 
             <!-- misc version -->
       <cycler_misctypes name="misc_type">
