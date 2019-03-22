@@ -2349,6 +2349,8 @@ function memorizeSpell(draginfo, nodeSpell)
   if not nodeChar then
     return false;
   end
+  local bisNPC = (not ActorManager.isPC(nodeChar)); 
+      
   
   local sName = DB.getValue(nodeSpell, "name", "");
   local nLevel = DB.getValue(nodeSpell, "level", 0);
@@ -2366,7 +2368,7 @@ function memorizeSpell(draginfo, nodeSpell)
     local nMaxDivine = DB.getValue(nodeChar, "powermeta.pactmagicslots" .. nLevel .. ".max", 0);
 
     if (isArcaneSpellType(sSpellType) or isArcaneSpellType(sSource)) then
-      if (nUsedArcane+1 <= nMaxArcane) then
+      if (nUsedArcane+1 <= nMaxArcane or bisNPC) then
         DB.setValue(nodeChar,"powermeta.spellslots" .. nLevel .. ".used","number",(nUsedArcane+1));
         DB.setValue(nodeSpell,"memorized","number",(nMemorized+1));
         --ChatManager.Message(Interface.getString("message_youmemorize") .. " " .. sName .. ".", true, ActorManager.getActor("pc", nodeChar));
@@ -2380,7 +2382,7 @@ function memorizeSpell(draginfo, nodeSpell)
         ChatManager.SystemMessage(sMsg);
       end
     elseif (isDivineSpellType(sSpellType) or isDivineSpellType(sSource)) then
-      if (nUsedDivine+1 <= nMaxDivine) then
+      if (nUsedDivine+1 <= nMaxDivine or bisNPC) then
         DB.setValue(nodeChar,"powermeta.pactmagicslots" .. nLevel .. ".used","number",(nUsedDivine+1));
         DB.setValue(nodeSpell,"memorized","number",(nMemorized+1));
         --ChatManager.Message(Interface.getString("message_youmemorize") .. " " .. sName .. ".", true, ActorManager.getActor("pc", nodeChar));

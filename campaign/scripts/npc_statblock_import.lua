@@ -164,6 +164,14 @@ local sSpellFilter = "['’,%w%d%s%-%(%)]+";
 local aLevelsAsName = { "first","second","third","fourth","fifth","sixth","seventh","eighth","ninth"};
 function importSpells(nodeNPC,sText)
   local sTextLower = sText:lower();
+  local bPriest = (sTextLower:match("cleric") or sTextLower:match("priest") or sTextLower:match("druid"));
+  local bWizard = (sTextLower:match("mage") or sTextLower:match("wizard") or sTextLower:match("magic-user") or sTextLower:match("illusionist"));
+  local sType = "arcane"; -- default to arcane
+  if bPriest and not bWizard then
+    sType = "divine";
+  elseif bWizard and bPriest then
+    sType = nil; -- we just look for both
+  end
 Debug.console("npc_statblock_import.lua","importSpells","nodeNPC",nodeNPC);    
 Debug.console("npc_statblock_import.lua","importSpells","sTextLower",sTextLower);  
   local spells = {};
@@ -177,36 +185,61 @@ Debug.console("npc_statblock_import.lua","importSpells","sTextLower",sTextLower)
              or sTextLower:match("level " .. i .. ": (".. sSpellFilter .. ")");
 Debug.console("npc_statblock_import.lua","importSpells","spells[i]",spells[i]);                 
   end
-  for i=1,9,1 do
-Debug.console("npc_statblock_import.lua","importSpells","spells[".. i .. "]",spells[i]);    
-    local aSpells = StringManager.split(spells[i],",",true);
-Debug.console("npc_statblock_import.lua","importSpells","aSpells",aSpells);        
+  if #spells > 0 then
+    for i=1,9,1 do
+  Debug.console("npc_statblock_import.lua","importSpells","spells[".. i .. "]",spells[i]);    
+      local aSpells = StringManager.split(spells[i],",",true);
+  Debug.console("npc_statblock_import.lua","importSpells","aSpells",aSpells);        
+      for _, sSpell in pairs(aSpells) do
+        sSpell = sSpell:gsub("(%(.?%d+%))",""); -- remove (x2) from spell names
+        sSpell = StringManager.trim(sSpell); -- clean up spaces
+  Debug.console("npc_statblock_import.lua","importSpells","sSpell",sSpell);
+        local nodeSpell = findSpell(sSpell,sType);
+        if (nodeSpell) then
+          addSpell(nodeNPC,nodeSpell)
+        else
+          ChatManager.SystemMessage("STATBLOCK IMPORT-1: Could not find spell [" .. sSpell .. "] in spell records to add to NPC.");
+        end
+
+      end -- aSpells
+    end -- 1..9th level spells
+  else -- found spells by level
+    -- just doing blanket search "Spells *: list,of,spells,here"
+    local sSpellsList = sTextLower:match("spells[%w%p%s]+:(".. sSpellFilter .. ")");
+Debug.console("npc_statblock_import.lua","importSpells","sSpellsList",sSpellsList);
+    local aSpells = StringManager.split(sSpellsList,",",true);
     for _, sSpell in pairs(aSpells) do
       sSpell = sSpell:gsub("(%(.?%d+%))",""); -- remove (x2) from spell names
       sSpell = StringManager.trim(sSpell); -- clean up spaces
-Debug.console("npc_statblock_import.lua","importSpells","sSpell",sSpell);
-      local nodeSpell = findSpell(sSpell);
+      local nodeSpell = findSpell(sSpell,sType);
       if (nodeSpell) then
-Debug.console("npc_statblock_import.lua","importSpells","nodeSpell",nodeSpell);   
-        local nodePowers = nodeNPC.createChild("powers");
-        local nodeNewPower = nodePowers.createChild();
-        DB.setValue(nodeNewPower, "group", "string", "Spells");
-        DB.copyNode(nodeSpell,nodeNewPower);
+        addSpell(nodeNPC,nodeSpell)
       else
-        ChatManager.SystemMessage("STATBLOCK IMPORT: Could not find spell [" .. sSpell .. "] in spell records to add to NPC.");
-      end
+        ChatManager.SystemMessage("STATBLOCK IMPORT-2: Could not find spell [" .. sSpell .. "] in spell records to add to NPC.");
+      end    
+    end
+  end
+  
+end
 
-    end -- aSpells
-  end -- 1..9th level spells
+function addSpell(nodeTarget,nodeSpell)
+Debug.console("npc_statblock_import.lua","addSpell","nodeSpell",nodeSpell);   
+  local nodePowers = nodeTarget.createChild("powers");
+  local nodeNewPower = nodePowers.createChild();
+  DB.setValue(nodeNewPower, "group", "string", "Spells");
+  DB.copyNode(nodeSpell,nodeNewPower);
 end
 
 -- find spell by name (and type)
 function findSpell(sSpellName,sType)
+Debug.console("npc_statblock_import.lua","findSpell","sSpellName",sSpellName);   
+Debug.console("npc_statblock_import.lua","findSpell","sType",sType);   
   local nodeSpell = nil;
   for _, node in pairs(DB.getChildrenGlobal("spell")) do
     local sName = DB.getValue(node,"name","");
     local sSpellType = DB.getValue(node, "type", ""):lower();
-    if (sType ~= nil and sType == sSpellType and sName:Lower() == sSpellName) or (sName:lower() ==  sSpellName) then
+    if (sType ~= nil and sType == sSpellType and sName:lower() == sSpellName) or (sType == nil and sName:lower() ==  sSpellName) then
+Debug.console("npc_statblock_import.lua","findSpell","sSpellType",sSpellType);   
       nodeSpell = node;
       break;
     end

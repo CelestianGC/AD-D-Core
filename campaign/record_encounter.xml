@@ -6,6 +6,38 @@
 -->
 
 <root>
+
+  <!-- customized some bits into the CoreRPG using merge -->
+	<windowclass name="battle_npc" merge="join">
+		<sheetdata>
+      <!-- new/changed added hp/ac/weapons -->
+      <label_encounter_armorclass name="label_ac" insertbefore="maplinks_label" />
+      <number_encounter_ac name="ac" insertbefore="maplinks_label" />
+
+      <label_encounter_hitpoints name="label_hp" insertbefore="maplinks_label" />
+      <number_encounter_hp name="hp" insertbefore="maplinks_label" />
+
+      <label_encounter_weaponlist name="label_weapons" insertbefore="maplinks_label" />
+      <number_encounter_weapons name="weapons" insertbefore="maplinks_label" />
+      
+			<label_listitem_maplinks_encounter name="maplinks_label" merge="replace">
+        <anchored>
+          <top parent="weapons" anchor="bottom" offset="5" />
+          <left offset="5" />
+        </anchored>
+      </label_listitem_maplinks_encounter>
+			<list_listitem_maplinks_encounter name="maplinks" >
+        <anchored>
+          <top parent="weapons" anchor="bottom" relation="relative" offset="0" />
+          <left parent="maplinks_label" anchor="right" offset="5" />
+          <right offset="-5" />
+        </anchored>			
+      </list_listitem_maplinks_encounter>
+      
+      <!-- end new -->
+		</sheetdata>
+	</windowclass>
+
   <windowclass name="battle">
     <frame>recordsheet</frame>
     <placement>
@@ -94,6 +126,7 @@
           end
         </script>
       </buttoncontrol>
+
       <!-- Add label "Times spawned ", add label spawncount -->
       <label name="label_spawn">
           <anchored to="addct" position="righthigh" offset="10,3" />

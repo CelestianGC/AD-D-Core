@@ -5,6 +5,7 @@
 
 -- drag/drop quicknote/notes entry onto a abilitynotes and create
 function onDrop(x, y, draginfo)
+--Debug.console("quicknotes.lua","onDrop","draginfo",draginfo);  
   if draginfo.isType("shortcut") then
     local node = getDatabaseNode();
     local sClass, sRecord = draginfo.getShortcutData();

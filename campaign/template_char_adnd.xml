@@ -815,7 +815,6 @@
         function action()
           local node = getDatabaseNode();
           local nodeChar = node.getChild("...");
-          Debug.console("record_char_main.xml","onDragStart","nodeChar",nodeChar);
           ActionSurprise.performRoll(draginfo, rActor, nodeChar);
           return true;
         end
@@ -1124,6 +1123,17 @@
             end
             return true;
           end
+        end
+
+        function onDragStart(button, x, y, draginfo)
+          local node = window.getDatabaseNode();
+          local sName = DB.getValue(node,"name","");
+          local sPathToItem = node.getPath() .. ".itemnote";
+         	draginfo.setType("shortcut");
+          draginfo.setShortcutData( "quicknote", sPathToItem );
+          draginfo.setDescription(sName);
+          draginfo.setIcon("button_link_down");
+          return true;
         end
         
         function onButtonPress()
