@@ -789,4 +789,12 @@
   
   <string name="chat_combat_hit_stoneskin">Attack struck a protective skin and deflected your attack!</string>
   <string name="chat_combat_hit_mirrorimage">Attack struck shimmering image, you missed your target!</string>
+  
+  <!-- encounter/battle -->
+  <string name="label_encounter_hp">HP</string>
+  <string name="label_encounter_hp_tooltip">If set will be the hitpoint value for the NPC spawned.</string>
+  <string name="label_encounter_ac">AC</string>
+  <string name="label_encounter_ac_tooltip">If set will be the armor class value for the NPC spawned.</string>
+  <string name="label_encounter_weapons">Weapons</string>
+  <string name="label_encounter_weapons_tooltip">List of weapons separated by ; to be added to the NPCs Action/Weapons list.</string>
 </root>

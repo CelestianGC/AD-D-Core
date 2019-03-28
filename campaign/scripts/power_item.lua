@@ -52,12 +52,14 @@ function onInit()
   end
   
   -- npcs don't see power item shortcuts, they use quicknotes.
-  if string.match(node.getPath(),"^charsheet") == nil then
+  if string.match(node.getPath(),"^npc") or string.match(node.getPath(),"^combattracker") then
     shortcut.setVisible(false);
     quicknote.setVisible(true);
-  else
+  elseif string.match(node.getPath(),"^charsheet") then
     shortcut.setVisible(true);
-    quicknote.setVisible(false);
+    if quicknote then 
+      quicknote.setVisible(false);
+    end
   end
 
   onDisplayChanged();
