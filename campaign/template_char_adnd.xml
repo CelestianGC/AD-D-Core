@@ -199,27 +199,27 @@
       <number>
         <frame name="abilityscore_box" />
         <anchored position="right" offset="0,0" width="40"/>
-                <displaysign />
-           <center />
-                <nokeyedit />
+        <displaysign />
+        <center />
+        <nokeyedit />
         <font>regular8</font>
-            </number>
+      </number>
   </template>
 
   <template name="number_abilityfield_noplus">
       <number>
         <frame name="abilityscore_box" />
-<!--                 <backcolor>#ff99cc</backcolor> -->
+<!--    <backcolor>#ff99cc</backcolor> -->
         <anchored position="right" offset="0,0" width="40"/>
-           <center />
-                <nokeyedit />
+        <center />
+        <nokeyedit />
         <font>regular8</font>
       </number>
   </template>
 
   <template name="percentile_abilityfield">
       <number>
-                <readonly />
+        <readonly />
         <frame name="abilityscore_box" />
         <anchored position="right" offset="0,0" width="30" height="25"/>
            <center />
@@ -229,12 +229,13 @@
   
   <template name="string_abilityfield">
       <stringfield>
+        <!-- <frame name="fielddark" offset="3,3,3,3" /> -->
+        <frame name="abilityscore_box" offset="3,3,3,3" />
         <anchored position="right" offset="0,0" width="40" />
-           <center />
-                <readonly />
-                <frame name="fielddark" offset="3,3,3,3" />
+        <center />
+        <readonly />
         <font>regular8</font>
-            </stringfield>
+        </stringfield>
   </template>
   
   <template name="ability_fields_container">
@@ -972,7 +973,6 @@
         function action(draginfo)
           local rActor = ActorManager.getActor("pc", window.getDatabaseNode());
           ActionInit.performRoll(draginfo, rActor);
-
           return true;
         end
         
@@ -1097,7 +1097,7 @@
     </sheetdata>
   </windowclass>  
   
-  <template name="link_npc_weapon_quicknotes">
+  <template name="link_npc_quicknotes">
     <buttoncontrol>
       <anchored to="rightanchor" width="20" height="20">
         <top offset="8" />

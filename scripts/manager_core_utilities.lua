@@ -35,3 +35,17 @@ function getWeaponNodeByName(sWeapon)
   end
   return nodeWeapon;
 end
+
+-- check to see if the node has a weapon of same name
+function hasWeaponNamed(nodeEntry,sWeapon)
+  local bHasWeapon = false;
+  for _, nodeWeapon in pairs(DB.getChildren(nodeEntry,"weaponlist")) do
+    local sName = DB.getValue(nodeWeapon,"name"):lower();
+    if sWeapon == sName then
+      bHasWeapon = true;
+      break;
+    end
+  end
+  
+  return bHasWeapon;
+end

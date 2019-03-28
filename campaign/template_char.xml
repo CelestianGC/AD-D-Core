@@ -73,7 +73,8 @@
   </template>
   <template name="number_chartotal">
     <number_modifier>
-      <frame name="fieldlight" offset="7,5,7,5" />
+      <!-- <frame name="fieldlight" offset="7,5,7,5" /> -->
+      <frame name="fielddark" offset="7,5,7,5" />
       <showemptywidget />
     </number_modifier>
   </template>

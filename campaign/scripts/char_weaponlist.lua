@@ -84,7 +84,7 @@ function onDrop(x, y, draginfo)
 --Debug.console("char_weaponslist.lua","onDrop","node",node );
 
     -- match items dropped into item/class/background fields to populate damage/etc but not add to inventory
-    if (string.match(node.getPath(),"^npc") and not Input.isControlPressed()) or
+    if ((string.match(node.getPath(),"^npc") or string.match(node.getPath(),"^combattracker%.")) and not Input.isControlPressed()) or
         string.match(node.getPath(),"^item") or 
         string.match(node.getPath(),"^treasureparcels") or 
         string.match(node.getPath(),"^class") or 
@@ -112,6 +112,22 @@ function onDrop(x, y, draginfo)
 --Debug.console("char_weaponslist.lua","onDrop","sNotePath",sNotePath );
           --DB.setValue(nodeWeapon, "shortcut", "windowreference", "quicknote", nodeWeapon.getPath() .. '.itemnote');
           DB.setValue(nodeWeapon, "shortcut", "windowreference", "quicknote", sNotePath .. '.itemnote');
+        end
+        -- add powers
+        local nodePowers = node.createChild("powers");
+        for _,nodePowerSource in pairs(DB.getChildren(nodeItem, "powers")) do
+          local nodePower = nodePowers.createChild();
+          DB.copyNode(nodePowerSource,nodePower);
+          --DB.deleteChild(nodePower,"shortcut"); 
+          DB.setValue(nodePower,"itemnote.name","string",sItemName);
+          DB.setValue(nodePower,"itemnote.text","formattedtext",sDesc);
+          DB.setValue(nodePower,"itemnote.locked","number",1);
+          local sThisID = nodePower.getPath():match("(%.powers%.id%-%d+)$");
+          local sNotePath = nodePower.getPath();
+          if (sThisID and sThisID ~= "") then
+            sNotePath = "..." .. sThisID;
+          end
+          DB.setValue(nodePower, "shortcut", "windowreference", "quicknote", sNotePath .. '.itemnote');
         end
         return true;
       end

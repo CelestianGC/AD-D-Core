@@ -505,6 +505,8 @@
         <class>power</class>
         <readonly />
       </linkcontrol>
+      <link_npc_quicknotes name="quicknote" />      
+      
       <button_idelete name="idelete">
         <anchored to="rightanchor">
           <top />

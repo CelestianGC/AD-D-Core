@@ -109,6 +109,11 @@ end
 
 function getClassLevelAsHD(nodeNPC,sText)
   local sLevel, sClass = string.match(sText:lower(),"level (%d+) ([%w]+)");
+  
+  if (not sLevel or not sClass) then
+    sClass, sLevel = string.match(sText:lower(),"([%w]+) l(%d+)");
+  end
+  
   if (sLevel) then
     DB.setValue(nodeNPC,"hitdice","string", sLevel);
   end
@@ -204,6 +209,7 @@ Debug.console("npc_statblock_import.lua","importSpells","spells[i]",spells[i]);
       end -- aSpells
     end -- 1..9th level spells
   else -- found spells by level
+    -- found no spells as above, trying a broader spectrum
     -- just doing blanket search "Spells *: list,of,spells,here"
     local sSpellsList = sTextLower:match("spells[%w%p%s]+:(".. sSpellFilter .. ")");
 Debug.console("npc_statblock_import.lua","importSpells","sSpellsList",sSpellsList);

@@ -51,6 +51,15 @@ function onInit()
     PowerManager.parsePCPower(nodeAttack);
   end
   
+  -- npcs don't see power item shortcuts, they use quicknotes.
+  if string.match(node.getPath(),"^charsheet") == nil then
+    shortcut.setVisible(false);
+    quicknote.setVisible(true);
+  else
+    shortcut.setVisible(true);
+    quicknote.setVisible(false);
+  end
+
   onDisplayChanged();
   -- window list can be nil when using this for spell records (not PC/NPCs) --celestian
     if windowlist ~= nil then 

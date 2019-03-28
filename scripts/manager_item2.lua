@@ -119,6 +119,11 @@ function isWeapon(vRecord)
     bIsWeapon = false;
   end
   
+  -- if it has objects in weaponlist node then it's a weapon
+  if DB.getChildCount(nodeItem, "weaponlist") > 0 then
+    bIsWeapon = true;
+  end
+  
   return bIsWeapon, sTypeLower, sSubtypeLower;
 end
 

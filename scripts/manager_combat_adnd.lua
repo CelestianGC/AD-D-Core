@@ -858,20 +858,22 @@ function addBattle(nodeBattle)
         if (sWeaponList ~= "") then
           local aWeapons = StringManager.split(sWeaponList, ",", true);
           for _,sWeapon in ipairs(StringManager.split(sWeaponList, ";", true)) do
-            local nodeSourceWeapon = CoreUtilities.getWeaponNodeByName(sWeapon);
-            if nodeSourceWeapon then
-              local nodeWeapons = nodeEntry.createChild("weaponlist");
-              for _,v in pairs(DB.getChildren(nodeSourceWeapon, "weaponlist")) do
-                local nodeWeapon = nodeWeapons.createChild();
-                DB.copyNode(v,nodeWeapon);
-                local sName = DB.getValue(v,"name","");
-                local sText = DB.getValue(v,"text","");
-                DB.setValue(nodeWeapon,"itemnote.name","string",sName);
-                DB.setValue(nodeWeapon,"itemnote.text","formattedtext",sText);
-                DB.setValue(nodeWeapon,"itemnote.locked","number",1);
+            if not CoreUtilities.hasWeaponNamed(nodeEntry,sWeapon) then 
+              local nodeSourceWeapon = CoreUtilities.getWeaponNodeByName(sWeapon);
+              if nodeSourceWeapon then
+                local nodeWeapons = nodeEntry.createChild("weaponlist");
+                for _,v in pairs(DB.getChildren(nodeSourceWeapon, "weaponlist")) do
+                  local nodeWeapon = nodeWeapons.createChild();
+                  DB.copyNode(v,nodeWeapon);
+                  local sName = DB.getValue(v,"name","");
+                  local sText = DB.getValue(v,"text","");
+                  DB.setValue(nodeWeapon,"itemnote.name","string",sName);
+                  DB.setValue(nodeWeapon,"itemnote.text","formattedtext",sText);
+                  DB.setValue(nodeWeapon,"itemnote.locked","number",1);
+                end
+              else
+                ChatManager.SystemMessage("Encounter [" .. DB.getValue(nodeBattle,"name","") .. "], unable to find weapon [" .. sWeapon .. "] for NPC [" .. DB.getValue(nodeEntry,"name","") .."].");
               end
-            else
-              ChatManager.SystemMessage("Encounter [" .. DB.getValue(nodeBattle,"name","") .. "], unable to find weapon [" .. sWeapon .. "] for NPC [" .. DB.getValue(nodeEntry,"name","") .."].");
             end
           end -- for weapons
         end -- end weaponlist
@@ -885,4 +887,3 @@ function addBattle(nodeBattle)
 	
 	Interface.openWindow("combattracker_host", "combattracker");
 end
-

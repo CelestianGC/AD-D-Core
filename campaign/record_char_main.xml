@@ -331,9 +331,9 @@
         <tooltip textres="char_tooltip_constitution_hitpointadj" />
         <labelres>char_label_constitution_hitpointadj</labelres>
       </string_abilityfield>
-         <label_ability_fields>
+      <label_ability_fields>
         <anchored to="constitution_hitpointadj" />
-           <tooltip textres="char_tooltip_constitution_hitpointadj" />
+        <tooltip textres="char_tooltip_constitution_hitpointadj" />
         <static textres="char_label_constitution_hitpointadj" />
       </label_ability_fields>
       
@@ -753,11 +753,12 @@
       <!--       THACO/AC/INIT/MOVE  -->
       <number_chartotalac_defaults name="ac2" source="defenses.ac.total">
         <readonly />
-        <anchored to="combatanchor" position="insidetopleft" offset="5,0" width="30" height="30" />
-        <frame name="acicon" offset="4,0,2,4" />
+        <anchored to="combatanchor" position="insidetopleft" offset="5,3" width="30" height="30" />
+        <frame name="acicon" offset="4,3,2,4" />
       </number_chartotalac_defaults>
       <label_combatscores>
-        <anchored to="ac2"/>
+        <!-- <anchored to="ac2"/>  -->
+        <anchored to="ac2" offset="-2,-3" />
         <static textres="ac" />
       </label_combatscores>
 
