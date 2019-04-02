@@ -364,15 +364,15 @@ end
 function addToArmorDB(nodeItem)
   -- Parameter validation
   local bIsArmor, _, sSubtypeLower = ItemManager2.isArmor(nodeItem);
-    local bShield = ItemManager2.isShield(nodeItem);
-    local bProtOther = ItemManager2.isProtectionOther(nodeItem);
+  local bShield = ItemManager2.isShield(nodeItem);
+  local bProtOther = ItemManager2.isProtectionOther(nodeItem);
     
   if not bIsArmor then
     return;
   end
   if not (bIsShield) then
-        bIsShield = (sSubtypeLower == "shield");
-    end
+    bIsShield = (sSubtypeLower == "shield");
+  end
   
   -- Determine whether to auto-equip armor
   local bArmorAllowed = true;
@@ -430,17 +430,14 @@ function calcItemArmorClass(nodeChar)
   for _,vNode in pairs(DB.getChildren(nodeChar, "inventorylist")) do
     if DB.getValue(vNode, "carried", 0) == 2 then
       local bIsArmor, _, sSubtypeLower = ItemManager2.isArmor(vNode);
---Debug.console("manager_char.lua","calcItemArmorClass","bIsArmor",bIsArmor);
-        local bIsShield = (sSubtypeLower == "shield");
-        if (not bIsShield) then
-            bIsShield = ItemManager2.isShield(vNode);
-        end
---Debug.console("manager_char.lua","calcItemArmorClass","bIsShield",bIsShield);
-        local bIsRingOrCloak = (sSubtypeLower == "ring" or sSubtypeLower == "cloak" or sSubtypeLower == "robe");
-        if (not bIsRingOrCloak) then
-            bIsRingOrCloak = ItemManager2.isProtectionOther(vNode);
-        end
---Debug.console("manager_char.lua","calcItemArmorClass","bIsRingOrCloak",bIsRingOrCloak);
+      local bIsShield = (StringManager.contains(DataCommonADND.itemShieldArmorTypes, sSubtypeLower));
+      if (not bIsShield) then
+        bIsShield = ItemManager2.isShield(vNode);
+      end
+      local bIsRingOrCloak = (StringManager.contains(DataCommonADND.itemOtherArmorTypes, sSubtypeLower));
+      if (not bIsRingOrCloak) then
+          bIsRingOrCloak = ItemManager2.isProtectionOther(vNode);
+      end
       if bIsArmor or bIsShield or bIsRingOrCloak then
         local bID = LibraryData.getIDState("item", vNode, true);
         -- we could use bID to make the AC not apply until the item is ID'd? --celestian

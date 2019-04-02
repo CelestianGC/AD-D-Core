@@ -118,16 +118,9 @@ function onDrop(x, y, draginfo)
         for _,nodePowerSource in pairs(DB.getChildren(nodeItem, "powers")) do
           local nodePower = nodePowers.createChild();
           DB.copyNode(nodePowerSource,nodePower);
-          --DB.deleteChild(nodePower,"shortcut"); 
-          DB.setValue(nodePower,"itemnote.name","string",sItemName);
-          DB.setValue(nodePower,"itemnote.text","formattedtext",sDesc);
-          DB.setValue(nodePower,"itemnote.locked","number",1);
-          local sThisID = nodePower.getPath():match("(%.powers%.id%-%d+)$");
-          local sNotePath = nodePower.getPath();
-          if (sThisID and sThisID ~= "") then
-            sNotePath = "..." .. sThisID;
-          end
-          DB.setValue(nodePower, "shortcut", "windowreference", "quicknote", sNotePath .. '.itemnote');
+          DB.setValue(nodePower,"name","string",sItemName);
+          DB.setValue(nodePower,"description","formattedtext",sDesc);
+          DB.setValue(nodePower,"locked","number",1);
         end
         return true;
       end

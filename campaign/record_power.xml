@@ -16,7 +16,7 @@
       <buttongroup_counter name="counter">
         <anchored position="insidetopleft" offset="25,0" />
         <maxslotperrow>5</maxslotperrow>
-                <gmeditonly />
+        <gmeditonly />
       </buttongroup_counter>
     </sheetdata>
   </windowclass>
@@ -498,6 +498,28 @@
         </anchored>
       </genericcontrol>
       <linkcontrol name="shortcut">
+        <script>
+          function onDrop(x, y, draginfo)
+            if draginfo.isType("shortcut") then
+              local nodeTarget = window.getDatabaseNode();
+              local nLocked = DB.getValue(nodeTarget,"locked",0);
+              local sClass, sRecord = draginfo.getShortcutData();
+              if (sClass == "quicknote" and nLocked == 0) then
+                local nodeSource = DB.findNode(sRecord);
+                if (nodeSource) then
+                  local sName = DB.getValue(nodeSource,"name","");
+                  local sText = DB.getValue(nodeSource,"text","");
+                  local nLocked = DB.getValue(nodeSource,"locked",0);
+                  DB.setValue(nodeTarget,"name","string",sName);
+                  DB.setValue(nodeTarget,"description","formattedtext",sText);
+                  DB.setValue(nodeTarget,"locked","number",1);
+                  return true;
+                end
+              end
+            end
+          end
+        </script>
+        
         <anchored to="rightanchor" width="20" height="20">
           <top />
           <right anchor="left" relation="relative" offset="-5" />
@@ -505,7 +527,7 @@
         <class>power</class>
         <readonly />
       </linkcontrol>
-      <link_npc_quicknotes name="quicknote" />      
+      <!-- <link_npc_quicknotes name="quicknote" />  -->     
       
       <button_idelete name="idelete">
         <anchored to="rightanchor">
@@ -1471,8 +1493,9 @@
         </anchored>
         <class>power</class>
         <readonly />
-                <invisible />
+        <invisible />
       </linkcontrol>
+      
       <button_idelete name="idelete">
         <anchored to="rightanchor">
           <top />
@@ -1562,8 +1585,8 @@
     </sizelimits>
     <sheetdata>
       <windowtitlebar name="title">
-          <prefix>power_import_window_title</prefix>
-          <resource>power_import_window_title</resource>
+        <prefix>power_import_window_title</prefix>
+        <resource>power_import_window_title</resource>
       </windowtitlebar>
       <anchor_title_charsheethelper name="contentanchor" />
       <anchor_left />
@@ -1614,8 +1637,8 @@
       </button_text_sm>
       <close>
         <anchored>
-            <top offset="24" />
-            <right offset="0" />
+          <top offset="24" />
+          <right offset="0" />
         </anchored>
       </close>
       <resize>
@@ -1635,9 +1658,9 @@
       <anchor_right />
       <stringu name="importtext">
         <anchored>
-            <top parent="columnanchor" anchor="bottom" relation="relative" offset="5" />
-            <left offset="15" />
-            <right offset="-10" />
+          <top parent="columnanchor" anchor="bottom" relation="relative" offset="5" />
+          <left offset="15" />
+          <right offset="-10" />
         </anchored>
         <multilinespacing>20</multilinespacing>
       </stringu>

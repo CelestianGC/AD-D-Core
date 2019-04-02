@@ -173,14 +173,6 @@
     <number_savescore />
   </template>
     
-  <template name="cycler_armortypes">
-    <button_stringcycler>
-      <parameters>
-        <labelsres>armor|shield|other</labelsres>
-                <values>armor|shield|other</values>
-      </parameters>
-    </button_stringcycler>
-  </template>
   <template name="button_item_templates">
     <button_text_sm>
       <anchored to="buttonanchor" width="80">

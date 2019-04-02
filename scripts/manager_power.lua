@@ -2461,6 +2461,7 @@ function removeMemorizedSpell(draginfo, node)
 -- Debug.console("manager_power.lua","removeMemorizedSpell","nodeSpell",nodeSpell);
 -- Debug.console("manager_power.lua","removeMemorizedSpell","nodeChar",nodeChar);
 
+
   local bSuccess = true;
   local bisNPC = (not ActorManager.isPC(nodeChar));
   --local sName = DB.getValue(nodeSpell, "name", "");
@@ -2483,7 +2484,8 @@ function removeMemorizedSpell(draginfo, node)
     if (nMemorized <= 0 and not bisNPC and not User.isHost()) then
       -- didnt have any more memorized copies of the spell to cast
       --bSuccess = false;
-      ChatManager.Message(Interface.getString("message_notmemorized"), true, ActorManager.getActor("pc", nodeChar));
+      local sChatText = string.format(Interface.getString("message_notmemorized"),DB.getValue(nodeChar,"name",""));
+      ChatManager.Message(sChatText, true, ActorManager.getActor("pc", nodeChar));
     end
     -- we make sure we have spell slots to remove here...
     if nMemorized >= 1 then
@@ -2507,11 +2509,7 @@ end
 function isArcaneSpellType(sSpellType)
   local bValid = false;
   
-  local aArcane = {};
-  aArcane[1] = "arcane";
-  aArcane[2] = "wizard";
-  
-  for _,sArcaneName in pairs(aArcane) do
+  for _,sArcaneName in pairs(DataCommonADND.arcaneSpellClasses) do
     if string.find(sSpellType:lower(),sArcaneName) then
       bValid = true;
       break;
@@ -2521,15 +2519,7 @@ function isArcaneSpellType(sSpellType)
 end
 function isDivineSpellType(sSpellType)
   local bValid = false;
-  local aDivine = {};
-  aDivine[1] = "divine";
-  aDivine[2] = "cleric";
-  aDivine[3] = "bard";
-  aDivine[4] = "druid";
-  aDivine[5] = "paladin";
-  aDivine[6] = "ranger";
-
-  for _,sDivineName in pairs(aDivine) do
+  for _,sDivineName in pairs(DataCommonADND.divineSpellClasses) do
     if string.find(sSpellType:lower(),sDivineName) then
       bValid = true;
       break;

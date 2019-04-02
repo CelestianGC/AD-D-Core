@@ -18,26 +18,22 @@ function isArmor(vRecord)
   
   local sTypeLower = StringManager.trim(DB.getValue(nodeItem, "type", "")):lower();
   local sSubtypeLower = StringManager.trim(DB.getValue(nodeItem, "subtype", "")):lower();
-    local sArmorTypeLower = StringManager.trim(DB.getValue(nodeItem, "armortype", "")):lower();
 
-  if (sTypeLower == "armor") then
+  if StringManager.contains(DataCommonADND.itemArmorTypes, sTypeLower) then
     bIsArmor = true;
   end
-    if (sArmorTypeLower == "armor") then
+  if StringManager.contains(DataCommonADND.itemArmorTypes, sSubtypeLower) then
     bIsArmor = true;
-    end
-    if isShield(vRecord) then
+  end
+  if isShield(vRecord) then
     bIsArmor = true;
-    end
-    if isProtectionOther(vRecord) then
+  end
+  if isProtectionOther(vRecord) then
     bIsArmor = true;
-    end
---Debug.console("manager_item2.lua","isArmor","bIsArmor",bIsArmor);
---Debug.console("manager_item2.lua","isArmor","sTypeLower",sTypeLower);
---Debug.console("manager_item2.lua","isArmor","sArmorTypeLower",sArmorTypeLower);
-  
+  end
   return bIsArmor, sTypeLower, sSubtypeLower;
 end
+
 function isShield(vRecord)
   local bIsArmor = false;
 
@@ -53,20 +49,16 @@ function isShield(vRecord)
   
   local sTypeLower = StringManager.trim(DB.getValue(nodeItem, "type", "")):lower();
   local sSubtypeLower = StringManager.trim(DB.getValue(nodeItem, "subtype", "")):lower();
-    local sArmorTypeLower = StringManager.trim(DB.getValue(nodeItem, "armortype", "")):lower();
-
-  if (sTypeLower == "shield") then
+  if StringManager.contains(DataCommonADND.itemShieldArmorTypes, sTypeLower) then
     bIsArmor = true;
   end
-    if (sArmorTypeLower == "shield") then
+  if StringManager.contains(DataCommonADND.itemShieldArmorTypes, sSubtypeLower) then
     bIsArmor = true;
-    end
-  
---Debug.console("manager_item2.lua","isShield","bIsArmor",bIsArmor);
---Debug.console("manager_item2.lua","isShield","sTypeLower",sTypeLower);
---Debug.console("manager_item2.lua","isShield","sArmorTypeLower",sArmorTypeLower);
+  end
   return bIsArmor, sTypeLower, sSubtypeLower;
 end
+
+
 function isProtectionOther(vRecord)
   local bIsArmor = false;
 
@@ -82,20 +74,16 @@ function isProtectionOther(vRecord)
   
   local sTypeLower = StringManager.trim(DB.getValue(nodeItem, "type", "")):lower();
   local sSubtypeLower = StringManager.trim(DB.getValue(nodeItem, "subtype", "")):lower();
-    local sArmorTypeLower = StringManager.trim(DB.getValue(nodeItem, "armortype", "")):lower();
 
-  if (sTypeLower == "ring" or sTypeLower == "cloak" or sTypeLower == "robe") then
+  if StringManager.contains(DataCommonADND.itemOtherArmorTypes, sTypeLower) then
     bIsArmor = true;
   end
-    if (sArmorTypeLower == "other") then
+  if StringManager.contains(DataCommonADND.itemOtherArmorTypes, sSubtypeLower) then
     bIsArmor = true;
-    end
---Debug.console("manager_item2.lua","isProtectionOther","bIsArmor",bIsArmor);
---Debug.console("manager_item2.lua","isProtectionOther","sTypeLower",sTypeLower);
---Debug.console("manager_item2.lua","isProtectionOther","sArmorTypeLower",sArmorTypeLower);
-  
+  end
   return bIsArmor, sTypeLower, sSubtypeLower;
 end
+
 function isWeapon(vRecord)
   local bIsWeapon = false;
 

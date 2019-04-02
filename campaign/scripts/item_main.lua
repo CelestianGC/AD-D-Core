@@ -114,15 +114,13 @@ function update()
   divider2.setVisible((bSection1 or bSection2) and bSection3);
   divider3.setVisible((bSection1 or bSection2 or bSection3) and bSection4);
     
-    header_armorclass.setVisible(bHost and not bReadOnly);
-    armor_base_label.setVisible(bHost and not bReadOnly);
-    armortype.setVisible(bHost and not bReadOnly);
-    armortype_top_label.setVisible(bHost and not bReadOnly);
-    acbase.setVisible(bHost and not bReadOnly);
-    acbase_top_label.setVisible(bHost and not bReadOnly);
-    label_armorplus.setVisible(bHost and not bReadOnly);
-    acbonus.setVisible(bHost and not bReadOnly);
-    acbonus_top_label.setVisible(bHost and not bReadOnly);
+  header_armor_and_modifier.setVisible(bHost and not bReadOnly);
+  --armor_base_label.setVisible(bHost and not bReadOnly);
+  --armortype.setVisible(bHost and not bReadOnly);
+  label_armor_base.setVisible(bHost and not bReadOnly);
+  acbase.setVisible(bHost and not bReadOnly);
+  label_bonus.setVisible(bHost and not bReadOnly);
+  bonus.setVisible(bHost and not bReadOnly);
     
     -- header_abilities.setVisible(bHost and not bReadOnly);
     -- item_iedit.setVisible(bHost and not bReadOnly);

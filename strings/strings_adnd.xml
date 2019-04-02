@@ -522,7 +522,7 @@
   <string name="turned">turned</string>
   <string name="unconscious">unconscious</string>
     
-  <string name="header_armorclass">Protection Features</string>
+  <string name="header_armor_and_modifier">Armor and Modifier</string>
   <string name="header_abilities">Ability Features</string>
   <string name="item_label_ac_type">Type</string>
   <string name="item_label_ability_type">Type</string>
@@ -558,8 +558,9 @@
   <string name="item_label_effects_string_tooltip">Effect string. i.e. "STR: +1;SAVE -1;"</string>
   <string name="item_label_ac_type_tooltip">Type: Armor, Shield, Other (ring,cloak,boots,other)</string>
   <string name="item_label_ac_armor">Protection</string>
-  <string name="item_label_ac_base">Base</string>
-  <string name="item_label_ac_bonus">Modifier</string>
+  <string name="item_label_ac_base">Base AC</string>
+  <string name="item_label_ac_base_tooltip">For items of type "Armor", base armor class applied when this item is used.</string>
+  <string name="item_label_bonus">Modifier</string>
   <string name="item_label_abilityfeature">Feature</string>
 
   <string name="header_dmonly">Dungeon Master Only</string>

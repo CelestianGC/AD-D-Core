@@ -284,7 +284,6 @@
       <script file="common/scripts/buttongroup_counter.lua" />
     </genericcontrol>
   </template>
-    
   <template name="button_power_import">
     <buttoncontrol insertbefore="filter_sharedonly">
       <anchored to="rightanchor" width="20" height="20">

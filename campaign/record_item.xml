@@ -159,84 +159,53 @@
       </number_columnh>
 
       
-      <header_column name="header_armorclass">
-        <static textres="header_armorclass" />
+      <header_column name="header_armor_and_modifier">
+        <static textres="header_armor_and_modifier" />
         <center />
       </header_column>
 
-            
-      <label name="armortype_top_label">
-        <anchored width="60" height="20">
-          <top parent="columnanchor" anchor="bottom" relation="relative" offset="0" />
-          <left offset="115" />
-        </anchored>
-        <static textres="item_label_ac_type" />
-                <tooltip textres="item_label_ac_type_tooltip" />
-      </label>
-
       <!-- armor base -->
-            <label name="armor_base_label">
-        <anchored width="60" height="20">
-          <top parent="columnanchor" anchor="bottom" relation="relative" offset="0" />
-          <left offset="5" />
-        </anchored>
-                <static textres="item_label_ac_armor" />
-            </label>
-            <!-- type of armor -->
-      <cycler_armortypes name="armortype">
-        <anchored to="armor_base_label" position="righthigh" offset="35,0" width="60"  height="20"/>
-                <gmeditonly />
-      </cycler_armortypes>
-
-            <!-- armor base -->
-      <basicnumber name="acbase" source="ac">
-        <anchored to="armortype" position="righthigh" offset="15,0" width="40"  height="20"/>
+      
+      <label_column name="label_armor_base">
+        <static textres="item_label_ac_base" />
+        <tooltip textres="item_label_ac_base_tooltip" />
+      </label_column>
+      
+      <number_columnh name="acbase" source="ac">
         <gmeditonly />
         <default>10</default>
         <gmeditonly />
-      </basicnumber>
+      </number_columnh>
 
-      <label name="acbase_top_label">
-        <anchored to="armortype_top_label" position="righthigh" width="60" height="20" offset="5"/>
-        <static textres="item_label_ac_base" />
-      </label>
-            
-      <label name="label_armorplus">
-        <anchored to="acbase" position="righthigh" offset="5,0" width="10" />
-        <static>+</static>
-        <center />
-      </label>
-      <!-- armor bonus -->
-      <basicnumber name="acbonus" source="bonus">
-                <anchored to="label_armorplus" position="righthigh" offset="5,0" height="20" width="40" />
+      <label_column name="label_bonus">
+        <static textres="item_label_bonus" />
+      </label_column>
+      
+      <!-- bonus -->
+      <number_columnh name="bonus">
+        <default>0</default>
+        <hideonvalue>0</hideonvalue>
+        <displaysign />
         <gmeditonly />
-                <default>0</default>
-                <hideonvalue>0</hideonvalue>
-                <displaysign />
-                <gmeditonly />
-      </basicnumber>
-      <label name="acbonus_top_label">
-        <anchored to="acbase_top_label" position="righthigh"  width="60" height="20" offset="-10" />
-        <static textres="item_label_ac_bonus" />
-      </label>
-
-            <!-- effects -->
+      </number_columnh>
+      
+      <!-- effects -->
       <subwindow name="advanced_effects_contents">
         <anchored>
           <top parent="columnanchor" anchor="bottom" relation="relative" offset="0" />
           <left offset="5" />
-                    <right offset="5" />
+          <right offset="5" />
         </anchored>
         <class>advanced_effects_subwindow</class>
         <activate />
         <fastinit />
-                <invisible />
+        <invisible />
       </subwindow>
-            <!-- end advanced effects entry -->
+      <!-- end advanced effects entry -->
             
       <line_column name="divider3" />
 
-            <label_column name="properties_label">
+      <label_column name="properties_label">
         <static textres="item_label_properties" />
       </label_column>
       <string_columnh name="properties">

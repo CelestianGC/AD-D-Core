@@ -78,10 +78,10 @@
     
     -- these class get con bonus to hp
     fighterTypes = {
-        "fighter",
-        "ranger",
-        "paladin",
-        "barbarian",        
+      "fighter",
+      "ranger",
+      "paladin",
+      "barbarian",        
     };
     
 --
@@ -139,6 +139,34 @@ itemRarity = {
   "Very Rare",
   "Unique",
   "Other"
+}
+
+itemArmorTypes = {
+  "armor",
+}
+itemShieldArmorTypes = {
+  "shield",
+}
+itemOtherArmorTypes = {
+  "ring",
+  "cloak",
+  "robe"
+}
+
+arcaneSpellClasses = {
+  "arcane",
+  "wizard",
+  "bard",
+  "sorcerer",
+  "mage",
+  "magic-user",
+}
+divineSpellClasses = {
+  "divine",
+  "cleric",
+  "druid",
+  "paladin",
+  "ranger",
 }
 
 function onInit()
