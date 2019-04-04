@@ -38,12 +38,13 @@
           local sClass, sRecord = draginfo.getShortcutData();
           if (sClass == "encounter") then
             local nodeTarget = getDatabaseNode();
-            local bLocked = (DB.getValue(nodeNPC,"locked",0) == 1);
+            local bLocked = (DB.getValue(nodeTarget,"locked",0) == 1);
             if not bLocked and Input.isControlPressed() then
               local nodeSource = draginfo.getDatabaseNode();
               local sText = DB.getValue(nodeSource,"text");
+              local sCurrentText = DB.getValue(nodeTarget,"text");
               if sText then
-                DB.setValue(nodeTarget,"text","formattedtext",sText);
+                DB.setValue(nodeTarget,"text","formattedtext",sCurrentText .. sText);
               end
             end
           end
@@ -159,6 +160,7 @@
       end
       function update()
         local bReadOnly = WindowManager.getReadOnlyState(getDatabaseNode());
+        skill.update(bReadOnly);
         languages.update(bReadOnly);
         features.update(bReadOnly);
       end
@@ -166,11 +168,11 @@
     <sheetdata>
       <anchor_column name="columnanchor" />
       
-<!--       <label_column name="skill_label">
-        <static textres="background_label_skills" />
-      </label_column>
-      <string_columnh name="skill" />
- -->      
+			<label_column name="skill_label">
+				<static textres="background_label_skills" />
+			</label_column>
+			<string_columnh name="skill" />
+			
       <label_column name="languages_label">
         <static textres="background_label_languages" />
       </label_column>
@@ -282,12 +284,13 @@
           local sClass, sRecord = draginfo.getShortcutData();
           if (sClass == "encounter") then
             local nodeTarget = getDatabaseNode();
-            local bLocked = (DB.getValue(nodeNPC,"locked",0) == 1);
+            local bLocked = (DB.getValue(nodeTarget,"locked",0) == 1);
             if not bLocked and Input.isControlPressed() then
               local nodeSource = draginfo.getDatabaseNode();
               local sText = DB.getValue(nodeSource,"text");
+              local sCurrentText = DB.getValue(nodeTarget,"text");
               if sText then
-                DB.setValue(nodeTarget,"text","formattedtext",sText);
+                DB.setValue(nodeTarget,"text","formattedtext",sCurrentText .. sText);
               end
             end
           end

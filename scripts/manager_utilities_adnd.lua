@@ -21,3 +21,20 @@ function replaceWindow(oldWindow, sClass, sNodePath)
   wNew.setPosition(x,y);
   wNew.setSize(w,h);
 end 
+
+-- check all modules loaded and local records
+-- for skill with name of sSkillName 
+function findSkillRecord(sSkillName)
+  local nodeFound = nil;
+  for _,nodeSkill in pairs(DB.getChildrenGlobal("skill")) do
+    local sName = DB.getValue(nodeSkill,"name");
+    sName = sName:gsub("%[%d+%]",""); -- remove bracket cost 'Endurance[2]' and just get name clean.
+    sName = StringManager.trim(sName);
+    
+    if (sName:lower() == sSkillName:lower()) then
+      nodeFound = nodeSkill;
+      break;
+    end
+  end
+  return nodeFound;
+end

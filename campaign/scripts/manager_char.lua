@@ -1243,12 +1243,14 @@ function onRaceAbilitySelect(aSelection, nodeChar)
   end
 end
 
--- function onClassSkillSelect(aSelection, rSkillAdd)
-  -- -- For each selected skill, add it to the character
-  -- for _,sSkill in ipairs(aSelection) do
-    -- addSkillDB(rSkillAdd.nodeChar, sSkill, rSkillAdd.nProf or 1);
-  -- end
--- end
+function onClassSkillSelect(aSelection, rSkillAdd)
+  -- For each selected skill, add it to the character
+  for _,sSkill in ipairs(aSelection) do
+    -- see if we can find a matching name of the skill in our records
+    local nodeSource = UtilityManagerADND.findSkillRecord(sSkill);
+    addSkillDB(rSkillAdd.nodeChar, sSkill, nodeSource)
+  end
+end
 
 
 function addProficiencyDB(nodeChar, sType, sText, nodeSource)
@@ -1300,6 +1302,10 @@ function addProficiencyDB(nodeChar, sType, sText, nodeSource)
 end
 
 function addSkillDB(nodeChar, sSkill, nodeSource)
+-- Debug.console("manager_char.lua","addSkillDB","nodeChar",nodeChar);    
+-- Debug.console("manager_char.lua","addSkillDB","sSkill",sSkill);    
+-- Debug.console("manager_char.lua","addSkillDB","nodeSource",nodeSource);    
+
   -- Get the list we are going to add to
   local nodeList = nodeChar.createChild("skilllist");
   if not nodeList then
@@ -1730,22 +1736,23 @@ function parseSkillsFromString(sSkills)
   return aSkills;
 end
 
--- function pickSkills(nodeChar, aSkills, nPicks, nProf)
-  -- -- Add links (if we can find them)
-  -- for k,v in ipairs(aSkills) do
-    -- local rSkillData = DataCommon.skilldata[v];
-    -- if rSkillData then
-      -- aSkills[k] = { text = v, linkclass = "reference_skill", linkrecord = "reference.skilldata." .. rSkillData.lookup .. "@*" };
-    -- end
-  -- end
+-- tweak this to deal with new skill system? ---celestian
+function pickSkills(nodeChar, aSkills, nPicks, nProf)
+  -- Add links (if we can find them)
+  for k,v in ipairs(aSkills) do
+    local rSkillData = DataCommon.skilldata[v];
+    if rSkillData then
+      aSkills[k] = { text = v, linkclass = "reference_skill", linkrecord = "reference.skilldata." .. rSkillData.lookup .. "@*" };
+    end
+  end
   
-  -- -- Display dialog to choose skill selection
-  -- local rSkillAdd = { nodeChar = nodeChar, nProf = nProf };
-  -- local wSelect = Interface.openWindow("select_dialog", "");
-  -- local sTitle = Interface.getString("char_build_title_selectskills");
-  -- local sMessage = string.format(Interface.getString("char_build_message_selectskills"), nPicks);
-  -- wSelect.requestSelection (sTitle, sMessage, aSkills, CharManager.onClassSkillSelect, rSkillAdd, nPicks);
--- end
+  -- Display dialog to choose skill selection
+  local rSkillAdd = { nodeChar = nodeChar, nProf = nProf };
+  local wSelect = Interface.openWindow("select_dialog", "");
+  local sTitle = Interface.getString("char_build_title_selectskills");
+  local sMessage = string.format(Interface.getString("char_build_message_selectskills"), nPicks);
+  wSelect.requestSelection (sTitle, sMessage, aSkills, CharManager.onClassSkillSelect, rSkillAdd, nPicks);
+end
 
 -- function checkSkillProficiencies(nodeChar, sText)
   -- -- Elf - Keen Senses - PHB
@@ -1933,7 +1940,8 @@ function addBackgroundRef(nodeChar, sClass, sRecord)
     local aPickSkills = {};
     if sSkills:match("Choose %w+ from among ") then
       local sPicks, sPickSkills = sSkills:match("Choose (%w+) from among (.*)");
-      sPickSkills = sPickSkills:gsub("and ", "");
+      sPickSkills = sPickSkills:gsub("and ", ",");
+      sPickSkills = sPickSkills:gsub("or ", ",");
 
       sSkills = "";
       nPicks = convertSingleNumberTextToNumber(sPicks);
@@ -1945,7 +1953,9 @@ function addBackgroundRef(nodeChar, sClass, sRecord)
       end
     elseif sSkills:match("plus one from among") then
       local sPickSkills = sSkills:match("plus one from among (.*)");
-      sPickSkills = sPickSkills:gsub("and ", "");
+      sPickSkills = sPickSkills:gsub("and ", ",");
+      sPickSkills = sPickSkills:gsub("or ", ",");
+      
       sPickSkills = sPickSkills:gsub(", as appropriate for your order", "");
       
       sSkills = sSkills:gsub("plus one from among (.*)", "");
@@ -1957,9 +1967,10 @@ function addBackgroundRef(nodeChar, sClass, sRecord)
           table.insert(aPickSkills, sTrim);
         end
       end
-    elseif sSkills:match("plus your choice of one from among") then
+    elseif sSkills:match("plus your choice of one from  ") then
       local sPickSkills = sSkills:match("plus your choice of one from among (.*)");
-      sPickSkills = sPickSkills:gsub("and ", "");
+      sPickSkills = sPickSkills:gsub("and ", ",");
+      sPickSkills = sPickSkills:gsub("or ", ",");
       
       sSkills = sSkills:gsub("plus your choice of one from among (.*)", "");
       
