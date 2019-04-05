@@ -249,6 +249,7 @@
   <windowclass name="skill_item">
     <margins control="0,0,0,2" />
     <script file="campaign/scripts/char_skill.lua" />
+    
     <sheetdata>
             <!-- anchor! -->
       <genericcontrol name="rightanchor">
