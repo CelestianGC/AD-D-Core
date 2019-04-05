@@ -576,12 +576,11 @@ function onDrop(x, y, draginfo)
     
     -- Control+Drag/Drop of another NPC on this NPC will replace that NPC's contents
     -- with the one you've dropped.
-    if (sClass == "npc") then
-      local nodeNPC = getDatabaseNode();
-      local bLocked = (DB.getValue(nodeNPC,"locked",0) == 1);
-      
-      if not bLocked and Input.isControlPressed() then
-        local nodeSource = draginfo.getDatabaseNode();
+    local nodeNPC = getDatabaseNode();
+    local bLocked = (DB.getValue(nodeNPC,"locked",0) == 1);
+    local nodeSource = draginfo.getDatabaseNode();
+    if not bLocked and Input.isControlPressed() and nodeSource then
+      if (sClass == "npc") then
         Debug.console("npc_main.lua","onDrop","Replacing contents of :",nodeNPC, "with :",nodeSource);
         DB.deleteChild(nodeNPC,"weaponlist");
         DB.deleteChild(nodeNPC,"powers");
@@ -592,8 +591,16 @@ function onDrop(x, y, draginfo)
         DB.deleteChild(nodeNPC,"saves");
         DB.copyNode(nodeSource,nodeNPC);
         UtilityManagerADND.replaceWindow(self.parentcontrol.window, "npc", nodeNPC.getPath());
-      end -- not locked
-    end -- was npc class
+      -- end was npc
+      -- if story append text into our description
+      elseif (sClass == "encounter") then
+        local sText = DB.getValue(nodeSource,"text");
+        local sCurrentText = DB.getValue(nodeNPC,"text");
+        if sText then
+          DB.setValue(nodeNPC,"text","formattedtext",sCurrentText .. sText);
+        end
+      end -- encounter
+    end -- wasn't locked
   end -- was shortcut
 end
 

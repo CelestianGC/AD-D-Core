@@ -162,14 +162,13 @@ function onDrop(x, y, draginfo)
   if draginfo.isType("shortcut") then
     local sClass, sRecord = draginfo.getShortcutData();
     
-    -- Control+Drag/Drop of another NPC on this NPC will replace that NPC's contents
+    -- Control+Drag/Drop of another ITEM on this ITEM will replace that ITEM's contents
     -- with the one you've dropped.
-    if (sClass == "item") then
-      local nodeItem = getDatabaseNode();
-      local bLocked = (DB.getValue(nodeItem,"locked",0) == 1);
-      
-      if not bLocked and Input.isControlPressed() then
-        local nodeSource = draginfo.getDatabaseNode();
+    local nodeItem = getDatabaseNode();
+    local bLocked = (DB.getValue(nodeItem,"locked",0) == 1);
+    local nodeSource = draginfo.getDatabaseNode();
+    if not bLocked and Input.isControlPressed() and nodeSource then
+      if (sClass == "item") then
         Debug.console("item_main.lua","onDrop","Replacing contents of :",nodeItem, "with :",nodeSource);
         DB.deleteChild(nodeItem,"weaponlist");
         DB.deleteChild(nodeItem,"powers");
@@ -178,7 +177,14 @@ function onDrop(x, y, draginfo)
         DB.deleteChild(nodeItem,"powermeta");
         DB.copyNode(nodeSource,nodeItem);
         UtilityManagerADND.replaceWindow(self.parentcontrol.window, "item", nodeItem.getPath());
-      end -- not locked
-    end -- was item class
+        -- end was item
+      elseif (sClass == "encounter") then
+        local sText = DB.getValue(nodeSource,"text");
+        local sCurrentText = DB.getValue(nodeItem,"description");
+        if sText then
+          DB.setValue(nodeItem,"description","formattedtext",sCurrentText .. sText);
+        end
+      end -- encounter
+    end -- not locked
   end -- was shortcut
 end

@@ -1391,7 +1391,7 @@ function addClassFeatureDB(nodeChar, sClass, sRecord, nodeClass)
   
   -- Special handling
   -- parse out choices of profs
-  if sOriginalNameLower:match("weapon specialization") then
+  if sOriginalNameLower:match("weapon specialization") or sOriginalNameLower:match("weapon proficiency") then
   -- there is no reason to function for single entry, those can be added
   -- in skills tab. Only need to know if they get a "choose" type list
     local sText = DB.getText(nodeSource, "text");
@@ -1400,9 +1400,14 @@ function addClassFeatureDB(nodeChar, sClass, sRecord, nodeClass)
       local sChoices, sWeapons = sText:match("Choose (%d+) from ([^$]+)");
       local numChoices = tonumber(sChoices) or 0;
       sWeapons = sWeapons:gsub("or ",","); -- replace or's with commas
+      sWeapons = sWeapons:gsub("and ",","); -- replace and's with commas
       sWeapons = sWeapons:gsub("%.",""); -- replace . with nothing
       local aWeapons = StringManager.split(sWeapons, ",", true);
-      pickWeaponProfs(nodeChar,aWeapons,numChoices);
+      if sOriginalNameLower:match("weapon specialization") then 
+        pickWeaponProfs(nodeChar,aWeapons,numChoices,sText,true,0);
+      else
+        pickWeaponProfs(nodeChar,aWeapons,numChoices,sText,false,0);
+      end
     else
 --Debug.console("manager_char","addClassFeatureDB","NOT FOUND",sText);          
     end
@@ -1417,20 +1422,20 @@ function addClassFeatureDB(nodeChar, sClass, sRecord, nodeClass)
 end
 
 -- Give the option to select a weapon proficiency
-function pickWeaponProfs(nodeChar, aWeapons, nPicks, nProf)
+function pickWeaponProfs(nodeChar, aWeapons, nPicks, sText, bSpecialize, nProf)
   -- Display dialog to choose skill selection
-  local rWeaponAdd = { nodeChar = nodeChar, nProf = nProf };
+  local rWeaponAdd = { nodeChar = nodeChar, sText = sText, bSpecialize = bSpecialize, nProf = nProf };
 --Debug.console("manager_char","pickWeaponProfs","rWeaponAdd",rWeaponAdd);  
   local wSelect = Interface.openWindow("select_dialog", "");
   local sTitle = Interface.getString("char_build_title_selectskills");
   local sMessage = string.format(Interface.getString("char_build_message_selectskills"), nPicks);
-  wSelect.requestSelection (sTitle, sMessage, aWeapons, CharManager.onWeaponSpecializationSelect, rWeaponAdd, nPicks);
+  wSelect.requestSelection (sTitle, sMessage, aWeapons, CharManager.onWeaponProfSelect, rWeaponAdd, nPicks);
 end
 
 -- Runtime Notice: s'manager_char' | s'onWeaponSpecializationSelect' | s'aSelection' | { #1 = s'Short Sword' }
 -- Runtime Notice: s'manager_char' | s'onWeaponSpecializationSelect' | s'nodeChar' | { s'nodeChar' = databasenode = { charsheet.id-00002 } }
 -- process a weapon selection
-function onWeaponSpecializationSelect(aSelection, rWeaponAdd)
+function onWeaponProfSelect(aSelection, rWeaponAdd)
   local nodeChar = rWeaponAdd.nodeChar;
 --Debug.console("manager_char","onWeaponSpecializationSelect","aSelection",aSelection);
 --Debug.console("manager_char","onWeaponSpecializationSelect","nodeChar",nodeChar);
@@ -1442,16 +1447,18 @@ function onWeaponSpecializationSelect(aSelection, rWeaponAdd)
   -- with how I do it right now --celestian
     local nodeEntry = nodeList.createChild();
     DB.setValue(nodeEntry,"name","string",sProfName);
-    DB.setValue(nodeEntry,"text","string","");
+    DB.setValue(nodeEntry,"text","formattedtext",rWeaponAdd.sText);
     -- default specialization is +1 hit, +2 damage
-    local nHit = 1;
-    local nDMG = 2;
+    if rWeaponAdd.bSpecialize then
+      local nHit = 1;
+      local nDMG = 2;
+      -- -- if bow tweak damage?
+      -- if sNameLower:match("bow") then
+      -- end
+      DB.setValue(nodeEntry,"hitadj","number",nHit);
+      DB.setValue(nodeEntry,"dmgadj","number",nDMG);
+    end
     local sNameLower = sProfName:lower();
-    -- -- if bow tweak damage?
-    -- if sNameLower:match("bow") then
-    -- end
-    DB.setValue(nodeEntry,"hitadj","number",nHit);
-    DB.setValue(nodeEntry,"dmgadj","number",nDMG);
     -- Announce
     outputUserMessage("char_abilities_message_profadd", DB.getValue(nodeEntry, "name", ""), DB.getValue(nodeChar, "name", ""));
   end
@@ -2020,6 +2027,7 @@ function addBackgroundRef(nodeChar, sClass, sRecord)
   addPowerAbilities(nodeSource,nodeChar);
   addProficiencySlots(nodeSource,nodeChar);
   addWeaponProficiencies(nodeSource,nodeChar);
+  addEffectFeature(nodeSource.getChild("effectlist"),nodeChar);
 end
 
 -- add weapon profs

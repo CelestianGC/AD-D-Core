@@ -241,6 +241,21 @@
         <datasource>.features</datasource>
         <class>ref_background_feature</class>
       </list_column>
+
+      <!-- effects -->
+      <subwindow name="advanced_effects_contents">
+        <anchored>
+          <top parent="columnanchor" anchor="bottom" relation="relative" offset="0" />
+          <left offset="5" />
+          <right offset="5" />
+        </anchored>
+        <class>advanced_effects_subwindow</class>
+        <activate />
+        <fastinit />
+        <invisible />
+      </subwindow>
+      <!-- end advanced effects entry -->
+      
     </sheetdata>
   </windowclass>
 
