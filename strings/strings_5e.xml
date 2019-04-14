@@ -362,7 +362,8 @@
   <string name="char_abilities_message_classadd">One level of class '%s' added to '%s'.</string>
   <string name="char_abilities_message_raceadd">Race '%s' added to '%s'.</string>
   <string name="char_abilities_message_backgroundadd">Background '%s' added to '%s'.</string>
-
+  <string name="char_abilities_message_abilityadd">Ability adjustment '%s %+d' applied to '%s'.</string>
+  
   <string name="char_abilities_message_hpaddmax">Maximum hit points for first %s level added to '%s'.</string>
   <string name="char_abilities_message_hpaddavg">Average hit points for additional %s level added to '%s'.</string>
   <string name="char_abilities_message_hpaddtrait">Hit points for trait '%s' added to '%s'.</string>
@@ -824,7 +825,7 @@
   <string name="library_recordtype_empty_classadvancement">&#171; New Class Advancement &#187;</string>
 
     <!-- group list record buttons -->
-     <string name="item_button_templates">Templates</string>
+  <string name="item_button_templates">Templates</string>
   <string name="item_button_weapons">Weapons</string>
   <string name="item_button_armor">Armor</string>
   <string name="npc_button_letter">By Letter</string>

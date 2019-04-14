@@ -38,3 +38,65 @@ function findSkillRecord(sSkillName)
   end
   return nodeFound;
 end
+
+--
+-- Control+Drag/Drop story or ref-manual link, capture text and append that text
+-- into the target record
+--
+function onDropStory(x, y, draginfo, nodeTarget, sTargetValueName)
+  
+  -- this is the value we're placing the text into on the target node
+  if not sTargetValueName then
+    sTargetValueName = 'text';
+  end
+  
+  if not nodeTarget then
+    return false;
+  end
+  
+  --Debug.console("manager_utilities_adnd.lua","onDropStory","nodeTarget",nodeTarget);
+  
+  if draginfo.isType("shortcut") then
+    --local nodeTarget = getDatabaseNode();
+    local bLocked = (DB.getValue(nodeTarget,"locked",0) == 1);
+    
+    -- if record not locked and control pressed
+    if not bLocked and Input.isControlPressed() then
+      local nodeSource = draginfo.getDatabaseNode();
+      local sClass, sRecord = draginfo.getShortcutData();
+      -- if ref-manual page
+      if (sClass == 'referencemanualpage') then
+        local nodeRefMan = DB.findNode(sRecord);
+        local sText = '';
+        -- flip through blocks
+        -- we need to story the blocks so we get them in the right order
+        local aNodeBlocks = UtilityManager.getSortedTable(DB.getChildren(nodeRefMan, "blocks"));
+        for _,nodeBlock in ipairs(aNodeBlocks) do
+          local sBlockType = DB.getValue(nodeBlock,"blocktype","");
+          -- if the block is text append value in it to our text
+          if sBlockType == 'singletext' then
+            local sBlockText = DB.getValue(nodeBlock,"text","");
+            sText = sText .. sBlockText;
+          end
+        end
+        -- grab current text in target
+        local sCurrentText = DB.getValue(nodeTarget,sTargetValueName);
+        -- append target current text and source text together
+        if sText then
+          DB.setValue(nodeTarget,sTargetValueName,"formattedtext",sCurrentText .. sText);
+        end
+      -- if encounter/story entry
+      elseif (sClass == "encounter") then
+        -- grab text from source
+        local sText = DB.getValue(nodeSource,"text");
+        -- grab current text in target
+        local sCurrentText = DB.getValue(nodeTarget,sTargetValueName);
+        -- append target current text and source text together
+        if sText then
+          DB.setValue(nodeTarget,sTargetValueName,"formattedtext",sCurrentText .. sText);
+        end
+      end
+    end
+  end
+end
+

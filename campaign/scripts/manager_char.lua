@@ -778,7 +778,7 @@ function addToWeaponDB(nodeItem)
             end
         end
 
-        if bRanged then
+	if bRanged and not bThrown then
             local nodeWeapon = nodeWeapons.createChild();
             if nodeWeapon then
               DB.setValue(nodeWeapon, "isidentified", "number", nItemID);
@@ -1164,18 +1164,15 @@ function addClassProficiencyDB(nodeChar, sClass, sRecord)
       local sText = DB.getText(nodeSource, "name"); -- get name name of the weapon prof
       addProficiencyDB(nodeChar, sType, sText, nodeSource);
   -- Saving Throw Proficiencies
-  elseif sType == "savingthrows" then
-    local sText = DB.getText(nodeSource, "text");
-    for sProf in string.gmatch(sText, "(%a[%a%s]+)%,?") do
-      local sProfLower = StringManager.trim(sProf:lower());
-      if StringManager.contains(DataCommon.abilities, sProfLower) then
-        DB.setValue(nodeChar, "abilities." .. sProfLower .. ".saveprof", "number", 1);
-        
-        local sFormat = Interface.getString("char_abilities_message_saveadd");
-        local sMsg = string.format(sFormat, sProf, DB.getValue(nodeChar, "name", ""));
-        ChatManager.SystemMessage(sMsg);
-      end
-    end
+  -- elseif sType == "savingthrows" then
+    -- local sText = DB.getText(nodeSource, "text");
+    -- for sProf in string.gmatch(sText, "(%a[%a%s]+)%,?") do
+      -- local sProfLower = StringManager.trim(sProf:lower());
+      -- if StringManager.contains(DataCommon.abilities, sProfLower) then
+        -- DB.setValue(nodeChar, "abilities." .. sProfLower .. ".saveprof", "number", 1);
+        -- outputUserMessage("char_abilities_message_saveadd", sProf, DB.getValue(nodeChar, "name", ""));
+      -- end
+    -- end
 
   -- Skill Proficiencies
   elseif sType == "skills" then
@@ -1241,6 +1238,22 @@ function onRaceAbilitySelect(aSelection, nodeChar)
       DB.setValue(nodeChar, sPath, "number", DB.getValue(nodeChar, sPath, 9) + 1);
     end
   end
+end
+
+function addAbilityAdjustment(nodeChar, sAbility, nAdj, nAbilityMax)
+	local k = sAbility:lower();
+	if StringManager.contains(DataCommon.abilities, k) then
+		local sPath = "abilities." .. k .. ".base";
+		local nCurrent = DB.getValue(nodeChar, sPath, 10);
+		local nNewScore = nCurrent + nAdj;
+		if nAbilityMax then
+			nNewScore = math.max(math.min(nNewScore, nAbilityMax), nCurrent);
+		end
+		if nNewScore ~= nCurrent then
+			DB.setValue(nodeChar, sPath, "number", nNewScore);
+			outputUserMessage("char_abilities_message_abilityadd", StringManager.capitalize(k), nNewScore - nCurrent, DB.getValue(nodeChar, "name", ""));
+		end
+	end
 end
 
 function onClassSkillSelect(aSelection, rSkillAdd)
@@ -1311,7 +1324,6 @@ function addSkillDB(nodeChar, sSkill, nodeSource)
   if not nodeList then
     return nil;
   end
-
   -- Make sure this item does not already exist
   local nodeSkill = nil;
   for _,vSkill in pairs(nodeList.getChildren()) do
@@ -1320,7 +1332,6 @@ function addSkillDB(nodeChar, sSkill, nodeSource)
       break;
     end
   end
-
   -- Add the item
   if not nodeSkill then
     nodeSkill = nodeList.createChild();
@@ -1334,13 +1345,6 @@ function addSkillDB(nodeChar, sSkill, nodeSource)
       DB.setValue(nodeSkill, "base_check", "number",nBaseCheck);
     end
   end
-  -- if nProficient then
-    -- if nProficient and type(nProficient) ~= "number" then
-      -- nProficient = 1;
-    -- end
-    -- DB.setValue(nodeSkill, "prof", "number", nProficient);
-  -- end
-
 	-- Announce
 	outputUserMessage("char_abilities_message_skilladd", DB.getValue(nodeSkill, "name", ""), DB.getValue(nodeChar, "name", ""));
 	return nodeSkill;
@@ -1391,7 +1395,22 @@ function addClassFeatureDB(nodeChar, sClass, sRecord, nodeClass)
   
   -- Special handling
   -- parse out choices of profs
-  if sOriginalNameLower:match("weapon specialization") or sOriginalNameLower:match("weapon proficiency") then
+      
+  if sOriginalNameLower:match("non%-weapon proficiency") then
+    local sText = DB.getText(nodeSource, "text");
+    local sPicks, sPickSkills = sText:match("Choose (%w+) from among ([^$%.]+)");
+    sPickSkills = sPickSkills:gsub("and ", ",");
+    sPickSkills = sPickSkills:gsub("or ", ",");
+    local aPickSkills = StringManager.split(sPickSkills, ",", true);
+    -- for nI,sPickSkill in pairs(aPickSkills) do
+      -- aPickSkills[nI] = StringManager.trim(sPickSkill);
+    -- end
+    nPicks = convertSingleNumberTextToNumber(sPicks);
+    if nPicks > 0 then
+      pickSkills(nodeChar, aPickSkills, nPicks);
+    end
+      
+  elseif sOriginalNameLower:match("weapon specialization") or sOriginalNameLower:match("weapon proficiency") then
   -- there is no reason to function for single entry, those can be added
   -- in skills tab. Only need to know if they get a "choose" type list
     local sText = DB.getText(nodeSource, "text");
@@ -1411,7 +1430,9 @@ function addClassFeatureDB(nodeChar, sClass, sRecord, nodeClass)
     else
 --Debug.console("manager_char","addClassFeatureDB","NOT FOUND",sText);          
     end
-  end
+    
+  end  
+  
   
   -- Announce
   local sFormat = Interface.getString("char_abilities_message_featureadd");
@@ -1489,6 +1510,22 @@ function addTraitDB(nodeChar, sClass, sRecord)
         DB.setValue(nodeChar, sPath, "number", DB.getValue(nodeChar, sPath, 9) + 1);
         bApplied = true;
       end
+		elseif sAdjust:match("the following abilites will increase by (%d+) ([^$%.]+)") then
+      local aIncreases = {};
+      local sIncrease, sAbilities = sAdjust:match("the following abilites will increase by (%d+) ([^$%.]+)");
+      sAbilities = sAbilities:gsub("and ",","); -- replace and's with commas
+      local aAbilities = StringManager.split(sAbilities, ",", true);
+      if #aAbilities > 0 then
+        local nIncrease = tonumber(sIncrease) or 0;
+        for _,sAbilityName in pairs(aAbilities) do
+          sAbilityName = StringManager.trim(sAbilityName);
+          aIncreases[sAbilityName] = nIncrease;
+        end
+      end
+      for k,v in pairs(aIncreases) do
+       addAbilityAdjustment(nodeChar, k, v);
+       bApplied = true;
+      end
     else
       local aIncreases = {};
       
@@ -1510,11 +1547,8 @@ function addTraitDB(nodeChar, sClass, sRecord)
       end
       
       for k,v in pairs(aIncreases) do
-        if StringManager.contains(DataCommon.abilities, k) then
-          local sPath = "abilities." .. k .. ".base";
-          DB.setValue(nodeChar, sPath, "number", DB.getValue(nodeChar, sPath, 9) + v);
-          bApplied = true;
-        end
+        addAbilityAdjustment(nodeChar, k, v);
+        bApplied = true;
       end
       
       if sAdjust:match("two other ability scores of your choice increase") or 
@@ -1649,7 +1683,7 @@ function addTraitDB(nodeChar, sClass, sRecord)
     local bApplied = false;
     local sText = DB.getText(nodeSource, "text");
     --local sLanguages = sText:match("You can speak, read, and write ([^.]+)");
-    local sLanguages = sText:match("You can speak ([^.]+)");
+    local sLanguages = sText:match("You can speak ([^$%.]+)");
     -- if not sLanguages then
       -- sLanguages = sText:match("You can read and write ([^.]+)");
     -- end
@@ -1958,14 +1992,15 @@ function addBackgroundRef(nodeChar, sClass, sRecord)
         local sTrim = StringManager.trim(sSkill);
         table.insert(aPickSkills, sTrim);
       end
-    elseif sSkills:match("plus one from among") then
-      local sPickSkills = sSkills:match("plus one from among (.*)");
+    elseif sSkills:match("plus %w+ from among ") then
+      local sPicks, sPickSkills = sSkills:match("plus (%w+) from among (.*)");
       sPickSkills = sPickSkills:gsub("and ", ",");
       sPickSkills = sPickSkills:gsub("or ", ",");
       
       sPickSkills = sPickSkills:gsub(", as appropriate for your order", "");
       
       sSkills = sSkills:gsub("plus one from among (.*)", "");
+      nPicks = convertSingleNumberTextToNumber(sPicks);
       
       nPicks = 1;
       for sSkill in string.gmatch(sPickSkills, "(%a[%a%s]+)%,?") do
@@ -1974,7 +2009,7 @@ function addBackgroundRef(nodeChar, sClass, sRecord)
           table.insert(aPickSkills, sTrim);
         end
       end
-    elseif sSkills:match("plus your choice of one from  ") then
+    elseif sSkills:match("plus your choice of one from among") then
       local sPickSkills = sSkills:match("plus your choice of one from among (.*)");
       sPickSkills = sPickSkills:gsub("and ", ",");
       sPickSkills = sPickSkills:gsub("or ", ",");
@@ -1988,16 +2023,16 @@ function addBackgroundRef(nodeChar, sClass, sRecord)
           table.insert(aPickSkills, sTrim);
         end
       end
-    elseif sSkills:match("and one Intelligence, Wisdom, or Charisma skill of your choice, as appropriate to your faction") then
-      sSkills = sSkills:gsub("and one Intelligence, Wisdom, or Charisma skill of your choice, as appropriate to your faction", "");
+    -- elseif sSkills:match("and one Intelligence, Wisdom, or Charisma skill of your choice, as appropriate to your faction") then
+      -- sSkills = sSkills:gsub("and one Intelligence, Wisdom, or Charisma skill of your choice, as appropriate to your faction", "");
       
-      nPicks = 1;
-      for k,v in pairs(DataCommon.skilldata) do
-        if (v.stat == "intelligence") or (v.stat == "wisdom") or (v.stat == "charisma") then
-          table.insert(aPickSkills, k);
-        end
-      end
-      table.sort(aPickSkills);
+      -- nPicks = 1;
+      -- for k,v in pairs(DataCommon.skilldata) do
+        -- if (v.stat == "intelligence") or (v.stat == "wisdom") or (v.stat == "charisma") then
+          -- table.insert(aPickSkills, k);
+        -- end
+      -- end
+      -- table.sort(aPickSkills);
     end
     
     -- for sSkill in sSkills:gmatch("(%a[%a%s]+),?") do
@@ -2997,14 +3032,17 @@ function addAdventureDB(nodeChar, sClass, sRecord)
 end
 
 function hasTrait(nodeChar, sTrait)
-  local sTraitLower = sTrait:lower();
-  for _,v in pairs(DB.getChildren(nodeChar, "traitlist")) do
-    if DB.getValue(v, "name", ""):lower() == sTraitLower then
-      return true;
-    end
-  end
-  
-  return false;
+	return (getTraitRecord(nodeChar, sTrait) ~= nil);
+end
+
+function getTraitRecord(nodeChar, sTrait)
+	local sTraitLower = StringManager.trim(sTrait):lower();
+	for _,v in pairs(DB.getChildren(nodeChar, "traitlist")) do
+		if StringManager.trim(DB.getValue(v, "name", "")):lower() == sTraitLower then
+			return v;
+		end
+	end
+	return nil;
 end
 
 function hasFeature(nodeChar, sFeature)
@@ -3019,55 +3057,59 @@ function hasFeature(nodeChar, sFeature)
 end
 
 function hasFeat(nodeChar, sFeat)
-  local sFeatLower = sFeat:lower();
-  for _,v in pairs(DB.getChildren(nodeChar, "featlist")) do
-    if DB.getValue(v, "name", ""):lower() == sFeatLower then
-      return true;
-    end
-  end
-  
-  return false;
+	return (getFeatRecord(nodeChar, sFeat) ~= nil);
+end
+
+function getFeatRecord(nodeChar, sFeat)
+	if not sFeat then
+		return nil;
+	end
+	local sFeatLower = sFeat:lower();
+	for _,v in pairs(DB.getChildren(nodeChar, "featlist")) do
+		if DB.getValue(v, "name", ""):lower() == sFeatLower then
+			return v;
+		end
+	end
+	return nil;
 end
 
 function applyDwarvenToughness(nodeChar, bInitialAdd)
-  -- Add extra hit points
-  local nAddHP = 1;
-  if bInitialAdd then
-    nAddHP = 0;
-    for _,nodeChild in pairs(DB.getChildren(nodeChar, "classes")) do
-      local nLevel = DB.getValue(nodeChild, "level", 0);
-      if nLevel > 0 then
-        nAddHP = nAddHP + nLevel;
-      end
-    end
-  end
-  
-  local nHP = DB.getValue(nodeChar, "hp.base", 0);
-  nHP = nHP + nAddHP;
-  DB.setValue(nodeChar, "hp.base", "number", nHP);
-  
-  outputUserMessage("char_abilities_message_hpaddtrait", StringManager.capitalizeAll(TRAIT_DWARVEN_TOUGHNESS), " (" .. nAddHP .. ")");
+	-- Add extra hit points
+	local nAddHP = 1;
+	if bInitialAdd then
+		nAddHP = 0;
+		for _,nodeChild in pairs(DB.getChildren(nodeChar, "classes")) do
+			local nLevel = DB.getValue(nodeChild, "level", 0);
+			if nLevel > 0 then
+				nAddHP = nAddHP + nLevel;
+			end
+		end
+	end
+	
+	local nHP = DB.getValue(nodeChar, "hp.total", 0);
+	nHP = nHP + nAddHP;
+	DB.setValue(nodeChar, "hp.total", "number", nHP);
+	
+	outputUserMessage("char_abilities_message_hpaddtrait", StringManager.capitalizeAll(TRAIT_DWARVEN_TOUGHNESS), DB.getValue(nodeChar, "name", ""), nAddHP);
 end
 
--- function applyDraconicResilience(nodeChar, bInitialAdd)
-  -- -- Add extra hit points
-  -- local nAddHP = 1;
-  -- local nHP = DB.getValue(nodeChar, "hp.base", 0);
-  -- nHP = nHP + nAddHP;
-  -- DB.setValue(nodeChar, "hp.base", "number", nHP);
-  
-  -- local sFormat = Interface.getString("char_abilities_message_hpaddfeature");
-  -- local sMsg = string.format(sFormat, StringManager.capitalizeAll(FEATURE_DRACONIC_RESILIENCE), DB.getValue(nodeChar, "name", "")) .. " (" .. nAddHP .. ")";
-  -- ChatManager.SystemMessage(sMsg);
-    
-  -- if bInitialAdd then
-    -- -- Add armor (if wearing none)
-    -- local nArmor = DB.getValue(nodeChar, "defenses.ac.armor", 0);
-    -- if nArmor == 0 then
-      -- DB.setValue(nodeChar, "defenses.ac.armor", "number", 3);
-    -- end
-  -- end
--- end
+function applyDraconicResilience(nodeChar, bInitialAdd)
+	-- Add extra hit points
+	local nAddHP = 1;
+	local nHP = DB.getValue(nodeChar, "hp.total", 0);
+	nHP = nHP + nAddHP;
+	DB.setValue(nodeChar, "hp.total", "number", nHP);
+	
+	outputUserMessage("char_abilities_message_hpaddfeature", StringManager.capitalizeAll(FEATURE_DRACONIC_RESILIENCE), DB.getValue(nodeChar, "name", ""), nAddHP);
+		
+	if bInitialAdd then
+		-- Add armor (if wearing none)
+		local nArmor = DB.getValue(nodeChar, "defenses.ac.armor", 0);
+		if nArmor == 0 then
+			DB.setValue(nodeChar, "defenses.ac.armor", "number", 3);
+		end
+	end
+end
 
 function applyUnarmoredDefense(nodeChar, nodeClass)
   local sAbility = "";

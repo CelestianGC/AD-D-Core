@@ -72,25 +72,7 @@
       end
 
       function onDrop(x, y, draginfo)
-        if draginfo.isType("shortcut") then
-          local sClass, sRecord = draginfo.getShortcutData();
-          local nodeSkill = getDatabaseNode();
-          local bLocked = (DB.getValue(nodeSkill,"locked",0) == 1);
-          local nodeSource = draginfo.getDatabaseNode();
-          if not bLocked and Input.isControlPressed() and nodeSource then
-            if (sClass == "skill") then
-              Debug.console("item_main.lua","onDrop","Replacing contents of :",nodeSkill, "with :",nodeSource);
-              DB.copyNode(nodeSource,nodeSkill);
-              UtilityManagerADND.replaceWindow(self.parentcontrol.window, "skill", nodeSkill.getPath());
-            elseif (sClass == "encounter") then
-              local sText = DB.getValue(nodeSource,"text");
-              local sCurrentText = DB.getValue(nodeSkill,"text");
-              if sText then
-                DB.setValue(nodeSkill,"text","formattedtext",sCurrentText .. sText);
-              end
-            end
-          end
-        end
+        UtilityManagerADND.onDropStory(x, y, draginfo,getDatabaseNode());
       end
     </script>
     <sheetdata>

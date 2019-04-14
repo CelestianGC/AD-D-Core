@@ -34,17 +34,17 @@ end
 function onModeChanged()
     local node = window.getDatabaseNode();
   --local bPrepMode = (DB.getValue(node, "powermode", "") == "preparation");
-    local bPrepMode = true; -- I wanna have equipped/carried item view always, so set this to always true 
+    local bPrepMode = false; -- dont show prep unless in npc/char/combat tracker sheets
     --celestian
-    
-    -- if this is a item record, we don't go into prepmode for carried
-    if string.match(node.getPath(),"^item") or string.match(node.getPath(),"^class") or string.match(node.getPath(),"^background") then
-        bPrepMode = false;
+Debug.console("char_weaponslist.lua","onModeChanged","node",node);    
+   -- dont show prep unless in npc/char/combat tracker sheets
+    if string.match(node.getPath(),"^npc") or string.match(node.getPath(),"^charsheet") or string.match(node.getPath(),"^combattracker") then
+      bPrepMode = true;
     end
     
   for _,w in ipairs(getWindows()) do
     --w.carried.setVisible(bPrepMode);
-    w.carried.setVisible(true);
+    w.carried.setVisible(bPrepMode);
   end
   
   applyFilter();
@@ -67,8 +67,26 @@ function addEntry(bFocus)
   -- this will add a story entry to the manually created attack so that
   -- we can add notes there for npc info/shortcut buttons
   if (w) then
-    local nodeWeapon = w.getDatabaseNode();
-    DB.setValue(nodeWeapon, "shortcut", "windowreference", "quicknote", nodeWeapon.getPath() .. '.itemnote');
+    local node = getDatabaseNode();
+--Debug.console("char_weaponslist.lua","addEntry","node",node );  
+    local nodeItem = node.getParent();
+    if string.match(nodeItem.getPath(),"^item") ~= nil then
+--Debug.console("char_weaponslist.lua","addEntry","nodeItem",nodeItem);  
+      local nodeWeapon = w.getDatabaseNode();
+--Debug.console("char_weaponslist.lua","addEntry","nodeWeapon",nodeWeapon);  
+      local sItemName = DB.getValue(nodeItem,"name","");
+      local sItemText = DB.getValue(nodeItem,"description","");
+      DB.setValue(nodeWeapon,"name","string", sItemName);
+      DB.setValue(nodeWeapon,"itemnote.name","string",sItemName);
+      DB.setValue(nodeWeapon,"itemnote.text","formattedtext",sItemText);
+      DB.setValue(nodeWeapon,"itemnote.locked","number",1);
+      --DB.setValue(nodeWeapon, "shortcut", "windowreference", "quicknote", nodeWeapon.getPath() .. '.itemnote');
+    elseif string.match(nodeItem.getPath(),"^npc") ~= nil then
+      local nodeWeapon = w.getDatabaseNode();
+      DB.setValue(nodeWeapon,"itemnote.name","string",'Attack');
+      DB.setValue(nodeWeapon,"itemnote.text","formattedtext",'');
+      DB.setValue(nodeWeapon,"itemnote.locked","number",1);
+    end
   end
   return w;
 end

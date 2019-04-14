@@ -616,14 +616,14 @@
     </template>
     
     <template name="label_ability_details_stat">
-            <label>
-                <center />
-           <backcolor>#afaf83</backcolor>
+      <label>
+        <center />
+         <backcolor>#afaf83</backcolor>
         <anchored to="leftanchor" width="75">
           <top relation="relative"/>
-           <left anchor="right" offset="70"/>
+          <left anchor="right" offset="70"/>
         </anchored>
-            </label>
+      </label>
     </template>
     <template name="label_ability_details">
             <label>

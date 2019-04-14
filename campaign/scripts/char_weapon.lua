@@ -19,7 +19,7 @@ function onInit()
 
 -- Debug.console("char_weapon.lua","onInit","node",node);
 -- Debug.console("char_weapon.lua","onInit","sCreaturePath",sCreaturePath);
--- Debug.console("char_weapon.lua","onInit","sWeaponPath",sWeaponPath);
+--Debug.console("char_weapon.lua","onInit","sWeaponPath",sWeaponPath);
 
   DB.addHandler(DB.getPath(sWeaponPath, "attackstat"), "onUpdate", onAttackChanged);
   DB.addHandler(DB.getPath(sWeaponPath, "attackbonus"), "onUpdate", onAttackChanged);
@@ -42,15 +42,16 @@ function onInit()
     -- give it a name of the item
     -- set speedfactor start to whatever weapon was set to
     -- hide carried state, doesn't need it here
+    
     if string.match(sCreaturePath,"^item") ~= nil then
-        local nodeItem = DB.getChild(node, "...");
-        if ( name.getValue() == "") then
-            name.setValue(DB.getValue(nodeItem,"name",""));
-            -- we dropped speedfactor on items and moved it to action/weapons
-            --speedfactor.setValue(DB.getValue(nodeItem,"speedfactor",0));
-            speedfactor.setValue(0);
-        end
-        carried.setVisible(false);
+      -- local nodeItem = DB.getChild(node, "...");
+      -- if ( name.getValue() == "") then
+        -- name.setValue(DB.getValue(nodeItem,"name",""));
+        -- -- we dropped speedfactor on items and moved it to action/weapons
+        -- --speedfactor.setValue(DB.getValue(nodeItem,"speedfactor",0));
+        -- speedfactor.setValue(0);
+      -- end
+      carried.setVisible(false);
     end
     
     -- npcs don't see weapon item shortcuts, they use quicknotes.
@@ -86,7 +87,7 @@ end
 
 -- the create is handled in record_char_actions.xml, charsheet_actions_contents->weapons
 function onMenuSelection(selection, subselection)
-  if selection == 4 then
+  if selection == 4 then -- clone
     local node = getDatabaseNode();
     local nodeParent = node.getParent();
     local nodeClone = nodeParent.createChild();
@@ -380,7 +381,7 @@ function onDamageActionSingle(nodeDamage, draginfo)
 end
 
 --
-function onAttackAndDamageChanged()
+function onAttackAndDamageChanged(node)
   onAttackChanged();
   onDamageChanged();
 end;

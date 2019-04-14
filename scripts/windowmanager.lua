@@ -8,7 +8,7 @@ aIgnoredWindowClasses = {};
 
 function onInit()
   -- set default window classes we dont only want singles for
-  setIgnoredWindowClasses({"imagewindow","charsheet"});
+  setIgnoredWindowClasses({"imagewindow","charsheet","select_dialog"});
   
   -- uncomment this and everytime a window is opened
   -- the combat tracker will be moved ontop.

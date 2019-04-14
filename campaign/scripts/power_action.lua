@@ -111,12 +111,13 @@ function updateDisplay()
     -- else
         -- bShowInitiative = false;
     -- end
-    --castinitiative.setVisible(bShowInitiative);
-    --initiativelabel.setVisible(bShowInitiative);
+  
+  --castinitiative.setVisible(true);
+  -- initiativelabel.setVisible(true);
 
   castbutton.setVisible(bShowCast);
   castlabel.setVisible(bShowCast);
-  castbutton.setVisible(bShowCast);
+  
 
     -- if in spell record then we don't need to
     -- display memorize buttons
@@ -131,6 +132,9 @@ function updateDisplay()
     -- end
     
 --Debug.console("power_action.lua","updateDisplay","bShowSpellHide",bShowSpellHide);    
+  initiative.setVisible(bShowCast);
+  initiative_label.setVisible(bShowCast);
+  
   hidespellbutton.setVisible(bShowSpellHide);
   hidespelllabel.setVisible(bShowSpellHide);
     

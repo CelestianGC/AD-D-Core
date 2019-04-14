@@ -34,22 +34,8 @@
       end
       
       function onDrop(x, y, draginfo)
-        if draginfo.isType("shortcut") then
-          local sClass, sRecord = draginfo.getShortcutData();
-          if (sClass == "encounter") then
-            local nodeTarget = getDatabaseNode();
-            local bLocked = (DB.getValue(nodeTarget,"locked",0) == 1);
-            if not bLocked and Input.isControlPressed() then
-              local nodeSource = draginfo.getDatabaseNode();
-              local sText = DB.getValue(nodeSource,"text");
-              local sCurrentText = DB.getValue(nodeTarget,"text");
-              if sText then
-                DB.setValue(nodeTarget,"text","formattedtext",sCurrentText .. sText);
-              end
-            end
-          end
-        end
-      end      
+        UtilityManagerADND.onDropStory(x, y, draginfo,getDatabaseNode());
+      end
     </script>
     <sheetdata>
       <sub_record_header name="header">
@@ -84,7 +70,7 @@
       <subwindow_record name="spellactions">
         <class>recordslist_actions_powers</class>
       </subwindow_record>
-      
+
       <scrollbar_record_item>
         <class>skills</class>
       </scrollbar_record_item>
@@ -295,21 +281,7 @@
         text.setReadOnly(bReadOnly);
       end
       function onDrop(x, y, draginfo)
-        if draginfo.isType("shortcut") then
-          local sClass, sRecord = draginfo.getShortcutData();
-          if (sClass == "encounter") then
-            local nodeTarget = getDatabaseNode();
-            local bLocked = (DB.getValue(nodeTarget,"locked",0) == 1);
-            if not bLocked and Input.isControlPressed() then
-              local nodeSource = draginfo.getDatabaseNode();
-              local sText = DB.getValue(nodeSource,"text");
-              local sCurrentText = DB.getValue(nodeTarget,"text");
-              if sText then
-                DB.setValue(nodeTarget,"text","formattedtext",sCurrentText .. sText);
-              end
-            end
-          end
-        end
+        UtilityManagerADND.onDropStory(x, y, draginfo,getDatabaseNode());
       end
     </script>
     <sheetdata>

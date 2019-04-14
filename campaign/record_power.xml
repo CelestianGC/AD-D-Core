@@ -91,8 +91,8 @@
         <skipempty />
         <readonly />
         <noscroll />
-                <child></child>
-                <child><backcolor>1A40301E</backcolor></child>
+        <child></child>
+        <child><backcolor>1A40301E</backcolor></child>
         <columns width="90" fillwidth="true"/> 
       </windowlist>
     </sheetdata>
@@ -384,6 +384,7 @@
             
       <number_power_init name="castinitiative">
         <tooltip textres="power_label_initiative_tooltip" />
+        <frame name="field-initiative" offset="5,6,5,6" />
         <anchored to="name" width="23" height="18">
           <top offset="2"/>
           <left anchor="right" relation="relative" offset="10" />
@@ -699,6 +700,7 @@
         <anchor_right />
         <anchor_left />
         <number_power_init name="castinitiative">
+          <frame name="field-initiative" offset="5,6,5,6" />
           <tooltip textres="power_label_initiative_tooltip" />
           <anchored to="leftanchor" width="25" height="18">
             <top offset="5"/>
@@ -769,6 +771,25 @@
       <button_idelete name="idelete">
         <bounds>-22,3,20,20</bounds>
       </button_idelete>
+
+      <!-- INITIATIVE -->
+      <number_power_init name="initiative" source="...castinitiative">
+        <tooltip textres="char_label_initiativeroll_tooltip" />
+        <frame name="field-initiative" offset="5,6,5,6" />
+        <anchored to="leftanchor" width="25" height="18">
+          <top offset="5"/>
+          <left anchor="right" relation="relative" offset="5" />
+        </anchored>
+      </number_power_init>
+      <label name="initiative_label">
+        <tooltip textres="char_label_initiativeroll_tooltip" />
+        <anchored to="leftanchor" height="18">
+          <top offset="5"/>
+          <left anchor="right" relation="relative" offset="2" />
+        </anchored>
+        <static textres="char_label_initiative" />
+      </label>      
+      
       <!-- CAST -->
       <button_poweraction name="castbutton">
         <tooltip textres="power_label_cast_tooltip" />
@@ -796,6 +817,7 @@
         <icon normal="button_action_attack" pressed="button_action_attack_down" />
         <subroll>atk</subroll>
       </button_poweraction>
+      
       <label name="attackviewlabel">
         <tooltip textres="power_label_attack_tooltip" />
         <anchored to="leftanchor" height="18">
@@ -1164,6 +1186,10 @@
           contents.subwindow.update();
         end
       end
+      function onDrop(x, y, draginfo)
+        UtilityManagerADND.onDropStory(x, y, draginfo,getDatabaseNode(),'description');
+      end
+      
     </script>
     <sheetdata>
             

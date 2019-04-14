@@ -772,6 +772,25 @@
       <sortby mergerule="replace"><control>name</control></sortby>
       <noscroll />
       <script>
+        function updateCombat(node)
+          local nodeProf = node.getChild('..');
+          local nodeChar = node.getChild('....');
+          for _,nodeWeapon in pairs(DB.getChildren(nodeChar, "weaponlist")) do
+            for _,nodeAppliedProf in pairs(DB.getChildren(nodeWeapon, "proflist")) do
+              local sProfSelectedPath = DB.getValue(nodeAppliedProf,"prof_selected","");
+              if sProfSelectedPath == nodeProf.getPath() then
+                local nDMG = DB.getValue(nodeProf,"dmgadj",0);
+                local nHIT = DB.getValue(nodeProf,"hitadj",0);
+                local sName = DB.getValue(nodeProf,"prof","");
+                DB.setValue(nodeAppliedProf,"prof","string",sName);
+                DB.setValue(nodeAppliedProf,"dmgadj","number",nDMG);
+                DB.setValue(nodeAppliedProf,"hitadj","number",nHIT);
+              end
+            end
+          end
+          
+        end
+        
         function onListChanged()
           update();
           if listheader and listheader[1] and not isVisible() then

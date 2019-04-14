@@ -26,6 +26,10 @@
         local bReadOnly = WindowManager.getReadOnlyState(getDatabaseNode());
         text.setReadOnly(bReadOnly);
       end
+
+      function onDrop(x, y, draginfo)
+        UtilityManagerADND.onDropStory(x, y, draginfo,getDatabaseNode());
+      end
     </script>
     <sheetdata>
       <hs name="type" />
@@ -117,7 +121,10 @@
         end
         local bReadOnly = WindowManager.getReadOnlyState(getDatabaseNode());
         text.setReadOnly(bReadOnly);
+      end
       
+      function onDrop(x, y, draginfo)
+        UtilityManagerADND.onDropStory(x, y, draginfo,getDatabaseNode());
       end
     </script>
     <sheetdata>

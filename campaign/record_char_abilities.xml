@@ -100,7 +100,6 @@
         <target>header_effects</target>
       </label_charframetop>
 
-
       <button_iedit name="effects_iedit">
         <anchored to="advancedeffectstitle" position="insidetopright" offset="-5,0" />
          <script>
@@ -118,11 +117,11 @@
       </button_iadd>
             
       <list_editor_advanced_effects name="effects_list">
-                <anchored>
-                    <top parent="advancedeffectstitle" anchor="bottom" relation="relative" offset="0" />
-                    <left />
-                    <right />
-                </anchored>
+        <anchored>
+          <top parent="advancedeffectstitle" anchor="bottom" relation="relative" offset="0" />
+          <left />
+          <right />
+        </anchored>
         <datasource>.effectlist</datasource>
         <class>advanced_effects_entry</class>
         <script>
@@ -134,9 +133,8 @@
           end
         </script>
       </list_editor_advanced_effects>
-            <!-- end advanced effects entry -->
-
-         </sheetdata>
+      <!-- end advanced effects entry -->
+     </sheetdata>
   </windowclass>
   
   <windowclass name="proficiency_item">
@@ -165,6 +163,11 @@
       </button_idelete>
 
       <number_adjustment name="dmgadj">
+        <script>
+          function onValueChanged()
+            window.windowlist.updateCombat(getDatabaseNode());
+          end
+        </script>
         <anchored to="rightanchor">
           <top offset="3" />
           <right anchor="left" relation="relative" offset="-10" />
@@ -182,6 +185,11 @@
       </label>
 
       <number_adjustment name="hitadj">
+        <script>
+          function onValueChanged()
+            window.windowlist.updateCombat(getDatabaseNode());
+          end
+        </script>
         <anchored to="rightanchor">
           <top offset="3" />
           <right anchor="left" relation="relative" offset="-10" />
@@ -199,6 +207,11 @@
       </label>
 
       <string_textlistitem name="name">
+        <script>
+          function onValueChanged()
+            window.windowlist.updateCombat(getDatabaseNode());
+          end
+        </script>
         <anchored to="rightanchor">
           <top />
           <left parent="" offset="10" />
