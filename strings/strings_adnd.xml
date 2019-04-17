@@ -568,7 +568,7 @@
   <string name="item_label_effect_attackonly">ActionOnly</string>
   <string name="item_label_effect_attackonly_tooltip">Check this so effect ONLY applied during an attack or damage.</string>
     
-     <!-- Pregens -->
+  <!-- Pregens -->
   <string name="pregen_label_background">Kit</string>
     
   <!-- labels for backgrounds -->
@@ -689,8 +689,8 @@
   <string name="effect_label_durunitmin">TRN</string>
     
     <!-- Strings used in the campaign settings -->
-  <string name="option_label_DM_SHOW_NPC_EFFECTS">Token: DM:Show N/PC effects</string>
-  <string name="option_label_DM_SHOW_NPC_HEALTHBAR">Token: DM:Show N/PC health</string>
+  <string name="option_label_DM_SHOW_NPC_EFFECTS">Token: DM:Show effects</string>
+  <string name="option_label_DM_SHOW_NPC_HEALTHBAR">Token: DM:Show health</string>
   <string name="option_label_TNPCE">Token: PC:Show Enemy effects</string>
   <string name="option_label_TNPCH">Token: PC:Show Enemy health</string>
   <string name="option_label_TPCE">Token: PC:Show Ally effects</string>
@@ -798,4 +798,9 @@
   <string name="label_encounter_ac_tooltip">If set will be the armor class value for the NPC spawned.</string>
   <string name="label_encounter_weapons">Weapons</string>
   <string name="label_encounter_weapons_tooltip">List of weapons separated by ; to be added to the NPCs Action/Weapons list.</string>
+  
+  <!-- MISC -->
+  <string name="char_initiative_message_alreadyrolled">%s tried to roll initiative again. (hold alt-key while rolling to force re-roll)</string>
+  <string name="char_initiative_message_forcedreroll">%s forced re-rolll of initiative.</string>
+  
 </root>

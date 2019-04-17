@@ -36,7 +36,7 @@ function onModeChanged()
   --local bPrepMode = (DB.getValue(node, "powermode", "") == "preparation");
     local bPrepMode = false; -- dont show prep unless in npc/char/combat tracker sheets
     --celestian
-Debug.console("char_weaponslist.lua","onModeChanged","node",node);    
+--Debug.console("char_weaponslist.lua","onModeChanged","node",node);    
    -- dont show prep unless in npc/char/combat tracker sheets
     if string.match(node.getPath(),"^npc") or string.match(node.getPath(),"^charsheet") or string.match(node.getPath(),"^combattracker") then
       bPrepMode = true;
@@ -97,9 +97,6 @@ function onDrop(x, y, draginfo)
   if draginfo.isType("shortcut") then
     local sClass, sRecord = draginfo.getShortcutData();
     local node = getDatabaseNode().getParent();
---Debug.console("char_weaponslist.lua","onDrop","sClass",sClass );
---Debug.console("char_weaponslist.lua","onDrop","sRecord",sRecord );
---Debug.console("char_weaponslist.lua","onDrop","node",node );
 
     -- match items dropped into item/class/background fields to populate damage/etc but not add to inventory
     if ((string.match(node.getPath(),"^npc") or string.match(node.getPath(),"^combattracker%.")) and not Input.isControlPressed()) or
@@ -120,14 +117,11 @@ function onDrop(x, y, draginfo)
           DB.setValue(nodeWeapon,"itemnote.name","string",sItemName);
           DB.setValue(nodeWeapon,"itemnote.text","formattedtext",sDesc);
           DB.setValue(nodeWeapon,"itemnote.locked","number",1);
---local sNodeID = node.getPath():match("%.(id%-%d+)$");
           local sThisID = nodeWeapon.getPath():match("(%.weaponlist%.id%-%d+)$");
---Debug.console("char_weaponslist.lua","onDrop","sThisID",sThisID );
           local sNotePath = nodeWeapon.getPath();
           if (sThisID and sThisID ~= "") then
             sNotePath = "..." .. sThisID;
           end
---Debug.console("char_weaponslist.lua","onDrop","sNotePath",sNotePath );
           --DB.setValue(nodeWeapon, "shortcut", "windowreference", "quicknote", nodeWeapon.getPath() .. '.itemnote');
           DB.setValue(nodeWeapon, "shortcut", "windowreference", "quicknote", sNotePath .. '.itemnote');
         end
@@ -136,8 +130,12 @@ function onDrop(x, y, draginfo)
         for _,nodePowerSource in pairs(DB.getChildren(nodeItem, "powers")) do
           local nodePower = nodePowers.createChild();
           DB.copyNode(nodePowerSource,nodePower);
-          DB.setValue(nodePower,"name","string",sItemName);
-          DB.setValue(nodePower,"description","formattedtext",sDesc);
+          -- DB.setValue(nodePower,"name","string",sItemName);
+          -- this overwrites spell descriptions, I don't think we need this? --celestian
+          -- only set the description if the description doesn't exist.
+          if (not DB.getValue(nodePower,"description")) then 
+            DB.setValue(nodePower,"description","formattedtext",sDesc);
+          end
           DB.setValue(nodePower,"locked","number",1);
         end
         return true;

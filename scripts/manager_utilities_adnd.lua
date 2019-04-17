@@ -100,3 +100,26 @@ function onDropStory(x, y, draginfo, nodeTarget, sTargetValueName)
   end
 end
 
+
+-- get Identity of a char node or from the CT node that is a PC
+function getIdentityFromCTNode(nodeCT)
+  local rActor = ActorManager.getActorFromCT(nodeCT);
+  local sActorType, nodeActor = ActorManager.getTypeAndNode(rActor);    
+  return getIdentityFromCharNode(nodeActor);
+end
+function getIdentityFromCharNode(nodeChar)
+  return nodeChar.getName();
+end
+
+-- output a message simple function
+function outputUserMessage(sResource, ...)
+  local sFormat = Interface.getString(sResource);
+  local sMsg = string.format(sFormat, ...);
+  ChatManager.SystemMessage(sMsg);
+end
+
+function outputBroadcastMessage(rActor, sResource, ...)
+  local sFormat = Interface.getString(sResource);
+  local sMsg = string.format(sFormat, ...);
+  ChatManager.Message(sMsg, true, rActor)
+end

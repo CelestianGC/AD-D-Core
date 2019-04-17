@@ -524,7 +524,10 @@ function addToPowerDB(nodeItem)
   for _,v in pairs(DB.getChildren(nodeItem, "powers")) do
     local nodePower = nodePowers.createChild();
     DB.copyNode(v,nodePower);
-    DB.setValue(nodePower, "description","formattedtext",DB.getValue(nodeItem,"description",""));
+    -- only set the description if the description doesn't exist.
+    if (not DB.getValue(nodePower,"description")) then 
+      DB.setValue(nodePower, "description","formattedtext",DB.getValue(nodeItem,"description",""));
+    end
     DB.setValue(nodePower, "shortcut", "windowreference", "item", "....inventorylist." .. nodeItem.getName());
     DB.setValue(nodePower, "locked", "number", 1); -- want this to start locked
   end
@@ -1399,17 +1402,18 @@ function addClassFeatureDB(nodeChar, sClass, sRecord, nodeClass)
   if sOriginalNameLower:match("non%-weapon proficiency") then
     local sText = DB.getText(nodeSource, "text");
     local sPicks, sPickSkills = sText:match("Choose (%w+) from among ([^$%.]+)");
-    sPickSkills = sPickSkills:gsub("and ", ",");
-    sPickSkills = sPickSkills:gsub("or ", ",");
-    local aPickSkills = StringManager.split(sPickSkills, ",", true);
-    -- for nI,sPickSkill in pairs(aPickSkills) do
-      -- aPickSkills[nI] = StringManager.trim(sPickSkill);
-    -- end
-    nPicks = convertSingleNumberTextToNumber(sPicks);
-    if nPicks > 0 then
-      pickSkills(nodeChar, aPickSkills, nPicks);
+    if (sPicks and sPickSkills) then
+      sPickSkills = sPickSkills:gsub("and ", ",");
+      sPickSkills = sPickSkills:gsub("or ", ",");
+      local aPickSkills = StringManager.split(sPickSkills, ",", true);
+      -- for nI,sPickSkill in pairs(aPickSkills) do
+        -- aPickSkills[nI] = StringManager.trim(sPickSkill);
+      -- end
+      nPicks = convertSingleNumberTextToNumber(sPicks);
+      if nPicks > 0 then
+        pickSkills(nodeChar, aPickSkills, nPicks);
+      end
     end
-      
   elseif sOriginalNameLower:match("weapon specialization") or sOriginalNameLower:match("weapon proficiency") then
   -- there is no reason to function for single entry, those can be added
   -- in skills tab. Only need to know if they get a "choose" type list
@@ -1417,18 +1421,18 @@ function addClassFeatureDB(nodeChar, sClass, sRecord, nodeClass)
 --Debug.console("manager_char","addClassFeatureDB","sText",sText);      
     if (sText:match("Choose ")) then
       local sChoices, sWeapons = sText:match("Choose (%d+) from ([^$]+)");
-      local numChoices = tonumber(sChoices) or 0;
-      sWeapons = sWeapons:gsub("or ",","); -- replace or's with commas
-      sWeapons = sWeapons:gsub("and ",","); -- replace and's with commas
-      sWeapons = sWeapons:gsub("%.",""); -- replace . with nothing
-      local aWeapons = StringManager.split(sWeapons, ",", true);
-      if sOriginalNameLower:match("weapon specialization") then 
-        pickWeaponProfs(nodeChar,aWeapons,numChoices,sText,true,0);
-      else
-        pickWeaponProfs(nodeChar,aWeapons,numChoices,sText,false,0);
+      if (sChoices and sWeapons) then 
+        local numChoices = tonumber(sChoices) or 0;
+        sWeapons = sWeapons:gsub("or ",","); -- replace or's with commas
+        sWeapons = sWeapons:gsub("and ",","); -- replace and's with commas
+        sWeapons = sWeapons:gsub("%.",""); -- replace . with nothing
+        local aWeapons = StringManager.split(sWeapons, ",", true);
+        if sOriginalNameLower:match("weapon specialization") then 
+          pickWeaponProfs(nodeChar,aWeapons,numChoices,sText,true,0);
+        else
+          pickWeaponProfs(nodeChar,aWeapons,numChoices,sText,false,0);
+        end
       end
-    else
---Debug.console("manager_char","addClassFeatureDB","NOT FOUND",sText);          
     end
     
   end  

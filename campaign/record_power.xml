@@ -1457,7 +1457,8 @@
       </label_column>
       <number_columnh name="mac" >
         <gmeditonly />
-        <default>10</default>
+        <!-- perhaps re-enable this default when psionics is supported (darksun?) --celestian -->
+        <!-- <default>10</default> -->
       </number_columnh>
 
       <label_column name="pspcost_label">

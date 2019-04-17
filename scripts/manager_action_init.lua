@@ -128,7 +128,16 @@ function getRoll(rActor, bSecretRoll, rItem)
 end
 
 function performRoll(draginfo, rActor, bSecretRoll, rItem)
-  local rRoll = getRoll(rActor, bSecretRoll, rItem);
+  -- we do this to see if they've already rolled initiative, if they have we block it.
+  local bAlreadyRolledThisRound = (DB.getValue(ActorManager.getCTNode(rActor),"initrolled",0) == 1);
+
+  if User.isHost() or not bAlreadyRolledThisRound or Input.isAltPressed() then
+    
+    if bAlreadyRolledThisRound and not User.isHost() then
+      UtilityManagerADND.outputBroadcastMessage(rActor,"char_initiative_message_forcedreroll", DB.getValue(ActorManager.getCTNode(rActor), "name", ""));
+    end
+    
+    local rRoll = getRoll(rActor, bSecretRoll, rItem);
 
     if (draginfo and rActor.itemPath and rActor.itemPath ~= "") then
         draginfo.setMetaData("itemPath",rActor.itemPath);
@@ -143,8 +152,21 @@ function performRoll(draginfo, rActor, bSecretRoll, rItem)
     if (rItem and rItem.spellPath and rItem.spellPath ~= "") then
         rRoll.spellPath = rItem.spellPath;
     end
-    
-  ActionsManager.performAction(draginfo, rActor, rRoll);
+      
+    ActionsManager.performAction(draginfo, rActor, rRoll);
+  else
+  -- they already rolled.
+  function outputUserMessage(sResource, ...)
+  local sFormat = Interface.getString(sResource);
+  local sMsg = string.format(sFormat, ...);
+  ChatManager.SystemMessage(sMsg);
+end
+
+    --local sMessageText = string.format(Interface.getString("char_initiative_message_alreadyrolled"),DB.getValue(ActorManager.getCTNode(rActor), "name", ""));
+    --ChatManager.Message(sMessageText, true, rActor)
+    UtilityManagerADND.outputBroadcastMessage(rActor,"char_initiative_message_alreadyrolled", DB.getValue(ActorManager.getCTNode(rActor), "name", ""));
+    --UtilityManagerADND.outputUserMessage("char_initiative_message_alreadyrolled", DB.getValue(ActorManager.getCTNode(rActor), "name", ""));
+  end
 end
 
 
